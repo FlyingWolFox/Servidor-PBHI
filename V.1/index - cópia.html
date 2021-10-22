@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>My Drag-and-Drop Example</title>
+    <link rel="stylesheet" href="game-style.css" />
+  </head>
+  <body onload="game(0)">
+    <script src="game-script.js"></script> 
+
+    <div
+      id="divSeq"
+      ondrop="drop(event)"
+      ondragover="noAllowDrop(ev)"
+    >
+    </div>
+
+    <div id="dropZone">
+
+      <div
+        id="dropBox"
+        ondrop="drop(event)"
+        ondragover="allowDrop(event)"
+      >
+        <p class="sem_fundo" width="200"></p>
+      </div>
+    </div>
+
+    <div
+      id="divOpcoes"
+      ondrop="drop(event)"
+      ondragover="allowDrop(event)"
+    >
+    </div>
+    
+    <button class="button button4" onclick="check()"></button> 
+      
+    
+  </body>
+</html>

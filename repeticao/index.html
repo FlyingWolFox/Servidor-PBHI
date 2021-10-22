@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+
+    <title>Tem Lógica - Jogo da Repetição</title>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#FDC23E">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#FDC23E">
+
+    <!-- chamada para as folhas de estilo -->
+    <link rel="stylesheet" href="../style/page-style.css">
+    <!-- chamada para as folhas de estilo do jogo -->
+    <link rel="stylesheet" href="game-style.css">
+    <link rel="stylesheet" id="estilo-mobile" href="mobile-style.css" type="text/css"
+        media="screen and (orientation: landscape) and (max-width: 900px)">
+
+    <link rel="shortcut icon" href="../img/favicon.ico" />
+
+    <!-- link para os icones me forma de fonte -->
+
+    <link rel="stylesheet" href="../style/icofont/icofont.min.css">
+
+    <!-- link para as fontes do projeto -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+        rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@100;300;400;500;700;800;900&display=swap"
+        rel="stylesheet">
+
+</head>
+
+<body class='game-body'>
+    <section class="aviso-orientacao">
+        <div id="aviso-orientacao-caixa">
+            <h1 id="texto-orientacao"> vire seu aparelho na horizontal para jogar</h1>
+            <div id="orientacao-imgs">
+                <div class="grupo-imagem-orientacao">
+                    <img id="icone-errado" src="../img/orientacao-img/Group30.svg" alt="">
+                    <img src="../img/orientacao-img/Subtract.svg" alt="">
+                    <h1 id="texto-orientacao-vertical">vertical</h1>
+                </div>
+                <img id="vetor-orientacao" src="../img/orientacao-img/Vector5.svg" alt="">
+                <div class="grupo-imagem-orientacao" id="orientacao-grupo-horizontal">
+                    <img id="icone-certo" src="../img/orientacao-img/Group176.svg" alt="">
+                    <img id="img-celular-horizontal" src="../img/orientacao-img/Subtract-1.svg" alt="">
+                    <h1 id="texto-orientacao-vertical">horizontal</h1>
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+    <div class='tela-jogo'>
+        <header class="game-header">
+            <a href="../index.html" class="link-logo">
+                <img id="logo-header" src="../img/logo.png" alt="" class="logo grid-item">
+            </a>
+            <h2 id="title-jogo" class="">JOGO DA REPETIÇÃO</h2>
+        </header>
+
+        <main id="main-body" class="grid grid-full">
+            <div id="modalInfo" class="modal">
+                <div class="modal-content" id="modal-content">
+                    <p>Olá, sabe como funciona o Jogo da Sequência? Não?? Então vem cá que eu te explico rapidinho, nele
+                        a gente te mostra várias figuras que se repetem e você tem que nos mostrar quais são elas. Não
+                        esquece que tem que ser a partir da primeira figura, tá ?<br>
+                        ...<br>Aah, já ia esquecendo, é só clicar e arrastar as figuras que estão lá embaixo pro
+                        retângulo que fica no centro e depois clicar em TERMINEI.
+                    </p>
+                    <button id="botao-info-close"
+                        onclick="document.getElementById('modalInfo').style.display='none'">Entendi</button>
+                </div>
+            </div>
+            <section class="game-section grid-center">
+                <div id="box-instrucoes">
+                    <div class="progresso-conquistas">
+                        <p class="texto-progresso">Conquistas</p>
+                        <div class="conquistas-conteiner" id="container-estrelas">
+                            <div class="estrela-container">
+                                <img class="estrela" src="./img/estrelas/star2.svg" alt="">
+                                <p class="estrela-texto" id="texto1">?</p>
+                            </div>
+                            <div class="estrela-container">
+                                <img class="estrela" src="./img/estrelas/star2.svg" alt="">
+                                <p class="estrela-texto" id="texto2">?</p>
+                            </div>
+                            <div class="estrela-container">
+                                <img class="estrela" src="./img/estrelas/star3.svg" alt="">
+                                <p class="estrela-texto" id="texto3">?</p>
+                            </div>
+                            <div class="estrela-container">
+                                <img class="estrela" src="./img/estrelas/star4.svg" alt="">
+                                <p class="estrela-texto" id="texto4">?</p>
+                            </div>
+                        </div>
+                    </div>
+                    <img src="img/sr-logico.png" alt="" id="mascote-instrucoes">
+                    <article id="textbox-tutorial">
+                        <p id="textbox-fase">Fase n&uacute;mero <span id="textbox-numero-fase">1</span>:</p>
+                        <textarea id="texto-textbox" readonly>Preste atenção às peças da sequência e identifique quais estão se repetindo. Depois arraste as peças disponíveis no fundo da página para a área do núcleo, montando as peças que se repetem. A ordem das peças deve ser respeitada.
+                        </textarea>
+                    </article>
+                    <div class="conteiner-botoes">
+                        <div class="botoes-janela">
+                            <span id="span-fullscreen" class=""><i class="icofont-maximize"></i></span>
+                            <a href="../index.html" id="span-textbox">
+                                <i class="icofont-close icofont-2x"></i>
+                            </a>
+                        </div>
+                        <button id="span-about" onclick="document.getElementById('modalInfo').style.display='block'"
+                            class="">?</button>
+
+                    </div>
+                </div>
+                <section id='sequencias-conteiner'>
+                    <h3 id="titulo-nucleo">Sequência</h3>
+                    <section id="container-nucleo" class="game-container">
+                        <!-- Container que mostra o núcleo de repetição -->
+                    </section>
+                    <h3 id="titulo-sequencia">Núcleo</h3>
+                    <section id="container-sequencia" class="game-container dropzone grid">
+                        <!-- Lugar onde as imagens são dropadas -->
+                    </section>
+                    <button id="botao-resultado" onclick="check()">TERMINEI!</button>
+                </section>
+                <div class="formas-titulo">
+                    <p class='container-formas-titulo'>Peças Disponíveis</p>
+                    <section id="container-formas" class="game-container dropzone">
+                        <!-- Container das figuras que serão arrastadas -->
+                    </section>
+                </div>
+
+
+
+                <!-- O Modal do resultado positivo-->
+                <div id="modalAcerto" class="modal">
+                    <!-- Conteúdo do Modal -->
+                    <div class="modal-content">
+                        <span id="modal-close-button" class="close">&times;</span>
+                        <img class="modal-img-logico" src="../img/modal/logico-contente.svg" alt="">
+                        <div class="modal-text-content">
+                            <h2 class="titulo-modal">RESULTADO</h2>
+                            <h2 id="resultado-jogo"></h2>
+                            <button id="botao-proximo" onclick="fecharModal('acerto')">Próxima</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- O Modal do resultado negativo-->
+                <div id="modalErro" class="modal">
+                    <!-- Conteúdo do Modal -->
+                    <div class="modalNegativo-content">
+                        <span id="modalNegativo-close-button" class="close">&times;</span>
+                        <img class="modal-img-logico" src="../img/modal/logico-confuso.svg" alt="">
+                        <div class="modal-text-content">
+                            <h2 class="titulo-modal">RESULTADO</h2>
+                            <h2 id="resultadoNegativo-jogo">Ihh! Algo deu Errado</h2>
+                            <button id="botao-retorno" onclick="fecharModal('erro')">Continuar</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer class="footer-grid">
+            <p class="footer-text grid-center">Copyright Fapesq - 2021</p>
+            <section class="grid-right">
+                <p class="footer-text realizadores-text">Realizadores:</p>
+                <div class="footer-imgs">
+                    <img class="footer-img" id="logo-pb" src="../img/logo-pb.png" alt="">
+                    <img class="footer-img" id="logo-seect" src="../img/logo-SEECT.png" alt="">
+                    <img class="footer-img" id="logo-fapesq" src="../img/logo-fapesq.png" alt="">
+                </div>
+            </section>
+        </footer>
+
+
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/@shopify/draggable@1.0.0-beta.11/lib/draggable.bundle.js"></script>
+    <script src="./game-script.js"></script>
+    <script src="../script/page-script.js"></script>
+    <script>
+        var containerFormas = document.getElementById('container-formas');
+        var containerSequencia = document.getElementById('container-sequencia');
+
+        const droppableSequencia = new Draggable.Droppable(containerFormas, {
+            draggable: '.game-img',
+            dropzone: '.dropzone'
+        });
+
+        droppableSequencia.on('drag:start', () => {
+            if (containerSequencia.classList.contains('draggable-dropzone--occupied')) {
+                containerSequencia.classList.remove('draggable-dropzone--occupied');
+            }
+        });
+
+        const retorno = new Draggable.Droppable(containerSequencia, {
+            draggable: '.game-img',
+            dropzone: '.dropzone'
+        });
+
+        retorno.on('drag:start', () => {
+            if (containerFormas.classList.contains('draggable-dropzone--occupied')) {
+                containerFormas.classList.remove('draggable-dropzone--occupied');
+            }
+        })
+    </script>
+    <script type="text/javascript">
+        function descobreOs() {
+            var userAgent = navigator.userAgent || navigator.vendor || window.opera;
+            if (/windows phone/i.test(userAgent)) {
+                return "Windows Phone";
+            }
+            if (/android/i.test(userAgent)) {
+                return "Android";
+            }
+            if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+                return "iOS";
+            }
+            return "n_sei";
+        }
+
+        var sistema = descobreOs();
+        console.log(sistema)
+
+        // <link rel="stylesheet" href="mobile-style.css" type="text/css" media="screen and (orientation: landscape) and (max-width: 700px)">
+        if (sistema == 'Android') {
+
+            let estilo = document.getElementById('estilo-mobile');
+            estilo.setAttribute('media', 'screen and (orientation: landscape) and (max-width: 900px)');
+
+        }
+
+        if (sistema == 'iOS') {
+
+            // Criando o CSS responsável pelo modo Fullscreen
+            var indexHead = document.getElementsByTagName('head')[0];
+            var iosCss = document.createElement('link');
+            iosCss.setAttribute('href', './game-ios-style.css');
+            iosCss.setAttribute('rel', 'stylesheet');
+            indexHead.appendChild(iosCss);
+        }
+
+        var textarea = document.getElementById('texto-textbox');
+        var sentido
+
+        function textRoll(timeInterval, timeTimeout) {
+            sentido = 1
+            var textareaClock = setInterval(() => {
+                textarea.scrollTop = textarea.scrollTop + sentido;
+                if (textarea.scrollTop == 27) {
+                    sentido = -1;
+                }
+            }, timeInterval);
+
+            setTimeout(() => {
+                console.log('terminei')
+                clearInterval(textareaClock)
+            }, timeTimeout);
+        }
+
+        textRoll(90, 6000)
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,673 @@
+var etapaAtual = 0;   //Etapa do exercício
+var estrela = 0;      //Contagem das estrelas (5 por etapa)
+var restricao1 = [];   //Restriçoes da primeira caixa (esquerda)
+var restricao2 = [];   //Restriçoes da terceira caixa (direita)
+var estadoRestricao = "" //Imagem esteja como proibida (Negado) / Imagem é para ser colocada (Aceita)
+var imgMov1 = [];      //Confere se falta colocar alguma imagem da primeira caixa 
+var imgMov2 = [];      //Confere se falta colocar alguma imagem da terceira caixa 
+
+const divFormas = 'container-formas';
+const dropPrimeiro = 'drop1';
+const dropSegundo = 'drop2';
+const dropTerceiro = 'drop3';
+const forma = 0, cor = 1, tamanho = 2, contorno = 3;
+
+const coresEnum = Object.freeze({
+    "azul": 0,
+    "vermelho": 1,
+    "amarelo": 2
+});
+const formasEnum = Object.freeze({
+    "triangulo": 0,
+    "quadrado": 1,
+    "retangulo": 2,
+    "circulo": 3
+});
+const tamanhoEnum = Object.freeze({
+    "grande": 0,
+    "pequeno": 1
+});
+const contornoEnum = Object.freeze({
+    "comContorno": 0,
+    "semContorno": 1
+});
+
+function removeChildElementsByTag(parent, tag) {
+    if(parent != null){
+        var parentDom = document.getElementById(parent);
+        var elements = parentDom.getElementsByTagName(tag);
+        var i;
+        console.log('parent ' + parentDom.getAttribute('id') + ' tem ' + elements.length + ' childs.');
+        for (i = elements.length - 1; i >= 0; i--) {
+            console.log('removendo ' + elements[i].getAttribute('id') + '/' + elements[i].parentNode.getAttribute('id'));
+            //parentDom.removeChild(elements[i]);
+            elements[i].remove();
+        }
+    }
+}
+
+function reset() {
+    removeChildElementsByTag(divFormas, 'img');
+    removeChildElementsByTag(dropPrimeiro, 'img');
+    removeChildElementsByTag(dropSegundo, 'img');
+    removeChildElementsByTag(dropTerceiro, 'img');
+
+     //Array contendo todos os elementos gerados
+    restricao1 = [];
+    restricao2 = [];
+}
+
+function getRandomIntInclusive(min, max) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+function getImgScr(forma, cor, tamanho, contorno) {   //Cria a src a partir dos valores dos atributos
+    var src = './img/';
+
+    switch (forma) {
+        case formasEnum.triangulo:
+            src += 'T';
+            break;
+        case formasEnum.retangulo:
+            src += 'R';
+            break;
+        case formasEnum.circulo:
+            src += 'C';
+            break;
+        case formasEnum.quadrado:
+            src += 'Q';
+            break;
+    }
+
+    switch (cor) {
+        case coresEnum.azul:
+            src += 'Z';
+            break;
+        case coresEnum.amarelo:
+            src += 'A';
+            break;
+        case coresEnum.vermelho:
+            src += 'V';
+            break;
+    }
+
+    switch (tamanho) {
+        case tamanhoEnum.grande:
+            src += 'G';
+            break;
+        case tamanhoEnum.pequeno:
+            src += 'P';
+            break;
+    }
+
+    switch (contorno) {
+        case contornoEnum.comContorno:
+            src += 'C';
+            break;
+        case contornoEnum.semContorno:
+            src += 'S';
+            break;
+    }
+
+    src += '.png';
+
+    return src;
+}
+
+function imgRestricao(quantCor, quantTipo, quantTam, quantCont){
+	
+	var novaImg = document.createElement("img");
+	var arq, tipo, tam, cor, cont;
+
+	/*Adiciona as características priorizando as restrições*/
+	if(restricao1[0] != null){	
+		novaImg.setAttribute('data-tipo', restricao1[0]);
+		tipo = restricao1[0];
+	}else{
+		if(restricao2[0] != null && quantTipo == 1){	
+			novaImg.setAttribute('data-tipo', restricao2[0]);
+			tipo = restricao2[0];
+		}else{
+			do{
+                tipo = getRandomIntInclusive(0,3);
+            }while(restricao2[0] != null && tipo == restricao2[0]);
+            novaImg.setAttribute('data-tipo', tipo);
+		}
+
+	}
+
+	if(restricao1[1] != null){	
+		novaImg.setAttribute('data-cor', restricao1[1]);
+		cor = restricao1[1];
+	}else{
+		if(restricao2[1] != null && quantCor == 1){	
+			novaImg.setAttribute('data-cor', restricao2[1]);
+			cor = restricao2[1];
+		}else{
+			do{
+                cor = getRandomIntInclusive(0,2);
+            }while(restricao2[1] != null && cor == restricao2[1]);
+            novaImg.setAttribute('data-cor', cor);
+		}
+
+	}
+
+	if(restricao1[2] != null){	
+		novaImg.setAttribute('data-tam', restricao1[2]);
+		tam = restricao1[2];
+	}else{
+		if(restricao2[2] != null && quantTam == 1){	
+			novaImg.setAttribute('data-tam', restricao2[2]);
+			tam = restricao2[2];
+		}else{
+			do{
+                tam = getRandomIntInclusive(0,1);
+            }while(restricao2[2] != null && tam == restricao2[2]);
+            novaImg.setAttribute('data-tam', tam);
+		}
+
+	}
+
+	if(restricao1[3] != null){	
+		novaImg.setAttribute('data-cont', restricao1[3]);
+		cont = restricao1[3];
+	}else{
+		if(restricao2[3] != null && quantCont == 1){	
+			novaImg.setAttribute('data-cont', restricao2[3]);
+			cont = restricao2[3];
+		}else{
+			do{
+                cont = getRandomIntInclusive(0,1);
+            }while(restricao2[3] != null && cont == restricao2[3]);
+            novaImg.setAttribute('data-cont', cont);
+		}
+
+	}
+
+	arq = getImgScr(tipo, cor, tam, cont);
+	novaImg.setAttribute('src', arq);
+	novaImg.classList.add('drag');
+
+	console.log('novaimg: tipo=' + tipo + ', cor=' + cor + ', tam=' + tam + ', contorno=' + cont + ', src=' + arq);
+	return novaImg;
+
+}
+
+function novaImgBlocoLogicoComRestricoes(arrayPecasExistentes, maxCores, maxFormas, maxTamanhos, maxContornos, parametro, quantidade) {
+    var novaImg = document.createElement("img");
+    var i, cor, tipo, tam, cont, arq;
+    var corUsada = [0, 0, 0],
+        formaUsada = [0, 0, 0, 0],
+        tamanhoUsado = [0, 0],
+        contornoUsado = [0, 0];
+    var coresUsadas = 0,
+        formasUsadas = 0,
+        tamanhosUsados = 0,
+        contornosUsados = 0;
+
+    if (arrayPecasExistentes.length != 0) {
+        /*preencher caracteristicas já usadas*/
+        console.log('verificar caracteristicas usadas');
+        for (i = 0; i < arrayPecasExistentes.length; i++) {
+            if (arrayPecasExistentes[i] == null)
+                continue;
+            coresUsadas += corUsada[arrayPecasExistentes[i].getAttribute('data-cor')] == 1 ? 0 : 1;
+            corUsada[arrayPecasExistentes[i].getAttribute('data-cor')] = 1;
+            formasUsadas += formaUsada[arrayPecasExistentes[i].getAttribute('data-tipo')] == 1 ? 0 : 1;
+            formaUsada[arrayPecasExistentes[i].getAttribute('data-tipo')] = 1;
+            tamanhosUsados += tamanhoUsado[arrayPecasExistentes[i].getAttribute('data-tam')] == 1 ? 0 : 1;
+            tamanhoUsado[arrayPecasExistentes[i].getAttribute('data-tam')] = 1;
+            contornosUsados += contornoUsado[arrayPecasExistentes[i].getAttribute('data-cont')] == 1 ? 0 : 1;
+            contornoUsado[arrayPecasExistentes[i].getAttribute('data-cont')] = 1;
+            console.log('peca verificada');
+        }
+
+        //escolher cor
+        console.log('cores usadas = ' + coresUsadas);
+        for (i = 0; i < corUsada.length; i++) {
+            console.log(i + ' = ' + corUsada[i]);
+        }
+        while (1) {
+            cor = getRandomIntInclusive(0, 2);
+            if (coresUsadas < maxCores && !corUsada[cor]) {
+                //se ainda nao escolheu todas as cores e eh  uma nova cor
+                break;
+            }
+            if (coresUsadas >= maxCores && corUsada[cor]) {
+                //se ja escolheu todas as cores e eh cor ja usada
+                break;
+            }
+        }
+        //escolher forma
+        console.log('escolher nova forma');
+        while (1) {
+            tipo = getRandomIntInclusive(0, 3);
+            if (formasUsadas < maxFormas && !formaUsada[tipo]) {
+                break;
+            }
+            if (formasUsadas >= maxFormas && formaUsada[tipo]) {
+                break;
+            }
+        }
+        //escolher tamanho
+        console.log('escolher novo tamanho');
+        while (1) {
+            tam = getRandomIntInclusive(0, 1);
+            console.log('tam escolhido = ' + tam + ' tamanhoUsado = ' + tamanhoUsado);
+            if (tamanhosUsados < maxTamanhos && !tamanhoUsado[tam]) {
+                break;
+            }
+            if (tamanhosUsados >= maxTamanhos && tamanhoUsado[tam]) {
+                break;
+            }
+        }
+        //escolher contorno
+        console.log('escolher novo contorno');
+        while (1) {
+            cont = getRandomIntInclusive(0, 1);
+            if (contornosUsados < maxContornos && !contornoUsado[cont]) {
+                break;
+            }
+            if (contornosUsados >= maxContornos && contornoUsado[cont]) {
+                break;
+            }
+        }
+    } else {
+        //array vazio
+        console.log('array de imgs estava vazio');
+        cor = getRandomIntInclusive(0, 2);
+        tipo = getRandomIntInclusive(0, 3);
+        tam = getRandomIntInclusive(0, 1);
+        cont = getRandomIntInclusive(0, 1);
+    }
+
+    if(parametro == 2 && quantidade != 0){
+
+        if(restricao2[0] != null){
+            tipo = restricao2[0];
+        }
+        else{
+            while(restricao1[0] != null && tipo == restricao1[0]){
+                tipo = getRandomIntInclusive(0, 3);
+            }
+        }
+
+        if(restricao2[1] != null){	
+            cor = restricao2[1];
+        }
+        else{
+            while(restricao1[1] != null && cor == restricao1[1]){
+                cor = getRandomIntInclusive(0, 2);
+            }
+        }
+
+        if(restricao2[2] != null){	
+            tam = restricao2[2];
+        }
+        else{
+            while(restricao1[2] != null && tam == restricao1[2]){
+                tam = getRandomIntInclusive(0, 1);
+            }
+        }
+
+        if(restricao2[3] != null){	
+            cont = restricao2[3];
+        }
+        else{
+            while(restricao1[3] != null && cont == restricao1[3]){
+                cont = getRandomIntInclusive(0, 1);
+            }
+        }
+
+    }
+
+    if(parametro == 3 && quantidade == 3){
+        if(restricao2[0] != null){
+            tipo = restricao2[0];
+        }
+        else{
+            if(restricao1[0] != null){
+                tipo = restricao1[0];
+            }
+        }
+
+        if(restricao2[1] != null){	
+            cor = restricao2[1];
+        }
+        else{
+            if(restricao1[1] != null){	
+                cor = restricao1[1];
+            }
+        }
+
+        if(restricao2[2] != null){	
+            tam = restricao2[2];
+        }
+        else{
+            if(restricao1[2] != null){	
+                tam = restricao1[2];
+            }
+        }
+
+        if(restricao2[3] != null){	
+            cont = restricao2[3];
+        }
+        else{
+            if(restricao1[3] != null){	
+                cont = restricao1[3];
+            }
+        }
+    }
+    
+    arq = getImgScr(tipo, cor, tam, cont);
+    novaImg.setAttribute('src', arq);
+    novaImg.setAttribute('data-cor', cor);
+    novaImg.setAttribute('data-tipo', tipo);
+    novaImg.setAttribute('data-tam', tam);
+    novaImg.setAttribute('data-cont', cont);
+    novaImg.classList.add('drag');
+
+    console.log('novaimg: tipo=' + tipo + ', cor=' + cor + ', tam=' + tam + ', contorno=' + cont + ', src=' + arq);
+
+    return novaImg;
+}
+
+function conferir(numero, completo){   //Confere se o número já foi utilizado 
+
+    var flagTest = 0;
+ 
+    completo.forEach(el=>{
+        if(el == numero){
+            flagTest = 1;
+        }
+    });
+ 
+    return flagTest;
+ 
+ }
+
+function game() {
+    reset();
+    //iniciar variaveis de controle
+    var tamOpcoes = 0; //quantidade de opções de resposta
+    var coresDistintas = 0; //quantidade de cores distintas possiveis nas opcoes
+    var formasDistintas = 0; //quantidade de formas distintas possiveis nas opcoes
+    var tamanhosDistintos = 0; //quantidade de tamanhos distintas possiveis nas opcoes
+    var contornosDistintos = 0; //quantidade de contornos distintas possiveis nas opcoes
+    var i, j ;
+
+    /*Padronizado os valores das variaveis de controle de acordo com a etapa sendo:
+    (1-5: Tipo | 6-10: Tipo+Cor | 11-15: Tipo+Cor+Contorno| 16-20: Completo)*/
+    switch (etapaAtual) {
+       case 0:
+           tamOpcoes = 4;
+           restricao1[forma] = formasEnum.triangulo;
+           restricao2[forma] = 1;
+           estadoRestricao = "Negado";
+           coresDistintas = 1;
+           formasDistintas = 4;
+           tamanhosDistintos = 1;
+           contornosDistintos = 1;
+           break;
+       case 1:
+           tamOpcoes = 4;
+           restricao1[forma] = 0;
+           restricao2[cor] = 2;
+           estadoRestricao = "Aceita";
+           coresDistintas = 2;
+           formasDistintas = 4;
+           tamanhosDistintos = 1;
+           contornosDistintos = 1;
+           break;
+        default:
+           alert("Fim do Jogo");
+           return;
+    }
+    
+    var divForms = document.getElementById(divFormas); 
+    
+    /*verificar quantas imagens eu preciso criar*/
+    /*verificar quantas imagens eu preciso criar*/
+    var arrayReferencia = [];
+    var arrayIndices = [];
+    var arrayDeOpcoes = [];
+    var arrayOpcoesFinal = [];
+    var novaImagem;
+    let quantidade = 0;
+
+    if(estrela == 0){ //Inicial - Sem intersecção - 2 respostas prontas
+       quantidade = 2;
+    }
+    if(estrela == 1){ //Intermediário - Com intersecção - 3 respostas prontas
+       quantidade = 3;
+    }
+
+    for (i = 0; i < (tamOpcoes-1); i++){
+        arrayReferencia.push('');
+    }
+
+    novaImagem = imgRestricao(coresDistintas, formasDistintas, tamanhosDistintos, contornosDistintos);
+    arrayDeOpcoes.push(novaImagem);
+
+    /*Criar a quantidade de imagens especificadas e fazer o push para o array*/
+	i=2;
+    arrayReferencia.forEach(el => {
+        
+        novaImagem = novaImgBlocoLogicoComRestricoes(arrayDeOpcoes, coresDistintas, formasDistintas, tamanhosDistintos, contornosDistintos, i, quantidade);
+        arrayDeOpcoes.push(novaImagem);
+		i++;
+
+    });
+
+	/*Modifica a ordem das imagens no array*/
+    arrayDeOpcoes.forEach(el =>{
+
+        do{
+            quantidade = getRandomIntInclusive(0, (tamOpcoes-1));
+        }while(conferir(quantidade, arrayIndices));
+
+        arrayOpcoesFinal[quantidade] = el;
+        arrayIndices.push(quantidade);
+
+    });
+
+    /*Fazendo o append com a divForms*/
+    arrayOpcoesFinal.forEach(el => {
+        
+        divForms.appendChild(el);
+
+    });
+
+}
+
+function first(container, letra){   //Analisa a caixa da esquerda
+
+   /*contador - índice do array, armazenando a quantidade de flags por imagem
+   flag - indica se o atributo é diferente do contido na restrição 
+   aux - guarda o valor de todas as flags*/
+   var contador = 0, flag = 0, aux = 0;
+
+   /*Analisa as imagens do container com relação a primeira restrição*/
+   Array.prototype.filter.call(container, el => {
+       flag = 0;
+
+       if(restricao1[0]!=null && el.getAttribute('data-tipo') != restricao1[forma]){
+           flag++;
+       }
+
+       if(restricao1[1]!=null && el.getAttribute('data-cor') != restricao1[cor]){
+           flag++;
+       }
+
+       if(restricao1[2]!=null && el.getAttribute('data-tam') != restricao1[tamanho]){
+           flag++;
+       }
+
+       if(restricao1[3]!=null && el.getAttribute('data-cont') != restricao1[contorno]){
+           flag++;
+       }
+
+       if(letra == 's'){
+           imgMov1[contador] = flag;	
+       }
+
+       contador++;
+       aux = aux + flag;
+   })
+
+   return aux;
+}
+
+function third(container, letra){   //Analisa a caixa da direita
+
+   /*contador - índice do array, armazenando a quantidade de flags por imagem
+   flag - indica se o atributo é diferente do contido na restrição 
+   aux - guarda o valor de todas as flags*/
+   var contador = 0, flag = 0, aux = 0;
+
+   /*Analisa as imagens do container com relação a segunda restrição*/
+   Array.prototype.filter.call(container, el => {
+       flag = 0;
+
+       if(restricao2[0]!=null && el.getAttribute('data-tipo') != restricao2[forma]){
+           flag++;
+       }
+
+       if(restricao2[1]!=null && el.getAttribute('data-cor') != restricao2[cor]){
+           flag++; 
+           console.log('cor');
+       }
+
+       if(restricao2[2]!=null && el.getAttribute('data-tam') != restricao2[tamanho]){
+           flag++;
+       }
+
+       if(restricao2[3]!=null && el.getAttribute('data-cont') != restricao2[contorno]){
+           flag++;
+           console.log('cont');
+       }
+
+       if(letra == 's'){
+           imgMov2[contador] = flag;	
+       }
+
+       contador++;
+       aux = aux + flag;
+   })
+
+   return aux;
+}
+
+function check(){ //Confere se acertou
+
+    let flag1 = 0, flag2 = 0, flag3 = 0, lixo, mov = 0;
+    imgMov1 = [];
+    imgMov2 = [];
+    var imagensDropPrimeiro = document.getElementById(dropPrimeiro).getElementsByTagName('img');
+    var imagensDropSegundo = document.getElementById(dropSegundo).getElementsByTagName('img');
+    var imagensDropTerceiro = document.getElementById(dropTerceiro).getElementsByTagName('img');
+    var imagensGeradas = document.getElementById(divFormas).getElementsByTagName('img');
+    var texto = document.getElementById('resultado-jogo');
+
+    /*Verifica se as caixas estão corretas e se todas as imagens corretas foram movidas */
+   flag1 = first(imagensDropPrimeiro, 'n');
+   flag2 = first(imagensDropSegundo, 'n') + third(imagensDropSegundo, 'n');
+   flag3 = third(imagensDropTerceiro, 'n');
+
+   /* Confere se a imagem não pertence aos dois*/
+   if(estadoRestricao == "Aceita"){
+        if(imagensDropPrimeiro.length != 0 && third(imagensDropPrimeiro, 'n') == 0){
+            flag1++;
+        }
+        if(imagensDropTerceiro.length != 0  && first(imagensDropTerceiro, 'n') == 0){
+            flag3++;
+        }
+   }
+   else{
+        if(imagensDropPrimeiro.length != 0 && third(imagensDropPrimeiro, 'n') != 0){
+            flag1 = 0;
+        }
+        if(imagensDropTerceiro.length != 0  && first(imagensDropTerceiro, 'n') != 0){
+            flag3 = 0;
+        }
+   }
+
+   /*confere se ainda há opções*/
+   if(imagensGeradas.length != 0){
+
+       lixo = first(imagensGeradas, 's');
+       lixo = third(imagensGeradas, 's');
+
+       /*Analisa as flags.
+       Se a flag da determinada imagem for 0, significa que ela está correta e deve ser movida*/
+       imgMov1.forEach(el => {
+
+           if(estadoRestricao == "Aceita"){
+                if(el == 0){
+                    mov++;
+                    console.log('m1');
+                }	
+           }
+           else{
+                if(el != 0){
+                    mov++;
+                    console.log('m1');
+                }
+           }
+
+       });
+
+       imgMov2.forEach(el => {
+       
+            if(estadoRestricao == "Aceita"){
+                if(el == 0){
+                    mov++;
+                    console.log('m2');
+                }	
+            }   
+            else{
+                if(el != 0){
+                    mov++;
+                    console.log('m2');
+                }
+           }
+
+       });
+   }
+
+    /*Verifica todas as situações de resposta*/
+    if (mov != 0) {
+        
+        texto.innerText = 'Você ainda não moveu todas as imagens... Tente novamente';
+    } else {
+
+        if(estadoRestricao == "Aceita"){
+            if (flag2 == 0 && flag1 == 0 && flag3 == 0) {
+    
+                texto.innerText = 'Todos corretos... Parabéns!'; 
+                etapaAtual++;
+                estrela++;
+                game(); 
+            }
+            else{
+            texto.innerText = 'Resposta errada... Tente novamente!';
+            }
+        }
+        else{
+            if (flag2 != 0 && flag1 != 0 && flag3 != 0) {
+    
+                texto.innerText = 'Todos corretos... Parabéns!'; 
+                etapaAtual++;
+                estrela++;
+                game(); 
+            }
+            else{
+            texto.innerText = 'Resposta errada... Tente novamente!';
+            }
+        }
+    }
+
+}
+document.body.onload = game;
