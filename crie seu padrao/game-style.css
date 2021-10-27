@@ -427,6 +427,40 @@ section#container-sequencia {
 
 }
 
+section.drop img {
+
+    margin: 5px;
+    align-self: flex-start;
+
+}
+
+div.slot {
+
+    min-height: 100%;
+    width: 7%;
+    margin: 0px 5px;
+    background-image: url('../img/bg-slot.svg');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 25%;
+    border-bottom: 1px solid #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+div.slot img {
+
+    width: 100%;
+    margin: unset;
+    max-width: unset;
+}
+
+img.draggable-mirror {
+
+    width: 5% !important;
+}
+
 
 p.container-formas-titulo {
 

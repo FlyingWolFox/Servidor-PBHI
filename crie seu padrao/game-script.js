@@ -306,6 +306,8 @@ function novaImgBlocoLogicoComRestricoes(arrayPecasExistentes, maxCores, maxForm
 
 function reset() {
 	removeChildElementsByTag(divSequencia, 'img');
+	removeChildElementsByTag(divSequencia, 'div');
+	removeChildElementsByTag(divCaixa, 'div');
 	removeChildElementsByTag(divOpcoes, 'img');
 	removeChildElementsByTag(divCaixa, 'img');
 	arrayCaixa = [];
@@ -333,6 +335,20 @@ function resetEstrelas() {
 
 endGame = false;
 
+var divRespostas = document.getElementById(divCaixa);
+var arraySlots = [];
+
+function criaSlots(){
+	for(var i = 0; i < tamNucleo; i++){
+		arraySlots[i] = document.createElement("div"); //cria um elemento div com propriedas de drop pra ficar no lugar da imagem substituida
+		arraySlots[i].setAttribute('id', 'substituta' + i);
+		arraySlots[i].classList.add("dropzone");
+		arraySlots[i].classList.add("slot");
+		divRespostas.appendChild(arraySlots[i]);
+			//caixaNucleo[i].replaceWithdivRespostas[i]);
+
+	}
+}
 
 
 function game() {
@@ -613,6 +629,7 @@ function game() {
 		divOps.appendChild(arrayOpcoes[i]);
 		console.log('Adicionado forma/opcao parte2 #' + i + ': id=' + arrayOpcoes[i].getAttribute("id") + ', src=' + arrayOpcoes[i].getAttribute("src"));
 	}
+	criaSlots();
 	var textoPecas = document.getElementById('textopecas');
 	textoPecas.innerHTML = "Peças Disponíveis:" + tamNucleo;
 }
@@ -642,6 +659,7 @@ function adicionaPadrao(){
 			seqAtual++;
 		}
 	}
+	
 	var botaoOk = document.getElementById('botao-proximo');
 	var textoAcerto = document.getElementById('resultado-jogo');
 	var modalAcerto = document.getElementById("modalAcerto");
