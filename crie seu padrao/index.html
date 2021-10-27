@@ -123,8 +123,8 @@
                         <!-- Container que mostra o núcleo de repetição -->
                     </section>
                     <h3 id="titulo-sequencia">Núcleo</h3>
-                    <section id="container-sequencia" class="game-container dropzone grid">
-                        <!-- Lugar onde as imagens são dropadas -->
+                    <section id="container-sequencia" class="game-container grid"> 
+                        <!-- Lugar onde as imagens são dropadas, dropzone grid -->
                     </section>
                     <button id="botao-resultado">TERMINEI!</button>
                 </section>
@@ -193,17 +193,17 @@
             dropzone: '.dropzone'
         });
 
-        droppableSequencia.on('drag:start', () => {
+       /* droppableSequencia.on('drag:start', () => {
             if (containerSequencia.classList.contains('draggable-dropzone--occupied')) {
                 containerSequencia.classList.remove('draggable-dropzone--occupied');
             }
         });
-
-        const retorno = new Draggable.Droppable(containerSequencia, {
+        */
+        /*const retorno = new Draggable.Droppable(containerSequencia, {
             draggable: '.game-img',
             dropzone: '.dropzone'
         });
-
+        */
         retorno.on('drag:start', () => {
             if (containerFormas.classList.contains('draggable-dropzone--occupied')) {
                 containerFormas.classList.remove('draggable-dropzone--occupied');
