@@ -657,7 +657,7 @@ function adicionaPadrao(){
 			arraySequencia[seqAtual].setAttribute('title', arrayDropbox[i].getAttribute("title"));
 			arraySequencia[seqAtual].classList.add('game-img');
 			arraySequencia[seqAtual].classList.add('escolhida');
-			arraySequencia[seqAtual].style.setProperty(prop, seqAtual + 0.3 + 's');
+			arraySequencia[seqAtual].style.setProperty(prop, seqAtual + 0.01 + 's');
 			arrayDropbox[i].getAttribute('tam') == 1 ? arraySequencia[seqAtual].classList.add('pequeno') : arraySequencia[seqAtual].classList.add('grande');
 			divNucleo.appendChild(arraySequencia[seqAtual]);
 			console.log('Adicionado seq #' + seqAtual + ': id=' + arraySequencia[seqAtual].getAttribute("id") + ', src=' + arraySequencia[seqAtual].getAttribute("src"));
