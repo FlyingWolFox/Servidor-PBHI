@@ -366,7 +366,7 @@ section#container-nucleo {
     align-items: center;
     border: 1px solid rgba(7, 12, 16, 0.5);
     box-sizing: border-box;
-
+    
 }
 
 
@@ -393,6 +393,7 @@ section.drop img {
 
     margin: 5px;
     align-self: flex-start;
+    
 
 }
 
@@ -409,8 +410,6 @@ button#botao-resultado {
     border-radius: 20px;
 
 }
-
-
 
 section#container-sequencia {
 
@@ -485,12 +484,13 @@ section#container-formas {
     justify-content: center;
 }
 
+
 img.game-img {
 
     width: 5%;
     margin: 0px 5px;
     align-self: center;
-
+   
 }
 
 img.game-img.pequeno {
@@ -498,9 +498,24 @@ img.game-img.pequeno {
     width: 3.5%;
     margin: 0px 5px;
     align-self: center;
-
+    
 }
-
+@keyframes transicao-imagem {
+    from {
+        opacity:0;
+      }
+      to {
+        opacity:1;
+      }
+     
+}
+img.escolhida{
+    opacity: 0;
+    animation-name:transicao-imagem;
+    animation-duration:2s;
+    animation-delay:1s;
+    animation-fill-mode: forwards;
+}
 section.drop img {
 
     width: 100px;

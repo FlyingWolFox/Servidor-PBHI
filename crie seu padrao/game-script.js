@@ -588,7 +588,6 @@ function game() {
 		}
 
 		console.log('nucleo[' + i + '] ficara no indice: ' + indice[i]);
-
 		arrayOpcoes[indice[i]] = document.createElement("img");
 		arrayOpcoes[indice[i]].setAttribute('src', arrayNucleo[i].getAttribute("src")); //lincoln: nao precisa ter ID ja que sao elas q sao arrastadas?
 		arrayOpcoes[indice[i]].setAttribute('cor', arrayNucleo[i].getAttribute("cor")); //lincoln: nao precisa ter ID ja que sao elas q sao arrastadas?
@@ -635,9 +634,14 @@ function game() {
 }
 //funcao pra criança construir o padrao
 function adicionaPadrao(){
+	prop = 'animation-delay';
 	cliquei = true;
 	//adicionar sequencia q a crianca escolheu no div
 	//botaoResultado.removeEventListener('click', adicionaPadrao);
+	var botaoTerminei = document.getElementById('botao-resultado');
+	botaoTerminei.innerHTML = "PRÓXIMA";
+	botaoTerminei.removeEventListener('click', adicionaPadrao);
+	botaoTerminei.addEventListener('click', eventoResultado);
 	var arrayDropbox = document.getElementById(divCaixa).getElementsByTagName('img');
 	var divNucleo = document.getElementById(divSequencia); //div responsável pela sequencia do nucleo
 	if (divNucleo == null) {
@@ -652,21 +656,15 @@ function adicionaPadrao(){
 			arraySequencia[seqAtual].setAttribute('alt', arrayDropbox[i].getAttribute("alt"));
 			arraySequencia[seqAtual].setAttribute('title', arrayDropbox[i].getAttribute("title"));
 			arraySequencia[seqAtual].classList.add('game-img');
+			arraySequencia[seqAtual].classList.add('escolhida');
+			arraySequencia[seqAtual].style.setProperty(prop, seqAtual + 0.3 + 's');
 			arrayDropbox[i].getAttribute('tam') == 1 ? arraySequencia[seqAtual].classList.add('pequeno') : arraySequencia[seqAtual].classList.add('grande');
 			divNucleo.appendChild(arraySequencia[seqAtual]);
 			console.log('Adicionado seq #' + seqAtual + ': id=' + arraySequencia[seqAtual].getAttribute("id") + ', src=' + arraySequencia[seqAtual].getAttribute("src"));
 			
 			seqAtual++;
 		}
-	}
-	
-	var botaoOk = document.getElementById('botao-proximo');
-	var textoAcerto = document.getElementById('resultado-jogo');
-	var modalAcerto = document.getElementById("modalAcerto");
-
-		textoAcerto.innerHTML = "Veja como ficou sua sequência!";
-		modalAcerto.style.display = 'block';
-		botaoOk.innerHTML = "Espiar!";
+	}	
 }
 
 // funcao pra criança passar de fase
@@ -675,6 +673,10 @@ function eventoResultado(){
 			cliquei = false;
 			etapaAtual++;
 				estrela++;
+				var botaoConstruir = document.getElementById('botao-resultado');
+	botaoConstruir.innerHTML = "CONSTRUIR!";
+	botaoConstruir.removeEventListener('click', eventoResultado);
+	botaoConstruir.addEventListener('click', adicionaPadrao);
 				switch(estrela) {
 					case 0:
 					case 1:
