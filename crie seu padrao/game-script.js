@@ -376,7 +376,7 @@ function game() {
 		case 0:
 			/*Padronizado*/
 			tamNucleo = 1;
-      		tamSeq = 7;
+      		tamSeq = 6;
       		tamOpcoes = 3;
       		coresDistintas = 1;
       		formasDistintas = 4;
@@ -385,8 +385,8 @@ function game() {
       		break;
       	case 1:     		
       		tamNucleo = 1;
-			tamSeq = 8;
-      		tamOpcoes = 4;
+			tamSeq = 6;
+      		tamOpcoes = 3;
       		coresDistintas = 2;
       		formasDistintas = 3;
       		tamanhosDistintos = 2;
@@ -394,7 +394,7 @@ function game() {
       		break;
       	case 2:     		
       		tamNucleo = 1;
-			tamSeq = 9;
+			tamSeq = 6;
       		tamOpcoes = 3;
       		coresDistintas = 4;
       		formasDistintas = 3;
@@ -402,8 +402,8 @@ function game() {
       		contornosDistintos = 2;
 			break;
 		case 3:     		
-      		tamNucleo = 2;
-			tamSeq = 8;
+      		tamNucleo = 1;
+			tamSeq = 6;
       		tamOpcoes = 4;
       		coresDistintas = 1;
       		formasDistintas = 3;
@@ -411,9 +411,9 @@ function game() {
       		contornosDistintos = 1;
 			break;   
 		case 4: 		
-      		tamNucleo = 2;
-			tamSeq = 8;
-      		tamOpcoes = 5;
+      		tamNucleo = 1;
+			tamSeq = 6;
+      		tamOpcoes = 4;
       		coresDistintas = 2;
       		formasDistintas = 3;
       		tamanhosDistintos = 1;
@@ -422,7 +422,7 @@ function game() {
 		case 5: 		
       		tamNucleo = 2;
 			tamSeq = 8;
-      		tamOpcoes = 5;
+      		tamOpcoes = 3;
       		coresDistintas = 3;
       		formasDistintas = 3;
       		tamanhosDistintos = 1;
@@ -430,16 +430,16 @@ function game() {
 			break;
 		case 6: 	
 			tamNucleo = 2;
-			tamSeq = 9;
-      		tamOpcoes = 5;
+			tamSeq = 8;
+      		tamOpcoes = 3;
       		coresDistintas = 3;
       		formasDistintas = 4;
       		tamanhosDistintos = 1;
       		contornosDistintos = 1;	
 			break;
 		case 7: 				
-			tamNucleo = 3;
-			tamSeq = 9;
+			tamNucleo = 2;
+			tamSeq = 8;
       		tamOpcoes = 4;
       		coresDistintas = 1;
       		formasDistintas = 3;
@@ -447,9 +447,9 @@ function game() {
       		contornosDistintos = 1;
 			break;
 		case 8: 		
-			tamNucleo = 3;
-		  	tamSeq = 10;
-			tamOpcoes = 6;
+			tamNucleo = 2;
+		  	tamSeq = 8;
+			tamOpcoes = 5;
 			coresDistintas = 2;
 			formasDistintas = 2;
 			tamanhosDistintos = 1;
@@ -457,8 +457,8 @@ function game() {
 		  	break;
 		case 9: 		
 			tamNucleo = 3;
-			tamSeq = 12;
-			tamOpcoes = 6;
+			tamSeq = 9;
+			tamOpcoes = 3;
 			coresDistintas = 2;
 			formasDistintas = 2;
 			tamanhosDistintos = 2;
@@ -467,19 +467,17 @@ function game() {
 
 		case 10: 		
 			tamNucleo = 3;
-			tamSeq = 10;
-			tamOpcoes = 6;
+			tamSeq = 9;
+			tamOpcoes = 4;
 			coresDistintas = 3;
-			formasDistintas = 2;
-			tamanhosDistintos = 1;
+			formasDistintas = 3;
+			tamanhosDistintos = 2;
 			contornosDistintos = 2;
 				  break;
 
-
-
 		 case 11: 		
 			tamNucleo = 3;
-			tamSeq = 10;
+			tamSeq = 9;
 			tamOpcoes = 6;
 			coresDistintas = 3;
 			formasDistintas = 3;
@@ -488,8 +486,8 @@ function game() {
 					break;
 
 			case 12: 		
-				tamNucleo = 3;
-				tamSeq = 10;
+				tamNucleo = 4;
+				tamSeq = 12;
 				tamOpcoes = 6;
 				coresDistintas = 3;
 				formasDistintas = 4;
@@ -497,7 +495,7 @@ function game() {
 				contornosDistintos = 2;
 					break;
 			case 13: 		
-				tamNucleo = 3;
+				tamNucleo = 4;
 				tamSeq = 12;
 				tamOpcoes = 6;
 				coresDistintas = 3;
@@ -508,8 +506,8 @@ function game() {
 
 
 			case 14: 		
-				tamNucleo = 4;
-				tamSeq = 12;
+				tamNucleo = 5;
+				tamSeq = 14;
 				tamOpcoes = 6;
 				coresDistintas = 2;
 				formasDistintas = 2;
@@ -518,8 +516,8 @@ function game() {
 						  break;
 						  
 			case 15: 		
-				tamNucleo = 4;
-				tamSeq = 12;
+				tamNucleo = 5;
+				tamSeq = 14;
 				tamOpcoes = 6;
 				coresDistintas = 3;
 				formasDistintas = 2;
@@ -527,8 +525,8 @@ function game() {
 				contornosDistintos = 2;
 				break;	
 			 case 16: 		
-				tamNucleo = 4;
-				tamSeq = 12;
+				tamNucleo = 6;
+				tamSeq = 16;
 				tamOpcoes = 8;
 				coresDistintas = 3;
 				formasDistintas = 4;
@@ -540,7 +538,6 @@ function game() {
 			// alert("Fim do Jogo! Parabens!");
 			break;
     }
-
 	//montar nucleo
 	console.log("montar nucleo");
 	for (i = 0; i < tamNucleo; i++) {
@@ -635,36 +632,44 @@ function game() {
 //funcao pra criança construir o padrao
 function adicionaPadrao(){
 	prop = 'animation-delay';
-	cliquei = true;
 	//adicionar sequencia q a crianca escolheu no div
 	//botaoResultado.removeEventListener('click', adicionaPadrao);
 	var botaoTerminei = document.getElementById('botao-resultado');
-	botaoTerminei.innerHTML = "PRÓXIMA";
-	botaoTerminei.removeEventListener('click', adicionaPadrao);
-	botaoTerminei.addEventListener('click', eventoResultado);
+	var textoErro = document.getElementById('resultadoNegativo-jogo');
+	var modalErro = document.getElementById('modalErro');
 	var arrayDropbox = document.getElementById(divCaixa).getElementsByTagName('img');
 	var divNucleo = document.getElementById(divSequencia); //div responsável pela sequencia do nucleo
 	if (divNucleo == null) {
 		alert("divnucleo null");
 	}
-	var seqAtual = 0;
-	while (seqAtual < tamSeq) {
-		for (i = 0; i < tamNucleo && seqAtual < tamSeq; i++) {
-			arraySequencia[seqAtual] = document.createElement("img");
-			arraySequencia[seqAtual].setAttribute('id', 'seq' + (seqAtual + 1));
-			arraySequencia[seqAtual].setAttribute('src', arrayDropbox[i].getAttribute("src"));
-			arraySequencia[seqAtual].setAttribute('alt', arrayDropbox[i].getAttribute("alt"));
-			arraySequencia[seqAtual].setAttribute('title', arrayDropbox[i].getAttribute("title"));
-			arraySequencia[seqAtual].classList.add('game-img');
-			arraySequencia[seqAtual].classList.add('escolhida');
-			arraySequencia[seqAtual].style.setProperty(prop, seqAtual + 0.01 + 's');
-			arrayDropbox[i].getAttribute('tam') == 1 ? arraySequencia[seqAtual].classList.add('pequeno') : arraySequencia[seqAtual].classList.add('grande');
-			divNucleo.appendChild(arraySequencia[seqAtual]);
-			console.log('Adicionado seq #' + seqAtual + ': id=' + arraySequencia[seqAtual].getAttribute("id") + ', src=' + arraySequencia[seqAtual].getAttribute("src"));
-			
+	if(arrayDropbox.length != tamNucleo){
+		console.warn('nao usou todas as pecas');
+		modalErro.style.display = 'block';
+        textoErro.innerText = 'Você ainda não moveu todas as peças... Tente novamente.';
+   
+	}else{
+		botaoTerminei.innerHTML = "PRÓXIMA";
+		botaoTerminei.removeEventListener('click', adicionaPadrao);
+		botaoTerminei.addEventListener('click', eventoResultado);
+		var seqAtual = 0;
+		while (seqAtual < tamSeq) {
+			for (i = 0; i < tamNucleo && seqAtual < tamSeq; i++) {
+				arraySequencia[seqAtual] = document.createElement("img");
+				arraySequencia[seqAtual].setAttribute('id', 'seq' + (seqAtual + 1));
+				arraySequencia[seqAtual].setAttribute('src', arrayDropbox[i].getAttribute("src"));
+				arraySequencia[seqAtual].setAttribute('alt', arrayDropbox[i].getAttribute("alt"));
+				arraySequencia[seqAtual].setAttribute('title', arrayDropbox[i].getAttribute("title"));
+				arraySequencia[seqAtual].classList.add('game-img');
+				arraySequencia[seqAtual].classList.add('escolhida');
+				arraySequencia[seqAtual].style.setProperty(prop, seqAtual + 's');
+				arrayDropbox[i].getAttribute('tam') == 1 ? arraySequencia[seqAtual].classList.add('pequeno') : arraySequencia[seqAtual].classList.add('grande');
+				divNucleo.appendChild(arraySequencia[seqAtual]);
+				console.log('Adicionado seq #' + seqAtual + ': id=' + arraySequencia[seqAtual].getAttribute("id") + ', src=' + arraySequencia[seqAtual].getAttribute("src"));
 			seqAtual++;
 		}
 	}	
+	cliquei = true;
+	}
 }
 
 // funcao pra criança passar de fase
