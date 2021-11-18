@@ -9,22 +9,9 @@ const divEstrelas = 'container-estrelas';
 
 const coresEnum = Object.freeze({
 	"azul": 0,
-	"vermelho": 1,
-	"amarelo": 2
-});
-const formasEnum = Object.freeze({
-	"triangulo": 0,
-	"quadrado": 1,
-	"retangulo": 2,
-	"circulo": 3
-});
-const tamanhoEnum = Object.freeze({
-	"grande": 0,
-	"pequeno": 1
-});
-const contornoEnum = Object.freeze({
-	"comContorno": 0,
-	"semContorno": 1
+	"rosa": 1,
+	"amarelo": 2,
+	"verde": 3
 });
 /** FIM CONSTANTES */
 
@@ -32,6 +19,7 @@ const contornoEnum = Object.freeze({
 
 var arrayCaixa = []; //Elementos colocados na caixa de resposta
 var arrayNucleo = []; //Array para guardar o nucleo
+var tamSeq = 0; //Tamanho da sequência do núcleo
 var arraySequencia = []; //Array para guardar a sequecia
 var arrayOpcoes = []; //Array contendo todos os elementos gerados nas opcoes
 var tamNucleo; //Quantos elementos o nucleo possui
@@ -40,6 +28,8 @@ var etapaAtual = 0;
 var estrela = 0; //nível de estrelas do jogador 
 var arrayEstrelas = document.getElementById(divEstrelas).getElementsByTagName('img');
 /** FIM VARIAVEIS */
+
+
 
 /** FUNCOES DE APOIO */
 
@@ -54,24 +44,41 @@ function getRandomIntInclusive(min, max) {
 /** FIM FUNCOES DE APOIO */
 
 /** FUNCOES DO JOGO */
-function getImgScr(forma, cor, tamanho, contorno) {
+function getImgScr(numero, cor) {
 	var src = './img/';
 
-	switch (forma) {
-		case formasEnum.triangulo:
-			src += 'T';
+	switch (numero) {
+		case 0:
+			src += '0';
 			break;
-		case formasEnum.retangulo:
-			src += 'R';
+		case 1:
+			src += '1';
 			break;
-		case formasEnum.circulo:
-			src += 'C';
+		case 2:
+			src += '2';
 			break;
-		case formasEnum.quadrado:
-			src += 'Q';
+		case 3:
+			src += '3';
 			break;
-	}
-
+		case 4:
+			src += '4';
+			break;
+		case 5:
+			src += '5';
+			break;
+		case 6:
+			src += '6';
+			break;
+		case 7:
+			src += '7';
+			break;
+		case 8:
+			src +='8';
+			break;
+		case 9:
+			src += '9';
+			break;	
+	}	
 	switch (cor) {
 		case coresEnum.azul:
 			src += 'Z';
@@ -79,27 +86,11 @@ function getImgScr(forma, cor, tamanho, contorno) {
 		case coresEnum.amarelo:
 			src += 'A';
 			break;
-		case coresEnum.vermelho:
-			src += 'V';
+		case coresEnum.rosa:
+			src += 'R';
 			break;
-	}
-
-	switch (tamanho) {
-		case tamanhoEnum.grande:
-			src += 'G';
-			break;
-		case tamanhoEnum.pequeno:
-			src += 'P';
-			break;
-	}
-
-	switch (contorno) {
-		case contornoEnum.comContorno:
-			src += 'C';
-			break;
-		case contornoEnum.semContorno:
-			src += 'S';
-			break;
+		case coresEnum.verde:
+			src += 'V';	
 	}
 
 	src += '.svg';
@@ -110,51 +101,40 @@ function getImgScr(forma, cor, tamanho, contorno) {
 function getImgAlt(img) {
 	var alt = '';
 
-	switch (parseInt(img.getAttribute('tipo'))) {
-		case formasEnum.triangulo:
-			alt += 'Triângulo';
+	switch (parseInt(img.getAttribute('numero'))) {
+		case 0:
+			alt += '0';
 			break;
-		case formasEnum.retangulo:
-			alt += 'Retângulo';
+		case 1:
+			alt += '1';
 			break;
-		case formasEnum.circulo:
-			alt += 'Círculo';
+		case 2:
+			alt += '2';
 			break;
-		case formasEnum.quadrado:
-			alt += 'Quadrado';
+		case 3:
+			alt += '3';
 			break;
-	}
-
-	switch (parseInt(img.getAttribute('cor'))) {
-		case coresEnum.azul:
-			alt += ' azul';
+		case 4:
+			alt += '4';
 			break;
-		case coresEnum.amarelo:
-			alt += ' amarelo';
+		case 5:
+			alt += '5';
 			break;
-		case coresEnum.vermelho:
-			alt += ' vermelho';
+		case 6:
+			alt += '6';
 			break;
-	}
-
-	switch (parseInt(img.getAttribute('tam'))) {
-		case tamanhoEnum.grande:
-			alt += ', grande';
+		case 7:
+			alt += '7';
 			break;
-		case tamanhoEnum.pequeno:
-			alt += ', pequeno';
+		case 8:
+			alt += '8';
+			break;
+		case 9:
+			alt += '9';
 			break;
 	}
 
-	switch (parseInt(img.getAttribute('cont'))) {
-		case contornoEnum.comContorno:
-			alt += ' e com contorno';
-			break;
-		case contornoEnum.semContorno:
-			alt += ' e sem contorno';
-			break;
-	}
-
+	
 	alt += '.';
 
 	return alt;
@@ -173,116 +153,101 @@ function removeChildElementsByTag(parent, tag) {
 	}
 
 }
+function novaImgNumerosSequencia(i, numeroRef, razaoSequencia, cor){
+	
+	switch(razaoSequencia){
+		case 2:
+			i = i*2;
+			break;
+		case -1:
+			i = i * (-1);
+			break;
+		case -2:
+			i = (i*2) * (-1);
+			break;		
+		default:
+			i = i;
+			break;
+	}
+	var novaImg  = document.createElement("img");
+	var arq;
 
-function novaImgBlocoLogicoComRestricoes(arrayPecasExistentes, maxCores, maxFormas, maxTamanhos, maxContornos) {
+	console.log('numero inicial: ' + numeroRef+i);
+
+	arq = getImgScr(numeroRef+i,cor);
+	novaImg.setAttribute('src', arq);
+	novaImg.setAttribute('numero', numeroRef+i);
+	novaImg.setAttribute('alt', getImgAlt(novaImg));
+	novaImg.setAttribute('title', novaImg.getAttribute('alt'));
+	novaImg.classList.add('game-img');
+	
+
+
+	console.log('novaimg: numero=' + numeroRef+i + ', src=' + arq);
+
+	return novaImg;
+
+
+}
+function novaImgBlocoLogicoComRestricoes(arrayPecasExistentes, maxNumeros, cor) {
 	var novaImg = document.createElement("img");
-	var i, cor, tipo, tam, cont, arq;
-	var corUsada = [0, 0, 0],
-		formaUsada = [0, 0, 0, 0],
-		tamanhoUsado = [0, 0],
-		contornoUsado = [0, 0];
-	var coresUsadas = 0,
-		formasUsadas = 0,
-		tamanhosUsados = 0,
-		contornosUsados = 0;
+	var i, arq, numero;
+	var numeroUsado = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+	var numerosUsados = 0;
 
 	if (arrayPecasExistentes.length != 0) {
 		//preencher caracteristicas usadas
 		console.log('verificar caracteristicas usadas');
 		for (i = 0; i < arrayPecasExistentes.length; i++) {
-			if (arrayPecasExistentes[i] == null)
+			if(arrayPecasExistentes[i] == null)
 				continue;
-			coresUsadas += corUsada[arrayPecasExistentes[i].getAttribute('cor')] == 1 ? 0 : 1;
-			corUsada[arrayPecasExistentes[i].getAttribute('cor')] = 1;
-			formasUsadas += formaUsada[arrayPecasExistentes[i].getAttribute('tipo')] == 1 ? 0 : 1;
-			formaUsada[arrayPecasExistentes[i].getAttribute('tipo')] = 1;
-			tamanhosUsados += tamanhoUsado[arrayPecasExistentes[i].getAttribute('tam')] == 1 ? 0 : 1;
-			tamanhoUsado[arrayPecasExistentes[i].getAttribute('tam')] = 1;
-			contornosUsados += contornoUsado[arrayPecasExistentes[i].getAttribute('cont')] == 1 ? 0 : 1;
-			contornoUsado[arrayPecasExistentes[i].getAttribute('cont')] = 1;
+			numerosUsados  += numeroUsado[arrayPecasExistentes[i].getAttribute('numero')] == 1 ? 0: 1;
+			numeroUsado[arrayPecasExistentes[i].getAttribute('numero')] = 1;
 			console.log('peca verificada');
 		}
+	}
 
-		//escolher cor
-		console.log('cores usadas = ' + coresUsadas);
-		for (i = 0; i < corUsada.length; i++) {
-			console.log(i + ' = ' + corUsada[i]);
+	for(i = 0; i < maxNumeros; i++){
+		numero = getRandomIntInclusive(0, 9);
+	}
+	//escolher numero
+		/*console.log('numeros usados = ' + numerosUsados);
+		for (i = 0; i < numeroUsado.length; i++) {
+			console.log(i + ' = ' + numeroUsado[i]);
 		}
-		while (1) {
-			cor = getRandomIntInclusive(0, 2);
-			if (coresUsadas < maxCores && !corUsada[cor]) {
-				//se ainda nao escolheu todas as cores e eh  uma nova cor
+		while(1){
+			numero = getRandomIntInclusive(0, 9);
+			if (numerosUsados < maxNumeros && !numeroUsado[numero]) {
+				//se ainda nao escolheu todos os numeros e eh um novo numero
 				break;
 			}
-			if (coresUsadas >= maxCores && corUsada[cor]) {
-				//se ja escolheu todas as cores e eh cor ja usada
-				break;
-			}
-		}
-		//escolher forma
-		console.log('escolher nova forma');
-		while (1) {
-			tipo = getRandomIntInclusive(0, 3);
-			if (formasUsadas < maxFormas && !formaUsada[tipo]) {
-				break;
-			}
-			if (formasUsadas >= maxFormas && formaUsada[tipo]) {
+			if (numerosUsados >= maxNumeros && numeroUsado[numero]) {
+				//se ja escolheu todas os numeros e eh numero ja usado
 				break;
 			}
 		}
-		//escolher tamanho
-		console.log('escolher novo tamanho');
-		while (1) {
-			tam = getRandomIntInclusive(0, 1);
-			console.log('tam escolhido = ' + tam + ' tamanhoUsado = ' + tamanhoUsado);
-			if (tamanhosUsados < maxTamanhos && !tamanhoUsado[tam]) {
-				break;
-			}
-			if (tamanhosUsados >= maxTamanhos && tamanhoUsado[tam]) {
-				break;
-			}
-		}
-		//escolher contorno
-		console.log('escolher novo contorno');
-		while (1) {
-			cont = getRandomIntInclusive(0, 1);
-			if (contornosUsados < maxContornos && !contornoUsado[cont]) {
-				break;
-			}
-			if (contornosUsados >= maxContornos && contornoUsado[cont]) {
-				break;
-			}
-		}
+		
 	} else {
 		//array vazio
 		console.log('array de imgs estava vazio');
-		cor = getRandomIntInclusive(0, 2);
-		tipo = getRandomIntInclusive(0, 3);
-		tam = getRandomIntInclusive(0, 1);
-		cont = getRandomIntInclusive(0, 1);
+		numero = getRandomIntInclusive(0, 9);
 	}
-
-	arq = getImgScr(tipo, cor, tam, cont);
+*/
+	
+	arq = getImgScr(numero, cor);
 	novaImg.setAttribute('src', arq);
-	novaImg.setAttribute('cor', cor);
-	novaImg.setAttribute('tipo', tipo);
-	novaImg.setAttribute('tam', tam);
-	novaImg.setAttribute('cont', cont);
+	novaImg.setAttribute('numero', numero);
 	novaImg.setAttribute('alt', getImgAlt(novaImg));
 	novaImg.setAttribute('title', novaImg.getAttribute('alt'));
 	novaImg.classList.add('game-img');
-	tam == 1 ? novaImg.classList.add('pequeno') : novaImg.classList.add('grande');
+	
 
 
-	console.log('novaimg: tipo=' + tipo + ', cor=' + novaImg.getAttribute('cor') + ', tam=' + tam + ', contorno=' + cont + ', src=' + arq);
+	console.log('novaimg: numero=' + numero + ', src=' + arq);
 
 	return novaImg;
 }
-function checaOcorrencia(array, elemento){
-	var count = 0;
-	array.forEach((v) => (v === elemento && count++));
-	return count;
-}
+
 function reset() {
 	removeChildElementsByTag(divSequencia, 'img');
 	removeChildElementsByTag(divOpcoes, 'img');
@@ -294,7 +259,6 @@ function reset() {
 	arrayOpcoes = [];
 	tamNucleo = 0;
 	tamNuc = 0;
-	contImgsCorretas = 0;
 }
 
 function resetEstrelas() {
@@ -313,28 +277,32 @@ function resetEstrelas() {
 }
 endGame = false;
 
-var contImgsCorretas = 0;
+function checaOcorrencia(array, elemento){
+	var count = 0;
+	array.forEach((v) => (v === elemento && count++));
+	return count;
+}
 
 function substituiImgs(nSequencia, etapaAtual, nSlots) {
+	
 	var divNuc = document.getElementById(divSequencia);
 	var childNucleo = divNuc.children;
+	var divOps = document.getElementById(divOpcoes);
 	var arraySlots = [];
 	var imgSubstituida = [];
 	var indices = [];
-	divOps = document.getElementById(divOpcoes);
+
 	for (var i = 0; i < nSlots; i++) {
 		if(etapaAtual < 12){// desvio condicional pra separar os jogos, A2
 			indices[i] = (arraySequencia.length - i) - 1;
 			console.log("valor de nSlots:" + nSlots);
-			imgSubstituida[i] = document.createElement('img');
-			imgSubstituida[i] = arraySequencia[indices[i]]; //armazena a imagem substituida
+			imgSubstituida[i] = arraySequencia[indices[i]] //armazena a imagem substituida
 			arraySlots[i] = document.createElement("div"); //cria um elemento div com propriedas de drop pra ficar no lugar da imagem substituida
 			arraySlots[i].setAttribute('id', 'substituta' + i);
 			arraySlots[i].classList.add("dropzone");
 			arraySlots[i].classList.add("slot");
 			arraySequencia[indices[i]] = arraySlots[i]; //adiciona o elemento div no lugar da imagem 
 			childNucleo[indices[i]].replaceWith(arraySequencia[indices[i]]); // adiciona o slot na zona dquencia
-			//console.log("a img substituida eh:" + imgSubstituida[i].getAttribute("alt"));
 			//divOps.appendChild(imgSubstituida[i]); // adiciona a imagem substituida nas opções do jogadore se
 
 		}else{// A3
@@ -347,20 +315,18 @@ function substituiImgs(nSequencia, etapaAtual, nSlots) {
 			}
 			indices[i] = testeindice;
 			console.log("valor de nSlots:" + nSlots);
-			imgSubstituida[i] = document.createElement('img');
-			imgSubstituida[i] = arraySequencia[indices[i]]; //armazena a imagem substituida
-			//imgSubstituida[i].setAttribute('src', arraySequencia[indices[i]].getAttribute('src'));
+			imgSubstituida[i] = arraySequencia[indices[i]] //armazena a imagem substituida
 			arraySlots[i] = document.createElement("div"); //cria um elemento div com propriedas de drop pra ficar no lugar da imagem substituida
 			arraySlots[i].setAttribute('id', 'substituta' + i);
 			arraySlots[i].classList.add("dropzone");
-			arraySlots[i].classList.add("slot");
+			arraySlots[i].classList.add("slot"); 
 			arraySequencia[indices[i]] = arraySlots[i]; //adiciona o elemento div no lugar da imagem 
 			childNucleo[indices[i]].replaceWith(arraySequencia[indices[i]]); // adiciona o slot na zona dquencia
-			//console.log("a img substituida eh:" + imgSubstituida[i].getAttribute("alt"));
 			//divOps.appendChild(imgSubstituida[i]); // adiciona a imagem substituida nas opções do jogadore se
 		}
 	}
-	
+	console.log("tamanho do arraySlots:" + arraySlots.length);
+
 	var divOpsAux = divOps.children;
 	var arrayOpsAux = Array.from(divOpsAux);
 	//variaveis responsaveis por controlar o numero de ocorrencias das imagens corretas na resposta e nas opções:
@@ -403,7 +369,8 @@ function substituiImgs(nSequencia, etapaAtual, nSlots) {
 	}
 }	
 
-function shuffle(array){
+
+function shuffle(array) {
 	var indexAtual = array.length, aux, randomIndex;
   
 	// While there remain elements to shuffle...
@@ -428,12 +395,10 @@ function game() {
 	
 	
 	//iniciar variaveis de controle
-	var tamSeq = 0; //Tamanho da sequência do núcleo
+	
 	var tamOpcoes = 0; //quantidade de opções de resposta
-	var coresDistintas = 0; //quantidade de cores distintas possiveis nas opcoes
-	var formasDistintas = 0; //quantidade de formas distintas possiveis nas opcoes
-	var tamanhosDistintos = 0; //quantidade de tamanhos distintas possiveis nas opcoes
-	var contornosDistintos = 0; //quantidade de contornos distintas possiveis nas opcoes
+	var numeroRef = 0; // numero inicial de referencia onde a sequencia começa, utilizar baseado no tamSequencia
+	var razaoSequencia = 0; //razão entre os numeros da sequencia, pode ser 1, 2, -1 ou -2, utilizar ela baseado no tamSequencia
 	var i, j, escolhido, achouIgual;
 	arrayOriginal = [];
 	
@@ -449,111 +414,93 @@ function game() {
 			nSlots = 1;
 			tamNucleo = 1;
 			tamSeq = 8;
-			tamOpcoes = 2; 
-			coresDistintas = 2;
-			formasDistintas = 2;
-			tamanhosDistintos = 2;
-			contornosDistintos = 1;
+			tamOpcoes = 2;
+			numeroRef = 0;  
+			razaoSequencia = 1;
+			numerosDistintos = 2;
 			break;
 		case 1:
 			nSlots = 1;
 			tamNucleo = 1;
 			tamSeq = 8;
 			tamOpcoes = 2;
-			coresDistintas = 2;
-			formasDistintas = 1;
-			tamanhosDistintos = 2;
-			contornosDistintos = 1;
+			numeroRef = 1;
+			razaoSequencia = 1;
+			numerosDistintos = 2;
 			break;
 		case 2:
 			nSlots = 1;
 			tamNucleo = 1;
 			tamSeq = 8;
 			tamOpcoes = 3;
-			coresDistintas = 3;
-			formasDistintas = 3;
-			tamanhosDistintos = 1;
-			contornosDistintos = 1;
+			numeroRef = 2;
+			razaoSequencia = 1;
+			numerosDistintos = 2;
 			break;
 		case 3:
 			nSlots = 1;
 			tamNucleo = 1;
-			tamSeq = 8;
+			tamSeq = 4;
 			tamOpcoes = 2;
-			coresDistintas = 3;
-			formasDistintas = 3;
-			tamanhosDistintos = 1;
-			contornosDistintos = 1;
+			numeroRef = 8;
+			razaoSequencia = -2;
+			numerosDistintos = 3;
 			break;
 		case 4:
 			nSlots = 1;
 			tamNucleo = 1;
 			tamSeq = 8;
 			tamOpcoes = 2;
-			coresDistintas = 1;
-			formasDistintas = 2;
-			tamanhosDistintos = 1;
-			contornosDistintos = 2;
+			numeroRef = 2;
+			numerosDistintos = 3;
 			break;
 		case 5:
 			nSlots = 1;
 			tamNucleo = 1;
 			tamSeq = 8;
 			tamOpcoes = 3;
-			coresDistintas = 1;
-			formasDistintas = 2;
-			tamanhosDistintos = 1;
-			contornosDistintos = 2;
+			numeroRef = 3;
+			numerosDistintos = 2;
 			break;
 		case 6:
 			nSlots = 2;
 			tamNucleo = 2;
 			tamSeq = 8;
 			tamOpcoes = 4;
-			coresDistintas = 3;
-			formasDistintas = 3;
-			tamanhosDistintos = 2;
-			contornosDistintos = 1;
+			numeroRef = 4;
+			numerosDistintos = 2;
 			break;
 		case 7:
 			nSlots = 2;
 			tamNucleo = 2;
 			tamSeq = 8;
 			tamOpcoes = 4;
-			coresDistintas = 1;
-			formasDistintas = 3;
-			tamanhosDistintos = 1;
-			contornosDistintos = 2;
+			numeroRef = 4;
+			numerosDistintos = 2;
 			break;
 		case 8:
 			nSlots = 2;
 			tamNucleo = 2;
 			tamSeq = 8;
 			tamOpcoes = 4;
-			coresDistintas = 3;
-			formasDistintas = 3;
-			tamanhosDistintos = 1;
-			contornosDistintos = 2;
+			numeroRef = 4;
+			numerosDistintos = 2;
 			break;
 		case 9:
 			nSlots = 2;
 			tamNucleo = 2;
 			tamSeq = 8;
 			tamOpcoes = 4;
-			coresDistintas = 3;
-			formasDistintas = 3;
-			tamanhosDistintos = 1;
-			contornosDistintos = 2;
+			numeroRef = 4;
+			numerosDistintos = 2;
 			break;
 		case 10:	
 			nSlots = 2;
 			tamNucleo = 2;
 			tamSeq = 8;
 			tamOpcoes = 4;
-			coresDistintas = 1;
-			formasDistintas = 3;
-			tamanhosDistintos = 1;
-			contornosDistintos = 2;
+			numeroRef = 4; 
+			numerosDistintos = 2;
 			break;
 
 		case 11:
@@ -561,134 +508,50 @@ function game() {
 			tamNucleo = 2;
 			tamSeq = 8;
 			tamOpcoes = 5;
-			coresDistintas = 1;
-			formasDistintas = 3;
-			tamanhosDistintos = 1;
-			contornosDistintos = 2;
+			numeroRef = 5;
+			numerosDistintos = 2;
 			break;
 		case 12:
-			nSlots = 1;
-			tamNucleo = 1;
-			tamSeq = 8;
-			tamOpcoes = 2; 
-			coresDistintas = 2;
-			formasDistintas = 2;
-			tamanhosDistintos = 2;
-			contornosDistintos = 1;
-			break;
-		case 13:
-			nSlots = 1;
-			tamNucleo = 1;
-			tamSeq = 8;
-			tamOpcoes = 2;
-			coresDistintas = 2;
-			formasDistintas = 1;
-			tamanhosDistintos = 2;
-			contornosDistintos = 1;
-			break;
-		case 14:
-			nSlots = 1;
-			tamNucleo = 1;
-			tamSeq = 8;
-			tamOpcoes = 3;
-			coresDistintas = 3;
-			formasDistintas = 3;
-			tamanhosDistintos = 1;
-			contornosDistintos = 1;
-			break;
-		case 15:
-			nSlots = 1;
-			tamNucleo = 1;
-			tamSeq = 8;
-			tamOpcoes = 2;
-			coresDistintas = 3;
-			formasDistintas = 3;
-			tamanhosDistintos = 1;
-			contornosDistintos = 1;
-			break;
-		case 16:
-			nSlots = 1;
-			tamNucleo = 1;
-			tamSeq = 8;
-			tamOpcoes = 2;
-			coresDistintas = 1;
-			formasDistintas = 2;
-			tamanhosDistintos = 1;
-			contornosDistintos = 2;
-			break;
-		case 17:
-			nSlots = 1;
-			tamNucleo = 1;
-			tamSeq = 8;
-			tamOpcoes = 3;
-			coresDistintas = 1;
-			formasDistintas = 2;
-			tamanhosDistintos = 1;
-			contornosDistintos = 2;
-			break;
-		case 18:
-			nSlots = 2;
-			tamNucleo = 2;
-			tamSeq = 8;
-			tamOpcoes = 4;
-			coresDistintas = 3;
-			formasDistintas = 3;
-			tamanhosDistintos = 2;
-			contornosDistintos = 1;
-			break;
-		case 19:
-			nSlots = 2;
-			tamNucleo = 2;
-			tamSeq = 8;
-			tamOpcoes = 4;
-			coresDistintas = 1;
-			formasDistintas = 3;
-			tamanhosDistintos = 1;
-			contornosDistintos = 2;
-			break;
-		case 20:
-			nSlots = 2;
-			tamNucleo = 2;
-			tamSeq = 8;
-			tamOpcoes = 4;
-			coresDistintas = 3;
-			formasDistintas = 3;
-			tamanhosDistintos = 1;
-			contornosDistintos = 2;
-			break;
-		case 21:
-			nSlots = 2;
-			tamNucleo = 2;
-			tamSeq = 8;
-			tamOpcoes = 4;
-			coresDistintas = 3;
-			formasDistintas = 3;
-			tamanhosDistintos = 1;
-			contornosDistintos = 2;
-			break;
-		case 22:	
-			nSlots = 2;
-			tamNucleo = 2;
-			tamSeq = 8;
-			tamOpcoes = 4;
-			coresDistintas = 1;
-			formasDistintas = 3;
-			tamanhosDistintos = 1;
-			contornosDistintos = 2;
-			break;
-	
-		case 23:
 			nSlots = 2;
 			tamNucleo = 2;
 			tamSeq = 8;
 			tamOpcoes = 5;
-			coresDistintas = 1;
-			formasDistintas = 3;
-			tamanhosDistintos = 1;
-			contornosDistintos = 2;						
-			endGame = true;	
+			numeroRef = 5;
+			numerosDistintos = 2;
 			break;
-		
+		case 13:
+			nSlots = 2;
+			tamNucleo = 2;
+			tamSeq = 8;
+			tamOpcoes = 4;
+			numeroRef = 4;
+			numerosDistintos = 2;
+			break;	
+		case 14:
+			nSlots = 2;
+			tamNucleo = 2;
+			tamSeq = 8;
+			tamOpcoes = 4;
+			numeroRef = 4;
+			numerosDistintos = 2;
+			break;	
+		case 15:
+			nSlots = 2;
+			tamNucleo = 2;
+			tamSeq = 8;
+			tamOpcoes = 5;
+			numeroRef = 5;	
+			numerosDistintos = 2;
+			break;	
+		case 16:
+			nSlots = 2;
+			tamNucleo = 2;
+			tamSeq = 8;
+			tamOpcoes = 5;
+			numeroRef = 5;
+			numerosDistintos = 2;
+			endGame = true;	
+			break;		
 		default:
 			alert("Fim do Jogo! Parabens!");
 			break;
@@ -696,10 +559,13 @@ function game() {
 
 	//montar nucleo
 	console.log("montar nucleo");
-	for (i = 0; i < tamNucleo; i++) {
-		arrayNucleo[i] = novaImgBlocoLogicoComRestricoes(arrayNucleo, coresDistintas, formasDistintas, tamanhosDistintos, contornosDistintos);
-
+	var cor = getRandomIntInclusive(0,3);
+	for(var i = 0; i<tamSeq; i++){
+	arrayNucleo[i] = novaImgNumerosSequencia(i,numeroRef,razaoSequencia, cor);
 	}
+	
+
+	
 
 	//adicionar sequencia no div
 	var divNucleo = document.getElementById(divSequencia); //div responsável pela sequencia do nucleo
@@ -708,19 +574,16 @@ function game() {
 	}
 	var seqAtual = 0;
 	while (seqAtual < tamSeq) {
-		for (i = 0; i < tamNucleo && seqAtual < tamSeq; i++) {
 			arraySequencia[seqAtual] = document.createElement("img");
 			arraySequencia[seqAtual].setAttribute('id', 'seq' + (seqAtual + 1));
-			arraySequencia[seqAtual].setAttribute('src', arrayNucleo[i].getAttribute("src"));
-			arraySequencia[seqAtual].setAttribute('alt', arrayNucleo[i].getAttribute("alt"));
-			arraySequencia[seqAtual].setAttribute('title', arrayNucleo[i].getAttribute("title"));
+			arraySequencia[seqAtual].setAttribute('src', arrayNucleo[seqAtual].getAttribute("src"));
+			arraySequencia[seqAtual].setAttribute('alt', arrayNucleo[seqAtual].getAttribute("alt"));
+			arraySequencia[seqAtual].setAttribute('title', arrayNucleo[seqAtual].getAttribute("title"));
 			arraySequencia[seqAtual].classList.add('game-img');
-			arrayNucleo[i].getAttribute("tam") == 1 ? arraySequencia[seqAtual].classList.add('pequeno') : arraySequencia[seqAtual].classList.add('grande');
 			divNucleo.appendChild(arraySequencia[seqAtual]);
 			arrayOriginal.push(arraySequencia[seqAtual])
 			console.log('Adicionado seq #' + seqAtual + ': id=' + arraySequencia[seqAtual].getAttribute("id") + ', src=' + arraySequencia[seqAtual].getAttribute("src"));
 			seqAtual++;
-		}
 	}
 
 	/* Atribui as imagens do núcleo em posicoes aleatorias do array */
@@ -746,14 +609,10 @@ function game() {
 		//reativando 
 		arrayOpcoes[indice[i]] = document.createElement("img");
 		arrayOpcoes[indice[i]].setAttribute('src', arrayNucleo[i].getAttribute("src")); //lincoln: nao precisa ter ID ja que sao elas q sao arrastadas?
-		arrayOpcoes[indice[i]].setAttribute('cor', arrayNucleo[i].getAttribute("cor")); //lincoln: nao precisa ter ID ja que sao elas q sao arrastadas?
-		arrayOpcoes[indice[i]].setAttribute('tam', arrayNucleo[i].getAttribute("tam")); //lincoln: nao precisa ter ID ja que sao elas q sao arrastadas?
-		arrayOpcoes[indice[i]].setAttribute('tipo', arrayNucleo[i].getAttribute("tipo")); //lincoln: nao precisa ter ID ja que sao elas q sao arrastadas?
-		arrayOpcoes[indice[i]].setAttribute('cont', arrayNucleo[i].getAttribute("cont")); //lincoln: nao precisa ter ID ja que sao elas q sao arrastadas?
+		arrayOpcoes[indice[i]].setAttribute('numero', arrayNucleo[i].getAttribute("numero")); //lincoln: nao precisa ter ID ja que sao elas q sao arrastadas?
 		arrayOpcoes[indice[i]].setAttribute('alt', arrayNucleo[i].getAttribute("alt")); //lincoln: nao precisa ter ID ja que sao elas q sao arrastadas?
 		arrayOpcoes[indice[i]].setAttribute('title', arrayNucleo[i].getAttribute("title")); //lincoln: nao precisa ter ID ja que sao elas q sao arrastadas?
 		arrayOpcoes[indice[i]].classList.add('game-img');
-		arrayNucleo[i].getAttribute("tam") == 1 ?arrayOpcoes[indice[i]].classList.add('pequeno') : arrayOpcoes[indice[i]].classList.add('grande');
 		//reativando
 	}
 
@@ -765,7 +624,7 @@ function game() {
 			var ehNovo = 0;
 			while (!ehNovo) {
 				ehNovo = 1;
-				var novaOpcao = novaImgBlocoLogicoComRestricoes(arrayOpcoes, coresDistintas, formasDistintas, tamanhosDistintos, contornosDistintos);
+				var novaOpcao = novaImgBlocoLogicoComRestricoes(arrayOpcoes, numerosDistintos, cor);
 				for (j = 0; j < tamOpcoes; j++) {
 					if (arrayOpcoes[j] != null && novaOpcao.getAttribute('src') == arrayOpcoes[j].getAttribute('src')) {
 						ehNovo = 0;
@@ -884,52 +743,45 @@ function check() { //Verifica se acertou os elementos
 					case 2:
 					case 3:
 					case 4:
-						var texto = document.getElementById('texto1');
-						texto.innerHTML = etapaAtual.toString() + "/5";
-						break;
 					case 5:
-						arrayEstrelas[0].setAttribute('src', './img/estrelas/star1.svg');
 						var texto = document.getElementById('texto1');
-						texto.innerHTML = etapaAtual.toString() + "/5";
+						texto.innerHTML = etapaAtual.toString() + "/6";
 						break;
 					case 6:
+						arrayEstrelas[0].setAttribute('src', './img/estrelas/star1.svg');
+						var texto = document.getElementById('texto1');
+						texto.innerHTML = etapaAtual.toString() + "/6";
+						break;
 					case 7:
 					case 8:
 					case 9:
 					case 10:
-						var texto = document.getElementById('texto2');
-						texto.innerHTML = etapaAtual.toString() + "/11";
-						break;
 					case 11:
-						arrayEstrelas[1].setAttribute('src', './img/estrelas/star1.svg');
 						var texto = document.getElementById('texto2');
-						texto.innerHTML = etapaAtual.toString() + "/11";
+						texto.innerHTML = etapaAtual.toString() + "/12";
 						break;
 					case 12:
-					case 13:	
-					case 14:
-					case 15:
-					case 16:
-						var texto = document.getElementById('texto3');
-						texto.innerHTML = etapaAtual.toString() + "/17";
+						arrayEstrelas[1].setAttribute('src', './img/estrelas/star1.svg');
+						var texto = document.getElementById('texto2');
+						texto.innerHTML = etapaAtual.toString() + "/12";
 						break;
-					case 17:
+					case 13:
+						var texto = document.getElementById('texto3');
+						texto.innerHTML = etapaAtual.toString() + "/14";
+						break;	
+					case 14:
 						arrayEstrelas[2].setAttribute('src', './img/estrelas/star1.svg');
 						var texto = document.getElementById('texto3');
-						texto.innerHTML = etapaAtual.toString() + "/17";
+						texto.innerHTML = etapaAtual.toString() + "/14";
 						break;
-					case 18:
-					case 19:
-					case 20:
-					case 21:
-					case 22:
+					case 15:
 						var texto = document.getElementById('texto4');
-						texto.innerHTML = etapaAtual.toString() + "/23";
+						texto.innerHTML = etapaAtual.toString() + "/16";
 						break;
-					case 23:
+					case 16:
 						arrayEstrelas[3].setAttribute('src', './img/estrelas/star1.svg');
 						var texto = document.getElementById('texto4');
-						texto.innerHTML = etapaAtual.toString() + "/23";
+						texto.innerHTML = etapaAtual.toString() + "/16";
 						break;
 					default:
 						break;
@@ -962,5 +814,4 @@ function check() { //Verifica se acertou os elementos
 
 document.body.onload = game;
 var botaoResultado = document.getElementById('botao-resultado');
-botaoResultado.addEventListener('click', check); 
-//lincoln: adicionado
+botaoResultado.addEventListener('click', check); //lincoln: adicionado
