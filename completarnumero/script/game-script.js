@@ -296,6 +296,7 @@ function substituiImgs(nSequencia, etapaAtual, nSlots) {
 
 	arrayOpsAux.forEach((el, j) => {
 		descricaoElementosOps[j] = el.getAttribute('alt');
+		el.setAttribute('usada', 'nao'); // atributo pra verificar se essa imagem ja foi usada como substituta
 	})
 
 	imgSubstituida.forEach((el, j) => {
@@ -315,8 +316,9 @@ function substituiImgs(nSequencia, etapaAtual, nSlots) {
 			console.log('faltam: ' + difOcorrencias[i] + ' da imagem: ' + imgSubstituida[i].getAttribute('alt'));
 			for(var count = 0; count < arrayOpsAux.length; count++){
 				var incluiElemento = descricaoElementosSubs.includes(arrayOpsAux[count].getAttribute('alt')); //verifica se a imagem a ser substituida nao é uma imagem correta
-				if(!incluiElemento && difOcorrencias[i] > 0){
+				if(!incluiElemento && difOcorrencias[i] > 0 && arrayOpsAux[count].getAttribute('usada') === 'nao'){
 					arrayOpsAux[count].replaceWith(imgSubstituida[i]);
+					arrayOpsAux[count].setAttribute('usada', 'sim');
 					console.log("eu substitui a img: " + arrayOpsAux[count].getAttribute('alt') + "pela img:" + imgSubstituida[i].getAttribute("alt"));
 					difOcorrencias[i]--;
 					continue;
@@ -671,7 +673,7 @@ function check() { //Verifica se acertou os elementos
 			botaoOk.innerHTML = "Próxima";
 
 			botaoOk.onclick = function (event) {
-				etapaAtual = 12;
+				etapaAtual++;
 				estrela++;
 				switch (estrela) {
 					case 0:

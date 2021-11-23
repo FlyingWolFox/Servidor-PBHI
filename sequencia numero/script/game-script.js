@@ -338,6 +338,7 @@ function substituiImgs(nSequencia, etapaAtual, nSlots) {
 
 	arrayOpsAux.forEach((el, j) => {
 		descricaoElementosOps[j] = el.getAttribute('alt');
+		el.setAttribute('usada', 'nao'); // atributo pra verificar se essa imagem ja foi usada como substituta 
 	})
 
 	imgSubstituida.forEach((el, j) => {
@@ -357,8 +358,9 @@ function substituiImgs(nSequencia, etapaAtual, nSlots) {
 			console.log('faltam: ' + difOcorrencias[i] + ' da imagem: ' + imgSubstituida[i].getAttribute('alt'));
 			for(var count = 0; count < arrayOpsAux.length; count++){
 				var incluiElemento = descricaoElementosSubs.includes(arrayOpsAux[count].getAttribute('alt')); //verifica se a imagem a ser substituida nao é uma imagem correta
-				if(!incluiElemento && difOcorrencias[i] > 0){
+				if(!incluiElemento && difOcorrencias[i] > 0 && arrayOpsAux[count].getAttribute('usada') === 'nao'){
 					arrayOpsAux[count].replaceWith(imgSubstituida[i]);
+					arrayOpsAux[count].setAttribute('usada', 'sim');
 					console.log("eu substitui a img: " + arrayOpsAux[count].getAttribute('alt') + "pela img:" + imgSubstituida[i].getAttribute("alt"));
 					difOcorrencias[i]--;
 					continue;
@@ -413,27 +415,27 @@ function game() {
 			/*Padronizado*/
 			nSlots = 1;
 			tamNucleo = 1;
-			tamSeq = 8;
+			tamSeq = 3;
 			tamOpcoes = 2;
-			numeroRef = 0;  
+			numeroRef = getRandomIntInclusive(1,2);  
 			razaoSequencia = 1;
 			numerosDistintos = 2;
 			break;
 		case 1:
 			nSlots = 1;
 			tamNucleo = 1;
-			tamSeq = 8;
+			tamSeq = 3;
 			tamOpcoes = 2;
-			numeroRef = 1;
+			numeroRef = getRandomIntInclusive(3,4);
 			razaoSequencia = 1;
 			numerosDistintos = 2;
 			break;
 		case 2:
 			nSlots = 1;
 			tamNucleo = 1;
-			tamSeq = 8;
-			tamOpcoes = 3;
-			numeroRef = 2;
+			tamSeq = 3;
+			tamOpcoes = 2;
+			numeroRef = getRandomIntInclusive(5,6);
 			razaoSequencia = 1;
 			numerosDistintos = 2;
 			break;
@@ -441,42 +443,46 @@ function game() {
 			nSlots = 1;
 			tamNucleo = 1;
 			tamSeq = 4;
-			tamOpcoes = 2;
-			numeroRef = 8;
-			razaoSequencia = -2;
+			tamOpcoes = 3;
+			numeroRef = getRandomIntInclusive(1,5);
+			razaoSequencia = 1;
 			numerosDistintos = 3;
 			break;
 		case 4:
 			nSlots = 1;
 			tamNucleo = 1;
-			tamSeq = 8;
-			tamOpcoes = 2;
-			numeroRef = 2;
+			tamSeq = 4;
+			tamOpcoes = 3;
+			numeroRef = getRandomIntInclusive(9,5);
+			razaoSequencia = -1;
 			numerosDistintos = 3;
 			break;
 		case 5:
 			nSlots = 1;
 			tamNucleo = 1;
-			tamSeq = 8;
-			tamOpcoes = 3;
-			numeroRef = 3;
+			tamSeq = 3;
+			tamOpcoes = 2;
+			numeroRef = getRandomIntInclusive(2,3);
+			razaoSequencia = 2;
 			numerosDistintos = 2;
 			break;
 		case 6:
 			nSlots = 2;
 			tamNucleo = 2;
-			tamSeq = 8;
+			tamSeq = 5;
 			tamOpcoes = 4;
-			numeroRef = 4;
-			numerosDistintos = 2;
+			numeroRef = getRandomIntInclusive(1,2);
+			razaoSequencia = 1;
+			numerosDistintos = 4;
 			break;
 		case 7:
 			nSlots = 2;
-			tamNucleo = 2;
-			tamSeq = 8;
+			tamNucleo = 1;
+			tamSeq = 5;
 			tamOpcoes = 4;
-			numeroRef = 4;
-			numerosDistintos = 2;
+			numeroRef = getRandomIntInclusive(3,4);
+			razaoSequencia = 1;
+			numerosDistintos = 4;
 			break;
 		case 8:
 			nSlots = 2;
@@ -556,7 +562,6 @@ function game() {
 			alert("Fim do Jogo! Parabens!");
 			break;
 	}
-
 	//montar nucleo
 	console.log("montar nucleo");
 	var cor = getRandomIntInclusive(0,3);
