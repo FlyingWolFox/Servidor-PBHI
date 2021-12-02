@@ -369,7 +369,6 @@ function game() {
 	//setar os valores das variaveis de controle de acordo com a etapa/fase
 	switch (etapaAtual) {
 		case 0:
-			/*Padronizado*/
 			nSlots = 1;
 			tamNucleo = 1;
 			tamSeq = 8;
@@ -449,47 +448,98 @@ function game() {
 
 		case 11:
 			nSlots = 2;
-			tamNucleo = 2;
+			tamNucleo = 3;
 			tamSeq = 8;
 			tamOpcoes = 5;
 			numerosDistintos = 5;
 			break;
 		case 12:
-			nSlots = 2;
-			tamNucleo = 2;
+			nSlots = 1;
+			tamNucleo = 1;
 			tamSeq = 8;
-			tamOpcoes = 5;
-			numerosDistintos = 5;
+			tamOpcoes = 2;
+			numerosDistintos = 2; 
 			break;
 		case 13:
-			nSlots = 2;
-			tamNucleo = 2;
+			nSlots = 1;
+			tamNucleo = 1;
 			tamSeq = 8;
-			tamOpcoes = 4;
-			numerosDistintos = 4;
-			break;	
+			tamOpcoes = 2;
+			numerosDistintos = 2;
+			break;
 		case 14:
-			nSlots = 2;
-			tamNucleo = 2;
+			nSlots = 1;
+			tamNucleo = 1;
 			tamSeq = 8;
-			tamOpcoes = 4;
-			numerosDistintos = 4;
+			tamOpcoes = 3;
+			numerosDistintos = 3;
 			break;	
 		case 15:
-			nSlots = 2;
-			tamNucleo = 2;
+			nSlots = 1;
+			tamNucleo = 1;
 			tamSeq = 8;
-			tamOpcoes = 5;
-			numerosDistintos = 5;	
-			break;	
+			tamOpcoes = 2;
+			numerosDistintos = 2;
+			break;
 		case 16:
+			nSlots = 1;
+			tamNucleo = 1;
+			tamSeq = 8;
+			tamOpcoes = 3;
+			numerosDistintos = 3;
+			break;
+		case 17:
 			nSlots = 2;
 			tamNucleo = 2;
 			tamSeq = 8;
-			tamOpcoes = 5;
-			numerosDistintos = 5;
-			endGame = true;	
-			break;		
+			tamOpcoes = 4;
+			numerosDistintos = 4;
+			break;
+		case 18:
+			nSlots = 2;
+			tamNucleo = 2;
+			tamSeq = 8;
+			tamOpcoes = 4;
+			numerosDistintos = 4;
+			break;
+		case 19:
+			nSlots = 1;
+			tamNucleo = 1;
+			tamSeq = 8;
+			tamOpcoes = 2;
+			numerosDistintos = 2;
+			break;
+		case 20:
+			nSlots = 1;
+			tamNucleo = 1;
+			tamSeq = 8;
+			tamOpcoes = 3;
+			numerosDistintos = 3;
+			break;
+		case 21:
+			nSlots = 1;
+			tamNucleo = 1;
+			tamSeq = 8;
+			tamOpcoes = 2;
+			numerosDistintos = 2;
+			break;
+		case 22:
+			nSlots = 1;
+			tamNucleo = 1;
+			tamSeq = 8;
+			tamOpcoes = 3;
+			numerosDistintos = 3;
+			break;
+		case 23:
+			nSlots = 2;
+			tamNucleo = 2;
+			tamSeq = 8;
+			tamOpcoes = 4;
+			numerosDistintos = 4;
+			endGame = true;
+			break;	
+			
+
 		default:
 			alert("Fim do Jogo! Parabens!");
 			break;
@@ -681,45 +731,52 @@ function check() { //Verifica se acertou os elementos
 					case 2:
 					case 3:
 					case 4:
-					case 5:
 						var texto = document.getElementById('texto1');
-						texto.innerHTML = etapaAtual.toString() + "/6";
+						texto.innerHTML = etapaAtual.toString() + "/5";
 						break;
-					case 6:
+					case 5:
 						arrayEstrelas[0].setAttribute('src', './img/estrelas/star1.svg');
 						var texto = document.getElementById('texto1');
-						texto.innerHTML = etapaAtual.toString() + "/6";
+						texto.innerHTML = etapaAtual.toString() + "/5";
 						break;
+					case 6:
 					case 7:
 					case 8:
 					case 9:
 					case 10:
-					case 11:
 						var texto = document.getElementById('texto2');
-						texto.innerHTML = etapaAtual.toString() + "/12";
+						texto.innerHTML = etapaAtual.toString() + "/11";
 						break;
-					case 12:
+					case 11:
 						arrayEstrelas[1].setAttribute('src', './img/estrelas/star1.svg');
 						var texto = document.getElementById('texto2');
-						texto.innerHTML = etapaAtual.toString() + "/12";
+						texto.innerHTML = etapaAtual.toString() + "/11";
 						break;
-					case 13:
-						var texto = document.getElementById('texto3');
-						texto.innerHTML = etapaAtual.toString() + "/14";
-						break;	
+					case 12:
+					case 13:	
 					case 14:
+					case 15:
+					case 16:
+						var texto = document.getElementById('texto3');
+						texto.innerHTML = etapaAtual.toString() + "/17";
+						break;
+					case 17:
 						arrayEstrelas[2].setAttribute('src', './img/estrelas/star1.svg');
 						var texto = document.getElementById('texto3');
-						texto.innerHTML = etapaAtual.toString() + "/14";
+						texto.innerHTML = etapaAtual.toString() + "/17";
 						break;
-					case 15:
+					case 18:
+					case 19:
+					case 20:
+					case 21:
+					case 22:
 						var texto = document.getElementById('texto4');
-						texto.innerHTML = etapaAtual.toString() + "/16";
+						texto.innerHTML = etapaAtual.toString() + "/23";
 						break;
-					case 16:
+					case 23:
 						arrayEstrelas[3].setAttribute('src', './img/estrelas/star1.svg');
 						var texto = document.getElementById('texto4');
-						texto.innerHTML = etapaAtual.toString() + "/16";
+						texto.innerHTML = etapaAtual.toString() + "/23";
 						break;
 					default:
 						break;

@@ -474,7 +474,10 @@ img.game-img {
     width: 7%;
     max-width: unset;
     margin: 0px 5px;
-
+    border-bottom: 1px solid grey;
+    border-left: 1px solid grey;
+    border-right: 1px solid grey;
+    border-top: 1px solid grey;
 }
 
 img.game-img.pequeno{
@@ -577,6 +580,10 @@ div.formas-titulo {
         margin: 0px 10px;
         max-width: 9%;
         align-self: center;
+        border-bottom: 1px solid #000;
+        border-left: 1px solid #000;
+        border-right: 1px solid #000;
+        border-top: 1px solid #000;
     }
 
     button#botao-resultado {
