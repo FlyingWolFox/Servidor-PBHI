@@ -35,7 +35,8 @@ h2#title-jogo {
     width: fit-content;
     padding: 5px 50px;
     border-radius: 25px;
-    background-color: #7EE0E0;
+    /* background-color: #7EE0E0; */
+    background-color: #00c3ff;
     box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
     color: white;
     text-align: center;
@@ -263,7 +264,7 @@ div#box-instrucoes {
     display: grid;
     width: 100%;
     height: fit-content;
-    background-color: #7EE0E0;
+    background-color: #00c3ff;
     border-radius: 5px 5px 0px 0px;
     grid-template-columns: 20% 68% 12%;
 
@@ -684,16 +685,15 @@ section#intDrop img.draggable-mirror.pequeno {
     width: fit-content;
     height: fit-content;
     padding: 5px 10px;
-    color: #387C7C;
-    background: #7EE0E0;
+    color: #087697;
+    background: #00c3ff;
     border: 5px solid #FFFFFF;
     border-radius: 20px;
     position: absolute;
     font-weight: 600;
 }
 .botao:hover{
-        background: #7EE0E0;
-
+        background: #00c3ff;
 }
 #botao-reset-flux{
     top: 10px;
@@ -712,8 +712,8 @@ button#botao-resultado {
     height: fit-content;
     padding: 15px 10px;
     font-size: 1.2em;
-    color: #387C7C;
-    background: #7EE0E0;
+    color: #087697;
+    background: #00c3ff;
     border: 5px solid #FFFFFF;
     border-radius: 20px;
     grid-row: 2/3;
@@ -1250,7 +1250,7 @@ button{
 }
 
 button:hover {
-background-color: #F4F4F4;
+background-color: #00c3ff;
 font-weight: 600;
 }
 

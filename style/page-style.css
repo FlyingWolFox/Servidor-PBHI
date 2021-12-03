@@ -69,12 +69,14 @@ h2 {
     justify-content: center;
     align-items: center;
 
+    /* margin-bottom: 75px; */
+
 }
 
 
 .footer-grid {
 
-    margin-top: 20px;
+    /* margin-top: 105px; */
     width: 100vw;
     display: grid;
     grid-template-columns: 1fr minmax(300px, 1fr) 1fr;
@@ -102,9 +104,29 @@ h2 {
 }
 
 .grid-full {
-
     grid-column: 1/4;
+}
 
+.margin-primeiro-main {
+    margin-top: 85px;
+    margin-bottom: 65px;
+}
+
+.margin-segundo-main {
+    margin-bottom: 95px;
+}
+
+#alterando-margem-1 {
+    margin-top: 65px;
+    margin-bottom: 85px;
+}
+
+#alterando-margem-2 {
+    margin-bottom: 85px;
+}
+
+#alterando-margem-3 {
+    margin-bottom: -850px;
 }
 
 
@@ -126,7 +148,8 @@ img.logo {
 
 img.mascote {
 
-    position: fixed;
+    /* position: fixed; */
+    position: absolute;
     right: 50px;
     z-index: 10;
     animation: animacao-mascote;
@@ -171,6 +194,7 @@ ul.menu-list {
     flex-wrap: wrap;
     justify-content: center;
 
+    margin-bottom: -25px;
 
 }
 
@@ -284,19 +308,17 @@ section.sub-section {
 }
 
 
+section#section-sequencia>h2.section-title {
+
+
+    color: var(--amarelo-sequencia);
+}
 
 section#section-sequencia:hover {
 
     border-radius: 10px;
     background-color: var(--amarelo-sequencia-bg);
 
-}
-
-
-section#section-sequencia>h2.section-title {
-
-
-    color: var(--amarelo-sequencia);
 }
 
 section#section-grupos:hover {
@@ -306,10 +328,22 @@ section#section-grupos:hover {
 
 }
 
+/* FLUXOGRAMA JOGO */
+section h2.section-title-fluxograma {
+    color: #00c3ff;
+}
+
+/* aplicando borda-radius e hover no jogo do fluxograma */
+section#section-fluxograma:hover {
+    border-radius: 10px;
+    background-color: #b6e1f0;
+}
+
 section#section-grupos>h2.section-title {
 
 
     color: var(--azul-fluxo);
+
 }
 
 
@@ -317,6 +351,20 @@ section#section-fluxo>h2.section-title {
 
     color: var(--verde-grupos);
 
+}
+
+/* modificação para o título "em breve" */
+section#section-fluxo>h2.section-title-breve {
+    color: black;
+}
+
+/* modificação para o título da sequência de números */
+section#section-sequencia>h2.section-title-sequencia {
+    color: #FDC23E;
+}
+
+section#section-sequencia:hover {
+    background-color: var(--amarelo-sequencia-bg);
 }
 
 
@@ -327,16 +375,75 @@ section#section-fluxo:hover {
 
 }
 
+section#sequencia-de-numeros:hover {
+    background-color: var(--amarelo-sequencia-bg);
+}
 
+/*********** Seletores para primeiro ano, segundo ano, terceiro ano, quarto ano e quinto ano ************/
+section#section-sequencia-home>h2#color1 {
+    color: var(--verde-grupos);
+}
+
+section#section-fluxo-home>h2#color2 {
+    /* color: #1d2929; */
+    color: #7ee0e0;
+    /* color: #4baaaae3; */
+}
+
+section#section-grupos-home>h2#color3 {
+    color: var(--amarelo-sequencia);
+}
+
+section#section-quarto-home>h2#color4 {
+    color: #00c3ff;
+}
+
+section#section-quinto-home>h2#color5 {
+    color: #ff0000;
+}
+
+section#section-sexto-home>h2#color6 {
+    color: #ffcc00;
+}
+
+/* HOVER */
+section#section-sequencia-home:hover {
+    background-color: var(--verde-grupos-bg);
+}
+
+section#section-fluxo-home:hover {
+    /* background-color: var(--azul-fluxo-bg); */
+    /* background-color: #cfeff7; */
+    background-color: rgba(83, 179, 231, 0.19);
+
+}
+
+section#section-grupos-home:hover {
+    background-color: var(--amarelo-sequencia-bg);
+}
+
+section#section-quarto-home:hover {
+    background-color: #c7e5f0;
+}
+
+section#section-quinto-home:hover {
+    background-color: #eed1d1;
+}
+
+section#section-sexto-home:hover {
+    background-color: #ece7cc;
+}
+
+/*******************************************/
 h2.section-title {
-
     font-size: 1.5em;
     padding: 10px 10px;
+    color: #1C4459;
 
 }
 
 img.section-link-img {
-
+    height: 100%;
     width: 100%;
 }
 
@@ -521,6 +628,10 @@ footer.footer-grid {
     background-color: var(--cor-do-body);
     justify-content: center;
 
+}
+
+footer#footer-top {
+    margin-top: 65px;
 }
 
 section.grid-right {

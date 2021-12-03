@@ -8,15 +8,16 @@
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#9DCC38">
-    <meta name="apple-mobile-web-app-status-bar-style" content="#9DCC38">
+    <meta name="theme-color" content="#FDC23E">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#FDC23E">
 
     <link rel="shortcut icon" href="../img/favicon.ico" />
 
     <!-- chamada para as folhas de estilo -->
     <link rel="stylesheet" href="../style/page-style.css">
     <!-- chamada para as folhas de estilo do jogo -->
-    <link rel="stylesheet" href="./style/game-style.css">
+    <!-- <link rel="stylesheet" href="./style/game-style.css"> -->
+    <link rel="stylesheet" href="../sequencia numero/style/game-style.css">
     <link rel="stylesheet" id="estilo-mobile" href="./style/mobile-style.css" type="text/css"
         media="screen and (orientation: landscape) and (max-width: 900px)">
 
@@ -65,7 +66,7 @@
         <main id="main-body" class="grid grid-full">
             <div id="modalInfo" class="modal">
                 <div class="modal-content" id="modal-content">
-                    <p>Olá, nos encontramos mais uma vez &#128512;, desta vez vou te mostrar um jogo bem legal que é parecido
+                    <p>Olá, nos encontramos mais uma vez &#FDC23E;, desta vez vou te mostrar um jogo bem legal que é parecido
                         com o Jogo da Sequência, mas tem suas diferenças! O Jogo de Completar mostra uma sequência de figuras,
                         com algumas delas faltando 🤔, e esta é a sua tarefa, identificar quais peças estão faltando e arrastar
                         pra lista de figuras, depois é só clicar em TERMINEI!!
@@ -256,6 +257,11 @@
         }
 
         textRoll(90, 6000)
+    </script>
+
+    <script>
+        let mudandoTituloGrupos = document.getElementById('title-jogo');
+        mudandoTituloGrupos.innerHTML = localStorage.titulo;
     </script>
 </body>
 
