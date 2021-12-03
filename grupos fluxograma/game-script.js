@@ -1977,7 +1977,7 @@ function check(){ //Confere se acertou
                 textoAcerto.innerText = 'Você acertou! Fase concluída.';
                 botaoOk.innerHTML = "Próxima"; 
                 botaoOk.onclick = function (event){
-                    etapaAtual +=26; //////////////////////////////////////////////////////////////////////////////////////////////////////
+                    etapaAtual +=1; //////////////////////////////////////////////////////////////////////////////////////////////////////
                     estrela++;
                     switch (estrela) {
                         case 0:
