@@ -2092,6 +2092,7 @@ var DashStyle = MindFusion.Drawing.DashStyle;
 var Events = MindFusion.Diagramming.Events;
 var Animation = MindFusion.Animations.Animation;
 var child7, child1, child2, stepNode3;
+var Font = MindFusion.Drawing.Font;
 
 var diagram;
 var backgroundColor, linkDashStyle, baseShape, headShape, headBrush, nodeImg;
@@ -2219,34 +2220,46 @@ function iniciarDiagrama(rest1, rest2, type1, type2, inter) {
             formas.push(forma);
         }
     }
-
+    var corNode = '#ffebcf';
+    var corDireita = '#fff5e6';
+    var corEsquerda = '#ecf8f9';
+    var corInter = '#eeefe1';
+    var corFimInicio = '#7ee0e0';
+    var fonte = new Font("sans-serif", 3, true, false);
+    
     if (inter) {
         var decisionNode1 = diagram.getFactory().createShapeNode(45, 100 - (altura * 2) - (espacoy), largura, altura * 0.66);
-        decisionNode1.setBrush('#ffff57');  
+        decisionNode1.setBrush(corInter);
+        decisionNode1.setFont(fonte); 
         decisionNode1.setText("Colocar na intercessão");
     }
     child7 = diagram.getFactory().createShapeNode(67, 100 - (altura * 2 - espacoy * 6), largura * 0.75, altura * 0.66);
-    child7.setShape('Ellipse');
-    child7.setBrush('#83f382');
+    child7.setBrush(corFimInicio);
+    child7.setFont(fonte);
     child7.setText("Fim");
 
     // cria o node start
     child1 = diagram.getFactory().createShapeNode(67,1, largura * 0.75, altura * 0.66); //Parâmetros [x, y, largura, altura]
     child1.setShape('Ellipse');
-    child1.setBrush('#83f382');
+    child1.setBrush(corFimInicio);
+    child1.setFont(fonte);
     child1.setText("inicio");
 
     // cria os nodes de passos
     var child2 = diagram.getFactory().createShapeNode(10, 100 - (altura * 2) - (espacoy), largura, altura * 0.66);
-    child2.setBrush('#9eaaff');
+    child2.setBrush(corEsquerda);
+    child2.setFont(fonte);
     child2.setText("Colocar na esquerda");
 
     var child5 = diagram.getFactory().createShapeNode(115, 100 - (altura * 2) - (espacoy), largura, altura * 0.66);
-    child5.setBrush('#ffaaa0');
+    child5.setBrush(corDireita);
+    child5.setFont(fonte);
     child5.setText("Colocar na direita");
 
     var child6 = diagram.getFactory().createShapeNode(85, 100 - (altura * 2) - (espacoy), largura, altura * 0.66);
-    child6.setText("Deixa de lado");
+    child6.setFont(fonte);
+    child6.setBrush(corNode);
+    child6.setText("Não mover");
 
     
 
@@ -2283,6 +2296,8 @@ function iniciarDiagrama(rest1, rest2, type1, type2, inter) {
                 ; break;
         }
         decisionNode1.setShape('Decision');
+	decisionNode1.setBrush(corNode);
+        decisionNode1.setFont(fonte);
         decisionNode1.setText(formas[i]);
     }
 }
