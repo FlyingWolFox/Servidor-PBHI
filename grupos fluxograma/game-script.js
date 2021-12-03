@@ -2220,11 +2220,12 @@ function iniciarDiagrama(rest1, rest2, type1, type2, inter) {
             formas.push(forma);
         }
     }
-    var corNode = '#ffebcf';
+    var corNode = '#fbfc97';
     var corDireita = '#fff5e6';
     var corEsquerda = '#ecf8f9';
     var corInter = '#eeefe1';
     var corFimInicio = '#7ee0e0';
+    var corDescarta = '#ccff66';
     var fonte = new Font("sans-serif", 3, true, false);
     
     if (inter) {
@@ -2258,7 +2259,7 @@ function iniciarDiagrama(rest1, rest2, type1, type2, inter) {
 
     var child6 = diagram.getFactory().createShapeNode(85, 100 - (altura * 2) - (espacoy), largura, altura * 0.66);
     child6.setFont(fonte);
-    child6.setBrush(corNode);
+    child6.setBrush(corDescarta);
     child6.setText("Não mover");
 
     
