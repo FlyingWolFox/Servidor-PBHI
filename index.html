@@ -20,9 +20,11 @@
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@100;300;400;500;700;800;900&display=swap" rel="stylesheet">
-
+   
+    
 </head>
 <body class="index-body">
+
     <header class="grid">
         <img src="img/logo.png" alt="" class="logo grid-center">
         <img src="img/sr-logico.png" alt="" class="mascote grid-right">
@@ -62,22 +64,48 @@
         </nav>
     </header>
 
-    <main class="grid grid-full">
+    <main class="grid grid-full margin-primeiro-main">
     	<section class="main-section grid-center">
-    		<section class="sub-section " id="section-sequencia">
-    			<h2 class="section-title">JOGO DA REPETIÇÃO</h2>
-    			<a href="repeticao/index.html" class="section-link"><img class="section-link-img" src="img\img-sequencia.png"></a>
-    			<p class="section-description">Identifique quais peças se repetem.</p>    			
+    		<section class="sub-section" id="section-sequencia-home">
+    			<h2 class="section-title" id="color1">Primeiro Ano</h2>
+    			<a href="repeticao/temp/index.html" class="section-link" class="primeiro-ano" id="primeiro">
+                    <img class="section-link-img" src="img\svg\1.svg">
+                </a>
     		</section>
-            <section class="sub-section"id="section-fluxo">
-                <h2 class="section-title">JOGO DE COMPLETAR</h2>
-                <a href="./completar/index.html" class="section-link"><img class="section-link-img" src="img\img-completar.png"></a>
-                <p class="section-description">Complete a sequência inserindo as peças que faltam.</p>    			
-            </section>
-    		<section class="sub-section" id="section-grupos">
-    			<h2 class="section-title"> JOGO DOS GRUPOS</h2>
-    			<a href="./grupos/index.html" class="section-link"><img class="section-link-img" src="img\img-grupos.png"></a>
-    			<p class="section-description">Agrupe as peças de acordo com as regras.</p>    			
+            <section class="sub-section"id="section-fluxo-home">
+                <h2 class="section-title" id="color2">Segundo Ano</h2>
+                <a href="repeticao/temp/index.html" class="section-link" class="segundo-ano" id="segundo">
+                    <img class="section-link-img" src="img\svg\2.svg">
+                </a>
+             </section>
+    		<section class="sub-section" id="section-grupos-home">
+    			<h2 class="section-title" id="color3">Terceiro Ano</h2>
+    			<a href="repeticao/temp/index.html" class="section-link" class="terceiro-ano" id="terceiro">
+                    <img class="section-link-img" src="img\svg\3.svg">
+                </a>
+    		</section>
+    	</section>
+    </main>
+
+    <main class="grid grid-full margin-segundo-main">
+    	<section class="main-section grid-center">
+    		<section class="sub-section" id="section-quarto-home">
+    			<h2 class="section-title" id="color4">Quarto Ano</h2>
+    			<a href="repeticao/temp/index.html" class="section-link" class="quarto-ano" id="quarto">
+                    <img class="section-link-img" src="img\svg\4.svg">
+                </a>
+    		</section>
+            <section class="sub-section" id="section-quinto-home">
+    			<h2 class="section-title" id="color5">Quinto Ano</h2>
+    			<a href="repeticao/temp/index.html" class="section-link" class="quinto-ano" id="quinto">
+                    <img class="section-link-img" src="img\svg\5.svg">
+                </a>
+    		</section>
+            <section class="sub-section" id="section-sexto-home">
+    			<h2 class="section-title" id="color6">Sexto Ano</h2>
+    			<a href="repeticao/temp/index.html" class="section-link" class="sexto-ano" id="sexto">
+                    <img class="section-link-img" src="img\svg\6.svg">
+                </a>
     		</section>
     	</section>
     </main>
@@ -93,6 +121,48 @@
                 </div>
         </section>
     </footer>
+
+    <!-- BLOCO DE VERIFICAÇÃO -->
+    <script>
+        let PrimeiroAno = document.getElementById('primeiro');
+        let SegundoAno = document.getElementById('segundo');
+        let TerceiroAno = document.getElementById('terceiro');
+        let QuartoAno = document.getElementById('quarto');
+        let QuintoAno = document.getElementById('quinto');
+        let SextoAno = document.getElementById('sexto');
+
+        PrimeiroAno.addEventListener('click', function(){
+            localStorage.setItem('ano', 'Primeiro ano');
+            localStorage.setItem('cor', '#91BD32');
+        })
+        
+        SegundoAno.addEventListener('click', function(){
+            localStorage.setItem('ano', 'Segundo ano');
+            localStorage.setItem('cor', '#7ee0e0');
+        })
+        
+        TerceiroAno.addEventListener('click', function(){
+            localStorage.setItem('ano', 'Terceiro ano');
+            localStorage.setItem('cor', '#FDC23E');
+        })
+
+        QuartoAno.addEventListener('click', function(){
+            localStorage.setItem('ano', 'Quarto ano');
+            localStorage.setItem('cor', '#00c3ff');
+        })
+
+        QuintoAno.addEventListener('click', function(){
+            localStorage.setItem('ano', 'Quinto ano');
+            localStorage.setItem('cor', '#ff0000');
+        })
+
+        SextoAno.addEventListener('click', function(){
+            localStorage.setItem('ano', 'Sexto ano');
+            localStorage.setItem('cor', '#ffcc00');
+        })
+    </script>
+    
     <script src="./script/page-script.js"></script>
 </body>
 </html>
+

@@ -26,6 +26,10 @@ header.game-header {
     
 }
 
+header#header-bottom {
+    margin-bottom: 65px;
+}
+
 a.link-logo {
     width: 100%;
     text-align: center;
@@ -53,6 +57,7 @@ h2#title-jogo {
     grid-row: 1;
     align-self: center;
     justify-self: center;
+
 }
 
 #logo-header {
@@ -312,6 +317,8 @@ button#span-about {
 }
 
 #title-jogo {
+    align-items: center;
+    margin: auto;
 
     background-color: #1C4459;
     color: white;
@@ -368,7 +375,6 @@ section#container-nucleo {
     box-sizing: border-box;
 
 }
-
 
 h3#titulo-sequencia {
 
@@ -606,6 +612,8 @@ div.formas-titulo {
         display: grid;
         grid-template-columns: 0.5fr 700px 0.5fr;
 
+        margin-bottom: 50px;
+
     }
 
     img.logo {
@@ -619,6 +627,7 @@ div.formas-titulo {
         width: fit-content;
         padding: 5px 50px;
         font-size: 1em;
+
 
     }
 

@@ -1734,20 +1734,7 @@ function resolver(){    //Reconhece onde colocar as imagens pelo fluxograma
                         formaProximoNode = nodeNao.getShape().getId();
                     }
                 }
-                else if (nodeTexto.includes('sem borda')) {
-                    if (borda == 'S') {
-                        var nodeSim = pegarProximoNode(proximoNode)[0];
-                        proximoNode = nodeSim;
-                        nodeTexto = nodeSim.getText();
-                        formaProximoNode = nodeSim.getShape().getId();
-                    } else if (borda != 'S') {
-                        var nodeNao = pegarProximoNode(proximoNode)[1];
-                        proximoNode = nodeNao;
-                        nodeTexto = nodeNao.getText();
-                        formaProximoNode = nodeNao.getShape().getId();
-                    }
-                }
-                else if (nodeTexto.includes('bordado')) {
+                else if (nodeTexto.includes('borda')) {
                     if (borda == 'C') {
                         var nodeSim = pegarProximoNode(proximoNode)[0];
                         proximoNode = nodeSim;
@@ -1990,7 +1977,7 @@ function check(){ //Confere se acertou
                 textoAcerto.innerText = 'Você acertou! Fase concluída.';
                 botaoOk.innerHTML = "Próxima"; 
                 botaoOk.onclick = function (event){
-                    etapaAtual ++; //////////////////////////////////////////////////////////////////////////////////////////////////////
+                    etapaAtual +=1; //////////////////////////////////////////////////////////////////////////////////////////////////////
                     estrela++;
                     switch (estrela) {
                         case 0:
@@ -2105,6 +2092,7 @@ var DashStyle = MindFusion.Drawing.DashStyle;
 var Events = MindFusion.Diagramming.Events;
 var Animation = MindFusion.Animations.Animation;
 var child7, child1, child2, stepNode3;
+var Font = MindFusion.Drawing.Font;
 
 var diagram;
 var backgroundColor, linkDashStyle, baseShape, headShape, headBrush, nodeImg;
@@ -2164,29 +2152,29 @@ function iniciarDiagrama(rest1, rest2, type1, type2, inter) {
         switch (parseInt(type1[i])) {
             case 0:
                 switch (parseInt(rest1[i])) {
-                    case 0: rest1[i] = "triângulo"; break;
-                    case 1: rest1[i] = "quadrado"; break;
-                    case 2: rest1[i] = "retângulo"; break;
-                    case 3: rest1[i] = "círculo"; break;
+                    case 0: rest1[i] = "É triângulo"; break;
+                    case 1: rest1[i] = "É quadrado"; break;
+                    case 2: rest1[i] = "É retângulo"; break;
+                    case 3: rest1[i] = "É círculo"; break;
                 }
                 ;
             case 1:
                 switch (parseInt(rest1[i])) {
-                    case 0: rest1[i] = "azul"; break;
-                    case 1: rest1[i] = "vermelho"; break;
-                    case 2: rest1[i] = "amarelo"; break;
+                    case 0: rest1[i] = "É azul"; break;
+                    case 1: rest1[i] = "É vermelho"; break;
+                    case 2: rest1[i] = "É amarelo"; break;
                 }
                 ;
             case 2:
                 switch (parseInt(rest1[i])) {
-                    case 0: rest1[i] = "grande"; break;
-                    case 1: rest1[i] = "pequeno"; break;
+                    case 0: rest1[i] = "É grande"; break;
+                    case 1: rest1[i] = "É pequeno"; break;
                 }
                 ;
             case 3:
                 switch (parseInt(rest1[i])) {
-                    case 0: rest1[i] = "bordado"; break;
-                    case 1: rest1[i] = "sem borda"; break;
+                    case 0: rest1[i] = "tem borda"; break;
+                    case 1: rest1[i] = "tem borda"; break;
                 }
                 ;
         }
@@ -2195,29 +2183,29 @@ function iniciarDiagrama(rest1, rest2, type1, type2, inter) {
         switch (parseInt(type2[i])) {
             case 0:
                 switch (parseInt(rest2[i])) {
-                    case 0: rest2[i] = "triângulo"; break;
-                    case 1: rest2[i] = "quadrado"; break;
-                    case 2: rest2[i] = "retângulo"; break;
-                    case 3: rest2[i] = "círculo"; break;
+                    case 0: rest2[i] = "É triângulo"; break;
+                    case 1: rest2[i] = "É quadrado"; break;
+                    case 2: rest2[i] = "É retângulo"; break;
+                    case 3: rest2[i] = "É círculo"; break;
                 }
                 ;
             case 1:
                 switch (parseInt(rest2[i])) {
-                    case 0: rest2[i] = "azul"; break;
-                    case 1: rest2[i] = "vermelho"; break;
-                    case 2: rest2[i] = "amarelo"; break;
+                    case 0: rest2[i] = "É azul"; break;
+                    case 1: rest2[i] = "É vermelho"; break;
+                    case 2: rest2[i] = "É amarelo"; break;
                 }
                 ;
             case 2:
                 switch (parseInt(rest2[i])) {
-                    case 0: rest2[i] = "grande"; break;
-                    case 1: rest2[i] = "pequeno"; break;
+                    case 0: rest2[i] = "É grande"; break;
+                    case 1: rest2[i] = "É pequeno"; break;
                 }
                 ;
             case 3:
                 switch (parseInt(rest2[i])) {
-                    case 0: rest2[i] = "bordado"; break;
-                    case 1: rest2[i] = "sem borda"; break;
+                    case 0: rest2[i] = "tem borda"; break;
+                    case 1: rest2[i] = "tem borda"; break;
                 }
                 ;
         }
@@ -2232,29 +2220,47 @@ function iniciarDiagrama(rest1, rest2, type1, type2, inter) {
             formas.push(forma);
         }
     }
-
+    var corNode = '#fbfc97';
+    var corDireita = '#fff5e6';
+    var corEsquerda = '#ecf8f9';
+    var corInter = '#eeefe1';
+    var corFimInicio = '#7ee0e0';
+    var corDescarta = '#ccff66';
+    var fonte = new Font("sans-serif", 3, true, false);
+    
     if (inter) {
         var decisionNode1 = diagram.getFactory().createShapeNode(45, 100 - (altura * 2) - (espacoy), largura, altura * 0.66);
+        decisionNode1.setBrush(corInter);
+        decisionNode1.setFont(fonte); 
         decisionNode1.setText("Colocar na intercessão");
     }
     child7 = diagram.getFactory().createShapeNode(67, 100 - (altura * 2 - espacoy * 6), largura * 0.75, altura * 0.66);
-    child7.setShape('Ellipse');
+    child7.setBrush(corFimInicio);
+    child7.setFont(fonte);
     child7.setText("Fim");
 
     // cria o node start
     child1 = diagram.getFactory().createShapeNode(67,1, largura * 0.75, altura * 0.66); //Parâmetros [x, y, largura, altura]
     child1.setShape('Ellipse');
+    child1.setBrush(corFimInicio);
+    child1.setFont(fonte);
     child1.setText("inicio");
 
     // cria os nodes de passos
     var child2 = diagram.getFactory().createShapeNode(10, 100 - (altura * 2) - (espacoy), largura, altura * 0.66);
+    child2.setBrush(corEsquerda);
+    child2.setFont(fonte);
     child2.setText("Colocar na esquerda");
 
     var child5 = diagram.getFactory().createShapeNode(115, 100 - (altura * 2) - (espacoy), largura, altura * 0.66);
+    child5.setBrush(corDireita);
+    child5.setFont(fonte);
     child5.setText("Colocar na direita");
 
     var child6 = diagram.getFactory().createShapeNode(85, 100 - (altura * 2) - (espacoy), largura, altura * 0.66);
-    child6.setText("Descarta");
+    child6.setFont(fonte);
+    child6.setBrush(corDescarta);
+    child6.setText("Não mover");
 
     
 
@@ -2291,7 +2297,9 @@ function iniciarDiagrama(rest1, rest2, type1, type2, inter) {
                 ; break;
         }
         decisionNode1.setShape('Decision');
-        decisionNode1.setText("É um " + formas[i]);
+	decisionNode1.setBrush(corNode);
+        decisionNode1.setFont(fonte);
+        decisionNode1.setText(formas[i]);
     }
 }
 
