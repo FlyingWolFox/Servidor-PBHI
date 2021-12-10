@@ -2127,6 +2127,7 @@ function createDiagram(rest1,rest2,type1,type2,inter)
 	var linkStyle = new Style();
 	linkStyle.setStroke("#7F7F7F");
 	linkStyle.setStrokeThickness(1.0);
+	linkStyle.setShadowColor('');
 	linkStyle.setTextColor("#585A5C");
 	linkStyle.setFontName("Verdana");
 	linkStyle.setFontSize(3);
