@@ -1611,7 +1611,7 @@ function resolver(){    //Reconhece onde colocar as imagens pelo fluxograma
         nodeImg.bounds.y = child1.getCenter().y - capY;
 
         caminhar.push(inicio[0].getDestination())
-        while (nodeTexto != 'Fim') {
+        while (nodeTexto != 'FIM') {
             var formaAtual = divForms.childNodes[contador];
             if (formaProximoNode == 'Decision') {
                 if (nodeTexto.includes('retângulo')) {
@@ -1770,7 +1770,7 @@ var tempoAdicional = 2000;
 function anima(nodeImg, caminhar, nodeTexto) {
     var cam = caminhar.shift();
     if (cam != null) {
-        if (cam.getText() == 'Fim') {
+        if (cam.getText() == 'FIM') {
             setTimeout(function () { animacao(nodeImg, cam); console.log("Passei no node:", cam.getText()) }, tempo);
             tempo = tempo + tempoAdicional;
             setTimeout(function () { diagram.removeItem(nodeImg) }, tempo);
@@ -1880,7 +1880,7 @@ function pegarProximoNode(proximoNode,sentido){
     else{
         nodep = node[1]
     }*/
-    if (nodeFim.getText() == 'Fim')
+    if (nodeFim.getText() == 'FIM')
     {
         return nodeFim;
     }
