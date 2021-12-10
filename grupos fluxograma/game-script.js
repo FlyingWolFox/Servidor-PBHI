@@ -2235,6 +2235,7 @@ function iniciarDiagrama(rest1, rest2, type1, type2, inter) {
         decisionNode1.setText("Colocar na interseção");
     }
     child7 = diagram.getFactory().createShapeNode(67, 100 - (altura * 2 - espacoy * 6), largura * 0.75, altura * 0.66);
+    child7.setShape('Ellipse');
     child7.setBrush(corFimInicio);
     child7.setFont(fonte);
     child7.setText("FIM");
