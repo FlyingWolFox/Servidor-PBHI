@@ -2232,19 +2232,19 @@ function iniciarDiagrama(rest1, rest2, type1, type2, inter) {
         var decisionNode1 = diagram.getFactory().createShapeNode(45, 100 - (altura * 2) - (espacoy), largura, altura * 0.66);
         decisionNode1.setBrush(corInter);
         decisionNode1.setFont(fonte); 
-        decisionNode1.setText("Colocar na intercessão");
+        decisionNode1.setText("Colocar na interseção");
     }
     child7 = diagram.getFactory().createShapeNode(67, 100 - (altura * 2 - espacoy * 6), largura * 0.75, altura * 0.66);
     child7.setBrush(corFimInicio);
     child7.setFont(fonte);
-    child7.setText("Fim");
+    child7.setText("FIM");
 
     // cria o node start
     child1 = diagram.getFactory().createShapeNode(67,1, largura * 0.75, altura * 0.66); //Parâmetros [x, y, largura, altura]
     child1.setShape('Ellipse');
     child1.setBrush(corFimInicio);
     child1.setFont(fonte);
-    child1.setText("inicio");
+    child1.setText("INÍCIO");
 
     // cria os nodes de passos
     var child2 = diagram.getFactory().createShapeNode(10, 100 - (altura * 2) - (espacoy), largura, altura * 0.66);
