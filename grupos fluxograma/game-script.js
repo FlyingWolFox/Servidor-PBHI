@@ -1775,13 +1775,15 @@ function anima(nodeImg, caminhar, nodeTexto) {
             tempo = tempo + tempoAdicional;
             setTimeout(function () { diagram.removeItem(nodeImg) }, tempo);
             anima(nodeImg, caminhar, nodeTexto);
+        } else if (cam.getText() == 'FIM') {
+            setTimeout(function () { tempo = 100 }, tempo);
         } else {
             setTimeout(function () { animacao(nodeImg, cam); console.log("Passei no node:", cam.getText()) }, tempo);
             tempo = tempo + tempoAdicional;
             anima(nodeImg, caminhar, nodeTexto);
         }
     } else if (cam == null) {
-        setTimeout(function () { tempo = 100 }, tempo);
+        return;
     }
 }
 function colocarImg(nodeTexto,formaAtual,divForms,contador){ //Coloca as imagens na suas dropzones de acordo com o fluxograma
