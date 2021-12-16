@@ -1770,7 +1770,7 @@ var tempoAdicional = 2000;
 function anima(nodeImg, caminhar, nodeTexto) {
     var cam = caminhar.shift();
     if (cam != null) {
-        if (cam.getText() == 'FIM') {
+        if (cam.getText() == 'Colocar na direita' || cam.getText() == 'Colocar na esquerda' || cam.getText() == 'Colocar na interseção' || cam.getText() == 'Não mover') {
             setTimeout(function () { animacao(nodeImg, cam); console.log("Passei no node:", cam.getText()) }, tempo);
             tempo = tempo + tempoAdicional;
             setTimeout(function () { diagram.removeItem(nodeImg) }, tempo);
@@ -1803,7 +1803,7 @@ function colocarImg(nodeTexto,formaAtual,divForms,contador){ //Coloca as imagens
         contador--;
         return true
     }
-    else if (nodeTexto == "Colocar na intercessão") {
+    else if (nodeTexto == "Colocar na interseção") {
         var img = criarImg(formaAtual.getAttribute('data-tipo'), formaAtual.getAttribute('data-cor'), formaAtual.getAttribute('data-tam'), formaAtual.getAttribute('data-cont'))
         dropMeio.appendChild(img);
         divForms.removeChild(formaAtual)
@@ -2135,6 +2135,7 @@ function createDiagram(rest1,rest2,type1,type2,inter)
 	diagram.setTheme(theme);	
 
 	diagram.addEventListener(Events.linkCreated, onLinkCreated);
+	diagram.addEventListener(Events.nodeCreated, onNodeCreated);
     iniciarDiagrama(rest1,rest2,type1,type2,inter)
     
 };
@@ -2324,6 +2325,13 @@ function onLinkCreated(sender, args) {      //Criação do link
                 link.setText('NÂO');
             }
         }
+    }
+}
+
+function onNodeCreated(sender, args) {
+    var node = args.getNode();
+    if (node.getText() == '') {
+        diagram.removeItem(node);        
     }
 }
 
