@@ -2138,6 +2138,7 @@ function createDiagram(rest1,rest2,type1,type2,inter)
 
 	diagram.addEventListener(Events.linkCreated, onLinkCreated);
 	diagram.addEventListener(Events.nodeCreated, onNodeCreated);
+	diagram.addEventListener(Events.nodeDeleting, onNodeDeleting);
     iniciarDiagrama(rest1,rest2,type1,type2,inter)
     
 };
@@ -2335,6 +2336,24 @@ function onNodeCreated(sender, args) {
     if (node.getText() == '') {
         diagram.removeItem(node);        
     }
+}
+
+function onNodeDeleting(sender, args) {
+    var node = args.getNode();
+    var texto = node.getText();
+    var forma = node.getShape().id;
+    var bounds = node.getBounds();
+    var cor = node.getBrush();
+    var fonte = node.getFont();
+
+    var novoNode = diagram.getFactory().createShapeNode();
+    novoNode.setBounds(bounds);
+    novoNode.setText(texto);
+    novoNode.setShape(forma);
+    novoNode.setBrush(cor);
+    novoNode.setFont(fonte);
+
+    return novoNode;
 }
 
 document.body.onload = game();
