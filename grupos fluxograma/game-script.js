@@ -1401,7 +1401,7 @@ function game() {
 
 }
 
-function background(caixas){
+function background(caixas){    
 
     var dropzoneArea = document.getElementById('dropzone-container');
     var dropEsquerda = document.getElementById(dropPrimeiro);
@@ -1567,17 +1567,20 @@ function third(container, letra){   //Analisa a caixa da direita
    return aux;
 }
 var arrayPos = [];
-//var nodeImg;
+var tempo = 100;
+var tempoAdicional = 2000;
+
 function resolver(){    //Reconhece onde colocar as imagens pelo fluxograma
     var divForms = document.getElementById(divFormas);
     var newDivForms = pegarFilhos();
     newDivForms = pegarNome(newDivForms)
 	var resposta = '';
     var contador = 3;
+    tempo = 100;
+    tempoAdicional = 2000;
     
     for (let forma of newDivForms) {
         var caminhar = new Array();
-        var caminhoTotal = new Array();
         var form = forma[0];
         var cor = forma[1];
         var tamanho = forma[2];
@@ -1587,29 +1590,8 @@ function resolver(){    //Reconhece onde colocar as imagens pelo fluxograma
         var proximoNode = inicio[0].getDestination();
         var nodeTexto = proximoNode.getText();
         var formaProximoNode = proximoNode.getShape().getId();
-        var capX = 4;
-        var capY = 5;
 
-        if (form == 'R') {
-            var nodeImg = diagram.getFactory().createShapeNode(1, 1, 6, 10);
-            nodeImg.setImageLocation(caminho);
-        } else if (form == 'C') {
-            var nodeImg = diagram.getFactory().createShapeNode(1, 1, 10, 10);
-            nodeImg.setShape('Ellipse');
-            nodeImg.setImageLocation(caminho);
-        } else if (form == 'T') {
-            var nodeImg = diagram.getFactory().createShapeNode(1, 1, 14, 10);
-            nodeImg.setShape('Triangle');
-            nodeImg.setImageLocation(caminho);
-        } else {
-            var nodeImg = diagram.getFactory().createShapeNode(1, 1, 10, 10);
-            nodeImg.setImageLocation(caminho);
-        }
-
-        //coloca o node no node Start
-        nodeImg.bounds.x = child1.getCenter().x + capX;
-        nodeImg.bounds.y = child1.getCenter().y - capY;
-
+        caminhar.push(child1)
         caminhar.push(inicio[0].getDestination())
         while (nodeTexto != 'FIM') {
             var formaAtual = divForms.childNodes[contador];
@@ -1620,14 +1602,12 @@ function resolver(){    //Reconhece onde colocar as imagens pelo fluxograma
                         proximoNode = nodeSim;
                         nodeTexto = nodeSim.getText();
                         formaProximoNode = nodeSim.getShape().getId();
-                        arrayPos.push([proximoNode.getCenter().x + capX, proximoNode.getCenter().y - capY]);
                     }
                     else if (form != 'R') {
                         var nodeNao = pegarProximoNode(proximoNode)[1];
                         proximoNode = nodeNao;
                         nodeTexto = nodeNao.getText();
                         formaProximoNode = nodeNao.getShape().getId();
-                        arrayPos.push([proximoNode.getCenter().x + capX, proximoNode.getCenter().y - capY]);
                     }
                 }
                 else if (nodeTexto.includes('círculo')) {
@@ -1754,17 +1734,16 @@ function resolver(){    //Reconhece onde colocar as imagens pelo fluxograma
                 proximoNode = nodeStep;
                 nodeTexto = nodeStep.getText();
                 formaProximoNode = nodeStep.getShape().getId();
-                arrayPos.push([proximoNode.getCenter().x + capX, proximoNode.getCenter().y - capY]);
-            }
-            if (colocarImg(nodeTexto,formaAtual,divForms,contador)){
-                contador--
+                
             }
             caminhar.push(proximoNode)
         }
-        contador++;
-        anima(nodeImg,caminhar,nodeTexto)
+        contador++
+        anima(caminhar,nodeTexto)
+        
 	}
 }
+<<<<<<< Updated upstream
 var tempo = 100;
 var tempoAdicional = 2000;
 function anima(nodeImg, caminhar, nodeTexto) {
@@ -1784,32 +1763,174 @@ function anima(nodeImg, caminhar, nodeTexto) {
         }
     } else if (cam == null) {
         return;
+=======
+function pegarNodeImg(){
+    var newDivForms = pegarFilhos();
+    newDivForms = pegarNome(newDivForms)
+    var formaAtual = newDivForms[0]
+    var caminho = './img/' + formaAtual[0] + formaAtual[1] + formaAtual[2] + formaAtual[3] + '.svg';
+    var capX = 4;
+    var capY = 5;
+
+    if (formaAtual[0] == 'R') {
+        var nodeImg = diagram.getFactory().createShapeNode(1, 1, 6, 10);
+        nodeImg.setImageLocation(caminho);
+    } else if (formaAtual[0] == 'C') {
+        var nodeImg = diagram.getFactory().createShapeNode(1, 1, 10, 10);
+        nodeImg.setShape('Ellipse');
+        nodeImg.setImageLocation(caminho);
+    } else if (formaAtual[0] == 'T') {
+        var nodeImg = diagram.getFactory().createShapeNode(1, 1, 14, 10);
+        nodeImg.setShape('Triangle');
+        nodeImg.setImageLocation(caminho);
+    } else {
+        var nodeImg = diagram.getFactory().createShapeNode(1, 1, 10, 10);
+        nodeImg.setImageLocation(caminho);
+>>>>>>> Stashed changes
     }
+
+    //Coloca o node no node Start
+    nodeImg.bounds.x = child1.getCenter().x + capX;
+    nodeImg.bounds.y = child1.getCenter().y - capY;
+
+    return nodeImg;
 }
-function colocarImg(nodeTexto,formaAtual,divForms,contador){ //Coloca as imagens na suas dropzones de acordo com o fluxograma
+var timeouts = [];
+var nodeImg;
+function anima(caminhar, nodeTexto) {
+    var divForms = document.getElementById(divFormas);
+    var dropEsquerda = document.getElementById(dropPrimeiro);
+    var dropDireita = document.getElementById(dropTerceiro);
+    var dropMeio = document.getElementById(dropSegundo);
+    var cam = caminhar.shift();
+    
+
+        if (cam != null) {
+            if (cam.getText() == 'INÍCIO') {
+                timeouts.push(setTimeout(function () { 
+                    nodeImg = pegarNodeImg()
+                    animacao(nodeImg, cam); console.log("Passei no node:", cam.getText())
+                    divForms.childNodes[3].style.transition = "1s";
+                    divForms.childNodes[3].style.transform = 'scale(1.5) translate(-50%,-15%)';
+                }, tempo));
+                tempo = tempo + tempoAdicional;
+                anima(caminhar, nodeTexto);
+            } 
+            else if (cam.getText() == 'FIM') {
+                timeouts.push(setTimeout(function () { 
+                    animacao(nodeImg, cam); console.log("Passei no node:", cam.getText())
+                    divForms.childNodes[3].style.transform = 'scale(1)';
+                }, tempo));
+                tempo = tempo + tempoAdicional;
+                timeouts.push(setTimeout(function () { diagram.removeItem(nodeImg) }, tempo));
+            } 
+            else if(cam.getText() == "Colocar na esquerda"){
+                timeouts.push(setTimeout(function () { 
+                    animacao(nodeImg, cam);
+                    console.log("Passei no node:", cam.getText());
+                    var cordenadas = dropEsquerda.getBoundingClientRect()
+                    var x = cordenadas.x
+                    var y = cordenadas.y
+                    divForms.childNodes[3].style.transform = 'scale(1)';
+                    divForms.childNodes[3].style.position = "absolute"
+                    divForms.childNodes[3].style.left = (x+10)+"px"
+                    divForms.childNodes[3].style.top = (y+10)+"px"
+                }, tempo));
+                tempo = tempo + tempoAdicional;
+                timeouts.push(setTimeout(function () { 
+                    colocarImg(0,divForms.childNodes[3])
+                }, tempo));
+                tempo = tempo + tempoAdicional;
+                anima(caminhar, nodeTexto);
+            }
+            else if(cam.getText() == "Colocar na direita"){
+                timeouts.push(setTimeout(function () { 
+                    animacao(nodeImg, cam);
+                    console.log("Passei no node:", cam.getText());
+                    var cordenadas = dropDireita.getBoundingClientRect()
+                    var x = cordenadas.x
+                    var y = cordenadas.y
+                    divForms.childNodes[3].style.transform = 'scale(1)';
+                    divForms.childNodes[3].style.position = "absolute"
+                    divForms.childNodes[3].style.left = (x+10)+"px"
+                    divForms.childNodes[3].style.top = (y+10)+"px"
+                }, tempo));
+                tempo = tempo + tempoAdicional;
+                timeouts.push(setTimeout(function () { 
+                    colocarImg(1,divForms.childNodes[3])
+                }, tempo));
+                tempo = tempo + tempoAdicional;
+                anima(caminhar, nodeTexto);
+            }
+            else if(cam.getText() == "Colocar na intercessão"){
+                timeouts.push(setTimeout(function () { 
+                    animacao(nodeImg, cam);
+                    console.log("Passei no node:", cam.getText());
+                    var cordenadas = dropMeio.getBoundingClientRect()
+                    var x = cordenadas.x
+                    var y = cordenadas.y
+                    divForms.childNodes[3].style.transform = 'scale(1)';
+                    divForms.childNodes[3].style.position = "absolute"
+                    divForms.childNodes[3].style.left = (x+10)+"px"
+                    divForms.childNodes[3].style.top = (y+10)+"px"
+                }, tempo));
+                tempo = tempo + tempoAdicional;
+                timeouts.push(setTimeout(function () { 
+                    colocarImg(2,divForms.childNodes[3])
+                }, tempo));
+                tempo = tempo + tempoAdicional;
+                anima(caminhar, nodeTexto);
+            }
+            else if(cam.getText() == "Não mover"){
+                timeouts.push(setTimeout(function () { 
+                    animacao(nodeImg, cam); console.log("Passei no node:", cam.getText());
+                    colocarImg(3,divForms.childNodes[3]);
+                }, tempo));
+                tempo = tempo + tempoAdicional;
+                anima(caminhar, nodeTexto);
+            }
+            else {
+                timeouts.push(setTimeout(function () {animacao(nodeImg, cam); console.log("Passei no node:", cam.getText());}, tempo));
+                tempo = tempo + tempoAdicional;
+                anima(caminhar, nodeTexto);
+            }
+        } else if (cam == null) {
+            setTimeout(function () { tempo = 100 }, tempo);
+        }
+}
+
+function colocarImg(nodeTexto,formaAtual){ //Coloca as imagens na suas dropzones de acordo com o fluxograma
+    var divForms = document.getElementById(divFormas);
     var dropEsquerda = document.getElementById(dropPrimeiro);
     var dropDireita = document.getElementById(dropTerceiro);
     var dropMeio = document.getElementById(dropSegundo);
 
-    if (nodeTexto == "Colocar na direita") {
+    if (nodeTexto == 1) {
         var img = criarImg(formaAtual.getAttribute('data-tipo'), formaAtual.getAttribute('data-cor'), formaAtual.getAttribute('data-tam'), formaAtual.getAttribute('data-cont'))
         dropDireita.appendChild(img)
         divForms.removeChild(formaAtual)
-        contador--;
         return true
     }
-    else if (nodeTexto == "Colocar na esquerda") {
+    else if (nodeTexto == 0) {
         var img = criarImg(formaAtual.getAttribute('data-tipo'), formaAtual.getAttribute('data-cor'), formaAtual.getAttribute('data-tam'), formaAtual.getAttribute('data-cont'))
         dropEsquerda.appendChild(img);
         divForms.removeChild(formaAtual)
-        contador--;
         return true
     }
+<<<<<<< Updated upstream
     else if (nodeTexto == "Colocar na interseção") {
+=======
+    else if (nodeTexto == 2) {
+>>>>>>> Stashed changes
         var img = criarImg(formaAtual.getAttribute('data-tipo'), formaAtual.getAttribute('data-cor'), formaAtual.getAttribute('data-tam'), formaAtual.getAttribute('data-cont'))
         dropMeio.appendChild(img);
         divForms.removeChild(formaAtual)
-        contador--;
+        return true
+    }
+    else if (nodeTexto == 3) {
+        var img = criarImg(formaAtual.getAttribute('data-tipo'), formaAtual.getAttribute('data-cor'), formaAtual.getAttribute('data-tam'), formaAtual.getAttribute('data-cont'))
+        divForms.removeChild(formaAtual)
+        divForms.appendChild(img);
         return true
     }
 }
@@ -1892,6 +2013,9 @@ function pegarProximoNode(proximoNode,sentido){
 }
 
 function check(){ //Confere se acertou
+    for (var i=0; i<timeouts.length; i++) {
+        clearTimeout(timeouts[i]);
+    }
     let flag1 = 0, flag2 = 0, flag3 = 0, lixo, mov = 0;
     imgMov1 = [];
     imgMov2 = [];
@@ -2079,6 +2203,9 @@ function check(){ //Confere se acertou
 
 function resetFlux(){
     primeiraRodada = false;
+    for (var i=0; i<timeouts.length; i++) {
+        clearTimeout(timeouts[i]);
+    }
     game()
 }
 
@@ -2137,7 +2264,11 @@ function createDiagram(rest1,rest2,type1,type2,inter)
 	diagram.setTheme(theme);	
 
 	diagram.addEventListener(Events.linkCreated, onLinkCreated);
+<<<<<<< Updated upstream
 	diagram.addEventListener(Events.nodeCreated, onNodeCreated);
+=======
+    diagram.addEventListener(Events.nodeCreated, onNodeCreated);
+>>>>>>> Stashed changes
 	diagram.addEventListener(Events.nodeDeleting, onNodeDeleting);
     iniciarDiagrama(rest1,rest2,type1,type2,inter)
     
@@ -2337,6 +2468,7 @@ function onNodeCreated(sender, args) {
         diagram.removeItem(node);        
     }
 }
+<<<<<<< Updated upstream
 
 function onNodeDeleting(sender, args) {
     var node = args.getNode();
@@ -2359,5 +2491,27 @@ function onNodeDeleting(sender, args) {
 document.body.onload = game();
 var botaoResultado = document.getElementById('botao-resultado');
 botaoResultado.addEventListener('click', check);
+=======
+>>>>>>> Stashed changes
 
+function onNodeDeleting(sender, args) {
+    var node = args.getNode();
+    var texto = node.getText();
+    var forma = node.getShape().id;
+    var bounds = node.getBounds();
+    var cor = node.getBrush();
+    var fonte = node.getFont();
 
+    var novoNode = diagram.getFactory().createShapeNode();
+    novoNode.setBounds(bounds);
+    novoNode.setText(texto);
+    novoNode.setShape(forma);
+    novoNode.setBrush(cor);
+    novoNode.setFont(fonte);
+
+    return novoNode;
+}
+
+document.body.onload = game();
+var botaoResultado = document.getElementById('botao-resultado');
+botaoResultado.addEventListener('click', check);
