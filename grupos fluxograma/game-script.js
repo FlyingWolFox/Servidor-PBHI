@@ -1743,27 +1743,6 @@ function resolver(){    //Reconhece onde colocar as imagens pelo fluxograma
         
 	}
 }
-<<<<<<< Updated upstream
-var tempo = 100;
-var tempoAdicional = 2000;
-function anima(nodeImg, caminhar, nodeTexto) {
-    var cam = caminhar.shift();
-    if (cam != null) {
-        if (cam.getText() == 'Colocar na direita' || cam.getText() == 'Colocar na esquerda' || cam.getText() == 'Colocar na interseção' || cam.getText() == 'Não mover') {
-            setTimeout(function () { animacao(nodeImg, cam); console.log("Passei no node:", cam.getText()) }, tempo);
-            tempo = tempo + tempoAdicional;
-            setTimeout(function () { diagram.removeItem(nodeImg) }, tempo);
-            anima(nodeImg, caminhar, nodeTexto);
-        } else if (cam.getText() == 'FIM') {
-            setTimeout(function () { tempo = 100 }, tempo);
-        } else {
-            setTimeout(function () { animacao(nodeImg, cam); console.log("Passei no node:", cam.getText()) }, tempo);
-            tempo = tempo + tempoAdicional;
-            anima(nodeImg, caminhar, nodeTexto);
-        }
-    } else if (cam == null) {
-        return;
-=======
 function pegarNodeImg(){
     var newDivForms = pegarFilhos();
     newDivForms = pegarNome(newDivForms)
@@ -1786,7 +1765,6 @@ function pegarNodeImg(){
     } else {
         var nodeImg = diagram.getFactory().createShapeNode(1, 1, 10, 10);
         nodeImg.setImageLocation(caminho);
->>>>>>> Stashed changes
     }
 
     //Coloca o node no node Start
@@ -1917,11 +1895,7 @@ function colocarImg(nodeTexto,formaAtual){ //Coloca as imagens na suas dropzones
         divForms.removeChild(formaAtual)
         return true
     }
-<<<<<<< Updated upstream
-    else if (nodeTexto == "Colocar na interseção") {
-=======
     else if (nodeTexto == 2) {
->>>>>>> Stashed changes
         var img = criarImg(formaAtual.getAttribute('data-tipo'), formaAtual.getAttribute('data-cor'), formaAtual.getAttribute('data-tam'), formaAtual.getAttribute('data-cont'))
         dropMeio.appendChild(img);
         divForms.removeChild(formaAtual)
@@ -2264,11 +2238,7 @@ function createDiagram(rest1,rest2,type1,type2,inter)
 	diagram.setTheme(theme);	
 
 	diagram.addEventListener(Events.linkCreated, onLinkCreated);
-<<<<<<< Updated upstream
-	diagram.addEventListener(Events.nodeCreated, onNodeCreated);
-=======
     diagram.addEventListener(Events.nodeCreated, onNodeCreated);
->>>>>>> Stashed changes
 	diagram.addEventListener(Events.nodeDeleting, onNodeDeleting);
     iniciarDiagrama(rest1,rest2,type1,type2,inter)
     
@@ -2468,31 +2438,6 @@ function onNodeCreated(sender, args) {
         diagram.removeItem(node);        
     }
 }
-<<<<<<< Updated upstream
-
-function onNodeDeleting(sender, args) {
-    var node = args.getNode();
-    var texto = node.getText();
-    var forma = node.getShape().id;
-    var bounds = node.getBounds();
-    var cor = node.getBrush();
-    var fonte = node.getFont();
-
-    var novoNode = diagram.getFactory().createShapeNode();
-    novoNode.setBounds(bounds);
-    novoNode.setText(texto);
-    novoNode.setShape(forma);
-    novoNode.setBrush(cor);
-    novoNode.setFont(fonte);
-
-    return novoNode;
-}
-
-document.body.onload = game();
-var botaoResultado = document.getElementById('botao-resultado');
-botaoResultado.addEventListener('click', check);
-=======
->>>>>>> Stashed changes
 
 function onNodeDeleting(sender, args) {
     var node = args.getNode();
