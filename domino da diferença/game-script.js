@@ -77,6 +77,7 @@ function getRandomIntInclusive(min, max) {
 /** FIM FUNCOES DE APOIO */
 
 /** FUNCOES DO JOGO */
+
 function getImgScr(forma, cor, tamanho, contorno) {
 	var src = './img/';
 
@@ -129,6 +130,58 @@ function getImgScr(forma, cor, tamanho, contorno) {
 
 	return src;
 }
+
+function getRawSrc(forma, cor, tamanho, contorno) {
+	var src = '';
+	switch (forma) {
+		case formasEnum.triangulo:
+			src += 'T';
+			break;
+		case formasEnum.retangulo:
+			src += 'R';
+			break;
+		case formasEnum.circulo:
+			src += 'C';
+			break;
+		case formasEnum.quadrado:
+			src += 'Q';
+			break;
+	}
+
+	switch (cor) {
+		case coresEnum.azul:
+			src += 'Z';
+			break;
+		case coresEnum.amarelo:
+			src += 'A';
+			break;
+		case coresEnum.vermelho:
+			src += 'V';
+			break;
+	}
+
+	switch (tamanho) {
+		case tamanhoEnum.grande:
+			src += 'G';
+			break;
+		case tamanhoEnum.pequeno:
+			src += 'P';
+			break;
+	}
+
+	switch (contorno) {
+		case contornoEnum.comContorno:
+			src += 'C';
+			break;
+		case contornoEnum.semContorno:
+			src += 'S';
+			break;
+	}
+
+	return src;
+}
+
+
 
 function getImgAlt(img){
 	var alt = '';
@@ -303,10 +356,10 @@ function novaImgBlocoLogico(arrayPecasExistentes) {
 		tam = getRandomIntInclusive(0, 1);
 		cont = getRandomIntInclusive(0, 1);
 	}
-	console.log(tipo + cor + tam + cont);
-
+	var respostaSrc = getRawSrc(tipo, cor, tam, cont);
 	arq = getImgScr(tipo, cor, tam, cont);
 	novaImg.setAttribute('src', arq);
+	novaImg.setAttribute('resposta', respostaSrc);
 	novaImg.setAttribute('cor', cor);
 	novaImg.setAttribute('tipo', tipo);
 	novaImg.setAttribute('tam', tam);
@@ -316,7 +369,7 @@ function novaImgBlocoLogico(arrayPecasExistentes) {
 	novaImg.classList.add('game-img');
 	tam == 1 ? novaImg.classList.add('pequeno') : novaImg.classList.add('grande');
 
-	console.log('novaimg: tipo=' + tipo + ', cor=' + novaImg.getAttribute('cor') + ', tam=' + tam + ', contorno=' + cont + ', src=' + arq + ' , alt= ' + novaImg.getAttribute('alt'));
+	console.log('novaimg: tipo=' + tipo + ', cor=' + novaImg.getAttribute('cor') + ', tam=' + tam + ', contorno=' + cont + ', src=' + novaImg.getAttribute('resposta') + ' , alt= ' + novaImg.getAttribute('alt'));
 
 	return novaImg;
 
@@ -365,6 +418,7 @@ function resetEstrelas() {
 }
 
 endGame = false;
+var tamOpcoes = 0; //quantidade de opções de resposta
 
 function game() {
 	reset();
@@ -650,6 +704,20 @@ function game() {
 	}
 }
 
+function compare(wordOne, wordTwo){
+	var count = 0;
+	
+	 for(var i = 0; i < wordOne.length; i++){
+		 if(wordOne[i] === wordTwo[i]){
+			 count++;
+		 }
+	 }
+	 
+	 console.log("o numero de semelhanças entre as imagens é: " + count);
+	 return count;
+ }
+
+
 function check() { //Verifica se acertou os elementos
 	var arrayDropbox = document.getElementById(divCaixa).getElementsByTagName('img');
 	var botaoOk = document.getElementById('botao-proximo');
@@ -662,17 +730,17 @@ function check() { //Verifica se acertou os elementos
     var modalAcerto = document.getElementById("modalAcerto");
     var modalErro = document.getElementById('modalErro');
 
-	if (arrayDropbox.length != tamOpcoes) {
+	if (arrayDropbox.length != arrayOpcoes.length) {
 		correto = 0;
-	} else {
-		for (i = 0; i < tamNucleo; i++) {
-			if (arrayNucleo[i].getAttribute('src') != arrayDropbox[i].getAttribute('src')) {
+		console.log('o array nao foi carregado ou esta vazio');
+	} else{
+		for( i = 0; i < arrayOpcoes.length - 1; i++){
+			if(compare(arrayDropbox[i].getAttribute('resposta'), arrayDropbox[i+1].getAttribute('resposta')) < 3){
 				correto = 0;
 				break;
 			}
 		}
 	}
-
 	if(endGame == false) {
 		if (correto) {
 			textoAcerto.innerHTML = "Você acertou! Fase concluída.";
