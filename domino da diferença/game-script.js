@@ -1,7 +1,7 @@
 /** CONSTANTES DO SCRIPT **/
 
 // IDs dos containers
-const divSequencia = 'container-nucleo';
+const divSequencia = 'container-sequencia';
 const divOpcoes = 'container-formas';
 const divCaixa = 'container-sequencia'; //container-resposta
 const textNumeroFase = 'textbox-numero-fase';

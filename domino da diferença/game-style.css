@@ -57,7 +57,6 @@ h2#title-jogo {
     grid-row: 1;
     align-self: center;
     justify-self: center;
-
 }
 
 #logo-header {
@@ -334,13 +333,11 @@ button#span-about {
 header {
     background-image: url(../img/bg-image.png);
     background-color: var(--cor-do-body);
-
 }
 
 /* ======== Estilos do jogo ========= */
 
 main#main-body {
-
     height: 100%;
 }
 
@@ -381,6 +378,8 @@ h3#titulo-sequencia {
     color: #E2AE3A;
     text-transform: uppercase;
 
+    margin-top: -10px;
+    margin-bottom: 40px;
 }
 
 section#sequencias-conteiner {
@@ -414,6 +413,7 @@ button#botao-resultado {
     border: 5px solid #FFFFFF;
     border-radius: 20px;
 
+    margin-top: -70px;
 }
 
 
@@ -430,6 +430,8 @@ section#container-sequencia {
     display: flex;
     align-items: center;
     justify-items: center;
+
+    margin-top: -100px;
 
 }
 
@@ -666,9 +668,8 @@ div.formas-titulo {
 
     button#botao-resultado {
         
-        padding: 5px 10px;
+        /* padding: 10px 10px; */
         font-size: 1.2em;
-         
     }
 }
 
@@ -782,14 +783,15 @@ div.formas-titulo {
 
     section#container-sequencia {
         
-        width: 80%;
-        height: 80px;
+        width: 90%;
+        height: 110px;
+        padding: 0px 10px;
     
     }
 
     section#container-formas {
         width: 100%;
-        height: 80px;
+        height: 110px;
         justify-content: center;
         align-items: baseline;
         align-content: center;
@@ -811,8 +813,10 @@ div.formas-titulo {
 
     button#botao-resultado {
 
-        padding: 5px 10px;
+        padding: 10px 10px;
         font-size: 1em;
+
+        /* margin-top: -70px; */
     }
 
 }
