@@ -733,12 +733,17 @@ function check() { //Verifica se acertou os elementos
 	if (arrayDropbox.length != arrayOpcoes.length) {
 		correto = 0;
 		console.log('o array nao foi carregado ou esta vazio');
-	} else{
+	} else {
 		for( i = 0; i < arrayOpcoes.length - 1; i++){
-			if(compare(arrayDropbox[i].getAttribute('resposta'), arrayDropbox[i+1].getAttribute('resposta')) < 3){
+			if (compare(arrayDropbox[i].getAttribute('resposta'), arrayDropbox[i + 1].getAttribute('resposta')) < 3) {
+				arrayDropbox[0].style.opacity = 1; //Altera a opaciade da 1 peça, pois, é a partir da segunda peça que precisa apresentar opacidade
+				arrayDropbox[i + 1].style.opacity = 0.5;
 				correto = 0;
-				break;
-			}
+				//break;
+			} else if (compare(arrayDropbox[i].getAttribute('resposta'), arrayDropbox[i + 1].getAttribute('resposta')) == 3) {
+				arrayDropbox[0].style.opacity = 1; //Altera a opaciade da 1 peça, pois, é a partir da segunda peça que precisa apresentar opacidade
+				arrayDropbox[i + 1].style.opacity = 1;
+            }
 		}
 	}
 	if(endGame == false) {
