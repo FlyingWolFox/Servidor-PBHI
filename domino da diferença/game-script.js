@@ -348,13 +348,22 @@ function novaImgBlocoLogico(arrayPecasExistentes) {
 				}
             }
         }
-	} else {
-		//array vazio
-		console.log('array de imgs estava vazio');
-		cor = getRandomIntInclusive(0, 2);
-		tipo = getRandomIntInclusive(0, 3);
-		tam = getRandomIntInclusive(0, 1);
-		cont = getRandomIntInclusive(0, 1);
+	} else{
+		if(etapaAtual < 4){ 
+			console.log('array de imgs estava vazio');
+			cor = 0;
+			tipo = 3;
+			tam = 1;
+			cont = 1;
+		}else{
+			//array vazio
+			console.log('array de imgs estava vazio');
+			cor = getRandomIntInclusive(0, 2);
+			tipo = getRandomIntInclusive(0, 3);
+			tam = getRandomIntInclusive(0, 1);
+			cont = getRandomIntInclusive(0, 1);
+		}
+		
 	}
 	var respostaSrc = getRawSrc(tipo, cor, tam, cont);
 	arq = getImgScr(tipo, cor, tam, cont);
@@ -448,7 +457,7 @@ function game() {
 			/*Padronizado*/
 			//tamNucleo = 1;
       		//tamSeq = 7;
-			tamOpcoes = 3;
+			tamOpcoes = 2;
       		//coresDistintas = 1;
       		//formasDistintas = 4;
       		//tamanhosDistintos = 1;
@@ -457,7 +466,7 @@ function game() {
       	case 1:     		
       		//tamNucleo = 1;
 			//tamSeq = 8;
-      		tamOpcoes = 4;
+      		tamOpcoes = 3;
       		//coresDistintas = 2;
       		//formasDistintas = 3;
       		//tamanhosDistintos = 2;
@@ -466,7 +475,7 @@ function game() {
       	case 2:     		
       		//tamNucleo = 1;
 			//tamSeq = 9;
-      		tamOpcoes = 3;
+      		tamOpcoes = 4;
       		//coresDistintas = 4;
       		//formasDistintas = 3;
       		//tamanhosDistintos = 2;
@@ -484,7 +493,7 @@ function game() {
 		case 4: 		
       		//tamNucleo = 2;
 			//tamSeq = 8;
-      		tamOpcoes = 5;
+      		tamOpcoes = 2;
       		//coresDistintas = 2;
       		//formasDistintas = 3;
       		//tamanhosDistintos = 1;
@@ -493,7 +502,7 @@ function game() {
 		case 5: 		
       		//tamNucleo = 2;
 			//tamSeq = 8;
-      		tamOpcoes = 5;
+      		tamOpcoes = 3;
       		//coresDistintas = 3;
       		//formasDistintas = 3;
       		//tamanhosDistintos = 1;
@@ -502,7 +511,7 @@ function game() {
 		case 6: 	
 			//tamNucleo = 2;
 			//tamSeq = 9;
-      		tamOpcoes = 5;
+      		tamOpcoes = 4;
       		//coresDistintas = 3;
       		//formasDistintas = 4;
       		//tamanhosDistintos = 1;
@@ -511,7 +520,7 @@ function game() {
 		case 7: 				
 			//tamNucleo = 3;
 			//tamSeq = 9;
-      		tamOpcoes = 4;
+      		tamOpcoes = 5;
       		//coresDistintas = 1;
       		//formasDistintas = 3;
       		//tamanhosDistintos = 2;
@@ -529,7 +538,7 @@ function game() {
 		case 9: 		
 			//tamNucleo = 3;
 			//tamSeq = 12;
-			tamOpcoes = 6;
+			tamOpcoes = 7;
 			//coresDistintas = 2;
 			//formasDistintas = 2;
 			//tamanhosDistintos = 2;
@@ -538,7 +547,7 @@ function game() {
 		case 10: 		
 			//tamNucleo = 3;
 			//tamSeq = 10;
-			tamOpcoes = 6;
+			tamOpcoes = 7;
 			//coresDistintas = 3;
 			//formasDistintas = 2;
 			//tamanhosDistintos = 1;
@@ -547,7 +556,7 @@ function game() {
 		case 11: 		
 			//tamNucleo = 3;
 			//tamSeq = 10;
-			tamOpcoes = 6;
+			tamOpcoes = 8;
 			/*coresDistintas = 3;
 			formasDistintas = 3;
 			tamanhosDistintos = 2;
@@ -614,11 +623,10 @@ function game() {
 	for (i = 0; i < tamOpcoes; i++) {
 		arrayOpcoes[i] = novaImgBlocoLogico(arrayOpcoes);
 	}
-
-	//Embaralhando as peças
+	var primeiraPeca = arrayOpcoes[0];
 	embaralhaArray(arrayOpcoes);
-
-
+	
+	
 
 	//adicionar sequencia no div
 	var divNucleo = document.getElementById(divSequencia); //div responsável pela sequencia do nucleo
@@ -677,6 +685,7 @@ function game() {
 
 	//escolher demais opcoes de escolha
 	console.log('escolher opcoes');
+	var arrayCaixa = document.getElementById(divCaixa)
 	for (i = 0; i < tamOpcoes; i++) { //Set imagens como opcoes, sendo uma delas o nucleo (arrayFigura[indice])
 		if (arrayOpcoes[i] == null) {
 			/*cria um elemento imagem e coloca a source*/
@@ -700,6 +709,10 @@ function game() {
 		// arrayOpcoes[i].setAttribute('droppable','false');
 		// arrayOpcoes[i].setAttribute('ondragstart', 'drag(event)');
 		divOps.appendChild(arrayOpcoes[i]);
+		if(etapaAtual  < 4){
+			arrayCaixa.appendChild(primeiraPeca);
+		}
+		
 		console.log('Adicionado forma/opcao parte2 #' + i + ': id=' + arrayOpcoes[i].getAttribute("id") + ', src=' + arrayOpcoes[i].getAttribute("src"));
 	}
 }
