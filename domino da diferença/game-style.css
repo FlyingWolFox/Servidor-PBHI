@@ -101,7 +101,7 @@ div#box-instrucoes {
     -webkit-grid-column: 2;
     -webkit-grid-row: 1;
     margin-top: 0px;
-    margin-left: 10px;
+    margin-left: -10px;
     z-index: 10;
 }
 
@@ -358,21 +358,6 @@ h3#titulo-nucleo {
 
 }
 
-section#container-nucleo {
-
-    width: 80%;
-    height: 130px;
-    border-radius: 10px;
-    background: #FAFAFA;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: center;
-    border: 1px solid rgba(7, 12, 16, 0.5);
-    box-sizing: border-box;
-
-}
-
 h3#titulo-sequencia {
 
     color: #E2AE3A;
@@ -432,7 +417,6 @@ section#container-sequencia {
     justify-items: center;
 
     margin-top: -100px;
-
 }
 
 
@@ -447,7 +431,7 @@ p.container-formas-titulo {
 section#container-formas {
 
     width: 100%;
-    height: 130px;
+    height: 200px;
     padding: 5px 0px 5px 0px;
     margin-bottom: 0px;
     background-color: #FAFAFA;
@@ -457,6 +441,8 @@ section#container-formas {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
+    align-items: center;
+    align-content: center;
 }
 
 img.game-img {
@@ -475,8 +461,11 @@ img.game-img.pequeno {
 
 }
 
-section.drop img {
+section#container-sequencia div.slot.img {
+    width: 103%;
+}
 
+section.drop img {
     width: 100px;
     margin: 5px;
     align-self: center;
@@ -668,7 +657,7 @@ div.formas-titulo {
 
     button#botao-resultado {
         
-        /* padding: 10px 10px; */
+        padding: 10px 10px;
         font-size: 1.2em;
     }
 }
@@ -774,13 +763,6 @@ div.formas-titulo {
     
     }
 
-    section#container-nucleo {
-        
-        width: 80%;
-        height: 80px;
-        padding: 0px 10px;
-    }
-
     section#container-sequencia {
         
         width: 90%;
@@ -792,72 +774,71 @@ div.formas-titulo {
     section#container-formas {
         width: 100%;
         height: 110px;
-        justify-content: center;
-        align-items: baseline;
-        align-content: center;
     }
 
     img.game-img {
-
-        width: 45px;
+        width: 60px;
         max-width: unset;
-        align-self: unset;
     }
 
     img.game-img.pequeno {
-
-        width: 30px;
+        width: 45px;
         max-width: unset;
-        align-self: unset;
+    }
+
+    section#container-sequencia div.slot img {
+        width: 59px;
+    }
+    section#container-sequencia div.slot img.pequeno {
+        width: 45px;
     }
 
     button#botao-resultado {
-
         padding: 10px 10px;
         font-size: 1em;
-
-        /* margin-top: -70px; */
     }
 
 }
 
 @media (min-width: 1920px) AND (max-width: 4000px) and (orientation: landscape){
 
-    section#container-nucleo {
-        
-        width: 80%;
-        height: 110px;
+    section#container-sequencia {
+        width: 90%;
+        height: 200px;
         padding: 0px 10px;
     }
 
-    section#container-sequencia {
+    /* section#container-sequencia {
         
         width: 80%;
         height: 110px;
     
-    }
+    } */
 
     section#container-formas {
         width: 100%;
-        height: 105px;
-        justify-content: center;
-        align-items: baseline;
-        align-content: center;
+        height: 110px;
     }
 
     img.game-img {
-
         width: 60px;
         max-width: unset;
-        align-self: unset;
-
     }
 
     img.game-img.pequeno {
-
-        width: 40px;
+        width: 75px;
         max-width: unset;
-        align-self: unset;
+    }
 
+    div.slot {
+        width: 100px;
+    }
+
+    section#container-sequencia div.slot img {
+        width: 100px;
+    }
+
+    section#container-sequencia div.slot img.pequeno {
+        width: 75px;
     }
 }
