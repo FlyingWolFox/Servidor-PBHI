@@ -37,6 +37,7 @@ var tamNucleo; //Quantos elementos o nucleo possui
 var etapaAtual = 0;
 var estrela = 0; //nível de estrelas do jogador 
 var arrayEstrelas = document.getElementById(divEstrelas).getElementsByTagName('img');
+var erros = [];
 /** FIM VARIAVEIS */
 
 /** FUNCOES DE APOIO */
@@ -747,17 +748,28 @@ function check() { //Verifica se acertou os elementos
 		correto = 0;
 		console.log('o array nao foi carregado ou esta vazio');
 	} else {
+		erros.splice(0, erros.length); //Reseta array de erros
+		var index = 0; //Índice para acomodar os erros
 		for( i = 0; i < arrayOpcoes.length - 1; i++){
 			if (compare(arrayDropbox[i].getAttribute('resposta'), arrayDropbox[i + 1].getAttribute('resposta')) < 3) {
-				arrayDropbox[0].style.opacity = 1; //Altera a opaciade da 1 peça, pois, é a partir da segunda peça que precisa apresentar opacidade
-				arrayDropbox[i + 1].style.opacity = 0.5;
+				//arrayDropbox[0].style.opacity = 1; //Altera a opaciade da 1 peça, pois, é a partir da segunda peça que precisa apresentar opacidade diferente
+				//arrayDropbox[i + 1].style.opacity = 0.5;
+				erros[index] = i + 1; //Salva no array de erros aonde se encontra o erro
+				index++;
 				correto = 0;
 				//break;
 			} else if (compare(arrayDropbox[i].getAttribute('resposta'), arrayDropbox[i + 1].getAttribute('resposta')) == 3) {
-				arrayDropbox[0].style.opacity = 1; //Altera a opaciade da 1 peça, pois, é a partir da segunda peça que precisa apresentar opacidade
+				arrayDropbox[0].style.opacity = 1; //Altera a opaciade da 1 peça, pois, é a partir da segunda peça que precisa apresentar opacidade diferente
 				arrayDropbox[i + 1].style.opacity = 1;
             }
 		}
+		if (erros.length != 0) { //Percorre o array de erros e altera a opacidadeda da peça de acordo com a posição salva dentro do array erros
+			for(i = 0; i < erros.length; i++) {
+				arrayDropbox[0].style.opacity = 1; //Altera a opaciade da 1 peça, pois, é a partir da segunda peça que precisa apresentar opacidade diferente
+				arrayDropbox[erros[i]].style.opacity = 0.5;
+				break;
+			}
+        }
 	}
 	if(endGame == false) {
 		if (correto) {
@@ -823,7 +835,7 @@ function check() { //Verifica se acertou os elementos
 		} else {
 			
 			modalErro.style.display = 'block';
-			textoErro.innerHTML = "Que pena, tente novamente!";
+			textoErro.innerHTML = "Que pena, tem " + erros.length + " peça(s) errada(s). Tente novamente!";
 			botaoOk.innerHTML = "Continuar";
 			botaoOk.onclick = function (event){
 				closeSpan.click();
