@@ -743,6 +743,8 @@ function check() { //Verifica se acertou os elementos
 
     var modalAcerto = document.getElementById("modalAcerto");
     var modalErro = document.getElementById('modalErro');
+	var translatePositivo = 'translateY(0px)';
+	var translateNegativo = 'translateY(-13px)';
 
 	if (arrayDropbox.length != arrayOpcoes.length) {
 		correto = 0;
@@ -760,13 +762,20 @@ function check() { //Verifica se acertou os elementos
 				//break;
 			} else if (compare(arrayDropbox[i].getAttribute('resposta'), arrayDropbox[i + 1].getAttribute('resposta')) == 3) {
 				arrayDropbox[0].style.opacity = 1; //Altera a opaciade da 1 peça, pois, é a partir da segunda peça que precisa apresentar opacidade diferente
+				//arrayDropbox[0].style.transition = "1s";
+				arrayDropbox[0].style.transform = translatePositivo;
 				arrayDropbox[i + 1].style.opacity = 1;
+				//arrayDropbox[i + 1].style.transition = "1s";
+				arrayDropbox[i + 1].style.transform = translatePositivo;
             }
 		}
 		if (erros.length != 0) { //Percorre o array de erros e altera a opacidadeda da peça de acordo com a posição salva dentro do array erros
 			for(i = 0; i < erros.length; i++) {
 				arrayDropbox[0].style.opacity = 1; //Altera a opaciade da 1 peça, pois, é a partir da segunda peça que precisa apresentar opacidade diferente
 				arrayDropbox[erros[i]].style.opacity = 0.5;
+				arrayDropbox[erros[i]].style.transition = "1s";
+				//arrayDropbox[erros[i]].style.transform = 'scale(1.3)';
+				arrayDropbox[erros[i]].style.transform = translateNegativo;;
 				break;
 			}
         }
