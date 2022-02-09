@@ -773,9 +773,9 @@ function check() { //Verifica se acertou os elementos
 			for(i = 0; i < erros.length; i++) {
 				arrayDropbox[0].style.opacity = 1; //Altera a opaciade da 1 peça, pois, é a partir da segunda peça que precisa apresentar opacidade diferente
 				arrayDropbox[erros[i]].style.opacity = 0.5;
-				arrayDropbox[erros[i]].style.transition = "1s";
+				//arrayDropbox[erros[i]].style.transition = "1s";
 				//arrayDropbox[erros[i]].style.transform = 'scale(1.3)';
-				arrayDropbox[erros[i]].style.transform = translateNegativo;;
+				//arrayDropbox[erros[i]].style.transform = translateNegativo;;
 				break;
 			}
         }
@@ -844,7 +844,7 @@ function check() { //Verifica se acertou os elementos
 		} else {
 			
 			modalErro.style.display = 'block';
-			textoErro.innerHTML = "Que pena, tem " + erros.length + " peça(s) errada(s). Tente novamente!";
+			textoErro.innerHTML = "Que pena, você colocou " + erros.length + " peça(s) errada(s). Tente novamente!";
 			botaoOk.innerHTML = "Continuar";
 			botaoOk.onclick = function (event){
 				closeSpan.click();

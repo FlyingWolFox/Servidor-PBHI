@@ -105,7 +105,7 @@
                     <img src="img/sr-logico.png" alt="" id="mascote-instrucoes">
                     <article id="textbox-tutorial">
                         <p id="textbox-fase">Fase n&uacute;mero <span id="textbox-numero-fase">1</span>:</p>
-                        <textarea id="texto-textbox" readonly>Preste atenção às peças que estão logo abaixo, para montar o Dominó da Diferença arraste uma peça até o tabuleiro e em seguida identifique qual é a próxima peça que possui apenas uma característica diferente em relação à peça anterior da sequência. 
+                        <textarea id="texto-textbox" readonly>Preste atenção às peças que estão abaixo para montar o Dominó da Diferença. Arraste uma peça até o tabuleiro, em seguida identifique qual é a próxima peça que possui apenas uma característica diferente em relação à peça anterior da sequência. 
                         </textarea>
                     </article>
                     <div class="conteiner-botoes">
@@ -122,7 +122,7 @@
                 </div>
                 <section id='sequencias-conteiner'>
                     <!-- Lugar onde as imagens são dropadas -->
-                    <h3 id="titulo-sequencia">Tabuleiro</h3>
+                    <h3 id="titulo-sequencia">Dominó</h3>
                     <section id="container-sequencia" class="game-container dropzone grid">
                         
                     </section>
@@ -185,9 +185,21 @@
     <script src="./game-script.js"></script>
     <script src="../script/page-script.js"></script>
     <script>
+       
         var containerFormas = document.getElementById('container-formas');
         var containerSequencia = document.getElementById('container-sequencia');
-
+        var gameImg = containerSequencia.getElementsByTagName('img');
+        
+        function ReverteOpacidade(img){
+            for(var i; i < gameImg.length; i++){
+                console.log('estou revertendo a opacidade');
+                if(!gameImg[i].style.opacity){
+                   
+                    gameImg[i].style.opacity = 1;
+                }
+            }
+        }
+        
         const droppableSequencia = new Draggable.Droppable(containerFormas, {
             draggable: '.game-img',
             dropzone: '.dropzone'
@@ -196,6 +208,9 @@
         droppableSequencia.on('drag:start', () => {
             if (containerSequencia.classList.contains('draggable-dropzone--occupied')) {
                 containerSequencia.classList.remove('draggable-dropzone--occupied');
+            }
+            for(var i; i < gameImg.length; i++){
+                gameImg[i].style.opacity = 1;
             }
         });
 
@@ -207,7 +222,10 @@
         retorno.on('drag:start', () => {
             if (containerFormas.classList.contains('draggable-dropzone--occupied')) {
                 containerFormas.classList.remove('draggable-dropzone--occupied');
-            }
+            } 
+            for(var i; i < gameImg.length; i++){
+                gameImg[i].style.opacity = 1;
+            }  
         })
     </script>
     <script type="text/javascript">
