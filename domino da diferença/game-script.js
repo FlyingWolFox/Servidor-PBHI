@@ -731,6 +731,54 @@ function compare(wordOne, wordTwo){
 	 return count;
  }
 
+function resetDiv(){
+	var divbox = document.getElementById(divCaixa);              
+	
+	var divOpsAux = divbox.children;
+	var arrayOpsAux = Array.from(divOpsAux);
+
+	for(var i = 0; i < arrayOpsAux.length; i++){
+		arrayOpsAux[i].classList.remove('escolhida');
+	}
+
+}
+
+var arrayDropbox = document.getElementById(divCaixa).getElementsByTagName('img');
+function mudaOpacidade(){
+	/*for(var i = 0; i < arrayDropbox.length; i++){
+		arrayDropbox[i].style.opacity = 1;
+	}*/
+	//var prop = 'animation-delay';
+		if (erros.length != 0) { //Percorre o array de erros e altera a opacidadeda da peça de acordo com a posição salva dentro do array erros
+			for(i = 0; i < erros.length; i++) {
+				arrayDropbox[0].style.opacity = 1; //Altera a opaciade da 1 peça, pois, é a partir da segunda peça que precisa apresentar opacidade diferente
+				//arrayDropbox[erros[i]].classList.add('escolhida');
+				//arrayDropbox[erros[i]].style.setProperty(prop, '0.5s');
+				//resetDiv();
+				//arrayDropbox[erros[i]].style.opacity = 0.5;
+				//arrayDropbox[erros[i]].style.transition = "1s";
+				//arrayDropbox[erros[i]].style.transform = 'scale(1.3)';
+				//arrayDropbox[erros[i]].style.transform = translateNegativo;;
+				//arrayDropbox[0].style.opacity = 1; //Altera a opaciade da 1 peça, pois, é a partir da segunda peça que precisa apresentar opacidade diferente
+				setTimeout(function () {
+					arrayDropbox[erros[0]].style.transition = "1s"; //Setando o tempo para que a animação ocorra mais flúida.
+					arrayDropbox[erros[0]].style.opacity = 0.5;
+					arrayDropbox[erros[0]].style.transform = 'scale(1.3)';
+				}, 800);
+				setTimeout(function () {
+					arrayDropbox[erros[0]].style.opacity = 1;
+					arrayDropbox[erros[0]].style.transform = 'scale(1)';
+				}, 1200);
+				setTimeout(function () {
+					arrayDropbox[erros[0]].style.transition = "0s"; //Tira aquele efeito estranho da peça sendo arrastada.
+				}, 1800);
+				//arrayDropbox[erros[i]].style.transform = 'scale(1)';
+				//arrayDropbox[erros[i]].style.transform = translateNegativo;
+				break;
+
+			}
+		}
+	}
 
 function check() { //Verifica se acertou os elementos
 	var arrayDropbox = document.getElementById(divCaixa).getElementsByTagName('img');
@@ -754,40 +802,20 @@ function check() { //Verifica se acertou os elementos
 		var index = 0; //Índice para acomodar os erros
 		for( i = 0; i < arrayOpcoes.length - 1; i++){
 			if (compare(arrayDropbox[i].getAttribute('resposta'), arrayDropbox[i + 1].getAttribute('resposta')) < 3) {
-				//arrayDropbox[0].style.opacity = 1; //Altera a opaciade da 1 peça, pois, é a partir da segunda peça que precisa apresentar opacidade diferente
+				arrayDropbox[0].style.opacity = 1; //Altera a opaciade da 1 peça, pois, é a partir da segunda peça que precisa apresentar opacidade diferente
 				//arrayDropbox[i + 1].style.opacity = 0.5;
 				erros[index] = i + 1; //Salva no array de erros aonde se encontra o erro
 				index++;
 				correto = 0;
 				//break;
 			} else if (compare(arrayDropbox[i].getAttribute('resposta'), arrayDropbox[i + 1].getAttribute('resposta')) == 3) {
-				/*arrayDropbox[0].style.opacity = 1; //Altera a opaciade da 1 peça, pois, é a partir da segunda peça que precisa apresentar opacidade diferente
+				//arrayDropbox[0].style.opacity = 1; //Altera a opaciade da 1 peça, pois, é a partir da segunda peça que precisa apresentar opacidade diferente
 				arrayDropbox[0].style.transform = translatePositivo;
-				arrayDropbox[i + 1].style.opacity = 1;
-				arrayDropbox[i + 1].style.transform = translatePositivo;*/
+				//arrayDropbox[i + 1].style.opacity = 1;
+				//arrayDropbox[i + 1].style.transform = translatePositivo;
             }
 		}
-		if (erros.length != 0) { //Percorre o array de erros e altera a opacidadeda da peça de acordo com a posição salva dentro do array erros
-			for(i = 0; i < erros.length; i++) {
-				//arrayDropbox[0].style.opacity = 1; //Altera a opaciade da 1 peça, pois, é a partir da segunda peça que precisa apresentar opacidade diferente
-				setTimeout(function () {
-					arrayDropbox[erros[i]].style.transition = "1s"; //Setando o tempo para que a animação ocorra mais flúida.
-					arrayDropbox[erros[i]].style.opacity = 0.5;
-					arrayDropbox[erros[i]].style.transform = 'scale(1.3)';
-				}, 2000);
-				setTimeout(function () {
-					arrayDropbox[erros[i]].style.opacity = 1;
-					arrayDropbox[erros[i]].style.transform = 'scale(1)';
-				}, 3000);
-				setTimeout(function () {
-					arrayDropbox[erros[i]].style.transition = "0s"; //Tira aquele efeito estranho da peça sendo arrastada.
-				}, 3200);
-				//arrayDropbox[erros[i]].style.transform = 'scale(1)';
-				//arrayDropbox[erros[i]].style.transform = translateNegativo;
-				break;
-			}
-        }
-	}
+	}				
 	if(endGame == false) {
 		if (correto) {
 			textoAcerto.innerHTML = "Você acertou! Fase concluída.";
@@ -850,12 +878,14 @@ function check() { //Verifica se acertou os elementos
 			};
 			
 		} else {
-			
+			var botaoErrou = document.getElementById('botao-retorno');
 			modalErro.style.display = 'block';
 			textoErro.innerHTML = "Que pena, você colocou " + erros.length + " peça(s) errada(s). Tente novamente!";
-			botaoOk.innerHTML = "Continuar";
-			botaoOk.onclick = function (event){
-				closeSpan.click();
+			botaoErrou.innerHTML = "Continuar";
+			botaoErrou.onclick = function(event){
+				mudaOpacidade(); 			
+				fecharModal('erro');
+				console.log('fechei o modal e tal');
 			};
 		}
 

@@ -160,7 +160,7 @@
                         <div class="modal-text-content">
                             <h2 class="titulo-modal">RESULTADO</h2>
                             <h2 id="resultadoNegativo-jogo">Ihh! Algo deu Errado</h2>
-                            <button id="botao-retorno" onclick="fecharModal('erro')">Continuar</button>
+                            <button id="botao-retorno" onclick="">Continuar</button>
                         </div>
                     </div>
                 </div>
@@ -188,15 +188,12 @@
        
         var containerFormas = document.getElementById('container-formas');
         var containerSequencia = document.getElementById('container-sequencia');
-        var gameImg = containerSequencia.getElementsByTagName('img');
+        var gameImg = document.getElementById('container-sequencia').getElementsByTagName('img');
         
-        function ReverteOpacidade(img){
+        function ReverteOpacidade(gameImg){
             for(var i; i < gameImg.length; i++){
                 console.log('estou revertendo a opacidade');
-                if(!gameImg[i].style.opacity){
-                   
-                    gameImg[i].style.opacity = 1;
-                }
+               gameImg[i].setAttribute('style', 'opacity:1.0;-moz-opacity:1.0; filter:alpha(opacity=100);');
             }
         }
         
@@ -209,24 +206,24 @@
             if (containerSequencia.classList.contains('draggable-dropzone--occupied')) {
                 containerSequencia.classList.remove('draggable-dropzone--occupied');
             }
-            for(var i; i < gameImg.length; i++){
-                gameImg[i].style.opacity = 1;
-            }
+            
         });
-
+    
         const retorno = new Draggable.Droppable(containerSequencia, {
             draggable: '.game-img',
             dropzone: '.dropzone'
         });
 
+        var aux = 0;
+
         retorno.on('drag:start', () => {
             if (containerFormas.classList.contains('draggable-dropzone--occupied')) {
                 containerFormas.classList.remove('draggable-dropzone--occupied');
             } 
-            for(var i; i < gameImg.length; i++){
-                gameImg[i].style.opacity = 1;
-            }  
+          
         })
+    
+      
     </script>
     <script type="text/javascript">
         function descobreOs() {
