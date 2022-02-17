@@ -189,7 +189,7 @@
         var containerFormas = document.getElementById('container-formas');
         var containerSequencia = document.getElementById('container-sequencia');
         var gameImg = document.getElementById('container-sequencia').getElementsByTagName('img');
-        
+      
         function ReverteOpacidade(gameImg){
             for(var i; i < gameImg.length; i++){
                 console.log('estou revertendo a opacidade');
@@ -197,19 +197,25 @@
             }
         }
         
-        const droppableSequencia = new Draggable.Droppable(containerFormas, {
+        const droppableFormas = new Draggable.Droppable(containerSequencia, {
             draggable: '.game-img',
             dropzone: '.dropzone'
         });
 
-        droppableSequencia.on('drag:start', () => {
-            if (containerSequencia.classList.contains('draggable-dropzone--occupied')) {
-                containerSequencia.classList.remove('draggable-dropzone--occupied');
+        droppableFormas.on('drag:start', () => {
+            if (containerFormas.classList.contains('draggable-dropzone--occupied')) {
+                containerFormas.classList.remove('draggable-dropzone--occupied');
             }
-            
+            console.log("OI, ESTOU AQUI."); 
+            for(var i = 0; i < gameImg.length; i++){
+                if (gameImg[i].style.opacity != 1)
+                    gameImg[i].style.opacity = 1;
+                    
+                   
+            } 
         });
     
-        const retorno = new Draggable.Droppable(containerSequencia, {
+        const retorno = new Draggable.Droppable(containerFormas, {
             draggable: '.game-img',
             dropzone: '.dropzone'
         });
@@ -217,10 +223,10 @@
         var aux = 0;
 
         retorno.on('drag:start', () => {
-            if (containerFormas.classList.contains('draggable-dropzone--occupied')) {
-                containerFormas.classList.remove('draggable-dropzone--occupied');
+            if (containerSequencia.classList.contains('draggable-dropzone--occupied')) {
+                containerSequencia.classList.remove('draggable-dropzone--occupied');
             } 
-          
+
         })
     
       

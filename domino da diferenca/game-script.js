@@ -748,7 +748,7 @@ function mudaOpacidade(){
 	/*for(var i = 0; i < arrayDropbox.length; i++){
 		arrayDropbox[i].style.opacity = 1;
 	}*/
-	//var prop = 'animation-delay';
+	var prop = 'animation-delay';
 		if (erros.length != 0) { //Percorre o array de erros e altera a opacidadeda da peça de acordo com a posição salva dentro do array erros
 			for(i = 0; i < erros.length; i++) {
 				arrayDropbox[0].style.opacity = 1; //Altera a opaciade da 1 peça, pois, é a partir da segunda peça que precisa apresentar opacidade diferente
@@ -768,8 +768,10 @@ function mudaOpacidade(){
 				setTimeout(function () {
 					arrayDropbox[erros[0]].style.opacity = 1;
 					arrayDropbox[erros[0]].style.transform = 'scale(1)';
+					arrayDropbox[erros[0]].style.opacity = 0.5;
 				}, 1200);
 				setTimeout(function () {
+					
 					arrayDropbox[erros[0]].style.transition = "0s"; //Tira aquele efeito estranho da peça sendo arrastada.
 				}, 1800);
 				//arrayDropbox[erros[i]].style.transform = 'scale(1)';
@@ -777,7 +779,9 @@ function mudaOpacidade(){
 				break;
 
 			}
+			
 		}
+		
 	}
 
 function check() { //Verifica se acertou os elementos
