@@ -1,0 +1,716 @@
+* {
+    margin: 0px;
+    padding: 0px;
+    font-size: 12px;
+}
+
+a {
+
+    text-decoration: none;
+
+}
+
+/* Eliminando dos header e footer */
+
+header.game-header {
+
+    display: none;
+
+}
+
+footer.footer-grid {
+
+    display: none;
+}
+
+
+main#main-body {
+
+    height: 100vh;
+    width: 100vw;
+    grid-template-columns: 1fr;
+
+}
+
+section.game-section {
+
+    grid-column: 1;
+    height: 100%;
+    align-self: center;
+    justify-content: space-between;
+}
+
+/* Ajustes do tutorial  */
+
+div#box-instrucoes {
+
+    width: 100%;
+    height: fit-content;
+    margin: 0px;
+    padding: 0px;
+
+}
+
+div.estrela-container {
+
+    margin: 0px 2px;
+    font-size: 12px;
+}
+
+img.estrela {
+
+    width: 20px;
+}
+
+img#mascote-instrucoes {
+
+    width: 70px;
+    align-self: center;
+}
+
+article#textbox-tutorial {
+
+    width: auto;
+    height: fit-content;
+    margin: 0px 0px 0px 45px;
+    padding: 5px 5px 5px 15px;
+}
+
+div.conteiner-botoes {
+
+    margin: 0px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+
+}
+
+div.botoes-janela {
+
+    width: 100%;
+    margin: 0px;
+    margin-top: 8px;
+
+}
+
+span#span-fullscreen {
+
+    width: 10px;
+    height: 23px;
+    margin: 0px;
+    font-size: 16px;
+    line-height: 24px;
+    border: 1px solid white;
+}
+
+a#span-textbox {
+
+    width: 10px;
+    height: 23px;
+    margin: 0px;
+    padding: 0px 6px;
+    font-size: 11px;
+    font-weight: 600;
+    line-height: 10px;
+    float: unset;
+    border: 1px solid white;
+}
+
+a#span-textbox i {
+
+    margin-left: -5px;
+}
+
+span#span-about {
+
+    width: 8px;
+    height: 20px;
+    margin: 0px;
+    margin-bottom: 8px;
+    padding: 2px 8px;
+    font-size: 1.5em;
+    line-height: 21px;
+    border: 1px solid white;
+    align-self: center;
+
+}
+
+/* Ajustes do jogo */
+
+img.game-img {
+
+    margin: 0px 10px;
+    max-width: 6%;
+    align-self: center;
+
+}
+
+section#dropzone-container {
+
+    width: 100%;
+    min-height: 50px;
+    height: fit-content;
+    flex-wrap: nowrap;
+
+}
+
+section#drop1,
+section#drop2 {
+
+    min-width: 30%;
+    height: 100px;
+    margin: 0px 5px;
+    border: 0px;
+    flex: unset;
+}
+
+section#drop1 img.game-img,
+section#drop2 img.game-img {
+
+    max-width: 20%;
+}
+
+button#botao-resultado {
+
+    margin-bottom: 5px;
+    padding: 5px 10px;
+    font-size: 1em;
+}
+
+section#container-formas {
+    width: 100%;
+    min-height: 50px;
+    padding: 0px;
+    margin-bottom: 0px;
+    background-color: #FAFAFA;
+    border: solid 0px black;
+    border-radius: 0px;
+    justify-self: flex-end;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+/* ======== Ajustes do Modal ========== */
+
+div.modal-content {
+
+    width: 30%;
+    min-width: 250px;
+    min-height: 110px;
+    text-align: center;
+    padding: 20px;
+    margin: 15% auto;
+    color: var(--azul-escuro);
+    border: 2px solid #1C4459;
+    border-radius: 10px;
+    background-color: #fefefe;
+
+}
+
+span#modal-close-button {
+
+    width: 20px;
+    height: 33px;
+    padding: 0px 6px;
+    margin-top: -42px;
+    margin-right: -38px;
+    color: white;
+    font-size: 43px;
+    font-weight: 300;
+    text-align: center;
+    line-height: 27px;
+    background-color: #E25A40;
+    border: 5px solid white;
+}
+
+/* ====== AJUSTE DOS CONTEINERS PARA O IPHONE 5/SE ===== */
+
+@media (min-width: 530px) and (max-width: 619px) {
+
+    p#texto-textbox {
+
+        font-size: 10px;
+    }
+
+    section#dropzone-container {
+
+        width: 100%;
+        height: 100%;
+        min-width: unset;
+    }
+
+    section#container-formas {
+
+        width: 100%;
+        height: 66px;
+        min-width: unset;
+        min-height: unset;
+    }
+    
+    section#drop1,
+    section#drop2,
+    #section#intDrop {
+        
+        width: 100%;
+        height: 100%;
+        min-width: unset;
+        min-height: unset;
+    }
+    
+    /* ==== AJUSTE DAS IMAGENS DE RESTRIÇÃO ESQUEDA E DIREITA ====== */
+
+
+    img.img-restricao-esquerda,
+    img.img-restricao-direita {
+
+        width: 30px;
+    }
+
+    /* ===== AJUSTE DOS BLOCOS GRANDES ====== */
+    
+    section#drop1 img.drag.grande,
+    section#drop2 img.drag.grande {
+
+        width: 30px;
+        max-width: unset;
+    }
+
+    section#drop1.drop-meio-ativo img.drag.grande,
+    section#drop2.drop-meio-ativo img.drag.grande {
+
+        width: 30px;
+        max-width: unset;
+
+    }
+
+    section#intDrop.drop-meio-ativo img.drag.grande {
+
+        width: 30px;
+        max-width: unset;
+
+    }
+
+    section#intDrop img.draggable-mirror,
+    section#drop1 img.draggable-mirror,
+    section#drop2 img.draggable-mirror {
+        width: 6%;
+    }
+
+    section#container-formas img.drag.grande {
+
+        width: 30px;
+        max-width: unset;
+    }
+
+
+    /* ==== AJUSTE DOS BLOCOS PEQUENOS ===== */
+
+    section#drop1 img.drag.pequeno,
+    section#drop2 img.drag.pequeno {
+
+        width: 25px;
+        max-width: unset;
+    }
+
+    section#drop1.drop-meio-ativo img.drag.pequeno,
+    section#drop2.drop-meio-ativo img.drag.pequeno {
+
+        width: 25px;
+        max-width: unset;
+
+    }
+
+    section#intDrop.drop-meio-ativo img.drag.pequeno {
+
+        width: 25px;
+        max-width: unset;
+
+    }
+
+    section#intDrop img.draggable-mirror.pequeno,
+    section#drop1 img.draggable-mirror.pequeno,
+    section#drop2 img.draggable-mirror.pequeno {
+        width: 8%;
+    }
+
+    section#container-formas img.draggable-mirror.pequeno {
+        width: 4%;
+    }
+
+    section#container-formas img.drag.pequeno {
+
+        width: 25px;
+        max-width: unset;
+    }   
+
+}
+
+/* ====== AJUSTE DOS CONTEINERS PARA O MOTO G4 | iPhone 6/7/8 ===== */
+
+@media (min-width: 620px) and (max-width: 719px) {
+
+    p#texto-textbox {
+
+        font-size: 12px;
+    }
+
+    section#dropzone-container {
+
+        width: 100%;
+        height: 100%;
+        min-width: unset;
+    }
+
+    section#container-formas {
+
+        width: 100%;
+        height: 89px;
+        min-width: unset;
+        min-height: unset;
+    }
+
+    section#drop1,
+    section#drop2,
+    #section#intDrop {
+
+        width: 100%;
+        height: 100%;
+        min-width: unset;
+        min-height: unset;
+    }
+
+    /* ==== AJUSTE DAS IMAGENS DE RESTRIÇÃO ESQUEDA E DIREITA ====== */
+
+
+    img.img-restricao-esquerda,
+    img.img-restricao-direita {
+
+        width: 35px;
+    }
+
+    /* ===== AJUSTE DOS BLOCOS GRANDES ====== */
+    
+    section#drop1 img.drag.grande,
+    section#drop2 img.drag.grande {
+
+        width: 30px;
+        max-width: unset;
+    }
+
+    section#drop1.drop-meio-ativo img.drag.grande,
+    section#drop2.drop-meio-ativo img.drag.grande {
+
+        width: 30px;
+        max-width: unset;
+
+    }
+
+    section#intDrop.drop-meio-ativo img.drag.grande {
+
+        width: 30px;
+        max-width: unset;
+
+    }
+
+    section#intDrop img.draggable-mirror,
+    section#drop1 img.draggable-mirror,
+    section#drop2 img.draggable-mirror {
+        width: 6%;
+    }
+
+    section#container-formas img.drag.grande {
+
+        width: 30px;
+        max-width: unset;
+    }
+
+
+    /* ==== AJUSTE DOS BLOCOS PEQUENOS ===== */
+
+    section#drop1 img.drag.pequeno,
+    section#drop2 img.drag.pequeno {
+
+        width: 25px;
+        max-width: unset;
+    }
+
+    section#drop1.drop-meio-ativo img.drag.pequeno,
+    section#drop2.drop-meio-ativo img.drag.pequeno {
+
+        width: 25px;
+        max-width: unset;
+
+    }
+
+    section#intDrop.drop-meio-ativo img.drag.pequeno {
+
+        width: 25px;
+        max-width: unset;
+
+    }
+
+    section#intDrop img.draggable-mirror.pequeno,
+    section#drop1 img.draggable-mirror.pequeno,
+    section#drop2 img.draggable-mirror.pequeno {
+        width: 8%;
+    }
+
+    section#container-formas img.draggable-mirror.pequeno {
+        width: 4%;
+    }
+
+    section#container-formas img.drag.pequeno {
+
+        width: 25px;
+        max-width: unset;
+    }   
+
+}
+
+
+/* ====== AJUSTE DOS CONTEINERS PARA O iPhone 6/7/8 PLUS ===== */
+
+@media (min-width: 720px) and (max-width: 884px) {
+
+    p#texto-textbox {
+
+        font-size: 12px;
+    }
+
+    section#dropzone-container {
+
+        width: 100%;
+        height: 100%;
+        min-width: unset;
+    }
+
+    section#container-formas {
+
+        width: 100%;
+        height: 110px;
+        min-width: unset;
+        min-height: unset;
+    }
+
+    section#drop1,
+    section#drop2,
+    #section#intDrop {
+
+        width: 100%;
+        height: 100%;
+        min-width: unset;
+        min-height: unset;
+    }
+
+    /* ==== AJUSTE DAS IMAGENS DE RESTRIÇÃO ESQUEDA E DIREITA ====== */
+
+
+    img.img-restricao-esquerda,
+    img.img-restricao-direita {
+
+        width: 45px;
+    }
+
+    /* ===== AJUSTE DOS BLOCOS GRANDES ====== */
+    
+    section#drop1 img.drag.grande,
+    section#drop2 img.drag.grande {
+
+        width: 45px;
+        max-width: unset;
+    }
+
+    section#drop1.drop-meio-ativo img.drag.grande,
+    section#drop2.drop-meio-ativo img.drag.grande {
+
+        width: 45px;
+        max-width: unset;
+
+    }
+
+    section#intDrop.drop-meio-ativo img.drag.grande {
+
+        width: 45px;
+
+        max-width: unset;
+
+    }
+
+    section#intDrop img.draggable-mirror,
+    section#drop1 img.draggable-mirror,
+    section#drop2 img.draggable-mirror {
+        width: 6%;
+    }
+
+    section#container-formas img.drag.grande {
+
+        width: 45px;
+        max-width: unset;
+    }
+
+
+    /* ==== AJUSTE DOS BLOCOS PEQUENOS ===== */
+
+    section#drop1 img.drag.pequeno,
+    section#drop2 img.drag.pequeno {
+
+        width: 35px;
+        max-width: unset;
+    }
+
+    section#drop1.drop-meio-ativo img.drag.pequeno,
+    section#drop2.drop-meio-ativo img.drag.pequeno {
+
+        width: 35px;
+        max-width: unset;
+
+    }
+
+    section#intDrop.drop-meio-ativo img.drag.pequeno {
+
+        width: 35px;
+        max-width: unset;
+
+    }
+
+    section#intDrop img.draggable-mirror.pequeno,
+    section#drop1 img.draggable-mirror.pequeno,
+    section#drop2 img.draggable-mirror.pequeno {
+        width: 8%;
+    }
+
+    section#container-formas img.draggable-mirror.pequeno {
+        width: 4%;
+    }
+
+    section#container-formas img.drag.pequeno {
+
+        width: 35px;
+        max-width: unset;
+    }   
+
+}
+
+
+/* ====== AJUSTE DOS CONTEINERS PARA O Samsung A30 ===== */
+
+@media (min-width: 885px) and (max-width: 900px) {
+
+    p#texto-textbox {
+
+        font-size: 12px;
+    }
+
+    section#dropzone-container {
+
+        width: 100%;
+        height: 100%;
+        min-width: unset;
+    }
+
+    section#container-formas {
+
+        width: 100%;
+        height: 117px;
+        min-width: unset;
+        min-height: unset;
+    }
+
+    section#drop1,
+    section#drop2,
+    #section#intDrop {
+
+        width: 100%;
+        height: 100%;
+        min-width: unset;
+        min-height: unset;
+    }
+
+    /* ==== AJUSTE DAS IMAGENS DE RESTRIÇÃO ESQUEDA E DIREITA ====== */
+
+
+    img.img-restricao-esquerda,
+    img.img-restricao-direita {
+
+        width: 45px;
+    }
+
+    /* ===== AJUSTE DOS BLOCOS GRANDES ====== */
+    
+    section#drop1 img.drag.grande,
+    section#drop2 img.drag.grande {
+
+        width: 45px;
+        max-width: unset;
+    }
+
+    section#drop1.drop-meio-ativo img.drag.grande,
+    section#drop2.drop-meio-ativo img.drag.grande {
+
+        width: 45px;
+        max-width: unset;
+
+    }
+
+    section#intDrop.drop-meio-ativo img.drag.grande {
+
+        width: 45px;
+
+        max-width: unset;
+
+    }
+
+    section#intDrop img.draggable-mirror,
+    section#drop1 img.draggable-mirror,
+    section#drop2 img.draggable-mirror {
+        width: 6%;
+    }
+
+    section#container-formas img.drag.grande {
+
+        width: 45px;
+        max-width: unset;
+    }
+
+
+    /* ==== AJUSTE DOS BLOCOS PEQUENOS ===== */
+
+    section#drop1 img.drag.pequeno,
+    section#drop2 img.drag.pequeno {
+
+        width: 35px;
+        max-width: unset;
+    }
+
+    section#drop1.drop-meio-ativo img.drag.pequeno,
+    section#drop2.drop-meio-ativo img.drag.pequeno {
+
+        width: 35px;
+        max-width: unset;
+
+    }
+
+    section#intDrop.drop-meio-ativo img.drag.pequeno {
+
+        width: 35px;
+        max-width: unset;
+
+    }
+
+    section#intDrop img.draggable-mirror.pequeno,
+    section#drop1 img.draggable-mirror.pequeno,
+    section#drop2 img.draggable-mirror.pequeno {
+        width: 8%;
+    }
+
+    section#container-formas img.draggable-mirror.pequeno {
+        width: 4%;
+    }
+
+    section#container-formas img.drag.pequeno {
+
+        width: 35px;
+        max-width: unset;
+    } 
+}
