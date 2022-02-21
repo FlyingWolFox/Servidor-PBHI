@@ -17,10 +17,10 @@
     <link rel="stylesheet" href="./style/style.css">
     <!-- <link rel="stylesheet" href="./style/style2.css"> -->
     <!-- chamada para as folhas de estilo -->
-    <link rel="stylesheet" href="./style/pageStyle.css">
+    <link rel="stylesheet" href="../style/page-style.css">
     <!-- chamada para as folhas de estilo do jogo -->
-    <link rel="stylesheet" href="./style/gameStyles.css">
-    <link rel="stylesheet" href="./style/mobileStyle.css" type="text/css"
+    <link rel="stylesheet" href="./style/game-styles.css">
+    <link rel="stylesheet" href="./style/mobile-style.css" type="text/css"
         media="screen and (orientation: landscape) and (max-width: 900px)" id="estilo-mobile">
 
     <!-- link para os icones me forma de fonte -->
@@ -66,6 +66,17 @@
         </header>
 
         <main id="main-body" class="grid grid-full">
+            <div id="modalInfo" class="modal">
+                <div class="modal-content" id="modal-content">
+                    <p>Olá, nos encontramos mais uma vez &#128512;, desta vez vou te mostrar um jogo bem legal que é parecido
+                        com o Jogo da Sequência, mas tem suas diferenças! O Jogo de Completar mostra uma sequência de figuras,
+                        com algumas delas faltando 🤔, e esta é a sua tarefa, identificar quais peças estão faltando e arrastar
+                        pra lista de figuras, depois é só clicar em TERMINEI!!
+                    </p>
+                    <button id="botao-info-close"
+                        onclick="document.getElementById('modalInfo').style.display='none'">Entendi</button>
+                </div>
+            </div>
             <section class="game-section grid-center">
                 <div id="box-instrucoes">
                     <div class="progresso-conquistas">
@@ -108,7 +119,7 @@
                 </div>
                 
                 <div class="game-center">
-                    <section id="container-nucleo" class="game-containe">
+                    <section id="container-nucleo" class="game-container">
                     <!-- Seção onde será inserida a sequencia -->
                     </section>
                     <div id="container-botao">
