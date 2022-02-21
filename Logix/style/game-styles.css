@@ -662,12 +662,6 @@ div.formas-titulo {
     grid-column: 1/3;
 }
 
-@media all and (display-mode: fullscreen) {
-    body{
-        display: none;
-    }
-}
-
 @media(max-width: 425px) {
 
     #title-jogo {
