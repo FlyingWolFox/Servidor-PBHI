@@ -733,7 +733,8 @@ img#logo-fapesq {
 
 img.modal-img-logico {
 
-    width: 40%;
+    /* width: 40%; */
+    width: 25%;
 }
 
 div.modal-text-content {

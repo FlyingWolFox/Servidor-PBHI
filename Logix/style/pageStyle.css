@@ -513,12 +513,10 @@ section.form-section input#form-button {
 /* Seletores de estilo do footer */
 
 footer.footer-grid {
-
-    
     color: var(--azul-escuro);
     background-color: var(--cor-do-body);
     justify-content: center;
-
+    grid-row: 3/4;
 }
 
 footer#footer-top {
@@ -530,14 +528,17 @@ section.grid-right {
     width: 100%;
     display: flex;
     flex-direction: row;
-
+    grid-row: 2/3;
+    margin-top: -35px;
 }
 
 
 p.footer-text {
-
     text-align: center;
     font-weight: 400;
+    grid-row: 2/3;
+    grid-column: 2/3;
+    margin-top: -35px;
 }
 
 p.realizadores-text {
@@ -777,13 +778,11 @@ button#botao-retorno {
     }
 
     footer.footer-grid {
-
-        /* padding: 25px 0px; */
         color: var(--azul-escuro);
         background-color: var(--cor-do-body);
         justify-content: center;
         align-items: center;
-
+        grid-template-columns: 1fr 1fr 1fr;
     }
 
     section.grid-right {
