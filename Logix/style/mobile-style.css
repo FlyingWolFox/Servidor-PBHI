@@ -166,13 +166,11 @@ section#drop2 {
 
 section#drop1 img.game-img,
 section#drop2 img.game-img {
-
     max-width: 20%;
 }
 
-button#botao-resultado {
-
-    margin-bottom: 5px;
+button.botao {
+    margin-right: 5px;
     padding: 5px 10px;
     font-size: 1em;
     width: 90px;
