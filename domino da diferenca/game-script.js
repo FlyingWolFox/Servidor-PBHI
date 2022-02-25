@@ -884,7 +884,7 @@ function check() { //Verifica se acertou os elementos
 		} else {
 			var botaoErrou = document.getElementById('botao-retorno');
 			modalErro.style.display = 'block';
-			textoErro.innerHTML = "Que pena, você colocou " + erros.length + " peça(s) errada(s). Tente novamente!";
+			textoErro.innerHTML = "Que pena, você colocou " + erros.length + " peça(s) errada(s). A peça errada ficará marcada no Dominó. Tente novamente!";
 			botaoErrou.innerHTML = "Continuar";
 			botaoErrou.onclick = function(event){
 				mudaOpacidade(); 			

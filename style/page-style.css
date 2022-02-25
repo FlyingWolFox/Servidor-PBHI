@@ -735,6 +735,7 @@ img.modal-img-logico {
 
     /* width: 40%; */
     width: 25%;
+    margin-left: -10px;
 }
 
 div.modal-text-content {
@@ -840,6 +841,9 @@ button#botao-retorno {
     margin-top: 10px;
     margin-bottom: 10px;
     font-size: 1.5em;
+    width: 13rem;
+    text-align: start;
+    margin-right: -29px;
 }
 
 .modalNegativo-content h2.titulo-modal {
