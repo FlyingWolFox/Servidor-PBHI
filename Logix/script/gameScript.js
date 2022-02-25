@@ -663,7 +663,7 @@ function game(){
 			for (j = 0; j< qtdNaColuna[k]; j++) {
 				do{
 					arrayNucleo[i] = novaImgBlocoLogicoComRestricoes();
-					var cont = verificar(arrayNucleo[i],restricoesColunas[j],restricoesLinhas[k]);
+					var cont = verificar(arrayNucleo[i],restricoesColunas[k],restricoesLinhas[j]);
 				}
 				while(cont!=0);
 				divImgs.appendChild(arrayNucleo[i])
