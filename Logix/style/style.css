@@ -116,7 +116,8 @@ main{
 .content-div{
     border:solid 1px black;
     width: 100px;
-    height: 70px;
+    /* height: 70px; */
+    height: 109px;
     margin: -0.5px;
     display: flex;
     justify-content: center;
@@ -174,17 +175,17 @@ img.draggable-mirror {
     width: 40px;
 }
 #container-formas img.grande{
-    width: 50px;
+    width: 60px;
 }
 img.game-img {
 
-    width: 40px;
+    width: 60px;
     margin: 0px 5px;
 }
 
 img.game-img.pequeno{
 
-    width: 30px;
+    width: 45px;
     margin: 0px 5px;
     
 
