@@ -1,0 +1,112 @@
+Estrutura HTML para o site
+
+body
+    - header .grid
+        - img .logo .grid-center
+        - img .grid-right
+        - nav .menu .grid
+            - ul .menu-list
+                - li .menu-list-item
+                    - a .menu-link
+                        - i .menu-icon .selected-icon
+                        - p .menu-text
+                - li .menu-list-item
+                    - a .menu-link
+                        - i .menu-icon
+                        - p .menu-text
+                - li .menu-list-item
+                    - a .menu-link
+                        - i .menu
+                        -icon
+                        - p .menu-text
+                - li .menu-list-item
+                    - a .menu-link
+                        - i .menu-icon
+                        - p .menu-text
+
+    - main .grid
+        - section .main-section
+            - section .sub-section .grid-center
+                - h2 .section-tittle
+                - a .section-link
+                    - img .section-img
+                - p .section-description
+            - section .sub-section .grid-center
+                - h2 .section-tittle
+                - a .section-link
+                    - img .section-img
+                - p .section-description
+            - section .sub-section .grid-center
+                - h2 .section-tittle
+                - a .section-link
+                    - img .section-img
+                - p .section-description
+
+    -footer .grid
+        - p .footer-text
+
+
+
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@100;300;400;500;700;800;900&display=swap" rel="stylesheet">
+
+
+/* Classes de uso geral */
+
+
+* {
+    margin: 0px;
+    padding: 0px;
+}
+
+.body {
+
+	font-family: Helvetica, 'Roboto', Verdana, Geneva, Tahoma, sans-serif;
+
+}
+
+h2 {
+    font-family: 'M PLUS Rounded 1c', sans-serif;
+}
+
+
+/* Variável que armazena as cores do projeto */
+
+
+--bg-color: #f3f7fd;
+--header-color: #E5E5E5;
+--azul-escuro: #1C4459;
+--cinza-claro: rgba(28, 68, 89, 0.5);
+
+/* Classes para o CSS grid */
+
+
+.grid {
+
+    width: 100vw;
+    display: grid;
+    grid-template-column: 1fr minmax(300px, 3fr) 1fr;
+    justify-content: center;
+    align-itens: center;
+
+}
+
+.grid-center {
+
+    grid-column: 2/3;
+
+}
+
+.grid-left {
+
+    grid-column: 1/2;
+
+}
+
+.grid-righ {
+
+    grid-column: 3/4;
+
+}
+
