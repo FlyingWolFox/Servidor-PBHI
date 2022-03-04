@@ -37,7 +37,7 @@ var arraySequencia = []; //Array para guardar a sequecia
 var arrayOpcoes = []; //Array contendo todos os elementos gerados nas opcoes
 var tamNucleo; //Quantos elementos o nucleo possui
 var nSlots; //quantas vezes o nucleo se repete na resposta
-var etapaAtual = 1; //Representa o nível do jogo
+var etapaAtual = 0; //Representa o nível do jogo
 var estrela = 0;  //Contagem das estrelas 
 var restricoesColunas = []; //Guarda as restrições da coluna
 var restricoesLinhas = [];  //Guarda as restrições da linha
@@ -566,7 +566,7 @@ function resetEstrelas() {
         arrayEstrelas[i].setAttribute('src', './img/estrelas/star2.svg');
     }
     var texto = document.getElementById('texto1');
-    texto.innerHTML = "1/10";
+    texto.innerHTML = "?";
     texto = document.getElementById('texto2');
     texto.innerHTML = "?";
     texto = document.getElementById('texto3');
@@ -583,16 +583,16 @@ function game(){
 	//Fases do jogo
 	switch (etapaAtual) {
 		case 0:
-			nmrImgs = 9;
-			qtdNaColuna = [3,3,3];//Número de drops nas colunas. Max = 3
-			restricaoColuna = 3; //Número de restrições que ficarão acima das colunas
-			restricaoLinha = 3; //Número de restrições que ficarão à esquerda das linhas
-			break;
-		case 1:
 			textTutorial.innerHTML = "Identifique as características das restrições e arraste as peças disponíveis para área certa.";
 			nmrImgs = 1;
-			qtdNaColuna = [1];
-			restricaoColuna = 1;
+			qtdNaColuna = [1];//Número de drops nas colunas. Max = 3
+			restricaoColuna = 1; //Número de restrições que ficarão acima das colunas
+			restricaoLinha = 0; //Número de restrições que ficarão à esquerda das linhas
+			break;
+		case 1:
+			nmrImgs = 2;
+			qtdNaColuna = [1,1];
+			restricaoColuna = 2;
 			restricaoLinha = 0; 
 			break;
 		case 2:
@@ -602,55 +602,170 @@ function game(){
 			restricaoLinha = 0; 
 			break;
 		case 3:
-			nmrImgs = 3;
-			qtdNaColuna = [1,1,1];
-			restricaoColuna = 3;
+			nmrImgs = 2;
+			qtdNaColuna = [1,1];
+			restricaoColuna = 2;
 			restricaoLinha = 0; 
 			break;
 		case 4:
-			nmrImgs = 3;
-			qtdNaColuna = [1,1,1];
+			nmrImgs = 2;
+			qtdNaColuna = [1,1];
 			restricaoColuna = 2;
 			restricaoLinha = 0; 
 			break;
 		case 5:
 			nmrImgs = 3;
 			qtdNaColuna = [1,1,1];
-			restricaoColuna = 0;
-			restricaoLinha = 1; 
+			restricaoColuna = 3;
+			restricaoLinha = 0; 
 			break;
 		case 6:
 			nmrImgs = 3;
 			qtdNaColuna = [1,1,1];
 			restricaoColuna = 3;
-			restricaoLinha = 1; 
+			restricaoLinha = 0; 
 			break;
 		case 7:
+			nmrImgs = 3;
+			qtdNaColuna = [1,1,1];
+			restricaoColuna = 3;
+			restricaoLinha = 0; 
+			break;
+		case 8:
+			nmrImgs = 3;
+			qtdNaColuna = [1,1,1];
+			restricaoColuna = 3;
+			restricaoLinha = 0; 
+			break;
+		case 9:
+			nmrImgs = 3;
+			qtdNaColuna = [1,1,1];
+			restricaoColuna = 3;
+			restricaoLinha = 0; 
+			break;
+		case 10:
+			nmrImgs = 3;
+			qtdNaColuna = [1,1,1];
+			restricaoColuna = 3;
+			restricaoLinha = 0; 
+			break;
+		case 11:
+			nmrImgs = 3;
+			qtdNaColuna = [1,1,1];
+			restricaoColuna = 3;
+			restricaoLinha = 0; 
+			break;
+		case 12:
+			nmrImgs = 3;
+			qtdNaColuna = [1,1,1];
+			restricaoColuna = 2;
+			restricaoLinha = 0; 
+			break;
+		case 13:
+			nmrImgs = 3;
+			qtdNaColuna = [1,1,1];
+			restricaoColuna = 2;
+			restricaoLinha = 0; 
+			break;
+		case 14:
+			nmrImgs = 3;
+			qtdNaColuna = [1,1,1];
+			restricaoColuna = 2;
+			restricaoLinha = 0; 
+			break;
+		case 15:
+			textTutorial.innerHTML = "Identifique as características das restrições nas linhas e colunas e arraste as peças que correspondam à ambas para as áreas disponíveis.";
+			nmrImgs = 3;
+			qtdNaColuna = [1,1,1];
+			restricaoColuna = 0;
+			restricaoLinha = 1; 
+			break;
+		case 16:
+			nmrImgs = 4;
+			qtdNaColuna = [1,1,1];
+			restricaoColuna = 3;
+			restricaoLinha = 1; 
+			break;
+		case 17:
+			nmrImgs = 4;
+			qtdNaColuna = [1,1,1];
+			restricaoColuna = 3;
+			restricaoLinha = 1; 
+			break;
+		case 18:
 			nmrImgs = 3;
 			qtdNaColuna = [1,1,1];
 			restricaoColuna = 2;
 			restricaoLinha = 1; 
 			break;
-		case 8:
-			nmrImgs = 3;
-			qtdNaColuna = [3];
-			restricaoColuna = 1;
-			restricaoLinha = 0; 
-			break;
-		case 9:
-			nmrImgs = 5;
-			qtdNaColuna = [3,1,1];
+		case 19:
+			nmrImgs = 4;
+			qtdNaColuna = [1,1,1];
 			restricaoColuna = 2;
 			restricaoLinha = 1; 
 			break;
-		case 10:
+		case 20:
+			nmrImgs = 4;
+			qtdNaColuna = [2,1,1];
+			restricaoColuna = 3;
+			restricaoLinha = 1; 
+			break;
+		case 21:
 			nmrImgs = 5;
 			qtdNaColuna = [3,1,1];
 			restricaoColuna = 3;
 			restricaoLinha = 2; 
+			break;
+		case 22:
+			nmrImgs = 7;
+			qtdNaColuna = [3,2,1];
+			restricaoColuna = 3;
+			restricaoLinha = 2; 
+			break;
+		case 23:
+			nmrImgs = 7;
+			qtdNaColuna = [3,3,1];
+			restricaoColuna = 3;
+			restricaoLinha = 2; 
+			break;
+		case 24:
+			nmrImgs = 8;
+			qtdNaColuna = [3,3,2];
+			restricaoColuna = 3;
+			restricaoLinha = 2; 
+			break;
+		case 25:
+			nmrImgs = 8;
+			qtdNaColuna = [3,3,2];
+			restricaoColuna = 3;
+			restricaoLinha = 2; 
+			break;
+		case 26:
+			nmrImgs = 8;
+			qtdNaColuna = [3,3,2];
+			restricaoColuna = 2;
+			restricaoLinha = 2; 
+			break;
+		case 27:
+			nmrImgs = 8;
+			qtdNaColuna = [3,3,3];
+			restricaoColuna = 3;
+			restricaoLinha = 2; 
+			break;
+		case 28:
+			nmrImgs = 8;
+			qtdNaColuna = [3,3,3];
+			restricaoColuna = 3;
+			restricaoLinha = 2; 
+			break;
+		case 29:
+			nmrImgs = 8;
+			qtdNaColuna = [3,3,32];
+			restricaoColuna = 3;
+			restricaoLinha = 2; 
 			endGame = true;
-			console.log(qtdNaColuna.reduce)
-	}
+			break;
+		}
 
 	gerarDrop(qtdNaColuna); //Função que gera as dropzones
 	gerarRestricoes(restricaoColuna,restricaoLinha); //Função que gera as restrições
@@ -726,7 +841,7 @@ function check(){
                 textoAcerto.innerText = 'Você acertou! Fase concluída.';
                 botaoOk.innerHTML = "Próxima"; 
                 botaoOk.onclick = function (event){
-                    etapaAtual ++; 
+					etapaAtual ++; 
 					estrela++;
                     switch (estrela) {
                         case 0:
@@ -734,68 +849,59 @@ function check(){
                         case 2:
                         case 3:
                         case 4:
+							var texto = document.getElementById('texto1');
+                            texto.innerHTML = etapaAtual.toString() + "/5";
+                            break;
                         case 5:
+							arrayEstrelas[0].setAttribute('src', './img/estrelas/star1.svg');
+                            var texto = document.getElementById('texto1');
+                            texto.innerHTML = etapaAtual.toString() + "/5";
+                            break;
                         case 6:
                         case 7:
                         case 8:
                         case 9:
-                            var texto = document.getElementById('texto1');
-                            texto.innerHTML = etapaAtual.toString() + "/10";
-                            break;
                         case 10:
-                            arrayEstrelas[0].setAttribute('src', './img/estrelas/star1.svg');
-                            var texto = document.getElementById('texto1');
-                            texto.innerHTML = etapaAtual.toString() + "/10";
-                            break;
                         case 11:
                         case 12:
                         case 13:
                         case 14:
+							var texto = document.getElementById('texto2');
+							texto.innerHTML = etapaAtual.toString() + "/15";
+							break;  
                         case 15:
+							arrayEstrelas[1].setAttribute('src', './img/estrelas/star1.svg');
+                            var texto = document.getElementById('texto2');
+                            texto.innerHTML = etapaAtual.toString() + "/15";
+                            break;
                         case 16:
                         case 17:
                         case 18:
                         case 19: 
-                        var texto = document.getElementById('texto2');
-                        texto.innerHTML = etapaAtual.toString() + "/20";
-                        break;   
                         case 20:
-                            arrayEstrelas[1].setAttribute('src', './img/estrelas/star1.svg');
-                            var texto = document.getElementById('texto2');
-                            texto.innerHTML = etapaAtual.toString() + "/20";
-                            break;
                         case 21:
                         case 22:
                         case 23:
-                        case 24:                    
+                        case 24:   
+							var texto = document.getElementById('texto3');
+                            texto.innerHTML = etapaAtual.toString() + "/25";
+                            break;                  
                         case 25:     
+							arrayEstrelas[2].setAttribute('src', './img/estrelas/star1.svg');
+							var texto = document.getElementById('texto3');
+							texto.innerHTML = etapaAtual.toString() + "/25";
+							break;    
                         case 26:
                         case 27:
                         case 28:
                         case 29:
-                            var texto = document.getElementById('texto3');
+							var texto = document.getElementById('texto4');
                             texto.innerHTML = etapaAtual.toString() + "/30";
-                            break; 
-                        case 30:
-                            arrayEstrelas[2].setAttribute('src', './img/estrelas/star1.svg');
-                            var texto = document.getElementById('texto3');
-                            texto.innerHTML = etapaAtual.toString() + "/30";
-                            break;    
-                        case 31:
-                        case 32:
-                        case 33:
-                        case 34:
-                        case 35:                    
-                        case 36:     
-                        case 37:
-                        case 38:
-                            var texto = document.getElementById('texto4');
-                            texto.innerHTML = etapaAtual.toString() + "/40";
                             break;
-                        case 39:
-                            arrayEstrelas[3].setAttribute('src', './img/estrelas/star1.svg');
+                        case 30:
+							arrayEstrelas[3].setAttribute('src', './img/estrelas/star1.svg');
                             var texto = document.getElementById('texto4');
-                            texto.innerHTML = etapaAtual.toString() + "/40";
+                            texto.innerHTML = etapaAtual.toString() + "/30";
                             break;
                         default:
                             break;
@@ -808,7 +914,7 @@ function check(){
 			textoAcerto.innerHTML = "Você concluiu o jogo! Parabens!";
 			botaoOk.innerHTML = "Reiniciar";
 			botaoOk.onclick = function (event){
-				etapaAtual = 1;
+				etapaAtual = 0;
 				endGame = false;
 				resetEstrelas();
 				game();
