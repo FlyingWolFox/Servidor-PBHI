@@ -146,7 +146,7 @@
                         <div class="modal-text-content">
                             <h2 class="titulo-modal">RESULTADO</h2>
                             <h2 id="resultado-jogo"></h2>
-                            <button id="botao-proximo" onclick="fecharModal('acerto')">Próxima</button>
+                            <button id="botao-proximo" onclick="fecharModal('acerto')" data-backdrop="static" data-keyboard="false">Próxima</button>
                         </div>
                     </div>
                 </div>
@@ -160,7 +160,7 @@
                         <div class="modal-text-content">
                             <h2 class="titulo-modal">RESULTADO</h2>
                             <h2 id="resultadoNegativo-jogo">Ihh! Algo deu Errado</h2>
-                            <button id="botao-retorno" onclick="">Continuar</button>
+                            <button id="botao-retorno" onclick="" data-backdrop="static" data-keyboard="false">Continuar</button>
                         </div>
                     </div>
                 </div>
@@ -185,15 +185,39 @@
     <script src="./game-script.js"></script>
     <script src="../script/page-script.js"></script>
     <script>
-       
         var containerFormas = document.getElementById('container-formas');
         var containerSequencia = document.getElementById('container-sequencia');
         var gameImg = document.getElementById('container-sequencia').getElementsByTagName('img');
-      
-        function ReverteOpacidade(gameImg){
-            for(var i; i < gameImg.length; i++){
-                console.log('estou revertendo a opacidade');
-               gameImg[i].setAttribute('style', 'opacity:1.0;-moz-opacity:1.0; filter:alpha(opacity=100);');
+        /*
+        document.addEventListener("dragstart", function (e){
+            e.target.style.opacity = 1;
+            e.target.style.transition = "0s";
+		    e.target.style.transform = 'scale(1)';
+            e.ondragstart = function () {return false;};
+            Reverte();
+        }, false);
+        
+        document.addEventListener("dragend", function (e){
+            e.target.style.opacity = 1;
+            e.target.style.transition = "0s";
+		    e.target.style.transform = 'scale(1)';
+            Reverte();
+        }, false);
+        
+        document.addEventListener("drop", function (e){
+            e.target.style.opacity = 1;
+            e.target.style.transition = "0s";
+		    e.target.style.transform = 'scale(1)';
+            Reverte();
+        })
+        */
+                
+        function Reverte(){
+            for(var i = 0; i < gameImg.length; i++){
+                console.log('estou revertendo');
+                gameImg[i].style.opacity = 1;
+				gameImg[i].style.transform = 'scale(1)';
+				gameImg[i].style.transition = "0s";
             }
         }
         
@@ -203,16 +227,12 @@
         });
 
         droppableFormas.on('drag:start', () => {
-            if (containerFormas.classList.contains('draggable-dropzone--occupied')) {
-                containerFormas.classList.remove('draggable-dropzone--occupied');
+            if (containerSequencia.classList.contains('draggable-dropzone--occupied')) {
+                console.log("passei por aquiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii");
+                containerSequencia.classList.remove('draggable-dropzone--occupied');
             }
             console.log("OI, ESTOU AQUI."); 
-            for(var i = 0; i < gameImg.length; i++){
-                if (gameImg[i].style.opacity != 1)
-                    gameImg[i].style.opacity = 1;
-                    
-                   
-            } 
+            Reverte();
         });
     
         const retorno = new Draggable.Droppable(containerFormas, {

@@ -78,7 +78,6 @@ function getRandomIntInclusive(min, max) {
 /** FIM FUNCOES DE APOIO */
 
 /** FUNCOES DO JOGO */
-
 function getImgScr(forma, cor, tamanho, contorno) {
 	var src = './img/';
 
@@ -254,12 +253,6 @@ function removeChildElementsByTag(parent, tag) {
 function novaImgBlocoLogico(arrayPecasExistentes) {
 	var novaImg = document.createElement("img");
 	var i, tipo, cor, tam, cont, arq, opcaoVariar, tipoTemp, corTemp, tamTemp, contTemp, num;
-	/*
-	 * Formas: Triângulo: 0, Quadrado: 1, Retângulo: 2, Círculo: 3
-	 * Cores: Azul: 0, Vermelho: 1, Amarelo; 2
-	 * Tamanho: Grande: 0, Pequeno: 1
-	 * Borda: Com_borda: 0, Sem_borda: 1
-	 */
 	if (arrayPecasExistentes.length != 0) {
 		for (i = 0; i < arrayPecasExistentes.length; i++) {
 			if (arrayPecasExistentes[i] == null)
@@ -749,40 +742,38 @@ function mudaOpacidade(){
 		arrayDropbox[i].style.opacity = 1;
 	}*/
 	var prop = 'animation-delay';
-		if (erros.length != 0) { //Percorre o array de erros e altera a opacidadeda da peça de acordo com a posição salva dentro do array erros
-			for(i = 0; i < erros.length; i++) {
-				arrayDropbox[0].style.opacity = 1; //Altera a opaciade da 1 peça, pois, é a partir da segunda peça que precisa apresentar opacidade diferente
-				//arrayDropbox[erros[i]].classList.add('escolhida');
-				//arrayDropbox[erros[i]].style.setProperty(prop, '0.5s');
-				//resetDiv();
-				//arrayDropbox[erros[i]].style.opacity = 0.5;
-				//arrayDropbox[erros[i]].style.transition = "1s";
-				//arrayDropbox[erros[i]].style.transform = 'scale(1.3)';
-				//arrayDropbox[erros[i]].style.transform = translateNegativo;;
-				//arrayDropbox[0].style.opacity = 1; //Altera a opaciade da 1 peça, pois, é a partir da segunda peça que precisa apresentar opacidade diferente
-				setTimeout(function () {
-					arrayDropbox[erros[0]].style.transition = "1s"; //Setando o tempo para que a animação ocorra mais flúida.
-					arrayDropbox[erros[0]].style.opacity = 0.5;
-					arrayDropbox[erros[0]].style.transform = 'scale(1.3)';
-				}, 800);
-				setTimeout(function () {
-					arrayDropbox[erros[0]].style.opacity = 1;
-					arrayDropbox[erros[0]].style.transform = 'scale(1)';
-					arrayDropbox[erros[0]].style.opacity = 0.5;
-				}, 1200);
-				setTimeout(function () {
-					
-					arrayDropbox[erros[0]].style.transition = "0s"; //Tira aquele efeito estranho da peça sendo arrastada.
-				}, 1800);
-				//arrayDropbox[erros[i]].style.transform = 'scale(1)';
-				//arrayDropbox[erros[i]].style.transform = translateNegativo;
-				break;
-
-			}
-			
+	if (erros.length != 0) { //Percorre o array de erros e altera a opacidadeda da peça de acordo com a posição salva dentro do array erros
+		for(i = 0; i < erros.length; i++) {
+			document.getElementById(divOpcoes).classList.add('draggable-dropzone--occupied');
+			arrayDropbox[0].style.opacity = 1; //Altera a opaciade da 1 peça, pois, é a partir da segunda peça que precisa apresentar opacidade diferente
+			//arrayDropbox[erros[i]].classList.add('escolhida');
+			//arrayDropbox[erros[i]].style.setProperty(prop, '0.5s');
+			//resetDiv();
+			//arrayDropbox[erros[i]].style.opacity = 0.5;
+			//arrayDropbox[erros[i]].style.transition = "1s";
+			//arrayDropbox[erros[i]].style.transform = 'scale(1.3)';
+			//arrayDropbox[erros[i]].style.transform = translateNegativo;;
+			//arrayDropbox[0].style.opacity = 1; //Altera a opaciade da 1 peça, pois, é a partir da segunda peça que precisa apresentar opacidade diferente
+			setTimeout(function () {
+				arrayDropbox[erros[0]].style.transition = "1s"; //Setando o tempo para que a animação ocorra mais flúida.
+				arrayDropbox[erros[0]].style.opacity = 0.5;
+				arrayDropbox[erros[0]].style.transform = 'scale(1.3)';
+			}, 200);
+			setTimeout(function () {
+				//arrayDropbox[erros[0]].style.opacity = 1;
+				arrayDropbox[erros[0]].style.transform = 'scale(1)';
+				//arrayDropbox[erros[0]].style.opacity = 0.5;
+			}, 700);
+			setTimeout(function () {
+				arrayDropbox[erros[0]].style.transition = "0s"; //Tira aquele efeito estranho da peça sendo arrastada.
+				document.getElementById(divOpcoes).classList.remove('draggable-dropzone--occupied');
+			}, 1000);
+			//arrayDropbox[erros[i]].style.transform = 'scale(1)';
+			//arrayDropbox[erros[i]].style.transform = translateNegativo;
+			break;
 		}
-		
 	}
+}
 
 function check() { //Verifica se acertou os elementos
 	var arrayDropbox = document.getElementById(divCaixa).getElementsByTagName('img');
@@ -795,8 +786,6 @@ function check() { //Verifica se acertou os elementos
 
     var modalAcerto = document.getElementById("modalAcerto");
     var modalErro = document.getElementById('modalErro');
-	var translatePositivo = 'translateY(0px)';
-	var translateNegativo = 'translateY(-13px)';
 
 	if (arrayDropbox.length != arrayOpcoes.length) {
 		correto = 0;
@@ -813,10 +802,8 @@ function check() { //Verifica se acertou os elementos
 				correto = 0;
 				//break;
 			} else if (compare(arrayDropbox[i].getAttribute('resposta'), arrayDropbox[i + 1].getAttribute('resposta')) == 3) {
-				//arrayDropbox[0].style.opacity = 1; //Altera a opaciade da 1 peça, pois, é a partir da segunda peça que precisa apresentar opacidade diferente
-				arrayDropbox[0].style.transform = translatePositivo;
-				//arrayDropbox[i + 1].style.opacity = 1;
-				//arrayDropbox[i + 1].style.transform = translatePositivo;
+				arrayDropbox[0].style.opacity = 1; //Altera a opaciade da 1 peça, pois, é a partir da segunda peça que precisa apresentar opacidade diferente
+				arrayDropbox[i + 1].style.opacity = 1;
             }
 		}
 	}				
@@ -884,7 +871,7 @@ function check() { //Verifica se acertou os elementos
 		} else {
 			var botaoErrou = document.getElementById('botao-retorno');
 			modalErro.style.display = 'block';
-			textoErro.innerHTML = "Que pena, você colocou " + erros.length + " peça(s) errada(s). A peça errada ficará marcada no Dominó. Tente novamente!";
+			textoErro.innerHTML = "Que pena, você colocou " + erros.length + " peça(s) errada(s). A primeira peça errada ficará marcada no Dominó. Tente novamente!";
 			botaoErrou.innerHTML = "Continuar";
 			botaoErrou.onclick = function(event){
 				mudaOpacidade(); 			
