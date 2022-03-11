@@ -114,7 +114,7 @@ main{
 }
 
 .content-div{
-    border:solid 1px black;
+    border:solid 1px #9b9b9b;
     width: 100px;
     /* height: 70px; */
     height: 109px;
