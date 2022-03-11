@@ -578,7 +578,7 @@ function resetEstrelas() {
 function game(){
 	var contador = 0;
 	reset()
-	textNumeroFase.innerHTML = "Fase número "+etapaAtual+":"
+	textNumeroFase.innerHTML = "Fase número "+(etapaAtual+1)+":"
 
 	//Fases do jogo
 	switch (etapaAtual) {

@@ -1,9 +1,8 @@
 /* Seletores do layout da página */
 
 body.game-body {
-
     height: 100vh;
-    background-color: var(--cor-do-body);
+    background-color: #e9e9e9 ;
 }
 
 
@@ -74,17 +73,26 @@ section.game-container {
 
 }
 
+#regulador-div{
+    display: flex;
+    width: 100%;
+    height: 100%;
+    align-items: center;
+    grid-column: 1/3;
+    justify-content: center;
+    position: relative;
+}
 
 section#container-nucleo {
-    width: 100%;
-    /* height: 100%; */
+    height: 100%;
     min-width: fit-content;
     background-color: white;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
+    align-items: center;
     border-style: none;
-    margin-left: 150px;
+    justify-self: flex-start;
 }
 
 div.game-center {
@@ -213,7 +221,7 @@ a#span-info {
 #main-body,
 header {
     background-image: url(../img/bg-image.png);
-    background-color: var(--cor-do-body);
+    background-color: #e9e9e9;
     margin-top: -7px;
 }
 
@@ -230,6 +238,7 @@ div.tela-jogo {
     max-height: 100vh;
     display: grid;
     grid-template-rows: 1fr 6fr 1fr;
+    background-color: #e9e9e9;
 
 }
 
@@ -645,19 +654,24 @@ section#intDrop img.draggable-mirror.pequeno {
 .botao{
     width: fit-content;
     height: fit-content;
-    padding: 15px 10px;
     font-size: 0.95em;
     color: #fff;
     background: #7694c1;
     border: 5px solid #FFFFFF;
     border-radius: 10px;
     font-weight: 500;
+    border-radius:20px;
 }
 button#botao-resultado{
     background: #7694c1;
     font-size: 0.95em;
-    padding: 10px 15px;
+    padding: 6px 11px;
     margin: 0;
+    border-radius:20px;
+}
+button#botao-reiniciar{
+    padding: 6px 11px;
+    font-size: 0.95em;
 }
 
 div.formas-titulo {
@@ -671,6 +685,7 @@ div.formas-titulo {
 footer.footer-grid{
     padding: 0px;
     grid-template-columns: 1fr 1fr 1fr;
+    background-color: #e9e9e9;
 }
 
 @media(max-width: 425px) {
@@ -1035,7 +1050,7 @@ footer.footer-grid{
 
         padding: 5px 10px;
         font-size: 0.95em;
-        height: 50px;
+        height: 40px;
     }
 
     section#container-sequencia {
