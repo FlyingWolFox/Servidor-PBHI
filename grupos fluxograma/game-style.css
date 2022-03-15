@@ -152,8 +152,8 @@ img.game-img {
    margin: 0px;
    padding: 10px 10px;
    font-size: 1.2em;
-   color: #387C7C;
-   background: #7EE0E0;
+   color: white;
+   background: #00c3ff;
    border: 5px solid #FFFFFF;
    border-radius: 20px;
    text-transform: uppercase;
@@ -200,7 +200,7 @@ a#span-info {
 }
 
 #modal-content{
-    border-color: #7EE0E0;
+    border-color: #00c3ff;
 }
 
 
