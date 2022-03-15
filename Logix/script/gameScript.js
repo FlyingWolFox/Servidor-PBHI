@@ -1024,6 +1024,6 @@ game()
 
 document.addEventListener("dragstart", function( event ) {
 	if(event.target.parentElement.getAttribute("class").split(" ")[0] == "content-div"){
-		event.target.parentElement.style.backgroundColor = "#rgba(65, 187, 194, 0.1);";
+		event.target.parentElement.style.backgroundColor = "rgba(65, 187, 194, 0.1)";
 	}
 }, false);
