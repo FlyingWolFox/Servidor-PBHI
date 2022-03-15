@@ -463,12 +463,14 @@ function conferirRestCol(novaImagem,restricoesColuna){//Confere as restrições 
 	return flagr
 }
 
-function gerarRestricoes(restC,restL){
+function gerarRestricoes(qtdNaColuna,restC,restL){
 	var restricoesColuna = new Array(); //Armazena as restrições localizadas nas colunas
 	var restricoesLinha = new Array(); //Armazena as restrições localizadas nas colunas
 	var colunas = divNucleo.childNodes; //Pega todas aas colunas do jogo
 	var restricaoLinha = document.createElement("div") //Elemento que armazenará as restrições localizadas nas linhas 
 	restricaoLinha.classList.add("restricaoLinha")
+	document.getElementById('container-nucleo').style.marginLeft = '0'
+	document.getElementById('container-nucleo').style.marginTop = '0'
 
 	for (i = 0; i < colunas.length;i++){
 		var novorestricao = document.createElement("div")
@@ -476,6 +478,9 @@ function gerarRestricoes(restC,restL){
 		colunas[i].insertBefore(novorestricao,colunas[i].childNodes[0])
 	}	
 	for (i = 0; i < restC; i++){
+		if(Math.max.apply(null, qtdNaColuna) == 1){
+			document.getElementById('container-nucleo').style.marginTop = '-40px'
+		}
 		var flagr = 99;
 		while(flagr != 0){
 			//Gerar aleatoriamente os valores
@@ -513,6 +518,7 @@ function gerarRestricoes(restC,restL){
 	}
 	divNucleo.insertBefore(restricaoLinha,divNucleo.childNodes[0])
 	for (i = 0; i < restL; i++){
+		document.getElementById('container-nucleo').style.marginLeft = '-50px'
 		var flagr = 99;
 		while(flagr != 0){
 			//Gerar aleatoriamente os valores
@@ -583,7 +589,7 @@ function game(){
 	//Fases do jogo
 	switch (etapaAtual) {
 		case 0:
-			textTutorial.innerHTML = "Identifique as características das restrições e arraste as peças disponíveis para área certa.";
+			textTutorial.innerHTML = "Se atente as restrições acima das áreas azuis, identifique as suas características e arraste as peças disponíveis no fundo da página para a área do núcleo";
 			nmrImgs = 1;
 			qtdNaColuna = [1];//Número de drops nas colunas. Max = 3
 			restricaoColuna = 1; //Número de restrições que ficarão acima das colunas
@@ -674,7 +680,6 @@ function game(){
 			restricaoLinha = 0; 
 			break;
 		case 15:
-			textTutorial.innerHTML = "Identifique as características das restrições nas linhas e colunas e arraste as peças que correspondam à ambas para as áreas disponíveis.";
 			nmrImgs = 3;
 			qtdNaColuna = [1,1,1];
 			restricaoColuna = 0;
@@ -711,64 +716,70 @@ function game(){
 			restricaoLinha = 1; 
 			break;
 		case 21:
-			nmrImgs = 5;
-			qtdNaColuna = [3,1,1];
+			nmrImgs = 4;
+			qtdNaColuna = [2,1,1];
 			restricaoColuna = 3;
-			restricaoLinha = 2; 
+			restricaoLinha = 1; 
 			break;
 		case 22:
-			nmrImgs = 7;
-			qtdNaColuna = [3,2,1];
+			nmrImgs = 4;
+			qtdNaColuna = [2,1,1];
 			restricaoColuna = 3;
 			restricaoLinha = 2; 
 			break;
 		case 23:
-			nmrImgs = 7;
-			qtdNaColuna = [3,3,1];
+			nmrImgs = 5;
+			qtdNaColuna = [2,2,1];
 			restricaoColuna = 3;
-			restricaoLinha = 2; 
+			restricaoLinha = 1; 
 			break;
 		case 24:
-			nmrImgs = 8;
-			qtdNaColuna = [3,3,2];
+			nmrImgs = 5;
+			qtdNaColuna = [2,2,1];
 			restricaoColuna = 3;
 			restricaoLinha = 2; 
 			break;
 		case 25:
-			nmrImgs = 8;
-			qtdNaColuna = [3,3,2];
+			nmrImgs = 5;
+			qtdNaColuna = [2,2,1];
 			restricaoColuna = 3;
 			restricaoLinha = 2; 
 			break;
 		case 26:
-			nmrImgs = 8;
-			qtdNaColuna = [3,3,2];
+			nmrImgs = 6;
+			qtdNaColuna = [2,2,2];
 			restricaoColuna = 2;
 			restricaoLinha = 2; 
 			break;
 		case 27:
-			nmrImgs = 8;
-			qtdNaColuna = [3,3,3];
-			restricaoColuna = 3;
+			nmrImgs = 6;
+			qtdNaColuna = [2,2,2];
+			restricaoColuna = 2;
 			restricaoLinha = 2; 
 			break;
 		case 28:
-			nmrImgs = 8;
-			qtdNaColuna = [3,3,3];
+			nmrImgs = 6;
+			qtdNaColuna = [2,2,2];
 			restricaoColuna = 3;
 			restricaoLinha = 2; 
 			break;
 		case 29:
-			nmrImgs = 8;
-			qtdNaColuna = [3,3,32];
+			nmrImgs = 6;
+			qtdNaColuna = [2,2,2];
 			restricaoColuna = 3;
 			restricaoLinha = 2; 
 			endGame = true;
 			break;
+		case 50:
+			nmrImgs = 6;
+			qtdNaColuna = [2,2,2];
+			restricaoColuna = 3;
+			restricaoLinha = 2; 
+			break;
 		}
 
 	gerarDrop(qtdNaColuna); //Função que gera as dropzones
-	gerarRestricoes(restricaoColuna,restricaoLinha); //Função que gera as restrições
+	gerarRestricoes(qtdNaColuna,restricaoColuna,restricaoLinha); //Função que gera as restrições
 
 	arrayOriginal = [];
 	//Adiciona as imagens no jogo
@@ -781,8 +792,8 @@ function game(){
 					var cont = verificar(arrayNucleo[i],restricoesColunas[k],restricoesLinhas[j]);
 				}
 				while(cont!=0);
-				divImgs.appendChild(arrayNucleo[i])
 				contador++;
+				divImgs.insertBefore(arrayNucleo[i],divImgs.childNodes[getRandomIntInclusive(0,contador)])
 				if (contador==nmrImgs) break;
 			}
 			if(contador==nmrImgs) break;	
@@ -1013,6 +1024,6 @@ game()
 
 document.addEventListener("dragstart", function( event ) {
 	if(event.target.parentElement.getAttribute("class").split(" ")[0] == "content-div"){
-		event.target.parentElement.style.backgroundColor = "#fff";
+		event.target.parentElement.style.backgroundColor = "#rgba(65, 187, 194, 0.1);";
 	}
 }, false);
