@@ -449,8 +449,6 @@ div.slot {
 }
 
 div.slot img {
-
-    width: 100%;
     margin: unset;
     max-width: unset;
 }

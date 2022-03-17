@@ -36,9 +36,10 @@ var arraySequencia = []; //Array para guardar a sequecia
 var arrayOpcoes = []; //Array contendo todos os elementos gerados nas opcoes
 var tamNucleo; //Quantos elementos o nucleo possui
 var tamSeq = 0; //Tamanho da sequência do núcleo
-var etapaAtual = 0;
+var etapaAtual = 16;
 var cliquei = false; // var que verifica se a crianca ja viu a sequencia que escolheu
 var estrela = 0; //nível de estrelas do jogador 
+var endGame = false; //Indica se o jogo está na ultima fase
 var arrayEstrelas = document.getElementById(divEstrelas).getElementsByTagName('img');
 var nPecas = document.getElementById(divPecas);
 /** FIM VARIAVEIS */
@@ -334,8 +335,6 @@ function resetEstrelas() {
 
 }
 
-endGame = false;
-
 var divRespostas = document.getElementById(divCaixa);
 var arraySlots = [];
 
@@ -630,6 +629,7 @@ function game() {
 	var textoPecas = document.getElementById('textopecas');
 	textoPecas.innerHTML = "Peças Disponíveis:" + tamNucleo;
 }
+
 //funcao pra criança construir o padrao
 function adicionaPadrao(){
 	prop = 'animation-delay';
@@ -637,7 +637,10 @@ function adicionaPadrao(){
 	//botaoResultado.removeEventListener('click', adicionaPadrao);
 	var botaoTerminei = document.getElementById('botao-resultado');
 	var textoErro = document.getElementById('resultadoNegativo-jogo');
+	var textoAcerto = document.getElementById('resultado-jogo');
 	var modalErro = document.getElementById('modalErro');
+	var modalAcerto = document.getElementById('modalAcerto');
+	var botaoOk = document.getElementById('botao-proximo');
 	var arrayDropbox = document.getElementById(divCaixa).getElementsByTagName('img');
 	var divNucleo = document.getElementById(divSequencia); //div responsável pela sequencia do nucleo
 	if (divNucleo == null) {
@@ -667,78 +670,93 @@ function adicionaPadrao(){
 				divNucleo.appendChild(arraySequencia[seqAtual]);
 				console.log('Adicionado seq #' + seqAtual + ': id=' + arraySequencia[seqAtual].getAttribute("id") + ', src=' + arraySequencia[seqAtual].getAttribute("src"));
 			seqAtual++;
-		}
-	}	
+			}
+			if (endGame){
+				textoAcerto.innerText = 'Você concluiu o jogo! Parabens!';
+				botaoOk.innerHTML = "Reiniciar";
+				botaoOk.onclick = function (event){
+					etapaAtual = 0;
+					endGame = false;
+					resetEstrelas();
+					eventoResultado()
+					game();
+					modalAcerto.style.display = 'none';
+				}
+				setTimeout(function(){
+					modalAcerto.style.display = 'block';
+				},tamSeq*1000);
+			}
+		}	
 	cliquei = true;
 	}
 }
 
 // funcao pra criança passar de fase
 function eventoResultado(){
-			console.log("evento resultado, cliquei = " + cliquei);
-			cliquei = false;
-			etapaAtual++;
-				estrela++;
-				var botaoConstruir = document.getElementById('botao-resultado');
-	botaoConstruir.innerHTML = "CONSTRUIR!";
-	botaoConstruir.removeEventListener('click', eventoResultado);
-	botaoConstruir.addEventListener('click', adicionaPadrao);
-				switch(estrela) {
-					case 0:
-					case 1:
-					case 2:
-					case 3:
-						var texto = document.getElementById('texto1');
-						texto.innerHTML = etapaAtual.toString() + "/4";
-						break;
-					case 4:
-						arrayEstrelas[0].setAttribute('src', './img/estrelas/star1.svg');
-						var texto = document.getElementById('texto1');
-						texto.innerHTML = etapaAtual.toString() + "/4";
-						break;
-					case 5:
-					case 6:
-					case 7:
-						var texto = document.getElementById('texto2');
-						texto.innerHTML = etapaAtual.toString() + "/8";
-						break;
-					case 8:
-						arrayEstrelas[1].setAttribute('src', './img/estrelas/star1.svg');
-						var texto = document.getElementById('texto2');
-						texto.innerHTML = etapaAtual.toString() + "/8";
-						break;
-					case 9:
-					case 10:
-					case 11:
-						var texto = document.getElementById('texto3');
-						texto.innerHTML = etapaAtual.toString() + "/12";
-						break;
-					case 12:
-						arrayEstrelas[2].setAttribute('src', './img/estrelas/star1.svg');
-						var texto = document.getElementById('texto3');
-						texto.innerHTML = etapaAtual.toString() + "/12";
-						break;
-					case 13:
-					case 14:
-					case 15:
-						var texto = document.getElementById('texto4');
-						texto.innerHTML = etapaAtual.toString() + "/16";
-						break;
-					case 16:
-						arrayEstrelas[3].setAttribute('src', './img/estrelas/star1.svg');
-						var texto = document.getElementById('texto4');
-						texto.innerHTML = etapaAtual.toString() + "/16";
-						break;
-					default:
-						break;
-				}
-				game();			
+		console.log("evento resultado, cliquei = " + cliquei);
+		etapaAtual++;
+		estrela++;
+		cliquei = false;
+		var botaoConstruir = document.getElementById('botao-resultado');
+		botaoConstruir.innerHTML = "CONSTRUIR!";
+		botaoConstruir.removeEventListener('click', eventoResultado);
+		botaoConstruir.addEventListener('click', adicionaPadrao);
+		switch(estrela) {
+			case 0:
+			case 1:
+			case 2:
+			case 3:
+				var texto = document.getElementById('texto1');
+				texto.innerHTML = etapaAtual.toString() + "/4";
+				break;
+			case 4:
+				arrayEstrelas[0].setAttribute('src', './img/estrelas/star1.svg');
+				var texto = document.getElementById('texto1');
+				texto.innerHTML = etapaAtual.toString() + "/4";
+				break;
+			case 5:
+			case 6:
+			case 7:
+				var texto = document.getElementById('texto2');
+				texto.innerHTML = etapaAtual.toString() + "/8";
+				break;
+			case 8:
+				arrayEstrelas[1].setAttribute('src', './img/estrelas/star1.svg');
+				var texto = document.getElementById('texto2');
+				texto.innerHTML = etapaAtual.toString() + "/8";
+				break;
+			case 9:
+			case 10:
+			case 11:
+				var texto = document.getElementById('texto3');
+				texto.innerHTML = etapaAtual.toString() + "/12";
+				break;
+			case 12:
+				arrayEstrelas[2].setAttribute('src', './img/estrelas/star1.svg');
+				var texto = document.getElementById('texto3');
+				texto.innerHTML = etapaAtual.toString() + "/12";
+				break;
+			case 13:
+			case 14:
+			case 15:
+				var texto = document.getElementById('texto4');
+				texto.innerHTML = etapaAtual.toString() + "/16";
+				break;
+			case 16:
+				arrayEstrelas[3].setAttribute('src', './img/estrelas/star1.svg');
+				var texto = document.getElementById('texto4');
+				texto.innerHTML = etapaAtual.toString() + "/16";
+				break;
+			default:
+				break;
+		}
+	game();			
 }
 
 
 function check(event) { //Verifica se acertou os elementos
 	if(cliquei){
-	eventoResultado();
+		eventoResultado();
 	}else{
 		adicionaPadrao();
 	}
