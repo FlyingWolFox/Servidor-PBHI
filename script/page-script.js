@@ -14,8 +14,10 @@ function fecharModal(tipo) {
 
 window.onclick = function (event) {
   if (event.target == modalAcerto || event.target == modalErro) {
-    modalErro.style.display = "none";
-    modalAcerto.style.display= 'none'
+    // modalErro.style.display = "none";
+    // modalAcerto.style.display= 'none';
+    modalErro.style.display = false;
+    modalAcerto.style.display= false;
   }
 }
 // Ajustes do fullscreen ------------ 

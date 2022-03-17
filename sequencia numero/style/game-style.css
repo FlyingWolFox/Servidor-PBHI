@@ -129,8 +129,8 @@ div.progresso-conquistas {
    margin: 0px;
    padding: 10px 10px;
    font-size: 1.2em;
-   color: #687844;
-   background: #9DCC38;
+   color: white;
+   background: #FDC23E;
    border: 5px solid #FFFFFF;
    border-radius: 20px;
    text-transform: uppercase;
@@ -139,7 +139,7 @@ div.progresso-conquistas {
 
 
 #modal-content{
-    border-color: #9DCC38;
+    border-color: #FDC23E;
     padding: 10px 10px 0 10px;
     display: block;
 }
