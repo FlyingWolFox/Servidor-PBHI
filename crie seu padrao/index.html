@@ -193,17 +193,16 @@
             dropzone: '.dropzone'
         });
 
-       /* droppableSequencia.on('drag:start', () => {
+        droppableSequencia.on('drag:start', () => {
             if (containerSequencia.classList.contains('draggable-dropzone--occupied')) {
                 containerSequencia.classList.remove('draggable-dropzone--occupied');
             }
         });
-        */
-        /*const retorno = new Draggable.Droppable(containerSequencia, {
+        
+        const retorno = new Draggable.Droppable(containerSequencia, {
             draggable: '.game-img',
             dropzone: '.dropzone'
         });
-        */
         retorno.on('drag:start', () => {
             if (containerFormas.classList.contains('draggable-dropzone--occupied')) {
                 containerFormas.classList.remove('draggable-dropzone--occupied');

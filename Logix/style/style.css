@@ -113,15 +113,17 @@ main{
     flex-direction: column;
 }
 
-.content-div{
-    border:solid 1px black;
-    width: 100px;
-    /* height: 70px; */
-    height: 109px;
+.content-div {
+    border: solid 2px #727272;
+    border-radius: 5px;
+    width: 120px;
+    /* height: 109px; */
+    height: 110px;
     margin: -0.5px;
     display: flex;
     justify-content: center;
     align-items: center;
+    background: rgba(65, 187, 194, 0.1);
 }
 
 .content-div img {
@@ -175,7 +177,7 @@ img.draggable-mirror {
     width: 40px;
 }
 #container-formas img.grande{
-    width: 60px;
+    width: 56px;
 }
 img.game-img {
 
@@ -206,6 +208,8 @@ img.game-img.pequeno{
     display: flex;
     flex-direction: column;
     align-items: flex-start;
+    margin-top: -5px;
+    gap: 20px;
 }
 
 .restLinha {
@@ -344,20 +348,21 @@ button {
 }
 
 #container-botao {
-    width: 100%;
     height: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    grid-column: 2/3;
-    grid-row: 1/2;
+    position: absolute;
+    right: 0;
+    margin-right: 25px;
 }
 
 button#botao-reiniciar{
     margin-top: 10px;
     height: 49px;
     width: 110px;
+    border-radius: 20px;
 }
 
 #texto-textbox {
