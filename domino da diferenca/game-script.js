@@ -592,17 +592,18 @@ function game() {
 			formasDistintas = 2;
 			tamanhosDistintos = 1;
 			contornosDistintos = 2;*/
+			endGame = true;
 			break;	
-		case 16: 		
-			/*tamNucleo = 4;
-			tamSeq = 12;*/
+		/*case 16: 		
+			tamNucleo = 4;
+			tamSeq = 12;
 			tamOpcoes = 8;
-			/*coresDistintas = 3;
+			coresDistintas = 3;
 			formasDistintas = 4;
 			tamanhosDistintos = 2;
-			contornosDistintos = 2;*/
+			contornosDistintos = 2;
 			endGame= true;
-			break;			
+			break;*/			
     default:
 		// alert("Fim do Jogo! Parabens!");
 		break;
@@ -744,7 +745,7 @@ function mudaOpacidade(){
 	var prop = 'animation-delay';
 	if (erros.length != 0) { //Percorre o array de erros e altera a opacidadeda da peça de acordo com a posição salva dentro do array erros
 		for(i = 0; i < erros.length; i++) {
-			document.getElementById(divOpcoes).classList.add('draggable-dropzone--occupied');
+			//document.getElementById(divOpcoes).classList.add('draggable-dropzone--occupied');
 			arrayDropbox[0].style.opacity = 1; //Altera a opaciade da 1 peça, pois, é a partir da segunda peça que precisa apresentar opacidade diferente
 			//arrayDropbox[erros[i]].classList.add('escolhida');
 			//arrayDropbox[erros[i]].style.setProperty(prop, '0.5s');
@@ -766,7 +767,7 @@ function mudaOpacidade(){
 			}, 700);
 			setTimeout(function () {
 				arrayDropbox[erros[0]].style.transition = "0s"; //Tira aquele efeito estranho da peça sendo arrastada.
-				document.getElementById(divOpcoes).classList.remove('draggable-dropzone--occupied');
+				//document.getElementById(divOpcoes).classList.remove('draggable-dropzone--occupied');
 			}, 1000);
 			//arrayDropbox[erros[i]].style.transform = 'scale(1)';
 			//arrayDropbox[erros[i]].style.transform = translateNegativo;
