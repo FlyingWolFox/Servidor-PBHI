@@ -12,6 +12,8 @@ var primeiraRodada = true;
 
 const textNumeroFase = 'textbox-numero-fase';
 const divFormas = 'container-formas';
+const botaoChecar = 'botao-checar';
+const botaoTerminei = 'botao-resultado';
 const dropPrimeiro = 'drop1';
 const dropSegundo = 'intDrop';
 const dropTerceiro = 'drop2';
@@ -21,6 +23,8 @@ const divRestricao2 = 'conteiner-restricao-direita';
 const forma = 0, cor = 1, tamanho = 2, contorno = 3;
 const divEstrelas = 'container-estrelas';
 var arrayEstrelas = document.getElementById(divEstrelas).getElementsByTagName('img');
+var btnConferir = document.getElementById(botaoChecar);
+var btnTerminei = document.getElementById(botaoTerminei);
 
 const coresEnum = Object.freeze({
     "azul": 0,
@@ -65,6 +69,22 @@ function reset() {
      //Array contendo todos os elementos gerados
     restricao1 = [];
     restricao2 = [];
+}
+
+function desabilitaBotoes(){
+    btnConferir.disabled = true;
+    btnTerminei.disabled = true;
+}
+
+function habilitaBotoes(){
+    btnConferir.disabled = false;
+    btnTerminei.disabled = false;
+    console.log('terminei a animação de dentro de habilita......');
+}
+
+function habilitaTerminei(){
+    btnTerminei.disabled = false;
+    console.log('terminei a animação de dentro de habilita......');
 }
 
 function resetEstrelas() {
@@ -733,6 +753,7 @@ function game() {
                 
             }
             tamOpcoes = 4;
+            quantidade = 2;
             restricao1[forma] = formasEnum.triangulo;
             restricao2[forma] = formasEnum.quadrado;
             estadoRestricao1[forma] = 'Aceito';
@@ -743,27 +764,32 @@ function game() {
             contornosDistintos = 1;
             if(primeiraRodada == true){
                 createDiagram([restricao1[forma]],[restricao2[forma]],[0],[0],false)
+                background(quantidade);
             }
             else{
                 startDiagrama([restricao1[forma]],[restricao2[forma]],[0],[0],false)
+                background(quantidade);
             }
            break;
         case 1:
             removeDiagram()
-           tamOpcoes = 4;
-           restricao1[forma] = formasEnum.circulo;
-           restricao2[forma] = formasEnum.retangulo;
-           estadoRestricao1[forma] = 'Aceito';
-           estadoRestricao2[forma] = 'Aceito';
-           coresDistintas = 1;
-           formasDistintas = 4;
-           tamanhosDistintos = 1;
-           contornosDistintos = 1;
-           startDiagrama([restricao1[forma]],[restricao2[forma]],[0],[0],false)
-           break;
+            tamOpcoes = 4;
+            quantidade = 2;
+            restricao1[forma] = formasEnum.circulo;
+            restricao2[forma] = formasEnum.retangulo;
+            estadoRestricao1[forma] = 'Aceito';
+            estadoRestricao2[forma] = 'Aceito';
+            coresDistintas = 1;
+            formasDistintas = 4;
+            tamanhosDistintos = 1;
+            contornosDistintos = 1;
+            startDiagrama([restricao1[forma]],[restricao2[forma]],[0],[0],false)
+            background(quantidade);
+            break;
         case 2:
             removeDiagram()
-            tamOpcoes = 5;
+            tamOpcoes = 4;
+            quantidade = 2;
             restricao1[forma] = formasEnum.circulo;
             restricao2[forma] = formasEnum.triangulo;
             estadoRestricao1[forma] = 'Aceito';
@@ -773,10 +799,12 @@ function game() {
             tamanhosDistintos = 1;
             contornosDistintos = 1;
             startDiagrama([restricao1[forma]],[restricao2[forma]],[0],[0],false)
+            background(quantidade);
             break;
         case 3:
             removeDiagram()
-            tamOpcoes = 5;
+            tamOpcoes = 4;
+            quantidade = 2;
             restricao1[forma] = formasEnum.retangulo;
             restricao2[forma] = formasEnum.quadrado;
             estadoRestricao1[forma] = 'Aceito';
@@ -786,10 +814,12 @@ function game() {
             tamanhosDistintos = 1;
             contornosDistintos = 1;
             startDiagrama([restricao1[forma]],[restricao2[forma]],[0],[0],false)
+            background(quantidade);
             break;
         case 4:
             removeDiagram()
-            tamOpcoes = 6;
+            tamOpcoes = 4;
+            quantidade = 2;
             restricao1[forma] = formasEnum.triangulo;
             restricao2[forma] = formasEnum.quadrado;
             estadoRestricao1[forma] = 'Aceito';
@@ -799,125 +829,155 @@ function game() {
             tamanhosDistintos = 1;
             contornosDistintos = 1;
             startDiagrama([restricao1[forma]],[restricao2[forma]],[0],[0],false)
+            background(quantidade);
             break;
         case 5:
             removeDiagram()
-            tamOpcoes = 6;
-            restricao1[forma] = formasEnum.triangulo;
-            restricao2[forma] = formasEnum.retangulo;
-            estadoRestricao1[forma] = 'Aceito';
-            estadoRestricao2[forma] = 'Aceito';
-            coresDistintas = 3;
-            formasDistintas = 3;
-            tamanhosDistintos = 1;
-            contornosDistintos = 2;
-            startDiagrama([restricao1[forma]],[restricao2[forma]],[0],[0],false)
-            break;
-        case 6:
-            removeDiagram()
-            tamOpcoes = 6;
+            tamOpcoes = 4;
+            quantidade = 3;
             restricao1[cor] = coresEnum.azul;
-            restricao2[cor] = coresEnum.amarelo;
+            restricao2[forma] = formasEnum.retangulo;
             estadoRestricao1[cor] = 'Aceito';
-            estadoRestricao2[cor] = 'Aceito';
-            coresDistintas = 2;
-            formasDistintas = 4;
-            tamanhosDistintos = 1;
-            contornosDistintos = 1;
-            startDiagrama([restricao1[cor]],[restricao2[cor]],[1],[1],false)
-            break;
-        case 7:
-            removeDiagram()
-            tamOpcoes = 6;
-            restricao1[cor] = coresEnum.amarelo;
-            restricao2[cor] = coresEnum.vermelho;
-            estadoRestricao1[cor] = 'Aceito';
-            estadoRestricao2[cor] = 'Aceito';
-            coresDistintas = 3;
-            formasDistintas = 4;
-            tamanhosDistintos = 1;
-            contornosDistintos = 1;
-            startDiagrama([restricao1[cor]],[restricao2[cor]],[1],[1],false)
-            break;
-        case 8:
-            removeDiagram()
-            tamOpcoes = 5;
-            restricao1[cor] = coresEnum.vermelho;
-            restricao2[cor] = coresEnum.amarelo;
-            estadoRestricao1[cor] = 'Aceito';
-            estadoRestricao2[cor] = 'Aceito';
+            estadoRestricao2[forma] = 'Aceito';
             coresDistintas = 3;
             formasDistintas = 2;
             tamanhosDistintos = 1;
             contornosDistintos = 1;
-            startDiagrama([restricao1[cor]],[restricao2[cor]],[1],[1],false)
+            startDiagrama([restricao1[cor]],[restricao2[forma]],[1],[0],true)
+            background(quantidade);
             break;
-        case 9:
+        case 6:
             removeDiagram()
-            tamOpcoes = 6;
-            restricao1[tamanho] = tamanhoEnum.pequeno;
-            restricao2[tamanho] = tamanhoEnum.grande;
-            estadoRestricao1[tamanho] = 'Aceito';
+            tamOpcoes = 4;
+            quantidade = 3;
+            restricao1[forma] = formasEnum.circulo;
+            restricao2[cor] = coresEnum.amarelo;
+            estadoRestricao1[forma] = 'Aceito';
+            estadoRestricao2[cor] = 'Aceito';
+            coresDistintas = 3;
+            formasDistintas = 2;
+            tamanhosDistintos = 1;
+            contornosDistintos = 2;
+            startDiagrama([restricao1[forma]],[restricao2[cor]],[0],[1],true)
+            background(quantidade);
+            break;
+        case 7:
+            removeDiagram()
+            tamOpcoes = 4;
+            quantidade = 3;
+            restricao1[forma] = formasEnum.triangulo;
+            restricao2[tamanho] = tamanhoEnum.pequeno;
+            estadoRestricao1[forma] = 'Aceito';
             estadoRestricao2[tamanho] = 'Aceito';
             coresDistintas = 1;
             formasDistintas = 4;
             tamanhosDistintos = 2;
             contornosDistintos = 1;
-            startDiagrama([restricao1[tamanho]],[restricao2[tamanho]],[2],[2],false)
+            startDiagrama([restricao1[forma]],[restricao2[tamanho]],[0],[2],true)
+            background(quantidade);
+            break;
+        case 8:
+            removeDiagram()
+            tamOpcoes = 4;
+            quantidade = 3;
+            restricao1[contorno] = contornoEnum.comContorno;
+            restricao2[cor] = coresEnum.vermelho;
+            estadoRestricao1[contorno] = 'Aceito';
+            estadoRestricao2[cor] = 'Aceito';
+            coresDistintas = 3;
+            formasDistintas = 2;
+            tamanhosDistintos = 1;
+            contornosDistintos = 2;
+            startDiagrama([restricao1[contorno]],[restricao2[cor]],[3],[1],true)
+            background(quantidade);
+            break;
+        case 9:
+            removeDiagram()
+            tamOpcoes = 4;
+            quantidade = 2;
+            restricao1[contorno] = contornoEnum.semContorno;
+            restricao1[forma] = formasEnum.retangulo;
+            restricao2[contorno] = contornoEnum.comContorno;
+            estadoRestricao1[contorno] = 'Aceito';
+            estadoRestricao1[forma] = 'Aceito';
+            estadoRestricao2[contorno] = 'Aceito';
+            coresDistintas = 2;
+            formasDistintas = 4;
+            tamanhosDistintos = 1;
+            contornosDistintos = 2;
+            startDiagrama([restricao1[contorno],restricao1[forma]],[restricao2[contorno]],[3,0],[3],false)
+            background(quantidade);
             break;
         case 10:        //Inicia intersecção (com resposta)
             removeDiagram()
             tamOpcoes = 4;
-            restricao1[cor] = coresEnum.azul;
-            restricao2[forma] = formasEnum.quadrado;
+            quantidade = 2;
+            restricao1[forma] = formasEnum.quadrado;
+            restricao1[cor] = coresEnum.vermelho;
+            restricao2[cor] = coresEnum.azul;
             estadoRestricao1[cor] = 'Aceito';
-            estadoRestricao2[forma] = 'Aceito';
-            coresDistintas = 2;
+            estadoRestricao1[forma] = 'Aceito';
+            estadoRestricao2[cor] = 'Aceito';
+            coresDistintas = 3;
             formasDistintas = 4;
             tamanhosDistintos = 1;
-            contornosDistintos = 1;
-            startDiagrama([restricao1[cor]],[restricao2[forma]],[1],[0],true)
+            contornosDistintos = 2;
+            startDiagrama([restricao1[forma],restricao1[cor]],[restricao2[cor]],[0,1],[1],false)
+            background(quantidade);
             break;
         case 11:
             removeDiagram()
-            tamOpcoes = 6;
+            tamOpcoes = 4;
+            quantidade = 2;
             restricao1[cor] = coresEnum.amarelo;
-            restricao2[forma] = formasEnum.retangulo;
+            restricao1[tamanho] = tamanhoEnum.pequeno;
+            restricao2[tamanho] = tamanhoEnum.grande;
             estadoRestricao1[cor] = 'Aceito';
-            estadoRestricao2[forma] = 'Aceito';
+            estadoRestricao1[tamanho] = 'Aceito';
+            estadoRestricao2[tamanho] = 'Aceito';
             coresDistintas = 2;
             formasDistintas = 4;
-            tamanhosDistintos = 1;
+            tamanhosDistintos = 2;
             contornosDistintos = 1;
-            startDiagrama([restricao1[cor]],[restricao2[forma]],[1],[0],true)
+            startDiagrama([restricao1[cor], restricao1[tamanho]],[restricao2[tamanho]],[1,2],[2],false)
+            background(quantidade);
             break;
         case 12:
             removeDiagram()
-            tamOpcoes = 7;
-            restricao1[forma] = formasEnum.circulo;
+            tamOpcoes = 4;
+            quantidade = 3;
+            restricao1[contorno] = contornoEnum.semContorno;
+            restricao1[forma] = formasEnum.retangulo;
             restricao2[cor] = coresEnum.vermelho;
+            estadoRestricao1[contorno] = 'Aceito';
             estadoRestricao1[forma] = 'Aceito';
             estadoRestricao2[cor] = 'Aceito';
             coresDistintas = 2;
             formasDistintas = 4;
             tamanhosDistintos = 1;
-            contornosDistintos = 1;
-            startDiagrama([restricao1[forma]],[restricao2[cor]],[0],[1],true)
+            contornosDistintos = 2;
+            startDiagrama([restricao1[contorno],restricao1[forma]],[restricao2[cor]],[3,0],[1],true)
+            background(quantidade);
             break;
         case 13:
             removeDiagram()
-            tamOpcoes = 7;
-            restricao1[cor] = coresEnum.vermelho;
-            restricao2[forma] = formasEnum.triangulo;
+            tamOpcoes = 4;
+            quantidade = 3;
+            restricao1[tamanho] = tamanhoEnum.pequeno;
+            restricao1[cor] = coresEnum.azul;
+            restricao2[forma] = formasEnum.circulo;
+            estadoRestricao1[tamanho] = 'Aceito';
             estadoRestricao1[cor] = 'Aceito';
             estadoRestricao2[forma] = 'Aceito';
             coresDistintas = 3;
-            formasDistintas = 4;
-            tamanhosDistintos = 1;
+            formasDistintas = 3;
+            tamanhosDistintos = 2;
             contornosDistintos = 1;
-            startDiagrama([restricao1[cor]],[restricao2[forma]],[1],[0],true)
+            startDiagrama([restricao1[tamanho],restricao1[cor]],[restricao2[forma]],[2,1],[0],true);
+            background(quantidade);
+            endGame=true;
             break;
-        case 14:
+        /*case 14:
             removeDiagram()
             tamOpcoes = 5;
             restricao1[cor] = coresEnum.azul;
@@ -1055,7 +1115,7 @@ function game() {
             formasDistintas = 4;
             tamanhosDistintos = 1;
             contornosDistintos = 2;
-            startDiagrama([restricao1[forma]],[restricao2[cor]],[0],[3],true)
+            startDiagrama([restricao1[forma]],[restricao2[contorno]],[0],[3],true)
             break;
         case 24:
             removeDiagram()
@@ -1290,7 +1350,7 @@ function game() {
             contornosDistintos = 2;
             startDiagrama([restricao1[contorno]],[restricao2[tamanho]],[3],[2],true);
             endGame = true;
-            break;
+            break;*/
         default:	
            return;
     }
@@ -1311,12 +1371,12 @@ function game() {
     let numero = 0;
     quantidade = 0;
 
-    if(etapaAtual < 10){ //Inicial - Sem intersecção - 2 respostas prontas 
+    /*if(etapaAtual <= 4 || (etapaAtual >= 9 && etapaAtual <= 11)){ //Inicial - Sem intersecção - 2 respostas prontas 
        quantidade = 2;
     }
-    if(etapaAtual > 11 && etapaAtual < 38){ //Intermediário - Com intersecção - 3 respostas prontas 
+    if((etapaAtual >= 5 && etapaAtual <= 8) || (etapaAtual >= 12 && etapaAtual <= 13)){ //Intermediário - Com intersecção - 3 respostas prontas 
        quantidade = 3;
-    }
+    }*/
 
     /* Primeira imagem correta*/
     for (i = 0; i < (tamOpcoes-1); i++){
@@ -1397,7 +1457,7 @@ function game() {
 
     });
 
-    background(quantidade);
+    //background(quantidade);
 
 }
 
@@ -1578,7 +1638,25 @@ function resolver(){    //Reconhece onde colocar as imagens pelo fluxograma
     var contador = 3;
     tempo = 100;
     tempoAdicional = 2000;
-    
+
+    if(child2.getOutgoingLinks() == ''){
+        diagram.factory.createDiagramLink(child2, child7);
+    }
+    if(child5.getOutgoingLinks() == ''){
+        diagram.factory.createDiagramLink(child5, child7);
+    }
+
+    if(child6.getOutgoingLinks() == ''){
+        diagram.factory.createDiagramLink(child6, child7);
+    }
+
+    if((etapaAtual >= 5 && etapaAtual <= 8) || (etapaAtual >= 12 && etapaAtual <=13)){
+        if(decisionNode2.getOutgoingLinks() == ''){
+            console.log('CRIEI UM LINK PARA O NODE FIM DENTRO DE RESOLVER................................................')
+            diagram.factory.createDiagramLink(decisionNode2, child7);
+        }
+    }
+
     for (let forma of newDivForms) {
         var caminhar = new Array();
         var form = forma[0];
@@ -1781,11 +1859,11 @@ function anima(caminhar, nodeTexto) {
     var dropDireita = document.getElementById(dropTerceiro);
     var dropMeio = document.getElementById(dropSegundo);
     var cam = caminhar.shift();
-    
-
+        console.log(cam.getText());
         if (cam != null) {
             if (cam.getText() == 'INÍCIO') {
                 timeouts.push(setTimeout(function () { 
+                    desabilitaBotoes();
                     nodeImg = pegarNodeImg()
                     animacao(nodeImg, cam); console.log("Passei no node:", cam.getText())
                     divForms.childNodes[3].style.transition = "1s";
@@ -1800,7 +1878,7 @@ function anima(caminhar, nodeTexto) {
                     divForms.childNodes[3].style.transform = 'scale(1)';
                 }, tempo));
                 tempo = tempo + tempoAdicional;
-                timeouts.push(setTimeout(function () { diagram.removeItem(nodeImg) }, tempo));
+                timeouts.push(setTimeout(function () { diagram.removeItem(nodeImg); habilitaTerminei();}, tempo));
             } 
             else if(cam.getText() == "Colocar na esquerda"){
                 timeouts.push(setTimeout(function () { 
@@ -1840,7 +1918,7 @@ function anima(caminhar, nodeTexto) {
                 tempo = tempo + tempoAdicional;
                 anima(caminhar, nodeTexto);
             }
-            else if(cam.getText() == "Colocar na intercessão"){
+            else if(cam.getText() == "Colocar na interseção"){
                 timeouts.push(setTimeout(function () { 
                     animacao(nodeImg, cam);
                     console.log("Passei no node:", cam.getText());
@@ -1873,7 +1951,7 @@ function anima(caminhar, nodeTexto) {
                 anima(caminhar, nodeTexto);
             }
         } else if (cam == null) {
-            setTimeout(function () { tempo = 100 }, tempo);
+            setTimeout(function () { tempo = 100; }, tempo);
         }
 }
 
@@ -1958,6 +2036,11 @@ function criarImg(forma,cor,tamanho,contorno){ //Cria uma nova imagem
 
 //Decide pra qual node vai o "ponteiro"
 function pegarProximoNode(proximoNode,sentido){
+    if(proximoNode.getShape().getId() == 'Rectangle'){
+        if(proximoNode.getOutgoingLinks() == ''){
+            diagram.factory.createDiagramLink(proximoNode, child7);
+        }
+    }
     var linkProximoNode = proximoNode.getOutgoingLinks();
     var nodeFim = linkProximoNode[0].getDestination();
     var node = [];
@@ -2064,7 +2147,6 @@ function check(){ //Confere se acertou
    }
     /*Verifica todas as situações de resposta*/
     if (mov != 0) {
-
         console.warn('n movi todas')
         modalErro.style.display = 'block';
         textoErro.innerText = 'Você ainda não moveu todas as imagens... Tente novamente.';
@@ -2075,7 +2157,8 @@ function check(){ //Confere se acertou
             
                 modalAcerto.style.display = 'block';
                 textoAcerto.innerText = 'Você acertou! Fase concluída.';
-                botaoOk.innerHTML = "Próxima"; 
+                botaoOk.innerHTML = "Próxima";
+                habilitaBotoes();
                 botaoOk.onclick = function (event){
                     etapaAtual +=1; //////////////////////////////////////////////////////////////////////////////////////////////////////
                     estrela++;
@@ -2085,37 +2168,65 @@ function check(){ //Confere se acertou
                         case 2:
                         case 3:
                         case 4:
+                            var texto = document.getElementById('texto1');
+                            texto.innerHTML = etapaAtual.toString() + "/5";
+                            break;
                         case 5:
+                            arrayEstrelas[0].setAttribute('src', './img/estrelas/star1.svg');
+                            var texto = document.getElementById('texto1');
+                            texto.innerHTML = etapaAtual.toString() + "/5";
+                            break;
                         case 6:
                         case 7:
                         case 8:
+                            var texto = document.getElementById('texto2');
+                            texto.innerHTML = etapaAtual.toString() + "/9";
+                            break;
                         case 9:
-                            var texto = document.getElementById('texto1');
-                            texto.innerHTML = etapaAtual.toString() + "/10";
+                            arrayEstrelas[1].setAttribute('src', './img/estrelas/star1.svg');
+                            var texto = document.getElementById('texto2');
+                            texto.innerHTML = etapaAtual.toString() + "/9";
                             break;
+                            /*var texto = document.getElementById('texto1');
+                            texto.innerHTML = etapaAtual.toString() + "/10";
+                            break;*/
                         case 10:
-                            arrayEstrelas[0].setAttribute('src', './img/estrelas/star1.svg');
+                            /*arrayEstrelas[0].setAttribute('src', './img/estrelas/star1.svg');
                             var texto = document.getElementById('texto1');
                             texto.innerHTML = etapaAtual.toString() + "/10";
-                            break;
+                            break;*/
                         case 11:
+                            var texto = document.getElementById('texto3');
+                            texto.innerHTML = etapaAtual.toString() + "/12";
+                            break;
                         case 12:
+                            arrayEstrelas[2].setAttribute('src', './img/estrelas/star1.svg');
+                            var texto = document.getElementById('texto3');
+                            texto.innerHTML = etapaAtual.toString() + "/12";
+                            break;
                         case 13:
+                            var texto = document.getElementById('texto4');
+                            texto.innerHTML = etapaAtual.toString() + "/14";
+                            break;
                         case 14:
-                        case 15:
+                            arrayEstrelas[3].setAttribute('src', './img/estrelas/star1.svg');
+                            var texto = document.getElementById('texto4');
+                            texto.innerHTML = etapaAtual.toString() + "/14";
+                            break;
+                        /*case 15:
                         case 16:
                         case 17:
                         case 18:
-                        case 19: 
-                        var texto = document.getElementById('texto2');
-                        texto.innerHTML = etapaAtual.toString() + "/20";
-                        break;   
-                        case 20:
-                            arrayEstrelas[1].setAttribute('src', './img/estrelas/star1.svg');
+                        case 19: */
+                            /*var texto = document.getElementById('texto2');
+                            texto.innerHTML = etapaAtual.toString() + "/7";
+                            break;*/ 
+                        //case 20:
+                            /*arrayEstrelas[1].setAttribute('src', './img/estrelas/star1.svg');
                             var texto = document.getElementById('texto2');
-                            texto.innerHTML = etapaAtual.toString() + "/20";
-                            break;
-                        case 21:
+                            texto.innerHTML = etapaAtual.toString() + "/7";
+                            break;*/
+                        /*case 21:
                         case 22:
                         case 23:
                         case 24:                    
@@ -2123,31 +2234,31 @@ function check(){ //Confere se acertou
                         case 26:
                         case 27:
                         case 28:
-                        case 29:
+                        case 29:*/
+                            /*var texto = document.getElementById('texto3');
+                            texto.innerHTML = etapaAtual.toString() + "/12";
+                            break; */
+                        //case 30:
+                            /*arrayEstrelas[2].setAttribute('src', './img/estrelas/star1.svg');
                             var texto = document.getElementById('texto3');
-                            texto.innerHTML = etapaAtual.toString() + "/30";
-                            break; 
-                        case 30:
-                            arrayEstrelas[2].setAttribute('src', './img/estrelas/star1.svg');
-                            var texto = document.getElementById('texto3');
-                            texto.innerHTML = etapaAtual.toString() + "/30";
-                            break;    
-                        case 31:
+                            texto.innerHTML = etapaAtual.toString() + "/12";
+                            break;*/   
+                        /*case 31:
                         case 32:
                         case 33:
                         case 34:
                         case 35:                    
                         case 36:     
                         case 37:
-                        case 38:
+                        case 38:*/
+                            /*var texto = document.getElementById('texto4');
+                            texto.innerHTML = etapaAtual.toString() + "/18";
+                            break;*/
+                        //case 39:
+                            /*arrayEstrelas[3].setAttribute('src', './img/estrelas/star1.svg');
                             var texto = document.getElementById('texto4');
-                            texto.innerHTML = etapaAtual.toString() + "/40";
-                            break;
-                        case 39:
-                            arrayEstrelas[3].setAttribute('src', './img/estrelas/star1.svg');
-                            var texto = document.getElementById('texto4');
-                            texto.innerHTML = etapaAtual.toString() + "/40";
-                            break;
+                            texto.innerHTML = etapaAtual.toString() + "/18";
+                            break;*/
                         default:
                             break;
                     }
@@ -2180,6 +2291,7 @@ function resetFlux(){
     for (var i=0; i<timeouts.length; i++) {
         clearTimeout(timeouts[i]);
     }
+    habilitaBotoes();
     game()
 }
 
@@ -2194,7 +2306,7 @@ var Rect = MindFusion.Drawing.Rect;
 var DashStyle = MindFusion.Drawing.DashStyle;
 var Events = MindFusion.Diagramming.Events;
 var Animation = MindFusion.Animations.Animation;
-var child7, child1, child2, stepNode3;
+var child7, child1, child2, child5, child6, decisionNode1, stepNode3;
 var Font = MindFusion.Drawing.Font;
 
 var diagram;
@@ -2258,29 +2370,29 @@ function iniciarDiagrama(rest1, rest2, type1, type2, inter) {
         switch (parseInt(type1[i])) {
             case 0:
                 switch (parseInt(rest1[i])) {
-                    case 0: rest1[i] = "É triângulo"; break;
-                    case 1: rest1[i] = "É quadrado"; break;
-                    case 2: rest1[i] = "É retângulo"; break;
-                    case 3: rest1[i] = "É círculo"; break;
+                    case 0: rest1[i] = "É triângulo?"; break;
+                    case 1: rest1[i] = "É quadrado?"; break;
+                    case 2: rest1[i] = "É retângulo?"; break;
+                    case 3: rest1[i] = "É círculo?"; break;
                 }
                 ;
             case 1:
                 switch (parseInt(rest1[i])) {
-                    case 0: rest1[i] = "É azul"; break;
-                    case 1: rest1[i] = "É vermelho"; break;
-                    case 2: rest1[i] = "É amarelo"; break;
+                    case 0: rest1[i] = "É azul?"; break;
+                    case 1: rest1[i] = "É vermelho?"; break;
+                    case 2: rest1[i] = "É amarelo?"; break;
                 }
                 ;
             case 2:
                 switch (parseInt(rest1[i])) {
-                    case 0: rest1[i] = "É grande"; break;
-                    case 1: rest1[i] = "É pequeno"; break;
+                    case 0: rest1[i] = "É grande?"; break;
+                    case 1: rest1[i] = "É pequeno?"; break;
                 }
                 ;
             case 3:
                 switch (parseInt(rest1[i])) {
-                    case 0: rest1[i] = "tem borda"; break;
-                    case 1: rest1[i] = "tem borda"; break;
+                    case 0: rest1[i] = "tem borda?"; break;
+                    case 1: rest1[i] = "tem borda?"; break;
                 }
                 ;
         }
@@ -2289,29 +2401,29 @@ function iniciarDiagrama(rest1, rest2, type1, type2, inter) {
         switch (parseInt(type2[i])) {
             case 0:
                 switch (parseInt(rest2[i])) {
-                    case 0: rest2[i] = "É triângulo"; break;
-                    case 1: rest2[i] = "É quadrado"; break;
-                    case 2: rest2[i] = "É retângulo"; break;
-                    case 3: rest2[i] = "É círculo"; break;
+                    case 0: rest2[i] = "É triângulo?"; break;
+                    case 1: rest2[i] = "É quadrado?"; break;
+                    case 2: rest2[i] = "É retângulo?"; break;
+                    case 3: rest2[i] = "É círculo?"; break;
                 }
                 ;
             case 1:
                 switch (parseInt(rest2[i])) {
-                    case 0: rest2[i] = "É azul"; break;
-                    case 1: rest2[i] = "É vermelho"; break;
-                    case 2: rest2[i] = "É amarelo"; break;
+                    case 0: rest2[i] = "É azul?"; break;
+                    case 1: rest2[i] = "É vermelho?"; break;
+                    case 2: rest2[i] = "É amarelo?"; break;
                 }
                 ;
             case 2:
                 switch (parseInt(rest2[i])) {
-                    case 0: rest2[i] = "É grande"; break;
-                    case 1: rest2[i] = "É pequeno"; break;
+                    case 0: rest2[i] = "É grande?"; break;
+                    case 1: rest2[i] = "É pequeno?"; break;
                 }
                 ;
             case 3:
                 switch (parseInt(rest2[i])) {
-                    case 0: rest2[i] = "tem borda"; break;
-                    case 1: rest2[i] = "tem borda"; break;
+                    case 0: rest2[i] = "tem borda?"; break;
+                    case 1: rest2[i] = "tem borda?"; break;
                 }
                 ;
         }
@@ -2335,12 +2447,12 @@ function iniciarDiagrama(rest1, rest2, type1, type2, inter) {
     var fonte = new Font("sans-serif", 3, true, false);
     
     if (inter) {
-        var decisionNode1 = diagram.getFactory().createShapeNode(45, 100 - (altura * 2) - (espacoy), largura, altura * 0.66);
-        decisionNode1.setBrush(corInter);
-        decisionNode1.setFont(fonte); 
-        decisionNode1.setText("Colocar na interseção");
+        decisionNode2 = diagram.getFactory().createShapeNode(45, 100 - (altura * 2) - (espacoy), largura, altura * 0.66);
+        decisionNode2.setBrush(corInter);
+        decisionNode2.setFont(fonte); 
+        decisionNode2.setText("Colocar na interseção");
     }
-    child7 = diagram.getFactory().createShapeNode(67, 100 - (altura * 2 - espacoy * 6), largura * 0.75, altura * 0.66);
+    child7 = diagram.getFactory().createShapeNode(67, 100 - (altura * 2 - espacoy * 10), largura * 0.75, altura * 0.66);
     child7.setShape('Ellipse');
     child7.setBrush(corFimInicio);
     child7.setFont(fonte);
@@ -2354,17 +2466,17 @@ function iniciarDiagrama(rest1, rest2, type1, type2, inter) {
     child1.setText("INÍCIO");
 
     // cria os nodes de passos
-    var child2 = diagram.getFactory().createShapeNode(10, 100 - (altura * 2) - (espacoy), largura, altura * 0.66);
+    child2 = diagram.getFactory().createShapeNode(10, 100 - (altura * 2) - (espacoy), largura, altura * 0.66);
     child2.setBrush(corEsquerda);
     child2.setFont(fonte);
     child2.setText("Colocar na esquerda");
 
-    var child5 = diagram.getFactory().createShapeNode(115, 100 - (altura * 2) - (espacoy), largura, altura * 0.66);
+    child5 = diagram.getFactory().createShapeNode(115, 100 - (altura * 2) - (espacoy), largura, altura * 0.66);
     child5.setBrush(corDireita);
     child5.setFont(fonte);
     child5.setText("Colocar na direita");
 
-    var child6 = diagram.getFactory().createShapeNode(85, 100 - (altura * 2) - (espacoy), largura, altura * 0.66);
+    child6 = diagram.getFactory().createShapeNode(85, 100 - (altura * 2) - (espacoy), largura, altura * 0.66);
     child6.setFont(fonte);
     child6.setBrush(corDescarta);
     child6.setText("Não mover");
@@ -2373,38 +2485,38 @@ function iniciarDiagrama(rest1, rest2, type1, type2, inter) {
 
     for (i = 0; i < formas.length; i++) {
         switch (parseInt(i)) {
-            case 0: var decisionNode1 = diagram.getFactory().createShapeNode(67 - largura / 10, altura * (1), largura, altura);; break;
+            case 0: decisionNode1 = diagram.getFactory().createShapeNode(67 - largura / 10, altura * (1), largura, altura);; break;
             case 1: if (rest1.length > 1) {
-                var decisionNode1 = diagram.getFactory().createShapeNode(30, altura * (1.75), largura, altura);
+                decisionNode1 = diagram.getFactory().createShapeNode(30, altura * (1.75), largura, altura);
             }
             else {
-                var decisionNode1 = diagram.getFactory().createShapeNode(85, altura * (1.75), largura, altura);
+                decisionNode1 = diagram.getFactory().createShapeNode(85, altura * (1.75), largura, altura);
             }
                 break;
             case 2: if (rest1.length > 1) {
-                var decisionNode1 = diagram.getFactory().createShapeNode(85, altura * (1.75), largura, altura);
+                decisionNode1 = diagram.getFactory().createShapeNode(85, altura * (1.75), largura, altura);
             }
             else {
-                var decisionNode1 = diagram.getFactory().createShapeNode(45, altura * (1.75) - espacoy, largura, altura);
+                decisionNode1 = diagram.getFactory().createShapeNode(45, altura * (1.75) - espacoy, largura, altura);
             }
                 ; break;
             case 3: if (rest1.length > 1) {
-                var decisionNode1 = diagram.getFactory().createShapeNode(45, altura * (2.75) - espacoy, largura, altura);
+                decisionNode1 = diagram.getFactory().createShapeNode(45, altura * (2.75) - espacoy, largura, altura);
             }
             else {
-                var decisionNode1 = diagram.getFactory().createShapeNode(30, altura * (2.75), largura, altura);
+                decisionNode1 = diagram.getFactory().createShapeNode(30, altura * (2.75), largura, altura);
             }
                 ; break;
             case 4: if (rest1.length > 1) {
-                var decisionNode1 = diagram.getFactory().createShapeNode(85, altura * (2.75), largura, altura);
+                decisionNode1 = diagram.getFactory().createShapeNode(85, altura * (2.75), largura, altura);
             }
             else {
-                var decisionNode1 = diagram.getFactory().createShapeNode(45, altura * (2.75) - espacoy, largura, altura);
+                decisionNode1 = diagram.getFactory().createShapeNode(45, altura * (2.75) - espacoy, largura, altura);
             }
                 ; break;
         }
         decisionNode1.setShape('Decision');
-	decisionNode1.setBrush(corNode);
+	    decisionNode1.setBrush(corNode);
         decisionNode1.setFont(fonte);
         decisionNode1.setText(formas[i]);
     }
