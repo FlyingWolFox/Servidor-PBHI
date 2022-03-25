@@ -1,12 +1,20 @@
 /** CONSTANTES DO SCRIPT **/
 
 // IDs dos containers
+
 const divSequencia = 'container-nucleo';
 const divOpcoes = 'container-formas';
 const divCaixa = 'container-sequencia';
 const textNumeroFase = 'textbox-numero-fase';
 const divEstrelas = 'container-estrelas';
-
+const anosEnum = Object.freeze({
+	"Primeiro ano": 1,
+	"Segundo ano": 2,
+	"Terceiro ano": 3,
+	"Quarto ano": 4,
+	"Quinto ano": 5,
+	"Sexto ano": 6
+});
 const coresEnum = Object.freeze({
 	"azul": 0,
 	"rosa": 1,
@@ -26,9 +34,35 @@ var nSlots; //quantas vezes o nucleo se repete na resposta
 var etapaAtual = 0;
 var estrela = 0; //nível de estrelas do jogador 
 var arrayEstrelas = document.getElementById(divEstrelas).getElementsByTagName('img');
+var ano = localStorage.getItem('ano');
+var etapaMax = 25;
 /** FIM VARIAVEIS */
 
 /** FUNCOES DE APOIO */
+function getFasesPorAno(){
+	switch(ano){
+		case "Primeiro ano":
+			etapaMax = 40;
+			break;
+		case "Segundo ano":
+			etapaMax = 40;
+			break;
+		case "Terceiro ano":
+			etapaMax = 40;
+			break;
+		case "Quarto ano":
+			etapaMax = 40;
+			break;
+		case "Quinto ano":
+			etapaMax = 40;
+			break;
+		case "Sexto ano":
+			etapaMax = 40;
+			break;			
+	}
+	console.log("esse eh o numero maximo de fases desse ano: " + etapaMax);
+}
+getFasesPorAno();
 
 function randomInteger(min, max) {
 	return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -715,7 +749,7 @@ function check() { //Verifica se acertou os elementos
 
 	console.log(correto);
 	
-	if (endGame == false) {
+	if (endGame == false && etapaAtual <= etapaMax) {
 
 		if (correto) {
 			textoAcerto.innerText = "Você acertou! Fase concluída.";

@@ -131,7 +131,7 @@
     </main>
 
     <!--TERCEIRA LINHA-->
-    <main class="grid grid-full" class="alterando-margem-3">         
+    <main class="grid grid-full" id="alterando-margem-3">         
         <section class="main-section grid-center">
             <section class="sub-section" id="section-fluxograma">
                 <h2 class="section-title-fluxograma">FLUXOGRAMA</h2>
@@ -155,7 +155,7 @@
             </section>
         </section>
     </main>
-
+   
     <footer class="footer-grid" id="footer-top">
         <p class="footer-text grid-center">Copyright Fapesq - 2021</p>
         <section class="grid-right">
@@ -180,6 +180,7 @@
     <script>
         let verificando = document.getElementById('title-jogo').textContent;
 
+
         let jogoRepeticao = document.getElementById('jogo-repeticao');
         let jogoCompletar = document.getElementById('jogo-completar');
         let jogoGrupos = document.getElementById('jogo-grupos');
@@ -189,10 +190,12 @@
         let sequenciaDeNumeros = document.getElementById('sequencia-de-numeros');
 
         let fluxograma = document.getElementById('fluxograma');
-        let emBreve = document.getElementById('em-breve');
-        let emBreve2 = document.getElementById('em-breve2');
+        let domino = document.getElementById('em-breve');
+        let logix = document.getElementById('em-breve2');
 
         if(verificando == "Primeiro ano"){
+            //var jogoProibido = document.getElementById('alterando-margem-3');
+            //jogoProibido.remove();
             jogoRepeticao.addEventListener('click', function(){
                 localStorage.setItem('titulo', 'JOGO DA REPETIÇÃO - PRIMEIRO ANO')
             })
@@ -206,7 +209,7 @@
             })
 
 
-            criarSequencia.addEventListener('click', function(){
+           criarSequencia.addEventListener('click', function(){
                 localStorage.setItem('titulo', 'CRIAR SEQUÊNCIA - PRIMEIRO ANO')
             })
 
@@ -223,13 +226,14 @@
                 localStorage.setItem('titulo', 'FLUXOGRAMA - PRIMEIRO ANO')
             })
 
-            emBreve.addEventListener('click', function(){
-                localStorage.setItem('titulo', 'EM BREVE')
+            domino.addEventListener('click', function(){
+                localStorage.setItem('titulo', 'DOMINÓ DA DIFERENÇA - PRIMEIRO ANO')
             })
 
-            emBreve2.addEventListener('click', function(){
-                localStorage.setItem('titulo', 'EM BREVE')
+            logix.addEventListener('click', function(){
+                localStorage.setItem('titulo', 'LOGIX - PRIMEIRO ANO')
             })
+            
         } else if(verificando == "Segundo ano"){
             jogoRepeticao.addEventListener('click', function(){
                 localStorage.setItem('titulo', 'JOGO DA REPETIÇÃO - SEGUNDO ANO')
@@ -261,12 +265,12 @@
                 localStorage.setItem('titulo', 'FLUXOGRAMA - SEGUNDO ANO')
             })
 
-            emBreve.addEventListener('click', function(){
-                localStorage.setItem('titulo', 'EM BREVE')
+            domino.addEventListener('click', function(){
+                localStorage.setItem('titulo', 'DOMINÓ DA DIFERENÇA - SEGUNDO ANO')
             })
 
-            emBreve2.addEventListener('click', function(){
-                localStorage.setItem('titulo', 'EM BREVE')
+            logix.addEventListener('click', function(){
+                localStorage.setItem('titulo', 'LOGIX - SEGUNDO ANO')
             })
         } else if(verificando == "Terceiro ano"){
             jogoRepeticao.addEventListener('click', function(){
@@ -299,12 +303,12 @@
                 localStorage.setItem('titulo', 'FLUXOGRAMA - TERCEIRO ANO')
             })
 
-            emBreve.addEventListener('click', function(){
-                localStorage.setItem('titulo', 'EM BREVE')
+            domino.addEventListener('click', function(){
+                localStorage.setItem('titulo', 'DOMINO DA DIFERENÇA - TERCEIRO ANO')
             })
 
-            emBreve2.addEventListener('click', function(){
-                localStorage.setItem('titulo', 'EM BREVE')
+            logix.addEventListener('click', function(){
+                localStorage.setItem('titulo', 'LOGIX - TERCEIRO ANO')
             })
         } else if(verificando == "Quarto ano"){
             jogoRepeticao.addEventListener('click', function(){
@@ -337,12 +341,13 @@
                 localStorage.setItem('titulo', 'FLUXOGRAMA - QUARTO ANO')
             })
 
-            emBreve.addEventListener('click', function(){
-                localStorage.setItem('titulo', 'EM BREVE')
+          
+            domino.addEventListener('click', function(){
+                localStorage.setItem('titulo', 'DOMINO DA DIFERENÇA - QUARTO ANO')
             })
 
-            emBreve2.addEventListener('click', function(){
-                localStorage.setItem('titulo', 'EM BREVE')
+            logix.addEventListener('click', function(){
+                localStorage.setItem('titulo', 'LOGIX - QUARTO ANO')
             })
         } else if(verificando == "Quinto ano"){
             jogoRepeticao.addEventListener('click', function(){
@@ -375,12 +380,13 @@
                 localStorage.setItem('titulo', 'FLUXOGRAMA - QUINTO ANO')
             })
 
-            emBreve.addEventListener('click', function(){
-                localStorage.setItem('titulo', 'EM BREVE')
+           
+            domino.addEventListener('click', function(){
+                localStorage.setItem('titulo', 'DOMINO DA DIFERENÇA - QUINTO ANO')
             })
 
-            emBreve2.addEventListener('click', function(){
-                localStorage.setItem('titulo', 'EM BREVE')
+            logix.addEventListener('click', function(){
+                localStorage.setItem('titulo', 'LOGIX - QUINTO ANO')
             })
         } else if(verificando == "Sexto ano"){
             jogoRepeticao.addEventListener('click', function(){
@@ -413,12 +419,13 @@
                 localStorage.setItem('titulo', 'FLUXOGRAMA - SEXTO ANO')
             })
 
-            emBreve.addEventListener('click', function(){
-                localStorage.setItem('titulo', 'EM BREVE')
+           
+            domino.addEventListener('click', function(){
+                localStorage.setItem('titulo', 'DOMINO DA DIFERENÇA - SEXTO ANO')
             })
 
-            emBreve2.addEventListener('click', function(){
-                localStorage.setItem('titulo', 'EM BREVE')
+            logix.addEventListener('click', function(){
+                localStorage.setItem('titulo', 'LOGIX - SEXTO ANO')
             })
         }
     </script>

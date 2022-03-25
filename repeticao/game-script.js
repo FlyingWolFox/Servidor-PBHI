@@ -7,6 +7,15 @@ const divCaixa = 'container-sequencia'; //container-resposta
 const textNumeroFase = 'textbox-numero-fase';
 const divEstrelas = 'container-estrelas';
 
+const anosEnum = Object.freeze({
+	"Primeiro ano": 1,
+	"Segundo ano": 2,
+	"Terceiro ano": 3,
+	"Quarto ano": 4,
+	"Quinto ano": 5,
+	"Sexto ano": 6
+});
+
 const coresEnum = Object.freeze({
 	"azul": 0,
 	"vermelho": 1,
@@ -37,38 +46,37 @@ var tamNucleo; //Quantos elementos o nucleo possui
 var etapaAtual = 0;
 var estrela = 0; //nível de estrelas do jogador 
 var arrayEstrelas = document.getElementById(divEstrelas).getElementsByTagName('img');
+var ano = localStorage.getItem('ano');
+var etapaMax = 17;
+console.log('esse eh o ano:' + ano);
 /** FIM VARIAVEIS */
 
 /** FUNCOES DE APOIO */
-// function allowDrop(event){
-// 	if (event.target.getAttribute("droppable") == "false"){
-// 		event.dataTransfer.dropEffect = "none"; // dropping is not allowed
-// 		event.preventDefault();
-// 	}else{
-// 		event.dataTransfer.dropEffect = "all"; // drop it like it's hot
-// 		event.preventDefault();
-// 	}
-// 	event.preventDefault();
-// }
 
-// function drag(event) {
-// 	event.dataTransfer.setData("text", event.target.id);
-// }
-
-// function drop(event) {
-//   var id = event.dataTransfer.getData("text");
-//   const draggableElement = document.getElementById(id);
-//   const dropzone = event.target;
-//   dropzone.appendChild(draggableElement);
-//   if (event.currentTarget.id == 'dropBox') {
-//       arrayCaixa.push(id);
-//   }
-// }
-
-// function noAllowDrop(ev) {
-// 	ev.stopPropagation();
-// }  
-
+function getFasesPorAno(){
+	switch(ano){
+		case "Primeiro ano":
+			etapaMax = 7;
+			break;
+		case "Segundo ano":
+			etapaMax = 9;
+			break;
+		case "Terceiro ano":
+			etapaMax = 11;
+			break;
+		case "Quarto ano":
+			etapaMax = 13;
+			break;
+		case "Quinto ano":
+			etapaMax = 20;
+			break;
+		case "Sexto ano":
+			etapaMax = 20;
+			break;			
+	}
+	console.log("esse eh o numero maximo de fases desse ano: " + etapaMax);
+}
+getFasesPorAno();
 function getRandomIntInclusive(min, max) {
 	min = Math.ceil(min);
 	max = Math.floor(max);
@@ -636,7 +644,7 @@ function check() { //Verifica se acertou os elementos
 		}
 	}
 
-	if(endGame == false) {
+	if(endGame == false && etapaAtual <= etapaMax) {
 		if (correto) {
 			textoAcerto.innerHTML = "Você acertou! Fase concluída.";
 			modalAcerto.style.display = 'block';

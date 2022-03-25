@@ -19,6 +19,17 @@ const divRestricao2 = 'conteiner-restricao-direita';
 const forma = 0, cor = 1, tamanho = 2, contorno = 3;
 const divEstrelas = 'container-estrelas';
 var arrayEstrelas = document.getElementById(divEstrelas).getElementsByTagName('img');
+var ano = localStorage.getItem('ano');
+var etapaMax = 25;
+
+const anosEnum = Object.freeze({
+	"Primeiro ano": 1,
+	"Segundo ano": 2,
+	"Terceiro ano": 3,
+	"Quarto ano": 4,
+	"Quinto ano": 5,
+	"Sexto ano": 6
+});
 
 const coresEnum = Object.freeze({
     "azul": 0,
@@ -39,6 +50,31 @@ const contornoEnum = Object.freeze({
     "comContorno": 0,
     "semContorno": 1
 });
+
+function getFasesPorAno(){
+	switch(ano){
+		case "Primeiro ano":
+			etapaMax = 40;
+			break;
+		case "Segundo ano":
+			etapaMax = 40;
+			break;
+		case "Terceiro ano":
+			etapaMax = 40;
+			break;
+		case "Quarto ano":
+			etapaMax = 40;
+			break;
+		case "Quinto ano":
+			etapaMax = 40;
+			break;
+		case "Sexto ano":
+			etapaMax = 40;
+			break;			
+	}
+	console.log("esse eh o numero maximo de fases desse ano: " + etapaMax);
+}
+getFasesPorAno();
 
 function removeChildElementsByTag(parent, tag) {
     if(parent != null){
@@ -1538,7 +1574,7 @@ function check(){ //Confere se acertou
    
     } else {
         if (flag1 == 0 && flag2 == 0 && flag3 == 0) {
-            if(endGame == false){
+            if(endGame == false && etapaAtual <= etapaMax){
             
                 modalAcerto.style.display = 'block';
                 textoAcerto.innerText = 'Você acertou! Fase concluída.';

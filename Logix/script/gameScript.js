@@ -17,6 +17,14 @@ const contornoEnum = Object.freeze({
 	"comContorno": 0,
 	"semContorno": 1
 });
+const anosEnum = Object.freeze({
+	"Primeiro ano": 1,
+	"Segundo ano": 2,
+	"Terceiro ano": 3,
+	"Quarto ano": 4,
+	"Quinto ano": 5,
+	"Sexto ano": 6
+});
 const forma = 0, cor = 1, tamanho = 2, contorno = 3;
 
 // IDs dos containers
@@ -43,6 +51,10 @@ var restricoesColunas = []; //Guarda as restrições da coluna
 var restricoesLinhas = [];  //Guarda as restrições da linha
 var endGame = false; //Indica se o jogo terminou ou não
 var arrayEstrelas = document.getElementById(divEstrelas).getElementsByTagName('img');
+var ano = localStorage.getItem('ano');
+var etapaMax = 17;
+console.log('esse eh o ano:' + ano);
+
 /** FIM VARIAVEIS */
 
 /** FUNCOES DE APOIO */
@@ -52,6 +64,32 @@ function getRandomIntInclusive(min, max) {
 	max = Math.floor(max);
 	return Math.floor(Math.random() * (max - min + 1)) + min;
 }
+
+function getFasesPorAno(){
+	switch(ano){
+		case "Primeiro ano":
+			etapaMax = 200;
+			break;
+		case "Segundo ano":
+			etapaMax = 200;
+			break;
+		case "Terceiro ano":
+			etapaMax = 200;
+			break;
+		case "Quarto ano":
+			etapaMax = 200;
+			break;
+		case "Quinto ano":
+			etapaMax = 200;
+			break;
+		case "Sexto ano":
+			etapaMax = 200;
+			break;			
+	}
+	console.log("esse eh o numero maximo de fases desse ano: " + etapaMax);
+}
+getFasesPorAno();
+
 /** FIM FUNCOES DE APOIO */
 
 /** FUNCOES DO JOGO */
@@ -847,7 +885,7 @@ function check(){
 		return 0;
 	}
 	if(aux == 0){
-		if(endGame == false){
+		if(endGame == false && etapaAtual <= etapaMax){
 		modalAcerto.style.display = 'block';
                 textoAcerto.innerText = 'Você acertou! Fase concluída.';
                 botaoOk.innerHTML = "Próxima"; 
