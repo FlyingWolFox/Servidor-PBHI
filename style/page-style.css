@@ -631,7 +631,8 @@ footer.footer-grid {
 }
 
 footer#footer-top {
-    margin-top: 65px;
+    margin-top: 880px;
+    margin-bottom: 20px;
 }
 
 section.grid-right {

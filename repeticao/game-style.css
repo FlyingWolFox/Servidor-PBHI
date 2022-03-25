@@ -592,6 +592,9 @@ div.formas-titulo {
 /* ---------- AJUSTES PARA O DESKTOP ---------- */
 
 @media(orientation: landscape) AND (max-width: 1280px){
+    #logo-header {
+        margin-left: 30px;
+    }
 
     section.aviso-orientacao{
 
@@ -673,6 +676,10 @@ div.formas-titulo {
 }
 
 @media (min-width: 1000px) AND (max-width: 1919px) AND (orientation: landscape){
+
+    #logo-header {
+        margin-top: 30px;
+    }
 
     h2#title-jogo {
 
