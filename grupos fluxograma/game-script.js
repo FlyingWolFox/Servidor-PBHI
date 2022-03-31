@@ -27,7 +27,7 @@ var arrayEstrelas = document.getElementById(divEstrelas).getElementsByTagName('i
 var btnConferir = document.getElementById(botaoChecar);
 var btnTerminei = document.getElementById(botaoTerminei);
 var ano = localStorage.getItem('ano');
-var etapaMax = 17;
+var etapaMax = 14;
 console.log('esse eh o ano:' + ano);
 
 const coresEnum = Object.freeze({
@@ -61,22 +61,22 @@ const anosEnum = Object.freeze({
 function getFasesPorAno(){
 	switch(ano){
 		case "Primeiro ano":
-			etapaMax = 40;
+			etapaMax = 13;
 			break;
 		case "Segundo ano":
-			etapaMax = 40;
+			etapaMax = 13;
 			break;
 		case "Terceiro ano":
-			etapaMax = 40;
+			etapaMax = 13;
 			break;
 		case "Quarto ano":
-			etapaMax = 40;
+			etapaMax = 13;
 			break;
 		case "Quinto ano":
-			etapaMax = 40;
+			etapaMax = 13;
 			break;
 		case "Sexto ano":
-			etapaMax = 40;
+			etapaMax = 13;
 			break;			
 	}
 	console.log("esse eh o numero maximo de fases desse ano: " + etapaMax);
@@ -934,15 +934,15 @@ function game() {
             quantidade = 2;
             restricao1[contorno] = contornoEnum.semContorno;
             restricao1[forma] = formasEnum.retangulo;
-            restricao2[contorno] = contornoEnum.comContorno;
+            restricao2[forma] = formasEnum.triangulo;
             estadoRestricao1[contorno] = 'Aceito';
             estadoRestricao1[forma] = 'Aceito';
-            estadoRestricao2[contorno] = 'Aceito';
+            estadoRestricao2[forma] = 'Aceito';
             coresDistintas = 2;
             formasDistintas = 4;
             tamanhosDistintos = 1;
             contornosDistintos = 2;
-            startDiagrama([restricao1[contorno],restricao1[forma]],[restricao2[contorno]],[3,0],[3],false)
+            startDiagrama([restricao1[contorno],restricao1[forma]],[restricao2[forma]],[3,0],[0],false)
             background(quantidade);
             break;
         case 10:        //Inicia intersecção (com resposta)
@@ -2197,7 +2197,7 @@ function check(){ //Confere se acertou
                 botaoOk.innerHTML = "Próxima";
                 habilitaBotoes();
                 botaoOk.onclick = function (event){
-                    etapaAtual +=1; //////////////////////////////////////////////////////////////////////////////////////////////////////
+                    etapaAtual +=10; //////////////////////////////////////////////////////////////////////////////////////////////////////
                     estrela++;
                     switch (estrela) {
                         case 0:
