@@ -353,14 +353,18 @@ section#section-fluxo>h2.section-title {
 
 }
 
-/* modificação para o título "em breve" */
-section#section-fluxo>h2.section-title-breve {
-    color: black;
-}
-
 /* modificação para o título da sequência de números */
 section#section-sequencia>h2.section-title-sequencia {
     color: #FDC23E;
+}
+
+/* modificação para o título "em breve" */
+section#section-fluxo>h2.section-title-domino {
+    color: #FDC23E;
+}
+
+section#section-grupos>h2.section-title-logix {
+    color: #3fd7d7;
 }
 
 section#section-sequencia:hover {
