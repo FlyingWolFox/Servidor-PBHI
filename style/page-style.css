@@ -321,7 +321,7 @@ section#section-sequencia:hover {
 
 }
 
-section#section-grupos:hover {
+section#section-logix:hover {
 
     border-radius: 10px;
     background-color: var(--azul-fluxo-bg);
@@ -363,8 +363,12 @@ section#section-fluxo>h2.section-title-domino {
     color: #FDC23E;
 }
 
-section#section-grupos>h2.section-title-logix {
+section#section-logix>h2.section-title-logix {
     color: #3fd7d7;
+}
+
+section#section-domino>h2.section-title-domino {
+    color: #FDC23E;
 }
 
 section#section-sequencia:hover {
@@ -381,6 +385,14 @@ section#section-fluxo:hover {
 
 section#sequencia-de-numeros:hover {
     background-color: var(--amarelo-sequencia-bg);
+}
+
+section#section-domino {
+    margin-bottom: -20px;
+}
+
+section#section-logix {
+    margin-bottom: -9px;
 }
 
 /*********** Seletores para primeiro ano, segundo ano, terceiro ano, quarto ano e quinto ano ************/
@@ -415,11 +427,15 @@ section#section-sequencia-home:hover {
     background-color: var(--verde-grupos-bg);
 }
 
-section#section-fluxo-home:hover {
+co-home:hover {
     /* background-color: var(--azul-fluxo-bg); */
     /* background-color: #cfeff7; */
     background-color: rgba(83, 179, 231, 0.19);
 
+}
+
+section#section-domino:hover {
+    background-color: var(--amarelo-sequencia-bg);
 }
 
 section#section-grupos-home:hover {
