@@ -1713,13 +1713,13 @@ function resolver(){    //Reconhece onde colocar as imagens pelo fluxograma
             if (formaProximoNode == 'Decision') {
                 if (nodeTexto.includes('retângulo')) {
                     if (form == 'R') {
-                        var nodeSim = pegarProximoNode(proximoNode)[0];
+                        var nodeSim = pegarProximoNodeSim(proximoNode)[0];
                         proximoNode = nodeSim;
                         nodeTexto = nodeSim.getText();
                         formaProximoNode = nodeSim.getShape().getId();
                     }
                     else if (form != 'R') {
-                        var nodeNao = pegarProximoNode(proximoNode)[1];
+                        var nodeNao = pegarProximoNodeNao(proximoNode)[0];
                         proximoNode = nodeNao;
                         nodeTexto = nodeNao.getText();
                         formaProximoNode = nodeNao.getShape().getId();
@@ -1727,12 +1727,12 @@ function resolver(){    //Reconhece onde colocar as imagens pelo fluxograma
                 }
                 else if (nodeTexto.includes('círculo')) {
                     if (form == 'C') {
-                        var nodeSim = pegarProximoNode(proximoNode)[0];
+                        var nodeSim = pegarProximoNodeSim(proximoNode)[0];
                         proximoNode = nodeSim;
                         nodeTexto = nodeSim.getText();
                         formaProximoNode = nodeSim.getShape().getId();
                     } else if (form != 'C') {
-                        var nodeNao = pegarProximoNode(proximoNode)[1];
+                        var nodeNao = pegarProximoNodeNao(proximoNode)[0];
                         proximoNode = nodeNao;
                         nodeTexto = nodeNao.getText();
                         formaProximoNode = nodeNao.getShape().getId();
@@ -1740,12 +1740,13 @@ function resolver(){    //Reconhece onde colocar as imagens pelo fluxograma
                 }
                 else if (nodeTexto.includes('triângulo')) {
                     if (form == 'T') {
-                        var nodeSim = pegarProximoNode(proximoNode,0)[0];
+                        var nodeSim = pegarProximoNodeSim(proximoNode)[0];
                         proximoNode = nodeSim;
                         nodeTexto = nodeSim.getText();
                         formaProximoNode = nodeSim.getShape().getId();
                     } else if (form != 'T') {
-                        var nodeNao = pegarProximoNode(proximoNode,1)[1];
+                        var nodeNao = pegarProximoNodeNao(proximoNode)[0];
+                        console.log(nodeNao);
                         proximoNode = nodeNao;
                         nodeTexto = nodeNao.getText();
                         formaProximoNode = nodeNao.getShape().getId();
@@ -1753,12 +1754,12 @@ function resolver(){    //Reconhece onde colocar as imagens pelo fluxograma
                 }
                 else if (nodeTexto.includes('quadrado')) {
                     if (form == 'Q') {
-                        var nodeSim = pegarProximoNode(proximoNode,0)[0];
+                        var nodeSim = pegarProximoNodeSim(proximoNode)[0];
                         proximoNode = nodeSim;
                         nodeTexto = nodeSim.getText();
                         formaProximoNode = nodeSim.getShape().getId();
                     } else if (form != 'Q') {
-                        var nodeNao = pegarProximoNode(proximoNode,1)[1];
+                        var nodeNao = pegarProximoNodeNao(proximoNode)[0];
                         proximoNode = nodeNao;
                         nodeTexto = nodeNao.getText();
                         formaProximoNode = nodeNao.getShape().getId();
@@ -1766,12 +1767,12 @@ function resolver(){    //Reconhece onde colocar as imagens pelo fluxograma
                 }
                 else if (nodeTexto.includes('amarelo')) {
                     if (cor == 'A') {
-                        var nodeSim = pegarProximoNode(proximoNode)[0];
+                        var nodeSim = pegarProximoNodeSim(proximoNode)[0];
                         proximoNode = nodeSim;
                         nodeTexto = nodeSim.getText();
                         formaProximoNode = nodeSim.getShape().getId();
                     } else if (cor != 'A') {
-                        var nodeNao = pegarProximoNode(proximoNode)[1];
+                        var nodeNao = pegarProximoNodeNao(proximoNode)[0];
                         proximoNode = nodeNao;
                         nodeTexto = nodeNao.getText();
                         formaProximoNode = nodeNao.getShape().getId();
@@ -1779,12 +1780,12 @@ function resolver(){    //Reconhece onde colocar as imagens pelo fluxograma
                 }
                 else if (nodeTexto.includes('vermelho')) {
                     if (cor == 'V') {
-                        var nodeSim = pegarProximoNode(proximoNode)[0];
+                        var nodeSim = pegarProximoNodeSim(proximoNode)[0];
                         proximoNode = nodeSim;
                         nodeTexto = nodeSim.getText();
                         formaProximoNode = nodeSim.getShape().getId();
                     } else if (cor != 'V') {
-                        var nodeNao = pegarProximoNode(proximoNode)[1];
+                        var nodeNao = pegarProximoNodeNao(proximoNode)[0];
                         proximoNode = nodeNao;
                         nodeTexto = nodeNao.getText();
                         formaProximoNode = nodeNao.getShape().getId();
@@ -1792,12 +1793,12 @@ function resolver(){    //Reconhece onde colocar as imagens pelo fluxograma
                 }
                 else if (nodeTexto.includes('azul')) {
                     if (cor == 'Z') {
-                        var nodeSim = pegarProximoNode(proximoNode)[0];
+                        var nodeSim = pegarProximoNodeSim(proximoNode)[0];
                         proximoNode = nodeSim;
                         nodeTexto = nodeSim.getText();
                         formaProximoNode = nodeSim.getShape().getId();
                     } else if (cor != 'Z') {
-                        var nodeNao = pegarProximoNode(proximoNode)[1];
+                        var nodeNao = pegarProximoNodeNao(proximoNode)[0];
                         proximoNode = nodeNao;
                         nodeTexto = nodeNao.getText();
                         formaProximoNode = nodeNao.getShape().getId();
@@ -1805,12 +1806,12 @@ function resolver(){    //Reconhece onde colocar as imagens pelo fluxograma
                 }
                 else if (nodeTexto.includes('grande')) {
                     if (tamanho == 'G') {
-                        var nodeSim = pegarProximoNode(proximoNode)[0];
+                        var nodeSim = pegarProximoNodeSim(proximoNode)[0];
                         proximoNode = nodeSim;
                         nodeTexto = nodeSim.getText();
                         formaProximoNode = nodeSim.getShape().getId();
                     } else if (tamanho != 'G') {
-                        var nodeNao = pegarProximoNode(proximoNode)[1];
+                        var nodeNao = pegarProximoNodeNao(proximoNode)[0];
                         proximoNode = nodeNao;
                         nodeTexto = nodeNao.getText();
                         formaProximoNode = nodeNao.getShape().getId();
@@ -1818,12 +1819,12 @@ function resolver(){    //Reconhece onde colocar as imagens pelo fluxograma
                 }
                 else if (nodeTexto.includes('pequeno')) {
                     if (tamanho == 'P') {
-                        var nodeSim = pegarProximoNode(proximoNode)[0];
+                        var nodeSim = pegarProximoNodeSim(proximoNode)[0];
                         proximoNode = nodeSim;
                         nodeTexto = nodeSim.getText();
                         formaProximoNode = nodeSim.getShape().getId();
                     } else if (tamanho != 'P') {
-                        var nodeNao = pegarProximoNode(proximoNode)[1];
+                        var nodeNao = pegarProximoNodeNao(proximoNode)[0];
                         proximoNode = nodeNao;
                         nodeTexto = nodeNao.getText();
                         formaProximoNode = nodeNao.getShape().getId();
@@ -1831,12 +1832,12 @@ function resolver(){    //Reconhece onde colocar as imagens pelo fluxograma
                 }
                 else if (nodeTexto.includes('borda')) {
                     if (borda == 'C') {
-                        var nodeSim = pegarProximoNode(proximoNode)[0];
+                        var nodeSim = pegarProximoNodeSim(proximoNode)[0];
                         proximoNode = nodeSim;
                         nodeTexto = nodeSim.getText();
                         formaProximoNode = nodeSim.getShape().getId();
                     } else if (borda != 'C') {
-                        var nodeNao = pegarProximoNode(proximoNode)[1];
+                        var nodeNao = pegarProximoNodeNao(proximoNode)[0];
                         proximoNode = nodeNao;
                         nodeTexto = nodeNao.getText();
                         formaProximoNode = nodeNao.getShape().getId();
@@ -2072,6 +2073,67 @@ function criarImg(forma,cor,tamanho,contorno){ //Cria uma nova imagem
 }
 
 //Decide pra qual node vai o "ponteiro"
+function pegarProximoNodeSim(proximoNode,sentido){
+    if(proximoNode.getShape().getId() == 'Rectangle'){
+        if(proximoNode.getOutgoingLinks() == ''){
+            diagram.factory.createDiagramLink(proximoNode, child7);
+        }
+    }
+    var linkProximoNode = proximoNode.getOutgoingLinks();
+    var nodeFim = linkProximoNode[0].getDestination();
+    var node = [];
+    var nodep
+    for (let l of linkProximoNode){
+        if (l.getText() == 'SIM'){
+            node.push(l.getDestination());
+            break;
+        }
+    }
+    /*if (sentido == 0){
+        nodep = node[0]
+    }
+    else{
+        nodep = node[1]
+    }*/
+    if (nodeFim.getText() == 'FIM')
+    {
+        return nodeFim;
+    }
+    else{
+        return node;
+    }
+}
+
+function pegarProximoNodeNao(proximoNode,sentido){
+    if(proximoNode.getShape().getId() == 'Rectangle'){
+        if(proximoNode.getOutgoingLinks() == ''){
+            diagram.factory.createDiagramLink(proximoNode, child7);
+        }
+    }
+    var linkProximoNode = proximoNode.getOutgoingLinks();
+    var nodeFim = linkProximoNode[0].getDestination();
+    var node = [];
+    var nodep
+    for (let l of linkProximoNode){
+        if (l.getText() == 'NÂO'){
+            node.push(l.getDestination());
+        }
+    }
+    /*if (sentido == 0){
+        nodep = node[0]
+    }
+    else{
+        nodep = node[1]
+    }*/
+    if (nodeFim.getText() == 'FIM')
+    {
+        return nodeFim;
+    }
+    else{
+        return node;
+    }
+}
+
 function pegarProximoNode(proximoNode,sentido){
     if(proximoNode.getShape().getId() == 'Rectangle'){
         if(proximoNode.getOutgoingLinks() == ''){
@@ -2197,7 +2259,7 @@ function check(){ //Confere se acertou
                 botaoOk.innerHTML = "Próxima";
                 habilitaBotoes();
                 botaoOk.onclick = function (event){
-                    etapaAtual +=10; //////////////////////////////////////////////////////////////////////////////////////////////////////
+                    etapaAtual +=1; //////////////////////////////////////////////////////////////////////////////////////////////////////
                     estrela++;
                     switch (estrela) {
                         case 0:
@@ -2495,7 +2557,7 @@ function iniciarDiagrama(rest1, rest2, type1, type2, inter) {
     child7.setFont(fonte);
     child7.setText("FIM");
 
-    // cria o node start
+    // cria o node inicio
     child1 = diagram.getFactory().createShapeNode(67,1, largura * 0.75, altura * 0.66); //Parâmetros [x, y, largura, altura]
     child1.setShape('Ellipse');
     child1.setBrush(corFimInicio);
@@ -2569,7 +2631,8 @@ function onLinkCreated(sender, args) {      //Criação do link
     var formaOrigem = origem.getShape().getId();
     link.setTextAlignment(MindFusion.Diagramming.Alignment.Far);
 
-    //Ao se criar o link verifica se o node origem do link é um nodeShape 'DECISION' e adiciona o texto SIM ao primeiro link criado ou NÂO caso exista um SIM
+    //Ao se criar o link verifica se o node origem do link é um nodeShape 'DECISION' e
+    //adiciona o texto SIM ao primeiro link criado ou NÂO caso exista um SIM
     if (formaOrigem =='Decision') {
         for (let l of origem.getOutgoingLinks()) {
             if (l.getText() == '') {
