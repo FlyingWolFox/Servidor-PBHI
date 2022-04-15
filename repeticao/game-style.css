@@ -241,6 +241,7 @@ a#span-textbox {
     border-radius: 50%;
 
 }
+
 #botao-info-close {
 
    width: 35%;
@@ -254,6 +255,29 @@ a#span-textbox {
    border-radius: 20px;
    text-transform: uppercase;
    font-weight: bold;
+}
+
+#botao-de-voz {
+    width: 25%;
+    height: fit-content;
+    margin: 10px;
+    padding: 10px 10px;
+    font-size: 1.2em;
+    color: #A37027;
+    background: #FFAC33;
+    border: 5px solid #FFFFFF;
+    border-radius: 20px;
+    font-weight: bold;
+}
+
+#texto-de-voz {
+    display: inline-block;
+}
+
+#img-de-voz {
+    display: flex;
+    align-items: center;
+    width: 21px;
 }
 
 #modal-content{
@@ -287,8 +311,6 @@ button#span-about {
 
 #modalInfo{
     display: none;
-
-
 }
 
 #textbox-tutorial {
