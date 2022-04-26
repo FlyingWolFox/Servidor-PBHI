@@ -41,6 +41,8 @@
 </head>
 
 <body class="game-body">
+    Select Voice: <select id='voiceList'></select> <br><br> <!-- Seleciona qual voz será escutada-->
+
     <section class="aviso-orientacao">
         <div id="aviso-orientacao-caixa">
             <h1 id="texto-orientacao"> vire seu aparelho na horizontal para jogar</h1>
@@ -84,6 +86,7 @@
                             <img src="../img/svg/audio.svg" alt="botão de aúdio" id="img-de-voz">
                         </span>
                     </button>
+                    <button id='btnSpeak' class="button">Falar!</button> <!--Botão que serve para falar a mensagem-->
                 </div>
             </div>
             <section class="game-section grid-center">
@@ -339,4 +342,52 @@
         let mudandoTituloGrupos = document.getElementById('title-jogo');
         mudandoTituloGrupos.innerHTML = localStorage.titulo;
     </script>
+
+    <!-- Script para a biblioteca que fala o texto-->
+    <script>
+        //Varíável para armazenar o texto que será falado. Para mais falas, armazenar o texto em outra variável...
+        var mensagemDuvida = "Olá novamente, tudo bem? Tenho outro jogo bem bacana pra te apresentar, o Jogo do Fluxograma, nele a gente te mostra duas caixas diferentes que vão servir para montar o fluxograma que consiga responder o problema. Ao lado de cada caixa, tem um balão que representa a regra desta caixa, por exemplo: um quadrado significa que naquela caixa só podem ser colocadas figuras quadradas. Já uma peça de quebra-cabeça azul, quer dizer que você só pode colocar figuras azuis. As outras regras eu tenho certeza que você consegue descobrir sozinho(a) 😉, depois que você montar o fluxograma para a fase, é só clicar em TERMINEI!!";
+        var voiceList = document.querySelector('#voiceList');
+        var btnSpeak = document.querySelector('#btnSpeak');
+        var synth = window.speechSynthesis;
+        var voices = [];
+
+        //Coloca as vozes na caixa de seleção de vozes...
+        PopulateVoices();
+        if(speechSynthesis !== undefined){
+            speechSynthesis.onvoiceschanged = PopulateVoices;
+        }
+
+        //Criando um Listener para a fala da mensagem da variável mensagemDuvida...
+        btnSpeak.addEventListener('click', ()=> {
+            var toSpeak = new SpeechSynthesisUtterance(mensagemDuvida);
+            var selectedVoiceName = voiceList.selectedOptions[0].getAttribute('data-name');
+            voices.forEach((voice)=>{
+                if(voice.name === selectedVoiceName){
+                    toSpeak.voice = voice;
+                }
+            });
+            synth.speak(toSpeak);
+        });
+
+        //Seleciona apenas as vozes em Portugues BR e descartas todas as demais para serem mostradas na seleção de vozes...
+        function PopulateVoices(){
+            voices = synth.getVoices();
+            var selectedIndex = voiceList.selectedIndex < 0 ? 0 : voiceList.selectedIndex;
+            voiceList.innerHTML = '';
+            voices.forEach((voice)=>{
+                var listItem = document.createElement('option');
+                if(voice.name == "Microsoft Daniel - Portuguese (Brazil)" || voice.name == "Microsoft Maria - Portuguese (Brazil)"){
+                    listItem.textContent = voice.name;
+                    listItem.setAttribute('data-lang', voice.lang);
+                    listItem.setAttribute('data-name', voice.name);
+                    voiceList.appendChild(listItem);
+                }
+            });
+
+            voiceList.selectedIndex = selectedIndex;
+        }
+    </script>
+
+
 </html>
