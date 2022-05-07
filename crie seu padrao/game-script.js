@@ -350,6 +350,46 @@ function criaSlots(){
 	}
 }
 
+function chuva() {
+	let timeOut = []
+	for (let i = 1; i < 100; i++) {
+		let rand = Math.floor(Math.random() * document.body.clientWidth-20);
+		let cor = Math.floor(Math.random() * 4)
+		let rotate = Math.floor(Math.random() * 360)
+		switch(cor){
+			case 0:
+				cor = '#fc21bf'
+			break;
+			case 1:
+				cor = 'skyblue'
+			break;
+			case 2:
+				cor = '#c400ff'
+			break;
+			case 3:
+				cor = '#16fcab'
+			break;
+			case 4:
+				cor = '#ff1616'
+			break;
+		}
+		var confete = document.createElement('span');
+		confete.classList.add('gota');
+		confete.style.marginLeft = rand+'px'
+		confete.style.backgroundColor = cor
+		confete.style.transform = 'rotate('+rotate+'deg)'
+		confete.style.setProperty('animation-delay', 0.1*i + 's');
+		document.querySelector('body').append(confete);
+	}
+	return timeOut
+}
+
+function stopChuva(){
+    var filhos = document.querySelector('body').querySelectorAll('.gota')
+    filhos.forEach(filho => {
+        filho.parentElement.removeChild(filho)
+    })
+}
 
 function game() {
 	reset();
@@ -637,10 +677,7 @@ function adicionaPadrao(){
 	//botaoResultado.removeEventListener('click', adicionaPadrao);
 	var botaoTerminei = document.getElementById('botao-resultado');
 	var textoErro = document.getElementById('resultadoNegativo-jogo');
-	var textoAcerto = document.getElementById('resultado-jogo');
 	var modalErro = document.getElementById('modalErro');
-	var modalAcerto = document.getElementById('modalAcerto');
-	var botaoOk = document.getElementById('botao-proximo');
 	var arrayDropbox = document.getElementById(divCaixa).getElementsByTagName('img');
 	var divNucleo = document.getElementById(divSequencia); //div responsável pela sequencia do nucleo
 	if (divNucleo == null) {
@@ -671,21 +708,7 @@ function adicionaPadrao(){
 				console.log('Adicionado seq #' + seqAtual + ': id=' + arraySequencia[seqAtual].getAttribute("id") + ', src=' + arraySequencia[seqAtual].getAttribute("src"));
 			seqAtual++;
 			}
-			if (endGame){
-				textoAcerto.innerText = 'Você concluiu o jogo! Parabens!';
-				botaoOk.innerHTML = "Reiniciar";
-				botaoOk.onclick = function (event){
-					etapaAtual = 0;
-					endGame = false;
-					resetEstrelas();
-					eventoResultado()
-					game();
-					modalAcerto.style.display = 'none';
-				}
-				setTimeout(function(){
-					modalAcerto.style.display = 'block';
-				},tamSeq*1000);
-			}
+
 		}	
 	cliquei = true;
 	}
@@ -755,10 +778,31 @@ function eventoResultado(){
 
 
 function check(event) { //Verifica se acertou os elementos
+	var textoAcerto = document.getElementById('resultado-jogo');
+	var modalAcerto = document.getElementById('modalAcerto');
+	var botaoOk = document.getElementById('botao-proximo');
 	if(cliquei){
 		eventoResultado();
 	}else{
 		adicionaPadrao();
+		if (endGame){
+			setTimeout(function(){
+				textoAcerto.innerText = 'Você concluiu o jogo! Parabens!';
+				botaoOk.innerHTML = "Reiniciar";
+				botaoOk.onclick = function (event){
+					stopChuva()
+					endGame = false;
+					resetEstrelas();
+					eventoResultado()
+					etapaAtual = 0;
+					endGame = false;
+					game();
+					modalAcerto.style.display = 'none';
+				}
+				chuva()
+				modalAcerto.style.display = 'block';
+			},tamSeq*1000);
+		}
 	}
 }
 

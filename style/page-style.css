@@ -1097,6 +1097,120 @@ p.subtitle-download-pdf{
     justify-content: center;
 }
 
+/*Chuva de confete*/
+span.gota {
+    width: 10px;
+    height: 16px;
+    box-shadow: 2px 1px 2px 0 #666666;
+    position: absolute;
+    animation: chuva 5s ease-in-out infinite;
+    top: -30px;
+    z-index: 11;
+}
+ 
+@keyframes chuva {
+    100% {
+        top:70%;
+        opacity: 0;
+    }
+}
+
+/*Modal de conclusão*/
+div#modalFim{
+    position: absolute;
+    top: 50%;
+    right: 50%;
+    transform: translate(50%,-50%);
+    width: 75%;
+    min-width: 670px;
+    display: none;
+    flex-direction: column;
+    z-index: 12;
+    animation: loadleft 0.5s;
+}
+div#modalContent{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100px;
+}
+div#modalBox{
+    background: linear-gradient(90deg, #008AEE 6.72%, #62ECF4 93.1%);
+    clip-path: polygon(15% 0, 100% 0, 85% 100%, 0 100%);
+    min-width: 625px;
+    width: 75%;
+    height: 100%;  
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+div#modalGlass{
+    position: absolute;
+    background-color: rgba(63, 200, 243, 0.3);
+    min-height: 70px;
+    width: 100%;
+    border-radius: 10px;
+}
+div#roboIcon{
+    transform: translateX(-150%);
+    height: 125%;
+    position: absolute;
+    z-index: 10;
+    animation: ocilar infinite 2s;
+}
+div#roboIcon img{
+    height: 100%;
+}
+div#textZone{
+    margin-left: 75px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+div#textZone h2{
+    color: white;
+    font-family: 'M PLUS Rounded 1c', sans-serif;
+    font-size: 2.25em;
+    font-weight: ExtraBold ;
+}
+div#textZone h3{
+    color: white;   
+    font-family: 'M PLUS Rounded 1c', sans-serif;
+    font-size: 1.5em;
+    font-weight: ExtraBold;
+    margin-top: -10px;
+}
+section#botao-box{
+    margin-top: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+button.botao-fim{
+    font-size: 1em;
+    font-weight: 700;
+    color: white;
+    border-radius: 25px;
+    background-color: #32BCF2;
+    padding: 10px 15px;
+    margin-left: 30px;
+}
+
+@keyframes loadleft{
+    from{opacity: 0;transform: translate(30%,-50%)}
+    to{opacity: 1;transform: translate(50%,-50%)}
+}
+
+@keyframes ocilar{
+    50%{
+        transform: translate(-150%, -2.5%);
+    }
+    100%{
+        transform: translate(-150%, 0%);
+    }
+}
+
 @media only screen and (max-width: 800px) {
  a.button-download{ 
     width: 100% 

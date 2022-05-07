@@ -619,6 +619,45 @@ function resetEstrelas() {
     texto.innerHTML = "?";
 }
 
+function chuva() {
+	for (let i = 1; i < 100; i++) {
+		let rand = Math.floor(Math.random() * document.body.clientWidth-20);
+		let cor = Math.floor(Math.random() * 4)
+		let rotate = Math.floor(Math.random() * 360)
+		switch(cor){
+			case 0:
+				cor = '#fc21bf'
+			break;
+			case 1:
+				cor = 'skyblue'
+			break;
+			case 2:
+				cor = '#c400ff'
+			break;
+			case 3:
+				cor = '#16fcab'
+			break;
+			case 4:
+				cor = '#ff1616'
+			break;
+		}
+		var confete = document.createElement('span');
+		confete.classList.add('gota');
+		confete.style.marginLeft = rand+'px'
+		confete.style.backgroundColor = cor
+		confete.style.transform = 'rotate('+rotate+'deg)'
+		confete.style.setProperty('animation-delay', 0.1*i + 's');
+		document.querySelector('body').append(confete);
+	}
+}
+
+function stopChuva(){
+    var filhos = document.querySelector('body').querySelectorAll('.gota')
+    filhos.forEach(filho => {
+        filho.parentElement.removeChild(filho)
+    })
+}
+
 function game(){
 	var contador = 0;
 	reset()
@@ -632,6 +671,7 @@ function game(){
 			qtdNaColuna = [1];//Número de drops nas colunas. Max = 3
 			restricaoColuna = 1; //Número de restrições que ficarão acima das colunas
 			restricaoLinha = 0; //Número de restrições que ficarão à esquerda das linhas
+			endGame = true
 			break;
 		case 1:
 			nmrImgs = 2;
@@ -863,6 +903,8 @@ function check(){
     var modalAcerto = document.getElementById("modalAcerto");
     var modalErro = document.getElementById('modalErro');
     var botaoOk = document.getElementById('botao-proximo');
+	var modalFim = document.getElementById('modalFim')
+	var btnReiniciar = document.getElementById('botao-restart')
 	var breakF = 0;
 
 	Array.prototype.forEach.call(colunas, el => {
@@ -960,16 +1002,16 @@ function check(){
                 }
             } 
 		else{
-			textoAcerto.innerHTML = "Você concluiu o jogo! Parabens!";
-			botaoOk.innerHTML = "Reiniciar";
-			botaoOk.onclick = function (event){
-				etapaAtual = 0;
+			chuva();
+			btnReiniciar.onclick = function (event){
+				stopChuva()
+				etapaAtual = 0;	
 				endGame = false;
 				resetEstrelas();
 				game();
-				modalAcerto.style.display = 'none';
+				modalFim.style.display = 'none';
 			}
-			modalAcerto.style.display = 'block';
+			modalFim.style.display = 'flex';
 		}
 	}
 	else{
