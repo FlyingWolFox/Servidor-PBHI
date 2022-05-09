@@ -620,7 +620,7 @@ function resetEstrelas() {
 }
 
 function chuva() {
-	for (let i = 1; i < 100; i++) {
+	for (let i = 1; i < 50; i++) {
 		let rand = Math.floor(Math.random() * document.body.clientWidth-20);
 		let cor = Math.floor(Math.random() * 4)
 		let rotate = Math.floor(Math.random() * 360)
@@ -671,7 +671,6 @@ function game(){
 			qtdNaColuna = [1];//Número de drops nas colunas. Max = 3
 			restricaoColuna = 1; //Número de restrições que ficarão acima das colunas
 			restricaoLinha = 0; //Número de restrições que ficarão à esquerda das linhas
-			endGame = true
 			break;
 		case 1:
 			nmrImgs = 2;

@@ -717,7 +717,7 @@ function conferir(numero, completo){   //Confere se o número já foi utilizado
  }
 
  function chuva() {
-	for (let i = 1; i < 100; i++) {
+	for (let i = 1; i < 50; i++) {
 		let rand = Math.floor(Math.random() * document.body.clientWidth-20);
 		let cor = Math.floor(Math.random() * 4)
 		let rotate = Math.floor(Math.random() * 360)
@@ -1544,7 +1544,9 @@ function check(){ //Confere se acertou
 
     var modalAcerto = document.getElementById("modalAcerto");
     var modalErro = document.getElementById('modalErro');
+    var modalFim = document.getElementById('modalFim')
 
+	var btnReiniciar = document.getElementById('botao-restart')
     var botaoOk = document.getElementById('botao-proximo');    
 
     /*Verifica se as caixas estão corretas e se todas as imagens corretas foram movidas */
@@ -1702,15 +1704,14 @@ function check(){ //Confere se acertou
             else{
                 chuva()
                 textoAcerto.innerHTML = "Você concluiu o jogo! Parabens!";
-                botaoOk.innerHTML = "Reiniciar";
-                modalAcerto.style.display = 'block';
-                botaoOk.onclick = function (event){
+                modalFim.style.display = 'block';
+                btnReiniciar.onclick = function (event){
                     stopChuva()
                     etapaAtual = 0;
                     endGame = false;
                     resetEstrelas();
                     game();
-                    modalAcerto.style.display = 'none';
+                    modalFim.style.display = 'none';
                 };
             }
         }else {

@@ -558,6 +558,21 @@ div.formas-titulo {
     width: 100%;
 }
 
+/*Modal de conclusão*/
+div#modalBox{
+    background: linear-gradient(90deg, #FF5C00 6.72%, #FFA767 93.1%);
+}
+
+div#modalGlass{
+    background-color: rgba(255, 92, 0, 0.3);
+}
+
+button.botao-fim{
+    background-color: #FC7622;
+}
+
+
+
 
 @media(orientation: portrait) {
 

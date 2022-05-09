@@ -429,7 +429,7 @@ function resetEstrelas() {
 
 function chuva() {
 	let timeOut = []
-	for (let i = 1; i < 100; i++) {
+	for (let i = 1; i < 50; i++) {
 		let rand = Math.floor(Math.random() * document.body.clientWidth-20);
 		let cor = Math.floor(Math.random() * 4)
 		let rotate = Math.floor(Math.random() * 360)
@@ -836,6 +836,9 @@ function check() { //Verifica se acertou os elementos
     var modalAcerto = document.getElementById("modalAcerto");
     var modalErro = document.getElementById('modalErro');
 
+	var modalFim = document.getElementById('modalFim')
+	var btnReiniciar = document.getElementById('botao-restart')
+
 	if (arrayDropbox.length != arrayOpcoes.length) {
 		correto = 0;
 		console.log('o array nao foi carregado ou esta vazio');
@@ -932,15 +935,14 @@ function check() { //Verifica se acertou os elementos
 	} else {
 		chuva()
 		textoAcerto.innerHTML = "Você concluiu o jogo! Parabens!";
-		botaoOk.innerHTML = "Reiniciar";
-		modalAcerto.style.display = 'block';
-		botaoOk.onclick = function (event){
+		modalFim.style.display = 'block';
+		btnReiniciar.onclick = function (event){
 			stopChuva()
 			etapaAtual = 0;
 			endGame = false;
 			resetEstrelas();
 			game();
-			modalAcerto.style.display = 'none';
+			modalFim.style.display = 'none';
 		};
 	}
 }

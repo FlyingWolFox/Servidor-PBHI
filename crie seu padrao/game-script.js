@@ -352,7 +352,7 @@ function criaSlots(){
 
 function chuva() {
 	let timeOut = []
-	for (let i = 1; i < 100; i++) {
+	for (let i = 1; i < 50; i++) {
 		let rand = Math.floor(Math.random() * document.body.clientWidth-20);
 		let cor = Math.floor(Math.random() * 4)
 		let rotate = Math.floor(Math.random() * 360)
@@ -779,8 +779,9 @@ function eventoResultado(){
 
 function check(event) { //Verifica se acertou os elementos
 	var textoAcerto = document.getElementById('resultado-jogo');
-	var modalAcerto = document.getElementById('modalAcerto');
-	var botaoOk = document.getElementById('botao-proximo');
+	var modalFim = document.getElementById('modalFim')
+	var btnReiniciar = document.getElementById('botao-restart')
+
 	if(cliquei){
 		eventoResultado();
 	}else{
@@ -788,8 +789,7 @@ function check(event) { //Verifica se acertou os elementos
 		if (endGame){
 			setTimeout(function(){
 				textoAcerto.innerText = 'Você concluiu o jogo! Parabens!';
-				botaoOk.innerHTML = "Reiniciar";
-				botaoOk.onclick = function (event){
+				btnReiniciar.onclick = function (event){
 					stopChuva()
 					endGame = false;
 					resetEstrelas();
@@ -797,10 +797,10 @@ function check(event) { //Verifica se acertou os elementos
 					etapaAtual = 0;
 					endGame = false;
 					game();
-					modalAcerto.style.display = 'none';
+					modalFim.style.display = 'none';
 				}
 				chuva()
-				modalAcerto.style.display = 'block';
+				modalFim.style.display = 'block';
 			},tamSeq*1000);
 		}
 	}
