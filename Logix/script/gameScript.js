@@ -647,7 +647,7 @@ function chuva() {
 		confete.style.backgroundColor = cor
 		confete.style.transform = 'rotate('+rotate+'deg)'
 		confete.style.setProperty('animation-delay', 0.1*i + 's');
-		document.querySelector('body').append(confete);
+		document.querySelector('body').insertBefore(confete,document.querySelector('body').childNodes[0]);
 	}
 }
 
@@ -671,6 +671,7 @@ function game(){
 			qtdNaColuna = [1];//Número de drops nas colunas. Max = 3
 			restricaoColuna = 1; //Número de restrições que ficarão acima das colunas
 			restricaoLinha = 0; //Número de restrições que ficarão à esquerda das linhas
+			endGame = true
 			break;
 		case 1:
 			nmrImgs = 2;

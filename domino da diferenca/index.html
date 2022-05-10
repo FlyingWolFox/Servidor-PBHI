@@ -3,7 +3,7 @@
 
 <head>
 
-    <title>Tem Lógica - Jogo da Repetição</title>
+    <title>Tem Lógica - Dominó da diferença</title>
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -193,7 +193,12 @@
         </main>
 
         <footer class="footer-grid">
-            <p class="footer-text grid-center">Copyright Fapesq - 2021</p>
+            <p class="footer-text grid-center">Copyright Fapesq - <span id="ano">2021</span></p>
+            <script>
+                var ano = document.getElementById("ano");
+                var anoAtual = new Date();
+                ano.innerHTML = anoAtual.getFullYear();
+            </script>
             <section class="grid-right">
                 <p class="footer-text realizadores-text">Realizadores:</p>
                 <div class="footer-imgs">

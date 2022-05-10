@@ -3,7 +3,7 @@
 <html lang="pt-br">
 
 <head>
-    <title>Tem Lógica - Jogo</title>
+    <title>Tem Lógica - Jogo Logix</title>
 
     <link rel="shortcut icon" href="./img/favicon.ico" />
 
@@ -220,7 +220,12 @@
         </main>
 
         <footer class="footer-grid">
-            <p class="footer-text grid-center">Copyright Fapesq - 2021</p>
+            <p class="footer-text grid-center">Copyright Fapesq - <span id="ano"></span></p>
+            <script>
+                var ano = document.getElementById("ano");
+                var anoAtual = new Date();
+                ano.innerHTML = anoAtual.getFullYear();
+            </script>
             <section class="grid-right">
                     <p class="realizadores-text">Realizadores:</p>
                     <div class="footer-imgs">
