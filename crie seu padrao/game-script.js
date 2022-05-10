@@ -36,12 +36,13 @@ var arraySequencia = []; //Array para guardar a sequecia
 var arrayOpcoes = []; //Array contendo todos os elementos gerados nas opcoes
 var tamNucleo; //Quantos elementos o nucleo possui
 var tamSeq = 0; //Tamanho da sequência do núcleo
-var etapaAtual = 0;
+var etapaAtual = 16;
 var cliquei = false; // var que verifica se a crianca ja viu a sequencia que escolheu
 var estrela = 0; //nível de estrelas do jogador 
 var endGame = false; //Indica se o jogo está na ultima fase
 var arrayEstrelas = document.getElementById(divEstrelas).getElementsByTagName('img');
 var nPecas = document.getElementById(divPecas);
+var time = null;
 /** FIM VARIAVEIS */
 
 /** FUNCOES DE APOIO */
@@ -688,10 +689,17 @@ function adicionaPadrao(){
 		modalErro.style.display = 'block';
         textoErro.innerText = 'Você ainda não moveu todas as peças... Tente novamente.';
    
-	}else{
-		botaoTerminei.innerHTML = "PRÓXIMA";
-		botaoTerminei.removeEventListener('click', adicionaPadrao);
-		botaoTerminei.addEventListener('click', eventoResultado);
+	}
+	else{
+		if(!endGame){
+			botaoTerminei.innerHTML = "PRÓXIMA";
+			botaoTerminei.removeEventListener('click', adicionaPadrao);
+			botaoTerminei.addEventListener('click', eventoResultado);
+			
+		}
+		else{
+			botaoTerminei.removeEventListener('click', adicionaPadrao);
+		}
 		var seqAtual = 0;
 		while (seqAtual < tamSeq) {
 			for (i = 0; i < tamNucleo && seqAtual < tamSeq; i++) {
@@ -710,7 +718,7 @@ function adicionaPadrao(){
 			}
 
 		}	
-	cliquei = true;
+		cliquei = true;
 	}
 }
 
@@ -782,12 +790,13 @@ function check(event) { //Verifica se acertou os elementos
 	var modalFim = document.getElementById('modalFim')
 	var btnReiniciar = document.getElementById('botao-restart')
 
-	if(cliquei){
-		eventoResultado();
-	}else{
-		adicionaPadrao();
-		if (endGame){
-			setTimeout(function(){
+	if(endGame){
+		console.log(cliquei)
+		if(!cliquei){
+			adicionaPadrao();
+		}
+		if (time == null){
+			time = setTimeout(function(){
 				textoAcerto.innerText = 'Você concluiu o jogo! Parabens!';
 				btnReiniciar.onclick = function (event){
 					stopChuva()
@@ -803,6 +812,12 @@ function check(event) { //Verifica se acertou os elementos
 				modalFim.style.display = 'block';
 			},tamSeq*1000);
 		}
+	}
+	else if(cliquei){
+		eventoResultado();
+	}
+	else{
+		adicionaPadrao();
 	}
 }
 
