@@ -157,7 +157,12 @@
     </main>
    
     <footer class="footer-grid" id="footer-top">
-        <p class="footer-text grid-center">Copyright Fapesq - 2021</p>
+        <p class="footer-text grid-center">Copyright Fapesq - <span id="ano">2021</span></p>
+        <script>
+            var ano = document.getElementById("ano");
+            var anoAtual = new Date();
+            ano.innerHTML = anoAtual.getFullYear();
+        </script>
         <section class="grid-right">
             <p class="footer-text realizadores-text">Realizadores:</p>
             <div class="footer-imgs">
