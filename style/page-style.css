@@ -276,13 +276,10 @@ main.grid {
 
 
 section.main-section {
-
-    
     display: flex;
     flex-wrap: wrap;
     justify-content: space-evenly;
-    align-items: center;
-
+    align-items: flex-start;
 }
 
 section.box-center {
@@ -355,6 +352,7 @@ section#section-fluxo>h2.section-title {
 
 /* modificação para o título da sequência de números */
 section#section-sequencia>h2.section-title-sequencia {
+    padding: 10px 0px;
     color: #FDC23E;
 }
 
