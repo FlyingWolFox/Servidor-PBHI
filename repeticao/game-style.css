@@ -102,7 +102,7 @@ div#box-instrucoes {
     -webkit-grid-column: 2;
     -webkit-grid-row: 1;
     margin-top: 0px;
-    margin-left: 10px;
+    margin-left: -1px;
     z-index: 10;
 }
 
@@ -257,17 +257,75 @@ a#span-textbox {
    font-weight: bold;
 }
 
-#botao-de-voz {
+#botao-de-voz-ligado {
     width: 25%;
     height: fit-content;
     margin: 10px;
     padding: 10px 10px;
     font-size: 1.2em;
     color: #A37027;
-    background: #FFAC33;
+    background: rgb(249, 158, 21);
     border: 5px solid #FFFFFF;
     border-radius: 20px;
     font-weight: bold;
+}
+
+div#botoes-de-audio{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 18px;
+    margin-left: -40px;
+} 
+
+button#botao-ativar-voz {
+
+    width: 38px;
+    height: 38px;
+    padding: 2px 8px;
+    margin-bottom: 10px;
+    border-radius: 50%;
+    font-size: 25px;
+    font-weight: 800;
+    color: white;
+    text-align: center;
+    border: 3px solid white;
+    background-color: rgb(96, 96, 96);
+    align-self: center;
+
+}
+
+p#botao-voz-instrucao {
+    margin-top: -3px;
+    margin-left: -8px;
+    font-size: 23px;
+}
+
+button#botao-repetir-voz {
+    width: 38px;
+    height: 38px;
+    padding: 2px 8px;
+    margin-bottom: 10px;
+    border-radius: 50%;
+    font-size: 25px;
+    font-weight: 800;
+    color: white;
+    text-align: center;
+    border: 3px solid white;
+    background-color: rgb(96, 96, 96);
+    align-self: center;
+}
+
+p#repetir-voz {
+    font-size: 17px;
+    margin-left: -3.5px;
+    margin-top: -2px;
+}
+
+p#cancelar-voz {
+    font-size: 22px;
+    margin-left: -3.5px;
+    margin-top: -2px
 }
 
 #texto-de-voz {
@@ -768,6 +826,7 @@ button.botao-fim{
         width: 100%;
         margin: 0px;
         margin-top: -32px;
+        margin-left: -40px;
     
     }
     
