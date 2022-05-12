@@ -36,7 +36,7 @@ var arraySequencia = []; //Array para guardar a sequecia
 var arrayOpcoes = []; //Array contendo todos os elementos gerados nas opcoes
 var tamNucleo; //Quantos elementos o nucleo possui
 var tamSeq = 0; //Tamanho da sequência do núcleo
-var etapaAtual = 16;
+var etapaAtual = 0;
 var cliquei = false; // var que verifica se a crianca ja viu a sequencia que escolheu
 var estrela = 0; //nível de estrelas do jogador 
 var endGame = false; //Indica se o jogo está na ultima fase
@@ -800,11 +800,11 @@ function check(event) { //Verifica se acertou os elementos
 				textoAcerto.innerText = 'Você concluiu o jogo! Parabens!';
 				btnReiniciar.onclick = function (event){
 					stopChuva()
-					endGame = false;
 					resetEstrelas();
 					eventoResultado()
 					etapaAtual = 0;
 					endGame = false;
+					time = null
 					game();
 					modalFim.style.display = 'none';
 				}
