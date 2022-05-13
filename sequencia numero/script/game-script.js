@@ -515,56 +515,56 @@ function game() {
 		case 3:
 			nSlots = 1;
 			tamNucleo = 1;
-			tamSeq = 4;
-			tamOpcoes = 3;
-			numeroRef = getRandomIntInclusive(1,5);
+			tamSeq = 2;
+			tamOpcoes = 2;
+			numeroRef = getRandomIntInclusive(6,7);
 			razaoSequencia = 1;
-			numerosDistintos = 3;
+			numerosDistintos = 2;
 			break;
 		case 4:
 			nSlots = 1;
 			tamNucleo = 1;
-			tamSeq = 4;
+			tamSeq = 3;
 			tamOpcoes = 3;
-			numeroRef = getRandomIntInclusive(9,5);
-			razaoSequencia = -1;
+			numeroRef = getRandomIntInclusive(1,5);
+			razaoSequencia = 1;
 			numerosDistintos = 3;
 			break;
 		case 5:
 			nSlots = 1;
 			tamNucleo = 1;
 			tamSeq = 3;
-			tamOpcoes = 2;
-			numeroRef = getRandomIntInclusive(2,3);
-			razaoSequencia = 2;
-			numerosDistintos = 2;
+			tamOpcoes = 3;
+			numeroRef = getRandomIntInclusive(3,6);
+			razaoSequencia = 1;
+			numerosDistintos = 3;
 			break;
 		case 6:
-			nSlots = 2;
-			tamNucleo = 2;
-			tamSeq = 5;
-			tamOpcoes = 4;
+			nSlots = 1;
+			tamNucleo = 1;
+			tamSeq = 3;
+			tamOpcoes = 3;
 			numeroRef = getRandomIntInclusive(1,2);
-			razaoSequencia = 1;
-			numerosDistintos = 4;
+			razaoSequencia = 2;
+			numerosDistintos = 3;
 			break;
 		case 7:
-			nSlots = 2;
+			nSlots = 1;
 			tamNucleo = 1;
-			tamSeq = 5;
-			tamOpcoes = 4;
+			tamSeq = 3;
+			tamOpcoes = 3;
 			numeroRef = getRandomIntInclusive(3,4);
-			razaoSequencia = 1;
-			numerosDistintos = 4;
+			razaoSequencia = 2;
+			numerosDistintos = 3;
 			break;
 		case 8:
-			nSlots = 2;
-			tamNucleo = 2;
-			tamSeq = 5;
-			tamOpcoes = 4;
-			numeroRef = getRandomIntInclusive(9,7);
-			razaoSequencia = -1;
-			numerosDistintos = 4;
+			nSlots = 1;
+			tamNucleo = 1;
+			tamSeq = 3;
+			tamOpcoes = 3;
+			numeroRef = getRandomIntInclusive(4,5);
+			razaoSequencia = 2;
+			numerosDistintos = 3;
 			break;
 		case 9:
 			nSlots = 2;
@@ -572,7 +572,7 @@ function game() {
 			tamSeq = 4;
 			tamOpcoes = 4;
 			numeroRef = getRandomIntInclusive(1,2);
-			razaoSequencia = 2;
+			razaoSequencia = 1;
 			numerosDistintos = 4;
 			break;
 		case 10:	
@@ -580,21 +580,21 @@ function game() {
 			tamNucleo = 2;
 			tamSeq = 4;
 			tamOpcoes = 4;
-			numeroRef = getRandomIntInclusive(9,8);
-			razaoSequencia = -2; 
+			numeroRef = getRandomIntInclusive(3,5);
+			razaoSequencia = 1; 
 			numerosDistintos = 4;
 			break;
 
 		case 11:
 			nSlots = 2;
 			tamNucleo = 2;
-			tamSeq = 6;
-			tamOpcoes = 5;
+			tamSeq = 4;
+			tamOpcoes = 4;
 			numeroRef = getRandomIntInclusive(1,3);
-			razaoSequencia = 1;
-			numerosDistintos = 5;
+			razaoSequencia = 2;
+			numerosDistintos = 4;
 			break;
-		case 12:
+		case 12://mesma lógica do 0
 			nSlots = 1;
 			tamNucleo = 1;
 			tamSeq = 3;
@@ -624,56 +624,56 @@ function game() {
 		case 15:
 			nSlots = 1;
 			tamNucleo = 1;
-			tamSeq = 4;
-			tamOpcoes = 3;
-			numeroRef = getRandomIntInclusive(1,5);
+			tamSeq = 2;
+			tamOpcoes = 2;
+			numeroRef = getRandomIntInclusive(6,7);
 			razaoSequencia = 1;
-			numerosDistintos = 3;
+			numerosDistintos = 2;
 			break;
 		case 16:
 			nSlots = 1;
 			tamNucleo = 1;
-			tamSeq = 4;
+			tamSeq = 3;
 			tamOpcoes = 3;
-			numeroRef = getRandomIntInclusive(9,5);
-			razaoSequencia = -1;
+			numeroRef = getRandomIntInclusive(1,5);
+			razaoSequencia = 1;
 			numerosDistintos = 3;
 			break;
 		case 17:
 			nSlots = 1;
 			tamNucleo = 1;
 			tamSeq = 3;
-			tamOpcoes = 2;
-			numeroRef = getRandomIntInclusive(2,3);
-			razaoSequencia = 2;
-			numerosDistintos = 2;
+			tamOpcoes = 3;
+			numeroRef = getRandomIntInclusive(3,6);
+			razaoSequencia = 1;
+			numerosDistintos = 3;
 			break;
 		case 18:
-			nSlots = 2;
-			tamNucleo = 2;
-			tamSeq = 5;
-			tamOpcoes = 4;
+			nSlots = 1;
+			tamNucleo = 1;
+			tamSeq = 3;
+			tamOpcoes = 3;
 			numeroRef = getRandomIntInclusive(1,2);
-			razaoSequencia = 1;
-			numerosDistintos = 4;
+			razaoSequencia = 2;
+			numerosDistintos = 3;
 			break;
 		case 19:
-			nSlots = 2;
+			nSlots = 1;
 			tamNucleo = 1;
-			tamSeq = 5;
-			tamOpcoes = 4;
+			tamSeq = 3;
+			tamOpcoes = 3;
 			numeroRef = getRandomIntInclusive(3,4);
-			razaoSequencia = 1;
-			numerosDistintos = 4;
+			razaoSequencia = 2;
+			numerosDistintos = 3;
 			break;
 		case 20:
-			nSlots = 2;
-			tamNucleo = 2;
-			tamSeq = 5;
-			tamOpcoes = 4;
-			numeroRef = getRandomIntInclusive(9,7);
-			razaoSequencia = -1;
-			numerosDistintos = 4;
+			nSlots = 1;
+			tamNucleo = 1;
+			tamSeq = 3;
+			tamOpcoes = 3;
+			numeroRef = getRandomIntInclusive(4,5);
+			razaoSequencia = 2;
+			numerosDistintos = 3;
 			break;
 		case 21:
 			nSlots = 2;
@@ -681,7 +681,7 @@ function game() {
 			tamSeq = 4;
 			tamOpcoes = 4;
 			numeroRef = getRandomIntInclusive(1,2);
-			razaoSequencia = 2;
+			razaoSequencia = 1;
 			numerosDistintos = 4;
 			break;
 		case 22:	
@@ -689,18 +689,19 @@ function game() {
 			tamNucleo = 2;
 			tamSeq = 4;
 			tamOpcoes = 4;
-			numeroRef = getRandomIntInclusive(9,8);
-			razaoSequencia = -2; 
+			numeroRef = getRandomIntInclusive(3,5);
+			razaoSequencia = 1; 
 			numerosDistintos = 4;
 			break;
+
 		case 23:
 			nSlots = 2;
 			tamNucleo = 2;
-			tamSeq = 6;
-			tamOpcoes = 5;
+			tamSeq = 4;
+			tamOpcoes = 4;
 			numeroRef = getRandomIntInclusive(1,3);
-			razaoSequencia = 1;
-			numerosDistintos = 5;
+			razaoSequencia = 2;
+			numerosDistintos = 4;
 			endGame = true;
 			break;
 		default:
