@@ -3,7 +3,7 @@
 // IDs dos containers
 const divSequencia = 'container-nucleo';
 const divOpcoes = 'container-formas';
-const divCaixa = 'container-sequencia';
+const divCaixa = 'container-sequencia'; //container-resposta
 const textNumeroFase = 'textbox-numero-fase';
 const divEstrelas = 'container-estrelas';
 
@@ -38,51 +38,45 @@ const contornoEnum = Object.freeze({
 /** FIM CONSTANTES */
 
 /** VARIAVEIS GLOBAIS COMPARTILHADAS ENTRE AS FUNCOES */
-
 var arrayCaixa = []; //Elementos colocados na caixa de resposta
 var arrayNucleo = []; //Array para guardar o nucleo
 var arraySequencia = []; //Array para guardar a sequecia
 var arrayOpcoes = []; //Array contendo todos os elementos gerados nas opcoes
 var tamNucleo; //Quantos elementos o nucleo possui
-var nSlots; //quantas vezes o nucleo se repete na resposta
 var etapaAtual = 0;
 var estrela = 0; //nível de estrelas do jogador 
 var arrayEstrelas = document.getElementById(divEstrelas).getElementsByTagName('img');
 var ano = localStorage.getItem('ano');
 var etapaMax = 17;
 console.log('esse eh o ano:' + ano);
-
 /** FIM VARIAVEIS */
 
 /** FUNCOES DE APOIO */
+
 function getFasesPorAno(){
 	switch(ano){
 		case "Primeiro ano":
-			etapaMax = 10;
+			etapaMax = 7;
 			break;
 		case "Segundo ano":
-			etapaMax = 12;
+			etapaMax = 9;
 			break;
 		case "Terceiro ano":
-			etapaMax = 15;
+			etapaMax = 11;
 			break;
 		case "Quarto ano":
-			etapaMax = 18;
+			etapaMax = 13;
 			break;
 		case "Quinto ano":
-			etapaMax = 30;
+			etapaMax = 20;
 			break;
 		case "Sexto ano":
-			etapaMax = 30;
+			etapaMax = 20;
 			break;			
 	}
 	console.log("esse eh o numero maximo de fases desse ano: " + etapaMax);
 }
 getFasesPorAno();
-
-function randomInteger(min, max) {
-	return Math.floor(Math.random() * (max - min + 1)) + min;
-  }
 function getRandomIntInclusive(min, max) {
 	min = Math.ceil(min);
 	max = Math.floor(max);
@@ -144,7 +138,7 @@ function getImgScr(forma, cor, tamanho, contorno) {
 	return src;
 }
 
-function getImgAlt(img) {
+function getImgAlt(img){
 	var alt = '';
 
 	switch (parseInt(img.getAttribute('tipo'))) {
@@ -306,34 +300,25 @@ function novaImgBlocoLogicoComRestricoes(arrayPecasExistentes, maxCores, maxForm
 	novaImg.setAttribute('tam', tam);
 	novaImg.setAttribute('cont', cont);
 	novaImg.setAttribute('alt', getImgAlt(novaImg));
-	novaImg.setAttribute('title', novaImg.getAttribute('alt'));
+	novaImg.setAttribute('title', novaImg.getAttribute('alt'));	
 	novaImg.classList.add('game-img');
 	tam == 1 ? novaImg.classList.add('pequeno') : novaImg.classList.add('grande');
-
 
 	console.log('novaimg: tipo=' + tipo + ', cor=' + novaImg.getAttribute('cor') + ', tam=' + tam + ', contorno=' + cont + ', src=' + arq);
 
 	return novaImg;
 }
 
-function checaOcorrencia(array, elemento){
-	var count = 0;
-	array.forEach((v) => (v === elemento && count++));
-	return count;
-}
-
 function reset() {
 	removeChildElementsByTag(divSequencia, 'img');
 	removeChildElementsByTag(divOpcoes, 'img');
-	removeChildElementsByTag(divOpcoes, 'div');
-	removeChildElementsByTag(divSequencia, "div");
+	removeChildElementsByTag(divCaixa, 'img');
+
 	arrayCaixa = [];
 	arrayNucleo = [];
 	arraySequencia = [];
 	arrayOpcoes = [];
 	tamNucleo = 0;
-	tamNuc = 0;
-	contImgsCorretas = 0;
 }
 
 function resetEstrelas() {
@@ -349,116 +334,7 @@ function resetEstrelas() {
 	texto.innerHTML = "?";
 	texto = document.getElementById('texto4');
 	texto.innerHTML = "?";
-}
-endGame = false;
 
-var contImgsCorretas = 0;
-
-function substituiImgs(nSequencia, etapaAtual, nSlots) {
-	var divNuc = document.getElementById(divSequencia);
-	var childNucleo = divNuc.children;
-	var arraySlots = [];
-	var imgSubstituida = [];
-	var indices = [];
-	divOps = document.getElementById(divOpcoes);
-	for (var i = 0; i < nSlots; i++) {
-		if(etapaAtual < 12){// desvio condicional pra separar os jogos, A2
-			indices[i] = (arraySequencia.length - i) - 1;
-			console.log("valor de nSlots:" + nSlots);
-			imgSubstituida[i] = document.createElement('img');
-			imgSubstituida[i] = arraySequencia[indices[i]]; //armazena a imagem substituida
-			arraySlots[i] = document.createElement("div"); //cria um elemento div com propriedas de drop pra ficar no lugar da imagem substituida
-			arraySlots[i].setAttribute('id', 'substituta' + i);
-			arraySlots[i].classList.add("dropzone");
-			arraySlots[i].classList.add("slot");
-			arraySequencia[indices[i]] = arraySlots[i]; //adiciona o elemento div no lugar da imagem 
-			childNucleo[indices[i]].replaceWith(arraySequencia[indices[i]]); // adiciona o slot na zona dquencia
-			//console.log("a img substituida eh:" + imgSubstituida[i].getAttribute("alt"));
-			//divOps.appendChild(imgSubstituida[i]); // adiciona a imagem substituida nas opções do jogadore se
-
-		}else{// A3
-			console.log("entrei no else");
-			var testeindice = randomInteger(0, nSequencia - 1); //descobre qual o indice do array sequencia vai ter sua imagem substituida
-			var repetida = indices.includes(testeindice); //verifica se o indice ja foi utilizado
-			while(repetida){//se o indice ja foi utilizado, procura outro indice pra ser substituido
-				testeindice = randomInteger(0, nSequencia - 1);
-				repetida = indices.includes(testeindice);
-			}
-			indices[i] = testeindice;
-			console.log("valor de nSlots:" + nSlots);
-			imgSubstituida[i] = document.createElement('img');
-			imgSubstituida[i] = arraySequencia[indices[i]]; //armazena a imagem substituida
-			//imgSubstituida[i].setAttribute('src', arraySequencia[indices[i]].getAttribute('src'));
-			arraySlots[i] = document.createElement("div"); //cria um elemento div com propriedas de drop pra ficar no lugar da imagem substituida
-			arraySlots[i].setAttribute('id', 'substituta' + i);
-			arraySlots[i].classList.add("dropzone");
-			arraySlots[i].classList.add("slot");
-			arraySequencia[indices[i]] = arraySlots[i]; //adiciona o elemento div no lugar da imagem 
-			childNucleo[indices[i]].replaceWith(arraySequencia[indices[i]]); // adiciona o slot na zona dquencia
-			//console.log("a img substituida eh:" + imgSubstituida[i].getAttribute("alt"));
-			//divOps.appendChild(imgSubstituida[i]); // adiciona a imagem substituida nas opções do jogadore se
-		}
-	}
-	
-	var divOpsAux = divOps.children;
-	var arrayOpsAux = Array.from(divOpsAux);
-	//variaveis responsaveis por controlar o numero de ocorrencias das imagens corretas na resposta e nas opções:
-	var descricaoElementosOps = []; //array que armazena a descricao das imgs das opcoes
-	var nOcorrenciasOps = [];
-	var descricaoElementosSubs = []; //array que armazena a descricao das imgs substituidas
-	var difOcorrencias = [];
-	var nOcorrenciasSubs = [];
-
-	arrayOpsAux.forEach((el, j) => {
-		descricaoElementosOps[j] = el.getAttribute('alt');
-	})
-
-	imgSubstituida.forEach((el, j) => {
-		descricaoElementosSubs[j] = el.getAttribute('alt');
-	})
-
-	for(var i = 0; i < imgSubstituida.length; i++){
-		nOcorrenciasSubs[i] = checaOcorrencia(descricaoElementosSubs,imgSubstituida[i].getAttribute('alt'));
-		console.log(nOcorrenciasSubs[i] + " Ocorrencias da img substituida:" + imgSubstituida[i].getAttribute('alt'));
-		nOcorrenciasOps[i] = checaOcorrencia(descricaoElementosOps, imgSubstituida[i].getAttribute('alt'));
-		console.log(nOcorrenciasOps[i] + " Ocorrencias da img substituida nas opcoes:" + imgSubstituida[i].getAttribute('alt'));
-	}
-
-	for(var i = 0; i < imgSubstituida.length; i++){ // verifica o se o numero de ocorrencias de cada imagem correta eh o mesmo nas substituidas e nas opcoes, se nao for, procura uma imagem errada e substitui pela correta
-		difOcorrencias[i] = nOcorrenciasSubs[i] - nOcorrenciasOps[i];
-		while(difOcorrencias[i] > 0){
-			console.log('faltam: ' + difOcorrencias[i] + ' da imagem: ' + imgSubstituida[i].getAttribute('alt'));
-			for(var count = 0; count < arrayOpsAux.length; count++){
-				var incluiElemento = descricaoElementosSubs.includes(arrayOpsAux[count].getAttribute('alt')); //verifica se a imagem a ser substituida nao é uma imagem correta
-				if(!incluiElemento && difOcorrencias[i] > 0){
-					arrayOpsAux[count].replaceWith(imgSubstituida[i]);
-					console.log("eu substitui a img: " + arrayOpsAux[count].getAttribute('alt') + "pela img:" + imgSubstituida[i].getAttribute("alt"));
-					difOcorrencias[i]--;
-					continue;
-				}
-		}	
-
-		}
-	}
-}	
-
-function shuffle(array){
-	var indexAtual = array.length, aux, randomIndex;
-  
-	// While there remain elements to shuffle...
-	while (0 !== indexAtual) {
-  
-	  // Pick a remaining element...
-	  randomIndex = Math.floor(Math.random() * indexAtual);
-	  indexAtual -= 1;
-  
-	  // And swap it with the current element.
-	  aux = array[indexAtual];
-	  array[indexAtual] = array[randomIndex];
-	  array[randomIndex] = aux;
-	}
-  
-	return array;
 }
 
 function chuva() {
@@ -500,10 +376,14 @@ function stopChuva(){
     })
 }
 
+endGame = false;
+
 function game() {
 	reset();
-	
-	
+	//const queryString = window.location.search; //guarda tudo apos a ? (incluindo ela)
+	//const urlParams = new URLSearchParams(queryString); //processa as variaveis, separando-as
+	//const etapa = 0;  //urlParams.get('etapa');     //pega o valor passado na variavel etapa
+
 	//iniciar variaveis de controle
 	var tamSeq = 0; //Tamanho da sequência do núcleo
 	var tamOpcoes = 0; //quantidade de opções de resposta
@@ -512,9 +392,10 @@ function game() {
 	var tamanhosDistintos = 0; //quantidade de tamanhos distintas possiveis nas opcoes
 	var contornosDistintos = 0; //quantidade de contornos distintas possiveis nas opcoes
 	var i, j, escolhido, achouIgual;
-	arrayOriginal = [];
-	
 
+	var fonte = ''; //source de cada imagem	
+	var cor, tipo, tam, cont, arq; //Atributos de cada imagem (cor, tipo, tamanho e contorno)
+	
 	var textNumeroFaseDom = document.getElementById(textNumeroFase);
 	textNumeroFaseDom.innerHTML = (etapaAtual + 1);
 
@@ -523,259 +404,176 @@ function game() {
 	switch (etapaAtual) {
 		case 0:
 			/*Padronizado*/
-			nSlots = 1;
 			tamNucleo = 1;
+      		tamSeq = 7;
+      		tamOpcoes = 3;
+      		coresDistintas = 1;
+      		formasDistintas = 4;
+      		tamanhosDistintos = 1;
+      		contornosDistintos = 1;
+      		break;
+      	case 1:     		
+      		tamNucleo = 1;
 			tamSeq = 8;
-			tamOpcoes = 2; 
+      		tamOpcoes = 4;
+      		coresDistintas = 2;
+      		formasDistintas = 3;
+      		tamanhosDistintos = 2;
+      		contornosDistintos = 1;
+      		break;
+      	case 2:     		
+      		tamNucleo = 1;
+			tamSeq = 9;
+      		tamOpcoes = 3;
+      		coresDistintas = 4;
+      		formasDistintas = 3;
+      		tamanhosDistintos = 2;
+      		contornosDistintos = 2;
+			break;
+		case 3:     		
+      		tamNucleo = 2;
+			tamSeq = 8;
+      		tamOpcoes = 4;
+      		coresDistintas = 1;
+      		formasDistintas = 3;
+      		tamanhosDistintos = 2;
+      		contornosDistintos = 1;
+			break;   
+		case 4: 		
+      		tamNucleo = 2;
+			tamSeq = 8;
+      		tamOpcoes = 5;
+      		coresDistintas = 2;
+      		formasDistintas = 3;
+      		tamanhosDistintos = 1;
+      		contornosDistintos = 2;
+			break;
+		case 5: 		
+      		tamNucleo = 2;
+			tamSeq = 8;
+      		tamOpcoes = 5;
+      		coresDistintas = 3;
+      		formasDistintas = 3;
+      		tamanhosDistintos = 1;
+      		contornosDistintos = 2;
+			break;
+		case 6: 	
+			tamNucleo = 2;
+			tamSeq = 9;
+      		tamOpcoes = 5;
+      		coresDistintas = 3;
+      		formasDistintas = 4;
+      		tamanhosDistintos = 1;
+      		contornosDistintos = 1;	
+			break;
+		case 7: 				
+			tamNucleo = 3;
+			tamSeq = 9;
+      		tamOpcoes = 4;
+      		coresDistintas = 1;
+      		formasDistintas = 3;
+      		tamanhosDistintos = 2;
+      		contornosDistintos = 1;
+			break;
+		case 8: 		
+			tamNucleo = 3;
+		  	tamSeq = 10;
+			tamOpcoes = 6;
+			coresDistintas = 2;
+			formasDistintas = 2;
+			tamanhosDistintos = 1;
+			contornosDistintos = 2;
+		  	break;
+		case 9: 		
+			tamNucleo = 3;
+			tamSeq = 12;
+			tamOpcoes = 6;
 			coresDistintas = 2;
 			formasDistintas = 2;
 			tamanhosDistintos = 2;
-			contornosDistintos = 1;
-			break;
-		case 1:
-			nSlots = 1;
-			tamNucleo = 1;
-			tamSeq = 8;
-			tamOpcoes = 2;
-			coresDistintas = 2;
-			formasDistintas = 1;
-			tamanhosDistintos = 2;
-			contornosDistintos = 1;
-			break;
-		case 2:
-			nSlots = 1;
-			tamNucleo = 1;
-			tamSeq = 8;
-			tamOpcoes = 3;
-			coresDistintas = 3;
-			formasDistintas = 3;
-			tamanhosDistintos = 1;
-			contornosDistintos = 1;
-			break;
-		case 3:
-			nSlots = 1;
-			tamNucleo = 1;
-			tamSeq = 8;
-			tamOpcoes = 2;
-			coresDistintas = 3;
-			formasDistintas = 3;
-			tamanhosDistintos = 1;
-			contornosDistintos = 1;
-			break;
-		case 4:
-			nSlots = 1;
-			tamNucleo = 1;
-			tamSeq = 8;
-			tamOpcoes = 2;
-			coresDistintas = 1;
-			formasDistintas = 2;
-			tamanhosDistintos = 1;
 			contornosDistintos = 2;
-			break;
-		case 5:
-			nSlots = 1;
-			tamNucleo = 1;
-			tamSeq = 8;
-			tamOpcoes = 3;
-			coresDistintas = 1;
-			formasDistintas = 2;
-			tamanhosDistintos = 1;
-			contornosDistintos = 2;
-			break;
-		case 6:
-			nSlots = 2;
-			tamNucleo = 2;
-			tamSeq = 8;
-			tamOpcoes = 4;
-			coresDistintas = 3;
-			formasDistintas = 3;
-			tamanhosDistintos = 2;
-			contornosDistintos = 1;
-			break;
-		case 7:
-			nSlots = 2;
-			tamNucleo = 2;
-			tamSeq = 8;
-			tamOpcoes = 4;
-			coresDistintas = 1;
-			formasDistintas = 3;
-			tamanhosDistintos = 1;
-			contornosDistintos = 2;
-			break;
-		case 8:
-			nSlots = 2;
-			tamNucleo = 2;
-			tamSeq = 8;
-			tamOpcoes = 4;
-			coresDistintas = 3;
-			formasDistintas = 3;
-			tamanhosDistintos = 1;
-			contornosDistintos = 2;
-			break;
-		case 9:
-			nSlots = 2;
-			tamNucleo = 2;
-			tamSeq = 8;
-			tamOpcoes = 4;
-			coresDistintas = 3;
-			formasDistintas = 3;
-			tamanhosDistintos = 1;
-			contornosDistintos = 2;
-			break;
-		case 10:	
-			nSlots = 2;
-			tamNucleo = 2;
-			tamSeq = 8;
-			tamOpcoes = 4;
-			coresDistintas = 1;
-			formasDistintas = 3;
-			tamanhosDistintos = 1;
-			contornosDistintos = 2;
-			break;
+				break;
 
-		case 11:
-			nSlots = 2;
-			tamNucleo = 2;
-			tamSeq = 8;
-			tamOpcoes = 5;
-			coresDistintas = 1;
-			formasDistintas = 3;
-			tamanhosDistintos = 1;
-			contornosDistintos = 2;
-			break;
-		case 12:
-			nSlots = 1;
-			tamNucleo = 1;
-			tamSeq = 8;
-			tamOpcoes = 2; 
-			coresDistintas = 2;
-			formasDistintas = 2;
-			tamanhosDistintos = 2;
-			contornosDistintos = 1;
-			break;
-		case 13:
-			nSlots = 1;
-			tamNucleo = 1;
-			tamSeq = 8;
-			tamOpcoes = 2;
-			coresDistintas = 2;
-			formasDistintas = 1;
-			tamanhosDistintos = 2;
-			contornosDistintos = 1;
-			break;
-		case 14:
-			nSlots = 1;
-			tamNucleo = 1;
-			tamSeq = 8;
-			tamOpcoes = 3;
+		case 10: 		
+			tamNucleo = 3;
+			tamSeq = 10;
+			tamOpcoes = 6;
 			coresDistintas = 3;
-			formasDistintas = 3;
-			tamanhosDistintos = 1;
-			contornosDistintos = 1;
-			break;
-		case 15:
-			nSlots = 1;
-			tamNucleo = 1;
-			tamSeq = 8;
-			tamOpcoes = 2;
-			coresDistintas = 3;
-			formasDistintas = 3;
-			tamanhosDistintos = 1;
-			contornosDistintos = 1;
-			break;
-		case 16:
-			nSlots = 1;
-			tamNucleo = 1;
-			tamSeq = 8;
-			tamOpcoes = 2;
-			coresDistintas = 1;
 			formasDistintas = 2;
 			tamanhosDistintos = 1;
 			contornosDistintos = 2;
-			break;
-		case 17:
-			nSlots = 1;
-			tamNucleo = 1;
-			tamSeq = 8;
-			tamOpcoes = 3;
-			coresDistintas = 1;
-			formasDistintas = 2;
-			tamanhosDistintos = 1;
-			contornosDistintos = 2;
-			break;
-		case 18:
-			nSlots = 2;
-			tamNucleo = 2;
-			tamSeq = 8;
-			tamOpcoes = 4;
+				  break;
+
+
+
+		 case 11: 		
+			tamNucleo = 3;
+			tamSeq = 10;
+			tamOpcoes = 6;
 			coresDistintas = 3;
 			formasDistintas = 3;
 			tamanhosDistintos = 2;
-			contornosDistintos = 1;
-			break;
-		case 19:
-			nSlots = 2;
-			tamNucleo = 2;
-			tamSeq = 8;
-			tamOpcoes = 4;
-			coresDistintas = 1;
-			formasDistintas = 3;
-			tamanhosDistintos = 1;
 			contornosDistintos = 2;
+					break;
+
+			case 12: 		
+				tamNucleo = 3;
+				tamSeq = 10;
+				tamOpcoes = 6;
+				coresDistintas = 3;
+				formasDistintas = 4;
+				tamanhosDistintos = 1;
+				contornosDistintos = 2;
+					break;
+			case 13: 		
+				tamNucleo = 3;
+				tamSeq = 12;
+				tamOpcoes = 6;
+				coresDistintas = 3;
+				formasDistintas = 4;
+				tamanhosDistintos = 2;
+				contornosDistintos = 2;
+					break;
+
+
+			case 14: 		
+				tamNucleo = 4;
+				tamSeq = 12;
+				tamOpcoes = 6;
+				coresDistintas = 2;
+				formasDistintas = 2;
+				tamanhosDistintos = 1;
+				contornosDistintos = 2;
+						  break;
+						  
+			case 15: 		
+				tamNucleo = 4;
+				tamSeq = 12;
+				tamOpcoes = 6;
+				coresDistintas = 3;
+				formasDistintas = 2;
+				tamanhosDistintos = 1;
+				contornosDistintos = 2;
+				break;	
+			 case 16: 		
+				tamNucleo = 4;
+				tamSeq = 12;
+				tamOpcoes = 8;
+				coresDistintas = 3;
+				formasDistintas = 4;
+				tamanhosDistintos = 2;
+				contornosDistintos = 2;
+				endGame= true;
+				break;			
+      	default:
+			// alert("Fim do Jogo! Parabens!");
 			break;
-		case 20:
-			nSlots = 2;
-			tamNucleo = 2;
-			tamSeq = 8;
-			tamOpcoes = 4;
-			coresDistintas = 3;
-			formasDistintas = 3;
-			tamanhosDistintos = 1;
-			contornosDistintos = 2;
-			break;
-		case 21:
-			nSlots = 2;
-			tamNucleo = 2;
-			tamSeq = 8;
-			tamOpcoes = 4;
-			coresDistintas = 3;
-			formasDistintas = 3;
-			tamanhosDistintos = 1;
-			contornosDistintos = 2;
-			break;
-		case 22:	
-			nSlots = 2;
-			tamNucleo = 2;
-			tamSeq = 8;
-			tamOpcoes = 4;
-			coresDistintas = 1;
-			formasDistintas = 3;
-			tamanhosDistintos = 1;
-			contornosDistintos = 2;
-			break;
-	
-		case 23:
-			nSlots = 2;
-			tamNucleo = 2;
-			tamSeq = 8;
-			tamOpcoes = 5;
-			coresDistintas = 1;
-			formasDistintas = 3;
-			tamanhosDistintos = 1;
-			contornosDistintos = 2;						
-			endGame = true;	
-			break;
-		
-		default:
-			alert("Fim do Jogo! Parabens!");
-			break;
-	}
+    }
 
 	//montar nucleo
 	console.log("montar nucleo");
 	for (i = 0; i < tamNucleo; i++) {
 		arrayNucleo[i] = novaImgBlocoLogicoComRestricoes(arrayNucleo, coresDistintas, formasDistintas, tamanhosDistintos, contornosDistintos);
-
 	}
 
 	//adicionar sequencia no div
@@ -792,9 +590,8 @@ function game() {
 			arraySequencia[seqAtual].setAttribute('alt', arrayNucleo[i].getAttribute("alt"));
 			arraySequencia[seqAtual].setAttribute('title', arrayNucleo[i].getAttribute("title"));
 			arraySequencia[seqAtual].classList.add('game-img');
-			arrayNucleo[i].getAttribute("tam") == 1 ? arraySequencia[seqAtual].classList.add('pequeno') : arraySequencia[seqAtual].classList.add('grande');
+			arrayNucleo[i].getAttribute('tam') == 1 ? arraySequencia[seqAtual].classList.add('pequeno') : arraySequencia[seqAtual].classList.add('grande');
 			divNucleo.appendChild(arraySequencia[seqAtual]);
-			arrayOriginal.push(arraySequencia[seqAtual])
 			console.log('Adicionado seq #' + seqAtual + ': id=' + arraySequencia[seqAtual].getAttribute("id") + ', src=' + arraySequencia[seqAtual].getAttribute("src"));
 			seqAtual++;
 		}
@@ -810,17 +607,17 @@ function game() {
 		while (1) {
 			indice[i] = getRandomIntInclusive(0, tamOpcoes - 1) //i;
 			for (j = 0; j < i; j++) {
-				if (indice[i] == indice[j]) {
+				if (indice[i] == indice[j]){
 					indice[i] = -1;
 					break; //ja tinha um indice desse 
 				}
 			}
 			if (indice[i] != -1)
 				break; //indice escolhido ok
-		}//Onde vai ficar as peças "forçadas"
+		}
 
 		console.log('nucleo[' + i + '] ficara no indice: ' + indice[i]);
-		//reativando 
+
 		arrayOpcoes[indice[i]] = document.createElement("img");
 		arrayOpcoes[indice[i]].setAttribute('src', arrayNucleo[i].getAttribute("src")); //lincoln: nao precisa ter ID ja que sao elas q sao arrastadas?
 		arrayOpcoes[indice[i]].setAttribute('cor', arrayNucleo[i].getAttribute("cor")); //lincoln: nao precisa ter ID ja que sao elas q sao arrastadas?
@@ -830,8 +627,8 @@ function game() {
 		arrayOpcoes[indice[i]].setAttribute('alt', arrayNucleo[i].getAttribute("alt")); //lincoln: nao precisa ter ID ja que sao elas q sao arrastadas?
 		arrayOpcoes[indice[i]].setAttribute('title', arrayNucleo[i].getAttribute("title")); //lincoln: nao precisa ter ID ja que sao elas q sao arrastadas?
 		arrayOpcoes[indice[i]].classList.add('game-img');
-		arrayNucleo[i].getAttribute("tam") == 1 ?arrayOpcoes[indice[i]].classList.add('pequeno') : arrayOpcoes[indice[i]].classList.add('grande');
-		//reativando
+		arrayNucleo[i].getAttribute('tam') == 1 ? arrayOpcoes[indice[i]].classList.add('pequeno') : arrayOpcoes[indice[i]].classList.add('grande');
+
 	}
 
 	//escolher demais opcoes de escolha
@@ -855,184 +652,119 @@ function game() {
 		}
 
 		arrayOpcoes[i].setAttribute('id', 'opcao' + (i + 1)); //lincoln: diferenciando ID
+		// arrayOpcoes[i].setAttribute('draggable','true');
+		// arrayOpcoes[i].setAttribute('droppable','false');
+		// arrayOpcoes[i].setAttribute('ondragstart', 'drag(event)');
 		divOps.appendChild(arrayOpcoes[i]);
 		console.log('Adicionado forma/opcao parte2 #' + i + ': id=' + arrayOpcoes[i].getAttribute("id") + ', src=' + arrayOpcoes[i].getAttribute("src"));
 	}
-	substituiImgs(tamSeq, etapaAtual, nSlots);
-
-	var auxOps = divOps.getElementsByTagName('img');
-	var arrayOps = Array.from(auxOps);
-	arrayOps = shuffle(arrayOps);
-	for(i = 0; i < tamOpcoes; i++){
-		divOps.appendChild(arrayOps[i]);
-	}
-
 }
 
-
 function check() { //Verifica se acertou os elementos
-	var correto = false; // Variável que funciona como indicador do acerto ou erro do usuário
-	var acertos = 0; // número total de imagens que batem entre o resultado enviado pelo usuário e o array original. Esse valor precisa ser do tamanho do length do array original
-	var resultado = document.getElementById(divSequencia).children; // Variável que armazena o estado da resposta do usuário no momento da chamada da função check()
-	var arrayResultado = Array.from(resultado); // Variável que armazena o resultado o usuário como um array
-
-	// Variaveis que selecionam os modais, seus textos e botões;
+	var arrayDropbox = document.getElementById(divCaixa).getElementsByTagName('img');
+	var botaoOk = document.getElementById('botao-proximo');
+	var btnReiniciar = document.getElementById('botao-restart')
+	var i, j;
+	var correto = 1;
 
 	var textoAcerto = document.getElementById('resultado-jogo');
     var textoErro = document.getElementById('resultadoNegativo-jogo')
+
     var modalAcerto = document.getElementById("modalAcerto");
     var modalErro = document.getElementById('modalErro');
 	var modalFim = document.getElementById('modalFim')
-	var btnReiniciar = document.getElementById('botao-restart')
-	var botaoOk = document.getElementById('botao-proximo');
-
-
-	// Comparar o resultado de cada item do arrayOriginal com o array resultado
-
-	arrayResultado.forEach((el, i) => {
-
-		// Primeira verificação = se o item tem um elemento filho.
-
-		if(!el.hasChildNodes()){
-			
-			// Não possui elementos filho, logo pode ser uma imagem ou um slot que não foi preenchido
-
-			let descricaoElemento = el.getAttribute('alt'); //descrição presente em todas as imagens do array de resposta
-			let descricaoElementoOriginal = arrayOriginal[i].getAttribute('alt'); // descrição presente em todas as imagesn do array original da sequência
-
-			if(descricaoElemento === null){
-
-				// o elemento da vez não tem uma descrição do tipo alt, logo é um slot e não uma imagem;
-				acertos--; // retira um número porque o usuário não completou a sequencia. tem espaço vazio.
-				console.log(`tem um elemento faltando`);
-
-			} 
-			
-			if(descricaoElemento == descricaoElementoOriginal) {
-
-				acertos++ // a descrição das imagens coincidiram, então adiciona +1 a variável de acertos
-				// se as imagens batem aqui, é porque já faziam parte do array original. Peças não movidas durante a montagem do jogo
-				console.log(`o número ${i} Bateu certinho`);
-			}
-
-		} else {
-
-			// possui um elemento filho, logo é um slot preenchido. É preciso verificar se as descrições batem para ter certeza que o usuário acertou a resposta
-
-			let descricaoElemento = el.children[0].getAttribute('alt');
-			let descricaoElementoOriginal = arrayOriginal[i].getAttribute('alt');
-
-			if(descricaoElemento == descricaoElementoOriginal) {
-
-				// descrição do primeiro filho do slot (img) bateu com a descrição da imagem de mesmo índicie do array original, logo o usuário acertou.
-
-				console.log(`o número ${i} Bateu certinho`);
-				acertos++; // as descrições bateram, logo conta como acerto para o usuário
-
- 			} else {
-
-				acertos--; // em um dos slots as descrições não bateram, logo tem alguma imagem fora do lugar e conta como erro para o usuário
-				console.log(`tem um errado ai no meio, chefia`);
-
-			}
-		
-		}
-
-	})
-
-	// Se houver algo diferente, então manter a variável correto como falso
-	// se tudo passar pela verificação, alterar a varável correto para verdadeiro
-
-	acertos == arrayOriginal.length? correto = true: correto = false;
-
-	console.log(correto);
 	
-	if (endGame == false && etapaAtual <= etapaMax) {
 
+	if (arrayDropbox.length != tamNucleo) {
+		correto = 0;
+	} else {
+		for (i = 0; i < tamNucleo; i++) {
+			if (arrayNucleo[i].getAttribute('src') != arrayDropbox[i].getAttribute('src')) {
+				correto = 0;
+				break;
+			}
+		}
+	}
+
+	if(endGame == false && etapaAtual <= etapaMax) {
 		if (correto) {
-			textoAcerto.innerText = "Você acertou! Fase concluída.";
+			textoAcerto.innerHTML = "Você acertou! Fase concluída.";
 			modalAcerto.style.display = 'block';
 			botaoOk.innerHTML = "Próxima";
-
-			botaoOk.onclick = function (event) {
+			botaoOk.onclick = function (event){
 				etapaAtual++;
 				estrela++;
-				switch (estrela) {
+				switch(estrela) {
 					case 0:
 					case 1:
 					case 2:
 					case 3:
-					case 4:
 						var texto = document.getElementById('texto1');
-						texto.innerHTML = etapaAtual.toString() + "/5";
+						texto.innerHTML = etapaAtual.toString() + "/4";
 						break;
-					case 5:
+					case 4:
 						arrayEstrelas[0].setAttribute('src', './img/estrelas/star1.svg');
 						var texto = document.getElementById('texto1');
-						texto.innerHTML = etapaAtual.toString() + "/5";
+						texto.innerHTML = etapaAtual.toString() + "/4";
 						break;
+					case 5:
 					case 6:
 					case 7:
-					case 8:
-					case 9:
-					case 10:
 						var texto = document.getElementById('texto2');
-						texto.innerHTML = etapaAtual.toString() + "/11";
+						texto.innerHTML = etapaAtual.toString() + "/8";
 						break;
-					case 11:
+					case 8:
 						arrayEstrelas[1].setAttribute('src', './img/estrelas/star1.svg');
 						var texto = document.getElementById('texto2');
-						texto.innerHTML = etapaAtual.toString() + "/11";
+						texto.innerHTML = etapaAtual.toString() + "/8";
+						break;
+					case 9:
+					case 10:
+					case 11:
+						var texto = document.getElementById('texto3');
+						texto.innerHTML = etapaAtual.toString() + "/12";
 						break;
 					case 12:
-					case 13:	
-					case 14:
-					case 15:
-					case 16:
-						var texto = document.getElementById('texto3');
-						texto.innerHTML = etapaAtual.toString() + "/17";
-						break;
-					case 17:
 						arrayEstrelas[2].setAttribute('src', './img/estrelas/star1.svg');
 						var texto = document.getElementById('texto3');
-						texto.innerHTML = etapaAtual.toString() + "/17";
+						texto.innerHTML = etapaAtual.toString() + "/12";
 						break;
-					case 18:
-					case 19:
-					case 20:
-					case 21:
-					case 22:
+					case 13:
+					case 14:
+					case 15:
 						var texto = document.getElementById('texto4');
-						texto.innerHTML = etapaAtual.toString() + "/23";
+						texto.innerHTML = etapaAtual.toString() + "/16";
 						break;
-					case 23:
+					case 16:
 						arrayEstrelas[3].setAttribute('src', './img/estrelas/star1.svg');
 						var texto = document.getElementById('texto4');
-						texto.innerHTML = etapaAtual.toString() + "/23";
+						texto.innerHTML = etapaAtual.toString() + "/16";
 						break;
 					default:
 						break;
 				}
-				modalAcerto.style.display = 'none'
 				game();
-				
-				
+				modalAcerto.style.display = 'none';
 			};
-		} else{ 
+			
+		} else {
+			
 			modalErro.style.display = 'block';
-			textoErro.innerText = "Resposta errada... Tente novamente!";
+			textoErro.innerHTML = "Que pena, tente novamente!";
+			botaoOk.innerHTML = "Continuar";
+			botaoOk.onclick = function (event){
+				closeSpan.click();
+			};
 		}
-
 	} else {
 		chuva()
-		textoAcerto.innerHTML = "Você concluiu o jogo! Parabens!!";
-		botaoOk.innerHTML = "Reiniciar";
+		textoAcerto.innerHTML = "Você concluiu o jogo! Parabens!";
 		modalFim.style.display = 'block';
 		btnReiniciar.onclick = function (event){
 			stopChuva()
 			etapaAtual = 0;
-			resetEstrelas();
 			endGame = false;
+			resetEstrelas();
 			game();
 			modalFim.style.display = 'none';
 		};
@@ -1043,5 +775,5 @@ function check() { //Verifica se acertou os elementos
 
 document.body.onload = game;
 var botaoResultado = document.getElementById('botao-resultado');
-botaoResultado.addEventListener('click', check); 
-//lincoln: adicionado
+botaoResultado.addEventListener('click', check); //lincoln: adicionado
+//botaoResultado.onclick = check(); //lincoln: removido

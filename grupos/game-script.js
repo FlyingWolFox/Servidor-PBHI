@@ -1,4 +1,4 @@
-var etapaAtual = 26;   //Etapa do exercício
+var etapaAtual = 0;   //Etapa do exercício
 var estrela = 0;      //Contagem das estrelas (5 por etapa)
 var endGame;
 var restricao1 = [];   //Restriçoes da primeira caixa (esquerda)
@@ -311,7 +311,7 @@ function getRestrictScr(estado, classificação, valor) {   //Cria a src a parti
 }
 
 function getImgScr(forma, cor, tamanho, contorno) {   //Cria a src a partir dos valores dos atributos
-    var src = './img/';
+    var src = '../img/fig-rosto/';
 
     switch (forma) {
         case formasEnum.triangulo:
