@@ -411,6 +411,7 @@ function game() {
       		formasDistintas = 4;
       		tamanhosDistintos = 1;
       		contornosDistintos = 1;
+			endGame = true
       		break;
       	case 1:     		
       		tamNucleo = 1;

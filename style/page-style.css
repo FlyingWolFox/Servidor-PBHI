@@ -1194,6 +1194,35 @@ button.botao-fim {
     margin-left: 30px;
     border: none;
 }
+div#modalBoxQuente{
+    background: linear-gradient(90deg, #F4683C 6.72%, #FF3E3E 93.1%);
+    clip-path: polygon(15% 0, 100% 0, 85% 100%, 0 100%);
+    min-width: 625px;
+    width: 75%;
+    height: 100%;  
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+div#modalGlassQuente{
+    background-color: rgba(245, 105, 60, 0.3);
+    position: absolute;
+    min-height: 70px;
+    width: 100%;
+    border-radius: 10px;
+}
+
+button.botao-fim-quente{
+    background-color: #FF3E3E;
+    font-size: 1em;
+    font-weight: 700;
+    color: white;
+    border-radius: 25px;
+    padding: 10px 15px;
+    margin-left: 30px;
+    border: none;
+}
 @keyframes loadleft{
     from{opacity: 0;transform: translate(30%,-50%)}
     to{opacity: 1;transform: translate(50%,-50%)}
