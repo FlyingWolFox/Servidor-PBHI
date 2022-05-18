@@ -80,7 +80,7 @@ function getRandomIntInclusive(min, max) {
 
 /** FUNCOES DO JOGO */
 function getImgScr(numero, cor) {
-	var src = './img/';
+	var src = '../img/fig-num/';
 
 	switch (numero) {
 		case 0:
