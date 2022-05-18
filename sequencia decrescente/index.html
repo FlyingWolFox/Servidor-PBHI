@@ -1,23 +1,25 @@
 <!DOCTYPE html>
+<meta charset="UTF-8">
 <html lang="pt-br">
 
 <head>
 
-    <title>Tem Lógica - Jogo da Repetição</title>
+    <title>Tem Lógica - Jogo da Sequência</title>
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#FDC23E">
     <meta name="apple-mobile-web-app-status-bar-style" content="#FDC23E">
 
+    <link rel="shortcut icon" href="../img/favicon.ico" />
+
     <!-- chamada para as folhas de estilo -->
     <link rel="stylesheet" href="../style/page-style.css">
     <!-- chamada para as folhas de estilo do jogo -->
-    <link rel="stylesheet" href="game-style.css">
-    <link rel="stylesheet" id="estilo-mobile" href="mobile-style.css" type="text/css"
+    <!-- <link rel="stylesheet" href="./style/game-style.css"> -->
+    <link rel="stylesheet" href="../sequencia decrescente/style/game-style.css">
+    <link rel="stylesheet" id="estilo-mobile" href="./style/mobile-style.css" type="text/css"
         media="screen and (orientation: landscape) and (max-width: 900px)">
-
-    <link rel="shortcut icon" href="../img/favicon.ico" />
 
     <!-- link para os icones me forma de fonte -->
 
@@ -32,20 +34,9 @@
         href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@100;300;400;500;700;800;900&display=swap"
         rel="stylesheet">
 
-    <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
-	<script src='https://code.responsivevoice.org/responsivevoice.js'></script>
-    <script src="https://code.responsivevoice.org/responsivevoice.js?key=KONwxqZY"></script>
-
-    <script type="text/javascript" src="common/jquery.min.js"></script>
-    <script type="text/javascript" src="common/jquery-ui.min.js"></script>
-
-    <script src="Scripts/MindFusion.Common.js" type="text/javascript"></script>
-    <script src="Scripts/MindFusion.Diagramming.js" type="text/javascript"></script>
-
 </head>
 
 <body class='game-body'>
-    <select id='voiceList' hidden></select> <br><br> 
     <section class="aviso-orientacao">
         <div id="aviso-orientacao-caixa">
             <h1 id="texto-orientacao"> vire seu aparelho na horizontal para jogar</h1>
@@ -63,32 +54,28 @@
                 </div>
             </div>
         </div>
-
     </section>
-
     <div class='tela-jogo'>
         <header class="game-header">
             <a href="../index.html" class="link-logo">
                 <img id="logo-header" src="../img/logo.png" alt="" class="logo grid-item">
             </a>
-            <h2 id="title-jogo" class=""></h2>
-
-            <!--VERIFICANDO A SÉRIE E DESABILITANDO A VISIBILIDADE PARA O USUÁRIO-->
-            <h2></h2>
+            <h2 id="title-jogo" class="">JOGO DA SEQUÊNCIA</h2>
         </header>
 
         <main id="main-body" class="grid grid-full">
             <div id="modalInfo" class="modal">
                 <div class="modal-content" id="modal-content">
-                    <p id="instrucao-do-jogo">
-                        Olá, você sabe como funciona o Jogo da Repetição 🤔? Não? Então vem cá que eu te explico rapidinho, nele a gente te mostra uma sequência de figuras que se repetem e você tem que nos mostrar quais são essas figuras que estão se repetindo... Aah, já ia esquecendo 😀, é só clicar e arrastar as figuras disponíveis lá embaixo para o núcleo e montar a sua sequência com as figuras que se repetem na mesma ordem e depois clicar em TERMINEI.
-                    </p>             
-
+                    <p>Olá, nos encontramos mais uma vez 😀, desta vez vou te mostrar um jogo bem legal, o Jogo da Sequência de Números! O Jogo da Sequência de Números mostra uma sequência de figuras, com algumas delas faltando 🤔, e esta é a sua tarefa, identificar quais peças estão faltando e arrastar pra lista de figuras, depois é só clicar em TERMINEI!!
+                    </p>
                     <button id="botao-info-close"
                         onclick="document.getElementById('modalInfo').style.display='none'">Entendi
                     </button>
-                    <button id="botao-de-voz-ligado">
-                        <p id="texto-de-voz">&#128266;</p>
+
+                    <button id="botao-de-voz">
+                        <span id="texto-de-voz">
+                            <img src="../img/svg/audio.svg" alt="botão de aúdio" id="img-de-voz">
+                        </span>
                     </button>
                 </div>
             </div>
@@ -118,10 +105,9 @@
                     <img src="img/sr-logico.png" alt="" id="mascote-instrucoes">
                     <article id="textbox-tutorial">
                         <p id="textbox-fase">Fase n&uacute;mero <span id="textbox-numero-fase">1</span>:</p>
-                        <textarea id="texto-textbox" readonly>Preste atenção às peças da sequência e identifique quais estão se repetindo. Depois arraste as peças disponíveis no fundo da página para a área do núcleo, montando as peças que se repetem. A ordem das peças deve ser respeitada.
+                        <textarea id="texto-textbox" readonly>Observe a sequência e identifique quais peças estão faltando para deixá-la completa. Depois arraste as peças disponíveis para as posições vazias da sequência para completá-las.
                         </textarea>
                     </article>
-
                     <div class="conteiner-botoes">
                         <div class="botoes-janela">
                             <span id="span-fullscreen" class=""><i class="icofont-maximize"></i></span>
@@ -129,42 +115,23 @@
                                 <i class="icofont-close icofont-2x"></i>
                             </a>
                         </div>
-
-                        <div id="botoes-de-audio">
-                            <button id="botao-ativar-voz">
-                                <p id="botao-voz-instrucao">&#128266;</p>
-                            </button>
-                            <button id="botao-repetir-voz">
-                                <p id="repetir-voz">&#128257;</p>
-                            </button>
-                            <button onclick="responsiveVoice.cancel()" id="span-about">
-                                <p id="cancelar-voz">&#128263;</p>
-                            </button>
-                            <button id="span-about" onclick="document.getElementById('modalInfo').style.display='block'"class="">
-                                ?
-                            </button>
-                        </div>
+                        <span id="span-about" class=""
+                            onclick="document.getElementById('modalInfo').style.display='block'">?</span>
                     </div>
                 </div>
-                <section id='sequencias-conteiner'>
-                    <h3 id="titulo-nucleo">Sequência</h3>
-                    <section id="container-nucleo" class="game-container">
-                        <!-- Container que mostra o núcleo de repetição -->
-                    </section>
-                    <h3 id="titulo-sequencia">Núcleo</h3>
-                    <section id="container-sequencia" class="game-container dropzone grid">
-                        <!-- Lugar onde as imagens são dropadas -->
-                    </section>
-                    <button id="botao-resultado" onclick="check()">TERMINEI!</button>
+                <h3 id="titulo-nucleo">Sequência</h3>
+                <section id="container-nucleo" class="game-container">
+                    <!-- Seção onde será inserida a sequencia -->
                 </section>
+
+                <button id="botao-resultado" onclick="">Terminei!</button>
+
                 <div class="formas-titulo">
                     <p class='container-formas-titulo'>Peças Disponíveis</p>
                     <section id="container-formas" class="game-container dropzone">
                         <!-- Container das figuras que serão arrastadas -->
                     </section>
                 </div>
-
-
 
                 <!-- O Modal do resultado positivo-->
                 <div id="modalAcerto" class="modal">
@@ -175,7 +142,7 @@
                         <div class="modal-text-content">
                             <h2 class="titulo-modal">RESULTADO</h2>
                             <h2 id="resultado-jogo"></h2>
-                            <button id="botao-proximo" onclick="fecharModal('acerto')">Próxima</button>
+                            <button id="botao-proximo" onclick="fecharModal('acerto')">ok</button>
                         </div>
                     </div>
                 </div>
@@ -189,38 +156,15 @@
                         <div class="modal-text-content">
                             <h2 class="titulo-modal">RESULTADO</h2>
                             <h2 id="resultadoNegativo-jogo">Ihh! Algo deu Errado</h2>
-                            <button id="botao-retorno" onclick="fecharModal('erro')">Continuar</button>
+                            <button id="botao-retorno" onclick="fecharModal('erro')">Recomeçar</button>
                         </div>
                     </div>
                 </div>
-
-            <!--O Modal de conclusão do jogo-->
-            <div id="modalFim">
-                <div id="modalContent">
-                    <div id="roboIcon"><img src="./img/robo-end-quente.png" alt="Robo de festa"></div>
-                    <div id="modalGlass"></div>
-                    <div id="modalBox">
-                        <div id="textZone">
-                            <h2>PARABÉNS</h2>
-                            <h3>Você concluiu o jogo!!!</h3>
-                        </div>
-                    </div>
-                </div>
-                <section id="botao-box">
-                    <button id="botao-restart" class="botao-fim">Reiniciar</button>
-                    <button id="botao-certificado" class="botao-fim">Certificado</button>
-                </section>
-            </div>
             </section>
         </main>
 
         <footer class="footer-grid">
-            <p class="footer-text grid-center">Copyright Fapesq - <span id="ano">2021</span></p>
-            <script>
-                var ano = document.getElementById("ano");
-                var anoAtual = new Date();
-                ano.innerHTML = anoAtual.getFullYear();
-            </script>
+            <p class="footer-text grid-center">Copyright Fapesq - 2021</p>
             <section class="grid-right">
                 <p class="footer-text realizadores-text">Realizadores:</p>
                 <div class="footer-imgs">
@@ -234,11 +178,11 @@
 
     </div>
     <script src="https://cdn.jsdelivr.net/npm/@shopify/draggable@1.0.0-beta.11/lib/draggable.bundle.js"></script>
-    <script src="./game-script.js"></script>
+    <script src="./script/game-script.js"></script>
     <script src="../script/page-script.js"></script>
     <script>
         var containerFormas = document.getElementById('container-formas');
-        var containerSequencia = document.getElementById('container-sequencia');
+        var containerSequencia = document.getElementById('container-nucleo');
 
         const droppableSequencia = new Draggable.Droppable(containerFormas, {
             draggable: '.game-img',
@@ -293,7 +237,7 @@
             // Criando o CSS responsável pelo modo Fullscreen
             var indexHead = document.getElementsByTagName('head')[0];
             var iosCss = document.createElement('link');
-            iosCss.setAttribute('href', './game-ios-style.css');
+            iosCss.setAttribute('href', './style/game-ios-style.css');
             iosCss.setAttribute('rel', 'stylesheet');
             indexHead.appendChild(iosCss);
         }
@@ -319,71 +263,9 @@
         textRoll(90, 6000)
     </script>
 
-
     <script>
-        let mudandoTituloRepeticao = document.getElementById('title-jogo');
-        mudandoTituloRepeticao.innerHTML = localStorage.titulo;
-    </script> 
-    
-    <script type="text/javascript">
-        $('#botao-ativar-voz').on('click', function(){
-            var texto = $("#texto-textbox").val();
-            responsiveVoice.speak($("#texto-textbox").val(), "Brazilian Portuguese Female");
-        });
-    </script>
-
-    <script type="text/javascript">
-        $("#botao-repetir-voz").on('click', function(){
-            var texto = $('#texto-textbox').val();
-            responsiveVoice.speak($("#texto-textbox").val(), "Brazilian Portuguese Female");
-        })
-    </script>
-</script>
-
-    <script>
-        //Varíável para armazenar o texto que será falado. Para mais falas, armazenar o texto em outra variável...
-        var mensagemDuvida = "Olá, você sabe como funciona o Jogo da Repetição 🤔? Não? Então vem cá que eu te explico rapidinho, nele a gente te mostra uma sequência de figuras que se repetem e você tem que nos mostrar quais são essas figuras que estão se repetindo... Aah, já ia esquecendo 😀, é só clicar e arrastar as figuras disponíveis lá embaixo para o núcleo e montar a sua sequência com as figuras que se repetem na mesma ordem e depois clicar em TERMINEI.!";
-
-        var voiceList = document.querySelector('#voiceList');
-        var botaoDeVozLigado = document.querySelector('#botao-de-voz-ligado');
-        var synth = window.speechSynthesis;
-        var voices = [];
-
-        //Coloca as vozes na caixa de seleção de vozes...
-        PopulateVoices();
-        if(speechSynthesis !== undefined){
-            speechSynthesis.onvoiceschanged = PopulateVoices;
-        }
-
-        //Criando um Listener para a fala da mensagem da variável mensagemDuvida...
-        botaoDeVozLigado.addEventListener('click', ()=> {
-            var toSpeak = new SpeechSynthesisUtterance(mensagemDuvida);
-            var selectedVoiceName = voiceList.selectedOptions[0].getAttribute('data-name');
-            voices.forEach((voice)=>{
-                if(voice.name === selectedVoiceName){
-                    toSpeak.voice = voice;
-                }
-            });
-            synth.speak(toSpeak);
-        });
-
-        //Seleciona apenas as vozes em Portugues BR e descartas todas as demais para serem mostradas na seleção de vozes...
-        function PopulateVoices(){
-            voices = synth.getVoices();
-            var selectedIndex = voiceList.selectedIndex < 0 ? 0 : voiceList.selectedIndex;
-            voiceList.innerHTML = '';
-            voices.forEach((voice)=>{
-                var listItem = document.createElement('option');
-                if(voice.name == "Microsoft Maria - Portuguese (Brazil)"){
-                    listItem.textContent = voice.name;
-                    listItem.setAttribute('data-lang', voice.lang);
-                    listItem.setAttribute('data-name', voice.name);
-                    voiceList.appendChild(listItem);
-                }
-            });
-
-            voiceList.selectedIndex = selectedIndex;
-        }
+        let mudandoTituloGrupos = document.getElementById('title-jogo');
+        mudandoTituloGrupos.innerHTML = localStorage.titulo;
     </script>
 </body>
 

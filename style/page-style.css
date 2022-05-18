@@ -30,6 +30,10 @@
     padding: 0px;
 }
 
+html button {
+    cursor: pointer;
+}
+
 body {
 
     min-height: 100vh;

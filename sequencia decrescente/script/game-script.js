@@ -426,44 +426,6 @@ function shuffle(array) {
 	return array;
   }
   
-function chuva() {
-	for (let i = 1; i < 50; i++) {
-		let rand = Math.floor(Math.random() * document.body.clientWidth-20);
-		let cor = Math.floor(Math.random() * 4)
-		let rotate = Math.floor(Math.random() * 360)
-		switch(cor){
-			case 0:
-				cor = '#fc21bf'
-			break;
-			case 1:
-				cor = 'skyblue'
-			break;
-			case 2:
-				cor = '#c400ff'
-			break;
-			case 3:
-				cor = '#16fcab'
-			break;
-			case 4:
-				cor = '#ff1616'
-			break;
-		}
-		var confete = document.createElement('span');
-		confete.classList.add('gota');
-		confete.style.marginLeft = rand+'px'
-		confete.style.backgroundColor = cor
-		confete.style.transform = 'rotate('+rotate+'deg)'
-		confete.style.setProperty('animation-delay', 0.1*i + 's');
-		document.querySelector('body').append(confete);
-	}
-}
-
-function stopChuva(){
-    var filhos = document.querySelector('body').querySelectorAll('.gota')
-    filhos.forEach(filho => {
-        filho.parentElement.removeChild(filho)
-    })
-}
 
 function game() {
 	reset();
@@ -490,8 +452,8 @@ function game() {
 			tamNucleo = 1;
 			tamSeq = 3;
 			tamOpcoes = 2;
-			numeroRef = getRandomIntInclusive(1,2);  
-			razaoSequencia = 1;
+			numeroRef = getRandomIntInclusive(9,8);  
+			razaoSequencia = -1;
 			numerosDistintos = 2;
 			break;
 		case 1:
@@ -499,8 +461,8 @@ function game() {
 			tamNucleo = 1;
 			tamSeq = 3;
 			tamOpcoes = 2;
-			numeroRef = getRandomIntInclusive(3,4);
-			razaoSequencia = 1;
+			numeroRef = getRandomIntInclusive(7,6);
+			razaoSequencia = -1;
 			numerosDistintos = 2;
 			break;
 		case 2:
@@ -508,17 +470,17 @@ function game() {
 			tamNucleo = 1;
 			tamSeq = 3;
 			tamOpcoes = 2;
-			numeroRef = getRandomIntInclusive(5,6);
-			razaoSequencia = 1;
+			numeroRef = getRandomIntInclusive(5,4);
+			razaoSequencia = -1;
 			numerosDistintos = 2;
 			break;
 		case 3:
 			nSlots = 1;
 			tamNucleo = 1;
-			tamSeq = 2;
+			tamSeq = 3;
 			tamOpcoes = 2;
-			numeroRef = getRandomIntInclusive(6,7);
-			razaoSequencia = 1;
+			numeroRef = getRandomIntInclusive(4,3);
+			razaoSequencia = -1;
 			numerosDistintos = 2;
 			break;
 		case 4:
@@ -526,8 +488,8 @@ function game() {
 			tamNucleo = 1;
 			tamSeq = 3;
 			tamOpcoes = 3;
-			numeroRef = getRandomIntInclusive(1,5);
-			razaoSequencia = 1;
+			numeroRef = getRandomIntInclusive(9,5);
+			razaoSequencia = -1;
 			numerosDistintos = 3;
 			break;
 		case 5:
@@ -535,8 +497,8 @@ function game() {
 			tamNucleo = 1;
 			tamSeq = 3;
 			tamOpcoes = 3;
-			numeroRef = getRandomIntInclusive(3,6);
-			razaoSequencia = 1;
+			numeroRef = getRandomIntInclusive(8,4);
+			razaoSequencia = -1;
 			numerosDistintos = 3;
 			break;
 		case 6:
@@ -544,8 +506,8 @@ function game() {
 			tamNucleo = 1;
 			tamSeq = 3;
 			tamOpcoes = 3;
-			numeroRef = getRandomIntInclusive(1,2);
-			razaoSequencia = 2;
+			numeroRef = getRandomIntInclusive(9,8);
+			razaoSequencia = -2;
 			numerosDistintos = 3;
 			break;
 		case 7:
@@ -553,8 +515,8 @@ function game() {
 			tamNucleo = 1;
 			tamSeq = 3;
 			tamOpcoes = 3;
-			numeroRef = getRandomIntInclusive(3,4);
-			razaoSequencia = 2;
+			numeroRef = getRandomIntInclusive(7,6);
+			razaoSequencia = -2;
 			numerosDistintos = 3;
 			break;
 		case 8:
@@ -562,8 +524,8 @@ function game() {
 			tamNucleo = 1;
 			tamSeq = 3;
 			tamOpcoes = 3;
-			numeroRef = getRandomIntInclusive(4,5);
-			razaoSequencia = 2;
+			numeroRef = getRandomIntInclusive(5,4);
+			razaoSequencia = -2;
 			numerosDistintos = 3;
 			break;
 		case 9:
@@ -571,8 +533,8 @@ function game() {
 			tamNucleo = 2;
 			tamSeq = 4;
 			tamOpcoes = 4;
-			numeroRef = getRandomIntInclusive(1,2);
-			razaoSequencia = 1;
+			numeroRef = getRandomIntInclusive(9,8);
+			razaoSequencia = -1;
 			numerosDistintos = 4;
 			break;
 		case 10:	
@@ -580,8 +542,8 @@ function game() {
 			tamNucleo = 2;
 			tamSeq = 4;
 			tamOpcoes = 4;
-			numeroRef = getRandomIntInclusive(3,5);
-			razaoSequencia = 1; 
+			numeroRef = getRandomIntInclusive(7,6);
+			razaoSequencia = -1; 
 			numerosDistintos = 4;
 			break;
 
@@ -590,17 +552,17 @@ function game() {
 			tamNucleo = 2;
 			tamSeq = 4;
 			tamOpcoes = 4;
-			numeroRef = getRandomIntInclusive(1,3);
-			razaoSequencia = 2;
+			numeroRef = getRandomIntInclusive(9,7);
+			razaoSequencia = -2;
 			numerosDistintos = 4;
 			break;
-		case 12://mesma lógica do 0
+		case 12:
 			nSlots = 1;
 			tamNucleo = 1;
 			tamSeq = 3;
 			tamOpcoes = 2;
-			numeroRef = getRandomIntInclusive(1,2);  
-			razaoSequencia = 1;
+			numeroRef = getRandomIntInclusive(9,8);  
+			razaoSequencia = -1;
 			numerosDistintos = 2;
 			break;
 		case 13:
@@ -608,8 +570,8 @@ function game() {
 			tamNucleo = 1;
 			tamSeq = 3;
 			tamOpcoes = 2;
-			numeroRef = getRandomIntInclusive(3,4);
-			razaoSequencia = 1;
+			numeroRef = getRandomIntInclusive(7,6);
+			razaoSequencia = -1;
 			numerosDistintos = 2;
 			break;
 		case 14:
@@ -617,17 +579,17 @@ function game() {
 			tamNucleo = 1;
 			tamSeq = 3;
 			tamOpcoes = 2;
-			numeroRef = getRandomIntInclusive(5,6);
-			razaoSequencia = 1;
+			numeroRef = getRandomIntInclusive(5,4);
+			razaoSequencia = -1;
 			numerosDistintos = 2;
 			break;
 		case 15:
 			nSlots = 1;
 			tamNucleo = 1;
-			tamSeq = 2;
+			tamSeq = 3;
 			tamOpcoes = 2;
-			numeroRef = getRandomIntInclusive(6,7);
-			razaoSequencia = 1;
+			numeroRef = getRandomIntInclusive(4,3);
+			razaoSequencia = -1;
 			numerosDistintos = 2;
 			break;
 		case 16:
@@ -635,8 +597,8 @@ function game() {
 			tamNucleo = 1;
 			tamSeq = 3;
 			tamOpcoes = 3;
-			numeroRef = getRandomIntInclusive(1,5);
-			razaoSequencia = 1;
+			numeroRef = getRandomIntInclusive(9,5);
+			razaoSequencia = -1;
 			numerosDistintos = 3;
 			break;
 		case 17:
@@ -644,8 +606,8 @@ function game() {
 			tamNucleo = 1;
 			tamSeq = 3;
 			tamOpcoes = 3;
-			numeroRef = getRandomIntInclusive(3,6);
-			razaoSequencia = 1;
+			numeroRef = getRandomIntInclusive(8,4);
+			razaoSequencia = -1;
 			numerosDistintos = 3;
 			break;
 		case 18:
@@ -653,8 +615,8 @@ function game() {
 			tamNucleo = 1;
 			tamSeq = 3;
 			tamOpcoes = 3;
-			numeroRef = getRandomIntInclusive(1,2);
-			razaoSequencia = 2;
+			numeroRef = getRandomIntInclusive(9,8);
+			razaoSequencia = -2;
 			numerosDistintos = 3;
 			break;
 		case 19:
@@ -662,8 +624,8 @@ function game() {
 			tamNucleo = 1;
 			tamSeq = 3;
 			tamOpcoes = 3;
-			numeroRef = getRandomIntInclusive(3,4);
-			razaoSequencia = 2;
+			numeroRef = getRandomIntInclusive(7,6);
+			razaoSequencia = -2;
 			numerosDistintos = 3;
 			break;
 		case 20:
@@ -671,8 +633,8 @@ function game() {
 			tamNucleo = 1;
 			tamSeq = 3;
 			tamOpcoes = 3;
-			numeroRef = getRandomIntInclusive(4,5);
-			razaoSequencia = 2;
+			numeroRef = getRandomIntInclusive(5,4);
+			razaoSequencia = -2;
 			numerosDistintos = 3;
 			break;
 		case 21:
@@ -680,8 +642,8 @@ function game() {
 			tamNucleo = 2;
 			tamSeq = 4;
 			tamOpcoes = 4;
-			numeroRef = getRandomIntInclusive(1,2);
-			razaoSequencia = 1;
+			numeroRef = getRandomIntInclusive(9,8);
+			razaoSequencia = -1;
 			numerosDistintos = 4;
 			break;
 		case 22:	
@@ -689,18 +651,17 @@ function game() {
 			tamNucleo = 2;
 			tamSeq = 4;
 			tamOpcoes = 4;
-			numeroRef = getRandomIntInclusive(3,5);
-			razaoSequencia = 1; 
+			numeroRef = getRandomIntInclusive(7,6);
+			razaoSequencia = -1; 
 			numerosDistintos = 4;
 			break;
-
 		case 23:
 			nSlots = 2;
 			tamNucleo = 2;
 			tamSeq = 4;
 			tamOpcoes = 4;
-			numeroRef = getRandomIntInclusive(1,3);
-			razaoSequencia = 2;
+			numeroRef = getRandomIntInclusive(9,7);
+			razaoSequencia = -2;
 			numerosDistintos = 4;
 			endGame = true;
 			break;
@@ -815,8 +776,6 @@ function check() { //Verifica se acertou os elementos
     var textoErro = document.getElementById('resultadoNegativo-jogo')
     var modalAcerto = document.getElementById("modalAcerto");
     var modalErro = document.getElementById('modalErro');
-	var modalFim = document.getElementById('modalFim')
-	var btnReiniciar = document.getElementById('botao-restart')
 	var botaoOk = document.getElementById('botao-proximo');
 
 
@@ -957,16 +916,15 @@ function check() { //Verifica se acertou os elementos
 		}
 
 	} else {
-		chuva()
 		textoAcerto.innerHTML = "Você concluiu o jogo! Parabens!!";
-		modalFim.style.display = 'block';
-		btnReiniciar.onclick = function (event){
-			stopChuva()
+		botaoOk.innerHTML = "Reiniciar";
+		modalAcerto.style.display = 'block';
+		botaoOk.onclick = function (event){
 			etapaAtual = 0;
 			resetEstrelas();
 			game();
 			endGame = false;
-			modalFim.style.display = 'none';
+			modalAcerto.style.display = 'none';
 		};
 	}
 }

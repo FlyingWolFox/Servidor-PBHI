@@ -84,7 +84,12 @@ div.conteiner-botoes {
 div.botoes-janela {
 
     margin: 0px 0px;
+    margin-right: 20px;
 
+}
+
+div#botoes-de-audio {
+    gap: 20px;
 }
 
 span#span-fullscreen {
