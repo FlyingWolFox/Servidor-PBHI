@@ -256,7 +256,7 @@ function reset() {
 function resetEstrelas() {
 	estrela = 0;
 	for (var i = 0; i < arrayEstrelas.length; i++) {
-		arrayEstrelas[i].setAttribute('src', './img/estrelas/star2.svg');
+		arrayEstrelas[i].setAttribute('src', '../img/estrelas/star2.svg');
 	}
 	var texto = document.getElementById('texto1');
 	texto.innerHTML = "?";
@@ -809,7 +809,7 @@ function check() { //Verifica se acertou os elementos
 						texto.innerHTML = etapaAtual.toString() + "/5";
 						break;
 					case 5:
-						arrayEstrelas[0].setAttribute('src', './img/estrelas/star1.svg');
+						arrayEstrelas[0].setAttribute('src', '../img/estrelas/star1.svg');
 						var texto = document.getElementById('texto1');
 						texto.innerHTML = etapaAtual.toString() + "/5";
 						break;
@@ -822,7 +822,7 @@ function check() { //Verifica se acertou os elementos
 						texto.innerHTML = etapaAtual.toString() + "/11";
 						break;
 					case 11:
-						arrayEstrelas[1].setAttribute('src', './img/estrelas/star1.svg');
+						arrayEstrelas[1].setAttribute('src', '../img/estrelas/star1.svg');
 						var texto = document.getElementById('texto2');
 						texto.innerHTML = etapaAtual.toString() + "/11";
 						break;
@@ -835,7 +835,7 @@ function check() { //Verifica se acertou os elementos
 						texto.innerHTML = etapaAtual.toString() + "/17";
 						break;
 					case 17:
-						arrayEstrelas[2].setAttribute('src', './img/estrelas/star1.svg');
+						arrayEstrelas[2].setAttribute('src', '../img/estrelas/star1.svg');
 						var texto = document.getElementById('texto3');
 						texto.innerHTML = etapaAtual.toString() + "/17";
 						break;
@@ -848,7 +848,7 @@ function check() { //Verifica se acertou os elementos
 						texto.innerHTML = etapaAtual.toString() + "/23";
 						break;
 					case 23:
-						arrayEstrelas[3].setAttribute('src', './img/estrelas/star1.svg');
+						arrayEstrelas[3].setAttribute('src', '../img/estrelas/star1.svg');
 						var texto = document.getElementById('texto4');
 						texto.innerHTML = etapaAtual.toString() + "/23";
 						break;

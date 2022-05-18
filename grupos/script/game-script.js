@@ -106,7 +106,7 @@ function reset() {
 function resetEstrelas() {
     estrela = 0;
     for (var i = 0; i < arrayEstrelas.length; i++) {
-        arrayEstrelas[i].setAttribute('src', './img/estrelas/star2.svg');
+        arrayEstrelas[i].setAttribute('src', '../img/estrelas/star2.svg');
     }
     var texto = document.getElementById('texto1');
     texto.innerHTML = "?";
@@ -1636,7 +1636,7 @@ function check(){ //Confere se acertou
                             texto.innerHTML = etapaAtual.toString() + "/10";
                             break;
                         case 10:
-                            arrayEstrelas[0].setAttribute('src', './img/estrelas/star1.svg');
+                            arrayEstrelas[0].setAttribute('src', '../img/estrelas/star1.svg');
                             var texto = document.getElementById('texto1');
                             texto.innerHTML = etapaAtual.toString() + "/10";
                             break;
@@ -1653,7 +1653,7 @@ function check(){ //Confere se acertou
                         texto.innerHTML = etapaAtual.toString() + "/20";
                         break;   
                         case 20:
-                            arrayEstrelas[1].setAttribute('src', './img/estrelas/star1.svg');
+                            arrayEstrelas[1].setAttribute('src', '../img/estrelas/star1.svg');
                             var texto = document.getElementById('texto2');
                             texto.innerHTML = etapaAtual.toString() + "/20";
                             break;
@@ -1670,7 +1670,7 @@ function check(){ //Confere se acertou
                             texto.innerHTML = etapaAtual.toString() + "/30";
                             break; 
                         case 30:
-                            arrayEstrelas[2].setAttribute('src', './img/estrelas/star1.svg');
+                            arrayEstrelas[2].setAttribute('src', '../img/estrelas/star1.svg');
                             var texto = document.getElementById('texto3');
                             texto.innerHTML = etapaAtual.toString() + "/30";
                             break;    
@@ -1686,7 +1686,7 @@ function check(){ //Confere se acertou
                             texto.innerHTML = etapaAtual.toString() + "/40";
                             break;
                         case 39:
-                            arrayEstrelas[3].setAttribute('src', './img/estrelas/star1.svg');
+                            arrayEstrelas[3].setAttribute('src', '../img/estrelas/star1.svg');
                             var texto = document.getElementById('texto4');
                             texto.innerHTML = etapaAtual.toString() + "/40";
                             break;

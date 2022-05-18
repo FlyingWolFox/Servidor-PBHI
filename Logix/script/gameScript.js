@@ -607,7 +607,7 @@ function reset(){
 function resetEstrelas() {
     estrela = 0;
     for (var i = 0; i < arrayEstrelas.length; i++) {
-        arrayEstrelas[i].setAttribute('src', './img/estrelas/star2.svg');
+        arrayEstrelas[i].setAttribute('src', '../img/estrelas/star2.svg');
     }
     var texto = document.getElementById('texto1');
     texto.innerHTML = "?";
@@ -943,7 +943,7 @@ function check(){
                             texto.innerHTML = etapaAtual.toString() + "/5";
                             break;
                         case 5:
-							arrayEstrelas[0].setAttribute('src', './img/estrelas/star1.svg');
+							arrayEstrelas[0].setAttribute('src', '../img/estrelas/star1.svg');
                             var texto = document.getElementById('texto1');
                             texto.innerHTML = etapaAtual.toString() + "/5";
                             break;
@@ -960,7 +960,7 @@ function check(){
 							texto.innerHTML = etapaAtual.toString() + "/15";
 							break;  
                         case 15:
-							arrayEstrelas[1].setAttribute('src', './img/estrelas/star1.svg');
+							arrayEstrelas[1].setAttribute('src', '../img/estrelas/star1.svg');
                             var texto = document.getElementById('texto2');
                             texto.innerHTML = etapaAtual.toString() + "/15";
                             break;
@@ -977,7 +977,7 @@ function check(){
                             texto.innerHTML = etapaAtual.toString() + "/25";
                             break;                  
                         case 25:     
-							arrayEstrelas[2].setAttribute('src', './img/estrelas/star1.svg');
+							arrayEstrelas[2].setAttribute('src', '../img/estrelas/star1.svg');
 							var texto = document.getElementById('texto3');
 							texto.innerHTML = etapaAtual.toString() + "/25";
 							break;    
@@ -989,7 +989,7 @@ function check(){
                             texto.innerHTML = etapaAtual.toString() + "/30";
                             break;
                         case 30:
-							arrayEstrelas[3].setAttribute('src', './img/estrelas/star1.svg');
+							arrayEstrelas[3].setAttribute('src', '../img/estrelas/star1.svg');
                             var texto = document.getElementById('texto4');
                             texto.innerHTML = etapaAtual.toString() + "/30";
                             break;

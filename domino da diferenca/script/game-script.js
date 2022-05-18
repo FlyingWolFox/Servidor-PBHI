@@ -414,7 +414,7 @@ function reset() {
 function resetEstrelas() {
 	estrela = 0;
 	for (var i = 0; i < arrayEstrelas.length; i++) {
-		arrayEstrelas[i].setAttribute('src', './img/estrelas/star2.svg');
+		arrayEstrelas[i].setAttribute('src', '../img/estrelas/star2.svg');
 	}
 	var texto = document.getElementById('texto1');
 	texto.innerHTML = "?";
@@ -876,7 +876,7 @@ function check() { //Verifica se acertou os elementos
 						texto.innerHTML = etapaAtual.toString() + "/4";
 						break;
 					case 4:
-						arrayEstrelas[0].setAttribute('src', './img/estrelas/star1.svg');
+						arrayEstrelas[0].setAttribute('src', '../img/estrelas/star1.svg');
 						var texto = document.getElementById('texto1');
 						texto.innerHTML = etapaAtual.toString() + "/4";
 						break;
@@ -887,7 +887,7 @@ function check() { //Verifica se acertou os elementos
 						texto.innerHTML = etapaAtual.toString() + "/8";
 						break;
 					case 8:
-						arrayEstrelas[1].setAttribute('src', './img/estrelas/star1.svg');
+						arrayEstrelas[1].setAttribute('src', '../img/estrelas/star1.svg');
 						var texto = document.getElementById('texto2');
 						texto.innerHTML = etapaAtual.toString() + "/8";
 						break;
@@ -898,7 +898,7 @@ function check() { //Verifica se acertou os elementos
 						texto.innerHTML = etapaAtual.toString() + "/12";
 						break;
 					case 12:
-						arrayEstrelas[2].setAttribute('src', './img/estrelas/star1.svg');
+						arrayEstrelas[2].setAttribute('src', '../img/estrelas/star1.svg');
 						var texto = document.getElementById('texto3');
 						texto.innerHTML = etapaAtual.toString() + "/12";
 						break;
@@ -909,7 +909,7 @@ function check() { //Verifica se acertou os elementos
 						texto.innerHTML = etapaAtual.toString() + "/16";
 						break;
 					case 16:
-						arrayEstrelas[3].setAttribute('src', './img/estrelas/star1.svg');
+						arrayEstrelas[3].setAttribute('src', '../img/estrelas/star1.svg');
 						var texto = document.getElementById('texto4');
 						texto.innerHTML = etapaAtual.toString() + "/16";
 						break;

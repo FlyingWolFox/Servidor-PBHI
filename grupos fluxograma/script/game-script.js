@@ -127,7 +127,7 @@ function habilitaTerminei(){
 function resetEstrelas() {
     estrela = 0;
     for (var i = 0; i < arrayEstrelas.length; i++) {
-        arrayEstrelas[i].setAttribute('src', './img/estrelas/star2.svg');
+        arrayEstrelas[i].setAttribute('src', '../img/estrelas/star2.svg');
     }
     var texto = document.getElementById('texto1');
     texto.innerHTML = "?";
@@ -2312,7 +2312,7 @@ function check(){ //Confere se acertou
                             texto.innerHTML = etapaAtual.toString() + "/5";
                             break;
                         case 5:
-                            arrayEstrelas[0].setAttribute('src', './img/estrelas/star1.svg');
+                            arrayEstrelas[0].setAttribute('src', '../img/estrelas/star1.svg');
                             var texto = document.getElementById('texto1');
                             texto.innerHTML = etapaAtual.toString() + "/5";
                             break;
@@ -2323,7 +2323,7 @@ function check(){ //Confere se acertou
                             texto.innerHTML = etapaAtual.toString() + "/9";
                             break;
                         case 9:
-                            arrayEstrelas[1].setAttribute('src', './img/estrelas/star1.svg');
+                            arrayEstrelas[1].setAttribute('src', '../img/estrelas/star1.svg');
                             var texto = document.getElementById('texto2');
                             texto.innerHTML = etapaAtual.toString() + "/9";
                             break;
@@ -2331,7 +2331,7 @@ function check(){ //Confere se acertou
                             texto.innerHTML = etapaAtual.toString() + "/10";
                             break;*/
                         case 10:
-                            /*arrayEstrelas[0].setAttribute('src', './img/estrelas/star1.svg');
+                            /*arrayEstrelas[0].setAttribute('src', '../img/estrelas/star1.svg');
                             var texto = document.getElementById('texto1');
                             texto.innerHTML = etapaAtual.toString() + "/10";
                             break;*/
@@ -2340,7 +2340,7 @@ function check(){ //Confere se acertou
                             texto.innerHTML = etapaAtual.toString() + "/12";
                             break;
                         case 12:
-                            arrayEstrelas[2].setAttribute('src', './img/estrelas/star1.svg');
+                            arrayEstrelas[2].setAttribute('src', '../img/estrelas/star1.svg');
                             var texto = document.getElementById('texto3');
                             texto.innerHTML = etapaAtual.toString() + "/12";
                             break;
@@ -2349,7 +2349,7 @@ function check(){ //Confere se acertou
                             texto.innerHTML = etapaAtual.toString() + "/14";
                             break;
                         case 14:
-                            arrayEstrelas[3].setAttribute('src', './img/estrelas/star1.svg');
+                            arrayEstrelas[3].setAttribute('src', '../img/estrelas/star1.svg');
                             var texto = document.getElementById('texto4');
                             texto.innerHTML = etapaAtual.toString() + "/14";
                             break;
@@ -2362,7 +2362,7 @@ function check(){ //Confere se acertou
                             texto.innerHTML = etapaAtual.toString() + "/7";
                             break;*/ 
                         //case 20:
-                            /*arrayEstrelas[1].setAttribute('src', './img/estrelas/star1.svg');
+                            /*arrayEstrelas[1].setAttribute('src', '.../img/estrelas/star1.svg');
                             var texto = document.getElementById('texto2');
                             texto.innerHTML = etapaAtual.toString() + "/7";
                             break;*/
@@ -2379,7 +2379,7 @@ function check(){ //Confere se acertou
                             texto.innerHTML = etapaAtual.toString() + "/12";
                             break; */
                         //case 30:
-                            /*arrayEstrelas[2].setAttribute('src', './img/estrelas/star1.svg');
+                            /*arrayEstrelas[2].setAttribute('src', '.../img/estrelas/star1.svg');
                             var texto = document.getElementById('texto3');
                             texto.innerHTML = etapaAtual.toString() + "/12";
                             break;*/   
@@ -2395,7 +2395,7 @@ function check(){ //Confere se acertou
                             texto.innerHTML = etapaAtual.toString() + "/18";
                             break;*/
                         //case 39:
-                            /*arrayEstrelas[3].setAttribute('src', './img/estrelas/star1.svg');
+                            /*arrayEstrelas[3].setAttribute('src', '.../img/estrelas/star1.svg');
                             var texto = document.getElementById('texto4');
                             texto.innerHTML = etapaAtual.toString() + "/18";
                             break;*/
