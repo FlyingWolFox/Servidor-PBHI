@@ -285,7 +285,7 @@ function getRestrictScr(estado, classificação, valor) {   //Cria a src a parti
         alt += '-sim';
     }
 
-    src += './img/restricoes/' + alt + '.svg';
+    src += '../img/restricoes/' + alt + '.svg';
     novaImg.setAttribute('src', src);
     novaImg.setAttribute('alt', srcAlt);
     novaImg.setAttribute('title', srcAlt);
