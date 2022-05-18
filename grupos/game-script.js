@@ -1,4 +1,4 @@
-var etapaAtual = 0;   //Etapa do exercício
+var etapaAtual = 26;   //Etapa do exercício
 var estrela = 0;      //Contagem das estrelas (5 por etapa)
 var endGame;
 var restricao1 = [];   //Restriçoes da primeira caixa (esquerda)
@@ -1085,10 +1085,8 @@ function game() {
             tamOpcoes = 7;
             restricao1[forma] = formasEnum.retangulo;
             restricao2[tamanho] = tamanhoEnum.grande;
-            restricao2[contorno] = contornoEnum.semContorno;
             estadoRestricao1[forma] = 'Aceito';
             estadoRestricao2[tamanho] = 'Aceito';
-            estadoRestricao2[contorno] = 'Aceito';
             coresDistintas = 1;
             formasDistintas = 4;
             tamanhosDistintos = 2;
@@ -1097,10 +1095,8 @@ function game() {
             tamOpcoes = 7;
             restricao1[tamanho] = tamanhoEnum.grande;
             restricao2[contorno] = contornoEnum.semContorno;
-            restricao2[cor] = coresEnum.vermelho;
             estadoRestricao1[tamanho] = 'Aceito';
             estadoRestricao2[contorno] = 'Aceito';
-            estadoRestricao2[cor] = 'Aceito';
             coresDistintas = 3;
             formasDistintas = 1;
             tamanhosDistintos = 2;

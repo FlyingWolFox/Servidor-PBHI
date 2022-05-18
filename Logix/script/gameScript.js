@@ -918,7 +918,7 @@ function check(){
 			}
 			else{
 				modalErro.style.display = 'block';
-				textoErro.innerText = 'Você ainda não moveu todas as imagens... Tente novamente.';
+				textoErro.innerText = 'Que pena, tente novamente.';
 				breakF = 1;
 			}	
 		});
