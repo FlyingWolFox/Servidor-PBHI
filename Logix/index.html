@@ -10,7 +10,7 @@
     <meta name="theme-color" content="#41BBC2">
     <meta name="apple-mobile-web-app-status-bar-style" content="#41BBC2">
 
-    <link rel="shortcut icon" href=".../img/favicon.ico" />
+    <link rel="shortcut icon" href="../img/favicon.ico" />
 
     <link rel="stylesheet" href="./style/style.css">
     <!-- <link rel="stylesheet" href="./style/style2.css"> -->
@@ -104,7 +104,7 @@
                             </div>
                         </div>
                     </div>
-                    <img src="img/sr-logico.png" alt="" id="mascote-instrucoes">
+                    <img src="../img/sr-logico.png" alt="" id="mascote-instrucoes">
                     <article id="textbox-tutorial">
                         <p id="textbox-fase"></p>
                         <textarea id="texto-textbox" readonly></textarea>
@@ -227,9 +227,9 @@
             <section class="grid-right">
                     <p class="realizadores-text">Realizadores:</p>
                     <div class="footer-imgs">
-                        <img class="footer-img" id="logo-pb" src="../img/logo-pb.png" alt="">
-                        <img class="footer-img" id="logo-seect" src="../img/logo-SEECT.png alt="">
-                        <img class="footer-img" id="logo-fapesq" src="../imglogo-fapesq.png" alt="">
+                        <img class="footer-img" id="logo-pb" src="../img/logo-pb.png">
+                        <img class="footer-img" id="logo-seect" src="../img/logo-SEECT.png">
+                        <img class="footer-img" id="logo-fapesq" src="../img/logo-fapesq.png">
                     </div>
             </section>
         </footer>
@@ -319,8 +319,8 @@
         }
 
         textRoll(90, 6000)
-        let mudandoTituloGrupos = document.getElementById('title-jogo');
-        mudandoTituloGrupos.innerHTML = localStorage.titulo;
+        let mudandoTitulo = document.getElementById('title-jogo');
+        mudandoTitulo.innerHTML = mudandoTitulo.innerHTML+" - "+localStorage.ano.toUpperCase();
     </script>
 </body>
 

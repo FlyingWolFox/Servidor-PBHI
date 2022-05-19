@@ -244,7 +244,7 @@ a#span-info {
 
 #main-body,
 header {
-    background-image: url(../img/bg-image.png);
+    background-image: url("../../img/bg-image.png");
     background-color: var(--cor-do-body);
     margin-top: -7px;
 }
