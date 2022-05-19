@@ -1,0 +1,373 @@
+html,body,main{
+    padding: 0;
+    margin: 0;
+    border:0;  
+    width: 100%;
+    height: 100%; 
+}
+main{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+}
+
+#a::after{
+    content:"";
+    background-color: red;
+    width: 30px;
+    height: 30px;
+    z-index: 2;
+}
+#b::after{
+    content:"";
+    background-image: url(../img/restricoes/triangulo-sim.svg);
+}
+#c::after{
+    content:"";
+    background-image: url(../img/restricoes/pequeno-sim.svg);
+}
+
+.formas-titulo{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+p.container-formas-titulo {
+    width: 100%;
+    color: #C4C4C4;
+    background-color: #FAFAFA;
+    text-align: center;
+}
+
+section#container-formas {
+    width: 100%;
+    height: 100%;
+    margin-bottom: 0px;
+    background-color: #FAFAFA;
+    border: solid 0px black;
+    border-radius: 0px;
+    justify-self: flex-end;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: baseline;
+    align-content: center;
+}
+
+img.draggable-mirror {
+    width: 5% !important;
+}
+
+div.restricao img {
+    width: 40px;
+}
+
+.restricao {
+    width: min-content;
+    height: min-content;
+}
+
+.restricaoColuna img {
+    /* align-self: flex-end; */
+
+    margin-left: 50px;
+    transform: scalex(-1);
+}
+
+.restricaoLinha{
+    width: min-content;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    padding-top: 60px;
+}
+
+.restLinha {
+    transform: scalex(1);
+    margin-right: 10px;
+}
+
+
+.colunas {
+    padding-top: 5px;
+    display: flex;
+    flex-direction: column;
+} 
+
+/* Estilização da modal e do game-container */
+@import url('https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@100;300;400;500;700;800;900&display=swap');
+html,body,main{
+    padding: 0;
+    margin: 0;
+    border:0;  
+    width: 100%;
+    height: 100%; 
+}
+main{
+    width: 100%;
+    height: 100%;
+    flex-direction: column;
+}
+
+.content-div {
+    border: solid 2px #727272;
+    border-radius: 5px;
+    width: 120px;
+    /* height: 109px; */
+    height: 110px;
+    margin: -0.5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgba(65, 187, 194, 0.1);
+}
+
+.content-div img {
+    width: 500px;
+}
+#a::after{
+    content:"";
+    background-color: red;
+    width: 30px;
+    height: 30px;
+    z-index: 2;
+}
+#b::after{
+    content:"";
+    background-image: url(../img/restricoes/triangulo-sim.svg);
+}
+#c::after{
+    content:"";
+    background-image: url(../img/restricoes/pequeno-sim.svg);
+}
+
+p.container-formas-titulo {
+    width: 100%;
+    color: #C4C4C4;
+    background-color: #FAFAFA;
+    text-align: center;
+}
+
+section#container-formas {
+    width: 100%;
+    height: 100%;
+    min-height: 70px;
+    background-color: #FAFAFA;
+    border-radius: 5px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: baseline;
+    align-content: center;
+}
+
+img.draggable-mirror {
+
+    width: 5% !important;
+}
+
+#container-formas img{
+    margin:5px;
+}
+#container-formas img.pequeno{
+    width: 40px;
+}
+#container-formas img.grande{
+    width: 56px;
+}
+img.game-img {
+
+    width: 60px;
+    margin: 0px 5px;
+}
+
+img.game-img.pequeno{
+
+    width: 45px;
+    margin: 0px 5px;
+    
+
+}
+.restricao{
+    width: min-content;
+    height: 45px;
+}
+
+.restricaoColuna{
+    align-self: center;
+    transform: scalex(1);
+}
+
+.restricaoLinha{
+    width: min-content;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-top: -5px;
+    gap: 20px;
+}
+
+.restLinha {
+    transform: scalex(-1);
+    margin-right: 10px;
+    height: 70px;
+}
+
+.colunas {
+    display: flex;
+    flex-direction: column;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 100;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    animation: animatetop 0.4s;
+}
+
+#modal-content p{
+    font-size: 1.3rem;
+
+}
+
+#modal-content{
+    border-color: #7EE0E0;
+}
+
+div.modal-text-content {
+    width: min-content;
+}
+
+.close {
+    color: var(--azul-escuro);
+    font-size: 40px;
+    font-weight: 800;
+    padding: 2px 15px;
+    float: right;
+    margin-top: -50px;
+    margin-right: -51px;
+    border: 5px solid var(--azul-escuro);
+    border-radius: 50%;
+    background-color: #fff;
+    display: none;
+}
+
+.modal-content {
+    position: absolute;
+    top: 50%;
+    right: 50%;
+    transform: translate(50%,-50%);
+    width: 30%;
+    min-width: 250px;
+    min-height: 200px;
+    text-align: center;
+    padding: 20px;
+    color: var(--azul-escuro);
+    border-radius: 10px;
+    background-color: #fefefe;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+#modalNegativo-content {
+    border: 7px solid #E25A40;
+    margin-top: -55px;
+}
+
+#modalPositivo-content{
+    border: 7px solid #9DCC38;
+    margin-top: -55px;
+}
+
+.modal-button{
+    width: fit-content;
+    height: fit-content;
+    padding: 10px 20px;
+    margin-bottom: 20px;
+    font-size: 1em;
+    color: #FFFFFF;
+    text-transform: uppercase;
+    font-weight: bold;
+    border: 5px solid #FFFFFF;
+    border-radius: 10px;
+}
+
+button#botao-proximo{
+    background: #65B335;
+}
+
+button#botao-retorno{
+    background: #E25A40;
+}
+
+h2 {
+    font-family: 'M PLUS Rounded 1c', sans-serif;
+    font-weight: 800;
+}
+
+h2.titulo-modal {
+    font-size: 1em;
+    color: #606060;
+    font-weight: unset;
+}
+
+.modal-content h2#resultado-jogo {
+    color: #65B235;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    font-size: 1.5em;
+}
+
+.modal-content h2#resultadoNegativo-jogo {
+    color: #E25A40;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    font-size: 1.5em;
+}
+
+img.modal-img-logico {
+    width: 40%;
+}
+
+button {
+    padding: 0;
+    border: none;
+    background: none;
+    line-height: 15px;
+}
+
+#container-botao {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    position: absolute;
+    right: 0;
+    margin-right: 25px;
+}
+
+button#botao-reiniciar{
+    margin-top: 10px;
+    height: 49px;
+    width: 110px;
+    border-radius: 20px;
+}
+
+#texto-textbox {
+    width: 95%;
+    border: unset;
+    resize: none;
+    padding-left: 10px;
+}

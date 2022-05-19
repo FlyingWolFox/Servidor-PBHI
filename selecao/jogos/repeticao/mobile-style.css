@@ -1,0 +1,459 @@
+* {
+    margin: 0px;
+    padding: 0px;
+    font-size: 12px;
+}
+
+a {
+
+    text-decoration: none;
+
+}
+
+/* Eliminando dos header e footer */
+
+header.game-header {
+    
+    display: none;
+
+}
+
+footer.footer-grid {
+
+    display: none;
+}
+
+
+main#main-body {
+
+    height: 100vh;
+    width: 100vw;
+    grid-template-columns: 1fr;
+
+}
+
+section.game-section {
+
+    height: 100%;
+    grid-column: 1/2;
+    align-self: center;
+    justify-content: space-between;
+}
+
+/* Ajustes do tutorial  */
+
+div#box-instrucoes {
+
+    width: 100%;
+    height: fit-content;
+    padding: 0px;
+}
+
+div.estrela-container{
+
+    margin: 0px 2px;
+    font-size: 12px;
+}
+
+img.estrela {
+
+    width: 20px;
+}
+
+img#mascote-instrucoes {
+
+    width: 70px;
+    align-self: center;
+}
+
+article#textbox-tutorial {
+
+    width: auto;
+    height: fit-content;
+    margin: 0px 0px 0px 45px;
+    padding: 5px 5px 5px 15px;
+}
+
+div.conteiner-botoes {
+
+    margin: 0px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+
+}
+
+div.botoes-janela {
+
+    width: 100%;
+    margin: 0px;
+    margin-top: 8px;
+
+}
+
+span#span-fullscreen {
+
+    width: 10px;
+    height: 23px;
+    margin: 0px;
+    font-size: 16px;
+    line-height: 24px;
+    border: 1px solid white;
+}
+
+a#span-textbox {
+
+    width: 10px;
+    height: 23px;
+    margin: 0px;
+    padding: 0px 6px;
+    font-size: 11px;
+    font-weight: 600;
+    line-height: 10px;
+    float: unset;
+    border: 1px solid white;
+}
+
+a#span-textbox i {
+
+    margin-left: -5px;
+}
+
+button#span-about {
+
+    width: 25px;
+    height: 25px;
+    margin: 0px;
+    margin-bottom: 8px;
+    padding: 2px 8px;
+    font-size: 1.5em;
+    line-height: 21px;
+    border: 1px solid white;
+    align-self: center;
+
+}
+
+/* Ajustes do jogo */
+
+img.game-img {
+
+    margin: 0px 10px;
+    max-width: 6%;
+    max-height: 100%;
+    align-self: center;
+
+}
+
+section#container-nucleo {
+
+    width: 80%;
+    height: fit-content;
+    min-width: fit-content;
+    min-height: 45px;
+    margin: 0px 10px 10px 10px;
+    padding: 1px 5px;
+    border-radius: 10px;
+    background: #FAFAFA;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-content: center;
+    border: 1px solid rgba(7, 12, 16, 0.5);
+    box-sizing: border-box;
+
+}
+
+
+section#container-sequencia {
+    
+    width: 80%;
+    height: 45px;
+    min-height: 45px;
+    height: fit-content;
+    border: 1px solid #FF9B09;
+
+}
+
+button#botao-resultado {
+
+    margin-bottom: 5px;
+    padding: 5px 10px;
+    font-size: 1em;
+}
+
+section#container-formas {
+    width: 100%;
+    height: fit-content;
+    min-height: 55px;
+    padding: 0px;
+    margin-bottom: 0px;
+    background-color: #FAFAFA;
+    border: solid 0px black;
+    border-radius: 0px;
+    justify-self: flex-end;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+
+/* ======== Ajustes do Modal ========== */
+
+div.modal-content {
+
+    width: 30%;
+    min-width: 250px;
+    min-height: 110px;
+    text-align: center;
+    padding: 20px;
+    margin: 0px auto;
+    margin-top: 10%;
+    color: var(--azul-escuro);
+    border: 2px solid #1C4459;
+    border-radius: 10px;
+    background-color: #fefefe;
+
+}
+
+button#botao-proximo {
+
+    width: 110px;
+    height: 49px;
+    padding: 5px 10px;
+    margin-bottom: 5px;
+    font-size: 1em;
+    font-size: 1em;
+    color: #A37027;
+    text-transform: uppercase;
+    font-weight: bold;
+    background: #FFAC33;
+    border-radius: 36px;
+    border: 5px solid #FFFFFF; 
+}
+
+span#modal-close-button{
+
+    width: 20px;
+    height: 33px;
+    padding: 0px 6px;
+    margin-top: -42px;
+    margin-right: -38px;
+    color: white;
+    font-size: 43px;
+    font-weight: 300;
+    text-align: center;
+    line-height: 27px;
+    background-color: #E25A40;
+    border: 5px solid white;
+}
+
+
+/* ====== AJUSTE DOS CONTEINERS PARA O IPHONE 5/SE ===== */
+
+@media (min-width: 530px) and (max-width: 619px){
+
+    section#container-nucleo {
+        
+        width: 90%;
+        height: 50px;
+        min-width: unset;
+        min-height: unset;
+        margin-bottom: 5px;
+        padding: 0px 10px;
+     
+    }
+
+    section#container-sequencia {
+
+        width: 90%;
+        height: 53px;
+        min-width: unset;
+        min-height: unset;
+        margin-bottom: 0px;
+    }
+
+    section#container-formas {
+
+        width: 100%;
+        height: 60px;
+        min-width: unset;
+        min-height: unset;
+        align-items: baseline;
+        align-content: center;
+    }
+
+    button#botao-resultado {
+
+        margin-bottom: 0px ;
+    }
+
+    img.game-img {
+
+        width: 26px;
+        max-width: unset;
+        align-self: unset;
+    }
+
+    img.game-img.pequeno {
+
+        width: 20px;
+        max-width: unset;
+        align-self: unset;
+    }
+}
+
+/* ====== AJUSTE DOS CONTEINERS PARA O MOTO G5 | iPhone 6/7/8 ===== */
+
+@media (min-width: 620px) and (max-width: 719px) {
+
+    section#container-nucleo {
+        
+        width: 90%;
+        height: 60px;
+        min-width: unset;
+        min-height: unset;
+     
+    }
+
+    section#container-sequencia {
+
+        width: 90%;
+        height: 60px;
+        min-width: unset;
+        min-height: unset;
+        margin-bottom: 0px;
+    }
+
+    section#container-formas {
+
+        width: 100%;
+        height: 70px;
+        min-width: unset;
+        min-height: unset;
+        align-items: baseline;
+        align-content: center;
+    }
+
+    img.game-img {
+
+        width: 32px;
+        max-width: unset;
+        align-self: unset;
+    }
+
+    img.game-img.pequeno {
+
+        width: 26px;
+        max-width: unset;
+        align-self: unset;
+    }
+}
+
+
+/* ====== AJUSTE DOS CONTEINERS PARA O iPhone 6/7/8 PLUS ===== */
+
+@media (min-width: 720px) and (max-width: 884px) {
+
+    section#container-nucleo {
+        
+        width: 90%;
+        height: 70px;
+        min-width: unset;
+        min-height: unset;
+        margin-bottom: 0px;
+     
+    }
+
+    section#container-sequencia {
+
+        width: 90%;
+        height: 70px;
+        min-width: unset;
+        min-height: unset;
+        margin-bottom: 0px;
+    }
+
+    section#container-formas {
+
+        width: 100%;
+        height: 80px;
+        min-width: unset;
+        min-height: unset;
+        align-items: baseline;
+        align-content: center;
+    }
+
+    button#botao-resultado {
+
+        margin-bottom: 0px ;
+    }
+
+    img.game-img {
+
+        width: 38px;
+        max-width: unset;
+        align-self: unset;
+    }
+
+    img.game-img.pequeno {
+
+        width: 32px;
+        max-width: unset;
+        align-self: unset;
+    }
+}
+
+
+/* ====== AJUSTE DOS CONTEINERS PARA O Samsung A30 ===== */
+
+@media (min-width: 885px) and (max-width: 900px) {
+
+    section#container-nucleo {
+        
+        width: 90%;
+        height: 75px;
+        min-width: unset;
+        min-height: unset;
+        margin-bottom: 0px;
+     
+    }
+
+    section#container-sequencia {
+
+        width: 90%;
+        height: 75px;
+        min-width: unset;
+        min-height: unset;
+        margin-bottom: 0px;
+    }
+
+    section#container-formas {
+
+        width: 100%;
+        height: 85px;
+        min-width: unset;
+        min-height: unset;
+        align-items: baseline;
+        align-content: center;
+    }
+
+    button#botao-resultado {
+
+        margin-bottom: 0px ;
+        padding: 10px 25px;
+    }
+
+    img.game-img {
+
+        width: 41px;
+        max-width: unset;
+        align-self: unset;
+    }
+
+    img.game-img.pequeno {
+
+        width: 35px;
+        max-width: unset;
+        align-self: unset;
+    }
+}
