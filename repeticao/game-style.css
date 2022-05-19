@@ -1,5 +1,8 @@
 /* Seletores do layout da página */
-
+/* body {
+	user-select: none;
+     -webkit-user-select: none;
+} */
 body.game-body {
 
     height: 100vh;
@@ -127,13 +130,12 @@ div.progresso-conquistas {
     
 }
 
-#texto-textbox{
-
+textarea#texto-textbox{
     width: 100%;
     border:unset;
     resize: none;
-
 }
+
 #texto-info{
     display: flex;    
     width: 100%;
@@ -257,7 +259,20 @@ a#span-textbox {
    font-weight: bold;
 }
 
-#botao-de-voz-ligado {
+button#botao-de-voz-ligado-modal {
+    width: 25%;
+    height: fit-content;
+    margin: 10px;
+    padding: 10px 10px;
+    font-size: 1.2em;
+    color: #A37027;
+    background: rgb(249, 158, 21);
+    border: 5px solid #FFFFFF;
+    border-radius: 20px;
+    font-weight: bold;
+}
+
+button#botao-de-voz-desligado-modal {
     width: 25%;
     height: fit-content;
     margin: 10px;
@@ -295,6 +310,21 @@ button#botao-ativar-voz {
 
 }
 
+#cancelar-audio {
+    width: 38px;
+    height: 38px;
+    padding: 2px 8px;
+    margin-bottom: 10px;
+    border-radius: 50%;
+    font-size: 25px;
+    font-weight: 800;
+    color: white;
+    text-align: center;
+    border: 3px solid white;
+    background-color: rgb(96, 96, 96);
+    align-self: center;
+}
+
 p#botao-voz-instrucao {
     margin-top: -3px;
     margin-left: -8px;
@@ -328,7 +358,7 @@ p#cancelar-voz {
     margin-top: -2px
 }
 
-#texto-de-voz {
+#icone-de-voz {
     display: inline-block;
 }
 
@@ -347,6 +377,13 @@ p#cancelar-voz {
 #modal-content p{
     font-size: 1.3rem;
 
+}
+
+#instrucao-do-jogo {
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+	user-select: none;
 }
 
 
