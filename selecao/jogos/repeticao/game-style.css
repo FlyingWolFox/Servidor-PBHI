@@ -17,6 +17,7 @@ div.tela-jogo {
     max-height: 100vh;
     display: grid;
     grid-template-rows: 1fr 6fr 1fr;
+    margin-top: -40px;
 }
 
 /* Seletores de estilo do Header */
@@ -105,7 +106,7 @@ div#box-instrucoes {
     -webkit-grid-column: 2;
     -webkit-grid-row: 1;
     margin-top: 0px;
-    margin-left: -1px;
+    margin-left: -35px;
     z-index: 10;
 }
 
@@ -331,6 +332,12 @@ p#botao-voz-instrucao {
     font-size: 23px;
 }
 
+p#botao-silenciar-voz {
+    margin-top: -3px;
+    margin-left: -5px;
+    font-size: 23px;
+}
+
 button#botao-repetir-voz {
     width: 38px;
     height: 38px;
@@ -412,7 +419,7 @@ button#span-about {
 
     width: 80%;
     height: 50px;
-    margin-left: 80px;
+    margin-left: 40px;
     margin-top: 5px;
     padding: 10px 10px 10px 35px;
     background-color: white;
@@ -728,12 +735,8 @@ div.formas-titulo {
     /* --------- HEADER ----------*/
 
     header.game-header {
-
         display: grid;
         grid-template-columns: 0.5fr 700px 0.5fr;
-
-        margin-bottom: 50px;
-
     }
 
     img.logo {
@@ -762,7 +765,7 @@ div.formas-titulo {
 
     #mascote-instrucoes {
         margin-top: 0px;
-        margin-left: 0px;
+        margin-left: -25px;
         z-index: 10;
         width: 124px;
     }
@@ -793,10 +796,6 @@ div.formas-titulo {
 }
 
 @media (min-width: 1000px) AND (max-width: 1919px) AND (orientation: landscape){
-
-    #logo-header {
-        margin-top: 30px;
-    }
 
     h2#title-jogo {
 
@@ -939,7 +938,6 @@ div.formas-titulo {
         padding: 5px 10px;
         font-size: 1em;
     }
-
 }
 
 @media (min-width: 1920px) AND (max-width: 4000px) and (orientation: landscape){

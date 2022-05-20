@@ -330,18 +330,22 @@
     
     <!-- implementando a funcionalidade de voz para o box de instruções -->
     <script type="text/javascript">
-         //ativar o áudio das instruções do jogo
-         $(document).on('click', '#botao-ativar-voz', function(){
+        responsiveVoice.speak($("#texto-textbox").val(), "Brazilian Portuguese Female");
+
+        //ativar o áudio das instruções do jogo
+        $(document).on('click', '#botao-ativar-voz', function(){
             var texto = $("#texto-textbox").val();
             responsiveVoice.speak($("#texto-textbox").val(), "Brazilian Portuguese Female");
 
             $('#botao-voz-instrucao').html('&#128263');
             $(this).attr('id', 'cancelar-audio');
+            $('#botao-voz-instrucao').attr('id', 'botao-silenciar-voz');
         });
 
         //cancela o áudio das instruções do jogo
         $(document).on('click', '#cancelar-audio', function(){
             responsiveVoice.cancel();
+            $('#botao-silenciar-voz').attr('id', 'botao-voz-instrucao');
             $('#botao-voz-instrucao').html('&#128266');
             $(this).attr('id', 'botao-ativar-voz');
         })
