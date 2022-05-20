@@ -1,12 +1,14 @@
 // Ajustes do modal ------------
-console.log('oi')
 var modalAcerto = document.getElementById("modalAcerto");
 var modalErro = document.getElementById('modalErro');
 
 var botaoRecomecar = document.getElementById('botao-retorno');
 const botaoCertificado = document.getElementById('botao-certificado')
 
-botaoCertificado.addEventListener('click', (e) => {console.log('oi')})
+botaoCertificado.addEventListener('click', (e) => {
+  let novaJanela = window.open('../gerarPdf/index.html')
+  novaJanela.focus()
+})
 
 function fecharModal(tipo) {
   
