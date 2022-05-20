@@ -186,35 +186,6 @@
                     <button id="botao-certificado" class="botao-fim">Certificado</button>
                 </section>
             </div>
-            
-            <script src="https://cdn.jsdelivr.net/npm/@shopify/draggable@1.0.0-beta.11/lib/draggable.bundle.js"></script>
-            <!-- <script src="./script/game-script.js"></script> -->
-            <script>
-                var containerFormas = document.getElementById('container-formas');
-                var containerSequencia = document.getElementById('container-nucleo');
-        
-                const droppableSequencia = new Draggable.Droppable(containerFormas, {
-                    draggable: '.game-img',
-                    dropzone: '.dropzone'
-                });
-        
-                droppableSequencia.on('drag:start', () => {
-                    if (containerSequencia.classList.contains('draggable-dropzone--occupied')) {
-                        containerSequencia.classList.remove('draggable-dropzone--occupied');
-                    }
-                });
-        
-                const retorno = new Draggable.Droppable(containerSequencia, {
-                    draggable: '.game-img',
-                    dropzone: '.dropzone'
-                });
-        
-                retorno.on('drag:start', () => {
-                    if (containerFormas.classList.contains('draggable-dropzone--occupied')) {
-                        containerFormas.classList.remove('draggable-dropzone--occupied');
-                    }
-                })
-            </script>
         </main>
 
         <footer class="footer-grid">
@@ -237,8 +208,8 @@
 
 
     <script src="https://cdn.jsdelivr.net/npm/@shopify/draggable@1.0.0-beta.11/lib/draggable.bundle.js"></script>
-    <script src="./script/gameScript.js"></script>
     <script src="../script/page-script.js"></script>
+    <script src="./script/gameScript.js"></script>
     <script>
         var containerFormas = document.getElementById('container-formas');
         var containerSequencia = document.getElementById('container-nucleo');

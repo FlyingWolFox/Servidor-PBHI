@@ -2,7 +2,7 @@ var botaoImprimir = document.getElementById('botao-imprimir')
 botaoImprimir.addEventListener('click',funcaoPDF)
 
 function funcaoPDF(){
-    var doc = document.querySelector('#doc');
+    var doc = document.querySelector('#box');
     let style = document.getElementById('style')
     var a = window.open('', '', '');
             a.document.write('<html>');

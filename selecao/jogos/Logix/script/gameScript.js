@@ -671,6 +671,7 @@ function game(){
 			qtdNaColuna = [1];//Número de drops nas colunas. Max = 3
 			restricaoColuna = 1; //Número de restrições que ficarão acima das colunas
 			restricaoLinha = 0; //Número de restrições que ficarão à esquerda das linhas
+			endGame = true
 			break;
 		case 1:
 			nmrImgs = 2;

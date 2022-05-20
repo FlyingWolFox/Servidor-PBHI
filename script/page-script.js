@@ -1,9 +1,12 @@
 // Ajustes do modal ------------
-
+console.log('oi')
 var modalAcerto = document.getElementById("modalAcerto");
 var modalErro = document.getElementById('modalErro');
 
 var botaoRecomecar = document.getElementById('botao-retorno');
+const botaoCertificado = document.getElementById('botao-certificado')
+
+botaoCertificado.addEventListener('click', (e) => {console.log('oi')})
 
 function fecharModal(tipo) {
   
@@ -68,3 +71,5 @@ fullscreenButton.onclick = () => {
   }
 
 };
+
+
