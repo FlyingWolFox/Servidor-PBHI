@@ -945,15 +945,13 @@ button#botao-retorno {
     .footer-grid {
 
 
-        grid-template-columns: 1fr minmax(300px, 7fr) 1fr;
         justify-content: center;
         align-items: center;
 
     }
 
     footer.footer-grid {
-
-        padding: 25px 0px;
+        
         color: var(--azul-escuro);
         background-color: var(--cor-do-body);
         justify-content: center;
@@ -962,11 +960,8 @@ button#botao-retorno {
     }
 
     section.grid-right {
-
-        grid-row: 2;
-        grid-column: 2/3;
+        grid-column: 3/4;
         width: fit-content;
-        padding: 30px 0px 0px 0px;
         justify-self: center;
         display: flex;
         flex-direction: column;
@@ -978,7 +973,6 @@ button#botao-retorno {
     div.footer-imgs {
 
         text-align: center;
-        padding-top: 20px;
 
     }
 

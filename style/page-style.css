@@ -963,8 +963,7 @@ button#botao-retorno {
 
     section.grid-right {
 
-        grid-row: 2;
-        grid-column: 2/3;
+        grid-column: 3/4;
         width: fit-content;
         padding: 30px 0px 0px 0px;
         justify-self: center;
@@ -978,7 +977,6 @@ button#botao-retorno {
     div.footer-imgs {
 
         text-align: center;
-        padding-top: 20px;
 
     }
 
