@@ -48,7 +48,7 @@
     
 </head>
 
-<body class='game-body' onmousedown="return false" onselectstart="return false">
+<body >
     <select id='voiceList' hidden></select> <br><br>
     <section class="aviso-orientacao">
         <div id="aviso-orientacao-caixa">
@@ -67,7 +67,6 @@
                 </div>
             </div>
         </div>
-
     </section>
 
     <div class='tela-jogo'>
@@ -89,10 +88,10 @@
                     </p>           
 
                     <button id="botao-info-close"
-                        onclick="document.getElementById('modalInfo').style.display='none'">Entendi
+                        onclick="document.getElementById('modalInfo').style.display='none'; cancelarAudioModal()">Entendi
                     </button>
                     <button id="botao-de-voz-ligado-modal">
-                        <p id="icone-de-voz">&#128266;</p>
+                        <p id="botao-falar" onclick="audioModal()">Falar!</p>
                     </button>
                 </div>
             </div>
@@ -135,13 +134,13 @@
                         </div>
 
                         <div id="botoes-de-audio">
-                            <button id="botao-ativar-voz">
-                                <p id="botao-voz-instrucao">&#128266;</p>
+                            <button id="botao-ativar-voz" onclick="ativarAudio(this)">
+                                <p id="botao-voz-instrucao">&#128263;</p>
                             </button>
-                            <button id="botao-repetir-voz">
+                            <button id="botao-repetir-voz" onclick="repetirAudioBoxInstrucao()">
                                 <p id="repetir-voz">&#128257;</p>
                             </button>
-                            <button id="span-about" onclick="document.getElementById('modalInfo').style.display='block'"class="">
+                            <button id="span-about" onclick="document.getElementById('modalInfo').style.display='block'; audioModal()" class="">
                                 ?
                             </button>
                         </div>
@@ -327,55 +326,63 @@
         let mudandoTituloRepeticao = document.getElementById('title-jogo');
         mudandoTituloRepeticao.innerHTML = localStorage.titulo;
     </script> 
-    
-    <!-- implementando a funcionalidade de voz para o box de instruções -->
-    <script type="text/javascript">
-        responsiveVoice.speak($("#texto-textbox").val(), "Brazilian Portuguese Female");
-
-        //ativar o áudio das instruções do jogo
-        $(document).on('click', '#botao-ativar-voz', function(){
-            var texto = $("#texto-textbox").val();
-            responsiveVoice.speak($("#texto-textbox").val(), "Brazilian Portuguese Female");
-
-            $('#botao-voz-instrucao').html('&#128263');
-            $(this).attr('id', 'cancelar-audio');
-            $('#botao-voz-instrucao').attr('id', 'botao-silenciar-voz');
-        });
-
-        //cancela o áudio das instruções do jogo
-        $(document).on('click', '#cancelar-audio', function(){
-            responsiveVoice.cancel();
-            $('#botao-silenciar-voz').attr('id', 'botao-voz-instrucao');
-            $('#botao-voz-instrucao').html('&#128266');
-            $(this).attr('id', 'botao-ativar-voz');
-        })
-
-        //repetir o áudio das instruções do jogo
-        $("#botao-repetir-voz").on('click', function(){
-            var texto = $('#texto-textbox').val();
-            responsiveVoice.speak($("#texto-textbox").val(), "Brazilian Portuguese Female");
-        })
-
-        //ativar o áudio do modal
-        $(document).on('click', '#botao-de-voz-ligado-modal', function(){
-            let textarea = '<textarea>Olá, você sabe como funciona o Jogo da Repetição &#129300;? Não? Então vem cá que eu te explico rapidinho, nele a gente te mostra uma sequência de figuras que se repetem e você tem que nos mostrar quais são essas figuras que estão se repetindo. Aah, já ia esquecendo &#128512;, é só clicar e arrastar as figuras disponíveis lá embaixo para o núcleo e montar a sua sequência com as figuras que se repetem na mesma ordem e depois clicar em TERMINEI.</textarea>';
-
-            $('#icone-de-voz').html('&#128263');
-            $(this).attr('id', 'botao-de-voz-desligado-modal');
-            
-            var texto = $(textarea).val();
-            responsiveVoice.speak($(textarea).val(), "Brazilian Portuguese Female");
-        })
-
-        //desativar o áudio do modal
-        $(document).on('click', '#botao-de-voz-desligado-modal', function() {
-            responsiveVoice.cancel();
-            $('#icone-de-voz').html('&#128266');
-            $(this).attr('id', 'botao-de-voz-ligado-modal');
-        });
-            
-    </script>
 </script>
-</body>
 
+<!-- Funções para manipulações de áudio -->
+<script type="text/javascript">
+    responsiveVoice.speak('Preste atenção às peças da sequência e identifique quais estão se repetindo. Depois arraste as peças disponíveis no fundo da página para a área do núcleo, montando as peças que se repetem. A ordem das peças deve ser respeitada.', 'Brazilian Portuguese Female');
+    
+    function ativarAudio(button){
+        button.setAttribute('onclick', 'desativarAudio(this)');
+        let botaoAtivarVoz = document.getElementById('botao-voz-instrucao');
+        botaoAtivarVoz.innerHTML = '&#128265';
+        let fimAudio = responsiveVoice.speak('Preste atenção às peças da sequência e identifique quais estão se repetindo. Depois arraste as peças disponíveis no fundo da página para a área do núcleo, montando as peças que se repetem. A ordem das peças deve ser respeitada.', 'Brazilian Portuguese Female');
+
+        let timer = setTimeout(() => {
+            botaoAtivarVoz.innerHTML='&#128263';
+            button.setAttribute('onclick', 'ativarAudio(this)');
+        }, 17500);
+
+        botaoAtivarVoz.addEventListener('click', function() {
+            clearTimeout(timer);
+        })
+    }
+
+    function desativarAudio(button){
+        button.setAttribute('onclick', 'ativarAudio(this)')
+        let botaoDesativarVoz = document.getElementById('botao-voz-instrucao');
+        botaoDesativarVoz.innerHTML = '&#128263';
+        responsiveVoice.cancel();
+    }
+
+    function repetirAudioBoxInstrucao(){
+        responsiveVoice.speak('Preste atenção às peças da sequência e identifique quais estão se repetindo. Depois arraste as peças disponíveis no fundo da página para a área do núcleo, montando as peças que se repetem. A ordem das peças deve ser respeitada.', 'Brazilian Portuguese Female');
+
+        let botaoDeAtivarAudio = document.getElementById('botao-voz-instrucao');
+        botaoDeAtivarAudio.innerHTML = '&#128265';
+
+        let botaoAudio = document.getElementById('botao-ativar-voz');
+        botaoAudio.setAttribute('onclick', 'desativarAudio(this)');
+
+        let timerButton = setTimeout(() => {
+            botaoDeAtivarAudio.innerHTML='&#128263';
+            botaoAudio.setAttribute('onclick', 'ativarAudio(this)');
+        }, 17500);
+
+        let botaoRepetirVoz = document.getElementById('botao-repetir-voz');
+        botaoRepetirVoz.addEventListener('click', function(){
+            clearTimeout(timerButton);
+        })
+    }
+
+    function audioModal(){
+        responsiveVoice.speak('Olá, você sabe como funciona o Jogo da Repetição? Não? Então vem cá que eu te explico rapidinho, nele a gente te mostra uma sequência de figuras que se repetem e você tem que nos mostrar quais são essas figuras que estão se repetindo. Aah, já ia esquecendo, é só clicar e arrastar as figuras disponíveis lá embaixo para o núcleo e montar a sua sequência com as figuras que se repetem na mesma ordem e depois clicar em TERMINEI.', 'Brazilian Portuguese Female');
+    }
+
+    function cancelarAudioModal(){
+        responsiveVoice.cancel();
+    }
+</script>
+
+</body>
 </html>

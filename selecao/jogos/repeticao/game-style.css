@@ -311,30 +311,9 @@ button#botao-ativar-voz {
 
 }
 
-#cancelar-audio {
-    width: 38px;
-    height: 38px;
-    padding: 2px 8px;
-    margin-bottom: 10px;
-    border-radius: 50%;
-    font-size: 25px;
-    font-weight: 800;
-    color: white;
-    text-align: center;
-    border: 3px solid white;
-    background-color: rgb(96, 96, 96);
-    align-self: center;
-}
-
 p#botao-voz-instrucao {
     margin-top: -3px;
-    margin-left: -8px;
-    font-size: 23px;
-}
-
-p#botao-silenciar-voz {
-    margin-top: -3px;
-    margin-left: -5px;
+    margin-left: -6px;
     font-size: 23px;
 }
 
@@ -359,23 +338,11 @@ p#repetir-voz {
     margin-top: -2px;
 }
 
-p#cancelar-voz {
-    font-size: 22px;
-    margin-left: -3.5px;
-    margin-top: -2px
-}
-
-#icone-de-voz {
+#botao-falar {
     display: inline-block;
 }
 
-#img-de-voz {
-    display: flex;
-    align-items: center;
-    width: 21px;
-}
-
-#modal-content{
+#modal-content {
     border-color: #FDC23E;
     padding: 10px 10px 0 10px;
     display: block;

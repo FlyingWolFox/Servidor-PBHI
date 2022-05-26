@@ -22,11 +22,9 @@ div.tela-jogo {
 /* Seletores de estilo do Header */
 
 header.game-header {
-
     display: grid;
     grid-template-columns: 1fr minmax(300px, 1fr) 1fr;
     align-items: center;
-    
 }
 
 header#header-bottom {
@@ -34,8 +32,10 @@ header#header-bottom {
 }
 
 a.link-logo {
-    width: 100%;
+    width: 25%;
     text-align: center;
+
+    margin-left: 40%;
 }
 
 img.logo {
