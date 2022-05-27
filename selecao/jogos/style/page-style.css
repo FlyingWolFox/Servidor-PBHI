@@ -303,11 +303,10 @@ section.box-center {
 
 
 section.sub-section {
-
-    padding: 0px 10px 20px 0px;
+    margin: 30px 0;
     text-align: center;
     transition: background-color 0.5s;
-    width: 32%;
+    width: 33%;
 }
 
 
@@ -367,6 +366,10 @@ section#section-fluxo>h2.section-title-domino {
     color: #FDC23E;
 }
 
+section#section-grupos>h2.section-title-grupos {
+    color: #3fd7d7;
+}
+
 section#section-logix>h2.section-title-logix {
     color: #3fd7d7;
 }
@@ -387,12 +390,15 @@ section#section-fluxo:hover {
 
 }
 
-section#sequencia-de-numeros:hover {
-    background-color: var(--amarelo-sequencia-bg);
+section#section-grupos:hover {
+
+    border-radius: 10px;
+    background-color: var(--azul-fluxo-bg);
+
 }
 
-section#section-domino {
-    margin-bottom: -20px;
+section#sequencia-de-numeros:hover {
+    background-color: var(--amarelo-sequencia-bg);
 }
 
 section#section-logix {
@@ -446,6 +452,10 @@ section#section-grupos-home:hover {
     background-color: var(--amarelo-sequencia-bg);
 }
 
+section#section-fluxo-home:hover {
+    background-color: #7ee0e030;
+}
+
 section#section-quarto-home:hover {
     background-color: #c7e5f0;
 }
@@ -472,9 +482,10 @@ img.section-link-img {
 }
 
 p.section-description {
-
     font-size: 1em;
     padding: 0px 30px;
+    color: #6b6b6b;
+    font-weight: 800;
 }
 
 /* Seletores do conteúdo da página de objetivos */
@@ -655,7 +666,6 @@ footer.footer-grid {
 }
 
 footer#footer-top {
-    margin-top: 880px;
     margin-bottom: 20px;
 }
 
@@ -921,6 +931,7 @@ button#botao-retorno {
     section#section-container{
         justify-content: center;
     }
+
     section.main-section {
 
         flex-direction: column;
@@ -1233,6 +1244,8 @@ button.botao-fim-quente{
         transform: translate(-150%, 0%);
     }
 }
+
+/* Modal Login*/
 
 @media only screen and (max-width: 800px) {
  a.button-download{ 
