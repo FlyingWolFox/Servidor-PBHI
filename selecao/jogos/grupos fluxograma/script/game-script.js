@@ -1739,7 +1739,7 @@ function resolver(){    //Reconhece onde colocar as imagens pelo fluxograma
         var cor = forma[1];
         var tamanho = forma[2];
         var borda = forma[3];
-        var caminho = './img/' + form + cor + tamanho + borda + '.svg';
+        var caminho = '../img/fig-sem-rosto/' + form + cor + tamanho + borda + '.svg';
         var inicio = child1.getOutgoingLinks();
         var proximoNode = inicio[0].getDestination();
         var nodeTexto = proximoNode.getText();
@@ -1902,7 +1902,7 @@ function pegarNodeImg(){
     var newDivForms = pegarFilhos();
     newDivForms = pegarNome(newDivForms)
     var formaAtual = newDivForms[0]
-    var caminho = './img/' + formaAtual[0] + formaAtual[1] + formaAtual[2] + formaAtual[3] + '.svg';
+    var caminho = '../img/fig-sem-rosto/' + formaAtual[0] + formaAtual[1] + formaAtual[2] + formaAtual[3] + '.svg';
     var capX = 4;
     var capY = 5;
 
