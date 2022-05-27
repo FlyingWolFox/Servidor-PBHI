@@ -316,7 +316,33 @@ section#section-sequencia>h2.section-title {
     color: var(--amarelo-sequencia);
 }
 
+section#section-sequenciac>h2.section-title {
+
+
+    color: var(--amarelo-sequencia);
+}
+
+section#section-sequenciad>h2.section-title {
+
+
+    color: var(--amarelo-sequencia);
+}
+
 section#section-sequencia:hover {
+
+    border-radius: 10px;
+    background-color: var(--amarelo-sequencia-bg);
+
+}
+
+section#section-sequenciac:hover {
+
+    border-radius: 10px;
+    background-color: var(--amarelo-sequencia-bg);
+
+}
+
+section#section-sequenciad:hover {
 
     border-radius: 10px;
     background-color: var(--amarelo-sequencia-bg);
@@ -355,14 +381,34 @@ section#section-fluxo>h2.section-title {
 
 }
 
+section#section-completarn>h2.section-title {
+
+    color: var(--verde-grupos);
+
+}
+
 /* modificação para o título da sequência de números */
 section#section-sequencia>h2.section-title-sequencia {
     padding: 10px 0px;
     color: #FDC23E;
 }
 
+section#section-sequenciac>h2.section-title-sequencia {
+    padding: 10px 0px;
+    color: #FDC23E;
+}
+
+section#section-sequenciad>h2.section-title-sequencia {
+    padding: 10px 0px;
+    color: #FDC23E;
+}
+
 /* modificação para o título "em breve" */
 section#section-fluxo>h2.section-title-domino {
+    color: #FDC23E;
+}
+
+section#section-completarn>h2.section-title-domino {
     color: #FDC23E;
 }
 
@@ -382,8 +428,22 @@ section#section-sequencia:hover {
     background-color: var(--amarelo-sequencia-bg);
 }
 
+section#section-sequenciac:hover {
+    background-color: var(--amarelo-sequencia-bg);
+}
+
+section#section-sequenciad:hover {
+    background-color: var(--amarelo-sequencia-bg);
+}
 
 section#section-fluxo:hover {
+
+    border-radius: 10px;
+    background-color: var(--verde-grupos-bg);
+
+}
+
+section#section-completarn:hover {
 
     border-radius: 10px;
     background-color: var(--verde-grupos-bg);
@@ -410,7 +470,22 @@ section#section-sequencia-home>h2#color1 {
     color: var(--verde-grupos);
 }
 
+section#section-sequenciac-home>h2#color1 {
+    color: var(--verde-grupos);
+}
+
+section#section-sequenciad-home>h2#color1 {
+    color: var(--verde-grupos);
+}
+
+
 section#section-fluxo-home>h2#color2 {
+    /* color: #1d2929; */
+    color: #7ee0e0;
+    /* color: #4baaaae3; */
+}
+
+section#section-completarn-home>h2#color2 {
     /* color: #1d2929; */
     color: #7ee0e0;
     /* color: #4baaaae3; */
@@ -437,6 +512,13 @@ section#section-sequencia-home:hover {
     background-color: var(--verde-grupos-bg);
 }
 
+section#section-sequenciac-home:hover {
+    background-color: var(--verde-grupos-bg);
+}
+
+section#section-sequenciad-home:hover {
+    background-color: var(--verde-grupos-bg);
+}
 co-home:hover {
     /* background-color: var(--azul-fluxo-bg); */
     /* background-color: #cfeff7; */
@@ -453,6 +535,10 @@ section#section-grupos-home:hover {
 }
 
 section#section-fluxo-home:hover {
+    background-color: #7ee0e030;
+}
+
+section#section-completarn-home:hover {
     background-color: #7ee0e030;
 }
 
