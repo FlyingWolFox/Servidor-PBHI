@@ -918,7 +918,9 @@ button#botao-retorno {
     }
 
     /* Ajustes no main */
-
+    section#section-container{
+        justify-content: center;
+    }
     section.main-section {
 
         flex-direction: column;
@@ -928,12 +930,11 @@ button#botao-retorno {
     }
 
     section.sub-section {
-
         margin-bottom: 15px;
         padding: 0px 10px;
         text-align: center;
-        flex-grow: 1;
-        flex-basis: auto;
+        width: 50%;
+        min-width: 300px;
     }
 
     section.form-section {
