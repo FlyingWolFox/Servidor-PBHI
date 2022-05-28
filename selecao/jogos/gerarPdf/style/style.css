@@ -81,13 +81,16 @@ div#doc{
 div#conteudo-container{
     position: absolute;
     width: 100%;
-    aspect-ratio: 2;
+    height: 100%;
     left: 50%;
     top: 50%;
     transform: translate(-50%,-50%);
-    display: flex;
+
+    display: grid;
+    grid-template-rows: 60% 10% 30%;
     align-items: center;
-    flex-direction: column;
+    justify-items: center;
+
 }
 img#borda-certificado{
     width: 98%;
@@ -113,11 +116,10 @@ h3.certificado{
 h3.certificado span{
     font-family: 'Sriracha', cursive;
 }
-div#borda-progresso{
+div#borda-progresso {
     border: 2px #3772b4 solid;
     width: 35%;
-    height: 4%;
-    margin-top: 3%;
+    height: 40%;
 }
 div#barra-progresso{
     height: 100%;
@@ -129,7 +131,6 @@ div#assinatura{
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-top: 11%;
     color: #3772b4;
 }
 section#fig-container{
@@ -195,9 +196,6 @@ margin: 0mm;
     }
     h3.certificado{
         font-size: 6pt;
-    }
-    div#assinatura{
-        margin-top: 9%;
     }
 }
 @media(min-width: 1900px){
