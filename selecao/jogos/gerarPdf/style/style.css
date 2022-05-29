@@ -30,6 +30,9 @@ header.game-header {
 header{
     display: none;
 }
+header#inter-box{
+    display: none;
+}
 #logo-header {
     grid-column-start: 1;
     grid-column-end: 2;
@@ -174,11 +177,10 @@ section#fig-container img:nth-child(5){
     width: 18%;
 }
 button#botao-imprimir {
-    height: 10%; 
-    width: 40%; 
+    height: 10%;
     background-color: #33c346;
     border-radius: 10px;
-    padding: 5px 10px;
+    padding: 10px 25px;
     margin-left: 25px;
 }
 button#botao-imprimir:hover{
@@ -202,7 +204,7 @@ margin: 0mm;
             font-size: 18pt; 
         }
         h3.certificado{
-            font-size: 6pt;
+            font-size: 8pt;
         }
         footer.footer-grid{
             display: none;
@@ -254,7 +256,7 @@ margin: 0mm;
             font-size: 25pt; 
         }
         h3.certificado{
-            font-size: 10pt;
+            font-size: 11pt;
         }
     }
     @media(min-width: 1900px){
