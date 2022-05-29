@@ -258,6 +258,9 @@ margin: 0mm;
         h3.certificado{
             font-size: 12pt;
         }
+        div#doc{
+            max-width: 800px;
+        }
     }
     @media(min-width: 1301px) AND (max-width: 1900px){
         h2#titulo-certificado{
@@ -267,7 +270,7 @@ margin: 0mm;
             font-size: 16pt;
         }
         div#doc{
-            max-width: 800px;
+            max-width: 1000px;
         }
     }
     @media(min-width: 1900px){
@@ -387,7 +390,7 @@ margin: 0mm;
     }
 }
 @media print{
-    @media(min-width: 0px) AND (max-width: 900px){
+    @media(min-width: 800px) AND (max-width: 850px){
         section.aviso-orientacao {
             display: none;
         }
