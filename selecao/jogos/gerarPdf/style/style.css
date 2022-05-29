@@ -422,9 +422,9 @@ margin: 0mm;
         display: flex;
     }
     h2#titulo-certificado{
-        font-size: 40pt; 
+        font-size: 10pt; 
     }
     h3.certificado{
-        font-size: 17pt;
+        font-size: 18pt;
     }
 }
