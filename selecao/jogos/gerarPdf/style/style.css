@@ -198,7 +198,7 @@ margin: 0mm;
     div#doc{
         margin: 25px;
     }
-    @media(max-width: 650px){
+    @media(max-width: 900px){
         h2#titulo-certificado{
             font-size: 18pt; 
         }
