@@ -249,7 +249,7 @@ margin: 0mm;
             grid-column: 1/3;
         }
     }
-    @media(min-width: 900px) AND (max-width: 1023){
+    @media(min-width: 900px) AND (max-width: 1023px){
         h2#titulo-certificado{
             font-size: 25pt; 
         }
@@ -374,6 +374,9 @@ margin: 0mm;
     }
 }
 @media print{
+    section.aviso-orientacao {
+        display: none;
+    }
     *{
         -webkit-print-color-adjust: exact;
     }
