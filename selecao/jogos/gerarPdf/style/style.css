@@ -80,7 +80,6 @@ div#doc{
     justify-content: center;
     align-items: center;
     border-radius: 5px;
-    display: none;
 }
 div#conteudo-container{
     position: absolute;
@@ -237,7 +236,6 @@ margin: 0mm;
             grid-column: 2/3;
             margin: 0;
             max-width: 500px;
-            display: none;
         }
         section.game-section{
             display: block;
