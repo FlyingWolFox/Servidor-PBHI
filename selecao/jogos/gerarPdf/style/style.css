@@ -80,6 +80,7 @@ div#doc{
     justify-content: center;
     align-items: center;
     border-radius: 5px;
+    display: none;
 }
 div#conteudo-container{
     position: absolute;
