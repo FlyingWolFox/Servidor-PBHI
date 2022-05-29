@@ -235,7 +235,8 @@ margin: 0mm;
         div#doc{
             grid-column: 2/3;
             margin: 0;
-            max-width: 50px;
+            max-width: 500px;
+            display: none;
         }
         section.game-section{
             display: block;
