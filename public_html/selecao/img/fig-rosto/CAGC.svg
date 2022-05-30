@@ -1,0 +1,36 @@
+<svg width="150" height="150" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 131.61393 131.61393">
+    <defs>
+        <clipPath id="clip-path">
+            <path d="M65.00763,89.43018s5.78064-11.56127,15.89675-2.89031l-7.22579,4.33547Z" style="fill:none" />
+        </clipPath>
+    </defs>
+    <g id="Camada_2" data-name="Camada 2">
+        <g id="Layer_1" data-name="Layer 1">
+            <circle cx="65.80696" cy="65.80696" r="65.80696" style="fill:#f9e448" />
+            <circle cx="65.80696" cy="65.80696" r="57.9227"
+                style="fill:none;stroke:#fff;stroke-miterlimit:10;stroke-width:5px" />
+            <path
+                d="M59.227,77.86891c2.89031-1.44516,5.94171-1.03093,10.11611-1.44516,4.00033-.397,8.671-1.44516,10.11611-1.44516,3.23148,0,1.44516,13.00643-7.22579,14.45159S55.34923,79.8078,59.227,77.86891Z"
+                style="fill:#070c10" />
+            <g style="clip-path:url(#clip-path)">
+                <path
+                    d="M59.227,77.86891c2.89031-1.44516,5.94171-1.03093,10.11611-1.44516,4.00033-.397,8.671-1.44516,10.11611-1.44516,3.23148,0,1.44516,13.00643-7.22579,14.45159S55.34923,79.8078,59.227,77.86891Z"
+                    style="fill:#e25a40" />
+            </g>
+            <circle cx="47.5614" cy="56.05658" r="10.67643" style="fill:#fff" />
+            <path
+                d="M46.486,50.22091a5.88071,5.88071,0,0,0-.82358.23709,3.54076,3.54076,0,0,1-4.019,5.80529A5.91832,5.91832,0,1,0,46.486,50.22091Z"
+                style="fill:#070c10" />
+            <circle cx="48.73107" cy="55.24401" r="1.16947" style="fill:#fff" />
+            <circle cx="87.36335" cy="56.05658" r="10.67643" style="fill:#fff" />
+            <path
+                d="M86.288,50.22091a5.88071,5.88071,0,0,0-.82358.23709,3.54076,3.54076,0,0,1-4.01905,5.80529A5.91832,5.91832,0,1,0,86.288,50.22091Z"
+                style="fill:#070c10" />
+            <circle cx="88.53302" cy="55.24401" r="1.16947" style="fill:#fff" />
+            <path d="M36.88312,45.76611s3.54479-7.0896,12.40679-4.431"
+                style="fill:none;stroke:#070c10;stroke-linecap:round;stroke-miterlimit:10" />
+            <path d="M76.68507,45.76611s3.54479-7.0896,12.40679-4.431"
+                style="fill:none;stroke:#070c10;stroke-linecap:round;stroke-miterlimit:10" />
+        </g>
+    </g>
+</svg>

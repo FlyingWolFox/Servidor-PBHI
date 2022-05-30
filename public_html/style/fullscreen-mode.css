@@ -1,0 +1,194 @@
+* {
+    margin: 0px;
+    padding: 0px;
+}
+
+/* ======== Ajustes na dimensão da área do jogo ========= */
+span.gota{
+    
+}
+div.tela-jogo {
+    height: 100vh;
+    width: 100vw;
+    max-width: 100vw;
+    max-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr;
+}
+
+main#main-body {
+
+    height: 100vh;
+    width: 100vw;
+    grid-template-columns: 1fr;
+
+}
+
+section.game-section {
+
+    height: 100%;
+    width: 100%;
+    grid-row: 1;
+    grid-column: 1;
+    display: flex;
+    flex-direction: column;
+    justify-items: unset;
+    justify-content: space-between;
+    align-items: center;
+    background-color: white;
+    box-shadow: 0px 2px 4px rgb(0 0 0 / 25%);
+    border-radius: 5px 5px 0px 0px;
+}
+
+/* ========== Ajustes do tutorial ============ */
+
+div#box-instrucoes {
+
+    width: 100%;
+    height: fit-content;
+    padding: 5px 0px;
+}
+
+div.estrela-container{
+
+    margin: 5px 5px;
+    font-size: 1em;
+}
+
+img.estrela {
+
+    width: 30px;
+}
+
+img#mascote-instrucoes {
+
+    width: 80px;
+    align-self: center;
+}
+
+article#textbox-tutorial {
+
+    width: auto;
+    height: fit-content;
+    margin: 0px 0px 0px 67px;
+    padding: 5px 5px 5px 20px;
+
+}
+
+div.conteiner-botoes {
+
+    width: 80%;
+    justify-self: center;
+}
+
+div.botoes-janela {
+
+    margin: 0px 0px;
+    margin-right: 20px;
+
+}
+
+div#botoes-de-audio {
+    gap: 20px;
+}
+
+span#span-fullscreen {
+
+    width: 20px;
+    height: 33px;
+    margin-top: 0px;
+    margin-right: 0px;
+    border-radius: 50%;
+    padding: 0px 6px;
+    color: white;
+    font-size: 20px;
+    font-weight: 600;
+    text-align: center;
+    line-height: 34px;
+    background-color: #606060;
+    border: 3px solid white;
+}
+
+a#span-textbox {
+
+    width: 20px;
+    height: 33px;
+    padding: 0px 6px;
+    margin-top: 0px;
+    margin-right: 0px;
+    color: white;
+    font-size: 11px;
+    font-weight: bold;
+    text-align: center;
+    line-height: 41px;
+    background-color: #E25A40;
+    border: 3px solid white;
+
+}
+
+
+span#span-about {
+
+    width: 20px;
+    height: 33px;
+    padding: 0px 6px;
+    font-size: 28px;
+    line-height: 33px;
+    border: 3px solid white;
+    grid-row: 1;
+    grid-column: 3/4;
+
+}
+
+
+@media (min-width: 530px) and (max-width: 900px) {
+
+    span#span-fullscreen {
+        width: 10px;
+        height: 23px;
+        margin: 0px;
+        font-size: 16px;
+        line-height: 24px;
+        border: 1px solid white;
+    }
+
+    a#span-textbox {
+        width: 10px;
+        height: 23px;
+        margin: 0px;
+        padding: 0px 6px;
+        font-size: 11px;
+        font-weight: 600;
+        line-height: 10px;
+        float: unset;
+        border: 1px solid white;
+    }
+
+    span#span-about {
+        width: 8px;
+        height: 20px;
+        margin: 0px;
+        margin-bottom: 8px;
+        padding: 2px 8px;
+        font-size: 1.5em;
+        line-height: 21px;
+        border: 1px solid white;
+        align-self: center;
+    }
+
+}
+
+@media (min-width: 1920px) AND (max-width: 4000px) and (orientation: landscape) {
+
+    img#mascote-instrucoes {
+
+        width: 110px;
+    }
+
+    article#textbox-tutorial {
+        width: auto;
+        height: fit-content;
+        margin: 0px 0px 0px 67px;
+        padding: 5px 5px 5px 73px;
+    }
+}

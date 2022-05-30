@@ -1,0 +1,906 @@
+/* Seletores do layout da página */
+
+body.game-body {
+
+    height: 100vh;
+    background-color:  var(--cor-do-body);
+}
+
+div.tela-jogo {
+
+    height: 100vh;
+    width: 100vw;
+    max-width: 100vw;
+    max-height: 100vh;
+    display: grid;
+    grid-template-rows: 1fr 6fr 1fr;
+}
+
+/* Seletores de estilo do Header */
+
+header.game-header {
+
+    display: grid;
+    grid-template-columns: 1fr minmax(300px, 1fr) 1fr;
+    align-items: center;
+    
+}
+
+a.link-logo {
+    width: 100%;
+    text-align: center;
+}
+
+img.logo {
+
+    align-self: center;
+    justify-self: center;
+    padding: 0px 0px;
+}
+
+h2#title-jogo {
+
+    height: fit-content;
+    width: fit-content;
+    padding: 5px 50px;
+    border-radius: 25px;
+    background-color: #9DCC38;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
+    color: white;
+    text-align: center;
+    vertical-align: middle;
+    grid-column-start: 2;
+    grid-row: 1;
+    align-self: center;
+    justify-self: center;
+}
+
+#logo-header {
+    
+    grid-column-start: 1;
+    grid-column-end: 2;
+    height: 50px;
+    
+}
+
+section.game-section {
+
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-items: center;
+    justify-content: space-between;
+    align-items: center;
+    align-content: space-between;
+    background-color: white;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 5px 5px 0px 0px;
+}
+
+/* ESTILOS DO TUTORIAL DO JOGO */
+
+div#box-instrucoes {
+
+    display: grid;
+    width: 100%;
+    height: fit-content;
+    background-color: #9DCC38;
+    border-radius: 5px 5px 0px 0px;
+    grid-template-columns: 20% 68% 12%;
+
+}
+
+#mascote-instrucoes {
+
+    grid-column: 2;
+    grid-row: 1;
+    -webkit-grid-column: 2;
+    -webkit-grid-row: 1;
+    margin-top: 0px;
+    margin-left: 10px;
+    z-index: 10;
+}
+
+.modal-box {
+    display: none;
+    /* Hidden by default */
+
+
+}
+
+
+
+div.progresso-conquistas {
+
+    width: 100%;
+    color: white;
+    grid-column: 1;
+    grid-row: 1;
+    -webkit-grid-column: 1;
+    -webkit-grid-row: 1;
+    align-self: center;
+    justify-self: center;
+    
+}
+#botao-info-close {
+
+   width: 35%;
+   height: fit-content;
+   margin: 0px;
+   padding: 10px 10px;
+   font-size: 1.2em;
+   color: #687844;
+   background: #9DCC38;
+   border: 5px solid #FFFFFF;
+   border-radius: 20px;
+   text-transform: uppercase;
+   font-weight: bold;
+}
+
+#botao-de-voz {
+    width: 25%;
+    height: fit-content;
+    margin: 0px;
+    padding: 10px 10px;
+    font-size: 1.2em;
+    color: #687844;
+    background: #9DCC38;
+    border: 5px solid #FFFFFF;
+    border-radius: 20px;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+#texto-de-voz {
+    display: inline-block;
+}
+
+#img-de-voz {
+    display: flex;
+    align-items: center;
+    width: 21px;
+}
+
+
+#modal-content{
+    border-color: #9DCC38;
+    padding: 10px 10px 0 10px;
+    display: block;
+}
+
+#modal-content p{
+    font-size: 1.3rem;
+
+}
+
+#texto-textbox:focus,#texto-info:focus{
+
+    border:unset;
+ 
+}
+
+a#span-info {
+
+    width: 30px;
+    height: 43px;
+    padding: 0px 6px;
+    color: white;
+    text-decoration: none;
+    font-size: unset;
+    font-weight: 300;
+    text-align: center;
+    line-height: 56px;
+    background-color: #E25A40;
+    border: 5px solid white;
+    float: right;
+    border-radius: 50%;
+    position: relative;
+    top: -50px;
+    right: -40px;
+
+}
+
+
+#texto-textbox{
+    width: 95%;
+    border:unset;
+    resize: none;
+    padding-left: 5px;
+}
+
+p.texto-progresso {
+
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 5px;
+}
+
+div.conquistas-conteiner {
+
+    display: flex;
+    justify-content: center;
+}
+
+div.estrela-container {
+
+    margin: 0px 10px;
+    text-align: center;
+}
+
+img.estrela {
+
+    width: 30px;
+}
+
+p#textbox-fase{
+
+    width: 100%;
+    text-align: center;
+    font-weight: bold;
+    color: #1C4459;
+
+}
+
+div.conteiner-botoes {
+
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+
+div.botoes-janela {
+    
+    width: 100%;
+    margin-top: -30px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+
+}
+
+span#span-fullscreen {
+    
+    width: 30px;
+    height: 43px;
+    margin-top: 0px;
+    margin-right: 0px;
+    border-radius: 50%;
+    padding: 0px 6px;
+    color: white;
+    font-size: 25px;
+    font-weight: 300;
+    text-align: center;
+    line-height: 44px;
+    background-color: #606060;
+    border: 5px solid white;
+
+}
+
+a#span-textbox {
+
+    width: 30px;
+    height: 43px;
+    padding: 0px 6px;
+    color: white;
+    text-decoration: none;
+    font-size: unset;
+    font-weight: 300;
+    text-align: center;
+    line-height: 56px;
+    background-color: #E25A40;
+    border: 5px solid white;
+    float: right;
+    border-radius: 50%;
+
+}
+
+span#span-about {
+
+    width: 20px;
+    height: 31px;
+    padding: 2px 8px;
+    margin-bottom: 10px;
+    border-radius: 50%;
+    font-size: 25px;
+    font-weight: 800;
+    color: white;
+    text-align: center;
+    border: 3px solid white;
+    background-color: rgb(96, 96, 96);
+    align-self: center;
+
+}
+
+#textbox-tutorial {
+
+    width: 80%;
+    height: 50px;
+    margin-left: 80px;
+    margin-top: 5px;
+    padding: 10px 10px 10px 35px;
+    background-color: white;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.13);
+    border-radius: 5px;
+    grid-column: 2;
+    grid-row: 1;
+    -webkit-grid-column: 2;
+    -webkit-grid-row: 1;
+    align-self: center;
+    z-index: 0;
+}
+
+.grid-container {
+    display: grid;
+    grid-template-columns: 25% auto auto;
+
+}
+
+#title-jogo {
+
+    background-color: #1C4459;
+    color: white;
+    grid-row-start: 2;
+    grid-column-start: 2;
+    -webkit-grid-row-start: 2;
+    -webkit-grid-column-start: 2;
+    text-align: center;
+    border-radius: 10px 10px 0px 0px;
+}
+
+#main-body,
+header {
+    background-image: url(../img/bg-image.png);
+    background-color: var(--cor-do-body);
+
+}
+
+/* ======== Estilos do jogo ========= */
+
+main#main-body {
+
+    height: 100%;
+}
+
+section.game-container {
+
+    margin-bottom: 5px;
+    border-color: black;
+    border-width: 1px;
+    border-style: solid;
+    border-radius: 10px;
+
+}
+
+h3#titulo-nucleo {
+
+    color: #1C4459;
+    text-transform: uppercase;
+
+}
+
+section#container-nucleo {
+
+    width: 80%;
+    height: 190px;
+    padding: 10px 10px;
+    border-radius: 10px;
+    background: #FAFAFA;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    align-content: flex-end;
+    border: 1px solid rgba(7, 12, 16, 0.5);
+    box-sizing: border-box;
+
+}
+
+
+h3#titulo-sequencia {
+
+    color: #E2AE3A;
+    text-transform: uppercase;
+
+}
+
+section#sequencias-conteiner {
+    
+    width: 100%;
+    height: 100%;
+    margin-top: 10px;
+    margin-bottom: 5px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+}
+
+section.drop img {
+
+    margin: 5px;
+    align-self: flex-start;
+
+}
+
+div.slot {
+
+    min-height: 100%;
+    width: 7%;
+    margin: 0px 5px;
+    background-image: url('../img/bg-slot.svg');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 25%;
+    border-bottom: 1px solid #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+div.slot img {
+
+    width: 100%;
+    margin: unset;
+    max-width: unset;
+}
+
+img.draggable-mirror {
+
+    width: 5% !important;
+}
+
+button#botao-resultado {
+
+    width: fit-content;
+    height: fit-content;
+    margin: 0px;
+    padding: 15px 20px;
+    font-size: 1.2em;
+    color: #687844;
+    background: #9DCC38;
+    border: 5px solid #FFFFFF;
+    border-radius: 20px;
+
+}
+
+
+p.container-formas-titulo {
+
+    width: 100%;
+    color: #C4C4C4;
+    background-color: #FAFAFA;
+    text-align: center;
+}
+
+section#container-formas {
+
+    width: 100%;
+    height: 200px;
+    padding: 5px 0px 5px 0px;
+    margin-bottom: 0px;
+    background-color: #FAFAFA;
+    border:solid 0px black;
+    border-radius: 0px;
+    justify-self: flex-end;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: baseline;
+    align-content: center;
+}
+
+img.game-img {
+
+    width: 7%;
+    max-width: unset;
+    margin: 0px 5px;
+
+}
+
+img.game-img.pequeno{
+
+    width: 7%;
+    max-width: unset;
+
+}
+
+section#container-nucleo div.slot img { 
+
+    width: 103%;
+
+}
+
+section.drop img {
+
+    width: 100px;
+    margin: 5px;
+    align-self: center;
+
+}
+
+section.aviso-orientacao{
+
+    display: none;
+}
+
+div.formas-titulo {
+    height: min-content;
+    width: 100%;
+}
+
+
+@media(orientation: landscape) AND (max-width: 1280px){
+
+    section.aviso-orientacao{
+
+        display: none;
+    }
+
+    /* classes gerais */
+
+    .grid {
+
+        grid-template-columns: 0.5fr 10fr 0.5fr;
+    }
+
+    /* --------- HEADER ----------*/
+
+    header.game-header {
+
+        display: grid;
+        grid-template-columns: 0.5fr 700px 0.5fr;
+
+    }
+
+    img.logo {
+        
+        padding: 10px 0px;
+    }
+
+    h2#title-jogo {
+
+        height: fit-content;
+        width: fit-content;
+        padding: 5px 50px;
+        font-size: 1em;
+
+    }
+
+
+    /* ----------- TUTORIAL ---------- */
+
+    div#box-instrucoes {
+        width: 100%;
+        height: 110px;
+        margin: 0px 0 5px 0;
+    }
+
+    #mascote-instrucoes {
+        margin-top: 0px;
+        margin-left: 0px;
+        z-index: 10;
+        width: 124px;
+    }
+
+    #textbox-tutorial {
+        
+        margin-top: 0px;
+    }
+
+    /* ----------- JOGO ----------- */
+
+    section.game-container {
+        margin-bottom: 10px;
+    }
+
+    img.game-img {
+        margin: 0px 10px;
+        max-width: 9%;
+        align-self: center;
+    }
+
+    button#botao-resultado {
+        
+        padding: 5px 10px;
+        font-size: 1.2em;
+         
+    }
+}
+
+@media(orientation: portrait) {
+
+
+    section.aviso-orientacao {
+
+        width: 100vw;
+        height: 100vh;
+        display: block;
+        position: fixed;
+        background-color: rgba(0, 0, 0, 0.7);
+        color: white;
+        z-index: 100;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+    }
+
+    div#aviso-orientacao-caixa {
+
+        width: 80%;
+        padding: 10px;
+        background-color: white;
+        border: 7px solid #1C4459;
+        border-radius: 10px;
+
+    }
+
+    h1#texto-orientacao {
+
+        font-size: 1em;
+        text-align: center;
+        color: #1C4459;
+        text-transform: uppercase;
+
+    }
+
+    div#orientacao-imgs {
+
+        width: 100%;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: flex-end;
+        justify-content: space-evenly;
+    }
+
+    div.grupo-imagem-orientacao {
+
+        width: 25%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+    }
+
+    div#orientacao-grupo-horizontal {
+
+        width: 35%;
+    }
+
+    div.grupo-imagem-orientacao * {
+
+        margin-bottom: 10px;
+
+    }
+
+    img#vetor-orientacao {
+
+        max-width: 15%;
+        align-self: center;
+    }
+
+    div.grupo-imagem-orientacao img {
+
+        max-width: 90%;
+    }
+
+
+    div.grupo-imagem-orientacao img#icone-errado,
+    div.grupo-imagem-orientacao img#icone-certo {
+
+        max-width: 20%;
+    }
+
+    h1#texto-orientacao-vertical {
+
+        font-size: .8em;
+        color: #1C4459;
+    }
+
+
+    div.tela-jogo {
+        display: none;
+    }
+
+}
+
+/* ---------- AJUSTES PARA O DESKTOP ---------- */
+
+
+@media (min-width: 1000px) AND (max-width: 1919px) and (orientation: landscape){
+
+    h2#title-jogo {
+
+        font-size: 1em;
+    }
+
+    /* ==== AJUSTES DO TUTORIAL ===== */
+
+    div.estrela-container {
+        margin: 0px 8px;
+        text-align: center;
+        font-size: 12px;
+    }
+
+    img.estrela {
+
+        width: 20px;
+
+    }
+
+    #mascote-instrucoes {
+
+        width: 15%;
+    }
+
+    #textbox-tutorial {
+        
+        padding: 5px 10px 5px 30px;
+    }
+
+    #texto-textbox {
+
+        font-size: 14px;
+    }
+
+    /* ===========  AJUSTE DOS BOTÕES DO TUTORIAL ========= */
+
+
+    div.conteiner-botoes {
+
+        margin: 0px;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-around;
+    
+    }
+    
+    div.botoes-janela {
+    
+        width: 100%;
+        margin: 0px;
+        margin-top: -32px;
+    
+    }
+    
+    span#span-fullscreen {
+    
+        width: 23px;
+        height: 35px;
+        margin: 0px;
+        font-size: 21px;
+        line-height: 33px;
+        border: 2px solid white;
+
+    }
+    
+    a#span-textbox {
+    
+        width: 23px;
+        height: 35px;
+        margin: 0px;
+        padding: 0px 5px;
+        font-size: 16px;
+        font-weight: 600;
+        line-height: 46px;
+        float: unset;
+        border: 2px solid white;
+    }
+    
+    a#span-textbox i {
+    
+        margin-left: -5px;
+    }
+    
+    span#span-about {
+    
+        width: 14px;
+        height: 27px;
+        margin: 0px;
+        margin-bottom: 8px;
+        padding: 2px 8px;
+        font-size: 1.5em;
+        line-height: 27px;
+        border: 2px solid white;
+        align-self: center;
+    
+    }
+
+    /* ================================= */
+    
+    section#container-nucleo {
+        
+        width: 90%;
+        height: 110px;
+        padding: 0px 10px;
+    }
+
+    section#container-formas {
+        width: 100%;
+        height: 110px;
+    }
+
+    img.game-img {
+
+        width: 60px;
+        max-width: unset;
+    }
+
+    img.game-img.pequeno {
+
+        width: 45px;
+        max-width: unset;
+    }
+
+    section#container-nucleo div.slot img {
+
+        width: 59px;
+    }
+
+    section#container-nucleo div.slot img.pequeno {
+
+        width: 45px;
+    }
+
+    button#botao-resultado {
+
+        padding: 10px 10px;
+        font-size: 1em;
+    }
+
+
+}
+
+@media (min-width: 1920px) AND (max-width: 2500px) and (orientation: landscape){
+
+    section#container-nucleo {
+        
+        width: 90%;
+        height: 200px;
+        padding: 0px 10px;
+    }
+
+    section#container-formas {
+        width: 100%;
+        height: 200px;
+    }
+
+    img.game-img {
+
+        width: 100px;
+        max-width: unset;
+    }
+
+    img.game-img.pequeno {
+
+        width: 75px;
+        max-width: unset;
+    }
+
+    div.slot {
+
+        width: 100px;
+    }
+
+    section#container-nucleo div.slot img {
+
+        width: 100px;
+    }
+
+    section#container-nucleo div.slot img.pequeno {
+
+        width: 75px;
+    }
+
+    button#botao-resultado {
+        
+        padding: 15px 20px;
+        font-size: 1.2em;
+         
+    }
+}

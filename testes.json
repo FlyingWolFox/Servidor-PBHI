@@ -1,0 +1,83 @@
+{
+  
+}{
+  "nomeJogo": "Dominó da Diferença",
+  "faseAtual": 1,
+  "tempoDeJogo": 2.482,
+  "sucesso": true,
+  "browser": "Chrome",
+  "platform": "Microsoft Windows",
+  "geoIp": {}
+}{
+  "nomeJogo": "Dominó da Diferença",
+  "faseAtual": 2,
+  "tempoDeJogo": 5.639,
+  "sucesso": false,
+  "browser": "Chrome",
+  "platform": "Microsoft Windows",
+  "geoIp": {}
+}{
+  "nomeJogo": "Dominó da Diferença",
+  "faseAtual": 2,
+  "tempoDeJogo": 7.353,
+  "sucesso": true,
+  "browser": "Chrome",
+  "platform": "Microsoft Windows",
+  "geoIp": {}
+}{
+  "nomeJogo": "SEQUÊNCIA DE NÚMEROS",
+  "faseAtual": 1,
+  "tempoDeJogo": 2.603,
+  "sucesso": true,
+  "browser": "Chrome",
+  "platform": "Microsoft Windows",
+  "geoIp": {}
+}{
+  "nomeJogo": "SEQUÊNCIA DE NÚMEROS",
+  "faseAtual": 2,
+  "tempoDeJogo": 4.208,
+  "sucesso": false,
+  "browser": "Chrome",
+  "platform": "Microsoft Windows",
+  "geoIp": {}
+}{
+  "nomeJogo": "JOGO DA SEQUÊNCIA",
+  "faseAtual": 1,
+  "tempoDeJogo": 4.017,
+  "sucesso": false,
+  "browser": "Chrome",
+  "platform": "Microsoft Windows",
+  "geoIp": {}
+}{
+  "nomeJogo": "JOGO DA REPETIÇÃO",
+  "faseAtual": 1,
+  "tempoDeJogo": 4.637,
+  "sucesso": true,
+  "browser": "Chrome",
+  "platform": "Microsoft Windows",
+  "geoIp": {}
+}{
+  "nomeJogo": "JOGO DA REPETIÇÃO",
+  "faseAtual": 2,
+  "tempoDeJogo": 5.601,
+  "sucesso": false,
+  "browser": "Chrome",
+  "platform": "Microsoft Windows",
+  "geoIp": {}
+}{
+  "nomeJogo": "JOGO DA REPETIÇÃO",
+  "faseAtual": 2,
+  "tempoDeJogo": 109.13,
+  "sucesso": false,
+  "browser": "Chrome",
+  "platform": "Microsoft Windows",
+  "geoIp": {}
+}{
+  "nomeJogo": "JOGO DA REPETIÇÃO",
+  "faseAtual": 2,
+  "tempoDeJogo": 8.671,
+  "sucesso": true,
+  "browser": "Chrome",
+  "platform": "Microsoft Windows",
+  "geoIp": {}
+}
