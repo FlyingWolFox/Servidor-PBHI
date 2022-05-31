@@ -36,19 +36,18 @@
         href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@100;300;400;500;700;800;900&display=swap"
         rel="stylesheet">
 
-    <script type="text/javascript" src="common/jquery.min.js"></script>
-    <script type="text/javascript" src="common/jquery-ui.min.js"></script>
+    <!-- <script type="text/javascript" src="common/jquery.min.js"></script> -->
+    <!-- <script type="text/javascript" src="common/jquery-ui.min.js"></script> -->
 
-    <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+    <!-- <script src="https://code.jquery.com/jquery-3.3.1.js"></script> -->
 	<script src='https://code.responsivevoice.org/responsivevoice.js'></script>
     <script src="https://code.responsivevoice.org/responsivevoice.js?key=KONwxqZY"></script>
 
-    <script src="Scripts/MindFusion.Common.js" type="text/javascript"></script>
-    <script src="Scripts/MindFusion.Diagramming.js" type="text/javascript"></script>
-    
+    <!-- <script src="Scripts/MindFusion.Common.js" type="text/javascript"></script> -->
+    <!-- <script src="Scripts/MindFusion.Diagramming.js" type="text/javascript"></script> -->
 </head>
 
-<body >
+<body>
     <select id='voiceList' hidden></select> <br><br>
     <section class="aviso-orientacao">
         <div id="aviso-orientacao-caixa">
@@ -330,57 +329,107 @@
 
 <!-- Funções para manipulações de áudio -->
 <script type="text/javascript">
-    responsiveVoice.speak('Preste atenção às peças da sequência e identifique quais estão se repetindo. Depois arraste as peças disponíveis no fundo da página para a área do núcleo, montando as peças que se repetem. A ordem das peças deve ser respeitada.', 'Brazilian Portuguese Female');
+    var synth = window.speechSynthesis;
+
+    window.onload = function speaking(){
+        let text = 'Preste atenção às peças da sequência e identifique quais estão se repetindo. Depois arraste as peças disponíveis no fundo da página para a área do núcleo, montando as peças que se repetem. A ordem das peças deve ser respeitada.';
+        let voice = new SpeechSynthesisUtterance(text);
+        speechSynthesis.speak(voice);
+    }
+
+    let buttonVoiceInstruction = document.getElementById('botao-voz-instrucao');
+    let buttonVoiceOn = document.getElementById('botao-ativar-voz');
+
+    setInterval(() => {
+        if(synth.speaking){
+            buttonVoiceInstruction.innerHTML = '&#128265';
+            buttonVoiceOn.setAttribute('onclick', 'desativarAudio(this)');
+        } else {
+            buttonVoiceInstruction.innerHTML = '&#128263';
+            buttonVoiceOn.setAttribute('onclick', 'ativarAudio(this)');
+        }
+        
+        if (performance.navigation.TYPE_RELOAD){
+            synth.pause();
+            synth.resume();
+        }
+    }, 1000);
+
+    // se o usuário sair da página ou fechar a aba o áudio para de tocar
+    window.addEventListener("pagehide", function(){
+        synth.pause();
+    });
     
     function ativarAudio(button){
-        button.setAttribute('onclick', 'desativarAudio(this)');
+        let texto = 'Preste atenção às peças da sequência e identifique quais estão se repetindo. Depois arraste as peças disponíveis no fundo da página para a área do núcleo, montando as peças que se repetem. A ordem das peças deve ser respeitada.';
+
+        let utterance = new SpeechSynthesisUtterance(texto);
+        speechSynthesis.speak(utterance);
+
         let botaoAtivarVoz = document.getElementById('botao-voz-instrucao');
-        botaoAtivarVoz.innerHTML = '&#128265';
-        let fimAudio = responsiveVoice.speak('Preste atenção às peças da sequência e identifique quais estão se repetindo. Depois arraste as peças disponíveis no fundo da página para a área do núcleo, montando as peças que se repetem. A ordem das peças deve ser respeitada.', 'Brazilian Portuguese Female');
 
-        let timer = setTimeout(() => {
-            botaoAtivarVoz.innerHTML='&#128263';
-            button.setAttribute('onclick', 'ativarAudio(this)');
-        }, 17500);
+        let timer = setInterval(() => {
+            if(synth.speaking){
+                botaoAtivarVoz.innerHTML = '&#128265';
+                button.setAttribute('onclick', 'desativarAudio(this)');
+            } else {
+                botaoAtivarVoz.innerHTML = '&#128263';
+                button.setAttribute('onclick', 'ativarAudio(this)');
+            }
 
-        botaoAtivarVoz.addEventListener('click', function() {
-            clearTimeout(timer);
-        })
+            if (performance.navigation.TYPE_RELOAD) {
+                synth.pause();
+                synth.resume();
+            }
+        }, 1000);
     }
 
     function desativarAudio(button){
-        button.setAttribute('onclick', 'ativarAudio(this)')
+        button.setAttribute('onclick', 'ativarAudio(this)');
         let botaoDesativarVoz = document.getElementById('botao-voz-instrucao');
         botaoDesativarVoz.innerHTML = '&#128263';
-        responsiveVoice.cancel();
+        synth.cancel();
     }
 
     function repetirAudioBoxInstrucao(){
-        responsiveVoice.speak('Preste atenção às peças da sequência e identifique quais estão se repetindo. Depois arraste as peças disponíveis no fundo da página para a área do núcleo, montando as peças que se repetem. A ordem das peças deve ser respeitada.', 'Brazilian Portuguese Female');
+        synth.cancel();
+
+        let texto = 'Preste atenção às peças da sequência e identifique quais estão se repetindo. Depois arraste as peças disponíveis no fundo da página para a área do núcleo, montando as peças que se repetem. A ordem das peças deve ser respeitada.';  
+
+        let utterance = new SpeechSynthesisUtterance(texto);
+        speechSynthesis.speak(utterance);
 
         let botaoDeAtivarAudio = document.getElementById('botao-voz-instrucao');
         botaoDeAtivarAudio.innerHTML = '&#128265';
 
         let botaoAudio = document.getElementById('botao-ativar-voz');
-        botaoAudio.setAttribute('onclick', 'desativarAudio(this)');
 
-        let timerButton = setTimeout(() => {
-            botaoDeAtivarAudio.innerHTML='&#128263';
-            botaoAudio.setAttribute('onclick', 'ativarAudio(this)');
-        }, 17500);
-
-        let botaoRepetirVoz = document.getElementById('botao-repetir-voz');
-        botaoRepetirVoz.addEventListener('click', function(){
-            clearTimeout(timerButton);
-        })
+        setInterval(() => {
+            if(synth.speaking){
+                botaoAudio.setAttribute('onclick', 'desativarAudio(this)');
+            } else {
+                botaoDeAtivarAudio.innerHTML='&#128263';
+                botaoAudio.setAttribute('onclick', 'ativarAudio(this)');
+            }
+        }, 1000);
     }
 
     function audioModal(){
-        responsiveVoice.speak('Olá, você sabe como funciona o Jogo da Repetição? Não? Então vem cá que eu te explico rapidinho, nele a gente te mostra uma sequência de figuras que se repetem e você tem que nos mostrar quais são essas figuras que estão se repetindo. Aah, já ia esquecendo, é só clicar e arrastar as figuras disponíveis lá embaixo para o núcleo e montar a sua sequência com as figuras que se repetem na mesma ordem e depois clicar em TERMINEI.', 'Brazilian Portuguese Female');
+        synth.cancel();
+
+        let texto = 'Olá, você sabe como funciona o Jogo da Repetição? Não? Então vem cá que eu te explico rapidinho, nele a gente te mostra uma sequência de figuras que se repetem e você tem que nos mostrar quais são essas figuras que estão se repetindo. Aah, já ia esquecendo, é só clicar e arrastar as figuras disponíveis lá embaixo para o núcleo e montar a sua sequência com as figuras que se repetem na mesma ordem e depois clicar em TERMINEI.';  
+
+        let utterance = new SpeechSynthesisUtterance(texto);
+        speechSynthesis.speak(utterance);
+
+        if (performance.navigation.TYPE_RELOAD) {
+            synth.pause();
+            synth.resume();
+        }
     }
 
     function cancelarAudioModal(){
-        responsiveVoice.cancel();
+        synth.cancel();
     }
 </script>
 
