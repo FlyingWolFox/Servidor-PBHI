@@ -12,7 +12,7 @@ db.connect(function(err) {
 });
 */
 //funcoes database
-const insert = (data = {})=>{
+/*const insert = (data = {})=>{
     var sql = "INSERT INTO contato(nome, email,comentario) VALUES ?";
     var values = data;
     db.query(sql, values, function(err, result){
@@ -20,4 +20,10 @@ const insert = (data = {})=>{
         console.log("numero de registros inseridos:" + result.affectedRows);
     });
 }
-module.exports = insert;
+module.exports = insert;*/
+
+const geoip = require('geoip-lite');
+var ip = "177.37.173.249";
+var geo = geoip.lookup(ip);
+const endereco = geo.city + ', ' + geo.region + ', ' + geo.country;
+console.log(endereco);

@@ -7,7 +7,7 @@ const logger = require('./logger.js');
 const useragent = require('express-useragent');
 const mysql = require('mysql');
 const { rootCertificates } = require('tls');
-
+const geoip = require('geoip-lite');
  
 app.use(useragent.express());
 
@@ -19,8 +19,8 @@ app.use(useragent.express());
 app.use(express.urlencoded({extended:false}));
 app.use(express.json());
 //funcoes de apoio
-function EscreverJSON(aluno){
-    var dadosJson = aluno;
+function EscreverJSON(objeto){
+    var dadosJson = objeto;
     var conteudoJson = JSON.stringify(dadosJson,null, 2 );
     fs.appendFile("testes.json", conteudoJson, 'utf-8', function(err){
         if(err){
@@ -29,7 +29,9 @@ function EscreverJSON(aluno){
     console.log('o arquivo json foi salvo.')    
     })
 }
-
+function parseGEOIP(){
+    const endereco = geo.city + ',' + geo.region + ',' + geo.country;
+}
 /*funcoes database
 const db = mysql.createConnection({
     user: "root",
@@ -53,6 +55,8 @@ db.connect(function(err) {
     });
 }
 */
+
+
 // requisicoes do servidor
 
 
@@ -65,7 +69,8 @@ app.post('/contato.html', (req, res)=>{
     Alunos.texto = req.body.texto;
     Alunos.browser = req.useragent.browser;
     Alunos.platform = req.useragent.platform;
-    Alunos.geoIp = req.useragent.geoIp;
+    var geo = geoip.lookup(req.useragent.geoIp); 
+    Alunos.location = geo;
     Alunos.isMobile = req.useragent.isMobile;
     
     
