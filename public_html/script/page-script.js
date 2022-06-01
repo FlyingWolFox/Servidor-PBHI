@@ -91,14 +91,15 @@ function criarModalLogin(){ //Criando modal de login
   firstName.setAttribute('placeholder','Nome Completo')
   firstName.setAttribute('id','firstName-modal-login')
   firstName.setAttribute('autocomplete','off')
-  firstName.setAttribute('method','post')
-  firstName.setAttribute('target','./selecao/index.html')
-  firstName.setAttribute('action','../index.js')
+  firstName.setAttribute('method','POST')
+  firstName.setAttribute('target','_self')
+  firstName.setAttribute('action','/urltronxa')
   firstName.classList.add('modal-login-text')
 
   let buttonLogin = document.createElement('input')
   buttonLogin.setAttribute('type','button')
   buttonLogin.setAttribute('value','Continuar')
+  buttonLogin.setAttribute('type','submit')
   buttonLogin.setAttribute('id','botao-modal-login')
   buttonLogin.addEventListener('click', salvaNome)
 
