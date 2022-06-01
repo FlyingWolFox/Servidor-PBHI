@@ -17,7 +17,6 @@ div.tela-jogo {
     max-height: 100vh;
     display: grid;
     grid-template-rows: 1fr 6fr 1fr;
-    margin-top: -40px;
 }
 
 /* Seletores de estilo do Header */
@@ -311,10 +310,10 @@ button#botao-ativar-voz {
 
 }
 
-p#botao-voz-instrucao {
-    margin-top: -3px;
-    margin-left: -6px;
-    font-size: 23px;
+img#botao-voz-instrucao {
+    margin-top: -2px;
+    margin-left: -8px;
+    width: 30px;
 }
 
 button#botao-repetir-voz {
@@ -332,10 +331,10 @@ button#botao-repetir-voz {
     align-self: center;
 }
 
-p#repetir-voz {
-    font-size: 17px;
-    margin-left: -3.5px;
-    margin-top: -2px;
+img#repetir-voz {
+    width: 26px;
+    margin-left: -4.9px;
+    margin-top: 1px;
 }
 
 #botao-falar {

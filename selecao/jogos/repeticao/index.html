@@ -35,20 +35,9 @@
     <link
         href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@100;300;400;500;700;800;900&display=swap"
         rel="stylesheet">
-
-    <!-- <script type="text/javascript" src="common/jquery.min.js"></script> -->
-    <!-- <script type="text/javascript" src="common/jquery-ui.min.js"></script> -->
-
-    <!-- <script src="https://code.jquery.com/jquery-3.3.1.js"></script> -->
-	<script src='https://code.responsivevoice.org/responsivevoice.js'></script>
-    <script src="https://code.responsivevoice.org/responsivevoice.js?key=KONwxqZY"></script>
-
-    <!-- <script src="Scripts/MindFusion.Common.js" type="text/javascript"></script> -->
-    <!-- <script src="Scripts/MindFusion.Diagramming.js" type="text/javascript"></script> -->
 </head>
 
-<body>
-    <select id='voiceList' hidden></select> <br><br>
+<body onload="speaking()">
     <section class="aviso-orientacao">
         <div id="aviso-orientacao-caixa">
             <h1 id="texto-orientacao"> vire seu aparelho na horizontal para jogar</h1>
@@ -134,10 +123,14 @@
 
                         <div id="botoes-de-audio">
                             <button id="botao-ativar-voz" onclick="ativarAudio(this)">
-                                <p id="botao-voz-instrucao">&#128263;</p>
+                                <p >
+                                    <img src="../../../img/svg/audio-off.svg" alt="Áudio ligado" id="botao-voz-instrucao">
+                                </p>
                             </button>
                             <button id="botao-repetir-voz" onclick="repetirAudioBoxInstrucao()">
-                                <p id="repetir-voz">&#128257;</p>
+                                <p>
+                                    <img src="../../../img/svg/repeat.svg" alt="Repetir áudio" id="repetir-voz">
+                                </p>
                             </button>
                             <button id="span-about" onclick="document.getElementById('modalInfo').style.display='block'; audioModal()" class="">
                                 ?
@@ -331,7 +324,7 @@
 <script type="text/javascript">
     var synth = window.speechSynthesis;
 
-    window.onload = function speaking(){
+    function speaking(){
         let text = 'Preste atenção às peças da sequência e identifique quais estão se repetindo. Depois arraste as peças disponíveis no fundo da página para a área do núcleo, montando as peças que se repetem. A ordem das peças deve ser respeitada.';
         let voice = new SpeechSynthesisUtterance(text);
         speechSynthesis.speak(voice);
@@ -342,10 +335,10 @@
 
     setInterval(() => {
         if(synth.speaking){
-            buttonVoiceInstruction.innerHTML = '&#128265';
+            buttonVoiceInstruction.setAttribute('src', '../../../img/svg/audio-on.svg');
             buttonVoiceOn.setAttribute('onclick', 'desativarAudio(this)');
         } else {
-            buttonVoiceInstruction.innerHTML = '&#128263';
+            buttonVoiceInstruction.setAttribute('src', '../../../img/svg/audio-off.svg');
             buttonVoiceOn.setAttribute('onclick', 'ativarAudio(this)');
         }
         
@@ -368,12 +361,12 @@
 
         let botaoAtivarVoz = document.getElementById('botao-voz-instrucao');
 
-        let timer = setInterval(() => {
+        setInterval(() => {
             if(synth.speaking){
-                botaoAtivarVoz.innerHTML = '&#128265';
+                botaoAtivarVoz.setAttribute('src', '../../../img/svg/audio-on.svg');
                 button.setAttribute('onclick', 'desativarAudio(this)');
             } else {
-                botaoAtivarVoz.innerHTML = '&#128263';
+                botaoAtivarVoz.setAttribute('src', '../../../img/svg/audio-off.svg');
                 button.setAttribute('onclick', 'ativarAudio(this)');
             }
 
@@ -387,7 +380,7 @@
     function desativarAudio(button){
         button.setAttribute('onclick', 'ativarAudio(this)');
         let botaoDesativarVoz = document.getElementById('botao-voz-instrucao');
-        botaoDesativarVoz.innerHTML = '&#128263';
+        botaoDesativarVoz.setAttribute('src', '../../../img/svg/audio-off.svg');
         synth.cancel();
     }
 
@@ -400,7 +393,7 @@
         speechSynthesis.speak(utterance);
 
         let botaoDeAtivarAudio = document.getElementById('botao-voz-instrucao');
-        botaoDeAtivarAudio.innerHTML = '&#128265';
+        botaoDeAtivarAudio.setAttribute('src', '../../../img/svg/audio-on.svg')
 
         let botaoAudio = document.getElementById('botao-ativar-voz');
 
@@ -408,7 +401,7 @@
             if(synth.speaking){
                 botaoAudio.setAttribute('onclick', 'desativarAudio(this)');
             } else {
-                botaoDeAtivarAudio.innerHTML='&#128263';
+                botaoDeAtivarAudio.setAttribute('src', '../../../img/svg/audio-off.svg')
                 botaoAudio.setAttribute('onclick', 'ativarAudio(this)');
             }
         }, 1000);
