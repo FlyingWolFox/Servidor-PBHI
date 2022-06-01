@@ -109,7 +109,7 @@ function criarModalLogin(){ //Criando modal de login
 }
 
 function trocarPagIndex(){
-  logado ? window.location.href = 'selecao/index.html': criarModalLogin();
+  logado ? window.location.href = './selecao/index.html': criarModalLogin();
 }
 
 //
@@ -118,6 +118,7 @@ function salvaNome(){
   if(nome.length > 0){
     document.getElementById('modal-login').style.display = 'none';
     localStorage.setItem('nome',nome)
+    logado = true;
+    window.location.href = './selecao/index.html'
   }
-  logado = true;
 }
