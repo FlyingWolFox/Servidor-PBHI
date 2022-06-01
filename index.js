@@ -1,17 +1,32 @@
 //requisições do express
 const express = require('express');
 const app = express();
-const path = require('path');
+const bodyParser = require('body-parser')
 const fs = require('fs');
 const logger = require('./logger.js');
 const useragent = require('express-useragent');
 const mysql = require('mysql');
-const { rootCertificates } = require('tls');
 const geoip = require('geoip-lite');
 const db = require("./db.js");
-const res = require('express/lib/response');
-const { rejects } = require('assert');
-app.use(useragent.express());
+const mysqlStore = require('express-mysql-session')(session);
+
+//criando a pool responsavel pelas sessoes no db
+const TWO_HOURS = 1000 * 60 * 60 * 2
+const options ={
+    connectionLimit: 10,
+    password: 'dumb123',
+    user: "root",
+    database: "temlogicaDB",
+    host: "localhost",
+    createDatabaseTable: true
+    
+}
+const pool = mysql.createPool(options);
+ 
+const sessionStore = new mysqlStore(options, pool);
+
+
+
 
 //criando o acesso de arquivos estáticos e disparando o logger
 app.use('/selecao/jogos', logger);
@@ -32,9 +47,23 @@ function EscreverJSON(objeto){
     })
 }
 
+//funcoes de sessao
+app.use(session({
+    name: "enter_the_void",
+    resave: false,
+    saveUninitialized: false,
+    store: sessionStore,
+    secret: "lighthouse",
+    cookie: {
+        maxAge: TWO_HOURS,
+        sameSite: true,
+        secure: "development"
+    }
+}))
+
+
+
 // requisicoes do servidor
-
-
 app.set('trust proxy', true);
 
 app.post('/contato.html', async (req, res)=>{
@@ -68,6 +97,22 @@ app.post('/selecao/jogos', (req,res)=>{
     }
     res.status(401).send('houve um erro recebendo a partida');
 })
+app.post('/',  async (req, res, next)=>{
+    try{
+        const nome = req.body.nome;
+        const ano = req.body.ano;
+              if (!nome || !ano) {
+                return res.sendStatus(400);
+             }
+        const user =  await db.insertJogador(nome, ano).then(insertId=>{return db.getJogador(insertId);});
+        req.session.userId = user.id;
+            return res.redirect('/selecao'); 
+    } catch(e){    
+        console.log(e);
+        res.sendStatus(400);
+    }
+});
+
 app.all('*', (req,res)=>{ 
     res.status(404).send('<h1>recurso não encontrado</h1');
 })

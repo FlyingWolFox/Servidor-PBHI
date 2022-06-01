@@ -10,21 +10,21 @@ const pool = mysql.createPool({
 let db = {};
 db.getJogador = (id) =>{
     return new Promise((resolve, reject)=>{
-        pool.query('SELECT * FROM jogador WHERE id= ?', [id], (error, user)=>{
+        pool.query('SELECT * FROM jogador WHERE id= ?', [id], (error, jogador)=>{
             if(error){
                 return reject(error);
             }
-            return resolve(user);
+            return resolve(jogador);
         });
     });
 };
-db.getUserByEmail = (email) =>{
+db.getJogadorByNomeAno = (nome, ano) =>{
     return new Promise((resolve, reject)=>{
-        pool.query('SELECT * FROM User WHERE email = ?', [email], (error, users)=>{
+        pool.query('SELECT * FROM jogador WHERE nome = ? AND ano = ?', [nome, ano], (error, jogadores)=>{
             if(error){
                 return reject(error);
             }
-            return resolve(users[0]);
+            return resolve(jogadores[0]);
         });
     });
 };
