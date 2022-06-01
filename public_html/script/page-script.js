@@ -71,70 +71,53 @@ fullscreenButton.onclick = () => {
 };
 } catch (error) {}
 
-//Criando modal de login
-const body = document.querySelector('body')
-let fundo = document.createElement('form')
-fundo.setAttribute('id','modal-login')
+//Implementando modal de login
 
-let backgroundLogin = document.createElement('div')
-backgroundLogin.setAttribute('id','background-modal-login')
+var logado = false;
 
-/*let labelName = document.createElement('div')
-labelName.setAttribute('id','labelNome-modal-login')
-labelName.classList.add('label-modal-login')
-let textLabel = document.createTextNode('Nome:')
-labelName.appendChild(textLabel)
+function criarModalLogin(){ //Criando modal de login
+  const body = document.querySelector('body')
+  let fundo = document.createElement('form')
+  fundo.setAttribute('id','modal-login')
 
-let labelName2 = document.createElement('div')
-labelName2.setAttribute('id','labelSobrenome-modal-login')
-labelName2.setAttribute('aria-hidden','true')
-labelName2.classList.add('label-modal-login')
-let textLabel2 = document.createTextNode('Sobrenome:')
-labelName2.appendChild(textLabel2)*/
+  let backgroundLogin = document.createElement('div')
+  backgroundLogin.setAttribute('id','background-modal-login')
 
-let firstName = document.createElement('input')
-firstName.setAttribute('type','text')
-firstName.setAttribute('minlength','4')
-firstName.setAttribute('maxlength','12')
-firstName.setAttribute('size','15')
-firstName.setAttribute('placeholder','Nome')
-firstName.setAttribute('id','firstName-modal-login')
-firstName.setAttribute('method','post')
-firstName.setAttribute('action','#')
-firstName.classList.add('modal-login-text')
+  let firstName = document.createElement('input')
+  firstName.setAttribute('type','text')
+  firstName.setAttribute('minlength','8')
+  firstName.setAttribute('maxlength','30')
+  firstName.setAttribute('size','15')
+  firstName.setAttribute('placeholder','Nome Completo')
+  firstName.setAttribute('id','firstName-modal-login')
+  firstName.setAttribute('autocomplete','off')
+  firstName.setAttribute('method','post')
+  firstName.setAttribute('target','./selecao/index.html')
+  firstName.setAttribute('action','../index.js')
+  firstName.classList.add('modal-login-text')
 
-let lastName = document.createElement('input')
-lastName.setAttribute('type','text')
-lastName.setAttribute('minlength','4')
-lastName.setAttribute('maxlength','12')
-lastName.setAttribute('size','15')
-lastName.setAttribute('placeholder','Sobrenome')
-lastName.setAttribute('id','lastName-modal-login')
-lastName.setAttribute('method','post')
-lastName.setAttribute('action','#')
-lastName.classList.add('modal-login-text')
+  let buttonLogin = document.createElement('input')
+  buttonLogin.setAttribute('type','button')
+  buttonLogin.setAttribute('value','Continuar')
+  buttonLogin.setAttribute('id','botao-modal-login')
+  buttonLogin.addEventListener('click', salvaNome)
 
-let buttonLogin = document.createElement('input')
-buttonLogin.setAttribute('type','button')
-buttonLogin.setAttribute('value','Continuar')
-buttonLogin.setAttribute('id','botao-modal-login')
-buttonLogin.addEventListener('click', salvaNome)
+  backgroundLogin.appendChild(firstName)
+  backgroundLogin.appendChild(buttonLogin)
+  fundo.appendChild(backgroundLogin)
+  body.appendChild(fundo)
+}
 
-/*backgroundLogin.appendChild(labelName)
-backgroundLogin.appendChild(labelName2)*/
-backgroundLogin.appendChild(firstName)
-backgroundLogin.appendChild(lastName)
-backgroundLogin.appendChild(buttonLogin)
-fundo.appendChild(backgroundLogin)
-body.appendChild(fundo)
+function trocarPagIndex(){
+  logado ? window.location.href = 'selecao/index.html': criarModalLogin();
+}
 
-
+//
 function salvaNome(){
   let nome = document.getElementById('firstName-modal-login').value
-  let sobrenome = document.getElementById('lastName-modal-login').value
-  if(nome.length > 0 && sobrenome.length > 0){
+  if(nome.length > 0){
     document.getElementById('modal-login').style.display = 'none';
-    localStorage.setItem('nome',nome+' '+sobrenome);
-    console.log('esse app esta sendo puxado pelo github');
+    localStorage.setItem('nome',nome)
   }
+  logado = true;
 }
