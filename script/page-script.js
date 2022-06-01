@@ -83,19 +83,6 @@ function criarModalLogin(){ //Criando modal de login
   let backgroundLogin = document.createElement('div')
   backgroundLogin.setAttribute('id','background-modal-login')
 
-  /*let labelName = document.createElement('div')
-  labelName.setAttribute('id','labelNome-modal-login')
-  labelName.classList.add('label-modal-login')
-  let textLabel = document.createTextNode('Nome:')
-  labelName.appendChild(textLabel)
-
-  let labelName2 = document.createElement('div')
-  labelName2.setAttribute('id','labelSobrenome-modal-login')
-  labelName2.setAttribute('aria-hidden','true')
-  labelName2.classList.add('label-modal-login')
-  let textLabel2 = document.createTextNode('Sobrenome:')
-  labelName2.appendChild(textLabel2)*/
-
   let firstName = document.createElement('input')
   firstName.setAttribute('type','text')
   firstName.setAttribute('minlength','8')
@@ -105,19 +92,9 @@ function criarModalLogin(){ //Criando modal de login
   firstName.setAttribute('id','firstName-modal-login')
   firstName.setAttribute('autocomplete','off')
   firstName.setAttribute('method','post')
+  firstName.setAttribute('target','./selecao/index.html')
   firstName.setAttribute('action','../index.js')
   firstName.classList.add('modal-login-text')
-
-  // let lastName = document.createElement('input')
-  // lastName.setAttribute('type','text')
-  // lastName.setAttribute('minlength','4')
-  // lastName.setAttribute('maxlength','12')
-  // lastName.setAttribute('size','15')
-  // lastName.setAttribute('placeholder','Sobrenome')
-  // lastName.setAttribute('id','lastName-modal-login')
-  // lastName.setAttribute('method','post')
-  // lastName.setAttribute('action','#')
-  // lastName.classList.add('modal-login-text')
 
   let buttonLogin = document.createElement('input')
   buttonLogin.setAttribute('type','button')
@@ -125,10 +102,7 @@ function criarModalLogin(){ //Criando modal de login
   buttonLogin.setAttribute('id','botao-modal-login')
   buttonLogin.addEventListener('click', salvaNome)
 
-  /*backgroundLogin.appendChild(labelName)
-  backgroundLogin.appendChild(labelName2)*/
   backgroundLogin.appendChild(firstName)
-  // backgroundLogin.appendChild(lastName)
   backgroundLogin.appendChild(buttonLogin)
   fundo.appendChild(backgroundLogin)
   body.appendChild(fundo)
@@ -141,9 +115,9 @@ function trocarPagIndex(){
 //
 function salvaNome(){
   let nome = document.getElementById('firstName-modal-login').value
-  let sobrenome = document.getElementById('lastName-modal-login').value
-  if(nome.length > 0 && sobrenome.length > 0){
+  if(nome.length > 0){
     document.getElementById('modal-login').style.display = 'none';
-    localStorage.setItem('nome',nome+' '+sobrenome)
+    localStorage.setItem('nome',nome)
   }
+  logado = true;
 }
