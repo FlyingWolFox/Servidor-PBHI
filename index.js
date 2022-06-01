@@ -1,6 +1,7 @@
 //requisições do express
 const express = require('express');
 const app = express();
+const session = require('express-session');
 const bodyParser = require('body-parser')
 const fs = require('fs');
 const logger = require('./logger.js');
@@ -9,6 +10,7 @@ const mysql = require('mysql');
 const geoip = require('geoip-lite');
 const db = require("./db.js");
 const mysqlStore = require('express-mysql-session')(session);
+
 
 //criando a pool responsavel pelas sessoes no db
 const TWO_HOURS = 1000 * 60 * 60 * 2
