@@ -32,7 +32,7 @@ const forma = 0, cor = 1, tamanho = 2, contorno = 3;
 const divNucleo = document.getElementById("container-nucleo");
 const divImgs = document.getElementById("container-formas");
 const divCaixa = 'container-sequencia';
-const textNumeroFase = document.getElementById('textbox-fase');
+const textNumeroFase = document.getElementById('textbox-numero-fase');
 const textTutorial = document.getElementById("texto-textbox")
 const divEstrelas = 'container-estrelas';
 /** FIM CONSTANTES */
@@ -661,7 +661,7 @@ function stopChuva(){
 function game(){
 	var contador = 0;
 	reset()
-	textNumeroFase.innerHTML = "Fase número "+(etapaAtual+1)+":"
+	textNumeroFase.innerHTML = (etapaAtual+1);
 
 	//Fases do jogo
 	switch (etapaAtual) {
@@ -671,7 +671,6 @@ function game(){
 			qtdNaColuna = [1];//Número de drops nas colunas. Max = 3
 			restricaoColuna = 1; //Número de restrições que ficarão acima das colunas
 			restricaoLinha = 0; //Número de restrições que ficarão à esquerda das linhas
-			endGame = true
 			break;
 		case 1:
 			nmrImgs = 2;
@@ -932,7 +931,7 @@ function check(){
                 textoAcerto.innerText = 'Você acertou! Fase concluída.';
                 botaoOk.innerHTML = "Próxima"; 
                 botaoOk.onclick = function (event){
-					etapaAtual ++; 
+					etapaAtual++; 
 					estrela++;
                     switch (estrela) {
                         case 0:

@@ -8,7 +8,9 @@ const useragent = require('express-useragent');
 const mysql = require('mysql');
 const { rootCertificates } = require('tls');
 const geoip = require('geoip-lite');
- 
+const db = require("./db.js");
+const res = require('express/lib/response');
+const { rejects } = require('assert');
 app.use(useragent.express());
 
 //criando o acesso de arquivos estáticos e disparando o logger
@@ -29,64 +31,31 @@ function EscreverJSON(objeto){
     console.log('o arquivo json foi salvo.')    
     })
 }
-function parseGEOIP(){
-    const endereco = geo.city + ',' + geo.region + ',' + geo.country;
-}
-/*funcoes database
-const db = mysql.createConnection({
-    user: "root",
-    host:"localhost",
-    password:"dumb123",
-    database:"temlogicaDB",
-
-});
-db.connect(function(err) {
-    if (err) throw err;
-    console.log("Connected!");
-  });
-
-
-  const insert = (data = {})=>{
-    var sql = "INSERT INTO contato(nome, email, comentario) VALUES ?";
-    var values = data;
-    db.query(sql, values, function(err, result){
-        if(err) throw err;
-        console.log("numero de registros inseridos:" + result.affectedRows);
-    });
-}
-*/
-
 
 // requisicoes do servidor
 
 
 app.set('trust proxy', true);
 
-app.post('/contato.html', (req, res)=>{
-    Alunos = new Object();
-    Alunos.nome = req.body.nome;
-    Alunos.email = req.body.email;
-    Alunos.texto = req.body.texto;
-    Alunos.browser = req.useragent.browser;
-    Alunos.platform = req.useragent.platform;
-    var geo = geoip.lookup(req.useragent.geoIp); 
-    Alunos.location = geo;
-    Alunos.isMobile = req.useragent.isMobile;
-    
-    
-    const ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
-    console.log(ip);
-
-
-    if(Alunos.nome){
-        //JSON.stringify(Alunos);
-        //insert(Alunos);
-        EscreverJSON(Alunos);
-      return res.status(201).send('sucesso salvando seu nome: ' + Alunos.nome);
+app.post('/contato.html', async (req, res)=>{
+   try{
+    const nome = req.body.nome;
+    const email = req.body.email;
+    const texto = req.body.texto;
+    if(!nome || !email){
+        return res.sendStatus(400);
     }
-    res.status(401).send('por favor informe seu nome');
+    const contato = await db.insertContato(nome, email, texto);
+    if(contato){
+        console.log(contato);
+        return res.redirect('/');
+    }
+   } catch(e){
+       console.log(e);
+       res.sendStatus(400);
+   }
     
-})
+})    
 app.post('/selecao/jogos', (req,res)=>{
   const partida = req.body;
     partida.browser = req.useragent.browser;
