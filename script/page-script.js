@@ -71,6 +71,9 @@ fullscreenButton.onclick = () => {
 };
 } catch (error) {}
 
+//Implementando modal de login
+
+var logado = false;
 
 function criarModalLogin(){ //Criando modal de login
   const body = document.querySelector('body')
@@ -102,7 +105,7 @@ function criarModalLogin(){ //Criando modal de login
   firstName.setAttribute('id','firstName-modal-login')
   firstName.setAttribute('autocomplete','off')
   firstName.setAttribute('method','post')
-  firstName.setAttribute('action','#')
+  firstName.setAttribute('action','../index.js')
   firstName.classList.add('modal-login-text')
 
   // let lastName = document.createElement('input')
@@ -131,8 +134,11 @@ function criarModalLogin(){ //Criando modal de login
   body.appendChild(fundo)
 }
 
-criarModalLogin()
+function trocarPagIndex(){
+  logado ? window.location.href = 'selecao/index.html': criarModalLogin();
+}
 
+//
 function salvaNome(){
   let nome = document.getElementById('firstName-modal-login').value
   let sobrenome = document.getElementById('lastName-modal-login').value

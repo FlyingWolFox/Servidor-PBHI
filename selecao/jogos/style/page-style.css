@@ -1317,6 +1317,11 @@ button.botao-fim-quente{
     margin-left: 30px;
     border: none;
 }
+
+a.section-link:hover{
+    cursor: pointer;
+}
+
 @keyframes loadleft{
     from{opacity: 0;transform: translate(30%,-50%)}
     to{opacity: 1;transform: translate(50%,-50%)}
