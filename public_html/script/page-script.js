@@ -91,14 +91,15 @@ function criarModalLogin(){ //Criando modal de login
   firstName.setAttribute('placeholder','Nome Completo')
   firstName.setAttribute('id','firstName-modal-login')
   firstName.setAttribute('autocomplete','off')
-  firstName.setAttribute('method','post')
-  firstName.setAttribute('target','./selecao/index.html')
-  firstName.setAttribute('action','../index.js')
+  firstName.setAttribute('method','POST')
+  firstName.setAttribute('target','_self')
+  firstName.setAttribute('action','/urltronxa')
   firstName.classList.add('modal-login-text')
 
   let buttonLogin = document.createElement('input')
   buttonLogin.setAttribute('type','button')
   buttonLogin.setAttribute('value','Continuar')
+  buttonLogin.setAttribute('type','submit')
   buttonLogin.setAttribute('id','botao-modal-login')
   buttonLogin.addEventListener('click', salvaNome)
 
@@ -109,7 +110,7 @@ function criarModalLogin(){ //Criando modal de login
 }
 
 function trocarPagIndex(){
-  logado ? window.location.href = 'selecao/index.html': criarModalLogin();
+  logado ? window.location.href = './selecao/index.html': criarModalLogin();
 }
 
 //
@@ -118,6 +119,7 @@ function salvaNome(){
   if(nome.length > 0){
     document.getElementById('modal-login').style.display = 'none';
     localStorage.setItem('nome',nome)
+    logado = true;
+    window.location.href = './selecao/index.html'
   }
-  logado = true;
 }
