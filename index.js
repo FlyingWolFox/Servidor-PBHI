@@ -112,6 +112,9 @@ app.post('/',  async (req, res, next)=>{
         res.sendStatus(400);
     }
 });
+app.post('/nome', function (req,res){
+    res.end(req.query.nome)
+})
 
 app.all('*', (req,res)=>{ 
     res.status(404).send('<h1>recurso não encontrado</h1');

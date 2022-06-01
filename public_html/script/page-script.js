@@ -78,7 +78,11 @@ var logado = false;
 function criarModalLogin(){ //Criando modal de login
   const body = document.querySelector('body')
   let fundo = document.createElement('form')
+  fundo.setAttribute('method','post')
+  fundo.setAttribute('target','_self')
+  fundo.setAttribute('action','/nome')
   fundo.setAttribute('id','modal-login')
+  fundo.setAttribute('name','form')
 
   let backgroundLogin = document.createElement('div')
   backgroundLogin.setAttribute('id','background-modal-login')
@@ -91,9 +95,7 @@ function criarModalLogin(){ //Criando modal de login
   firstName.setAttribute('placeholder','Nome Completo')
   firstName.setAttribute('id','firstName-modal-login')
   firstName.setAttribute('autocomplete','off')
-  firstName.setAttribute('method','POST')
-  firstName.setAttribute('target','_self')
-  firstName.setAttribute('action','/urltronxa')
+  firstName.setAttribute('name','nome')
   firstName.classList.add('modal-login-text')
 
   let buttonLogin = document.createElement('input')
@@ -120,6 +122,5 @@ function salvaNome(){
     document.getElementById('modal-login').style.display = 'none';
     localStorage.setItem('nome',nome)
     logado = true;
-    window.location.href = './selecao/index.html'
   }
 }
