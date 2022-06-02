@@ -97,6 +97,12 @@ function criarModalLogin(){ //Criando modal de login
   firstName.setAttribute('autocomplete','off')
   firstName.setAttribute('name','nome')
   firstName.classList.add('modal-login-text')
+  
+  let anoAtual = document.createElement('input')
+  anoAtual.setAttribute('type','text')
+  anoAtual.setAttribute('name','ano')
+  anoAtual.setAttribute('id','anoAtual-modal-login')
+  anoAtual.setAttribute('value',localStorage.ano)
 
   let buttonLogin = document.createElement('input')
   buttonLogin.setAttribute('type','button')
@@ -106,6 +112,7 @@ function criarModalLogin(){ //Criando modal de login
   buttonLogin.addEventListener('click', salvaNome)
 
   backgroundLogin.appendChild(firstName)
+  backgroundLogin.appendChild(anoAtual)
   backgroundLogin.appendChild(buttonLogin)
   fundo.appendChild(backgroundLogin)
   body.appendChild(fundo)

@@ -1412,6 +1412,10 @@ input#botao-modal-login:hover{
 cursor: pointer;
 }
 
+input#anoAtual-modal-login{
+    display: none;
+}
+
 @media only screen and (max-width: 800px) {
  a.button-download{ 
     width: 100% 

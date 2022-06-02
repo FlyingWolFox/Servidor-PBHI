@@ -114,11 +114,11 @@ app.post('/',  async (req, res, next)=>{
         res.sendStatus(400);
     }
 });
-app.post('/nome', function (req,res){
-    res.end(req.query.nome)
+app.post('/nome', (req,res) => {
+    res.send(req.body.nome+'<br>'+req.body.ano)
 })
 
 app.all('*', (req,res)=>{ 
     res.status(404).send('<h1>recurso não encontrado</h1');
 })
-app.listen(process.env.PORT || 3000, () => console.log('app disponivel na http://localhost:3000'));
+app.listen(process.env.PORT || 3000, () => console.log('App disponivel na http://localhost:3000'));
