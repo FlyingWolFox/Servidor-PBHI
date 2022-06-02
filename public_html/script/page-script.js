@@ -75,7 +75,7 @@ fullscreenButton.onclick = () => {
 
 var logado = false;
 
-function criarModalLogin(){ //Criando modal de login
+function criarModalLogin(ano){ //Criando modal de login
   const body = document.querySelector('body')
   let fundo = document.createElement('form')
   fundo.setAttribute('method','post')
@@ -102,7 +102,7 @@ function criarModalLogin(){ //Criando modal de login
   anoAtual.setAttribute('type','text')
   anoAtual.setAttribute('name','ano')
   anoAtual.setAttribute('id','anoAtual-modal-login')
-  anoAtual.setAttribute('value',localStorage.ano)
+  anoAtual.setAttribute('value',ano)
 
   let buttonLogin = document.createElement('input')
   buttonLogin.setAttribute('type','button')
@@ -118,8 +118,9 @@ function criarModalLogin(){ //Criando modal de login
   body.appendChild(fundo)
 }
 
-function trocarPagIndex(){
-  logado ? window.location.href = './selecao/index.html': criarModalLogin();
+function trocarPagIndex(ano){
+
+  logado ? window.location.href = './selecao/index.html': criarModalLogin(ano);
 }
 
 //
