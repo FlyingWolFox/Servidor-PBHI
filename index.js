@@ -12,7 +12,6 @@ const db = require("./db.js");
 const mysqlStore = require('express-mysql-session')(session);
 const rotas = require('./rotas')
 
-
 //criando a pool responsavel pelas sessoes no db
 const TWO_HOURS = 1000 * 60 * 60 * 2
 const options ={

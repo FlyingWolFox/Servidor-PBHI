@@ -4,8 +4,8 @@ const dbconfig = {
     host:'localhost',
     username:'root',
     password:'12345',
-    database:'teste',
-    port: 3306,
+    database:'temlogicaBD',
+    port: 3306
 };
 
 const conection = new Sequelize(dbconfig);

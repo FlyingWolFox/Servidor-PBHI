@@ -1,5 +1,8 @@
 const express = require('express')
 const router = express.Router()
+const database = require('./connection'); 
+const Aluno = require('./aluno')
+database.sync();
 
 router.post('/contato.html', async (req, res)=>{
     try{
@@ -48,8 +51,12 @@ router.post('/',  async (req, res, next)=>{
      }
  });
 router.post('/nome', (req,res) => {
-     var nome = req.body.nome;
-     var ano = req.body.ano;
+     var name = req.body.nome;
+     var serie = req.body.ano;
+     const novoAluno =  Aluno.create({
+        nome: name,
+        ano: serie
+    })
      res.redirect('../selecao/index.html')
  })
 router.all('*', (req,res)=>{ 
