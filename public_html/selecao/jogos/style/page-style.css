@@ -284,9 +284,9 @@ section#section-container{
     width: 100%;
     display: flex;
     flex-wrap: wrap; 
-    justify-content: flex-start; 
     align-items: flex-start;
     grid-column: 2/3;
+    justify-content: center;
 }
 
 section.box-center {
@@ -307,6 +307,7 @@ section.sub-section {
     text-align: center;
     transition: background-color 0.5s;
     width: 33%;
+    max-width: 400px;
 }
 
 
