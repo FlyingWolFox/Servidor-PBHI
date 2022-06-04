@@ -1,13 +1,9 @@
-const Sequelize = require('sequelize');
-const dbconfig = {
-    dialect:'mysql',
-    host:'localhost',
-    username:'root',
-    password:'12345',
-    database:'temlogicaBD',
-    port: 3306
-};
+const mysql = require('mysql2');
+const connection = mysql.createConnection({
+  host: 'localhost',
+  user: 'root',
+  password: '12345',
+  database: 'temlogicaBD'
+});
 
-const conection = new Sequelize(dbconfig);
-
-module.exports = conection;
+module.exports = connection
