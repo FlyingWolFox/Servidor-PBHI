@@ -1,4 +1,5 @@
-const express = require('express')
+const express = require('express');
+const { addJogos, createTableAlunos } = require('./comando');
 const router = express.Router()
 const comando = require('./comando')
 
