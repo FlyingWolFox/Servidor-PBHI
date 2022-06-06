@@ -9,6 +9,8 @@ var imgMov1 = [];      //Confere se falta colocar alguma imagem da primeira caix
 var imgMov2 = [];      //Confere se falta colocar alguma imagem da terceira caixa 
 let quantidade = 0;
 var primeiraRodada = true;
+var numeroLigacoes = 0; //Variável que armazena o número de ligações.
+var tempoLigacao = [] //Vetor que vai armazenar o timeStamp de cada ligaçaõ feita pelo usuário.
 
 const textNumeroFase = 'textbox-numero-fase';
 const divFormas = 'container-formas';
@@ -83,6 +85,13 @@ function getFasesPorAno(){
 }
 getFasesPorAno();
 
+function resetaTempoLigacao(){
+    let tamanhoArray = tempoLigacao.length;
+    for(let i = 0; i < tamanhoArray; i++){
+        tempoLigacao.pop();
+    }
+}
+
 function removeChildElementsByTag(parent, tag) {
     if(parent != null){
         var parentDom = document.getElementById(parent);
@@ -106,6 +115,8 @@ function reset() {
      //Array contendo todos os elementos gerados
     restricao1 = [];
     restricao2 = [];
+    numeroLigacoes = 0;
+    resetaTempoLigacao();
 }
 
 function desabilitaBotoes(){
@@ -2424,7 +2435,34 @@ function check(){ //Confere se acertou
             modalErro.style.display = 'block';
             textoErro.innerText = 'Resposta errada... Tente novamente!';
         }
+	ligacao();
+        console.log(`Número de ligações foram: ${numeroLigacoes}`);
+        for(let i = 0; i < tempoLigacao.length; i++){
+            console.log(tempoLigacao[i]);
+        }
     }
+}
+
+function ligacao(){
+	var texto = "";
+	for (let link of diagram.getLinks()) {
+		var origem = link.getOrigin();
+		var destino = link.getDestination();
+		var nomeLink = link.getText();
+		//formaProximoNode = proximoNode.getShape().getId()
+		if(destino.getShape().getId() == 'Rectangle' && destino.getOutgoingLinks() == ''){
+			console.log('O node não está ligado a nada');
+			diagram.factory.createDiagramLink(destino, fimNode);
+		}
+		if(origem.getShape().getId() == 'Decision'){
+            texto = texto + 'O node ' + `${origem.getText()} está ligado ao node ${destino.getText()} por um ${nomeLink}` + '\n';
+        }else{
+            texto = texto + 'O node ' + `${origem.getText()} está ligado ao node ${destino.getText()}` + '\n';
+        }
+        
+		
+	}
+	console.log(texto);
 }
 
 function resetFlux(){
@@ -2433,6 +2471,8 @@ function resetFlux(){
         clearTimeout(timeouts[i]);
     }
     habilitaBotoes();
+    numeroLigacoes = 0;
+    resetaTempoLigacao();
     game()
 }
 
@@ -2672,7 +2712,7 @@ function onLinkCreated(sender, args) {      //Criação do link
     var origem = link.getOrigin();
     var formaOrigem = origem.getShape().getId();
     link.setTextAlignment(MindFusion.Diagramming.Alignment.Far);
-
+    numeroLigacoes++;
     //Ao se criar o link verifica se o node origem do link é um nodeShape 'DECISION' e
     //adiciona o texto SIM ao primeiro link criado ou NÂO caso exista um SIM
     if (formaOrigem =='Decision') {
@@ -2684,6 +2724,7 @@ function onLinkCreated(sender, args) {      //Criação do link
             }
         }
     }
+    tempoLigacao.push(timestamp);
 }
 
 function onNodeCreated(sender, args) {
