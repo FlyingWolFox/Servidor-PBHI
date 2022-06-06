@@ -50,8 +50,12 @@ router.post('/',  async (req, res, next)=>{
          res.sendStatus(400);
      }
  });
-router.post('/nome', (req,res) => {
+router.post('/nome', async (req,res) => {
+    comando.createTableJogos()
     comando.createTableAlunos()
+    let result = await comando.obterJogos()
+    if(result[0] == null) comando.addJogos();
+    else console.log('Jogos já foram adicionados');
     comando.addAluno(req.body.nome,req.body.ano)
     res.redirect('../selecao/index.html')
  })

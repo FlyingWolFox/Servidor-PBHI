@@ -4,31 +4,19 @@ let comando = {};
 
 comando.createTableAlunos = () => { //Cria uma tabela para os alunos
     connection.query(
-        "create table if not exists alunos(id int auto_increment,nome varchar(30),ano varchar(30),primary key(id))",
-        (err, results, fields) => {
-          console.log(results); 
-          console.log(fields); 
-        }
+        "create table if not exists alunos(id int auto_increment,nome varchar(30),ano varchar(30),primary key(id))"
       );
 }
 
 comando.addAluno = (nome,ano) => { //Adiciona os dados nome e ano à tabela alunos
   connection.query(
-    "INSERT INTO alunos (nome,ano) VALUES ('"+nome+"','"+ano+"')",
-    (err, results, fields) => {
-      console.log(results); 
-      console.log(fields); 
-    }
+    "INSERT INTO alunos (nome,ano) VALUES ('"+nome+"','"+ano+"')"
   )
 }
 
 comando.createTableJogos = () => { //Cria a tabela para armazenar os jogos
   connection.query(
-      "create table if not exists jogos(nome varchar(30),nFases int,primary key(nome))",
-      (err, results, fields) => {
-        console.log(results); 
-        console.log(fields); 
-      }
+      "create table if not exists jogos(nome varchar(30),nFases int,primary key(nome))"
     );
 }
 
@@ -71,11 +59,5 @@ comando.obterJogos = async () => {
     )
   })
 }
-
-(async () => {
-  var resultado = await comando.obterJogos()
-  if(resultado != null) console.log(resultado);
-  else console.log('Resultado inexistente');
-})()
 
 module.exports = comando;
