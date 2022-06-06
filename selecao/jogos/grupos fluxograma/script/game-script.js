@@ -2711,6 +2711,7 @@ function onLinkCreated(sender, args) {      //Criação do link
     var link = args.getLink();
     var origem = link.getOrigin();
     var formaOrigem = origem.getShape().getId();
+    var timestamp = new Date();
     link.setTextAlignment(MindFusion.Diagramming.Alignment.Far);
     numeroLigacoes++;
     //Ao se criar o link verifica se o node origem do link é um nodeShape 'DECISION' e
