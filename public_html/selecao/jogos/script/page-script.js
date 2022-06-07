@@ -1,7 +1,5 @@
 // objeto com os dados da partida, a ser modificado caso seja necessario
 const partida = {
-  nomeJogador : '',
-  anoJogador:'',
   nomeJogo : '',
   faseAtual : 0,
   tempoDeJogo:'',
@@ -105,9 +103,9 @@ async function postData(url = '', data = {}) {
 }
 //funcoes trigger da partida
 function startPartida(){
-  partida.nomeJogo = document.getElementById('title-jogo').innerHTML;
-  partida.nomeJogador = localStorage.getItem('nome');
-  partida.anoJogador = localStorage.getItem('ano');
+  var nomeJogo  = document.getElementById('title-jogo').getAttribute('nome-real');
+  
+  partida.nomeJogo = nomeJogo;
   console.log('a pagina carregou completamente e voce esta jogando: ' + partida.nomeJogo);
   window.addEventListener('focus', focus);
   window.addEventListener('blur', blur);

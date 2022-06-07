@@ -2,7 +2,7 @@ const mysql = require('mysql2');
 const connection = mysql.createConnection({
   host: 'localhost',
   user: 'root',
-  password: '12345',
+  password: 'dumb123',
   database: 'temlogicaBD'
 });
 

@@ -7,10 +7,11 @@ const pool = mysql.createPool({
     database: "temlogicaDB",
     host:"localhost",
 });
+
 let db = {};
 db.getJogador = (id) =>{
     return new Promise((resolve, reject)=>{
-        pool.query('SELECT * FROM jogador WHERE id= ?', [id], (error, jogador)=>{
+        pool.query('SELECT * FROM jogador WHERE id_jogador = ?', [id], (error, jogador)=>{
             if(error){
                 return reject(error);
             }
@@ -20,11 +21,11 @@ db.getJogador = (id) =>{
 };
 db.getJogadorByNomeAno = (nome, ano) =>{
     return new Promise((resolve, reject)=>{
-        pool.query('SELECT * FROM jogador WHERE nome = ? AND ano = ?', [nome, ano], (error, jogadores)=>{
+        pool.query('SELECT * FROM jogador WHERE nome = ? AND ano = ?', [nome, ano], (error, jogador)=>{
             if(error){
                 return reject(error);
             }
-            return resolve(jogadores[0]);
+            return resolve(jogador[0]);
         });
     });
 };

@@ -1,8 +1,7 @@
 const logger = (req,res,next)=>{
     const metodo = req.method;
     const url = req.url;
-    const hora = new Date().getFullYear();
-    console.log(metodo, hora, url);
+    console.log(metodo, url);
     next();
 }
 
