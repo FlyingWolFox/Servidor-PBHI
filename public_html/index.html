@@ -162,7 +162,22 @@
             localStorage.setItem('cor', '#ffcc00');
         })
     </script>
-    
+        <script>
+            async function getSessionId(){
+                try {
+                    const resultado = await fetch('http://localhost:3000/getsession')
+                    var data = await resultado.text()
+                    showData(data)
+                } catch (error) {
+                    console.error(error)
+                }
+            }
+            getSessionId()
+            function showData(data){
+                // document.getElementById('session').innerHTML = "sessionID: "+data
+                console.log(data)
+            }
+        </script>
     <script src="./script/page-script.js"></script>
 </body>
 </html>
