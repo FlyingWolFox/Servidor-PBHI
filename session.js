@@ -1,3 +1,5 @@
+//Arquivo de funções pra manipulação da sessão
+
 const express = require('express')
 const app = express()
 
