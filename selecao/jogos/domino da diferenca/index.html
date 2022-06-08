@@ -133,7 +133,7 @@
                     <section id="container-sequencia" class="game-container dropzone grid">
                         
                     </section>
-                    <button id="botao-resultado" onclick="check()">TERMINEI!</button>
+                    <button id="botao-resultado" onclick="check(), resetaNumeroDrops()">TERMINEI!</button>
                 </section>
                 <div class="formas-titulo">
                     <p class='container-formas-titulo'>Peças Disponíveis</p>
@@ -218,29 +218,12 @@
         var containerFormas = document.getElementById('container-formas');
         var containerSequencia = document.getElementById('container-sequencia');
         var gameImg = document.getElementById('container-sequencia').getElementsByTagName('img');
-        /*
-        document.addEventListener("dragstart", function (e){
-            e.target.style.opacity = 1;
-            e.target.style.transition = "0s";
-		    e.target.style.transform = 'scale(1)';
-            e.ondragstart = function () {return false;};
-            Reverte();
-        }, false);
-        
-        document.addEventListener("dragend", function (e){
-            e.target.style.opacity = 1;
-            e.target.style.transition = "0s";
-		    e.target.style.transform = 'scale(1)';
-            Reverte();
-        }, false);
-        
-        document.addEventListener("drop", function (e){
-            e.target.style.opacity = 1;
-            e.target.style.transition = "0s";
-		    e.target.style.transform = 'scale(1)';
-            Reverte();
-        })
-        */
+        var contaDrops = 0;
+
+        function resetaNumeroDrops(){
+            console.log("Número total de drop: " + contaDrops);
+            contaDrops = 0;
+        }
                 
         function Reverte(){
             for(var i = 0; i < gameImg.length; i++){
@@ -261,6 +244,7 @@
                 console.log("passei por aquiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii");
                 containerFormas.classList.remove('draggable-dropzone--occupied');
             }
+            contaDrops++;
             console.log("OI, ESTOU AQUI."); 
             Reverte();
         });
@@ -276,7 +260,7 @@
             if (containerSequencia.classList.contains('draggable-dropzone--occupied')) {
                 containerSequencia.classList.remove('draggable-dropzone--occupied');
             } 
-
+            contaDrops++;
         })
     
       

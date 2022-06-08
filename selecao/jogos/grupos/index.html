@@ -141,7 +141,7 @@
                     </section>
                 </section>
 
-                <button id="botao-resultado" onclick="">TERMINEI!</button>
+                <button id="botao-resultado" onclick="resetaNumeroDrops()">TERMINEI!</button>
                 <div class="formas-titulo">
                     <p class='container-formas-titulo'>Peças Disponíveis</p>
                     <section id="container-formas" class="drop">
@@ -223,6 +223,12 @@
         var drop2 = document.getElementById('drop2');
         var intDrop = document.getElementById('intDrop')
         var dropzoneArea = document.getElementById('dropzone-container');
+        var contaDrops = 0;
+
+        function resetaNumeroDrops(){
+            console.log("Número total de drop: " + contaDrops);
+            contaDrops = 0;
+        } 
 
         const droppableSequencia = new Draggable.Droppable(containerFormas, {
             draggable: '.drag',
@@ -236,6 +242,7 @@
                     zone.classList.remove('draggable-dropzone--occupied');
                 }
             });
+            contaDrops++;
         });
 
         const retornoDrop1 = new Draggable.Droppable(drop1, {
@@ -251,6 +258,7 @@
             if(intDrop.classList.contains('draggable-dropzone--occupied')){
                 intDrop.classList.remove('draggable-dropzone--occupied');
             }
+            contaDrops++;
         });
 
         const retornoDrop2 = new Draggable.Droppable(drop2, {
@@ -266,6 +274,7 @@
             if(intDrop.classList.contains('draggable-dropzone--occupied')){
                 intDrop.classList.remove('draggable-dropzone--occupied');
             }
+            contaDrops++;
         });
 
         const retornoIntDrop = new Draggable.Droppable(intDrop, {
@@ -277,6 +286,7 @@
             if (containerFormas.classList.contains('draggable-dropzone--occupied')) {
                 containerFormas.classList.remove('draggable-dropzone--occupied');
             }
+            contaDrops++;
         });
 
 

@@ -130,7 +130,7 @@
                     <section id="container-sequencia" class="game-container grid"> 
                         <!-- Lugar onde as imagens são dropadas, dropzone grid -->
                     </section>
-                    <button id="botao-resultado">CONSTRUIR!</button>
+                    <button id="botao-resultado" onclick="resetaNumeroDrops()">CONSTRUIR!</button>
                 </section>
                 <div class="formas-titulo">
                     <p class='container-formas-titulo'id= "textopecas"></p>
@@ -214,6 +214,12 @@
     <script>
         var containerFormas = document.getElementById('container-formas');
         var containerSequencia = document.getElementById('container-sequencia');
+        var contaDrops = 0;
+
+        function resetaNumeroDrops(){
+            console.log("Número total de drop: " + contaDrops);
+            contaDrops = 0;
+        }
 
         const droppableSequencia = new Draggable.Droppable(containerFormas, {
             draggable: '.game-img',
@@ -224,6 +230,7 @@
             if (containerSequencia.classList.contains('draggable-dropzone--occupied')) {
                 containerSequencia.classList.remove('draggable-dropzone--occupied');
             }
+            contaDrops++;
         });
         
         const retorno = new Draggable.Droppable(containerSequencia, {
@@ -234,6 +241,7 @@
             if (containerFormas.classList.contains('draggable-dropzone--occupied')) {
                 containerFormas.classList.remove('draggable-dropzone--occupied');
             }
+            contaDrops++;
         })
     </script>
     <script type="text/javascript">

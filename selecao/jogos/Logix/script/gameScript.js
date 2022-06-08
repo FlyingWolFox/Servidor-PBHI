@@ -53,6 +53,7 @@ var endGame = false; //Indica se o jogo terminou ou não
 var arrayEstrelas = document.getElementById(divEstrelas).getElementsByTagName('img');
 var ano = localStorage.getItem('ano');
 var etapaMax = 17;
+var contaDrops = 0;
 console.log('esse eh o ano:' + ano);
 
 /** FIM VARIAVEIS */
@@ -90,6 +91,10 @@ function getFasesPorAno(){
 }
 getFasesPorAno();
 
+function resetaNumeroDrops(){
+	console.log("Número total de drop: " + contaDrops);
+	contaDrops = 0;
+}
 /** FIM FUNCOES DE APOIO */
 
 /** FUNCOES DO JOGO */
@@ -919,6 +924,7 @@ function check(){
 				modalErro.style.display = 'block';
 				textoErro.innerText = 'Que pena, tente novamente.';
 				breakF = 1;
+				resetaNumeroDrops();
 			}	
 		});
 	})
@@ -998,6 +1004,7 @@ function check(){
                     }
                     game();
                     modalAcerto.style.display = 'none';
+					resetaNumeroDrops();
                 }
             } 
 		else{
@@ -1016,6 +1023,7 @@ function check(){
 	else{
 		modalErro.style.display = 'block';
 		textoErro.innerText = 'Resposta errada... Tente novamente!';
+		resetaNumeroDrops();
 	}	
 }
 
@@ -1105,4 +1113,5 @@ document.addEventListener("dragstart", function( event ) {
 	if(event.target.parentElement.getAttribute("class").split(" ")[0] == "content-div"){
 		event.target.parentElement.style.backgroundColor = "rgba(65, 187, 194, 0.1)";
 	}
+	contaDrops++;
 }, false);
