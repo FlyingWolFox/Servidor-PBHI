@@ -1,9 +1,12 @@
 const mysql = require('mysql2');
-const connection = mysql.createConnection({
+const connection = mysql.createPool({
+  connectionLimit: 10,
   host: 'localhost',
   user: 'root',
-  password: 'dumb123',
-  database: 'temlogicaBD'
+  password: '12345',
+  database: 'temlogicaDB',
+  waitForConnections: true,
+  connectionLimit: 10
 });
 
-module.exports = connection
+module.exports = connection 

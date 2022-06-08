@@ -1,9 +1,9 @@
 const express = require('express');
 const router = express.Router()
-const db = require("./db.js");
-const session = require('express-session');
-const mysqlStore = require('express-mysql-session')(session);
-const mysql = require('mysql');
+const sql = require("./sql.js");
+const sessao = require('./session')
+const TWO_HOURS = 1000 * 60 * 60 * 2
+
 function EscreverJSON(objeto){
     var dadosJson = objeto;
     var conteudoJson = JSON.stringify(dadosJson,null, 2 );
@@ -14,33 +14,6 @@ function EscreverJSON(objeto){
     console.log('o arquivo json foi salvo.')    
     })
 }
-const TWO_HOURS = 1000 * 60 * 60 * 2
-//criando a pool responsavel pelas sessoes no db
-const options ={
-    connectionLimit: 10,
-    password: 'dumb123',
-    user: "root",
-    database: "temlogicaDB",
-    host: "localhost",
-    createDatabaseTable: true
-    
-}
-const pool = mysql.createPool(options);
-const sessionStore = new mysqlStore(options, pool);
-router.use(express.urlencoded({extended:false}));
-router.use(express.json());
-router.use(session({
-    name: "enter_the_void",
-    resave: false,
-    saveUninitialized: false,
-    store: sessionStore,
-    secret: "lighthouse",
-    cookie: {
-        maxAge: TWO_HOURS,
-        sameSite: true,
-        secure: false
-    }
-}))
 
 router.use((req, res, next) => {
     req.session.init = "init";
@@ -54,7 +27,7 @@ router.post('/contato.html', async (req, res)=>{
      if(!nome || !email){
          return res.sendStatus(400);
      }
-     const contato = await db.insertContato(nome, email, texto);
+     const contato = await sql.insertContato(nome, email, texto);
      if(contato){
          console.log(contato);
          return res.redirect('/');
@@ -64,7 +37,7 @@ router.post('/contato.html', async (req, res)=>{
         res.sendStatus(400);
     }
      
- })    
+})    
 router.post('/selecao/jogos', async (req,res)=>{
         const partida = req.body;
         partida.browser = req.useragent.browser;
@@ -78,7 +51,7 @@ router.post('/selecao/jogos', async (req,res)=>{
      } else{
         res.sendStatus(404);
     }
- })
+})
 router.post('/',  async (req, res, next)=>{
      try{
          const nome = req.body.nome;
@@ -86,33 +59,29 @@ router.post('/',  async (req, res, next)=>{
                if (!nome || !ano) {
                  return res.sendStatus(400);
               }
-         const user =  await db.insertJogador(nome, ano).then(insertId=>{return db.getJogador(insertId);});
+         const user =  await sql.insertJogador(nome, ano).then(insertId=>{return sql.getJogador(insertId);});
          req.session.userId = user.id;
              return res.redirect('/selecao'); 
      } catch(e){    
          console.log(e);
          res.sendStatus(400);
      }
- });
+});
 router.post('/nome', async (req,res) => {
-    try{
-        const nome = req.body.nome;
-        const ano = req.body.ano;
-              if (!nome || !ano) {
-                return res.sendStatus(400);
-             }
-            const id_jogador =  await db.insertJogador(nome, ano);
-            req.session.id_jogador = id_jogador;
-            console.log(req.session.id_jogador);
-        return res.redirect('../selecao/index.html')
-    } catch(e){    
-        console.log(e);
-        res.sendStatus(400);
-    }
-    
- })
+    const nome = req.body.nome;
+    const ano = req.body.ano;
+    const id_jogador =  await sql.insertJogador(nome, ano);
+    req.session.id_jogador = id_jogador;
+    req.session.nome = nome;
+    req.session.ano = ano;
+    console.log(req.session.id_jogador);
+    return res.redirect('../selecao/index.html') 
+})
+router.get('/getsession',(req,res) => {
+    res.send(sessao.getSession(req))
+})
 router.all('*', (req,res)=>{ 
      res.status(404).send('<h1>recurso não encontrado</h1');
- })
+})
 
 module.exports = router
