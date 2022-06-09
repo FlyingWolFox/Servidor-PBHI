@@ -1,7 +1,8 @@
 const express = require('express');
 const router = express.Router()
 const sql = require("./sql.js");
-const sessao = require('./session')
+const sessao = require('./session');
+const { getIdJogadorByNomeAno } = require('./sql.js');
 const TWO_HOURS = 1000 * 60 * 60 * 2
 
 function EscreverJSON(objeto){
@@ -45,32 +46,33 @@ router.post('/selecao/jogos', async (req,res)=>{
         partida.geoIp = req.useragent.geoIp;
         partida.id_jogador = req.session.id_jogador;
         if(partida){
-         console.log(partida);
+         console.log(req.body);
          //EscreverJSON(partida);
          res.status(201);
      } else{
         res.sendStatus(404);
     }
 })
-router.post('/',  async (req, res, next)=>{
-     try{
-         const nome = req.body.nome;
-         const ano = req.body.ano;
-               if (!nome || !ano) {
-                 return res.sendStatus(400);
-              }
-         const user =  await sql.insertJogador(nome, ano).then(insertId=>{return sql.getJogador(insertId);});
-         req.session.userId = user.id;
-             return res.redirect('/selecao'); 
-     } catch(e){    
-         console.log(e);
-         res.sendStatus(400);
-     }
-});
+
 router.post('/nome', async (req,res) => {
     const nome = req.body.nome;
     const ano = req.body.ano;
-    const id_jogador =  await sql.insertJogador(nome, ano);
+    
+    if (!nome || !ano) {
+        return res.sendStatus(400);
+     }
+     var auxIdJogador = await sql.getJogadorByNomeAno(nome, ano);
+     console.log(auxIdJogador);
+     if(!auxIdJogador){
+     const id_jogador =  await sql.insertJogador(nome, ano);
+     req.session.id_jogador = id_jogador;
+     req.session.nome = nome;
+     req.session.ano = ano;
+     console.log(req.session.id_jogador);
+     return res.redirect('../selecao/index.html') 
+     }
+    
+    const id_jogador = auxIdJogador.id_jogador;
     req.session.id_jogador = id_jogador;
     req.session.nome = nome;
     req.session.ano = ano;

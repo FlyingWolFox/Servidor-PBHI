@@ -13,11 +13,11 @@ sql.getJogador = (id) =>{
 };
 sql.getJogadorByNomeAno = (nome, ano) =>{
     return new Promise((resolve, reject)=>{
-        connection.query('SELECT * FROM jogador WHERE nome = ? AND ano = ?', [nome, ano], (error, jogador)=>{
+        connection.query('SELECT * FROM jogador WHERE nome = ? AND ano_jogador = ?', [nome, ano], (error, result)=>{
             if(error){
                 return reject(error);
             }
-            return resolve(jogador[0]);
+            return resolve(result[0]);
         });
     });
 };
