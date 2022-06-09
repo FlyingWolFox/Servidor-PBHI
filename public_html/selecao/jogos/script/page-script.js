@@ -6,11 +6,6 @@ const partida = {
   sucesso:false
 };
 
-
-
-
-
-
 // Ajustes do modal ------------
 
 

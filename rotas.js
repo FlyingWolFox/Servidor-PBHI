@@ -51,42 +51,42 @@ router.post('/selecao/jogos', async (req,res)=>{
         res.sendStatus(404);
     }
 })
-
-router.post('/nome', async (req,res) => {
-    //req.session.regenerate((e) => {})
+router.post('/nome', async (req,res,next) => {
+    req.session.regenerate((e) => {})
     const nome = req.body.nome;
     const ano = req.body.ano;
-    
-    if (!nome || !ano) {
-        return res.sendStatus(400);
-     }
-     var auxIdJogador = await sql.getJogadorByNomeAno(nome, ano);
-     console.log(auxIdJogador);
-     if(!auxIdJogador){
-     const id_jogador =  await sql.insertJogador(nome, ano);
-     req.session.id_jogador = id_jogador;
-     req.session.nome = nome;
-     req.session.ano = ano;
-     console.log(req.session.id_jogador);
-     return res.redirect('../selecao/index.html') 
-     }
-    
-    const id_jogador = auxIdJogador.id_jogador;
-    req.session.id_jogador = id_jogador;
-    req.session.nome = nome;
-    req.session.ano = ano;
-    console.log(req.session.id_jogador);
-    return res.redirect('../selecao/index.html') 
+
+    var erros = [];
+
+    if(nome == ""){
+        erros.push({name_null: "Nome não pode ser nulo"})
+    }
+
+    if(nome > 30){
+        erros.push({name_length: "Nome não pode ser ter mais de 30 caracteres"})
+    }
+
+    if(erros.length > 0){
+        console.log(erros)
+        res.json(erros)
+    }
+    else{
+        const id_jogador =  await sql.addAluno(nome, ano);
+        req.session.id_jogador = id_jogador;
+        req.session.nome = nome;
+        req.session.ano = ano;
+        req.session.logado = true;
+        next()
+    }
 })
-/*router.get('/addjogos', async (req,res) => {
+router.get('/addjogos', async (req,res) => {
     sql.createTableJogos()
     let jogos = await sql.obterJogos()
     if(jogos == '') sql.addJogos();
     else console.log("Jogos já foram adicionados");
 })
-*/
-router.get('/getsession',(req,res) => {
-    res.send(sessao.getSession(req))
+router.get('/getstatus',(req,res) => {
+    res.json(sessao.getStatus(req))
 })
 router.all('*', (req,res)=>{ 
      res.status(404).send('<h1>recurso não encontrado</h1');
