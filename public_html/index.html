@@ -123,6 +123,13 @@
         </section>
     </footer>
 
+    <!-- Modal de login -->
+    <form action="" id="modal-login" style="display: none;">
+        <div id="background-modal-login">
+            <input type="text" class="modal-login-text">
+        </div>
+    </form>
+
     <!-- BLOCO DE VERIFICAÇÃO -->
     <script>
         let PrimeiroAno = document.getElementById('primeiro');
@@ -165,22 +172,10 @@
         <script>
             async function getSessionId(){
                 try {
-                    const resultado = await fetch('http://localhost:3000/getsession')
-                    var data = await resultado.text()
-                    showData(data)
-                } catch (error) {
-                    console.error(error)
-                }
-                try {
                     fetch('http://localhost:3000/addjogos')
                 } catch (error) {
                     console.log(error)
                 }
-            }
-            getSessionId()
-            function showData(data){
-                // document.getElementById('session').innerHTML = "sessionID: "+data
-                console.log(data)
             }
         </script>
     <script src="./script/page-script.js"></script>

@@ -5,16 +5,16 @@ const sessao = require('./session');
 const { addJogos, obterJogos } = require('./sql.js');
 const TWO_HOURS = 1000 * 60 * 60 * 2
 
-function EscreverJSON(objeto){
-    var dadosJson = objeto;
-    var conteudoJson = JSON.stringify(dadosJson,null, 2 );
-    fs.appendFile("testes.json", conteudoJson, 'utf-8', function(err){
-        if(err){
-            console.log("ocorreu um erro escrevendo um objeto json no arquivo");
-        }
-    console.log('o arquivo json foi salvo.')    
-    })
-}
+// function EscreverJSON(objeto){
+//     var dadosJson = objeto;
+//     var conteudoJson = JSON.stringify(dadosJson,null, 2 );
+//     fs.appendFile("testes.json", conteudoJson, 'utf-8', function(err){
+//         if(err){
+//             console.log("ocorreu um erro escrevendo um objeto json no arquivo");
+//         }
+//     console.log('o arquivo json foi salvo.')    
+//     })
+// }
 
 router.use((req, res, next) => {
     req.session.init = "init";
@@ -53,16 +53,33 @@ router.post('/selecao/jogos', async (req,res)=>{
         res.sendStatus(404);
     }
 })
-router.post('/nome', async (req,res) => {
+router.post('/nome', async (req,res,next) => {
     req.session.regenerate((e) => {})
     const nome = req.body.nome;
     const ano = req.body.ano;
 
-    const id_jogador =  await sql.addAluno(nome, ano);
-    req.session.id_jogador = id_jogador;
-    req.session.nome = nome;
-    req.session.ano = ano;
-    return res.redirect('../selecao/index.html') 
+    var erros = [];
+
+    if(nome == ""){
+        erros.push({name_null: "Nome não pode ser nulo"})
+    }
+
+    if(nome > 30){
+        erros.push({name_length: "Nome não pode ser ter mais de 30 caracteres"})
+    }
+
+    if(erros.length > 0){
+        console.log(erros)
+        res.json(erros)
+    }
+    else{
+        const id_jogador =  await sql.addAluno(nome, ano);
+        req.session.id_jogador = id_jogador;
+        req.session.nome = nome;
+        req.session.ano = ano;
+        req.session.logado = true;
+        next()
+    }
 })
 router.get('/addjogos', async (req,res) => {
     sql.createTableJogos()
@@ -70,8 +87,8 @@ router.get('/addjogos', async (req,res) => {
     if(jogos == '') sql.addJogos();
     else console.log("Jogos já foram adicionados");
 })
-router.get('/getsession',(req,res) => {
-    res.send(sessao.getSession(req))
+router.get('/getstatus',(req,res) => {
+    res.json(sessao.getStatus(req))
 })
 router.all('*', (req,res)=>{ 
      res.status(404).send('<h1>recurso não encontrado</h1');
