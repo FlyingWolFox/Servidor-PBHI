@@ -50,9 +50,13 @@ sql.createTableAlunos = () => { //Cria uma tabela para os alunos
       );
 }
 sql.addAluno = (nome,ano) => { //Adiciona os dados nome e ano à tabela alunos
-  connection.query(
-    "INSERT INTO alunos (nome,ano) VALUES ('"+nome+"','"+ano+"')"
-  )
+  return new Promise((resolve) => {
+    connection.query(
+      "INSERT INTO jogador (nome,ano_jogador) VALUES ('"+nome+"','"+ano+"')", (erro,result) => {
+        resolve(result.insertId)
+     }
+    )
+  })
 }
 sql.createTableJogos = () => { //Cria a tabela para armazenar os jogos
   connection.query(

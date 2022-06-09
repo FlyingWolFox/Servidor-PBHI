@@ -53,31 +53,15 @@ router.post('/selecao/jogos', async (req,res)=>{
         res.sendStatus(404);
     }
 })
-
 router.post('/nome', async (req,res) => {
     req.session.regenerate((e) => {})
     const nome = req.body.nome;
     const ano = req.body.ano;
-    
-    if (!nome || !ano) {
-        return res.sendStatus(400);
-     }
-     var auxIdJogador = await sql.getJogadorByNomeAno(nome, ano);
-     console.log(auxIdJogador);
-     if(!auxIdJogador){
-     const id_jogador =  await sql.insertJogador(nome, ano);
-     req.session.id_jogador = id_jogador;
-     req.session.nome = nome;
-     req.session.ano = ano;
-     console.log(req.session.id_jogador);
-     return res.redirect('../selecao/index.html') 
-     }
-    
-    const id_jogador = auxIdJogador.id_jogador;
+
+    const id_jogador =  await sql.addAluno(nome, ano);
     req.session.id_jogador = id_jogador;
     req.session.nome = nome;
     req.session.ano = ano;
-    console.log(req.session.id_jogador);
     return res.redirect('../selecao/index.html') 
 })
 router.get('/addjogos', async (req,res) => {

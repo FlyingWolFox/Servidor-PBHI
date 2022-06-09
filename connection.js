@@ -3,7 +3,7 @@ const connection = mysql.createPool({
   connectionLimit: 10,
   host: 'localhost',
   user: 'root',
-  password: 'dumb123',
+  password: '12345',
   database: 'temlogicaDB',
   waitForConnections: true,
 });
