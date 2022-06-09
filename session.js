@@ -4,6 +4,7 @@ let sessao = {};
 sessao.setSession = (req,nome,ano) => {
   req.session.nome = nome;
   req.session.ano  =  ano;
+  req.session.id_jogador = null;
 }
 
 sessao.getSession = (req) => {
