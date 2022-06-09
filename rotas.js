@@ -1,7 +1,8 @@
 const express = require('express');
 const router = express.Router()
 const sql = require("./sql.js");
-const sessao = require('./session')
+const sessao = require('./session');
+const { addJogos, obterJogos } = require('./sql.js');
 const TWO_HOURS = 1000 * 60 * 60 * 2
 
 function EscreverJSON(objeto){
@@ -68,6 +69,7 @@ router.post('/',  async (req, res, next)=>{
      }
 });
 router.post('/nome', async (req,res) => {
+    req.session.regenerate((e) => {})
     const nome = req.body.nome;
     const ano = req.body.ano;
     const id_jogador =  await sql.insertJogador(nome, ano);
@@ -76,6 +78,12 @@ router.post('/nome', async (req,res) => {
     req.session.ano = ano;
     console.log(req.session.id_jogador);
     return res.redirect('../selecao/index.html') 
+})
+router.get('/addjogos', async (req,res) => {
+    sql.createTableJogos()
+    let jogos = await sql.obterJogos()
+    if(jogos == '') sql.addJogos();
+    else console.log("Jogos já foram adicionados");
 })
 router.get('/getsession',(req,res) => {
     res.send(sessao.getSession(req))

@@ -3,13 +3,27 @@ const express = require('express');
 const app = express();
 const session = require('express-session');
 const bodyParser = require('body-parser')
-const fs = require('fs');
 const logger = require('./logger.js');
 const useragent = require('express-useragent');
-const geoip = require('geoip-lite');
-const mysqlStore = require('express-mysql-session')(session);
 const router = require('./rotas');
+const mysqlStore = require('express-mysql-session')(session);
+const connection = require('mysql2/promise')
+// const fs = require('fs');
+// const geoip = require('geoip-lite');
 const TWO_HOURS = 1000 * 60 * 60 * 2
+
+var option = {
+    connectionLimit: 10,
+    host: 'localhost',
+    user: 'root',
+    password: '12345',
+    database: 'temlogicaDB',
+    waitForConnections: true,
+    connectionLimit: 10
+}
+
+var mysql = connection.createPool(option)
+var sessionStore = new mysqlStore(option, mysql);
 
 //criando o acesso de arquivos estáticos e disparando o logger
 app.use('/selecao/jogos', logger);
@@ -25,7 +39,7 @@ app.use(session({
     name: "session_id",
     resave: false,
     saveUninitialized: true,
-    //store: sessionStore,
+    store: sessionStore,
     secret: "sioajffen",
     cookie: {
         maxAge: TWO_HOURS,

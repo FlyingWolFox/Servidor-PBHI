@@ -171,6 +171,11 @@
                 } catch (error) {
                     console.error(error)
                 }
+                try {
+                    fetch('http://localhost:3000/addjogos')
+                } catch (error) {
+                    console.log(error)
+                }
             }
             getSessionId()
             function showData(data){

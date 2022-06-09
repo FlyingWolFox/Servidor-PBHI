@@ -56,41 +56,41 @@ sql.addAluno = (nome,ano) => { //Adiciona os dados nome e ano à tabela alunos
 }
 sql.createTableJogos = () => { //Cria a tabela para armazenar os jogos
   connection.query(
-      "create table if not exists jogos(nome varchar(30),nFases int,primary key(nome))"
+      "create table if not exists jogo(nome varchar(30),nFases int,primary key(nome))"
     );
 }
-sql.addJogos = (nome,nFases) => { //Cria a tabela para armazenar os jogos
+sql.addJogos = () => { //Cria a tabela para armazenar os jogos
   connection.query(
-    "INSERT INTO jogos (nome,nFases) VALUES ('completar','24')"
+    "INSERT INTO jogo (nome_jogo,nFases) VALUES ('completar','24')"
   );
   connection.query(
-    "INSERT INTO jogos (nome,nFases) VALUES ('completar numeros','24')"
+    "INSERT INTO jogo (nome_jogo,nFases) VALUES ('completar numeros','24')"
   );
   connection.query(
-    "INSERT INTO jogos (nome,nFases) VALUES ('repeticao','17')"
+    "INSERT INTO jogo (nome_jogo,nFases) VALUES ('repeticao','17')"
   );
   connection.query(
-    "INSERT INTO jogos (nome,nFases) VALUES ('sequencia de numeros','24')"
+    "INSERT INTO jogo (nome_jogo,nFases) VALUES ('sequencia de numeros','24')"
   );
   connection.query(
-    "INSERT INTO jogos (nome,nFases) VALUES ('criar padrao','17')"
+    "INSERT INTO jogo (nome_jogo,nFases) VALUES ('criar padrao','17')"
   );
   connection.query(
-    "INSERT INTO jogos (nome,nFases) VALUES ('grupos','40')"
+    "INSERT INTO jogo (nome_jogo,nFases) VALUES ('grupos','40')"
   );
   connection.query(
-    "INSERT INTO jogos (nome,nFases) VALUES ('logics','30')"
+    "INSERT INTO jogo (nome_jogo,nFases) VALUES ('logics','30')"
   );
   connection.query(
-    "INSERT INTO jogos (nome,nFases) VALUES ('domino da diferenca','16')"
+    "INSERT INTO jogo (nome_jogo,nFases) VALUES ('domino da diferenca','16')"
   );
   connection.query(
-    "INSERT INTO jogos (nome,nFases) VALUES ('fluxograma','14')"
+    "INSERT INTO jogo (nome_jogo,nFases) VALUES ('fluxograma','14')"
   );
 }
-sql.obterJogos = async () => {
+sql.obterJogos = async () => { //Obtem as linhas da tabela jogo
   return new Promise(resolve => {
-    connection.query("SELECT * FROM jogos",
+    connection.query("SELECT * FROM jogo",
       (error,results) => {
         resolve(results)
       }
