@@ -1,5 +1,7 @@
 const connection = require('./connection')
+if(!connection){
 
+}
 let sql = {};
 sql.getJogador = (id) =>{
     return new Promise((resolve, reject)=>{
@@ -42,6 +44,18 @@ sql.insertJogador = (nome, ano) =>{
               return resolve(result.insertId);
         });
     });
+};
+//todo: inserir as manipulacoes de nó e de drop
+sql.insertPartida = (nome_jogo,id_jogador, tempoDeJogo, sucesso, faseAtual) =>{
+  return new Promise((resolve, reject)=>{
+      connection.query('INSERT INTO partida (nome_jogo, id_jogador, tempo_partida, sucesso, faseAtual) VALUES (?, ?, ?, ? ,?)', [nome_jogo, id_jogador, tempoDeJogo, sucesso, faseAtual], (error, result)=>{
+          if(error){
+              return reject(error);
+          }
+          
+            return resolve(result.insertId);
+      });
+  });
 };
 
 sql.createTableAlunos = () => { //Cria uma tabela para os alunos

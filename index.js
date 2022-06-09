@@ -2,7 +2,6 @@
 const express = require('express');
 const app = express();
 const session = require('express-session');
-const bodyParser = require('body-parser')
 const logger = require('./logger.js');
 const useragent = require('express-useragent');
 const router = require('./rotas');
@@ -13,27 +12,16 @@ const connection = require('mysql2/promise')
 const TWO_HOURS = 1000 * 60 * 60 * 2
 
 var option = {
-    connectionLimit: 10,
     host: 'localhost',
     user: 'root',
-    password: '12345',
+    password: 'dumb123',
     database: 'temlogicaDB',
     waitForConnections: true,
-    connectionLimit: 10
+    connectionLimit: 100
 }
 
 var mysql = connection.createPool(option)
 var sessionStore = new mysqlStore(option, mysql);
-
-//criando o acesso de arquivos estáticos e disparando o logger
-app.use('/selecao/jogos', logger);
-app.use(express.static('./public_html'));
-app.use(useragent.express());
-
-//parser de url para o formulario, parser do body para as partidas
-app.use(express.urlencoded({extended:false}));
-app.use(express.json());
-
 //funcoes de sessao
 app.use(session({
     name: "session_id",
@@ -48,8 +36,24 @@ app.use(session({
     }
 }))
 
+//criando o acesso de arquivos estáticos e disparando o logger
+/*app.use(function(req, res, next) {
+    req.headers['if-none-match'] = 'no-match-for-this';
+    next();    
+  });*/
+app.use('/selecao/jogos', logger);
+app.use(express.static('./public_html'));
+app.use(useragent.express());
+
+//parser de url para o formulario, parser do body para as partidas
+app.use(express.urlencoded({extended:false}));
+app.use(express.json());
+
+
+
 // requisicoes do servidor
 app.set('trust proxy', true);
+//app.disable('etag');
 app.use(router);
 
 app.listen(process.env.PORT || 3000, () => console.log('App disponivel na http://localhost:3000'));
