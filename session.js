@@ -7,16 +7,16 @@ sessao.setSession = (req,nome,ano) => {
   // req.session.id_jogador = null;
 }
 
-// sessao.getSession = (req) => {
-//   let sessao = {
-//     id: req.session.id,
-//     nome: req.session.nome,
-//     ano: req.session.ano,
-//     id_jogador: req.session.id_jogador,
-//     logado: req.session.logado
-//   } 
-//   return sessao
-// }
+ sessao.getSession = (req) => {
+  let sessao = {
+    id: req.session.id,
+    nome: req.session.nome,
+  ano: req.session.ano,
+    id_jogador: req.session.id_jogador,
+     logado: req.session.logado
+   } 
+   return sessao
+ }
 
 sessao.getStatus = (req) => {
   let log;

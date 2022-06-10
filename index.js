@@ -17,7 +17,7 @@ var option = {
     password: '12345',
     database: 'temlogicaDB',
     waitForConnections: true,
-    connectionLimit: 100
+    connectionLimit: 10
 }
 
 var mysql = connection.createPool(option)

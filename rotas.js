@@ -71,7 +71,7 @@ router.post('/nome', async (req,res,next) => {
         res.json(erros)
     }
     else{
-        const id_jogador =  await sql.addAluno(nome, ano);
+        const id_jogador =  await sql.insertJogador(nome, ano);
         req.session.id_jogador = id_jogador;
         req.session.nome = nome;
         req.session.ano = ano;
