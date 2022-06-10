@@ -14,7 +14,7 @@ const TWO_HOURS = 1000 * 60 * 60 * 2
 var option = {
     host: 'localhost',
     user: 'root',
-    password: 'dumb123',
+    password: '12345',
     database: 'temlogicaDB',
     waitForConnections: true,
     connectionLimit: 100

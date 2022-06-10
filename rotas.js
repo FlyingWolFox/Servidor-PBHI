@@ -85,6 +85,9 @@ router.get('/addjogos', async (req,res) => {
     if(jogos == '') sql.addJogos();
     else console.log("Jogos já foram adicionados");
 })
+router.get('/getsession',(req,res) => {
+    res.json(sessao.getSession(req))
+})
 router.get('/getstatus',(req,res) => {
     res.json(sessao.getStatus(req))
 })

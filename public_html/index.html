@@ -169,15 +169,17 @@
             localStorage.setItem('cor', '#ffcc00');
         })
     </script>
-        <script>
-            async function getSessionId(){
-                try {
-                    fetch('http://localhost:3000/addjogos')
-                } catch (error) {
-                    console.log(error)
-                }
+    <!-- Script de para addJogos automaticamente -->
+    <script>
+        async function getSessionId(){
+            try {
+                await fetch('http://localhost:3000/addjogos')
+            } catch (error) {
+                console.log(error)
             }
-        </script>
+        }
+        getSessionId()
+    </script>
     <script src="./script/page-script.js"></script>
 </body>
 </html>

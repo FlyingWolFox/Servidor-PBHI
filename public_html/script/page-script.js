@@ -114,7 +114,7 @@ function criarModalLogin(ano){ //Criando modal de login
 
 async function trocarPagIndex(ano){
   let resultado = await (await fetch('/getstatus'))
-  resultado = await resultado.text();
+  resultado = await resultado.json();
   resultado.logado ? window.location.href = './selecao/index.html': criarModalLogin(ano);
 }
 
