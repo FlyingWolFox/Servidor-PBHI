@@ -79,7 +79,7 @@
                         onclick="document.getElementById('modalInfo').style.display='none'; cancelarAudioModal()">Entendi
                     </button>
                     <button id="botao-de-voz-ligado-modal">
-                        <p id="botao-falar" onclick="audioModal()">Falar!</p>
+                        <p id="botao-falar" onclick="ativarAudioModal()">Falar!</p>
                     </button>
                 </div>
             </div>
@@ -132,7 +132,7 @@
                                     <img src="../../../img/svg/repeat.svg" alt="Repetir áudio" id="repetir-voz">
                                 </p>
                             </button>
-                            <button id="span-about" onclick="document.getElementById('modalInfo').style.display='block'; audioModal()" class="">
+                            <button id="span-about" onclick="document.getElementById('modalInfo').style.display='block'; audioModalAutomatico()" class="">
                                 ?
                             </button>
                         </div>
@@ -331,115 +331,123 @@
 <!-- Funções para manipulações de áudio -->
 <script type="text/javascript">
     var synth = window.speechSynthesis;
-    var audioGlobal = false;
 
-    let botaoInstrucaoVoz = document.getElementById('botao-voz-instrucao');
+    // se o usuário sair da página ou fechar a aba o áudio para de tocar
+    window.addEventListener("pagehide", function(){
+        synth.pause();
+    });
 
+    //habilitando e desabilitando botão global de áudio
+    var trocaImg = localStorage.getItem('audio'); 
+    var estadoDoAudio = false;
+    const buttonAudio = document.querySelector('#botao-ativar-voz');
+
+    const audioOn = () => {
+        estadoDoAudio = true;
+        document.getElementById('botao-voz-instrucao').src='../../../img/svg/audio-on.svg';
+        localStorage.setItem('audio', 'ligado');
+    }
+
+    const audioOff = () => {
+        synth.cancel();
+        estadoDoAudio = false;
+        document.getElementById('botao-voz-instrucao').src='../../../img/svg/audio-off.svg';
+        localStorage.setItem('audio', 'desligado');
+    }
+
+    //função para inicializar a página com o áudio
     function speaking(){
+        audioOn();
         let text = 'Preste atenção às peças da sequência e identifique quais estão se repetindo. Depois arraste as peças disponíveis no fundo da página para a área do núcleo, montando as peças que se repetem. A ordem das peças deve ser respeitada.';
         let voice = new SpeechSynthesisUtterance(text);
         speechSynthesis.speak(voice);
     }
 
-    // setInterval(() => {
-    //     if(audioGlobal || synth.speaking || synth.pause()){
-    //         botaoInstrucaoVoz.setAttribute('src', '../../../img/svg/audio-on.svg');
-    //     }
-    // }, 1000);
+    if(trocaImg === 'ligado'){
+        estadoDoAudio = true;
+        audioOn();
+    }
 
+    buttonAudio.addEventListener('click', () => {
+        trocaImg = localStorage.getItem('audio')
+        if(trocaImg !== 'ligado'){
+            audioOn();
+        } else {
+            audioOff();
+        }
+    })
+    
+    //verificando se a página foi recarregada para salvar o estado atual do áudio
     setInterval(() => {
         if (performance.navigation.TYPE_RELOAD){
-            synth.pause();
-            synth.resume();
+            if(synth.paused){
+                synth.resume();
+            } else {
+                synth.pause();
+                synth.resume();
+            }
         }
     }, 1000);
 
-    // se o usuário sair da página ou fechar a aba o áudio para de tocar
-    window.addEventListener("pagehide", function(){
-        synth.cancel();
-    });
+    function ativarAudio(button){
+        let textoInstrucao = 'Preste atenção às peças da sequência e identifique quais estão se repetindo. Depois arraste as peças disponíveis no fundo da página para a área do núcleo, montando as peças que se repetem. A ordem das peças deve ser respeitada.';
+        let utterance1 = new SpeechSynthesisUtterance(textoInstrucao);
 
-    function botaoGlobalDeVozAtivado(button) {
-        audioGlobal = true;
-        let botaoAtivarVoz = document.getElementById('botao-voz-instrucao');
-        botaoAtivarVoz.setAttribute('src', '../../../img/svg/audio-on.svg');
-        button.setAttribute('onclick', 'botaoGlobalDeVozDesativado(this)');
+        if(estadoDoAudio == true){
+            speechSynthesis.speak(utterance1);
+        }        
 
         setInterval(() => {
-            if(audioGlobal || synth.pause() || synth.resume()){
-                botaoAtivarVoz.setAttribute('src', '../../../img/svg/audio-on.svg');
+            if (performance.navigation.TYPE_RELOAD){
+                    if(synth.paused){
+                        synth.resume();
+                    } else {
+                        synth.pause();
+                        synth.resume();
+                    }
+                }
+        }, 1000);
+    }
+
+    function ativarAudioModal() {
+        let botaoAtivarVozModal = document.getElementById('botao-falar');
+
+        let textoModal2 = 'Olá, você sabe como funciona o Jogo da Repetição? Não? Então vem cá que eu te explico rapidinho, nele a gente te mostra uma sequência de figuras que se repetem e você tem que nos mostrar quais são essas figuras que estão se repetindo. Aah, já ia esquecendo, é só clicar e arrastar as figuras disponíveis lá embaixo para o núcleo e montar a sua sequência com as figuras que se repetem na mesma ordem e depois clicar em TERMINEI.';  
+        let utterance2 = new SpeechSynthesisUtterance(textoModal2);
+
+        
+        speechSynthesis.speak(utterance2);
+
+        setInterval(() => {
+        if (performance.navigation.TYPE_RELOAD){
+                if(synth.paused){
+                    synth.resume();
+                } else {
+                    synth.pause();
+                    synth.resume();
+                }
             }
         }, 1000);
     }
 
-    function botaoGlobalDeVozDesativado(button) {
-        audioGlobal = false;
-        synth.cancel();
-        button.setAttribute('onclick', 'botaoGlobalDeVozAtivado(this)');
-        let botaoDesativarVoz = document.getElementById('botao-voz-instrucao');
-        botaoDesativarVoz.setAttribute('src', '../../../img/svg/audio-off.svg');
-    }
-    
-    function ativarAudio(button){
-        let texto = 'Preste atenção às peças da sequência e identifique quais estão se repetindo. Depois arraste as peças disponíveis no fundo da página para a área do núcleo, montando as peças que se repetem. A ordem das peças deve ser respeitada.';
+    function audioModalAutomatico(){
+        let textoModal = 'Olá, você sabe como funciona o Jogo da Repetição? Não? Então vem cá que eu te explico rapidinho, nele a gente te mostra uma sequência de figuras que se repetem e você tem que nos mostrar quais são essas figuras que estão se repetindo. Aah, já ia esquecendo, é só clicar e arrastar as figuras disponíveis lá embaixo para o núcleo e montar a sua sequência com as figuras que se repetem na mesma ordem e depois clicar em TERMINEI.';  
+        let utterance = new SpeechSynthesisUtterance(textoModal);
 
-        if(audioGlobal){
-            let utterance = new SpeechSynthesisUtterance(texto);
+        if(estadoDoAudio){
             speechSynthesis.speak(utterance);
+        } 
 
-            setInterval(() => {
-                if (performance.navigation.TYPE_RELOAD) {
-                    // synth.pause();
+        setInterval(() => {
+            if (performance.navigation.TYPE_RELOAD){
+                if(synth.paused){
+                    synth.resume();
+                } else {
+                    synth.pause();
                     synth.resume();
                 }
-            }, 1000);
-        }
-    }
-
-    // function repetirAudioBoxInstrucao(){
-    //     synth.cancel();
-
-    //     let texto = 'Preste atenção às peças da sequência e identifique quais estão se repetindo. Depois arraste as peças disponíveis no fundo da página para a área do núcleo, montando as peças que se repetem. A ordem das peças deve ser respeitada.';  
-
-    //     let utterance = new SpeechSynthesisUtterance(texto);
-    //     speechSynthesis.speak(utterance);
-
-    //     let botaoDeAtivarAudio = document.getElementById('botao-voz-instrucao');
-    //     botaoDeAtivarAudio.setAttribute('src', '../../../img/svg/audio-on.svg')
-
-    //     let botaoAudio = document.getElementById('botao-ativar-voz');
-
-    //     setInterval(() => {
-    //         if(synth.speaking){
-    //             botaoAudio.setAttribute('onclick', 'desativarAudio(this)');
-    //         } else {
-    //             botaoDeAtivarAudio.setAttribute('src', '../../../img/svg/audio-off.svg')
-    //             botaoAudio.setAttribute('onclick', 'ativarAudio(this)');
-    //         }
-    //     }, 1000);
-    // }
-
-    function audioModal(){
-        // synth.cancel();
-
-        let texto = 'Olá, você sabe como funciona o Jogo da Repetição? Não? Então vem cá que eu te explico rapidinho, nele a gente te mostra uma sequência de figuras que se repetem e você tem que nos mostrar quais são essas figuras que estão se repetindo. Aah, já ia esquecendo, é só clicar e arrastar as figuras disponíveis lá embaixo para o núcleo e montar a sua sequência com as figuras que se repetem na mesma ordem e depois clicar em TERMINEI.';  
-
-        let botaoAtivarVozModal = document.getElementById('botao-falar');
-
-        if(audioGlobal){
-            let utterance = new SpeechSynthesisUtterance(texto);
-            speechSynthesis.speak(utterance);
-
-            if (performance.navigation.TYPE_RELOAD) {
-                synth.pause();
-                synth.resume();
             }
-        } else {
-            botaoAtivarVozModal.addEventListener('click', () => {
-                let utterance2 = new SpeechSynthesisUtterance(texto);
-                speechSynthesis.speak(utterance2);
-            })
-        }
+        }, 1000);
     }
 
     function cancelarAudioModal(){
