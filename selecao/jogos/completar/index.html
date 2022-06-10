@@ -1,6 +1,9 @@
 <!DOCTYPE html>
-<meta charset="UTF-8">
 <html lang="pt-br">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<link href="https://plus.google.com/+MindfusionEu/" rel="publisher" />
+<meta charset="UTF-8">
 
 <head>
 
@@ -35,7 +38,7 @@
 
 </head>
 
-<body class='game-body'>
+<body onload="speaking()">
     <section class="aviso-orientacao">
         <div id="aviso-orientacao-caixa">
             <h1 id="texto-orientacao"> vire seu aparelho na horizontal para jogar</h1>
@@ -69,14 +72,10 @@
                         Olá, nos encontramos mais uma vez 😀, desta vez vou te mostrar um jogo bem legal, o Jogo de Completar! O Jogo de Completar mostra uma sequência de figuras com algumas delas faltando 🤔 e a sua tarefa é identificar quais peças estão faltando e arrastar para a sequência de figuras acima, depois é só clicar em TERMINEI!!
                     </p>
                     <button id="botao-info-close"
-                        onclick="document.getElementById('modalInfo').style.display='none'">Entendi
+                        onclick="document.getElementById('modalInfo').style.display='none'; cancelarAudioModal()">Entendi
                     </button>
-
-                    <button id="botao-de-voz">
-                        <span id="texto-de-voz">
-                            <img src="../img/svg/audio.svg" alt="botão de aúdio" id="img-de-voz">
-                        </span>
-                    </button>
+                    <button id="botao-de-voz-ligado-modal">
+                        <p id="botao-falar" onclick="ativarAudioModal()">Falar!</p>
                 </div>
             </div>
             <section class="game-section grid-center">
@@ -115,8 +114,21 @@
                                 <i class="icofont-close icofont-2x"></i>
                             </a>
                         </div>
-                        <span id="span-about" class=""
-                            onclick="document.getElementById('modalInfo').style.display='block'">?</span>
+                        <div id="botoes-de-audio"><!--aqui-->
+                            <button id="botao-ativar-voz" onclick="botaoGlobalDeVozAtivado(this)">
+                                <p >
+                                    <img src="../../../img/svg/audio-off.svg" alt="Áudio ligado" id="botao-voz-instrucao">
+                                </p>
+                            </button>
+                            <button id="botao-repetir-voz" onclick="ativarAudio(this)">
+                                <p>
+                                    <img src="../../../img/svg/repeat.svg" alt="Repetir áudio" id="repetir-voz">
+                                </p>
+                            </button>
+                            <button id="span-about" onclick="document.getElementById('modalInfo').style.display='block'; audioModalAutomatico()" class="">
+                                ?
+                            </button>
+                        </div>
                     </div>
                 </div>
                 <h3 id="titulo-nucleo">Sequência</h3>
@@ -296,6 +308,133 @@
 
 
 
-</body>
+</script>
+<!-- Funções para manipulações de áudio -->
+<script type="text/javascript">
+    var synth = window.speechSynthesis;
 
+    // se o usuário sair da página ou fechar a aba o áudio para de tocar
+    window.addEventListener("pagehide", function(){
+        synth.pause();
+    });
+
+    //habilitando e desabilitando botão global de áudio
+    var trocaImg = localStorage.getItem('audio'); 
+    var estadoDoAudio = false;
+    const buttonAudio = document.querySelector('#botao-ativar-voz');
+
+    const audioOn = () => {
+        estadoDoAudio = true;
+        document.getElementById('botao-voz-instrucao').src='../../../img/svg/audio-on.svg';
+        localStorage.setItem('audio', 'ligado');
+    }
+
+    const audioOff = () => {
+        synth.cancel();
+        estadoDoAudio = false;
+        document.getElementById('botao-voz-instrucao').src='../../../img/svg/audio-off.svg';
+        localStorage.setItem('audio', 'desligado');
+    }
+
+    //função para inicializar a página com o áudio
+    function speaking(){
+        audioOn();
+        let text = 'Preste atenção às peças da sequência e identifique quais estão se repetindo. Depois arraste as peças disponíveis no fundo da página para a área do núcleo, montando as peças que se repetem. A ordem das peças deve ser respeitada.';
+        let voice = new SpeechSynthesisUtterance(text);
+        speechSynthesis.speak(voice);
+    }
+
+    if(trocaImg === 'ligado'){
+        estadoDoAudio = true;
+        audioOn();
+    }
+
+    buttonAudio.addEventListener('click', () => {
+        trocaImg = localStorage.getItem('audio')
+        if(trocaImg !== 'ligado'){
+            audioOn();
+        } else {
+            audioOff();
+        }
+    })
+    
+    //verificando se a página foi recarregada para salvar o estado atual do áudio
+    setInterval(() => {
+        if (performance.navigation.TYPE_RELOAD){
+            if(synth.paused){
+                synth.resume();
+            } else {
+                synth.pause();
+                synth.resume();
+            }
+        }
+    }, 1000);
+
+    function ativarAudio(button){
+        let textoInstrucao = 'Preste atenção às peças da sequência e identifique quais estão se repetindo. Depois arraste as peças disponíveis no fundo da página para a área do núcleo, montando as peças que se repetem. A ordem das peças deve ser respeitada.';
+        let utterance1 = new SpeechSynthesisUtterance(textoInstrucao);
+
+        if(estadoDoAudio == true){
+            speechSynthesis.speak(utterance1);
+        }        
+
+        setInterval(() => {
+            if (performance.navigation.TYPE_RELOAD){
+                    if(synth.paused){
+                        synth.resume();
+                    } else {
+                        synth.pause();
+                        synth.resume();
+                    }
+                }
+        }, 1000);
+    }
+
+    function ativarAudioModal() {
+        let botaoAtivarVozModal = document.getElementById('botao-falar');
+
+        let textoModal2 = 'Olá, você sabe como funciona o Jogo da Repetição? Não? Então vem cá que eu te explico rapidinho, nele a gente te mostra uma sequência de figuras que se repetem e você tem que nos mostrar quais são essas figuras que estão se repetindo. Aah, já ia esquecendo, é só clicar e arrastar as figuras disponíveis lá embaixo para o núcleo e montar a sua sequência com as figuras que se repetem na mesma ordem e depois clicar em TERMINEI.';  
+        let utterance2 = new SpeechSynthesisUtterance(textoModal2);
+
+        
+        speechSynthesis.speak(utterance2);
+
+        setInterval(() => {
+        if (performance.navigation.TYPE_RELOAD){
+                if(synth.paused){
+                    synth.resume();
+                } else {
+                    synth.pause();
+                    synth.resume();
+                }
+            }
+        }, 1000);
+    }
+
+    function audioModalAutomatico(){
+        let textoModal = 'Olá, você sabe como funciona o Jogo da Repetição? Não? Então vem cá que eu te explico rapidinho, nele a gente te mostra uma sequência de figuras que se repetem e você tem que nos mostrar quais são essas figuras que estão se repetindo. Aah, já ia esquecendo, é só clicar e arrastar as figuras disponíveis lá embaixo para o núcleo e montar a sua sequência com as figuras que se repetem na mesma ordem e depois clicar em TERMINEI.';  
+        let utterance = new SpeechSynthesisUtterance(textoModal);
+
+        if(estadoDoAudio){
+            speechSynthesis.speak(utterance);
+        } 
+
+        setInterval(() => {
+            if (performance.navigation.TYPE_RELOAD){
+                if(synth.paused){
+                    synth.resume();
+                } else {
+                    synth.pause();
+                    synth.resume();
+                }
+            }
+        }, 1000);
+    }
+
+    function cancelarAudioModal(){
+        synth.cancel();
+    }
+</script>
+
+</body>
 </html>
