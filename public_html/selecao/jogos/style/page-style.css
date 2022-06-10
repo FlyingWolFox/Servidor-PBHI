@@ -288,7 +288,7 @@ section#section-container{
     flex-wrap: wrap; 
     align-items: flex-start;
     grid-column: 2/3;
-    justify-content: center;
+    justify-content: flex-start;
 }
 
 section.box-center {

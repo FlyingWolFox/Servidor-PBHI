@@ -20,7 +20,7 @@ sessao.setSession = (req,nome,ano) => {
 
 sessao.getStatus = (req) => {
   let log;
-  req.session.logado == true ? log = true: log = false;
+  req.session.logado == true ? log = {logado : true, ano: req.session.ano}:  log = {logado : false, ano: req.session.ano};
   return log
 }
 

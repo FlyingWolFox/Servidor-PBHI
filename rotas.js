@@ -61,11 +61,11 @@ router.post('/nome', async (req,res,next) => {
     var erros = [];
 
     if(nome == ""){
-        erros.push({name_null: "Nome não pode ser nulo"})
+        erros.push({texto: "Nome não pode ser nulo"})
     }
 
     if(nome > 30){
-        erros.push({name_length: "Nome não pode ser ter mais de 30 caracteres"})
+        erros.push({texto: "Nome não pode ser ter mais de 30 caracteres"})
     }
 
     if(erros.length > 0){
@@ -78,7 +78,7 @@ router.post('/nome', async (req,res,next) => {
         req.session.nome = nome;
         req.session.ano = ano;
         req.session.logado = true;
-        next()
+        res.json("")
     }
 })
 router.get('/addjogos', async (req,res) => {

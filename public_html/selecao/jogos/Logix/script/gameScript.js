@@ -53,7 +53,6 @@ var endGame = false; //Indica se o jogo terminou ou não
 var arrayEstrelas = document.getElementById(divEstrelas).getElementsByTagName('img');
 var ano = localStorage.getItem('ano');
 var etapaMax = 17;
-console.log('esse eh o ano:' + ano);
 
 /** FIM VARIAVEIS */
 

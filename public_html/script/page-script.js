@@ -78,10 +78,7 @@ var logado = false;
 function criarModalLogin(ano){ //Criando modal de login
   const body = document.querySelector('body')
   let fundo = document.createElement('form')
-  fundo.setAttribute('method','post')
-  fundo.setAttribute('target','_self')
   fundo.setAttribute('id','modal-login')
-  fundo.setAttribute('name','form')
 
   let backgroundLogin = document.createElement('div')
   backgroundLogin.setAttribute('id','background-modal-login')
@@ -118,16 +115,19 @@ function criarModalLogin(ano){ //Criando modal de login
 async function trocarPagIndex(ano){
   let resultado = await (await fetch('/getstatus'))
   resultado = await resultado.text();
-  resultado ? window.location.href = './selecao/index.html': criarModalLogin(ano);
+  resultado.logado ? window.location.href = './selecao/index.html': criarModalLogin(ano);
 }
 
 async function post(){
+  var modal = document.getElementById('modal-login')
   var Fnome = document.getElementById('firstName-modal-login').value 
   var Fano = document.getElementById('anoAtual-modal-login').value 
+
   var data = {
     nome: Fnome,
     ano: Fano
   }
+
   let resultado = await fetch('/nome', {
     method: "POST",
     headers : { 
@@ -136,9 +136,13 @@ async function post(){
      },
     body: JSON.stringify(data)
   })
-  try {
-    console.log(await resultado.json())
-  } catch (error) {
-    window.location.href = './selecao/index.html'
+
+  let error = await resultado.json();
+
+  if(error){
+    console.log(error)
+  }
+  else{
+    window.location.href = './selecao/index.html';
   }
 }
