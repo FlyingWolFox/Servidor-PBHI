@@ -137,7 +137,7 @@
                     <!-- Seção onde será inserida a sequencia -->
                 </section>
 
-                <button id="botao-resultado" onclick="resetaNumeroDrops()">Terminei!</button>
+                <button id="botao-resultado" onclick="resetaTimeStamps()">Terminei!</button>
 
                 <div class="formas-titulo">
                     <p class='container-formas-titulo'>Peças Disponíveis</p>
@@ -220,11 +220,13 @@
     <script>
         var containerFormas = document.getElementById('container-formas');
         var containerSequencia = document.getElementById('container-nucleo');
-        var contaDrops = 0;
+        var timeStamps = [];
 
-        function resetaNumeroDrops(){
-            console.log("Número total de drop: " + contaDrops);
-            contaDrops = 0;
+        function resetaTimeStamps(){
+            let tamanho = timeStamps.length;
+            for(let i = 0; i < tamanho; i++){
+                console.log(`timestamp ${i}: ${timeStamps.pop()}`);
+            }
         }
 
         const droppableSequencia = new Draggable.Droppable(containerFormas, {
@@ -236,7 +238,7 @@
             if (containerSequencia.classList.contains('draggable-dropzone--occupied')) {
                 containerSequencia.classList.remove('draggable-dropzone--occupied');
             }
-            contaDrops++;
+            timeStamps.push(new Date().getTime());
         });
 
         const retorno = new Draggable.Droppable(containerSequencia, {
@@ -248,7 +250,7 @@
             if (containerFormas.classList.contains('draggable-dropzone--occupied')) {
                 containerFormas.classList.remove('draggable-dropzone--occupied');
             }
-            contaDrops++;
+            timeStamps.push(new Date().getTime());
         })
     </script>
     <script type="text/javascript">

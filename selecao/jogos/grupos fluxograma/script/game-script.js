@@ -9,7 +9,6 @@ var imgMov1 = [];      //Confere se falta colocar alguma imagem da primeira caix
 var imgMov2 = [];      //Confere se falta colocar alguma imagem da terceira caixa 
 let quantidade = 0;
 var primeiraRodada = true;
-var numeroLigacoes = 0; //Variável que armazena o número de ligações.
 var tempoLigacao = [] //Vetor que vai armazenar o timeStamp de cada ligaçaõ feita pelo usuário.
 
 const textNumeroFase = 'textbox-numero-fase';
@@ -115,7 +114,6 @@ function reset() {
      //Array contendo todos os elementos gerados
     restricao1 = [];
     restricao2 = [];
-    numeroLigacoes = 0;
     resetaTempoLigacao();
 }
 
@@ -2436,7 +2434,6 @@ function check(){ //Confere se acertou
             textoErro.innerText = 'Resposta errada... Tente novamente!';
         }
 	ligacao();
-        console.log(`Número de ligações foram: ${numeroLigacoes}`);
         for(let i = 0; i < tempoLigacao.length; i++){
             console.log(tempoLigacao[i]);
         }
@@ -2471,7 +2468,6 @@ function resetFlux(){
         clearTimeout(timeouts[i]);
     }
     habilitaBotoes();
-    numeroLigacoes = 0;
     resetaTempoLigacao();
     game()
 }
@@ -2711,9 +2707,8 @@ function onLinkCreated(sender, args) {      //Criação do link
     var link = args.getLink();
     var origem = link.getOrigin();
     var formaOrigem = origem.getShape().getId();
-    var timestamp = new Date();
+    var timestamp = new Date().getTime();
     link.setTextAlignment(MindFusion.Diagramming.Alignment.Far);
-    numeroLigacoes++;
     //Ao se criar o link verifica se o node origem do link é um nodeShape 'DECISION' e
     //adiciona o texto SIM ao primeiro link criado ou NÂO caso exista um SIM
     if (formaOrigem =='Decision') {

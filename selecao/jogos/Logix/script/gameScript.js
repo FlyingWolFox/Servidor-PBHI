@@ -53,7 +53,7 @@ var endGame = false; //Indica se o jogo terminou ou não
 var arrayEstrelas = document.getElementById(divEstrelas).getElementsByTagName('img');
 var ano = localStorage.getItem('ano');
 var etapaMax = 17;
-var contaDrops = 0;
+var timeStamps = [];
 console.log('esse eh o ano:' + ano);
 
 /** FIM VARIAVEIS */
@@ -91,9 +91,11 @@ function getFasesPorAno(){
 }
 getFasesPorAno();
 
-function resetaNumeroDrops(){
-	console.log("Número total de drop: " + contaDrops);
-	contaDrops = 0;
+function resetaTimeStamps(){
+	let tamanho = timeStamps.length;
+	for(let i = 0; i < tamanho; i++){
+		console.log(`timestamp ${i}: ${timeStamps.pop()}`);
+	}
 }
 /** FIM FUNCOES DE APOIO */
 
@@ -924,7 +926,7 @@ function check(){
 				modalErro.style.display = 'block';
 				textoErro.innerText = 'Que pena, tente novamente.';
 				breakF = 1;
-				resetaNumeroDrops();
+				resetaTimeStamps();
 			}	
 		});
 	})
@@ -1004,7 +1006,7 @@ function check(){
                     }
                     game();
                     modalAcerto.style.display = 'none';
-					resetaNumeroDrops();
+					resetaTimeStamps();
                 }
             } 
 		else{
@@ -1023,7 +1025,7 @@ function check(){
 	else{
 		modalErro.style.display = 'block';
 		textoErro.innerText = 'Resposta errada... Tente novamente!';
-		resetaNumeroDrops();
+		resetaTimeStamps();
 	}	
 }
 
@@ -1113,5 +1115,5 @@ document.addEventListener("dragstart", function( event ) {
 	if(event.target.parentElement.getAttribute("class").split(" ")[0] == "content-div"){
 		event.target.parentElement.style.backgroundColor = "rgba(65, 187, 194, 0.1)";
 	}
-	contaDrops++;
+	timeStamps.push(new Date().getTime());
 }, false);
