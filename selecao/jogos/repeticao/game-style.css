@@ -27,7 +27,7 @@ header.game-header {
     display: grid;
     grid-template-columns: 1fr minmax(300px, 1fr) 1fr;
     align-items: center;
-    margin: 10px 0;
+    /* margin: 10px 0; */
     
 }
 
@@ -438,7 +438,7 @@ header {
 
 section.game-container {
 
-    margin: 20px 0;
+    margin: 5px 0;
     border-color: black;
     border-width: 1px;
     border-style: solid;
@@ -766,7 +766,7 @@ div.formas-titulo {
     }
 } */
 
-@media (min-width: 1000px) AND (max-width: 1919px) AND (orientation: landscape){
+@media (min-width: 900px) AND (max-width: 1919px) AND (orientation: landscape){
 
     h2#title-jogo {
 
