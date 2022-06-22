@@ -17,7 +17,7 @@ div.tela-jogo {
     min-height: 100vh;    
     display: grid;
     flex-direction: column;
-    grid-template-rows: 1fr 6fr 1fr;
+    grid-template-rows: 1fr 8fr 1fr;
 }
 
 /* Seletores de estilo do Header */
@@ -685,7 +685,7 @@ div.formas-titulo {
 
 /* ---------- AJUSTES PARA O DESKTOP ---------- */
 
-@media(orientation: landscape) AND (max-width: 1280px){
+ @media(orientation: landscape) AND (max-width: 1280px){
     #logo-header {
         margin-left: 30px;
     }
@@ -700,11 +700,12 @@ div.formas-titulo {
     .grid {
 
         grid-template-columns: 0.5fr 10fr 0.5fr;
-    }
-
+        
+    } 
+ }
     /* --------- HEADER ----------*/
 
-    header.game-header {
+    /* header.game-header {
         display: grid;
         grid-template-columns: 0.5fr 700px 0.5fr;
     }
@@ -722,12 +723,12 @@ div.formas-titulo {
         font-size: 1em;
 
 
-    }
+    } */
 
 
     /* ----------- TUTORIAL ---------- */
 
-    div#box-instrucoes {
+    /* div#box-instrucoes {
         width: 100%;
         height: 110px;
         margin: 0px 0 5px 0;
@@ -743,11 +744,11 @@ div.formas-titulo {
     #textbox-tutorial {
         
         margin-top: 0px;
-    }
+    } */
 
     /* ----------- JOGO ----------- */
 
-    section.game-container {
+    /* section.game-container {
         margin-bottom: 10px;
     }
 
@@ -763,7 +764,7 @@ div.formas-titulo {
         font-size: 1.2em;
          
     }
-}
+} */
 
 @media (min-width: 1000px) AND (max-width: 1919px) AND (orientation: landscape){
 
