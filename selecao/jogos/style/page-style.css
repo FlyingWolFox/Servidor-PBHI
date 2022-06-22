@@ -278,6 +278,7 @@ main.grid {
 main#alterando-margem-1{
     display: grid;
     grid-template-columns: 0.5fr 10fr 0.5fr;
+    justify-items: center;
 }
 
 section#section-container{
@@ -287,6 +288,7 @@ section#section-container{
     justify-content: flex-start; 
     align-items: flex-start;
     grid-column: 2/3;
+    max-width: 1200px;
 }
 
 section.box-center {
