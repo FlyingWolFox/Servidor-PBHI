@@ -8,12 +8,13 @@ body.game-body {
 
 div.tela-jogo {
 
-    height: 100vh;
+    height: 100%;
     width: 100vw;
     max-width: 100vw;
-    max-height: 100vh;
+    min-height: 100vh;
     display: grid;
-    grid-template-rows: 1fr 6fr 1fr;
+    grid-template-rows: 10% 80% 10%;
+    
 }
 
 /* Seletores de estilo do Header */
@@ -616,17 +617,17 @@ div.formas-titulo {
 
     /* --------- HEADER ----------*/
 
-    header.game-header {
+    /* header.game-header {
 
         display: grid;
         grid-template-columns: 0.5fr 700px 0.5fr;
 
-    }
+    } */
 
-    img.logo {
+    /* img.logo {
         
         padding: 10px 0px;
-    }
+    } */
 
     h2#title-jogo {
 
@@ -782,7 +783,7 @@ div.formas-titulo {
 /* ---------- AJUSTES PARA O DESKTOP ---------- */
 
 
-@media (min-width: 1000px) AND (max-width: 1919px) and (orientation: landscape){
+@media (min-width: 900px) AND (max-width: 1919px) and (orientation: landscape){
 
     h2#title-jogo {
 

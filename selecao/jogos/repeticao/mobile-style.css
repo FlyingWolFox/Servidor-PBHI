@@ -150,7 +150,7 @@ section#container-nucleo {
     height: fit-content;
     min-width: fit-content;
     min-height: 45px;
-    margin: 0px 10px 10px 10px;
+    /* margin: 0px 10px 10px 10px; */
     padding: 1px 5px;
     border-radius: 10px;
     background: #FAFAFA;
@@ -360,7 +360,7 @@ span#modal-close-button{
         height: 70px;
         min-width: unset;
         min-height: unset;
-        margin-bottom: 0px;
+        /* margin-bottom: 0px; */
      
     }
 

@@ -486,6 +486,7 @@ section#sequencias-conteiner {
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    box-sizing: border-box;
     /* justify-content: space-around; */
 }
 
