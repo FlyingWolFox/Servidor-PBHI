@@ -69,7 +69,7 @@
         <main id="main-body" class="grid grid-full">
             <div id="modalInfo" class="modal">
                 <div class="modal-content" id="modal-content">
-                    <p>Olá, nos encontramos mais uma vez 😀, desta vez vou te mostrar um jogo bem legal, o Jogo da Sequência de Números! O Jogo da Sequência de Números mostra uma sequência de figuras, com algumas delas faltando 🤔, e esta é a sua tarefa, identificar quais peças estão faltando e arrastar pra lista de figuras, depois é só clicar em TERMINEI!!
+                    <p>Olá, nos encontramos mais uma vez 😀, desta vez vou te mostrar um jogo bem legal, o Jogo da Sequência de Números Decrescente! O Jogo da Sequência de Números Decrescente mostra uma sequência de figuras, com algumas delas faltando 🤔, e esta é a sua tarefa, identificar quais peças estão faltando e arrastar pra lista de figuras, depois é só clicar em TERMINEI!!
                     </p>
                     <button id="botao-info-close"
                         onclick="document.getElementById('modalInfo').style.display='none'; cancelarAudioModal()">Entendi
@@ -293,11 +293,6 @@
 <script type="text/javascript">
     var synth = window.speechSynthesis;
 
-    // se o usuário sair da página ou fechar a aba o áudio para de tocar
-    window.addEventListener("pagehide", function(){
-        synth.pause();
-    });
-
     //habilitando e desabilitando botão global de áudio
     var trocaImg = localStorage.getItem('audio'); 
     var estadoDoAudio = false;
@@ -305,6 +300,8 @@
 
     const audioOn = () => {
         estadoDoAudio = true;
+        let repetirVoz = document.getElementById('botao-repetir-voz');
+        repetirVoz.setAttribute('onlick', 'cancelarAudio(this)');
         document.getElementById('botao-voz-instrucao').src='../../../img/svg/audio-on.svg';
         localStorage.setItem('audio', 'ligado');
     }
@@ -312,17 +309,25 @@
     const audioOff = () => {
         synth.cancel();
         estadoDoAudio = false;
+        let repetirVoz = document.getElementById('botao-repetir-voz');
+        repetirVoz.setAttribute('onclick', 'ativarAudio(this)');
         document.getElementById('botao-voz-instrucao').src='../../../img/svg/audio-off.svg';
         localStorage.setItem('audio', 'desligado');
     }
 
     //função para inicializar a página com o áudio
-    function speaking(){
+    localStorage.setItem('audio', 'ligado');
+    if(document.hasFocus() && localStorage.getItem('audio') == 'ligado') {
         audioOn();
-        let text = 'Preste atenção às peças da sequência e identifique quais estão se repetindo. Depois arraste as peças disponíveis no fundo da página para a área do núcleo, montando as peças que se repetem. A ordem das peças deve ser respeitada.';
+        let text = 'Observe a sequência e identifique quais peças estão faltando para deixá-la completa. Depois arraste as peças disponíveis para as posições vazias da sequência para completá-las.';
         let voice = new SpeechSynthesisUtterance(text);
         speechSynthesis.speak(voice);
     }
+
+    // se o usuário sair da página ou fechar a aba o áudio para de tocar
+    window.addEventListener("pagehide", function(){
+        synth.pause();
+    });
 
     if(trocaImg === 'ligado'){
         estadoDoAudio = true;
@@ -351,12 +356,14 @@
     }, 1000);
 
     function ativarAudio(button){
-        let textoInstrucao = 'Preste atenção às peças da sequência e identifique quais estão se repetindo. Depois arraste as peças disponíveis no fundo da página para a área do núcleo, montando as peças que se repetem. A ordem das peças deve ser respeitada.';
+        let textoInstrucao = 'Observe a sequência e identifique quais peças estão faltando para deixá-la completa. Depois arraste as peças disponíveis para as posições vazias da sequência para completá-las.';
         let utterance1 = new SpeechSynthesisUtterance(textoInstrucao);
 
-        if(estadoDoAudio == true){
+        if(estadoDoAudio == false || estadoDoAudio == true){
             speechSynthesis.speak(utterance1);
         }        
+
+        button.setAttribute('onclick', 'cancelarAudio(this)');
 
         setInterval(() => {
             if (performance.navigation.TYPE_RELOAD){
@@ -370,10 +377,15 @@
         }, 1000);
     }
 
+    function cancelarAudio(button){
+        synth.cancel();
+        button.setAttribute('onclick', 'ativarAudio(this)');
+    }
+
     function ativarAudioModal() {
         let botaoAtivarVozModal = document.getElementById('botao-falar');
 
-        let textoModal2 = 'Olá, você sabe como funciona o Jogo da Repetição? Não? Então vem cá que eu te explico rapidinho, nele a gente te mostra uma sequência de figuras que se repetem e você tem que nos mostrar quais são essas figuras que estão se repetindo. Aah, já ia esquecendo, é só clicar e arrastar as figuras disponíveis lá embaixo para o núcleo e montar a sua sequência com as figuras que se repetem na mesma ordem e depois clicar em TERMINEI.';  
+        let textoModal2 = 'Olá, nos encontramos mais uma vez, desta vez vou te mostrar um jogo bem legal, o Jogo da Sequência de Números Decrescente! O Jogo da Sequência de Números Decrescente mostra uma sequência de figuras, com algumas delas faltando, e esta é a sua tarefa, identificar quais peças estão faltando e arrastar pra lista de figuras, depois é só clicar em TERMINEI!!';  
         let utterance2 = new SpeechSynthesisUtterance(textoModal2);
 
         
@@ -392,7 +404,12 @@
     }
 
     function audioModalAutomatico(){
-        let textoModal = 'Olá, você sabe como funciona o Jogo da Repetição? Não? Então vem cá que eu te explico rapidinho, nele a gente te mostra uma sequência de figuras que se repetem e você tem que nos mostrar quais são essas figuras que estão se repetindo. Aah, já ia esquecendo, é só clicar e arrastar as figuras disponíveis lá embaixo para o núcleo e montar a sua sequência com as figuras que se repetem na mesma ordem e depois clicar em TERMINEI.';  
+        synth.cancel();
+
+        let trocarFuncaoRepVoz = document.getElementById('botao-repetir-voz');
+        trocarFuncaoRepVoz.setAttribute('onclick', 'ativarAudio(this)');
+
+        let textoModal = 'Olá, nos encontramos mais uma vez, desta vez vou te mostrar um jogo bem legal, o Jogo da Sequência de Números Decrescente! O Jogo da Sequência de Números Decrescente mostra uma sequência de figuras, com algumas delas faltando, e esta é a sua tarefa, identificar quais peças estão faltando e arrastar pra lista de figuras, depois é só clicar em TERMINEI!!';  
         let utterance = new SpeechSynthesisUtterance(textoModal);
 
         if(estadoDoAudio){

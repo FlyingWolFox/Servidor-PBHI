@@ -28,7 +28,7 @@ img.logo {
 
     align-self: center;
     justify-self: center;
-    padding: 26px 0px;
+    padding: 5px 0 0 0px;
 }
 
 h2#title-jogo {
@@ -57,7 +57,7 @@ section.game-section {
     align-items: center;
     justify-content: space-between;
     background-color: white;
-    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
+    box-shadow:0px 2px 4px rgb(0 0 0 / 25%);
     border-radius: 5px 5px 0px 0px;
 }
 
@@ -86,6 +86,7 @@ section.game-container {
 }
 
 section#container-nucleo {
+    height: 100%;
     min-width: fit-content;
     background-color: white;
     display: flex;
@@ -110,7 +111,7 @@ p.container-formas-titulo {
     color: #adadad;
     background-color: #FAFAFA;
     text-align: center;
-    margin-top: -5px;
+    /* margin-top: -5px; */
 }
 
 
@@ -246,7 +247,7 @@ a#span-info {
 header {
     background-image: url("../../img/bg-image.png");
     background-color: var(--cor-do-body);
-    margin-top: -7px;
+    /* margin-top: -7px; */
 }
 
 main#main-body {
@@ -256,13 +257,13 @@ main#main-body {
 
 div.tela-jogo {
 
-    height: 100vh;
+    height: 100%;
     width: 100vw;
     max-width: 100vw;
-    max-height: 100vh;
+    min-height: 100vh;
     display: grid;
-    grid-template-rows: 1fr 8fr 1fr;
-
+    grid-template-rows: 10% 80% 10%;
+    
 }
 
 /* ESTILOS DO TUTORIAL DO JOGO */
@@ -697,9 +698,9 @@ button#botao-resultado{
 }
 
 div.formas-titulo {
-    height: 88%;
+    /* height: 88%; */
     width: 100%;
-    margin-bottom: -20px;
+    /* margin-bottom: -20px; */
 }
 
 footer.footer-grid{
@@ -886,10 +887,10 @@ footer.footer-grid{
 
     }
 
-    img.logo {
+    /* img.logo {
         
         padding: 10px 0px;
-    }
+    } */
 
     h2#title-jogo {
 
@@ -906,8 +907,8 @@ footer.footer-grid{
 
     div#box-instrucoes {
         width: 100%;
-        height: 110px;
-        grid-template-columns: 25% 65% 12%;
+        /* height: 110px; */
+        /* grid-template-columns: 25% 65% 12%; */
     }
 
     #mascote-instrucoes {
@@ -940,7 +941,7 @@ footer.footer-grid{
         padding: 0px;
         justify-self: center;
         display: flex;
-        flex-direction: column;
+        /* flex-direction: column; */
         justify-content: center;
         align-content: center;
         grid-column: 3/4;
@@ -987,7 +988,7 @@ footer.footer-grid{
 
     #mascote-instrucoes {
 
-        width: 110px;
+        width: 15%;
     }
 
     #textbox-tutorial {

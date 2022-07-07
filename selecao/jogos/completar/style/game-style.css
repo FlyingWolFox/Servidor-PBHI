@@ -1,5 +1,4 @@
 /* Seletores do layout da página */
-
 body.game-body {
 
     height: 100vh;
@@ -8,12 +7,12 @@ body.game-body {
 
 div.tela-jogo {
 
-    height: 100vh;
+    height: 100%;
     width: 100vw;
     max-width: 100vw;
-    max-height: 100vh;
+    min-height: 100vh; 
     display: grid;
-    grid-template-rows: 1fr 6fr 1fr;
+    grid-template-rows: 10% 80% 10%;
 }
 
 /* Seletores de estilo do Header */
@@ -35,7 +34,7 @@ img.logo {
 
     align-self: center;
     justify-self: center;
-    padding: 0px 0px;
+    padding: 3px 0 0 0;
 }
 
 h2#title-jogo {
@@ -615,14 +614,13 @@ div.formas-titulo {
     header.game-header {
 
         display: grid;
-        grid-template-columns: 0.5fr 700px 0.5fr;
+        grid-template-columns: 1fr minmax(300px, 1fr) 1fr;
 
     }
 
-    img.logo {
-        
-        padding: 10px 0px;
-    }
+    /* img.logo {
+        padding: 5px 0;
+    } */
 
     h2#title-jogo {
 
@@ -638,7 +636,7 @@ div.formas-titulo {
 
     div#box-instrucoes {
         width: 100%;
-        height: 110px;
+        height: 85px;
         margin: 0px 0 5px 0;
     }
 
@@ -774,7 +772,7 @@ div.formas-titulo {
 /* ---------- AJUSTES PARA O DESKTOP ---------- */
 
 
-@media (min-width: 1000px) AND (max-width: 1919px) and (orientation: landscape){
+@media (min-width: 900px) AND (max-width: 1919px) and (orientation: landscape){
 
     h2#title-jogo {
 
@@ -887,18 +885,18 @@ div.formas-titulo {
 
     section#container-formas {
         width: 100%;
-        height: 110px;
+        height: 95px;
     }
 
     img.game-img {
 
-        width: 60px;
+        width: 45px;
         max-width: unset;
     }
 
     img.game-img.pequeno {
 
-        width: 45px;
+        width: 30px;
         max-width: unset;
     }
 
@@ -914,7 +912,7 @@ div.formas-titulo {
 
     button#botao-resultado {
 
-        padding: 10px 10px;
+        padding: 5px 10px;
         font-size: 1em;
     }
 
