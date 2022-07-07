@@ -74,43 +74,51 @@ fullscreenButton.onclick = () => {
 //Implementando modal de login
 
 var logado = false;
-
-function criarModalLogin(){ //Criando modal de login
+function setEventoBotão(){
+  buttonLogin = document.getElementById('botao-modal-login')
+  buttonLogin.removeEventListener('click', trocarPagIndex);
+  buttonLogin.addEventListener('click', salvaNome);
+}
+function criarModalLogin(nome){ //Criando modal de login
   const body = document.querySelector('body')
   let fundo = document.createElement('form')
   fundo.setAttribute('id','modal-login')
-
   let backgroundLogin = document.createElement('div')
   backgroundLogin.setAttribute('id','background-modal-login')
-
   let firstName = document.createElement('input')
+  let buttonLogin = document.createElement('input')
   firstName.setAttribute('type','text')
   firstName.setAttribute('minlength','8')
   firstName.setAttribute('maxlength','30')
   firstName.setAttribute('size','15')
-  firstName.setAttribute('placeholder','Nome Completo')
+  buttonLogin.setAttribute('type','button')
+  buttonLogin.setAttribute('value','Continuar')
+  buttonLogin.setAttribute('id','botao-modal-login')
   firstName.setAttribute('id','firstName-modal-login')
   firstName.setAttribute('autocomplete','off')
   firstName.setAttribute('method','post')
   firstName.setAttribute('target','./selecao/index.html')
   firstName.setAttribute('action','../index.js')
   firstName.classList.add('modal-login-text')
-
-  let buttonLogin = document.createElement('input')
-  buttonLogin.setAttribute('type','button')
-  buttonLogin.setAttribute('value','Continuar')
-  buttonLogin.setAttribute('id','botao-modal-login')
-  buttonLogin.addEventListener('click', salvaNome)
-
+  if(nome){
+    firstName.setAttribute('placeholder',`Insira seu nome ou continue como ${nome}`)
+    buttonLogin.addEventListener('click', trocarPagIndex)
+    firstName.addEventListener('input', setEventoBotão)
+  }else{
+    firstName.setAttribute('placeholder','Nome Completo')
+    buttonLogin.addEventListener('click', salvaNome)
+  }
   backgroundLogin.appendChild(firstName)
   backgroundLogin.appendChild(buttonLogin)
   fundo.appendChild(backgroundLogin)
   body.appendChild(fundo)
 }
-
+ 
 function trocarPagIndex(){
-  logado ? window.location.href = 'selecao/index.html': criarModalLogin();
+   window.location.href = 'selecao/index.html';
 }
+var nome = localStorage.getItem('nome');
+criarModalLogin(nome);
 
 //
 function salvaNome(){
