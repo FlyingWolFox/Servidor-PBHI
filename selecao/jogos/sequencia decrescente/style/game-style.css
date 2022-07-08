@@ -130,8 +130,8 @@ div.progresso-conquistas {
    margin: 0px;
    padding: 10px 10px;
    font-size: 1.2em;
-   color: white;
-   background: #FDC23E;
+   color: #A37027;
+   background: rgb(249, 158, 21);
    border: 5px solid #FFFFFF;
    border-radius: 20px;
    text-transform: uppercase;

@@ -69,7 +69,7 @@
         <main id="main-body" class="grid grid-full">
             <div id="modalInfo" class="modal">
                 <div class="modal-content" id="modal-content">
-                    <p>Olá, nos encontramos mais uma vez 😀, desta vez vou te mostrar um jogo bem legal, o Jogo da Sequência de Números! O Jogo da Sequência de Números mostra uma sequência de números, com algumas delas faltando 🤔, e esta é a sua tarefa, identificar quais peças estão faltando e arrastar pra lista de figuras, depois é só clicar em TERMINEI!!
+                    <p>Olá, nos encontramos mais uma vez 😀, desta vez vou te mostrar um jogo bem legal, o Jogo da Sequência de Números! Esse jogo te mostra uma sequência de números, com algumas delas faltando 🤔, e esta é a sua tarefa, identificar quais peças estão faltando e arrastar pra lista de figuras, depois é só clicar em TERMINEI!!
                     </p>
                     <button id="botao-info-close"
                         onclick="document.getElementById('modalInfo').style.display='none'; cancelarAudioModal()">Entendi
@@ -409,7 +409,7 @@
     function ativarAudioModal() {
         let botaoAtivarVozModal = document.getElementById('botao-falar');
 
-        let textoModal2 = 'Olá, nos encontramos mais uma vez, desta vez vou te mostrar um jogo bem legal, o Jogo da Sequência de Números! O Jogo da Sequência de Números mostra uma sequência de números, com algumas delas faltando, e esta é a sua tarefa, identificar quais peças estão faltando e arrastar pra lista de figuras, depois é só clicar em TERMINEI!!';  
+        let textoModal2 = 'Olá, nos encontramos mais uma vez, desta vez vou te mostrar um jogo bem legal, o Jogo da Sequência de Números! Esse jogo te mostra uma sequência de números, com algumas delas faltando, e esta é a sua tarefa, identificar quais peças estão faltando e arrastar pra lista de figuras, depois é só clicar em TERMINEI!!';  
         let utterance2 = new SpeechSynthesisUtterance(textoModal2);
 
         
@@ -433,7 +433,7 @@
         let trocarFuncaoRepVoz = document.getElementById('botao-repetir-voz');
         trocarFuncaoRepVoz.setAttribute('onclick', 'ativarAudio(this)');
 
-        let textoModal = 'Olá, nos encontramos mais uma vez, desta vez vou te mostrar um jogo bem legal, o Jogo da Sequência de Números! O Jogo da Sequência de Números mostra uma sequência de números, com algumas delas faltando, e esta é a sua tarefa, identificar quais peças estão faltando e arrastar pra lista de figuras, depois é só clicar em TERMINEI!!';  
+        let textoModal = 'Olá, nos encontramos mais uma vez, desta vez vou te mostrar um jogo bem legal, o Jogo da Sequência de Números! Esse jogo te mostra uma sequência de números, com algumas delas faltando, e esta é a sua tarefa, identificar quais peças estão faltando e arrastar pra lista de figuras, depois é só clicar em TERMINEI!!';  
         let utterance = new SpeechSynthesisUtterance(textoModal);
 
         if(estadoDoAudio){
