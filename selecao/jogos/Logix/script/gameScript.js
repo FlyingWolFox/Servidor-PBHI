@@ -317,6 +317,7 @@ function novaImgBlocoLogicoComRestricoes() {
 	novaImg.setAttribute('tipo', tipo);
 	novaImg.setAttribute('tam', tam);
 	novaImg.setAttribute('cont', cont);
+	novaImg.setAttribute('draggable', 'true');
 	novaImg.setAttribute('alt', getImgAlt(novaImg));
 	novaImg.setAttribute('title', novaImg.getAttribute('alt'));
 	novaImg.classList.add('game-img');
@@ -534,7 +535,7 @@ function gerarRestricoes(qtdNaColuna,restC,restL){
 			var estadoRestricao = getRandomIntInclusive(0,1)
 			var tipoRestricao = getRandomIntInclusive(0,3)
 			var valorRestricao;
-			// estadoRestricao === 0 ? estadoRestricao = "Aceito": estadoRestricao =  "Negado";
+			estadoRestricao === 0 ? estadoRestricao = "Aceito": estadoRestricao =  "Negado";
 			switch (tipoRestricao) {
 				case 0: 
 					valorRestricao = getRandomIntInclusive(0,3);
@@ -572,8 +573,7 @@ function gerarRestricoes(qtdNaColuna,restC,restL){
 			var estadoRestricao = getRandomIntInclusive(0,1)
 			var tipoRestricao = getRandomIntInclusive(0,3)
 			var valorRestricao;
-			// estadoRestricao === 0 ? estadoRestricao = "Aceito": estadoRestricao =  "Negado";
-			estadoRestricao = "Aceito";
+			estadoRestricao === 0 ? estadoRestricao = "Aceito": estadoRestricao =  "Negado";
 			switch (tipoRestricao) {
 				case 0: 
 					valorRestricao = getRandomIntInclusive(0,3);
@@ -1138,9 +1138,17 @@ function igualarTamanho() {
 document.querySelector('body').onresize = igualarTamanho;
 document.querySelector('body').addEventListener('onload', igualarTamanho())
 
-document.addEventListener("dragstart", function( event ) {
-	if(event.target.parentElement.getAttribute("class").split(" ")[0] == "content-div"){
-		event.target.parentElement.style.backgroundColor = "rgba(65, 187, 194, 0.1)";
-	}
-	timeStamps.push(new Date().getTime());
-}, false);
+cards = document.querySelectorAll('.game-img')
+
+cards.forEach(card => {
+	card.addEventListener('dragstart', event => {
+		var elemento_pai_inicio = event.target.parentElement
+		console.log(elemento_pai_inicio)
+		timeStamps.push(new Date().getTime())
+	}),
+	card.addEventListener('dragend', event => {
+		var elemento_pai_fim = event.target.parentElement
+		console.log(elemento_pai_fim)
+	})
+});
+

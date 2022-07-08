@@ -1721,3 +1721,6 @@ function check(){ //Confere se acertou
 document.body.onload = game();
 var botaoResultado = document.getElementById('botao-resultado');
 botaoResultado.addEventListener('click', check);
+document.addEventListener("dragstart", function( event ) {
+    console.log('0')
+},false)
