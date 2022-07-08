@@ -328,16 +328,17 @@ function novaImgBlocoLogicoComRestricoes() {
 function gerarDrop(qtdNaColuna){
 	for (i = 0; i < qtdNaColuna.length; i++) {
 		var novoColuna = document.createElement("div");
+		var novoContencao = document.createElement("div");
+		novoContencao.classList.add("contencao")
 		for (j = 0; j < qtdNaColuna[i]; j++) {
-			var novoContencao = document.createElement("div");
 			var novoDrop = document.createElement("div");
-			novoContencao.classList.add("contencao")
 			novoDrop.classList.add("content-div")
 			novoDrop.classList.add("dropzone")
 			novoDrop.setAttribute("nmr-coluna",i)
 			novoColuna.classList.add("colunas")
 			novoDrop.setAttribute("nmr-linha",j)
-			novoColuna.appendChild(novoDrop)
+			novoContencao.appendChild(novoDrop)
+			novoColuna.appendChild(novoContencao)
 		}
 		divNucleo.appendChild(novoColuna)
 	}
@@ -525,7 +526,7 @@ function gerarRestricoes(qtdNaColuna,restC,restL){
 	}	
 	for (i = 0; i < restC; i++){
 		if(Math.max.apply(null, qtdNaColuna) == 1){
-			document.getElementById('container-nucleo').style.marginTop = '-40px'
+			// document.getElementById('container-nucleo').style.marginTop = '-40px'
 		}
 		var flagr = 99;
 		while(flagr != 0){
@@ -533,7 +534,7 @@ function gerarRestricoes(qtdNaColuna,restC,restL){
 			var estadoRestricao = getRandomIntInclusive(0,1)
 			var tipoRestricao = getRandomIntInclusive(0,3)
 			var valorRestricao;
-			estadoRestricao === 0 ? estadoRestricao = "Aceito": estadoRestricao =  "Negado";
+			// estadoRestricao === 0 ? estadoRestricao = "Aceito": estadoRestricao =  "Negado";
 			switch (tipoRestricao) {
 				case 0: 
 					valorRestricao = getRandomIntInclusive(0,3);
@@ -564,14 +565,15 @@ function gerarRestricoes(qtdNaColuna,restC,restL){
 	}
 	divNucleo.insertBefore(restricaoLinha,divNucleo.childNodes[0])
 	for (i = 0; i < restL; i++){
-		document.getElementById('container-nucleo').style.marginLeft = '-50px'
+		// document.getElementById('container-nucleo').style.marginLeft = '-50px'
 		var flagr = 99;
 		while(flagr != 0){
 			//Gerar aleatoriamente os valores
 			var estadoRestricao = getRandomIntInclusive(0,1)
 			var tipoRestricao = getRandomIntInclusive(0,3)
 			var valorRestricao;
-			estadoRestricao === 0 ? estadoRestricao = "Aceito": estadoRestricao =  "Negado";
+			// estadoRestricao === 0 ? estadoRestricao = "Aceito": estadoRestricao =  "Negado";
+			estadoRestricao = "Aceito";
 			switch (tipoRestricao) {
 				case 0: 
 					valorRestricao = getRandomIntInclusive(0,3);
@@ -867,7 +869,22 @@ function game(){
 
 	arrayOriginal = [];
 	//Adiciona as imagens no jogo
-	
+	if(Math.max.apply(null, qtdNaColuna) >= 2){
+		// let contencao = document.getElementsByClassName('contencao');
+		var drops = document.getElementsByClassName('content-div')
+		Array.prototype.forEach.call(drops, el => {
+			// console.log('el')
+			el.style.height = "50%"
+		});
+	}
+	else if(Math.max.apply(null, qtdNaColuna) == 1){
+		var contencao = document.getElementsByClassName('contencao')
+		Array.prototype.forEach.call(contencao, el => {
+			el.style.height = "75%"
+		})
+		
+	} 
+
 	if(qtdNaColuna.length>=Math.max.apply(null, qtdNaColuna )){
 		for(k = 0; k < qtdNaColuna.length; k++){
 			for (j = 0; j< qtdNaColuna[k]; j++) {
@@ -1110,6 +1127,16 @@ function reiniciar(){
 }
 
 game()
+
+function igualarTamanho() {
+	var restLinha = document.getElementsByClassName('restricaoLinha')[0];
+	var contencao = document.getElementsByClassName('contencao')[0];
+	var heightContencao = window.getComputedStyle(contencao, null).getPropertyValue('height')
+	restLinha.style.height = heightContencao;
+}
+
+document.querySelector('body').onresize = igualarTamanho;
+document.querySelector('body').addEventListener('onload', igualarTamanho())
 
 document.addEventListener("dragstart", function( event ) {
 	if(event.target.parentElement.getAttribute("class").split(" ")[0] == "content-div"){

@@ -244,7 +244,7 @@ span#modal-close-button {
     section#container-formas {
 
         width: 100%;
-        height: 66px;
+        /* height: 66px; */
         min-width: unset;
         min-height: unset;
     }
@@ -496,7 +496,7 @@ span#modal-close-button {
     }
 
     div#container-botao {
-        margin-top: 120px;
+        /* margin-top: 120px; */
     }
 
     section#container-nucleo {
@@ -516,13 +516,13 @@ span#modal-close-button {
         color: #adadad;
         background-color: #FAFAFA;
         text-align: center;
-        margin-top: 120px;
+        /* margin-top: 120px; */
     }
 
     section#container-formas {
 
         width: 100%;
-        height: 110px;
+        /* height: 110px; */
         min-width: unset;
         min-height: unset;
     }
@@ -652,9 +652,9 @@ span#modal-close-button {
         margin-left: -50px;
     }
 
-    div#container-botao {
+    /* div#container-botao {
         margin-top: 120px;
-    }
+    } */
 
     section#container-nucleo {
         margin-top: 90px;
@@ -673,7 +673,7 @@ span#modal-close-button {
         color: #adadad;
         background-color: #FAFAFA;
         text-align: center;
-        margin-top: 120px;
+        /* margin-top: 120px; */
     }
 
     section#container-formas {

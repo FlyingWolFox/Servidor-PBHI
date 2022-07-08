@@ -77,7 +77,8 @@ section.game-container {
 }
 
 #regulador-div{
-    display: flex;
+    display: grid;
+    grid-template-columns: 15% 70% 15%;
     justify-content: center;
     align-items: center;
     height: 100%;
@@ -86,21 +87,26 @@ section.game-container {
 }
 
 section#container-nucleo {
-    height: 100%;
+    width: 100%;
     min-width: fit-content;
+    padding-right: 50px;
+    grid-column: 2/3;
+    
+    box-sizing: border-box;
     background-color: white;
+
     display: flex;
-    flex-wrap: wrap;
     justify-content: center;
-    align-items: flex-start;
+    align-items: center;
     border-style: none;
 }
 
 div.game-center {
     width: 100%;
     height: 100%;
-    display: grid;
-    grid-template-rows: 70% 30%;
+    display: flex;
+    flex-direction: column;
+    /* grid-template-rows: 70% 30%; */
     align-items: center;
     justify-items: center;
 }
@@ -257,7 +263,7 @@ main#main-body {
 
 div.tela-jogo {
 
-    height: 100%;
+    /* height: 100%; */
     width: 100vw;
     max-width: 100vw;
     min-height: 100vh;
@@ -699,6 +705,7 @@ button#botao-resultado{
 
 div.formas-titulo {
     /* height: 88%; */
+    align-self: flex-end;
     width: 100%;
     /* margin-bottom: -20px; */
 }
@@ -858,7 +865,7 @@ footer.footer-grid{
 }
 
 /* AJUSTE DE TELA ATÉ 1000PX */
-@media(max-width: 1000px) {
+@media(max-width: 900px) {
     
 }
 
@@ -951,7 +958,7 @@ footer.footer-grid{
 
 
 
-@media (min-width: 1000px) AND (max-width: 1919px) AND (orientation: landscape){
+@media (min-width: 900px) AND (max-width: 1919px) AND (orientation: landscape){
 
     h2#title-jogo {
 
