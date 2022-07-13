@@ -341,6 +341,10 @@
     <script type="text/javascript">
         var synth = window.speechSynthesis;
 
+        if(!localStorage.getItem('audio')){
+            localStorage.setItem('audio', 'ligado');
+        }
+
         //habilitando e desabilitando botão global de áudio
         var trocaImg = localStorage.getItem('audio');
         var estadoDoAudio = false;
@@ -364,18 +368,12 @@
         }
 
         //função para inicializar a página com o áudio
-        // localStorage.setItem('audio', 'ligado');
         if (localStorage.getItem('audio') == 'ligado' && document.hasFocus()) {
             audioOn();
             let text = 'Preste atenção às peças da sequência e identifique quais estão se repetindo. Depois arraste as peças disponíveis no fundo da página para a área do núcleo, montando as peças que se repetem. A ordem das peças deve ser respeitada.';
             let voice = new SpeechSynthesisUtterance(text);
             speechSynthesis.speak(voice);
         }
-
-        // se o usuário sair da página ou fechar a aba o áudio para de tocar
-        window.addEventListener("pagehide", function () {
-            synth.pause();
-        });
 
         if (trocaImg === 'ligado') {
             estadoDoAudio = true;
@@ -392,6 +390,7 @@
         })
 
         // verificando se a página foi recarregada para salvar o estado atual do áudio
+        const botaoDeVoz = document.getElementById('botao-repetir-voz');
         setInterval(() => {
             if (performance.navigation.TYPE_RELOAD) {
                 if (synth.paused) {
@@ -401,7 +400,26 @@
                     synth.resume();
                 }
             }
+
+            if (synth.speaking) {
+                botaoDeVoz.setAttribute('onclick', 'cancelarAudio(this)');
+            } else {
+                botaoDeVoz.setAttribute('onclick', 'ativarAudio(this)');
+            }
         }, 1000);
+
+
+        window.addEventListener("blur", function (event) {
+            synth.cancel();
+            const botaoDeAudio = document.getElementById('botao-repetir-voz');
+            botaoDeAudio.setAttribute('onclick', 'ativarAudio(this)');
+            synth.cancel();
+        });
+
+       //detectando o navegador que o usuário está utilizando
+       var user = detect.parse(navigator.userAgent);
+        console.log("BROWSER FAMILY: " + user.browser.family);
+
 
         function ativarAudio(button) {
             let textoInstrucao = 'Preste atenção às peças da sequência e identifique quais estão se repetindo. Depois arraste as peças disponíveis no fundo da página para a área do núcleo, montando as peças que se repetem. A ordem das peças deve ser respeitada.';
@@ -455,9 +473,6 @@
 
         function audioModalAutomatico() {
             synth.cancel();
-
-            let trocarFuncaoRepVoz = document.getElementById('botao-repetir-voz');
-            trocarFuncaoRepVoz.setAttribute('onclick', 'ativarAudio(this)');
 
             let textoModal = 'Olá, você sabe como funciona o Jogo da Repetição? Não? Então vem cá que eu te explico rapidinho, nele a gente te mostra uma sequência de figuras que se repetem e você tem que nos mostrar quais são essas figuras que estão se repetindo. Aah, já ia esquecendo, é só clicar e arrastar as figuras disponíveis lá embaixo para o núcleo e montar a sua sequência com as figuras que se repetem na mesma ordem e depois clicar em TERMINEI.';
             let utterance = new SpeechSynthesisUtterance(textoModal);

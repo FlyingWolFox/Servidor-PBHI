@@ -376,6 +376,10 @@
     <script type="text/javascript">
         var synth = window.speechSynthesis;
 
+        if(!localStorage.getItem('audio')){
+            localStorage.setItem('audio', 'ligado');
+        }
+
         //habilitando e desabilitando botão global de áudio
         var trocaImg = localStorage.getItem('audio');
         var estadoDoAudio = false;
@@ -399,18 +403,12 @@
         }
 
         //função para inicializar a página com o áudio
-        localStorage.setItem('audio', 'ligado');
         if (document.hasFocus() && localStorage.getItem('audio') == 'ligado') {
             audioOn();
             let text = 'Identifique as características das peças do grupo azul e do grupo laranja e arraste as peças disponíveis para o grupo correto.';
             let voice = new SpeechSynthesisUtterance(text);
             speechSynthesis.speak(voice);
         }
-
-        // se o usuário sair da página ou fechar a aba o áudio para de tocar
-        window.addEventListener("pagehide", function () {
-            synth.pause();
-        });
 
         if (trocaImg === 'ligado') {
             estadoDoAudio = true;
@@ -427,6 +425,7 @@
         })
 
         //verificando se a página foi recarregada para salvar o estado atual do áudio
+        const botaoDeVoz = document.getElementById('botao-repetir-voz');
         setInterval(() => {
             if (performance.navigation.TYPE_RELOAD) {
                 if (synth.paused) {
@@ -436,7 +435,21 @@
                     synth.resume();
                 }
             }
+
+            if (synth.speaking) {
+                botaoDeVoz.setAttribute('onclick', 'cancelarAudio(this)');
+            } else {
+                botaoDeVoz.setAttribute('onclick', 'ativarAudio(this)');
+            }
         }, 1000);
+
+
+        window.addEventListener("blur", function (event) {
+            synth.cancel();
+            const botaoDeAudio = document.getElementById('botao-repetir-voz');
+            botaoDeAudio.setAttribute('onclick', 'ativarAudio(this)');
+            synth.cancel();
+        });
 
         function ativarAudio(button) {
             let textoInstrucao = 'Identifique as características das peças do grupo azul e do grupo laranja e arraste as peças disponíveis para o grupo correto.';
@@ -468,7 +481,7 @@
         function ativarAudioModal() {
             let botaoAtivarVozModal = document.getElementById('botao-falar');
 
-            let textoModal2 = 'Olá novamente, tudo bem? tenho outro jogo bem bacana pra te apresentar, o Jogo dos Grupos, nele a gente te mostra duas caixas diferentes que vão servir para arrastar as figuras corretas e, ao lado de cada um, tem um balão que representa a regra desta caixa, por exemplo: um quadrado significa que naquela caixa só podem ser colocadas figuras quadradas. Já uma peça de quebra - cabeça azul, quer dizer que você só pode colocar figuras azuis.As outras regras eu tenho certeza que você consegue descobrir sozinho(a), depois que você arrastar as peças pra cada caixa, é só clicar em TERMINEI!!';  
+            let textoModal2 = 'Olá novamente, tudo bem? tenho outro jogo bem bacana pra te apresentar, o Jogo dos Grupos, nele a gente te mostra duas caixas diferentes que vão servir para arrastar as figuras corretas e, ao lado de cada um, tem um balão que representa a regra desta caixa, por exemplo: um quadrado significa que naquela caixa só podem ser colocadas figuras quadradas. Já uma peça de quebra - cabeça azul, quer dizer que você só pode colocar figuras azuis.As outras regras eu tenho certeza que você consegue descobrir sozinho(a), depois que você arrastar as peças pra cada caixa, é só clicar em TERMINEI!!';
             let utterance2 = new SpeechSynthesisUtterance(textoModal2);
 
 
@@ -488,9 +501,6 @@
 
         function audioModalAutomatico() {
             synth.cancel();
-
-            let trocarFuncaoRepVoz = document.getElementById('botao-repetir-voz');
-            trocarFuncaoRepVoz.setAttribute('onclick', 'ativarAudio(this)');
 
             let textoModal = 'Olá novamente, tudo bem? tenho outro jogo bem bacana pra te apresentar, o Jogo dos Grupos, nele a gente te mostra duas caixas diferentes que vão servir para arrastar as figuras corretas e, ao lado de cada um, tem um balão que representa a regra desta caixa, por exemplo: um quadrado significa que naquela caixa só podem ser colocadas figuras quadradas. Já uma peça de quebra - cabeça azul, quer dizer que você só pode colocar figuras azuis. As outras regras eu tenho certeza que você consegue descobrir sozinho, depois que você arrastar as peças pra cada caixa, é só clicar em TERMINEI!!';
             let utterance = new SpeechSynthesisUtterance(textoModal);
