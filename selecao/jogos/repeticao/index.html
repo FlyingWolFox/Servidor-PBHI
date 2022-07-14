@@ -332,6 +332,10 @@
 
 
     <script>
+        if (!localStorage.getItem('titulo')) {
+            localStorage.setItem('titulo', 'JOGO DA REPETICAO');
+        }
+
         let mudandoTituloRepeticao = document.getElementById('title-jogo');
         mudandoTituloRepeticao.innerHTML = localStorage.titulo;
     </script>
@@ -341,7 +345,7 @@
     <script type="text/javascript">
         var synth = window.speechSynthesis;
 
-        if(!localStorage.getItem('audio')){
+        if (!localStorage.getItem('audio')) {
             localStorage.setItem('audio', 'ligado');
         }
 
@@ -415,11 +419,6 @@
             botaoDeAudio.setAttribute('onclick', 'ativarAudio(this)');
             synth.cancel();
         });
-
-       //detectando o navegador que o usuário está utilizando
-       var user = detect.parse(navigator.userAgent);
-        console.log("BROWSER FAMILY: " + user.browser.family);
-
 
         function ativarAudio(button) {
             let textoInstrucao = 'Preste atenção às peças da sequência e identifique quais estão se repetindo. Depois arraste as peças disponíveis no fundo da página para a área do núcleo, montando as peças que se repetem. A ordem das peças deve ser respeitada.';
