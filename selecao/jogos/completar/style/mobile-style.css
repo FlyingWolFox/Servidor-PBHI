@@ -336,7 +336,7 @@ span#modal-close-button{
     section#container-nucleo {
         
         width: 90%;
-        height: 100px;
+        height: 80px;
         min-width: unset;
         min-height: unset;
         margin-bottom: 0px;
@@ -351,12 +351,6 @@ span#modal-close-button{
         min-height: unset;
     }
 
-    section#container-nucleo img.game-img {
-
-        width: 8%;
-        max-width: unset;    
-    }
-
     button#botao-resultado {
     
         margin-bottom: 0px;
@@ -365,7 +359,7 @@ span#modal-close-button{
 
     section#container-nucleo div.slot img { 
 
-        width: 98%;
+        /* width: 98%; */
 
     }
 }

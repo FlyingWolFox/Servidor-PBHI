@@ -490,8 +490,8 @@ section.drop img {
 div.slot {
 
     min-height: 100%;
-    width: 7%;
-    margin: 0px 5px;
+    /* width: 7%; */
+    /* margin: 0px 5px; */
     background-image: url('../img/bg-slot.svg');
     background-repeat: no-repeat;
     background-position: center;
@@ -902,12 +902,12 @@ div.formas-titulo {
 
     section#container-nucleo div.slot img {
 
-        width: 59px;
+        width: 45px;
     }
 
     section#container-nucleo div.slot img.pequeno {
 
-        width: 45px;
+        width: 30px;
     }
 
     button#botao-resultado {
