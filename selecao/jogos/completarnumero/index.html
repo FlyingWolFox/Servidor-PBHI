@@ -68,13 +68,17 @@
         <main id="main-body" class="grid grid-full">
             <div id="modalInfo" class="modal">
                 <div class="modal-content" id="modal-content">
-                    <p>Olá, nos encontramos mais uma vez 😀, desta vez vou te mostrar um jogo bem legal, O Jogo de Completar Números! O Jogo de Completar Números mostra uma sequência de números, com algumas delas faltando 🤔, e esta é a sua tarefa, identificar quais peças estão faltando e arrastar pra lista de figuras, depois é só clicar em TERMINEI!!
+                    <p>Olá, nos encontramos mais uma vez 😀, desta vez vou te mostrar um jogo bem legal, O Jogo de
+                        Completar Números! O Jogo de Completar Números mostra uma sequência de números, com algumas
+                        delas faltando 🤔, e esta é a sua tarefa, identificar quais peças estão faltando e arrastar pra
+                        lista de figuras, depois é só clicar em TERMINEI!!
                     </p>
                     <button id="botao-info-close"
                         onclick="document.getElementById('modalInfo').style.display='none'; cancelarAudioModal()">Entendi
                     </button>
                     <button id="botao-de-voz-ligado-modal">
-                        <p id="botao-falar" onclick="ativarAudioModal()">Falar!</p><!--aqui-->
+                        <p id="botao-falar" onclick="ativarAudioModal()">Falar!</p>
+                        <!--aqui-->
                     </button>
                 </div>
             </div>
@@ -114,10 +118,12 @@
                                 <i class="icofont-close icofont-2x"></i>
                             </a>
                         </div>
-                        <div id="botoes-de-audio"><!--aqui-->
+                        <div id="botoes-de-audio">
+                            <!--aqui-->
                             <button id="botao-ativar-voz" onclick="botaoGlobalDeVozAtivado(this)">
-                                <p >
-                                    <img src="../../../img/svg/audio-off.svg" alt="Áudio ligado" id="botao-voz-instrucao">
+                                <p>
+                                    <img src="../../../img/svg/audio-off.svg" alt="Áudio ligado"
+                                        id="botao-voz-instrucao">
                                 </p>
                             </button>
                             <button id="botao-repetir-voz" onclick="ativarAudio(this)">
@@ -125,7 +131,9 @@
                                     <img src="../../../img/svg/repeat.svg" alt="Repetir áudio" id="repetir-voz">
                                 </p>
                             </button>
-                            <button id="span-about" onclick="document.getElementById('modalInfo').style.display='block'; audioModalAutomatico()" class="">
+                            <button id="span-about"
+                                onclick="document.getElementById('modalInfo').style.display='block'; audioModalAutomatico()"
+                                class="">
                                 ?
                             </button>
                         </div>
@@ -220,12 +228,12 @@
         var containerSequencia = document.getElementById('container-nucleo');
         var timeStamps = [];
 
-        function resetaTimeStamps(){
+        function resetaTimeStamps() {
             let tamanho = timeStamps.length;
-            for(let i = 0; i < tamanho; i++){
+            for (let i = 0; i < tamanho; i++) {
                 console.log(`timestamp ${i}: ${timeStamps.pop()}`);
             }
-        } 
+        }
 
         const droppableSequencia = new Draggable.Droppable(containerFormas, {
             draggable: '.game-img',
@@ -309,149 +317,160 @@
     </script>
 
 
-</script>
-<!-- Funções para manipulações de áudio -->
-<script type="text/javascript">
-    var synth = window.speechSynthesis;
+    </script>
+    <!-- Funções para manipulações de áudio -->
+    <script type="text/javascript">
+        var synth = window.speechSynthesis;
 
-    //habilitando e desabilitando botão global de áudio
-    var trocaImg = localStorage.getItem('audio'); 
-    var estadoDoAudio = false;
-    const buttonAudio = document.querySelector('#botao-ativar-voz');
+        if(!localStorage.getItem('audio')){
+            localStorage.setItem('audio', 'ligado');
+        }
 
-    const audioOn = () => {
-        estadoDoAudio = true;
-        let repetirVoz = document.getElementById('botao-repetir-voz');
-        repetirVoz.setAttribute('onlick', 'cancelarAudio(this)');
-        document.getElementById('botao-voz-instrucao').src='../../../img/svg/audio-on.svg';
-        localStorage.setItem('audio', 'ligado');
-    }
+        //habilitando e desabilitando botão global de áudio
+        var trocaImg = localStorage.getItem('audio');
+        var estadoDoAudio = false;
+        const buttonAudio = document.querySelector('#botao-ativar-voz');
 
-    const audioOff = () => {
-        synth.cancel();
-        estadoDoAudio = false;
-        let repetirVoz = document.getElementById('botao-repetir-voz');
-        repetirVoz.setAttribute('onclick', 'ativarAudio(this)');
-        document.getElementById('botao-voz-instrucao').src='../../../img/svg/audio-off.svg';
-        localStorage.setItem('audio', 'desligado');
-    }
+        const audioOn = () => {
+            estadoDoAudio = true;
+            let repetirVoz = document.getElementById('botao-repetir-voz');
+            repetirVoz.setAttribute('onlick', 'cancelarAudio(this)');
+            document.getElementById('botao-voz-instrucao').src = '../../../img/svg/audio-on.svg';
+            localStorage.setItem('audio', 'ligado');
+        }
 
-    //função para inicializar a página com o áudio
-    localStorage.setItem('audio', 'ligado');
-    if(document.hasFocus() && localStorage.getItem('audio') == 'ligado') {
-        audioOn();
-        let text = 'Observe a sequência e identifique quais peças estão faltando para deixá-la completa. Depois arraste as peças disponíveis para as posições vazias da sequência para completá-las.';
-        let voice = new SpeechSynthesisUtterance(text);
-        speechSynthesis.speak(voice);
-    }
+        const audioOff = () => {
+            synth.cancel();
+            estadoDoAudio = false;
+            let repetirVoz = document.getElementById('botao-repetir-voz');
+            repetirVoz.setAttribute('onclick', 'ativarAudio(this)');
+            document.getElementById('botao-voz-instrucao').src = '../../../img/svg/audio-off.svg';
+            localStorage.setItem('audio', 'desligado');
+        }
 
-    // se o usuário sair da página ou fechar a aba o áudio para de tocar
-    window.addEventListener("pagehide", function(){
-        synth.pause();
-    });
-
-    if(trocaImg === 'ligado'){
-        estadoDoAudio = true;
-        audioOn();
-    }
-
-    buttonAudio.addEventListener('click', () => {
-        trocaImg = localStorage.getItem('audio')
-        if(trocaImg !== 'ligado'){
+        //função para inicializar a página com o áudio
+        if (document.hasFocus() && localStorage.getItem('audio') == 'ligado') {
             audioOn();
-        } else {
-            audioOff();
+            let text = 'Observe a sequência e identifique quais peças estão faltando para deixá-la completa. Depois arraste as peças disponíveis para as posições vazias da sequência para completá-las.';
+            let voice = new SpeechSynthesisUtterance(text);
+            speechSynthesis.speak(voice);
         }
-    })
-    
-    //verificando se a página foi recarregada para salvar o estado atual do áudio
-    setInterval(() => {
-        if (performance.navigation.TYPE_RELOAD){
-            if(synth.paused){
-                synth.resume();
+
+        if (trocaImg === 'ligado') {
+            estadoDoAudio = true;
+            audioOn();
+        }
+
+        buttonAudio.addEventListener('click', () => {
+            trocaImg = localStorage.getItem('audio')
+            if (trocaImg !== 'ligado') {
+                audioOn();
             } else {
-                synth.pause();
-                synth.resume();
+                audioOff();
             }
-        }
-    }, 1000);
+        })
 
-    function ativarAudio(button){
-        let textoInstrucao = 'Observe a sequência e identifique quais peças estão faltando para deixá-la completa. Depois arraste as peças disponíveis para as posições vazias da sequência para completá-las.';
-        let utterance1 = new SpeechSynthesisUtterance(textoInstrucao);
-
-        if(estadoDoAudio == false || estadoDoAudio == true){
-            speechSynthesis.speak(utterance1);
-        }        
-
-        button.setAttribute('onclick', 'cancelarAudio(this)');
-
+        //verificando se a página foi recarregada para salvar o estado atual do áudio
+        const botaoDeVoz = document.getElementById('botao-repetir-voz');
         setInterval(() => {
-            if (performance.navigation.TYPE_RELOAD){
-                    if(synth.paused){
+            if (performance.navigation.TYPE_RELOAD) {
+                if (synth.paused) {
+                    synth.resume();
+                } else {
+                    synth.pause();
+                    synth.resume();
+                }
+            }
+
+            if (synth.speaking) {
+                botaoDeVoz.setAttribute('onclick', 'cancelarAudio(this)');
+            } else {
+                botaoDeVoz.setAttribute('onclick', 'ativarAudio(this)');
+            }
+        }, 1000);
+
+
+        window.addEventListener("blur", function (event) {
+            synth.cancel();
+            const botaoDeAudio = document.getElementById('botao-repetir-voz');
+            botaoDeAudio.setAttribute('onclick', 'ativarAudio(this)');
+            synth.cancel();
+        });
+
+        function ativarAudio(button) {
+            let textoInstrucao = 'Observe a sequência e identifique quais peças estão faltando para deixá-la completa. Depois arraste as peças disponíveis para as posições vazias da sequência para completá-las.';
+            let utterance1 = new SpeechSynthesisUtterance(textoInstrucao);
+
+            if (estadoDoAudio == false || estadoDoAudio == true) {
+                speechSynthesis.speak(utterance1);
+            }
+
+            button.setAttribute('onclick', 'cancelarAudio(this)');
+
+            setInterval(() => {
+                if (performance.navigation.TYPE_RELOAD) {
+                    if (synth.paused) {
                         synth.resume();
                     } else {
                         synth.pause();
                         synth.resume();
                     }
                 }
-        }, 1000);
-    }
+            }, 1000);
+        }
 
-    function cancelarAudio(button){
-        synth.cancel();
-        button.setAttribute('onclick', 'ativarAudio(this)');
-    }
+        function cancelarAudio(button) {
+            synth.cancel();
+            button.setAttribute('onclick', 'ativarAudio(this)');
+        }
 
-    function ativarAudioModal() {
-        let botaoAtivarVozModal = document.getElementById('botao-falar');
+        function ativarAudioModal() {
+            let botaoAtivarVozModal = document.getElementById('botao-falar');
 
-        let textoModal2 = 'Olá, nos encontramos mais uma vez, desta vez vou te mostrar um jogo bem legal, O Jogo de Completar Números! O Jogo de Completar Números mostra uma sequência de números, com algumas delas faltando, e esta é a sua tarefa, identificar quais peças estão faltando e arrastar pra lista de figuras, depois é só clicar em TERMINEI!!';  
-        let utterance2 = new SpeechSynthesisUtterance(textoModal2);
+            let textoModal2 = 'Olá, nos encontramos mais uma vez, desta vez vou te mostrar um jogo bem legal, O Jogo de Completar Números! O Jogo de Completar Números mostra uma sequência de números, com algumas delas faltando, e esta é a sua tarefa, identificar quais peças estão faltando e arrastar pra lista de figuras, depois é só clicar em TERMINEI!!';
+            let utterance2 = new SpeechSynthesisUtterance(textoModal2);
 
-        
-        speechSynthesis.speak(utterance2);
 
-        setInterval(() => {
-        if (performance.navigation.TYPE_RELOAD){
-                if(synth.paused){
-                    synth.resume();
-                } else {
-                    synth.pause();
-                    synth.resume();
+            speechSynthesis.speak(utterance2);
+
+            setInterval(() => {
+                if (performance.navigation.TYPE_RELOAD) {
+                    if (synth.paused) {
+                        synth.resume();
+                    } else {
+                        synth.pause();
+                        synth.resume();
+                    }
                 }
+            }, 1000);
+        }
+
+        function audioModalAutomatico() {
+            synth.cancel();
+
+            let textoModal = 'Olá, nos encontramos mais uma vez, desta vez vou te mostrar um jogo bem legal, O Jogo de Completar Números! O Jogo de Completar Números mostra uma sequência de números, com algumas delas faltando, e esta é a sua tarefa, identificar quais peças estão faltando e arrastar pra lista de figuras, depois é só clicar em TERMINEI!!';
+            let utterance = new SpeechSynthesisUtterance(textoModal);
+
+            if (estadoDoAudio) {
+                speechSynthesis.speak(utterance);
             }
-        }, 1000);
-    }
 
-    function audioModalAutomatico(){
-        synth.cancel();
-
-        let trocarFuncaoRepVoz = document.getElementById('botao-repetir-voz');
-        trocarFuncaoRepVoz.setAttribute('onclick', 'ativarAudio(this)');
-
-        let textoModal = 'Olá, nos encontramos mais uma vez, desta vez vou te mostrar um jogo bem legal, O Jogo de Completar Números! O Jogo de Completar Números mostra uma sequência de números, com algumas delas faltando, e esta é a sua tarefa, identificar quais peças estão faltando e arrastar pra lista de figuras, depois é só clicar em TERMINEI!!';  
-        let utterance = new SpeechSynthesisUtterance(textoModal);
-
-        if(estadoDoAudio){
-            speechSynthesis.speak(utterance);
-        } 
-
-        setInterval(() => {
-            if (performance.navigation.TYPE_RELOAD){
-                if(synth.paused){
-                    synth.resume();
-                } else {
-                    synth.pause();
-                    synth.resume();
+            setInterval(() => {
+                if (performance.navigation.TYPE_RELOAD) {
+                    if (synth.paused) {
+                        synth.resume();
+                    } else {
+                        synth.pause();
+                        synth.resume();
+                    }
                 }
-            }
-        }, 1000);
-    }
+            }, 1000);
+        }
 
-    function cancelarAudioModal(){
-        synth.cancel();
-    }
-</script>
+        function cancelarAudioModal() {
+            synth.cancel();
+        }
+    </script>
 </body>
+
 </html>
