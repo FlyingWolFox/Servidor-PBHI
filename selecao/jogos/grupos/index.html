@@ -266,6 +266,18 @@
                 if (zone.classList.contains('draggable-dropzone--occupied')) {
                     zone.classList.remove('draggable-dropzone--occupied');
                 }
+                console.log("a peça foi arrastade de " + containerFormas.id);
+            });
+            timeStamps.push(new Date().getTime());
+        });
+
+        droppableSequencia.on('droppable:stop', () => {
+
+            Array.prototype.filter.call(dropzone, zone => {
+                if (zone.classList.contains('draggable-dropzone--occupied')) {
+                    zone.classList.remove('draggable-dropzone--occupied');
+                    console.log("a peça foi dropada em " + zone.id);
+                }
             });
             timeStamps.push(new Date().getTime());
         });
@@ -276,13 +288,24 @@
         });
 
         retornoDrop1.on('drag:start', () => {
-            if (containerFormas.classList.contains('draggable-dropzone--occupied')) {
-                containerFormas.classList.remove('draggable-dropzone--occupied');
-            }
+            Array.prototype.filter.call(dropzone, zone => {
+                if (zone.classList.contains('draggable-dropzone--occupied')) {
+                    zone.classList.remove('draggable-dropzone--occupied');
+                }
+                console.log("a peça foi arrastade de " + drop1.id);
+            });
+            timeStamps.push(new Date().getTime());
+        });
 
-            if (intDrop.classList.contains('draggable-dropzone--occupied')) {
-                intDrop.classList.remove('draggable-dropzone--occupied');
-            }
+        retornoDrop1.on('droppable:stop', () => {
+
+            Array.prototype.filter.call(dropzone, zone => {
+                if (zone.classList.contains('draggable-dropzone--occupied')) {
+                    zone.classList.remove('draggable-dropzone--occupied');
+                    console.log("a peça foi dropada em " + zone.id);
+                }
+            });
+            
             timeStamps.push(new Date().getTime());
         });
 
@@ -292,13 +315,22 @@
         });
 
         retornoDrop2.on('drag:start', () => {
-            if (containerFormas.classList.contains('draggable-dropzone--occupied')) {
-                containerFormas.classList.remove('draggable-dropzone--occupied');
-            }
+            Array.prototype.filter.call(dropzone, zone => {
+                if (zone.classList.contains('draggable-dropzone--occupied')) {
+                    zone.classList.remove('draggable-dropzone--occupied');
+                }
+                console.log("a peça foi arrastade de " + drop2.id);
+            });
+            timeStamps.push(new Date().getTime());
+        });
 
-            if (intDrop.classList.contains('draggable-dropzone--occupied')) {
-                intDrop.classList.remove('draggable-dropzone--occupied');
-            }
+        retornoDrop2.on('droppable:stop', () => {
+            Array.prototype.filter.call(dropzone, zone => {
+                if (zone.classList.contains('draggable-dropzone--occupied')) {
+                    zone.classList.remove('draggable-dropzone--occupied');
+                    console.log("a peça foi dropada em " + zone.id);
+                }
+            });
             timeStamps.push(new Date().getTime());
         });
 
@@ -308,12 +340,24 @@
         });
 
         retornoIntDrop.on('drag:start', () => {
-            if (containerFormas.classList.contains('draggable-dropzone--occupied')) {
-                containerFormas.classList.remove('draggable-dropzone--occupied');
-            }
+            Array.prototype.filter.call(dropzone, zone => {
+                if (zone.classList.contains('draggable-dropzone--occupied')) {
+                    zone.classList.remove('draggable-dropzone--occupied');
+                }
+                console.log("a peça foi arrastade de " + intDrop.id);
+            });
             timeStamps.push(new Date().getTime());
         });
 
+        retornoIntDrop.on('droppable:stop', () => {
+            Array.prototype.filter.call(dropzone, zone => {
+                if (zone.classList.contains('draggable-dropzone--occupied')) {
+                    zone.classList.remove('draggable-dropzone--occupied');
+                    console.log("a peça foi dropada em " + zone.id);
+                }
+            });
+            timeStamps.push(new Date().getTime());
+        });
 
     </script>
     <script type="text/javascript">
