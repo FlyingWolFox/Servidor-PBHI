@@ -49,7 +49,7 @@ var etapaAtual = 0;
 var estrela = 0; //nível de estrelas do jogador 
 var arrayEstrelas = document.getElementById(divEstrelas).getElementsByTagName('img');
 var ano = localStorage.getItem('ano');
-var etapaMax = 17;
+var etapaMax = 40;
 console.log('esse eh o ano:' + ano);
 
 /** FIM VARIAVEIS */
@@ -78,7 +78,7 @@ function getFasesPorAno(){
 	}
 	console.log("esse eh o numero maximo de fases desse ano: " + etapaMax);
 }
-getFasesPorAno();
+//getFasesPorAno();
 
 function randomInteger(min, max) {
 	return Math.floor(Math.random() * (max - min + 1)) + min;

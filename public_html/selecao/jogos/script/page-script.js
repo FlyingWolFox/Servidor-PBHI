@@ -1,9 +1,11 @@
+
 // objeto com os dados da partida, a ser modificado caso seja necessario
 const partida = {
   nomeJogo : '',
   faseAtual : 0,
   tempoDeJogo:'',
-  sucesso:false
+  sucesso:false,
+  data_hora: '',
 };
 
 // Ajustes do modal ------------
@@ -78,9 +80,9 @@ fullscreenButton.onclick = () => {
 
 };
 // funcao post usando fetch e baseada em promessas
-async function postData(url = '', data = {}) {
+async function postPartida(url = '', data = {}) {
   // Default options are marked with *
-  try{
+
     const response = await fetch(url, {
       method: 'POST', // *GET, POST, PUT, DELETE, etc.
       mode: 'cors', // no-cors, *cors, same-origin
@@ -94,12 +96,10 @@ async function postData(url = '', data = {}) {
       referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
       body: JSON.stringify(data) // body data type must match "Content-Type" header
     });
-    const result = response.text();
-  } catch(err){
-    console.log(err);
-  }
+   
+
  
-  return result; // parses JSON response into native JavaScript objects
+  return response.text(); // parses JSON response into native JavaScript objects
 }
 //funcoes trigger da partida
 function startPartida(){
@@ -111,17 +111,19 @@ function startPartida(){
   window.addEventListener('blur', blur);
 }
 function stopPartida(){
+  partida.data_hora = new Date().toISOString().slice(0, 19).replace('T', ' ');
+
   partida.faseAtual = parseInt(document.getElementById('textbox-numero-fase').innerHTML);
   console.log('essa eh uma instancia de fase gerada pelo botao terminei e essa eh a fase numero' + partida.faseAtual);
   beforeunload();
 }
 function setResultado(){
   partida.sucesso = true;
-  postData('/selecao/jogos', partida);
+  postPartida('/partida', partida);
 }
 function setResultadoErrou(){
   partida.sucesso = false;
-  postData('/selecao/jogos', partida);
+  postPartida('/partida', partida);
 }
 let startDate = new Date();
 let elapsedTime = 0;
@@ -158,6 +160,8 @@ window.addEventListener('load', startPartida);
 var botaoCorrigir = document.getElementById('botao-resultado');
 botaoCorrigir.addEventListener('click', stopPartida);
 botaoResultado = document.getElementById('botao-proximo');
+botaoRestart = document.getElementById('botao-restart');
+botaoRestart.addEventListener('click', setResultado);
 botaoResultado.addEventListener('click',setResultado);
 botaoRetorno = document.getElementById('botao-retorno');
 botaoRetorno.addEventListener('click', setResultadoErrou);

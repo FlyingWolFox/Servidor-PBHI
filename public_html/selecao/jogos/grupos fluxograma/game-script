@@ -5,7 +5,7 @@ var restricao2 = [];   //Restriçoes da terceira caixa (direita)
 var estadoRestricao = "" //Imagem esteja como proibida (Negado) / Imagem é para ser colocada (Aceita)
 var imgMov1 = [];      //Confere se falta colocar alguma imagem da primeira caixa 
 var imgMov2 = [];      //Confere se falta colocar alguma imagem da terceira caixa 
-
+var tempoLigacao = [] //Vetor que vai armazenar o timeStamp de cada ligaçaõ feita pelo usuário.
 const divFormas = 'container-formas';
 const dropPrimeiro = 'drop1';
 const dropSegundo = 'drop2';
@@ -55,6 +55,7 @@ function reset() {
      //Array contendo todos os elementos gerados
     restricao1 = [];
     restricao2 = [];
+    resetaTempoLigacao();
 }
 
 function getRandomIntInclusive(min, max) {

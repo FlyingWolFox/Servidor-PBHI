@@ -9,6 +9,7 @@ var imgMov1 = [];      //Confere se falta colocar alguma imagem da primeira caix
 var imgMov2 = [];      //Confere se falta colocar alguma imagem da terceira caixa 
 let quantidade = 0;
 var primeiraRodada = true;
+var tempoLigacao = [] //Vetor que vai armazenar o timeStamp de cada ligaçaõ feita pelo usuário.
 
 const textNumeroFase = 'textbox-numero-fase';
 const divFormas = 'container-formas';
@@ -81,7 +82,14 @@ function getFasesPorAno(){
 	}
 	console.log("esse eh o numero maximo de fases desse ano: " + etapaMax);
 }
-getFasesPorAno();
+//getFasesPorAno();
+
+function resetaTempoLigacao(){
+    let tamanhoArray = tempoLigacao.length;
+    for(let i = 0; i < tamanhoArray; i++){
+        tempoLigacao.pop();
+    }
+}
 
 function removeChildElementsByTag(parent, tag) {
     if(parent != null){
@@ -106,6 +114,7 @@ function reset() {
      //Array contendo todos os elementos gerados
     restricao1 = [];
     restricao2 = [];
+    resetaTempoLigacao();
 }
 
 function desabilitaBotoes(){
@@ -2424,7 +2433,72 @@ function check(){ //Confere se acertou
             modalErro.style.display = 'block';
             textoErro.innerText = 'Resposta errada... Tente novamente!';
         }
+	ligacao();
+        for(let i = 0; i < tempoLigacao.length; i++){
+            console.log(tempoLigacao[i]);
+        }
     }
+}
+async function postData(url = '', origem, destino, nomeLink, data_hora){
+    var faseAtual = parseInt(document.getElementById('textbox-numero-fase').innerHTML); 
+    
+  // Default options are marked with *
+    var data = {
+        origem: origem,
+        destino: destino,
+        tipoLigacao: nomeLink,
+        data_hora:data_hora,
+        nomeJogo:'FLUXOGRAMA',
+        faseAtual:faseAtual,
+    }
+    const response = await fetch(url, {
+      method: 'POST', // *GET, POST, PUT, DELETE, etc.
+      mode: 'cors', // no-cors, *cors, same-origin
+      cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+      credentials: 'same-origin', // include, *same-origin, omit
+      headers: {
+        'Content-Type': 'application/json',
+        // 'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      redirect: 'follow', // manual, *follow, error
+      referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+      body: JSON.stringify(data) // body data type must match "Content-Type" header
+    });
+    
+    return response.text();// parses JSON response into native JavaScript objects
+}
+async function ligacao(){
+    
+	var texto = "";
+	for (let link of diagram.getLinks()) {
+		var origem = link.getOrigin();
+		var destino = link.getDestination();
+		var nomeLink = link.getText();
+		//formaProximoNode = proximoNode.getShape().getId()
+		if(destino.getShape().getId() == 'Rectangle' && destino.getOutgoingLinks() == ''){
+			console.log('O node não está ligado a nada');
+			diagram.factory.createDiagramLink(destino, fimNode);
+		}
+		if(origem.getShape().getId() == 'Decision'){
+            texto = texto + 'O node ' + `${origem.getText()} está ligado ao node ${destino.getText()} por um ${nomeLink}` + '\n';
+            var data_hora = new Date().toISOString().slice(0, 19).replace('T', ' ');
+            var forigem = origem.getText();
+            var fdestino = destino.getText();
+     
+          await postData('/interacoes', forigem, fdestino, nomeLink, data_hora)
+          
+        }else{
+            texto = texto + 'O node ' + `${origem.getText()} está ligado ao node ${destino.getText()}` + '\n';
+            var data_hora = new Date().toISOString().slice(0, 19).replace('T', ' ');
+            var forigem = origem.getText();
+            var fdestino = destino.getText();
+           await postData('/interacoes', forigem, fdestino, "SEM LIGAÇÃO", data_hora)
+           
+        }
+        
+		
+	}
+	console.log(texto);
 }
 
 function resetFlux(){
@@ -2433,6 +2507,7 @@ function resetFlux(){
         clearTimeout(timeouts[i]);
     }
     habilitaBotoes();
+    resetaTempoLigacao();
     game()
 }
 
@@ -2671,8 +2746,8 @@ function onLinkCreated(sender, args) {      //Criação do link
     var link = args.getLink();
     var origem = link.getOrigin();
     var formaOrigem = origem.getShape().getId();
+    var timestamp = new Date().getTime();
     link.setTextAlignment(MindFusion.Diagramming.Alignment.Far);
-
     //Ao se criar o link verifica se o node origem do link é um nodeShape 'DECISION' e
     //adiciona o texto SIM ao primeiro link criado ou NÂO caso exista um SIM
     if (formaOrigem =='Decision') {
@@ -2684,6 +2759,7 @@ function onLinkCreated(sender, args) {      //Criação do link
             }
         }
     }
+    tempoLigacao.push(timestamp);
 }
 
 function onNodeCreated(sender, args) {

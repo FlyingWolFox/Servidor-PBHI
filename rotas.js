@@ -1,19 +1,20 @@
+//Colocando as rotas em arquivo separado
+
+/* Arquivo de rotas default, aqui estão definidos os endpoints de comunicação dos jogos */
 const express = require('express');
-const router = express.Router()
+const routerDefault = express.Router()
 const sql = require("./sql.js");
 const sessao = require('./session');
 const { addJogos, obterJogos } = require('./sql.js');
+const nanoid = require('nanoid').nanoid;
+const useragent = require('express-useragent');
 
 
 
-
-router.use((req, res, next) => {
-    req.session.init = "init";
-    next();
-});
+routerDefault.use(useragent.express());
 
 
-router.post('/contato.html', async (req, res)=>{
+routerDefault.post('/contato.html', async (req, res)=>{
     try{
      const nome = req.body.nome;
      const email = req.body.email;
@@ -32,18 +33,34 @@ router.post('/contato.html', async (req, res)=>{
     }
      
 })    
-router.post('/selecao/jogos', async (req,res)=>{
+
+routerDefault.post('/interacoes', async (req, res) =>{
+    const origem = req.body.origem;
+    const destino = req.body.destino;
+    const data_hora = req.body.data_hora;
+    const tipoLigacao = req.body.tipoLigacao;
+    const id_jogador = req.session.id_jogador;
+    const nomeJogo = req.body.nomeJogo;
+    const faseAtual = req.body.faseAtual;
+    if(req.body){
+        await sql.insertInteracao(origem, destino, tipoLigacao, data_hora, id_jogador, nomeJogo, faseAtual);
+        res.status(200).json('sucesso!');
+    }else{
+        res.status(400).json('Algo deu errado');
+    }
+})
+
+
+routerDefault.post('/partida', async (req,res)=>{
         const nome_jogo = req.body.nomeJogo;
         const faseAtual = req.body.faseAtual;
         const tempoDeJogo = req.body.tempoDeJogo;
         const sucesso = req.body.sucesso;
-        //partida.browser = req.useragent.browser;
-        //partida.platform = req.useragent.platform;
-        //partida.geoIp = req.useragent.geoIp;
         const id_jogador = req.session.id_jogador;
-        console.log(id_jogador);
+        const data_hora = req.body.data_hora;
+        console.log(req.body);
         if(req.body){
-        sql.insertPartida(nome_jogo,id_jogador, tempoDeJogo, sucesso, faseAtual);
+        await sql.insertPartida(nome_jogo,id_jogador, tempoDeJogo,data_hora, sucesso, faseAtual);
          console.log(req.body);
          //EscreverJSON(partida);
          res.sendStatus(201);
@@ -51,10 +68,13 @@ router.post('/selecao/jogos', async (req,res)=>{
         res.sendStatus(404);
     }
 })
-router.post('/nome', async (req,res,next) => {
+
+
+routerDefault.post('/nome', async (req,res,next) => {
     req.session.regenerate((e) => {})
     const nome = req.body.nome;
     const ano = req.body.ano;
+    
 
     var erros = [];
 
@@ -63,36 +83,79 @@ router.post('/nome', async (req,res,next) => {
     }
 
     if(nome > 30){
-        erros.push({texto: "Nome não pode ser ter mais de 30 caracteres"})
+        erros.push({texto: "Nome não pode ter mais de 30 caracteres"})
     }
 
     if(erros.length > 0){
         console.log(erros)
         res.json(erros)
-    }
-    else{
-        const id_jogador =  await sql.insertJogador(nome, ano);
+    }else{
+        const id_jogador =  await sql.addAluno(nome, ano);
         req.session.id_jogador = id_jogador;
         req.session.nome = nome;
         req.session.ano = ano;
         req.session.logado = true;
-        res.json("")
+        sessao.copySession(req);
+        res.json("");
     }
+   
 })
-router.get('/addjogos', async (req,res) => {
-    sql.createTableJogos()
-    let jogos = await sql.obterJogos()
-    if(jogos == '') sql.addJogos();
-    else console.log("Jogos já foram adicionados");
+routerDefault.get('/getTempoMedio', async (req, res) =>{
+    const tempoMedio = await sql.getTempoMedio();
+    if(tempoMedio){
+        res.json(tempoMedio);
+    } else console.log('Algo deu errado');
 })
-router.get('/getsession',(req,res) => {
+routerDefault.get('/getNumeroDeJogadores', async (req, res) =>{
+    const numeroJogadores = await sql.getNumeroDeJogadores();
+    if(numeroJogadores){
+        res.json(numeroJogadores);
+    } else console.log('Algo deu errado');
+})
+routerDefault.get('/getPartidasVencidas', async (req, res) =>{
+    const partidasVencidas = await sql.getPartidasVencidas();
+    if(partidasVencidas){
+        res.json(partidasVencidas);
+    } else console.log('Algo deu errado');
+})
+routerDefault.get('/getAllPartidas', async (req,res) => {
+    let fields = await sql.getAllPartidas();
+    if(fields){
+        res.json(fields);
+    }
+    else console.log("deu merda");
+})
+routerDefault.get('/getsession',(req,res) => {
     res.json(sessao.getSession(req))
 })
-router.get('/getstatus',(req,res) => {
+routerDefault.get('/getstatus',(req,res) => {
     res.json(sessao.getStatus(req))
 })
-router.all('*', (req,res)=>{ 
+routerDefault.get('/changeStatus',(req,res)=>{
+    req.session.logado = false;
+   res.json("");
+})
+routerDefault.get('/logout',  async (req, res)=>{
+    
+   res.json(sessao.changeStatus(req))
+})
+routerDefault.post('/getLink', async (req, res)=>{
+    const id = nanoid(8)
+    const datah_criacao = new Date()
+    const intervalo  = datah_criacao.getTime() + (3*60*1000)
+    const criacao_UTC = datah_criacao.toISOString().slice(0, 19).replace('T', ' ');
+    const datah_expiracao = new Date();
+    datah_expiracao.setTime(intervalo);
+    const expiracao_UTC = datah_expiracao.toISOString().slice(0, 19).replace('T', ' ');
+    console.log(criacao_UTC, expiracao_UTC);
+    //await sql.insertAtividade(id, "João Vittor", "Turma B", "Repetição", "Segundo Ano")
+    const URL = 'localhost:3000/atividade/'+ id
+    
+    res.send(URL);
+})
+
+routerDefault.all('*', (req,res)=>{ 
      res.status(404).send('<h1>recurso não encontrado</h1');
 })
 
-module.exports = router
+module.exports = routerDefault

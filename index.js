@@ -3,10 +3,10 @@ const express = require('express');
 const app = express();
 const session = require('express-session');
 const logger = require('./logger.js');
-const useragent = require('express-useragent');
-const router = require('./rotas');
+const routerDefault = require('./rotas');
 const mysqlStore = require('express-mysql-session')(session);
-const connection = require('mysql2/promise')
+const connection = require('mysql2/promise');
+const routerAtividade = require('./rotasAtividade.js');
 // const fs = require('fs');
 // const geoip = require('geoip-lite');
 const TWO_HOURS = 1000 * 60 * 60 * 2
@@ -14,14 +14,34 @@ const TWO_HOURS = 1000 * 60 * 60 * 2
 var option = {
     host: 'localhost',
     user: 'root',
-    password: '12345',
+    password: 'dumb123',
     database: 'temlogicaDB',
     waitForConnections: true,
-    connectionLimit: 10
+    connectionLimit: 10,
+    
 }
+optStore = {
+    host: 'localhost',
+    user: 'root',
+    password: 'dumb123',
+    database: 'temlogicaDB',
+    waitForConnections: true,
+    connectionLimit: 10,
+    createDatabaseTable: false,
+	schema: {
+		tableName: 'sessions',
+		columnNames: {
+			session_id: 'session_id',
+			expires: 'expires',
+			data: 'data'
+		}
+	}
+};
+
+
 
 var mysql = connection.createPool(option)
-var sessionStore = new mysqlStore(option, mysql);
+var sessionStore = new mysqlStore(optStore, mysql);
 //funcoes de sessao
 app.use(session({
     name: "session_id",
@@ -33,6 +53,7 @@ app.use(session({
         maxAge: TWO_HOURS,
         sameSite: 'strict',
         secure: false
+       
     }
 }))
 
@@ -43,7 +64,7 @@ app.use(session({
   });*/
 app.use('/selecao/jogos', logger);
 app.use(express.static('./public_html'));
-app.use(useragent.express());
+
 
 //parser de url para o formulario, parser do body para as partidas
 app.use(express.urlencoded({extended:false}));
@@ -54,6 +75,9 @@ app.use(express.json());
 // requisicoes do servidor
 app.set('trust proxy', true);
 //app.disable('etag');
-app.use(router);
+app.use('/atividade', routerAtividade);
+app.use(routerDefault);
+
+
 
 app.listen(process.env.PORT || 3000, () => console.log('App disponivel na http://localhost:3000'));

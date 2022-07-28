@@ -68,38 +68,38 @@
         <section id="section-container"> 
     		<section class="sub-section" id="section-sequencia-home">
     			<h2 class="section-title" id="color1">Primeiro Ano</h2>
-    			<a onclick='trocarPagIndex("Primeiro ano")' class="section-link" class="primeiro-ano" id="primeiro">
+    			<a onclick='checkStatus("Primeiro ano")' class="section-link" class="primeiro-ano" id="primeiro">
                     <img class="section-link-img" src="img\svg\1.svg">
                 </a>
     		</section>
             <section class="sub-section"id="section-fluxo-home">
                 <h2 class="section-title" id="color2">Segundo Ano</h2>
-                <a onclick='trocarPagIndex("Segundo ano")' class="section-link" class="segundo-ano" id="segundo">
+                <a onclick='checkStatus("Segundo ano")' class="section-link" class="segundo-ano" id="segundo">
                     <img class="section-link-img" src="img\svg\2.svg">
                 </a>
              </section>
     		<section class="sub-section" id="section-grupos-home">
     			<h2 class="section-title" id="color3">Terceiro Ano</h2>
-    			<a onclick='trocarPagIndex("Terceiro ano")' class="section-link" class="terceiro-ano" id="terceiro">
+    			<a onclick='checkStatus("Terceiro ano")' class="section-link" class="terceiro-ano" id="terceiro">
                     <img class="section-link-img" src="img\svg\3.svg">
                 </a>
     		</section>
 
     		<section class="sub-section" id="section-quarto-home">
     			<h2 class="section-title" id="color4">Quarto Ano</h2>
-    			<a onclick='trocarPagIndex("Quarto ano")' class="section-link" class="quarto-ano" id="quarto">
+    			<a onclick='checkStatus("Quarto ano")' class="section-link" class="quarto-ano" id="quarto">
                     <img class="section-link-img" src="img\svg\4.svg">
                 </a>
     		</section>
             <section class="sub-section" id="section-quinto-home">
     			<h2 class="section-title" id="color5">Quinto Ano</h2>
-    			<a onclick='trocarPagIndex("Quinto ano")' class="section-link" class="quinto-ano" id="quinto">
+    			<a onclick='checkStatus("Quinto ano")' class="section-link" class="quinto-ano" id="quinto">
                     <img class="section-link-img" src="img\svg\5.svg">
                 </a>
     		</section>
             <section class="sub-section" id="section-sexto-home">
     			<h2 class="section-title" id="color6">Sexto Ano</h2>
-    			<a onclick='trocarPagIndex("Sexto ano")' class="section-link" class="sexto-ano" id="sexto">
+    			<a onclick='checkStatus("Sexto ano")' class="section-link" class="sexto-ano" id="sexto">
                     <img class="section-link-img" src="img\svg\6.svg">
                 </a>
     		</section>
@@ -169,7 +169,7 @@
             localStorage.setItem('cor', '#ffcc00');
         })
     </script>
-    <!-- Script de para addJogos automaticamente -->
+    <!-- Script para addJogos -->
     <script>
         async function getSessionId(){
             try {
@@ -178,7 +178,7 @@
                 console.log(error)
             }
         }
-        getSessionId()
+        //getSessionId()
     </script>
     <script src="./script/page-script.js"></script>
 </body>

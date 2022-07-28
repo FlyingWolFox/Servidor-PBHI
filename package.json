@@ -1,6 +1,6 @@
 {
   "name": "nodeteste",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -19,8 +19,8 @@
     "mysql": "^2.18.1",
     "mysql2": "^2.3.3",
     "mysql2-promise": "^0.1.4",
+    "nanoid": "^3.3.4",
     "node-geocoder": "^4.0.0",
-    "nodemon": "^2.0.16",
-    "sequelize": "^6.20.1"
+    "nodemon": "^2.0.16"
   }
 }

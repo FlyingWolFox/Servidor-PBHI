@@ -53,7 +53,7 @@ var endGame = false; //Indica se o jogo terminou ou não
 var arrayEstrelas = document.getElementById(divEstrelas).getElementsByTagName('img');
 var ano = localStorage.getItem('ano');
 var etapaMax = 17;
-
+var timeStamps = [];
 /** FIM VARIAVEIS */
 
 /** FUNCOES DE APOIO */
@@ -88,7 +88,12 @@ function getFasesPorAno(){
 	console.log("esse eh o numero maximo de fases desse ano: " + etapaMax);
 }
 getFasesPorAno();
-
+function resetaTimeStamps(){
+	let tamanho = timeStamps.length;
+	for(let i = 0; i < tamanho; i++){
+		console.log(`timestamp ${i}: ${timeStamps.pop()}`);
+	}
+}	
 /** FIM FUNCOES DE APOIO */
 
 /** FUNCOES DO JOGO */
@@ -918,6 +923,7 @@ function check(){
 				modalErro.style.display = 'block';
 				textoErro.innerText = 'Que pena, tente novamente.';
 				breakF = 1;
+				resetaTimeStamps();
 			}	
 		});
 	})
@@ -997,6 +1003,7 @@ function check(){
                     }
                     game();
                     modalAcerto.style.display = 'none';
+					resetaTimeStamps();
                 }
             } 
 		else{
@@ -1005,6 +1012,7 @@ function check(){
 				stopChuva()
 				etapaAtual = 0;	
 				endGame = false;
+				resetaTimeStamps();
 				resetEstrelas();
 				game();
 				modalFim.style.display = 'none';
@@ -1015,6 +1023,7 @@ function check(){
 	else{
 		modalErro.style.display = 'block';
 		textoErro.innerText = 'Resposta errada... Tente novamente!';
+		resetaTimeStamps();
 	}	
 }
 

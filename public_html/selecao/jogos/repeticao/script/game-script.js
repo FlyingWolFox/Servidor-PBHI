@@ -47,7 +47,7 @@ var etapaAtual = 0;
 var estrela = 0; //nível de estrelas do jogador 
 var arrayEstrelas = document.getElementById(divEstrelas).getElementsByTagName('img');
 var ano = localStorage.getItem('ano');
-var etapaMax = 17;
+var etapaMax = 25;
 console.log('esse eh o ano:' + ano);
 /** FIM VARIAVEIS */
 
@@ -76,7 +76,13 @@ function getFasesPorAno(){
 	}
 	console.log("esse eh o numero maximo de fases desse ano: " + etapaMax);
 }
-getFasesPorAno();
+
+/*select jogador.nome as "Aluno", partida.nome_jogo as "Jogos Completados" from partida 
+     inner join jogador on jogador.id_jogador = partida.id_jogador
+     inner join jogo on partida.nome_jogo = jogo.nome_jogo and partida.faseAtual = jogo.nFases
+     where sucesso = 1;*/
+//getFasesPorAno(); CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `partidas_ganhas_por_jogador` AS select count((case when (`partida`.`sucesso` = 1) then 1 else NULL end)) AS `Partidas ganhas`,`partida`.`id_jogador` AS `id_jogador` from `partida` group by `partida`.`id_jogador`;
+
 function getRandomIntInclusive(min, max) {
 	min = Math.ceil(min);
 	max = Math.floor(max);

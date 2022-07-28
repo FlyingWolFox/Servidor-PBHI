@@ -1,0 +1,18 @@
+.resultadoTable {
+    padding: 0;
+    margin: auto;
+    border-collapse: collapse;
+    width: 80%;
+    text-align: center;
+    color: black;
+    }
+    .resultadoTableHeaderRow {
+    color: #FDC23E;
+    font-weight: bold;
+    height: 50px;
+    }
+    .resultadoTableBodyRow:nth-child(odd){background-color: rgba(128, 128, 128, 0.050);}
+
+    .resultadoTable tr td {
+    height: 25px;
+    }

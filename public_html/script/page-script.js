@@ -74,48 +74,64 @@ fullscreenButton.onclick = () => {
 //Implementando modal de login
 
 var logado = false;
-
-function criarModalLogin(ano){ //Criando modal de login
+function setEventoBotão(){
+  buttonLogin = document.getElementById('botao-modal-login')
+  buttonLogin.removeEventListener('click', trocarPagIndex);
+  buttonLogin.addEventListener('click', post);
+}
+function criarModalLogin(nome, anoAluno){ //Criando modal de login
   const body = document.querySelector('body')
   let fundo = document.createElement('form')
   fundo.setAttribute('id','modal-login')
-
   let backgroundLogin = document.createElement('div')
   backgroundLogin.setAttribute('id','background-modal-login')
-
-  let firstName = document.createElement('input')
-  firstName.setAttribute('type','text')
-  firstName.setAttribute('placeholder','Nome Completo')
-  firstName.setAttribute('id','firstName-modal-login')
-  firstName.setAttribute('autocomplete','off')
-  firstName.setAttribute('name','nome')
-  firstName.setAttribute('id','firstName-modal-login')
-  firstName.classList.add('modal-login-text')
-  
   let anoAtual = document.createElement('input')
   anoAtual.setAttribute('type','text')
   anoAtual.setAttribute('name','ano')
   anoAtual.setAttribute('id','anoAtual-modal-login')
-  anoAtual.setAttribute('value',ano)
-
+  anoAtual.setAttribute('value', anoAluno)
+  let firstName = document.createElement('input')
   let buttonLogin = document.createElement('input')
+  firstName.setAttribute('type','text')
+  firstName.setAttribute('minlength','8')
+  firstName.setAttribute('maxlength','30')
+  firstName.setAttribute('size','15')
   buttonLogin.setAttribute('type','button')
   buttonLogin.setAttribute('value','Continuar')
-  // buttonLogin.setAttribute('type','submit')
   buttonLogin.setAttribute('id','botao-modal-login')
-  buttonLogin.addEventListener('click', post)
-
+  firstName.setAttribute('id','firstName-modal-login')
+  firstName.setAttribute('autocomplete','off')
+  firstName.setAttribute('method','post')
+  firstName.setAttribute('target','./selecao/index.html')
+  firstName.setAttribute('action','../index.js')
+  firstName.classList.add('modal-login-text')
+  if(nome){
+    firstName.setAttribute('placeholder',`Insira seu nome ou continue como ${nome}`)
+    buttonLogin.addEventListener('click', trocarPagIndex)
+    firstName.addEventListener('input', setEventoBotão)
+  }else{
+    firstName.setAttribute('placeholder','Nome Completo')
+    buttonLogin.addEventListener('click', post)
+  }
+  backgroundLogin.appendChild(anoAtual);
   backgroundLogin.appendChild(firstName)
-  backgroundLogin.appendChild(anoAtual)
   backgroundLogin.appendChild(buttonLogin)
   fundo.appendChild(backgroundLogin)
   body.appendChild(fundo)
 }
-
-async function trocarPagIndex(ano){
-  let resultado = await (await fetch('/getstatus'))
+ function trocarPagIndex(){
+  window.location.href = 'selecao/index.html'
+  
+}
+ 
+async function checkStatus(ano){
+  var anoAluno = ano;
+  if(!anoAluno){
+    console.log('não recebi o ano')
+  }
+  let resultado = await (await fetch('/getStatus'))
   resultado = await resultado.json();
-  resultado.logado ? window.location.href = './selecao/index.html': criarModalLogin(ano);
+  criarModalLogin(resultado.nome, anoAluno);
 }
 
 async function post(){

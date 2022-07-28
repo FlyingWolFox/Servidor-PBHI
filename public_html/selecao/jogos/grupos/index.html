@@ -224,7 +224,13 @@
         var drop2 = document.getElementById('drop2');
         var intDrop = document.getElementById('intDrop')
         var dropzoneArea = document.getElementById('dropzone-container');
-
+        var timeStamps = [];
+        function resetaTimeStamps(){
+            let tamanho = timeStamps.length;
+            for(let i = 0; i < tamanho; i++){
+                console.log(`timestamp ${i}: ${timeStamps.pop()}`);
+            }
+        } 
         const droppableSequencia = new Draggable.Droppable(containerFormas, {
             draggable: '.drag',
             dropzone: '.drop'
@@ -237,6 +243,7 @@
                     zone.classList.remove('draggable-dropzone--occupied');
                 }
             });
+            timeStamps.push(new Date().getTime());
         });
 
         const retornoDrop1 = new Draggable.Droppable(drop1, {
@@ -252,6 +259,7 @@
             if(intDrop.classList.contains('draggable-dropzone--occupied')){
                 intDrop.classList.remove('draggable-dropzone--occupied');
             }
+            timeStamps.push(new Date().getTime());
         });
 
         const retornoDrop2 = new Draggable.Droppable(drop2, {
@@ -267,6 +275,7 @@
             if(intDrop.classList.contains('draggable-dropzone--occupied')){
                 intDrop.classList.remove('draggable-dropzone--occupied');
             }
+            timeStamps.push(new Date().getTime());
         });
 
         const retornoIntDrop = new Draggable.Droppable(intDrop, {
@@ -278,6 +287,7 @@
             if (containerFormas.classList.contains('draggable-dropzone--occupied')) {
                 containerFormas.classList.remove('draggable-dropzone--occupied');
             }
+            timeStamps.push(new Date().getTime());
         });
 
 
