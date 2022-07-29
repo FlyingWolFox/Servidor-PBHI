@@ -266,14 +266,17 @@
 
         droppableFormas.on('drag:start', () => {
             if (containerFormas.classList.contains('draggable-dropzone--occupied')) {
-                console.log("passei por aquiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii");
                 containerFormas.classList.remove('draggable-dropzone--occupied');
             }
-            origem = 'INÍCIO';
-            destino = 'FIM';
+            origem = 'FIM';
             Reverte();
         });
         droppableFormas.on('drag:stop', async ()=>{
+            if(droppableFormas.lastDropzone == null){
+                destino = 'FIM';
+            }else{
+                destino = 'INÍCIO';
+            }
             var data_hora = new Date().toISOString().slice(0, 19).replace('T', ' ');
             await postData('/interacoes', origem, destino, data_hora);
         });
@@ -289,12 +292,15 @@
             if (containerSequencia.classList.contains('draggable-dropzone--occupied')) {
                 containerSequencia.classList.remove('draggable-dropzone--occupied');
             } 
-            
+            origem = 'INÍCIO';
         })
     
         retorno.on('drag:stop', async ()=>{// se soltou a peça dentro do mesmo container origem e fim sao o msm no
-            origem = 'FIM';
-            destino = 'INÍCIO';
+            if(retorno.lastDropzone == null){
+                destino = 'INÍCIO';
+            }else{
+                destino = 'FIM';
+            }
             var data_hora = new Date().toISOString().slice(0, 19).replace('T', ' ');
             await postData('/interacoes', origem, destino, data_hora);
         });

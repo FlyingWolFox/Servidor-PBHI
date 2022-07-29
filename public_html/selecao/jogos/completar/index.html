@@ -209,37 +209,36 @@
         var containerSequencia = document.getElementById('container-nucleo');
         var origem = '';
         var destino = '';
-
-
+        var data_hora = '';
 
    
- async function postData(url = '', origem, destino, data_hora) {
-    var nomeJogo  = document.getElementById('title-jogo').getAttribute('nome-real');
-    var faseAtual = parseInt(document.getElementById('textbox-numero-fase').innerHTML);
-  // Default options are marked with *
-    var dadosInteracao= {
-        origem: origem,
-        destino:destino,
-        tipoLigacao: 'SEM LIGAÇÃO',
-        data_hora:data_hora,
-        nomeJogo:nomeJogo,
-        faseAtual:faseAtual,
-    }
-    const response = await fetch(url, {
-      method: 'POST', // *GET, POST, PUT, DELETE, etc.
-      mode: 'cors', // no-cors, *cors, same-origin
-      cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
-      credentials: 'same-origin', // include, *same-origin, omit
-      headers: {
-        'Content-Type': 'application/json',
-        // 'Content-Type': 'application/x-www-form-urlencoded',
-      },
-      redirect: 'follow', // manual, *follow, error
-      referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
-      body: JSON.stringify(dadosInteracao) // body data type must match "Content-Type" header
-    });
-   return response.text(); // parses JSON response into native JavaScript objects
-}
+        async function postData(url = '', origem, destino, data_hora) {
+            var nomeJogo  = document.getElementById('title-jogo').getAttribute('nome-real');
+            var faseAtual = parseInt(document.getElementById('textbox-numero-fase').innerHTML);
+            // Default options are marked with *
+            var dadosInteracao= {
+                origem: origem,
+                destino:destino,
+                tipoLigacao: 'SEM LIGAÇÃO',
+                data_hora:data_hora,
+                nomeJogo:nomeJogo,
+                faseAtual:faseAtual,
+            }
+            const response = await fetch(url, {
+                method: 'POST', // *GET, POST, PUT, DELETE, etc.
+                mode: 'cors', // no-cors, *cors, same-origin
+                cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+                credentials: 'same-origin', // include, *same-origin, omit
+                headers: {
+                    'Content-Type': 'application/json',
+                    // 'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                redirect: 'follow', // manual, *follow, error
+                referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+                body: JSON.stringify(dadosInteracao) // body data type must match "Content-Type" header
+            });
+            return response.text(); // parses JSON response into native JavaScript objects
+        }
 
 
         const droppableSequencia = new Draggable.Droppable(containerFormas, {
@@ -251,14 +250,14 @@
             if (containerSequencia.classList.contains('draggable-dropzone--occupied')) {
                 containerSequencia.classList.remove('draggable-dropzone--occupied');
             }
-        origem = 'INÍCIO';
-        destino = 'FIM';
+            origem = 'INÍCIO';
         });
         droppableSequencia.on('drag:stop', async ()=>{ 
-            if(droppableSequencia.lastDropzone == containerSequencia){
+            if(droppableSequencia.lastDropzone == null){
                 destino = 'INÍCIO';
+            }else{
+                destino = 'FIM';
             }
-            
             var data_hora = new Date().toISOString().slice(0, 19).replace('T', ' ');
             await postData('/interacoes', origem, destino, data_hora);
         });
@@ -272,11 +271,15 @@
             if (containerFormas.classList.contains('draggable-dropzone--occupied')) {
                 containerFormas.classList.remove('draggable-dropzone--occupied');
             }
+            origem = 'FIM';
         });
         
         retorno.on('drag:stop', async ()=>{// se soltou a peça dentro do mesmo container origem e fim sao o msm no
-            origem = 'FIM';
-            destino = 'INÍCIO';
+            if(retorno.lastDropzone == null){
+                destino = 'FIM';
+            }else{
+                destino = 'INÍCIO';
+            }
             var data_hora = new Date().toISOString().slice(0, 19).replace('T', ' ');
             await postData('/interacoes', origem, destino, data_hora);
         });

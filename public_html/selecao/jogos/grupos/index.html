@@ -224,13 +224,62 @@
         var drop2 = document.getElementById('drop2');
         var intDrop = document.getElementById('intDrop')
         var dropzoneArea = document.getElementById('dropzone-container');
-        var timeStamps = [];
-        function resetaTimeStamps(){
-            let tamanho = timeStamps.length;
-            for(let i = 0; i < tamanho; i++){
-                console.log(`timestamp ${i}: ${timeStamps.pop()}`);
+        var origem = '';
+        var destino = '';
+        var data_hora = '';
+        
+        async function postData(url = '', origem, destino, data_hora) {
+            var nomeJogo  = document.getElementById('title-jogo').getAttribute('nome-real');
+            var faseAtual = parseInt(document.getElementById('textbox-numero-fase').innerHTML);
+            // Default options are marked with *
+            var dadosInteracao= {
+                origem: origem,
+                destino:destino,
+                tipoLigacao: 'SEM LIGAÇÃO',
+                data_hora:data_hora,
+                nomeJogo:nomeJogo,
+                faseAtual:faseAtual,
             }
-        } 
+            const response = await fetch(url, {
+                method: 'POST', // *GET, POST, PUT, DELETE, etc.
+                mode: 'cors', // no-cors, *cors, same-origin
+                cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+                credentials: 'same-origin', // include, *same-origin, omit
+                headers: {
+                    'Content-Type': 'application/json',
+                    // 'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                redirect: 'follow', // manual, *follow, error
+                referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+                body: JSON.stringify(dadosInteracao) // body data type must match "Content-Type" header
+            });
+            return response.text(); // parses JSON response into native JavaScript objects
+        }
+        
+        function decideDrop(id, flag){
+            console.log(flag.id);
+            if(flag.id == ''){
+                return
+            }else{
+                switch (id) {
+                case 'drop1':
+                    return 'Colocar na esquerda'
+                    break;
+                case 'drop2':
+                    return 'Colocar na direita'
+                    break;
+                case 'intDrop':
+                    return 'Colocar na interseção'
+                    break;
+                case 'container-formas':
+                    return 'INÍCIO'
+                    break;
+                default:
+                    break;
+            }
+            }
+        }
+
         const droppableSequencia = new Draggable.Droppable(containerFormas, {
             draggable: '.drag',
             dropzone: '.drop'
@@ -243,7 +292,20 @@
                     zone.classList.remove('draggable-dropzone--occupied');
                 }
             });
-            timeStamps.push(new Date().getTime());
+        });
+
+        droppableSequencia.on('droppable:stop', async () => {
+
+            Array.prototype.filter.call(dropzone, zone => {
+                if (zone.classList.contains('draggable-dropzone--occupied')) {
+                    zone.classList.remove('draggable-dropzone--occupied');
+                    origem = 'INÍCIO';
+                    destino = 'INÍCIO';
+                    destino = decideDrop(zone.id, droppableSequencia.lastDropzone);
+                }
+            });
+            data_hora = new Date().toISOString().slice(0, 19).replace('T', ' ');
+            await postData('/interacoes', origem, destino, data_hora);
         });
 
         const retornoDrop1 = new Draggable.Droppable(drop1, {
@@ -252,14 +314,25 @@
         });
 
         retornoDrop1.on('drag:start', () => {
-            if (containerFormas.classList.contains('draggable-dropzone--occupied')) {
-                containerFormas.classList.remove('draggable-dropzone--occupied');
-            }
+            Array.prototype.filter.call(dropzone, zone => {
+                if (zone.classList.contains('draggable-dropzone--occupied')) {
+                    zone.classList.remove('draggable-dropzone--occupied');
+                }
+            });
+        });
 
-            if(intDrop.classList.contains('draggable-dropzone--occupied')){
-                intDrop.classList.remove('draggable-dropzone--occupied');
-            }
-            timeStamps.push(new Date().getTime());
+        retornoDrop1.on('droppable:stop', async () => {
+
+            Array.prototype.filter.call(dropzone, zone => {
+                if (zone.classList.contains('draggable-dropzone--occupied')) {
+                    zone.classList.remove('draggable-dropzone--occupied');
+                    origem = 'Colocar na esquerda';
+                    destino = 'Colocar na esquerda';
+                    destino = decideDrop(zone.id, retornoDrop1.lastDropzone);
+                }
+            });
+            data_hora = new Date().toISOString().slice(0, 19).replace('T', ' ');
+            await postData('/interacoes', origem, destino, data_hora);
         });
 
         const retornoDrop2 = new Draggable.Droppable(drop2, {
@@ -268,14 +341,24 @@
         });
 
         retornoDrop2.on('drag:start', () => {
-            if (containerFormas.classList.contains('draggable-dropzone--occupied')) {
-                containerFormas.classList.remove('draggable-dropzone--occupied');
-            }
+            Array.prototype.filter.call(dropzone, zone => {
+                if (zone.classList.contains('draggable-dropzone--occupied')) {
+                    zone.classList.remove('draggable-dropzone--occupied');
+                }
+            });
+        });
 
-            if(intDrop.classList.contains('draggable-dropzone--occupied')){
-                intDrop.classList.remove('draggable-dropzone--occupied');
-            }
-            timeStamps.push(new Date().getTime());
+        retornoDrop2.on('droppable:stop', async () => {
+            Array.prototype.filter.call(dropzone, zone => {
+                if (zone.classList.contains('draggable-dropzone--occupied')) {
+                    zone.classList.remove('draggable-dropzone--occupied');
+                    origem = 'Colocar na direita';
+                    destino = 'Colocar na direita';
+                    destino = decideDrop(zone.id, retornoDrop2.lastDropzone);
+                }
+            });
+            data_hora = new Date().toISOString().slice(0, 19).replace('T', ' ');
+            await postData('/interacoes', origem, destino, data_hora);
         });
 
         const retornoIntDrop = new Draggable.Droppable(intDrop, {
@@ -284,10 +367,24 @@
         });
 
         retornoIntDrop.on('drag:start', () => {
-            if (containerFormas.classList.contains('draggable-dropzone--occupied')) {
-                containerFormas.classList.remove('draggable-dropzone--occupied');
-            }
-            timeStamps.push(new Date().getTime());
+            Array.prototype.filter.call(dropzone, zone => {
+                if (zone.classList.contains('draggable-dropzone--occupied')) {
+                    zone.classList.remove('draggable-dropzone--occupied');
+                }
+            });
+        });
+
+        retornoIntDrop.on('droppable:stop', async () => {
+            Array.prototype.filter.call(dropzone, zone => {
+                if (zone.classList.contains('draggable-dropzone--occupied')) {
+                    zone.classList.remove('draggable-dropzone--occupied');
+                    origem = 'Colocar na interseção';
+                    destino = 'Colocar na interseção';
+                    destino = decideDrop(zone.id, retornoIntDrop.lastDropzone);
+                }
+            });
+            data_hora = new Date().toISOString().slice(0, 19).replace('T', ' ');
+            await postData('/interacoes', origem, destino, data_hora);
         });
 
 
