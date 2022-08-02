@@ -3,7 +3,7 @@
 
 <head>
 
-    <title>Tem Lógica - Relatório</title>
+    <title>Tem Lógica - Crie sua Atividade</title>
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,11 +11,11 @@
     <link rel="shortcut icon" href="./img/favicon.ico"/>
 
     <!-- chamada para as folhas de estilo -->
-    <link rel="stylesheet" href="./selecao/jogos/style/page-style.css">
+    <link rel="stylesheet" href="./style/page-style.css">
 
     <!-- link para os icones me forma de fonte -->
 
-    <link rel="stylesheet" href="./selecao/jogos/style/icofont/icofont.min.css">
+    <link rel="stylesheet" href="./style/icofont/icofont.min.css">
 
     <!-- link para as fontes do projeto -->
     <link rel="preconnect" href="https://fonts.gstatic.com">
@@ -29,7 +29,6 @@
 </head>
 
 <body class="index-body">
-
     <header class="grid">
         <img src="./img/logo.png" alt="" class="logo grid-center">
         <img src="./img/sr-logico.png" alt="" class="mascote grid-right">
@@ -53,7 +52,7 @@
                         <p class="menu-text">Sobre</p>
                     </a>
                 </li>
-                <li class="menu-list-item">
+                <li class="menu-list-item selected">
                     <a href="./contato.html" class="menu-link">
                         <i class="menu-icon icofont-google-talk"></i>
                         <p class="menu-text">Contato</p>
@@ -68,15 +67,45 @@
             </ul>
         </nav>
     </header>
-    <main class="grid">
-        <section class="atividade-main-section grid-center box-center">
-        <h2 class="atividade-section-title">Gere sua Atividade</h2>
-        <div id='container-botao'>
-        <button onclick="gerarLink()" class="botao" id="botao-resultado">Gerar Link</button>
-        </div>
-        
-    </section>
+
+    <main class="grid grid-full">
+        <section class="contact-main-section grid-center box-center">
+            <h2 class="contact-section-title">Gere sua Atividade</h2>
+            <form id="crieAtividade-form">
+                <section class="form-section">
+                    <input type="text" id="nome-contato" class="form-input" name="nome" placeholder="Seu nome"><br>
+                    <label for="jogos">Selecione um jogo:</label>
+                    <select id="jogos" name="nome_jogo">
+                    </select> <br>
+                    <label for="duracao">Selecione a duração da sua Atividade</label>
+                    <select id="duracao" name="duracao">
+                        <option value=60>1 Hora</option>
+                        <option value=120>2 Horas</option>
+                        <option value= 1440>24 Horas</option>
+                        <option value=2880>48 Horas</option>
+                    </select> <br>
+                    <label for="anoAtividade">Selecione o Ano escolar correspondente a sua Atividade</label>
+                    <select id="anoAtividade" name="anoAtividade">
+                        <option value = "Primeiro Ano" >Primeiro Ano</option>
+                        <option value = "Segundo Ano">Segundo Ano</option>
+                        <option value = "Terceiro Ano">Terceiro Ano</option>
+                        <option value = "Quarto Ano">Quarto Ano</option>
+                        <option value = "Quinto Ano">Quinto Ano</option>
+                        <option value = "Sexto Ano">Sexto Ano</option>
+                    </select> <br>
+                </section>
+                <section class="form-section">
+                    <textarea id="comentario-atividade" name="comentario_atividade"
+                        placeholder="Escreva aqui um comentário descrevendo a atividade para seus alunos..."></textarea>
+                </section>
+                <section class = 'container-botao'>
+                    <button onclick="gerarLink()" class="botao" id="botao-resultado">Gerar Link</button>
+                </section>
+                </section>
+            </form>
+        </section>
     </main>
+
     <footer class="footer-grid">
         <p class="footer-text grid-center">Copyright Fapesq - <span id="ano">2021</span></p>
             <script>
@@ -93,6 +122,7 @@
             </div>
         </section>
     </footer>
-    <script src="./script/atividade.js"></script>
+    <script src="./script/crieAtividade.js"></script>
 </body>
+
 </html>

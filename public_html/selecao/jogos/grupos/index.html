@@ -256,12 +256,8 @@
             return response.text(); // parses JSON response into native JavaScript objects
         }
         
-        function decideDrop(id, flag){
-            console.log(flag.id);
-            if(flag.id == ''){
-                return
-            }else{
-                switch (id) {
+        function decideDrop(id){
+            switch (id) {
                 case 'drop1':
                     return 'Colocar na esquerda'
                     break;
@@ -276,7 +272,6 @@
                     break;
                 default:
                     break;
-            }
             }
         }
 
@@ -300,8 +295,7 @@
                 if (zone.classList.contains('draggable-dropzone--occupied')) {
                     zone.classList.remove('draggable-dropzone--occupied');
                     origem = 'INÍCIO';
-                    destino = 'INÍCIO';
-                    destino = decideDrop(zone.id, droppableSequencia.lastDropzone);
+                    destino = decideDrop(zone.id);
                 }
             });
             data_hora = new Date().toISOString().slice(0, 19).replace('T', ' ');
@@ -327,8 +321,7 @@
                 if (zone.classList.contains('draggable-dropzone--occupied')) {
                     zone.classList.remove('draggable-dropzone--occupied');
                     origem = 'Colocar na esquerda';
-                    destino = 'Colocar na esquerda';
-                    destino = decideDrop(zone.id, retornoDrop1.lastDropzone);
+                    destino = decideDrop(zone.id);
                 }
             });
             data_hora = new Date().toISOString().slice(0, 19).replace('T', ' ');
@@ -353,8 +346,7 @@
                 if (zone.classList.contains('draggable-dropzone--occupied')) {
                     zone.classList.remove('draggable-dropzone--occupied');
                     origem = 'Colocar na direita';
-                    destino = 'Colocar na direita';
-                    destino = decideDrop(zone.id, retornoDrop2.lastDropzone);
+                    destino = decideDrop(zone.id);
                 }
             });
             data_hora = new Date().toISOString().slice(0, 19).replace('T', ' ');
@@ -379,14 +371,12 @@
                 if (zone.classList.contains('draggable-dropzone--occupied')) {
                     zone.classList.remove('draggable-dropzone--occupied');
                     origem = 'Colocar na interseção';
-                    destino = 'Colocar na interseção';
-                    destino = decideDrop(zone.id, retornoIntDrop.lastDropzone);
+                    destino = decideDrop(zone.id);
                 }
             });
             data_hora = new Date().toISOString().slice(0, 19).replace('T', ' ');
             await postData('/interacoes', origem, destino, data_hora);
         });
-
 
     </script>
     <script type="text/javascript">

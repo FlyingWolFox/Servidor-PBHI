@@ -139,6 +139,10 @@ routerDefault.get('/logout',  async (req, res)=>{
     
    res.json(sessao.changeStatus(req))
 })
+routerDefault.get('/getJogos', async (req, res) => {
+   const jogos = await sql.getJogos();
+    res.json(jogos);
+})
 routerDefault.post('/getLink', async (req, res)=>{
     const id = nanoid(8)
     const datah_criacao = new Date()
@@ -149,7 +153,8 @@ routerDefault.post('/getLink', async (req, res)=>{
     const expiracao_UTC = datah_expiracao.toISOString().slice(0, 19).replace('T', ' ');
     console.log(criacao_UTC, expiracao_UTC);
     //await sql.insertAtividade(id, "João Vittor", "Turma B", "Repetição", "Segundo Ano")
-    const URL = 'localhost:3000/atividade/'+ id
+    const URL = 'localhost:3000/atividade/'+ id 
+    console.log(req.body);
     
     res.send(URL);
 })

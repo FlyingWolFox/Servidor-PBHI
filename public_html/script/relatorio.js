@@ -1,5 +1,5 @@
 /* arquivo de modelo para criação dos relatórios*/
-const divResultadoPartida = document.querySelector("div.tabela") 
+const divResultadoPartida = document.getElementById("tabela-resultado") 
 const testeObj = {"nome":"Ana Beatriz","nome_jogo":"COMPLETAR","faseAtual":1,"sucesso":1,"tempo_partida":2} //objeto de teste
 
 
@@ -7,7 +7,6 @@ const testeObj = {"nome":"Ana Beatriz","nome_jogo":"COMPLETAR","faseAtual":1,"su
 let tableHeaders = ["Nome", "Jogo", "Fase", "Duração [Segundos]", "Sucesso[S/N]"]
 
 function criaResultadoTable(){
-    
     while (divResultadoPartida.firstChild){
         divResultadoPartida.removeChild(divResultadoPartida.firstChild) // remove o resultado anterior se houver
     } 

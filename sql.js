@@ -15,7 +15,7 @@ sql.getJogador = (id) =>{
 };
 sql.getAllPartidas = () =>{
   return new Promise((resolve, reject)=>{
-      connection.query('SELECT * FROM partidas_ganhas_por_nome', (error, results)=>{
+      connection.query('SELECT * FROM partidas_ganhas_por_nome where nome_jogo = "COMPLETAR"', (error, results)=>{
           if(error){
               return reject(error);
           }
@@ -28,9 +28,20 @@ sql.getAllPartidas = () =>{
        });
     });
   };
+  sql.getJogos = () =>{
+    return new Promise((resolve, reject)=>{
+        connection.query('select * from jogo;', (error, results)=>{
+            if(error){
+                return reject(error);
+            }
+           return resolve(results); 
+         });
+      });
+    };
+
   sql.getNumeroDeJogadores = () =>{
     return new Promise((resolve, reject)=>{
-        connection.query('select count(distinct id_jogador) as "numeroJogadores" from partida;', (error, results)=>{
+        connection.query('select count(distinct id_jogador) as "numeroJogadores" from partida where nome_jogo = "COMPLETAR";', (error, results)=>{
             if(error){
                 return reject(error);
             }
@@ -41,7 +52,7 @@ sql.getAllPartidas = () =>{
 
     sql.getTempoMedio = () =>{
       return new Promise((resolve, reject)=>{
-          connection.query('select avg(tempo_partida) as "tempoMedio" from partida;', (error, results)=>{
+          connection.query('select avg(tempo_partida) as "tempoMedio" from partida where nome_jogo = "COMPLETAR";', (error, results)=>{
               if(error){
                   return reject(error);
               }
@@ -52,7 +63,7 @@ sql.getAllPartidas = () =>{
 
   sql.getPartidasVencidas = () =>{
     return new Promise((resolve, reject)=>{
-        connection.query('select count(*) as "partidasVencidas" from partida where sucesso = 1;', (error, results)=>{
+        connection.query('select count(*) as "partidasVencidas" from partida where sucesso = 1 and nome_jogo = "COMPLETAR";', (error, results)=>{
             if(error){
                 return reject(error);
             }
@@ -60,7 +71,18 @@ sql.getAllPartidas = () =>{
          });
       });
     };
-
+sql.getJogadoresQuePrecisamDeAjuda = () =>{ //essa query só conta as tentivas que não tiveram sucesso, pra evitar de contar o jogador que jogou e acertou a mesma fase várias vezes
+  // o default é que o jogador que errar a mesma fase 3 vezes ou mais precisa de ajuda, 
+  return new Promise((resolve, reject)=>{
+    connection.query('select jogador.nome  as "Jogador", count((case when sucesso = 0 then 1 else null end)) as "Tentativas", faseAtual from partida join jogador on partida.id_jogador = jogador.id_jogador where partida.nome_jogo = "COMPLETAR" group by faseAtual, nome having count((case when sucesso = 0 then 1 else null end)) >= 3;'
+    , (error, results)=>{
+        if(error){
+            return reject(error);
+        }
+       return resolve(results); 
+     });
+  });
+};
 
 sql.getJogadorByNomeAno = (nome, ano) =>{
     return new Promise((resolve, reject)=>{

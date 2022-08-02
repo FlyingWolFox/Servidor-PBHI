@@ -68,28 +68,112 @@
             </ul>
         </nav>
     </header>
-    <main class="grid">
-        <div>
-            <p class="relatorio-section-title">Relatório Geral</p>
+
+    <div class="titulo-relatorio">
+        <h1>Relatório Geral</h1>
+    </div>
+
+    <section class="painel-de-pontuacao-geral">
+        <main class="grid-tabela">
+            <div class="container">
+                <div class="cartao">
+                    <div class="box">
+                        <div class="porcentagem">
+                            <svg>
+                                <circle cx="70" cy="70" r="70"></circle>
+                                <circle cx="70" cy="70" r="70"></circle>
+                            </svg>
+                            <div class="numero">
+                                <h2>90<span>%</span></h2>
+                                <p>Correto</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="box-de-texto">
+                <section>
+                    <h1>Muito Bem!</h1>
+
+                    <p>Jogue novamente e deixe o mesmo grupo melhorar a sua pontuação.</p>
+
+                    <button>
+                        Jogar novamente
+                    </button>
+                </section>
+            </div>
+        </main>
+
+        <div class="box-de-conteudo">
             <section class="painel-de-resultados">
-                <div id="numero-jogadores">
+                <div>
                     <strong>Jogadores</strong>
                     <span id = "jogadores-span">32</span>
                 </div>
-                <div id="numero-partidas-ganhas">
+                <div>
                     <strong>Acertos</strong>
                     <span id = "acertos-span">17</span>
                 </div>
-                <div id = "tempo-medio">
-                    <strong>Tempo Médio[Segundos]</strong>
+                <div>
+                    <strong>Tempo Médio[s] </strong>
                     <span id = "tempo-medio-span">15 min</span>
                 </div>
             </section>
         </div>
-    </main>
+    </section>
 
-    <div class="tabela">
-    </div>
+
+    <section class="paineis-de-relatorio">
+        <div class="tabela" id ="tabela-resultado">
+        </div>
+
+        <div class="painel-de-ajuda">
+            <header>
+                <div class="titulo-header">
+                    <p>Precisa de ajuda <span id = "numero-ajuda">3</span></p> 
+                </div>
+
+                <p>❓</p>
+            </header>
+
+            <section class="lista-de-jogadores">
+              <div>
+                <p>Carol</p>
+                <strong>15%</strong> 
+              </div>  
+              <div>
+                <p>Monica</p>
+                <strong>22%</strong>
+              </div> 
+              <div>
+                <p>George</p>
+                <strong>29%</strong> 
+              </div> 
+            </section>
+        </div>
+
+        <div class="painel-sem-respostas">
+            <header>
+                <div class="titulo-header-2">
+                    <p>Não finalizados <span id = "numero-nao-finalizados">2</span></p> 
+                </div>
+
+                <p>❓</p>
+            </header>
+
+            <section class="lista-de-jogadores-2">
+              <div>
+                <p>João</p>
+                <strong>3 sem respostas</strong> 
+              </div>  
+              <div>
+                <p>Diego</p>
+                <strong>1 sem respostas</strong>
+              </div> 
+            </section>
+        </div>
+    </section>
 
     <footer class="footer-grid">
         <p class="footer-text grid-center">Copyright Fapesq - <span id="ano">2021</span></p>
