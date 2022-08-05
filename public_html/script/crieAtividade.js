@@ -3,6 +3,7 @@
 async function gerarLink(){
     var botao = document.getElementById('botao-resultado');
     botao.innerHTML = await getUUID();
+    console.log(botao.innerHTML)
     CopiaURL()
     botao.disabled = true;
 }
