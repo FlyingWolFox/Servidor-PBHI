@@ -38,7 +38,6 @@ async function getUUID(){
     const values = [...formData.entries()];
     console.log(values);
     try{
-        
         let response = await fetch('/getLink', {
         method: 'POST',
         body: values,
