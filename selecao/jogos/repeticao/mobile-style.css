@@ -66,11 +66,11 @@ img#mascote-instrucoes {
     align-self: center;
 }
 
-article#textbox-tutorial {
+article#textbox-tutorial { /* AQUI */
 
     width: auto;
     height: fit-content;
-    margin: 0px 0px 0px 45px;
+    margin: 0px 15px 0px 30px;
     padding: 5px 5px 5px 15px;
 }
 
@@ -83,13 +83,17 @@ div.conteiner-botoes {
 
 }
 
-div.botoes-janela {
-
-    width: 100%;
+div.botoes-janela { /* AQUI */
+    width: 50%;
     margin: 0px;
     margin-top: 8px;
-
 }
+
+div#botoes-de-audio{ /* AQUI */
+ 
+    width: 50%;
+    margin: 0px;
+} 
 
 span#span-fullscreen {
 
