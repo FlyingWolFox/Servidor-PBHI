@@ -91,7 +91,7 @@ div#box-instrucoes {
     height: fit-content;
     background-color: #FDC23E;
     border-radius: 5px 5px 0px 0px;
-    grid-template-columns: 20% 68% 12%;
+    grid-template-columns: 1fr 2fr 1fr;
 
 }
 
@@ -820,9 +820,9 @@ button.botao-fim{
     /* ===========  AJUSTE DOS BOTÕES DO TUTORIAL ========= */
 
 
-    div.conteiner-botoes {
+    div.conteiner-botoes { /* AQUI */
 
-        margin: 0px;
+        margin-left: 15px;
         display: flex;
         flex-wrap: wrap;
         align-items: center;
@@ -830,9 +830,9 @@ button.botao-fim{
     
     }
     
-    div.botoes-janela {
+    div.botoes-janela { /* AQUI */
     
-        width: 100%;
+        width: 50%;
         margin: 0px;
         margin-top: -32px;
         margin-left: -40px;
