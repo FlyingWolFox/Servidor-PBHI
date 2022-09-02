@@ -98,3 +98,7 @@ async function getMetricas(urlsMetricas){ // essa função funciona como wrapper
 
 getMetricas(urlsMetricas);
 getTabela(urlsTabelas[0]);
+
+/* a unica div que precisa ter o texto ao lado é a de não finalizados: exemplo de par:{resultado[0].nome, resultado[0].NRespondidas}, {resultado[1].nome, resultado[1].Tentativas} 
+    as urls que serão usadas [/getTentativas], [/getNaoFinalizados], [/getTempoExpirado],[/getMelhoresJogadores], [/getTaxaAcerto] 
+*/

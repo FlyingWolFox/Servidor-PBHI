@@ -118,6 +118,41 @@ routerDefault.get('/getPartidasVencidas', async (req, res) =>{
         res.json(partidasVencidas);
     } else console.log('Algo deu errado');
 })
+routerDefault.get('/getTentativas', async (req,res) => {
+    let fields = await sql.getTentativas();
+    if(fields){
+        res.json(fields);
+    }
+    else console.log("deu merda");
+})
+routerDefault.get('/getNaoFinalizados', async (req,res) => {
+    let fields = await sql.getNaoFinalizados();
+    if(fields){
+        res.json(fields);
+    }
+    else console.log("deu merda");
+})
+routerDefault.get('/getTempoExpirado', async (req,res) => {
+    let fields = {"nome": "Mariana"}
+    if(fields){
+        res.json(fields);
+    }
+    else console.log("deu merda");
+})
+routerDefault.get('/getMelhoresJogadores', async (req,res) => {
+    let fields = {"nome": "Vidal"}
+    if(fields){
+        res.json(fields);
+    }
+    else console.log("deu merda");
+})
+routerDefault.get('/getTaxaAcerto', async (req,res) => {
+    let fields = await sql.getTaxaAcerto();
+    if(fields){
+        res.json(fields);
+    }
+    else console.log("deu merda");
+})
 routerDefault.get('/getAllPartidas', async (req,res) => {
     let fields = await sql.getAllPartidas();
     if(fields){
