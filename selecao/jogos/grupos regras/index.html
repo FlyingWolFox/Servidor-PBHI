@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<link href="https://plus.google.com/+MindfusionEu/" rel="publisher" />
+<meta charset="UTF-8">
+
+<head>
+
+    <title>Tem Lógica - Jogo dos Grupos Regras</title>
+
+    <link rel="shortcut icon" href="../img/favicon.ico" />
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#41BBC2">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#41BBC2">
+
+
+    <!-- chamada para as folhas de estilo -->
+    <link rel="stylesheet" href="../style/page-style.css">
+    <!-- chamada para as folhas de estilo do jogo -->
+    <link rel="stylesheet" href="game-style.css">
+    <link rel="stylesheet" href="mobile-style.css" type="text/css"
+        media="screen and (orientation: landscape) and (max-width: 900px)" id="estilo-mobile">
+
+    <!-- link para os icones me forma de fonte -->
+
+    <link rel="stylesheet" href="../style/icofont/icofont.min.css">
+
+    <!-- link para as fontes do projeto -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+        rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@100;300;400;500;700;800;900&display=swap"
+        rel="stylesheet">
+
+</head>
+
+<body onload="speaking()">
+    <section class="aviso-orientacao">
+        <div id="aviso-orientacao-caixa">
+            <h1 id="texto-orientacao"> vire seu aparelho na horizontal para jogar</h1>
+            <div id="orientacao-imgs">
+                <div class="grupo-imagem-orientacao">
+                    <img id="icone-errado" src="../img/orientacao-img/Group30.svg" alt="">
+                    <img src="../img/orientacao-img/Subtract.svg" alt="">
+                    <h1 id="texto-orientacao-vertical">vertical</h1>
+                </div>
+                <img id="vetor-orientacao" src="../img/orientacao-img/Vector5.svg" alt="">
+                <div class="grupo-imagem-orientacao" id="orientacao-grupo-horizontal">
+                    <img id="icone-certo" src="../img/orientacao-img/Group176.svg" alt="">
+                    <img id="img-celular-horizontal" src="../img/orientacao-img/Subtract-1.svg" alt="">
+                    <h1 id="texto-orientacao-vertical">horizontal</h1>
+                </div>
+            </div>
+        </div>
+    </section>
+    <div class='tela-jogo'>
+        <header class="game-header">
+            <a href="../../index.html" class="link-logo">
+                <img id="logo-header" src="../img/logo.png" alt="" class="logo grid-item">
+            </a>
+            <h2 id="title-jogo" class="grid-item">JOGO DOS GRUPOS REGRAS</h2>
+        </header>
+
+        <main id="main-body" class="grid grid-full">
+            <div id="modalInfo" class="modal">
+                <div class="modal-content" id="modal-content">
+                    <p>TODO:
+                        Olá novamente, tudo bem? tenho outro jogo bem bacana pra te apresentar, o Jogo dos Grupos, nele a
+                        gente
+                        te mostra duas caixas diferentes que vão servir para arrastar as figuras corretas e, ao lado de
+                        cada um,
+                        tem um balão que representa a regra desta caixa, por exemplo: um quadrado significa que naquela
+                        caixa só
+                        podem ser colocadas figuras quadradas.<br> Já uma peça de quebra-cabeça azul, quer dizer que
+                        você só
+                        pode colocar figuras azuis. As outras regras eu tenho certeza que você consegue descobrir
+                        sozinho(a) 😉,
+                        depois que você arrastar as peças pra cada caixa, é só clicar em TERMINEI!!
+                    </p>
+                    <button id="botao-info-close"
+                        onclick="document.getElementById('modalInfo').style.display='none'; cancelarAudioModal()">Entendi
+                    </button>
+                    <button id="botao-de-voz-ligado-modal">
+                        <p id="botao-falar" onclick="ativarAudioModal()">Falar!</p>
+                        <!--aqui-->
+                    </button>
+                </div>
+            </div>
+            <section class="game-section grid-center">
+                <div id="box-instrucoes">
+                    <div class="progresso-conquistas">
+                        <p class="texto-progresso">Conquistas</p>
+                        <div class="conquistas-conteiner" id="container-estrelas">
+                            <div class="estrela-container">
+                                <img class="estrela" src="../img/estrelas/star2.svg" alt="">
+                                <p class="estrela-texto" id="texto1">?</p>
+                            </div>
+                            <div class="estrela-container">
+                                <img class="estrela" src="../img/estrelas/star2.svg" alt="">
+                                <p class="estrela-texto" id="texto2">?</p>
+                            </div>
+                            <div class="estrela-container">
+                                <img class="estrela" src="../img/estrelas/star3.svg" alt="">
+                                <p class="estrela-texto" id="texto3">?</p>
+                            </div>
+                            <div class="estrela-container">
+                                <img class="estrela" src="../img/estrelas/star4.svg" alt="">
+                                <p class="estrela-texto" id="texto4">?</p>
+                            </div>
+                        </div>
+                    </div>
+                    <img src="../img/sr-logico.png" alt="" id="mascote-instrucoes">
+                    <article id="textbox-tutorial">
+                        <p id="textbox-fase">Fase n&uacute;mero <span id="textbox-numero-fase">1</span>:</p>
+
+                        <textarea id="texto-textbox" readonly>TODO: Identifique as características das peças do grupo azul e do grupo laranja e arraste as peças disponíveis para o grupo correto.
+                        </textarea>
+                    </article>
+                    <div class="conteiner-botoes">
+                        <div class="botoes-janela">
+                            <span id="span-fullscreen" class=""><i class="icofont-maximize"></i></span>
+                            <a href="../index.html" id="span-textbox">
+                                <i class="icofont-close icofont-2x"></i>
+                            </a>
+                        </div>
+                        <div id="botoes-de-audio">
+                            <!--aqui-->
+                            <button id="botao-ativar-voz" onclick="botaoGlobalDeVozAtivado(this)">
+                                <p>
+                                    <img src="../../../img/svg/audio-off.svg" alt="Áudio ligado"
+                                        id="botao-voz-instrucao">
+                                </p>
+                            </button>
+                            <button id="botao-repetir-voz" onclick="ativarAudio(this)">
+                                <p>
+                                    <img src="../../../img/svg/repeat.svg" alt="Repetir áudio" id="repetir-voz">
+                                </p>
+                            </button>
+                            <button id="span-about"
+                                onclick="document.getElementById('modalInfo').style.display='block'; audioModalAutomatico()"
+                                class="">
+                                ?
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <section id="dropzone-container">
+                    <section class="restricao-esquerda" id="conteiner-restricao-esquerda">
+                    </section>
+                    <section id="drop1" class='drop drop-esquerdo'>
+                        <!-- Locais onde os triangulos serão dropados -->
+                    </section>
+                    <section id='intDrop' class="drop">
+                        <!-- Local onde ficam as interseções -->
+                    </section>
+                    <section id="drop2" class='drop drop-direito'>
+                        <!-- local onde os quadrados serão dropados -->
+                    </section>
+                    <section class="restricao-direita" id="conteiner-restricao-direita">
+                    </section>
+                </section>
+
+                <button id="botao-resultado" onclick="resetaTimeStamps()">TERMINEI!</button>
+                <div class="formas-titulo">
+                    <p class='container-formas-titulo'>Peças Disponíveis</p>
+                    <section id="container-formas" class="drop">
+                        <!-- Local onde as formas serão criadas -->
+                    </section>
+                </div>
+                <!-- O Modal do resultado positivo-->
+                <div id="modalAcerto" class="modal">
+                    <!-- Conteúdo do Modal -->
+                    <div class="modal-content">
+                        <span id="modal-close-button" class="close">&times;</span>
+                        <img class="modal-img-logico" src="../img/modal/logico-contente.svg" alt="">
+                        <div class="modal-text-content">
+                            <h2 class="titulo-modal">RESULTADO</h2>
+                            <h2 id="resultado-jogo"></h2>
+                            <button id="botao-proximo" onclick="fecharModal('acerto')">ok</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- O Modal do resultado negativo-->
+                <div id="modalErro" class="modal">
+                    <!-- Conteúdo do Modal -->
+                    <div class="modalNegativo-content">
+                        <span id="modalNegativo-close-button" class="close">&times;</span>
+                        <img class="modal-img-logico" src="../img/modal/logico-confuso.svg" alt="">
+                        <div class="modal-text-content">
+                            <h2 class="titulo-modal">RESULTADO</h2>
+                            <h2 id="resultadoNegativo-jogo">Ihh! Algo deu Errado</h2>
+                            <button id="botao-retorno" onclick="fecharModal('erro')">Recomeçar</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!--O Modal de conclusão do jogo-->
+                <div id="modalFim">
+                    <div id="modalContent">
+                        <div id="roboIcon"><img src="../img/modal/robo-end-frio.png" alt="Robo de festa"></div>
+                        <div id="modalGlass"></div>
+                        <div id="modalBox">
+                            <div id="textZone">
+                                <h2>PARABÉNS</h2>
+                                <h3>Você concluiu o jogo!!!</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <section id="botao-box">
+                        <button id="botao-restart" class="botao-fim">Reiniciar</button>
+                        <button id="botao-certificado" class="botao-fim">Certificado</button>
+                    </section>
+                </div>
+
+            </section>
+        </main>
+        <footer class="footer-grid">
+            <p class="footer-text grid-center">Copyright Fapesq - <span id="ano">2021</span></p>
+            <script>
+                var ano = document.getElementById("ano");
+                var anoAtual = new Date();
+                ano.innerHTML = anoAtual.getFullYear();
+            </script>
+            <section class="grid-right">
+                <p class="footer-text realizadores-text">Realizadores:</p>
+                <div class="footer-imgs">
+                    <img class="footer-img" id="logo-pb" src="../img/logo-pb.png" alt="">
+                    <img class="footer-img" id="logo-seect" src="../img/logo-SEECT.png" alt="">
+                    <img class="footer-img" id="logo-fapesq" src="../img/logo-fapesq.png" alt="">
+                </div>
+            </section>
+        </footer>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/@shopify/draggable@1.0.0-beta.11/lib/draggable.bundle.js"></script>
+    <script src="script/game-script.js"></script>
+    <script src="../script/page-script.js"></script>
+    <script>
+        var containerFormas = document.getElementById('container-formas');
+        var dropzone = document.getElementsByClassName('drop');
+        var drop1 = document.getElementById('drop1');
+        var drop2 = document.getElementById('drop2');
+        var intDrop = document.getElementById('intDrop')
+        var dropzoneArea = document.getElementById('dropzone-container');
+        var timeStamps = [];
+
+        function resetaTimeStamps() {
+            let tamanho = timeStamps.length;
+            for (let i = 0; i < tamanho; i++) {
+                console.log(`timestamp ${i}: ${timeStamps.pop()}`);
+            }
+        }
+
+        const droppableSequencia = new Draggable.Droppable(containerFormas, {
+            draggable: '.drag',
+            dropzone: '.drop'
+        });
+
+        droppableSequencia.on('drag:start', () => {
+
+            Array.prototype.filter.call(dropzone, zone => {
+                if (zone.classList.contains('draggable-dropzone--occupied')) {
+                    zone.classList.remove('draggable-dropzone--occupied');
+                }
+                console.log("a peça foi arrastade de " + containerFormas.id);
+            });
+            timeStamps.push(new Date().getTime());
+        });
+
+        droppableSequencia.on('droppable:stop', () => {
+
+            Array.prototype.filter.call(dropzone, zone => {
+                if (zone.classList.contains('draggable-dropzone--occupied')) {
+                    zone.classList.remove('draggable-dropzone--occupied');
+                    console.log("a peça foi dropada em " + zone.id);
+                }
+            });
+            timeStamps.push(new Date().getTime());
+        });
+
+        const retornoDrop1 = new Draggable.Droppable(drop1, {
+            draggable: '.drag',
+            dropzone: '.drop'
+        });
+
+        retornoDrop1.on('drag:start', () => {
+            Array.prototype.filter.call(dropzone, zone => {
+                if (zone.classList.contains('draggable-dropzone--occupied')) {
+                    zone.classList.remove('draggable-dropzone--occupied');
+                }
+                console.log("a peça foi arrastade de " + drop1.id);
+            });
+            timeStamps.push(new Date().getTime());
+        });
+
+        retornoDrop1.on('droppable:stop', () => {
+
+            Array.prototype.filter.call(dropzone, zone => {
+                if (zone.classList.contains('draggable-dropzone--occupied')) {
+                    zone.classList.remove('draggable-dropzone--occupied');
+                    console.log("a peça foi dropada em " + zone.id);
+                }
+            });
+            
+            timeStamps.push(new Date().getTime());
+        });
+
+        const retornoDrop2 = new Draggable.Droppable(drop2, {
+            draggable: '.drag',
+            dropzone: '.drop'
+        });
+
+        retornoDrop2.on('drag:start', () => {
+            Array.prototype.filter.call(dropzone, zone => {
+                if (zone.classList.contains('draggable-dropzone--occupied')) {
+                    zone.classList.remove('draggable-dropzone--occupied');
+                }
+                console.log("a peça foi arrastade de " + drop2.id);
+            });
+            timeStamps.push(new Date().getTime());
+        });
+
+        retornoDrop2.on('droppable:stop', () => {
+            Array.prototype.filter.call(dropzone, zone => {
+                if (zone.classList.contains('draggable-dropzone--occupied')) {
+                    zone.classList.remove('draggable-dropzone--occupied');
+                    console.log("a peça foi dropada em " + zone.id);
+                }
+            });
+            timeStamps.push(new Date().getTime());
+        });
+
+        const retornoIntDrop = new Draggable.Droppable(intDrop, {
+            draggable: '.drag',
+            dropzone: '.drop'
+        });
+
+        retornoIntDrop.on('drag:start', () => {
+            Array.prototype.filter.call(dropzone, zone => {
+                if (zone.classList.contains('draggable-dropzone--occupied')) {
+                    zone.classList.remove('draggable-dropzone--occupied');
+                }
+                console.log("a peça foi arrastade de " + intDrop.id);
+            });
+            timeStamps.push(new Date().getTime());
+        });
+
+        retornoIntDrop.on('droppable:stop', () => {
+            Array.prototype.filter.call(dropzone, zone => {
+                if (zone.classList.contains('draggable-dropzone--occupied')) {
+                    zone.classList.remove('draggable-dropzone--occupied');
+                    console.log("a peça foi dropada em " + zone.id);
+                }
+            });
+            timeStamps.push(new Date().getTime());
+        });
+
+    </script>
+    <script type="text/javascript">
+        var gameContainer = document.getElementById('main-body');
+
+        function descobreOs() {
+            var userAgent = navigator.userAgent || navigator.vendor || window.opera;
+            if (/windows phone/i.test(userAgent)) {
+                return "Windows Phone";
+            }
+            if (/android/i.test(userAgent)) {
+                return "Android";
+            }
+            if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+                return "iOS";
+            }
+            return "n_sei";
+        }
+
+        var sistema = descobreOs();
+
+        console.log(sistema)
+        if (sistema == 'Android') {
+
+            let estilo = document.getElementById('estilo-mobile');
+            estilo.setAttribute('media', 'screen and (orientation: landscape) and (max-width: 900px)');
+
+        } else if (sistema == 'iOS') {
+
+            // Criando o CSS responsável pelo modo Fullscreen
+            var indexHead = document.getElementsByTagName('head')[0];
+            var iosCss = document.createElement('link');
+            iosCss.setAttribute('href', './game-ios-style.css');
+            iosCss.setAttribute('rel', 'stylesheet');
+            indexHead.appendChild(iosCss);
+        }
+
+        var textarea = document.getElementById('texto-textbox');
+        var sentido
+
+        function textRoll(timeInterval, timeTimeout) {
+            sentido = 1
+            var textareaClock = setInterval(() => {
+                textarea.scrollTop = textarea.scrollTop + sentido;
+                if (textarea.scrollTop == 15) {
+                    sentido = -1;
+                }
+            }, timeInterval);
+
+            setTimeout(() => {
+                console.log('terminei')
+                clearInterval(textareaClock)
+            }, timeTimeout);
+        }
+
+        textRoll(90, 6000)
+    </script>
+    <!--aqui-->
+    <!-- Funções para manipulações de áudio -->
+    <script type="text/javascript">
+        var synth = window.speechSynthesis;
+
+        if(!localStorage.getItem('audio')){
+            localStorage.setItem('audio', 'ligado');
+        }
+
+        //habilitando e desabilitando botão global de áudio
+        var trocaImg = localStorage.getItem('audio');
+        var estadoDoAudio = false;
+        const buttonAudio = document.querySelector('#botao-ativar-voz');
+
+        const audioOn = () => {
+            estadoDoAudio = true;
+            let repetirVoz = document.getElementById('botao-repetir-voz');
+            repetirVoz.setAttribute('onlick', 'cancelarAudio(this)');
+            document.getElementById('botao-voz-instrucao').src = '../../../img/svg/audio-on.svg';
+            localStorage.setItem('audio', 'ligado');
+        }
+
+        const audioOff = () => {
+            synth.cancel();
+            estadoDoAudio = false;
+            let repetirVoz = document.getElementById('botao-repetir-voz');
+            repetirVoz.setAttribute('onclick', 'ativarAudio(this)');
+            document.getElementById('botao-voz-instrucao').src = '../../../img/svg/audio-off.svg';
+            localStorage.setItem('audio', 'desligado');
+        }
+
+        //função para inicializar a página com o áudio
+        if (document.hasFocus() && localStorage.getItem('audio') == 'ligado') {
+            audioOn();
+            let text = 'Identifique as características das peças do grupo azul e do grupo laranja e arraste as peças disponíveis para o grupo correto.';
+            let voice = new SpeechSynthesisUtterance(text);
+            speechSynthesis.speak(voice);
+        }
+
+        if (trocaImg === 'ligado') {
+            estadoDoAudio = true;
+            audioOn();
+        }
+
+        buttonAudio.addEventListener('click', () => {
+            trocaImg = localStorage.getItem('audio')
+            if (trocaImg !== 'ligado') {
+                audioOn();
+            } else {
+                audioOff();
+            }
+        })
+
+        //verificando se a página foi recarregada para salvar o estado atual do áudio
+        const botaoDeVoz = document.getElementById('botao-repetir-voz');
+        setInterval(() => {
+            if (performance.navigation.TYPE_RELOAD) {
+                if (synth.paused) {
+                    synth.resume();
+                } else {
+                    synth.pause();
+                    synth.resume();
+                }
+            }
+
+            if (synth.speaking) {
+                botaoDeVoz.setAttribute('onclick', 'cancelarAudio(this)');
+            } else {
+                botaoDeVoz.setAttribute('onclick', 'ativarAudio(this)');
+            }
+        }, 1000);
+
+
+        window.addEventListener("blur", function (event) {
+            synth.cancel();
+            const botaoDeAudio = document.getElementById('botao-repetir-voz');
+            botaoDeAudio.setAttribute('onclick', 'ativarAudio(this)');
+            synth.cancel();
+        });
+
+        function ativarAudio(button) {
+            let textoInstrucao = 'Identifique as características das peças do grupo azul e do grupo laranja e arraste as peças disponíveis para o grupo correto.';
+            let utterance1 = new SpeechSynthesisUtterance(textoInstrucao);
+
+            if (estadoDoAudio == false || estadoDoAudio == true) {
+                speechSynthesis.speak(utterance1);
+            }
+
+            button.setAttribute('onclick', 'cancelarAudio(this)');
+
+            setInterval(() => {
+                if (performance.navigation.TYPE_RELOAD) {
+                    if (synth.paused) {
+                        synth.resume();
+                    } else {
+                        synth.pause();
+                        synth.resume();
+                    }
+                }
+            }, 1000);
+        }
+
+        function cancelarAudio(button) {
+            synth.cancel();
+            button.setAttribute('onclick', 'ativarAudio(this)');
+        }
+
+        function ativarAudioModal() {
+            let botaoAtivarVozModal = document.getElementById('botao-falar');
+
+            let textoModal2 = 'Olá novamente, tudo bem? tenho outro jogo bem bacana pra te apresentar, o Jogo dos Grupos, nele a gente te mostra duas caixas diferentes que vão servir para arrastar as figuras corretas e, ao lado de cada um, tem um balão que representa a regra desta caixa, por exemplo: um quadrado significa que naquela caixa só podem ser colocadas figuras quadradas. Já uma peça de quebra - cabeça azul, quer dizer que você só pode colocar figuras azuis.As outras regras eu tenho certeza que você consegue descobrir sozinho(a), depois que você arrastar as peças pra cada caixa, é só clicar em TERMINEI!!';
+            let utterance2 = new SpeechSynthesisUtterance(textoModal2);
+
+
+            speechSynthesis.speak(utterance2);
+
+            setInterval(() => {
+                if (performance.navigation.TYPE_RELOAD) {
+                    if (synth.paused) {
+                        synth.resume();
+                    } else {
+                        synth.pause();
+                        synth.resume();
+                    }
+                }
+            }, 1000);
+        }
+
+        function audioModalAutomatico() {
+            synth.cancel();
+
+            let textoModal = 'Olá novamente, tudo bem? tenho outro jogo bem bacana pra te apresentar, o Jogo dos Grupos, nele a gente te mostra duas caixas diferentes que vão servir para arrastar as figuras corretas e, ao lado de cada um, tem um balão que representa a regra desta caixa, por exemplo: um quadrado significa que naquela caixa só podem ser colocadas figuras quadradas. Já uma peça de quebra - cabeça azul, quer dizer que você só pode colocar figuras azuis. As outras regras eu tenho certeza que você consegue descobrir sozinho, depois que você arrastar as peças pra cada caixa, é só clicar em TERMINEI!!';
+            let utterance = new SpeechSynthesisUtterance(textoModal);
+
+            if (estadoDoAudio) {
+                speechSynthesis.speak(utterance);
+            }
+
+            setInterval(() => {
+                if (performance.navigation.TYPE_RELOAD) {
+                    if (synth.paused) {
+                        synth.resume();
+                    } else {
+                        synth.pause();
+                        synth.resume();
+                    }
+                }
+            }, 1000);
+        }
+
+        function cancelarAudioModal() {
+            synth.cancel();
+        }
+    </script>
+
+</body>
+
+</html>
