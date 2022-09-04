@@ -42,8 +42,7 @@
 
 </head>
 
-<body class="game-body">
-    Select Voice: <select id='voiceList'></select> <br><br> <!-- Seleciona qual voz será escutada-->
+<body onload="speaking()">
 
     <section class="aviso-orientacao">
         <div id="aviso-orientacao-caixa">
@@ -84,17 +83,11 @@
                         regras eu tenho certeza que você consegue descobrir sozinho(a) 😉, depois que você montar o
                         fluxograma para a fase, é só clicar em TERMINEI!!
                     </p>
-                    <button id="botao-info-close" onclick="document.getElementById('modalInfo').style.display='none'">
-                        Entendi
+                    <button id="botao-info-close"
+                        onclick="document.getElementById('modalInfo').style.display='none'; cancelarAudioModal()">Entendi
                     </button>
-
-                    <button id="botao-de-voz">
-                        <span id="texto-de-voz">
-                            <img src="../img/svg/audio.svg" alt="botão de aúdio" id="img-de-voz">
-                        </span>
-                    </button>
-                    <button id='btnSpeak' class="button">Falar!</button>
-                    <!--Botão que serve para falar a mensagem-->
+                    <button id="botao-de-voz-ligado-modal">
+                        <p id="botao-falar" onclick="ativarAudioModal()">Falar!</p>
                 </div>
             </div>
             <section class="game-section grid-center">
@@ -134,8 +127,25 @@
                                 <i class="icofont-close icofont-2x"></i>
                             </a>
                         </div>
-                        <span id="span-about" class=""
-                            onclick="document.getElementById('modalInfo').style.display='block'">?</span>
+                        <div id="botoes-de-audio">
+                            <!--aqui-->
+                            <button id="botao-ativar-voz">
+                                <p>
+                                    <img src="../../../img/svg/audio-off.svg" alt="Áudio ligado"
+                                        id="botao-voz-instrucao">
+                                </p>
+                            </button>
+                            <button id="botao-repetir-voz" onclick="ativarAudio(this)">
+                                <p>
+                                    <img src="../../../img/svg/repeat.svg" alt="Repetir áudio" id="repetir-voz">
+                                </p>
+                            </button>
+                            <button id="span-about"
+                                onclick="document.getElementById('modalInfo').style.display='block'; audioModalAutomatico()"
+                                class="">
+                                ?
+                            </button>
+                        </div>
                     </div>
                 </div>
                 <section id="content-container">
@@ -382,51 +392,159 @@
 
 
 
-    <!-- Script para a biblioteca que fala o texto-->
-    <script>
-        //Varíável para armazenar o texto que será falado. Para mais falas, armazenar o texto em outra variável...
-        var mensagemDuvida = "Olá novamente, tudo bem? Tenho outro jogo bem bacana pra te apresentar, o Jogo do Fluxograma, nele a gente te mostra duas caixas diferentes que vão servir para montar o fluxograma que consiga responder o problema. Ao lado de cada caixa, tem um balão que representa a regra desta caixa, por exemplo: um quadrado significa que naquela caixa só podem ser colocadas figuras quadradas. Já uma peça de quebra-cabeça azul, quer dizer que você só pode colocar figuras azuis. As outras regras eu tenho certeza que você consegue descobrir sozinho(a) 😉, depois que você montar o fluxograma para a fase, é só clicar em TERMINEI!!";
-        var voiceList = document.querySelector('#voiceList');
-        var btnSpeak = document.querySelector('#btnSpeak');
-        var synth = window.speechSynthesis;
-        var voices = [];
+<!-- Funções para manipulações de áudio -->
+<script type="text/javascript">
+    var synth = window.speechSynthesis;
 
-        //Coloca as vozes na caixa de seleção de vozes...
-        PopulateVoices();
-        if (speechSynthesis !== undefined) {
-            speechSynthesis.onvoiceschanged = PopulateVoices;
+    if (!localStorage.getItem('audio')) {
+        localStorage.setItem('audio', 'ligado');
+    }
+
+    //habilitando e desabilitando botão global de áudio
+    var trocaImg = localStorage.getItem('audio');
+    var estadoDoAudio = false;
+    const buttonAudio = document.querySelector('#botao-ativar-voz');
+
+    const audioOn = () => {
+        estadoDoAudio = true;
+        let repetirVoz = document.getElementById('botao-repetir-voz');
+        repetirVoz.setAttribute('onlick', 'cancelarAudio(this)');
+        document.getElementById('botao-voz-instrucao').src = '../../../img/svg/audio-on.svg';
+        localStorage.setItem('audio', 'ligado');
+    }
+
+    const audioOff = () => {
+        synth.cancel();
+        estadoDoAudio = false;
+        let repetirVoz = document.getElementById('botao-repetir-voz');
+        repetirVoz.setAttribute('onclick', 'ativarAudio(this)');
+        document.getElementById('botao-voz-instrucao').src = '../../../img/svg/audio-off.svg';
+        localStorage.setItem('audio', 'desligado');
+    }
+
+    //função para inicializar a página com o áudio
+    if (document.hasFocus() && localStorage.getItem('audio') == 'ligado') {
+        audioOn();
+        let text = 'Identifique as características das peças do grupo azul e do grupo laranja e arraste as peças disponíveis para o grupo correto.';
+        let voice = new SpeechSynthesisUtterance(text);
+        speechSynthesis.speak(voice);
+    }
+
+    if (trocaImg === 'ligado') {
+        estadoDoAudio = true;
+        audioOn();
+    }
+
+    buttonAudio.addEventListener('click', () => {
+        trocaImg = localStorage.getItem('audio')
+        if (trocaImg !== 'ligado') {
+            audioOn();
+        } else {
+            audioOff();
+        }
+    })
+
+    //verificando se a página foi recarregada para salvar o estado atual do áudio
+    const botaoDeVoz = document.getElementById('botao-repetir-voz');
+    setInterval(() => {
+        if (performance.navigation.TYPE_RELOAD) {
+            if (synth.paused) {
+                synth.resume();
+            } else {
+                synth.pause();
+                synth.resume();
+            }
         }
 
-        //Criando um Listener para a fala da mensagem da variável mensagemDuvida...
-        btnSpeak.addEventListener('click', () => {
-            var toSpeak = new SpeechSynthesisUtterance(mensagemDuvida);
-            var selectedVoiceName = voiceList.selectedOptions[0].getAttribute('data-name');
-            voices.forEach((voice) => {
-                if (voice.name === selectedVoiceName) {
-                    toSpeak.voice = voice;
-                }
-            });
-            synth.speak(toSpeak);
-        });
-
-        //Seleciona apenas as vozes em Portugues BR e descartas todas as demais para serem mostradas na seleção de vozes...
-        function PopulateVoices() {
-            voices = synth.getVoices();
-            var selectedIndex = voiceList.selectedIndex < 0 ? 0 : voiceList.selectedIndex;
-            voiceList.innerHTML = '';
-            voices.forEach((voice) => {
-                var listItem = document.createElement('option');
-                if (voice.name == "Microsoft Daniel - Portuguese (Brazil)" || voice.name == "Microsoft Maria - Portuguese (Brazil)") {
-                    listItem.textContent = voice.name;
-                    listItem.setAttribute('data-lang', voice.lang);
-                    listItem.setAttribute('data-name', voice.name);
-                    voiceList.appendChild(listItem);
-                }
-            });
-
-            voiceList.selectedIndex = selectedIndex;
+        if (synth.speaking) {
+            botaoDeVoz.setAttribute('onclick', 'cancelarAudio(this)');
+        } else {
+            botaoDeVoz.setAttribute('onclick', 'ativarAudio(this)');
         }
-    </script>
+    }, 1000);
+
+
+    window.addEventListener("beforeunload", function (event) {
+        synth.cancel();
+        const botaoDeAudio = document.getElementById('botao-repetir-voz');
+        botaoDeAudio.setAttribute('onclick', 'ativarAudio(this)');
+        synth.cancel();
+    });
+
+    function ativarAudio(button) {
+        let textoInstrucao = 'Identifique as características das peças do grupo azul e do grupo laranja e arraste as peças disponíveis para o grupo correto.';           
+        let utterance1 = new SpeechSynthesisUtterance(textoInstrucao);
+
+        if (estadoDoAudio == false || estadoDoAudio == true) {
+            speechSynthesis.speak(utterance1);
+        }
+
+        button.setAttribute('onclick', 'cancelarAudio(this)');
+
+        setInterval(() => {
+            if (performance.navigation.TYPE_RELOAD) {
+                if (synth.paused) {
+                    synth.resume();
+                } else {
+                    synth.pause();
+                    synth.resume();
+                }
+            }
+        }, 1000);
+    }
+
+    function cancelarAudio(button) {
+        synth.cancel();
+        button.setAttribute('onclick', 'ativarAudio(this)');
+    }
+
+    function ativarAudioModal() {
+        let botaoAtivarVozModal = document.getElementById('botao-falar');
+
+        let textoModal2 = 'Olá, nos encontramos mais uma vez 😀, desta vez vou te mostrar um jogo bem legal, o Jogo de Completar! O Jogo de Completar mostra uma sequência de figuras com algumas delas faltando 🤔 e a sua tarefa é identificar quais peças estão faltando e arrastar para a sequência de figuras acima, depois é só clicar em TERMINEI!!';
+        let utterance2 = new SpeechSynthesisUtterance(textoModal2);
+
+
+        speechSynthesis.speak(utterance2);
+
+        setInterval(() => {
+            if (performance.navigation.TYPE_RELOAD) {
+                if (synth.paused) {
+                    synth.resume();
+                } else {
+                    synth.pause();
+                    synth.resume();
+                }
+            }
+        }, 1000);
+    }
+
+    function audioModalAutomatico() {
+        synth.cancel();
+
+        let textoModal = 'Olá, nos encontramos mais uma vez, desta vez vou te mostrar um jogo bem legal, o Jogo de Completar! O Jogo de Completar mostra uma sequência de figuras com algumas delas faltando e a sua tarefa é identificar quais peças estão faltando e arrastar para a sequência de figuras acima, depois é só clicar em TERMINEI!!';
+        let utterance = new SpeechSynthesisUtterance(textoModal);
+
+        if (estadoDoAudio) {
+            speechSynthesis.speak(utterance);
+        }
+
+        setInterval(() => {
+            if (performance.navigation.TYPE_RELOAD) {
+                if (synth.paused) {
+                    synth.resume();
+                } else {
+                    synth.pause();
+                    synth.resume();
+                }
+            }
+        }, 1000);
+    }
+
+    function cancelarAudioModal() {
+        synth.cancel();
+    }
+</script>
 
 
 </html>

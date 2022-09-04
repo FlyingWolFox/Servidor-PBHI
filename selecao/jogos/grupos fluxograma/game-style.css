@@ -160,28 +160,86 @@ img.game-img {
    font-weight: bold;
 }
 
-#botao-de-voz {
+button#botao-de-voz-ligado-modal {
     width: 25%;
-   height: fit-content;
-   margin: 0px;
-   padding: 10px 10px;
-   font-size: 1.2em;
-   color: white;
-   background: #00c3ff;
-   border: 5px solid #FFFFFF;
-   border-radius: 20px;
-   text-transform: uppercase;
-   font-weight: bold;
+    height: fit-content;
+    margin: 10px;
+    padding: 10px 10px;
+    font-size: 1.2em;
+    color: #687844;
+    background: #9DCC38;
+    border: 5px solid #FFFFFF;
+    border-radius: 20px;
+    font-weight: bold;
 }
 
-#texto-de-voz {
-    display: inline-block;
+button#botao-de-voz-desligado-modal {
+    width: 25%;
+    height: fit-content;
+    margin: 10px;
+    padding: 10px 10px;
+    font-size: 1.2em;
+    color: #A37027;
+    background: rgb(249, 158, 21);
+    border: 5px solid #FFFFFF;
+    border-radius: 20px;
+    font-weight: bold;
 }
 
-#img-de-voz {
+div#botoes-de-audio{
     display: flex;
     align-items: center;
-    width: 21px;
+    justify-content: center;
+    gap: 18px;
+    margin-left: -40px;
+} 
+
+button#botao-ativar-voz {
+
+    width: 38px;
+    height: 38px;
+    padding: 2px 8px;
+    margin-bottom: 10px;
+    border-radius: 50%;
+    font-size: 25px;
+    font-weight: 800;
+    color: white;
+    text-align: center;
+    border: 3px solid white;
+    background-color: rgb(96, 96, 96);
+    align-self: center;
+
+}
+
+img#botao-voz-instrucao {
+    margin-top: -2px;
+    margin-left: -8px;
+    width: 30px;
+}
+
+button#botao-repetir-voz {
+    width: 38px;
+    height: 38px;
+    padding: 2px 8px;
+    margin-bottom: 10px;
+    border-radius: 50%;
+    font-size: 25px;
+    font-weight: 800;
+    color: white;
+    text-align: center;
+    border: 3px solid white;
+    background-color: rgb(96, 96, 96);
+    align-self: center;
+}
+
+img#repetir-voz {
+    width: 26px;
+    margin-left: -4.9px;
+    margin-top: 1px;
+}
+
+#botao-falar {
+    display: inline-block;
 }
 
 
@@ -289,7 +347,7 @@ div#box-instrucoes {
     height: fit-content;
     background-color: #00c3ff;
     border-radius: 5px 5px 0px 0px;
-    grid-template-columns: 20% 68% 12%;
+    grid-template-columns: 1fr 2fr 1fr;
 
 }
 
@@ -300,7 +358,7 @@ div#box-instrucoes {
     -webkit-grid-column: 2;
     -webkit-grid-row: 1;
     margin-top: 0px;
-    margin-left: 10px;
+    margin-left: -35px;
     z-index: 10;
 }
 
@@ -428,11 +486,10 @@ a#span-textbox {
 
 }
 
-span#span-about {
+button#span-about {
 
-
-    width: 20px;
-    height: 31px;
+    width: 38px;
+    height: 38px;
     padding: 2px 8px;
     margin-bottom: 10px;
     border-radius: 50%;
@@ -444,6 +501,10 @@ span#span-about {
     background-color: rgb(96, 96, 96);
     align-self: center;
 
+}
+
+#modalInfo{
+    display: none;
 }
 
 #textbox-tutorial {
@@ -471,7 +532,7 @@ section#content-container{
     width: 100%;
     height: 100%;
     display: grid;
-    grid-template-columns: 50% 49%;
+    grid-template-columns: 60% 40%;
     grid-template-rows: 3fr 1fr 2fr;
     gap: 5px;
 }
@@ -953,7 +1014,7 @@ div.formas-titulo {
 
     div.conteiner-botoes {
 
-        margin: 0px;
+        margin-left: 15px;
         display: flex;
         flex-wrap: wrap;
         align-items: center;
@@ -963,9 +1024,10 @@ div.formas-titulo {
     
     div.botoes-janela {
     
-        width: 100%;
+        width: 50%;
         margin: 0px;
         margin-top: -32px;
+        margin-left: -40px;
     
     }
     
