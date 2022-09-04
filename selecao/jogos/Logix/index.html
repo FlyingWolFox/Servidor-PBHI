@@ -60,15 +60,20 @@
             <a href="../../index.html" class="link-logo">
                 <img id="logo-header" src="../img/logo.png" alt="" class="logo grid-item">
             </a>
-            <h2 id="title-jogo" class="grid-item">JOGO LOGICS </h2>
+            <h2 id="title-jogo" class="grid-item">LOGICS</h2>
         </header>
 
         <main id="main-body" class="grid grid-full">
             <div id="modalInfo" class="modal">
                 <div class="modal-content" id="modal-content">
                     <p>
-                        Olá novamente, tudo bem 😀? Tenho outro jogo bem bacana pra te apresentar, o Jogo Logics, nele a gente te mostra algumas caixas que vão servir para arrastar as figuras corretas e, ao lado de cada um, tem um balão que representa a regra desta caixa, por exemplo: um quadrado significa que naquela caixa só podem ser colocadas figuras quadradas.
-                        Já uma peça de quebra-cabeça azul, quer dizer que você só pode colocar figuras azuis. As outras regras eu tenho certeza que você consegue descobrir sozinho(a) 😉, depois que você arrastar as peças pra cada caixa, é só clicar em TERMINEI!!
+                        Olá novamente, tudo bem 😀? Tenho outro jogo bem bacana pra te apresentar, o Jogo Logics, nele a
+                        gente te mostra algumas caixas que vão servir para arrastar as figuras corretas e, ao lado de
+                        cada um, tem um balão que representa a regra desta caixa, por exemplo: um quadrado significa que
+                        naquela caixa só podem ser colocadas figuras quadradas.
+                        Já uma peça de quebra-cabeça azul, quer dizer que você só pode colocar figuras azuis. As outras
+                        regras eu tenho certeza que você consegue descobrir sozinho(a) 😉, depois que você arrastar as
+                        peças pra cada caixa, é só clicar em TERMINEI!!
                     </p>
                     <button id="botao-info-close"
                         onclick="document.getElementById('modalInfo').style.display='none'">Entendi
@@ -118,18 +123,20 @@
                             </a>
                         </div>
 
-                        <span id="span-about" class="" onclick="document.getElementById('modalInfo').style.display='block'">?</span>
+                        <span id="span-about" class=""
+                            onclick="document.getElementById('modalInfo').style.display='block'">?</span>
                     </div>
                 </div>
-                
+
                 <div class="game-center">
                     <div id="regulador-div">
                         <section id="container-nucleo" class="game-container">
-                        <!-- Seção onde será inserida a sequencia -->
+                            <!-- Seção onde será inserida a sequencia -->
                         </section>
                         <div id="container-botao">
                             <button onclick="check()" class="botao" id="botao-resultado" onclick="">CHECAR!</button>
-                            <button onclick="reiniciar()" class="botao" id="botao-reiniciar" onclick="">REINICIAR!</button>
+                            <button onclick="reiniciar()" class="botao" id="botao-reiniciar"
+                                onclick="">REINICIAR!</button>
                         </div>
                     </div>
                     <div class="formas-titulo">
@@ -137,14 +144,14 @@
                         <section id="container-formas" class="game-container dropzone">
                             <!-- Container das figuras que serão arrastadas -->
                         </section>
-                    </div>                
+                    </div>
                 </div>
             </section>
 
-             <!-- O Modal do resultado positivo-->
+            <!-- O Modal do resultado positivo-->
             <div id="modalAcerto" class="modal">
                 <!-- Conteúdo do Modal -->
-                <div class="modal-content" id="modalPositivo-content" >
+                <div class="modal-content" id="modalPositivo-content">
                     <span id="modal-close-button" class="close">&times;</span>
                     <img class="modal-img-logico" src="../img/modal/logico-contente.svg" alt="">
                     <div class="modal-text-content">
@@ -155,7 +162,7 @@
                 </div>
             </div>
 
-             <!-- O Modal do resultado negativo-->
+            <!-- O Modal do resultado negativo-->
             <div id="modalErro" class="modal">
                 <!-- Conteúdo do Modal -->
                 <div id="modalNegativo-content" class="modal-content">
@@ -164,7 +171,7 @@
                     <div class="modal-text-content">
                         <h2 class="titulo-modal">RESULTADO</h2>
                         <h2 id="resultadoNegativo-jogo">Ihh! Algo deu Errado</h2>
-                        <button id="botao-retorno" class="modal-button"onclick="fecharModal('erro')">VOLTAR</button>
+                        <button id="botao-retorno" class="modal-button" onclick="fecharModal('erro')">VOLTAR</button>
                     </div>
                 </div>
             </div>
@@ -196,12 +203,12 @@
                 ano.innerHTML = anoAtual.getFullYear();
             </script>
             <section class="grid-right">
-                    <p class="realizadores-text">Realizadores:</p>
-                    <div class="footer-imgs">
-                        <img class="footer-img" id="logo-pb" src="../img/logo-pb.png">
-                        <img class="footer-img" id="logo-seect" src="../img/logo-SEECT.png">
-                        <img class="footer-img" id="logo-fapesq" src="../img/logo-fapesq.png">
-                    </div>
+                <p class="realizadores-text">Realizadores:</p>
+                <div class="footer-imgs">
+                    <img class="footer-img" id="logo-pb" src="../img/logo-pb.png">
+                    <img class="footer-img" id="logo-seect" src="../img/logo-SEECT.png">
+                    <img class="footer-img" id="logo-fapesq" src="../img/logo-fapesq.png">
+                </div>
             </section>
         </footer>
     </div>
@@ -289,6 +296,15 @@
         }
 
         textRoll(90, 6000)
+    </script>
+
+    <script>
+        if (!localStorage.getItem('titulo')) {
+            localStorage.setItem('titulo', 'LOGICS');
+        }
+
+        let mudandoTituloRepeticao = document.getElementById('title-jogo');
+        mudandoTituloRepeticao.innerHTML = `${localStorage.titulo} - ${localStorage.getItem('ano')}`;
     </script>
 </body>
 

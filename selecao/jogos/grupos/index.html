@@ -305,7 +305,7 @@
                     console.log("a peça foi dropada em " + zone.id);
                 }
             });
-            
+
             timeStamps.push(new Date().getTime());
         });
 
@@ -415,12 +415,22 @@
 
         textRoll(90, 6000)
     </script>
+
+    <script>
+        if (!localStorage.getItem('titulo')) {
+            localStorage.setItem('titulo', 'JOGO DOS GRUPOS');
+        }
+
+        let mudandoTituloRepeticao = document.getElementById('title-jogo');
+        mudandoTituloRepeticao.innerHTML = `${localStorage.titulo} - ${localStorage.getItem('ano')}`;
+    </script>
+
     <!--aqui-->
     <!-- Funções para manipulações de áudio -->
     <script type="text/javascript">
         var synth = window.speechSynthesis;
 
-        if(!localStorage.getItem('audio')){
+        if (!localStorage.getItem('audio')) {
             localStorage.setItem('audio', 'ligado');
         }
 
@@ -488,7 +498,7 @@
         }, 1000);
 
 
-        window.addEventListener("blur", function (event) {
+        window.addEventListener("beforeunload", function (event) {
             synth.cancel();
             const botaoDeAudio = document.getElementById('botao-repetir-voz');
             botaoDeAudio.setAttribute('onclick', 'ativarAudio(this)');
