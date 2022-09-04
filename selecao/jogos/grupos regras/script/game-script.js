@@ -10,12 +10,12 @@ var imgMov2 = [];      //Confere se falta colocar alguma imagem da terceira caix
 let quantidade = 0;
 
 const textNumeroFase = 'textbox-numero-fase';
-const divFormas = 'container-formas';
-const dropPrimeiro = 'drop1';
-const dropSegundo = 'intDrop';
-const dropTerceiro = 'drop2';
-const divRestricao1 = 'conteiner-restricao-esquerda';
-const divRestricao2 = 'conteiner-restricao-direita';
+const divRespostasId = 'container-respostas';
+const divCaixaEsquerdaId = 'caixa-esquerda';
+const divCaixaDireitaId = 'caixa-direita';
+const divCaixaIntersecaoId = 'caixa-intersecao';
+const divRestricaoEsquerdaId = 'conteiner-restricao-esquerda';
+const divRestricaoDireitaId = 'conteiner-restricao-direita';
 const forma = 0, cor = 1, tamanho = 2, contorno = 3;
 const divEstrelas = 'container-estrelas';
 var arrayEstrelas = document.getElementById(divEstrelas).getElementsByTagName('img');
@@ -30,6 +30,44 @@ const anosEnum = Object.freeze({
 	"Quinto ano": 5,
 	"Sexto ano": 6
 });
+
+// generate nested enum where the enums elements don't have the same value
+const CARACTERISTIC = function() {
+    let members = [
+        // [ENUM_NAME, ENUM_VALUES]
+        ['COLOR', ['BLUE', 'RED', 'YELLOW']],
+        ['SHAPE', ['TRIANGLE', 'SQUARE', 'RECTANGLE', 'CIRCLE']],
+        ['SIZE', ['BIG', 'SMALL']],
+        ['OUTLINE', ['OUTLINED', 'NOTOUTLINED']]
+    ];
+
+    let cEnum = {};
+    for (let i = 0; i < members.length; i++) {
+        let [memberName, memberValues] = members[i];
+        // TODO: make cEnum[memberName] a Map instead of an object, for easier iteration
+        cEnum[memberName] = {};
+        for (let j = 0; j < memberValues.length; j++) {
+            cEnum[memberName][memberValues[j]] = i + j/memberValues.length;
+        }
+        cEnum[memberName]['length'] = memberValues.length;
+        cEnum[memberName]['id'] = i;
+        cEnum[i] = cEnum[memberName]; // add reverse lookup
+    }
+    cEnum['length'] = members.length;
+
+    cEnum['getClass'] = function(value) {
+        let classId = Math.floor(value);
+        return cEnum[classId];
+    }
+
+    cEnum['getClassNumber'] = function(value) {
+        return Math.floor(value);
+    }
+
+    return Object.freeze(cEnum)
+}();
+
+const [ACCEPTED, REJECTED] = [true, false];
 
 const coresEnum = Object.freeze({
     "azul": 0,
@@ -755,6 +793,22 @@ function stopChuva(){
     })
 }
 
+function setDifference(setA, setB) {
+    const _difference = new Set(setA);
+    for (const elem of setB) {
+        _difference.delete(elem);
+    }
+    return _difference;
+}
+
+function shuffleArray(array) {
+    /* Randomize array in-place using Durstenfeld shuffle algorithm */
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+}
+
 endGame = false;
 function game() {
     reset();
@@ -771,6 +825,33 @@ function game() {
     /*Padronizado os valores das variaveis de controle de acordo com a etapa sendo:
     0-9: Duas caixas | 10-19: Três caixas (Com respostas nas opções) | 20-29: Mais de uma restrição 
     30-37: Restrições "Negado" e "Aceito" | 38-39: Três caixas (Sem respostas nas opções)*/
+    stage_data = [
+        {
+            restrictionsLeft: [[CARACTERISTIC.SHAPE.TRIANGLE, ACCEPTED]],  // [CARACTERISTIC, Accepted/Rejected]
+            restrictionsRight: [[CARACTERISTIC.SHAPE.SQUARE, ACCEPTED]],
+            numOptions: 4,
+            numShapes: 3,
+            // caracteristics that will be used on the shapes
+            random: {[CARACTERISTIC.SHAPE]: 3},  // {CARACTERISTIC: quantity} // TODO: Default 1? // TODO: maybe check this value? If it's bigger than the number of shapes, it will cause an error
+            minimumRatio: 1/3  // the same of minimum_shapes: 1  // the minimum number of shapes that must be in a restriction (a intersection is also considered)
+        },
+        {
+            restrictionsLeft: [[CARACTERISTIC.SHAPE.TRIANGLE, ACCEPTED]],
+            restrictionsRight: [[CARACTERISTIC.SHAPE.SQUARE, ACCEPTED]],
+            numOptions: 4,
+            numShapes: 6,
+            random: {[CARACTERISTIC.SHAPE]: 4, [CARACTERISTIC.COLOR]: 3, [CARACTERISTIC.SIZE]: 2, [CARACTERISTIC.OUTLINE]: 2},
+            minimumRatio: 1/3  // the same of minimum_shapes: 2
+        },
+        {
+            restrictionsLeft: [[CARACTERISTIC.SHAPE.TRIANGLE, ACCEPTED], [CARACTERISTIC.COLOR.RED, ACCEPTED], [CARACTERISTIC.SIZE.SMALL, REJECTED]],
+            restrictionsRight: [[CARACTERISTIC.SHAPE.SQUARE, ACCEPTED], [CARACTERISTIC.OUTLINE.FILLED, ACCEPTED]],
+            numOptions: 6,
+            numShapes: 10,
+            random: {[CARACTERISTIC.SHAPE]: 4, [CARACTERISTIC.COLOR]: 3, [CARACTERISTIC.SIZE]: 2, [CARACTERISTIC.OUTLINE]: 2},
+            minimumRatio: 1/5  // the same of minimum_shapes: 2
+        },
+    ]
     switch (etapaAtual) {
         case 0:
            tamOpcoes = 4;
@@ -1254,9 +1335,85 @@ function game() {
     }
     
     /*Containers*/
-    var divForms = document.getElementById(divFormas);
-    var divEsquerda =  document.getElementById(divRestricao1);
-    var divDireita =  document.getElementById(divRestricao2);
+    let divRespostas = document.getElementById(divRespostasId);
+    let divCaixaEsquerda = document.getElementById(divCaixaEsquerdaId);
+    let divCaixaDireita = document.getElementById(divCaixaDireitaId);
+    let divCaixaIntersecao = document.getElementById(divCaixaIntersecaoId);
+    let divRestricaoEsquerda = document.getElementById(divRestricaoEsquerdaId);
+    let divRestricaoDireita = document.getElementById(divRestricaoDireitaId);
+
+    let currentStage = stage_data[etapaAtual % stage_data.length];
+    let [caixaEsquerdaItems, caixaDireitaItems, caixaIntersecaoItems] = [[], [], []];
+
+    // gerar as formas em cada caixa
+
+    let numFormasParaGerar = getRandomIntInclusive(currentStage.numShapes * currentStage.minimumRatio,
+                                                   currentStage.numShapes * (1 - currentStage.minimumRatio * etapaAtual < 10 ? 1 : 2));
+    caixaEsquerdaItems.length = numFormasParaGerar
+
+    /*
+    Na hora de gerar as formas, há três possibilidades para as caracteristicas:
+    1 - A caracteristica é aceita pela restrição:
+        Essa característica é forçada em todas as formas geradas e, portanto, todas as formas tem essa característica (como ser da cor azul)
+    2 - A caracteristica é rejeitada pela restrição:
+        Essa característica é randomizada retirando a possibilidade de ser a característica rejeitada (como não ser um quadrado).
+        Como as formas geradas aqui são somente para uma caixa, as suas caracteristicas não podem ser aceitas pela outra restrição, ou teriamos
+        uma forma na interseção. A interseção tem sua própria geração de formas, então as características aceitas pela outra caixa tem que ser rejeitadas aqui.
+    3 - A caracteristica não é afetada pela restrição
+        Essa caracteristica é randomizada
+
+    A randomização é limitada por currentStage.random[i][1], que é o número máximo de diferentes características de uma classe que podem ser geradas.
+    Exemplo: [CARACTERISTIC.SHAPE, 2] significa que só podem ser geradas duas formas diferentes (como quadrado e retângulo)
+    */
+
+    let caracteristicasAceitas = new Set(),
+        caracteristicasRejeitadas = new Set(); 
+    for (const [caracteristica, aceita] of Object.entries(currentStage.restrictionsLeft)) {
+        if (aceita)
+            caracteristicasAceitas.add(caracteristica);
+        else
+            caracteristicasRejeitadas.add(caracteristica);
+    }
+    for (const [caracteristica, aceita] of Object.entries(currentStage.restrictionsRight)) {
+        if (aceita)
+            caracteristicasRejeitadas.add(caracteristica);
+    }
+
+    let caracteristicasRandomChoices = {};
+    for (const caracteristica of caracteristicasAceitas) {
+        caracteristicasRandomChoices[CARACTERISTIC.getClass(caracteristica)] = caracteristica
+    }
+    for (const caracteristica of caracteristicasRejeitadas) {
+        let classe = CARACTERISTIC.getClass(caracteristica);
+        let todasCaracteristicasDaClasse = [...Array(classe.length).keys().map(i => classe.id + i/classe.length)]; 
+        let caracteristicasPossiveis = todasCaracteristicasDaClasse.filter(caracteristica => !caracteristicasRejeitadas.has(caracteristica));
+        shuffleArray(caracteristicasPossiveis);
+        caracteristicasRandomChoices[classe] = caracteristicasPossiveis.slice(classe in currentStage.random ? currentStage.random[classe] : 1); // caso uma classe não for especificada em random, seu valor é 1
+    }
+    // randomiza caracteristicas não afetadas pela restrição
+    // a operação feita aqui é Set(todas as classes) - Set(classes das caracteristicas aceitas + classes das caracteristicas rejeitadas)
+    for (const classe of setDifference(
+                                       new Set(Array(CARACTERISTIC.length).keys()), // pega todas as classes (os números inteiros do enum)
+                                       new Set([].concat(
+                                                         [...caracteristicasAceitas].map(caracteristica => CARACTERISTIC.getClass(caracteristica)),
+                                                         [...caracteristicasRejeitadas].map(caracteristica => CARACTERISTIC.getClass(caracteristica))
+                                                         ))
+                                       )) {
+        let todasCaracteristicasDaClasse = Array(classe.length).keys().map(i => classe.id + i/classe.length);
+        shuffleArray(todasCaracteristicasDaClasse);
+        caracteristicasRandomChoices[classe] = caracteristicasPossiveis.slice(classe in currentStage.random ? currentStage.random[classe] : 1); // caso uma classe não for especificada em random, seu valor é 1
+    }
+
+    for (let i = 0; i < caixaEsquerdaItems.length; i++) {
+        let forma = {}
+        for (const [classe, caracteristicas] of caracteristicasRandomChoices) {
+            forma[classe] = caracteristicas[i % caracteristicas.length];
+        }
+        caixaEsquerdaItems[i] = forma;
+    }
+
+
+
     
     /*verificar quantas imagens eu preciso criar*/
     /*verificar quantas imagens eu preciso criar*/
@@ -1602,6 +1759,10 @@ function check(){ //Confere se acertou
 
        });
    }
+
+   //mov = 0;
+   //flag1, flag2, flag3 = 0, 0, 0;
+   
     /*Verifica todas as situações de resposta*/
     if (mov != 0) {
 
