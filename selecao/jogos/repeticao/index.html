@@ -336,16 +336,7 @@
         }
 
         let mudandoTituloRepeticao = document.getElementById('title-jogo');
-        mudandoTituloRepeticao.innerHTML = `${localStorage.titulo} - ${localStorage.getItem('ano')}`;
-    </script>
-
-    <script>
-        if (!localStorage.getItem('titulo')) {
-            localStorage.setItem('titulo', 'JOGO DA REPETICAO');
-        }
-
-        let mudandoTituloRepeticao = document.getElementById('title-jogo');
-        mudandoTituloRepeticao.innerHTML = localStorage.titulo;
+        mudandoTituloRepeticao.innerHTML = `${localStorage.getItem('titulo')} - ${localStorage.getItem('ano')}`;
     </script>
     </script>
 
