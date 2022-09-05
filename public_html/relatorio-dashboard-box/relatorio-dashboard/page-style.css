@@ -327,10 +327,10 @@ main.grid-tabela {
     cursor: pointer;
 }
 
-/* .container .cartao:hover {
+.container .cartao:hover {
     transform: translateY(-10px);
     box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
-} */
+}
 
 .container .cartao:before {
     content: "";
@@ -2020,7 +2020,7 @@ p.relatorio-section-title {
 }
 
 .resultadoTableHeaderRow {
-    color: black;
+    color: #FDC23E;
     font-weight: bold;
     height: 50px;
 }
