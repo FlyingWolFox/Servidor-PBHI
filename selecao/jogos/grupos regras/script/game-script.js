@@ -809,6 +809,90 @@ function shuffleArray(array) {
     }
 }
 
+function gerarFormas(currentStage, intersecaoAtiva, numFormasEscolhidasParaCaixas = null) {
+    if (numFormasEscolhidasParaCaixas === null) numFormasEscolhidasParaCaixas = []
+
+    let numFormasParaGerar;
+    // calcular o número de formas que podem ser geradas sem deixar as outras caixas abaixo do mínimo
+    // número de formas a serem geradas têm que estar entre currentStage.minimumRatio e o máximo que se pode gerar sem deixar as outras caixas abaixo do mínimo
+    {
+        let min = currentStage.numShapes * currentStage.minimumRatio,
+            max = currentStage.numShapes * (1 - currentStage.minimumRatio * (intersecaoAtiva ? 2 : 1));
+
+        // calcula quanto as outras caixas passaram do mínimo
+        let postMinOtherBoxesSum = numFormasEscolhidasParaCaixas.reduce((previousValue, currentValue) => previousValue + (currentValue - min), 0);
+
+        // diminui o máximo de acordo com o quanto as outras caixas passaram do mínimo
+        max -= postMinOtherBoxesSum;
+        numFormasParaGerar = getRandomIntInclusive(min, max);
+    }
+    caixaItems = []
+    caixaItems.length = numFormasParaGerar
+
+    /*
+    Na hora de gerar as formas, há três possibilidades para as caracteristicas:
+    1 - A caracteristica é aceita pela restrição:
+        Essa característica é forçada em todas as formas geradas e, portanto, todas as formas tem essa característica (como ser da cor azul)
+    2 - A caracteristica é rejeitada pela restrição:
+        Essa característica é randomizada retirando a possibilidade de ser a característica rejeitada (como não ser um quadrado).
+        Como as formas geradas aqui são somente para uma caixa, as suas caracteristicas não podem ser aceitas pela outra restrição, ou teriamos
+        uma forma na interseção. A interseção tem sua própria geração de formas, então as características aceitas pela outra caixa tem que ser rejeitadas aqui.
+    3 - A caracteristica não é afetada pela restrição
+        Essa caracteristica é randomizada
+
+    A randomização é limitada por currentStage.random[i], que é o número máximo de diferentes características de uma classe que podem ser geradas.
+    Exemplo: {[CARACTERISTIC.SHAPE]: 2} significa que só podem ser geradas duas formas diferentes (como quadrado e retângulo)
+    */
+
+    let caracteristicasAceitas = new Set(),
+        caracteristicasRejeitadas = new Set(); 
+    for (const [caracteristica, aceita] of Object.entries(currentStage.restrictionsLeft)) {
+        if (aceita)
+            caracteristicasAceitas.add(caracteristica);
+        else
+            caracteristicasRejeitadas.add(caracteristica);
+    }
+    for (const [caracteristica, aceita] of Object.entries(currentStage.restrictionsRight)) {
+        if (aceita)
+            caracteristicasRejeitadas.add(caracteristica);
+    }
+
+    let caracteristicasRandomChoices = {};
+    for (const caracteristica of caracteristicasAceitas) {
+        caracteristicasRandomChoices[CARACTERISTIC.getClass(caracteristica)] = caracteristica
+    }
+    for (const caracteristica of caracteristicasRejeitadas) {
+        let classe = CARACTERISTIC.getClass(caracteristica);
+        let todasCaracteristicasDaClasse = Array(classe.length).keys().map(i => classe.id + i/classe.length); 
+        let caracteristicasPossiveis = todasCaracteristicasDaClasse.filter(caracteristica => !caracteristicasRejeitadas.has(caracteristica));
+        shuffleArray(caracteristicasPossiveis);
+        caracteristicasRandomChoices[classe] = caracteristicasPossiveis.slice(classe in currentStage.random ? currentStage.random[classe] : 1); // caso uma classe não for especificada em random, seu valor é 1
+    }
+    // randomiza caracteristicas não afetadas pela restrição
+    // a operação feita aqui é Set(todas as classes) - Set(classes das caracteristicas aceitas + classes das caracteristicas rejeitadas)
+    for (const classe of setDifference(
+                                       new Set(Array(CARACTERISTIC.length).keys()), // pega todas as classes (os números inteiros do enum)
+                                       new Set([].concat(
+                                                         [...caracteristicasAceitas].map(caracteristica => CARACTERISTIC.getClass(caracteristica)),
+                                                         [...caracteristicasRejeitadas].map(caracteristica => CARACTERISTIC.getClass(caracteristica))
+                                                         ))
+                                       )) {
+        let todasCaracteristicasDaClasse = Array(classe.length).keys().map(i => classe.id + i/classe.length);
+        shuffleArray(todasCaracteristicasDaClasse);
+        caracteristicasRandomChoices[classe] = caracteristicasPossiveis.slice(classe in currentStage.random ? currentStage.random[classe] : 1); // caso uma classe não for especificada em random, seu valor é 1
+    }
+
+    for (let i = 0; i < caixaEsquerdaItems.length; i++) {
+        let forma = {}
+        for (const [classe, caracteristicas] of caracteristicasRandomChoices) {
+            forma[classe] = caracteristicas[i % caracteristicas.length];
+        }
+        caixaItems[i] = forma;
+    }
+
+    return caixaItems;
+}
+
 endGame = false;
 function game() {
     reset();
@@ -1343,75 +1427,14 @@ function game() {
     let divRestricaoDireita = document.getElementById(divRestricaoDireitaId);
 
     let currentStage = stage_data[etapaAtual % stage_data.length];
-    let [caixaEsquerdaItems, caixaDireitaItems, caixaIntersecaoItems] = [[], [], []];
+    let intersecaoAtiva = etapaAtual >= 10;
+    let caixaEsquerdaItems, caixaDireitaItems, caixaIntersecaoItems = null;
 
     // gerar as formas em cada caixa
-
-    let numFormasParaGerar = getRandomIntInclusive(currentStage.numShapes * currentStage.minimumRatio,
-                                                   currentStage.numShapes * (1 - currentStage.minimumRatio * etapaAtual < 10 ? 1 : 2));
-    caixaEsquerdaItems.length = numFormasParaGerar
-
-    /*
-    Na hora de gerar as formas, há três possibilidades para as caracteristicas:
-    1 - A caracteristica é aceita pela restrição:
-        Essa característica é forçada em todas as formas geradas e, portanto, todas as formas tem essa característica (como ser da cor azul)
-    2 - A caracteristica é rejeitada pela restrição:
-        Essa característica é randomizada retirando a possibilidade de ser a característica rejeitada (como não ser um quadrado).
-        Como as formas geradas aqui são somente para uma caixa, as suas caracteristicas não podem ser aceitas pela outra restrição, ou teriamos
-        uma forma na interseção. A interseção tem sua própria geração de formas, então as características aceitas pela outra caixa tem que ser rejeitadas aqui.
-    3 - A caracteristica não é afetada pela restrição
-        Essa caracteristica é randomizada
-
-    A randomização é limitada por currentStage.random[i][1], que é o número máximo de diferentes características de uma classe que podem ser geradas.
-    Exemplo: [CARACTERISTIC.SHAPE, 2] significa que só podem ser geradas duas formas diferentes (como quadrado e retângulo)
-    */
-
-    let caracteristicasAceitas = new Set(),
-        caracteristicasRejeitadas = new Set(); 
-    for (const [caracteristica, aceita] of Object.entries(currentStage.restrictionsLeft)) {
-        if (aceita)
-            caracteristicasAceitas.add(caracteristica);
-        else
-            caracteristicasRejeitadas.add(caracteristica);
-    }
-    for (const [caracteristica, aceita] of Object.entries(currentStage.restrictionsRight)) {
-        if (aceita)
-            caracteristicasRejeitadas.add(caracteristica);
-    }
-
-    let caracteristicasRandomChoices = {};
-    for (const caracteristica of caracteristicasAceitas) {
-        caracteristicasRandomChoices[CARACTERISTIC.getClass(caracteristica)] = caracteristica
-    }
-    for (const caracteristica of caracteristicasRejeitadas) {
-        let classe = CARACTERISTIC.getClass(caracteristica);
-        let todasCaracteristicasDaClasse = [...Array(classe.length).keys().map(i => classe.id + i/classe.length)]; 
-        let caracteristicasPossiveis = todasCaracteristicasDaClasse.filter(caracteristica => !caracteristicasRejeitadas.has(caracteristica));
-        shuffleArray(caracteristicasPossiveis);
-        caracteristicasRandomChoices[classe] = caracteristicasPossiveis.slice(classe in currentStage.random ? currentStage.random[classe] : 1); // caso uma classe não for especificada em random, seu valor é 1
-    }
-    // randomiza caracteristicas não afetadas pela restrição
-    // a operação feita aqui é Set(todas as classes) - Set(classes das caracteristicas aceitas + classes das caracteristicas rejeitadas)
-    for (const classe of setDifference(
-                                       new Set(Array(CARACTERISTIC.length).keys()), // pega todas as classes (os números inteiros do enum)
-                                       new Set([].concat(
-                                                         [...caracteristicasAceitas].map(caracteristica => CARACTERISTIC.getClass(caracteristica)),
-                                                         [...caracteristicasRejeitadas].map(caracteristica => CARACTERISTIC.getClass(caracteristica))
-                                                         ))
-                                       )) {
-        let todasCaracteristicasDaClasse = Array(classe.length).keys().map(i => classe.id + i/classe.length);
-        shuffleArray(todasCaracteristicasDaClasse);
-        caracteristicasRandomChoices[classe] = caracteristicasPossiveis.slice(classe in currentStage.random ? currentStage.random[classe] : 1); // caso uma classe não for especificada em random, seu valor é 1
-    }
-
-    for (let i = 0; i < caixaEsquerdaItems.length; i++) {
-        let forma = {}
-        for (const [classe, caracteristicas] of caracteristicasRandomChoices) {
-            forma[classe] = caracteristicas[i % caracteristicas.length];
-        }
-        caixaEsquerdaItems[i] = forma;
-    }
-
+    caixaEsquerdaItems = gerarFormas(currentStage, intersecaoAtiva);
+    caixaDireitaItems = gerarFormas(currentStage, intersecaoAtiva, [caixaEsquerdaItems.length]);
+    if (intersecaoAtiva)
+        caixaIntersecaoItems = gerarFormas(currentStage, intersecaoAtiva, [caixaEsquerdaItems.length, caixaDireitaItems.length]);
 
 
     
