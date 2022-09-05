@@ -1455,6 +1455,21 @@ function game() {
     if (intersecaoAtiva)
         caixaIntersecaoItems = gerarFormas(currentStage, intersecaoAtiva, [caixaEsquerdaItems.length, caixaDireitaItems.length]);
 
+    // adicionar as regras das restrições nas respostas
+    let respostasItems = [].concat(currentStage.restrictionsLeft, currentStage.restrictionsRight);
+    // gerar regras que são incorretas
+    let todasCaracteristicas = Array(CARACTERISTIC.length).keys().map(i => Array(CARACTERISTIC[i].length).keys().map(i => CARACTERISTIC[i].id + i/CARACTERISTIC[i].length)).flat();
+    let regrasItemsIntersecao = intersecaoAtiva ? caixaIntersecaoItems.map(item => new Set(todasCaracteristicas.map(caracteristica => [caracteristica, carateristica == item[CARACTERISTIC.getClass(caracteristica)] ? ACCEPTED : REJECTED]))) : [];
+    let regrasUsadas = [].concat(
+                                 // obter as regras comuns à todos items em cada das caixas
+                                 caixaEsquerdaItems.map(item => new Set(todasCaracteristicas.map(caracteristica => [caracteristica, carateristica == item[CARACTERISTIC.getClass(caracteristica)] ? ACCEPTED : REJECTED]))).concat(regrasItemsIntersecao).reduce(setIntersection, new Set(todasCaracteristicas)),
+                                 caixaDireitaItems.map(item => new Set(todasCaracteristicas.map(caracteristica => [caracteristica, carateristica == item[CARACTERISTIC.getClass(caracteristica)] ? ACCEPTED : REJECTED]))).concat(regrasItemsIntersecao).reduce(setIntersection, new Set(todasCaracteristicas)),
+                                ).reduce(setUnion, new Set());
+    // TODO: maybe use set operations?
+    let regrasNaoUsadas = todasCaracteristicas.map(caracteristica => [[caracteristica, ACCEPTED], [caracteristica, REJECTED]]).flat().filter(i => !regrasUsadas.has(i));
+    // completar as respostas com as regras incorretas para respostasItems ter currentStage.numOptions
+    respostasItems = respostasItems.concat(regrasNaoUsadas.slice(currentStage.numOptions - respostasItems.length));
+    shuffleArray(respostasItems);
 
     
     /*verificar quantas imagens eu preciso criar*/
