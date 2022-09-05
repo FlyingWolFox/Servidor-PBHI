@@ -801,6 +801,25 @@ function setDifference(setA, setB) {
     return _difference;
 }
 
+// TODO: replace with a better implementation
+function setIntersection(setA, setB) {
+  const _intersection = new Set();
+  for (const elem of setB) {
+    if (setA.has(elem)) {
+      _intersection.add(elem);
+    }
+  }
+  return _intersection;
+}
+
+function setUnion(setA, setB) {
+  const _union = new Set(setA);
+  for (const elem of setB) {
+    _union.add(elem);
+  }
+  return _union;
+}
+
 function shuffleArray(array) {
     /* Randomize array in-place using Durstenfeld shuffle algorithm */
     for (let i = array.length - 1; i > 0; i--) {
