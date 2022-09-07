@@ -828,7 +828,16 @@ function shuffleArray(array) {
     }
 }
 
-function gerarFormas(currentStage, intersecaoAtiva, numFormasEscolhidasParaCaixas = null) {
+function gerarFormas(currentStage, restricoesNessaCaixa, restricoesNoutraCaixa, intersecaoAtiva, numFormasEscolhidasParaCaixas = null) {
+    // TODO: make this function pure:
+    // - replace currentStage with the parameters used
+
+    // TODO: document edge cases:
+    // - when there are no restrictions (?)
+    // - when there iss no intersection (?)
+    // - when other box accepts something that this box rejects (and vice versa)
+    // - when in a box there are two restrictions that are the same, but one accepts and the other rejects
+
     if (numFormasEscolhidasParaCaixas === null) numFormasEscolhidasParaCaixas = []
 
     let numFormasParaGerar;
@@ -865,13 +874,14 @@ function gerarFormas(currentStage, intersecaoAtiva, numFormasEscolhidasParaCaixa
 
     let caracteristicasAceitas = new Set(),
         caracteristicasRejeitadas = new Set(); 
-    for (const [caracteristica, aceita] of Object.entries(currentStage.restrictionsLeft)) {
+
+    for (const [caracteristica, aceita] of restricoesNessaCaixa) {
         if (aceita)
             caracteristicasAceitas.add(caracteristica);
         else
             caracteristicasRejeitadas.add(caracteristica);
     }
-    for (const [caracteristica, aceita] of Object.entries(currentStage.restrictionsRight)) {
+    for (const [caracteristica, aceita] of restricoesNoutraCaixa) {
         if (aceita)
             caracteristicasRejeitadas.add(caracteristica);
     }
@@ -901,7 +911,7 @@ function gerarFormas(currentStage, intersecaoAtiva, numFormasEscolhidasParaCaixa
         caracteristicasRandomChoices[classe] = caracteristicasPossiveis.slice(classe in currentStage.random ? currentStage.random[classe] : 1); // caso uma classe não for especificada em random, seu valor é 1
     }
 
-    for (let i = 0; i < caixaEsquerdaItems.length; i++) {
+    for (let i = 0; i < caixaItems.length; i++) {
         let forma = {}
         for (const [classe, caracteristicas] of caracteristicasRandomChoices) {
             forma[classe] = caracteristicas[i % caracteristicas.length];
@@ -1450,10 +1460,10 @@ function game() {
     let caixaEsquerdaItems, caixaDireitaItems, caixaIntersecaoItems = null;
 
     // gerar as formas em cada caixa
-    caixaEsquerdaItems = gerarFormas(currentStage, intersecaoAtiva);
-    caixaDireitaItems = gerarFormas(currentStage, intersecaoAtiva, [caixaEsquerdaItems.length]);
+    caixaEsquerdaItems = gerarFormas(currentStage, currentStage.restrictionsLeft, currentStage.restrictionsRight, intersecaoAtiva);
+    caixaDireitaItems = gerarFormas(currentStage, currentStage.restrictionsRight, currentStage.restrictionsLeft, intersecaoAtiva, [caixaEsquerdaItems.length]);
     if (intersecaoAtiva)
-        caixaIntersecaoItems = gerarFormas(currentStage, intersecaoAtiva, [caixaEsquerdaItems.length, caixaDireitaItems.length]);
+        caixaIntersecaoItems = gerarFormas(currentStage, [...currentStage.restrictionsLeft, ...currentStage.restrictionsRight], [], intersecaoAtiva, [caixaEsquerdaItems.length, caixaDireitaItems.length]);
 
     // adicionar as regras das restrições nas respostas
     let respostasItems = [].concat(currentStage.restrictionsLeft, currentStage.restrictionsRight);
