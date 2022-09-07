@@ -39,7 +39,7 @@
 
 </head>
 
-<body onload="speaking()">
+<body>
     <section class="aviso-orientacao">
         <div id="aviso-orientacao-caixa">
             <h1 id="texto-orientacao"> vire seu aparelho na horizontal para jogar</h1>
@@ -70,7 +70,8 @@
             <div id="modalInfo" class="modal">
                 <div class="modal-content" id="modal-content">
                     <p>TODO:
-                        Olá novamente, tudo bem? tenho outro jogo bem bacana pra te apresentar, o Jogo dos Grupos, nele a
+                        Olá novamente, tudo bem? tenho outro jogo bem bacana pra te apresentar, o Jogo dos Grupos, nele
+                        a
                         gente
                         te mostra duas caixas diferentes que vão servir para arrastar as figuras corretas e, ao lado de
                         cada um,
@@ -155,7 +156,7 @@
                     <section id="caixa-esquerda" class='drop-esquerdo'>
                         <!-- Locais onde os triangulos estarão -->
                     </section>
-                    <section id='caixa-intersecao' class="">
+                    <section id='caixa-intersecao' class='drop-intersecao'>
                         <!-- Local onde fica a interseção -->
                     </section>
                     <section id="caixa-direita" class='drop-direito'>
@@ -306,7 +307,7 @@
                     console.log("a peça foi dropada em " + zone.id);
                 }
             });
-            
+
             timeStamps.push(new Date().getTime());
         });
 
@@ -421,7 +422,7 @@
     <script type="text/javascript">
         var synth = window.speechSynthesis;
 
-        if(!localStorage.getItem('audio')){
+        if (!localStorage.getItem('audio')) {
             localStorage.setItem('audio', 'ligado');
         }
 

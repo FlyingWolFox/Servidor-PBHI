@@ -10,15 +10,25 @@ var imgMov2 = [];      //Confere se falta colocar alguma imagem da terceira caix
 let quantidade = 0;
 
 const textNumeroFase = 'textbox-numero-fase';
-const divRespostasId = 'container-respostas';
+
+const divRestricaoEsquerdaId = 'restricao-esquerda';
+const divRestricaoDireitaId = 'restricao-direita';
+
+const dropEsquerdo = 'drop-esquerdo';
+const dropIntersecao = 'drop-intersecao';
+const dropDireito = 'drop-direito';
+
 const divCaixaEsquerdaId = 'caixa-esquerda';
 const divCaixaDireitaId = 'caixa-direita';
 const divCaixaIntersecaoId = 'caixa-intersecao';
-const divRestricaoEsquerdaId = 'conteiner-restricao-esquerda';
-const divRestricaoDireitaId = 'conteiner-restricao-direita';
+
+const divRespostasId = 'container-respostas';
+
 const forma = 0, cor = 1, tamanho = 2, contorno = 3;
+
 const divEstrelas = 'container-estrelas';
 var arrayEstrelas = document.getElementById(divEstrelas).getElementsByTagName('img');
+
 var ano = localStorage.getItem('ano');
 var etapaMax = 25;
 
@@ -129,12 +139,12 @@ function removeChildElementsByTag(parent, tag) {
 }
 
 function reset() {
-    removeChildElementsByTag(divFormas, 'img');
-    removeChildElementsByTag(divRestricao1, 'img');
-    removeChildElementsByTag(divRestricao2, 'img');
-    removeChildElementsByTag(dropPrimeiro, 'img');
-    removeChildElementsByTag(dropSegundo, 'img');
-    removeChildElementsByTag(dropTerceiro, 'img');
+    removeChildElementsByTag(divRespostasId, 'img');
+    removeChildElementsByTag(divRestricaoEsquerdaId, 'img');
+    removeChildElementsByTag(divRestricaoDireitaId, 'img');
+    removeChildElementsByTag(dropEsquerdo, 'img');
+    removeChildElementsByTag(dropIntersecao, 'img');
+    removeChildElementsByTag(dropDireito, 'img');
 
      //Array contendo todos os elementos gerados
     restricao1 = [];
@@ -154,8 +164,6 @@ function resetEstrelas() {
     texto.innerHTML = "?";
     texto = document.getElementById('texto4');
     texto.innerHTML = "?";
-
-   
 }
 
 function getRandomIntInclusive(min, max) {
@@ -1463,11 +1471,13 @@ function game() {
     
     /*Containers*/
     let divRespostas = document.getElementById(divRespostasId);
+    let divRestricaoEsquerda = document.getElementById(divRestricaoEsquerdaId);
+    let divRestricaoDireita = document.getElementById(divRestricaoDireitaId);
+
     let divCaixaEsquerda = document.getElementById(divCaixaEsquerdaId);
     let divCaixaDireita = document.getElementById(divCaixaDireitaId);
     let divCaixaIntersecao = document.getElementById(divCaixaIntersecaoId);
-    let divRestricaoEsquerda = document.getElementById(divRestricaoEsquerdaId);
-    let divRestricaoDireita = document.getElementById(divRestricaoDireitaId);
+
 
     let currentStage = stage_data[etapaAtual % stage_data.length];
     let intersecaoAtiva = etapaAtual >= 10;
@@ -1551,7 +1561,7 @@ function game() {
             novaImagem = getRestrictScr(estadoRestricao1[i], i, restricao1[i]);
             novaImagem.setAttribute('class', 'img-restricao-esquerda');
             console.log(novaImagem.getAttribute("src"));
-            divEsquerda.appendChild(novaImagem);
+            divRestricaoEsquerda.appendChild(novaImagem);
         }
         
         i++;
@@ -1559,17 +1569,18 @@ function game() {
     });
 
     i=0;
-    arrayReferencia.forEach(el =>{  //Caixa da direita
+    arrayReferencia.forEach(el => {  //Caixa da direita
 
         if(restricao2[i] == null){
             i++;
             return;
         }
         else{
+            //gerando a lógica para uma imagem restrição
             novaImagem = getRestrictScr(estadoRestricao2[i], i, restricao2[i]);
             novaImagem.setAttribute('class', 'img-restricao-direita');
-            console.log(novaImagem.getAttribute("src"));
-            divDireita.appendChild(novaImagem);
+            // console.log(novaImagem.getAttribute("src"));
+            divRestricaoDireita.appendChild(novaImagem);
         }
         
         i++;
@@ -1590,9 +1601,7 @@ function game() {
 
     /*Fazendo o append com a divForms*/
     arrayOpcoesFinal.forEach(el => {
-        
-        divForms.appendChild(el);
-
+        divRespostas.appendChild(el);
     });
 
     background(quantidade);
@@ -1602,9 +1611,9 @@ function game() {
 function background(caixas){
 
     var dropzoneArea = document.getElementById('dropzone-container');
-    var dropEsquerda = document.getElementById(dropPrimeiro);
-    var dropMeio = document.getElementById(dropSegundo);
-    var dropDireita = document.getElementById(dropTerceiro);
+    var dropEsquerda = document.getElementById(dropEsquerdo);
+    var dropMeio = document.getElementById(dropIntersecao);
+    var dropDireita = document.getElementById(dropDireito);
 
     /* Gerar imagens do fundo */
     if(caixas == 2) {
@@ -1769,10 +1778,10 @@ function check(){ //Confere se acertou
     let flag1 = 0, flag2 = 0, flag3 = 0, lixo, mov = 0;
     imgMov1 = [];
     imgMov2 = [];
-    var imagensDropPrimeiro = document.getElementById(dropPrimeiro).getElementsByTagName('img');
-    var imagensDropSegundo = document.getElementById(dropSegundo).getElementsByTagName('img');
-    var imagensDropTerceiro = document.getElementById(dropTerceiro).getElementsByTagName('img');
-    var imagensGeradas = document.getElementById(divFormas).getElementsByTagName('img');
+    var imagensDropEsquerdo = document.getElementById(dropEsquerdo).getElementsByTagName('img');
+    var imagensDropIntersecao = document.getElementById(dropIntersecao).getElementsByTagName('img');
+    var imagensDropDireito = document.getElementById(dropDireito).getElementsByTagName('img');
+    var imagensGeradas = document.getElementById(divRespostasId).getElementsByTagName('img');
     var textoAcerto = document.getElementById('resultado-jogo');
     var textoErro = document.getElementById('resultadoNegativo-jogo')
 
@@ -1784,18 +1793,18 @@ function check(){ //Confere se acertou
     var botaoOk = document.getElementById('botao-proximo');    
 
     /*Verifica se as caixas estão corretas e se todas as imagens corretas foram movidas */
-   flag1 = first(imagensDropPrimeiro, 'n');
-   flag3 = third(imagensDropTerceiro, 'n');
+   flag1 = first(imagensDropEsquerdo, 'n');
+   flag3 = third(imagensDropDireito, 'n');
 
 
    /* Confere se a imagem não pertence aos dois*/
    if(quantidade != 2){
 
-        flag2 = first(imagensDropSegundo, 'n') + third(imagensDropSegundo, 'n');
+        flag2 = first(imagensDropIntersecao, 'n') + third(imagensDropIntersecao, 'n');
 
-        if(imagensDropPrimeiro.length != 0){
+        if(imagensDropEsquerdo.length != 0){
 
-            lixo = third(imagensDropPrimeiro, 's')
+            lixo = third(imagensDropEsquerdo, 's')
             imgMov2.forEach(el => {
                 if(el == 0){
                     flag1++;
@@ -1804,9 +1813,9 @@ function check(){ //Confere se acertou
            });
         }
         
-        if(imagensDropTerceiro.length != 0){
+        if(imagensDropDireito.length != 0){
 
-            lixo = first(imagensDropTerceiro, 's')
+            lixo = first(imagensDropDireito, 's')
             imgMov1.forEach(el => {
                 if(el == 0){
                     flag3++;
