@@ -828,9 +828,7 @@ function shuffleArray(array) {
     }
 }
 
-function gerarFormas(currentStage, restricoesNessaCaixa, restricoesNoutraCaixa, intersecaoAtiva, numFormasEscolhidasParaCaixas = null) {
-    // TODO: make this function pure:
-    // - replace currentStage with the parameters used
+function gerarFormas(restricoesNessaCaixa, restricoesNoutraCaixa, intersecaoAtiva, maxNumFormas, minRazaoFormas, parametrosAleatorio, numFormasEscolhidasParaCaixas = null) {
 
     // TODO: document edge cases:
     // - when there are no restrictions (?)
@@ -842,10 +840,10 @@ function gerarFormas(currentStage, restricoesNessaCaixa, restricoesNoutraCaixa, 
 
     let numFormasParaGerar;
     // calcular o número de formas que podem ser geradas sem deixar as outras caixas abaixo do mínimo
-    // número de formas a serem geradas têm que estar entre currentStage.minimumRatio e o máximo que se pode gerar sem deixar as outras caixas abaixo do mínimo
+    // número de formas a serem geradas têm que estar entre minRazaoFormas e o máximo que se pode gerar sem deixar as outras caixas abaixo do mínimo
     {
-        let min = currentStage.numShapes * currentStage.minimumRatio,
-            max = currentStage.numShapes * (1 - currentStage.minimumRatio * (intersecaoAtiva ? 2 : 1));
+        let min = maxNumFormas * minRazaoFormas,
+            max = maxNumFormas * (1 - minRazaoFormas * (intersecaoAtiva ? 2 : 1));
 
         // calcula quanto as outras caixas passaram do mínimo
         let postMinOtherBoxesSum = numFormasEscolhidasParaCaixas.reduce((previousValue, currentValue) => previousValue + (currentValue - min), 0);
@@ -868,7 +866,7 @@ function gerarFormas(currentStage, restricoesNessaCaixa, restricoesNoutraCaixa, 
     3 - A caracteristica não é afetada pela restrição
         Essa caracteristica é randomizada
 
-    A randomização é limitada por currentStage.random[i], que é o número máximo de diferentes características de uma classe que podem ser geradas.
+    A randomização é limitada por parametrosAleatorio[i], que é o número máximo de diferentes características de uma classe que podem ser geradas.
     Exemplo: {[CARACTERISTIC.SHAPE]: 2} significa que só podem ser geradas duas formas diferentes (como quadrado e retângulo)
     */
 
@@ -895,7 +893,7 @@ function gerarFormas(currentStage, restricoesNessaCaixa, restricoesNoutraCaixa, 
         let todasCaracteristicasDaClasse = Array(classe.length).keys().map(i => classe.id + i/classe.length); 
         let caracteristicasPossiveis = todasCaracteristicasDaClasse.filter(caracteristica => !caracteristicasRejeitadas.has(caracteristica));
         shuffleArray(caracteristicasPossiveis);
-        caracteristicasRandomChoices[classe] = caracteristicasPossiveis.slice(classe in currentStage.random ? currentStage.random[classe] : 1); // caso uma classe não for especificada em random, seu valor é 1
+        caracteristicasRandomChoices[classe] = caracteristicasPossiveis.slice(classe in parametrosAleatorio ? parametrosAleatorio[classe] : 1); // caso uma classe não for especificada em random, seu valor é 1
     }
     // randomiza caracteristicas não afetadas pela restrição
     // a operação feita aqui é Set(todas as classes) - Set(classes das caracteristicas aceitas + classes das caracteristicas rejeitadas)
@@ -908,7 +906,7 @@ function gerarFormas(currentStage, restricoesNessaCaixa, restricoesNoutraCaixa, 
                                        )) {
         let todasCaracteristicasDaClasse = Array(classe.length).keys().map(i => classe.id + i/classe.length);
         shuffleArray(todasCaracteristicasDaClasse);
-        caracteristicasRandomChoices[classe] = caracteristicasPossiveis.slice(classe in currentStage.random ? currentStage.random[classe] : 1); // caso uma classe não for especificada em random, seu valor é 1
+        caracteristicasRandomChoices[classe] = caracteristicasPossiveis.slice(classe in parametrosAleatorio ? parametrosAleatorio[classe] : 1); // caso uma classe não for especificada em random, seu valor é 1
     }
 
     for (let i = 0; i < caixaItems.length; i++) {
@@ -1460,10 +1458,10 @@ function game() {
     let caixaEsquerdaItems, caixaDireitaItems, caixaIntersecaoItems = null;
 
     // gerar as formas em cada caixa
-    caixaEsquerdaItems = gerarFormas(currentStage, currentStage.restrictionsLeft, currentStage.restrictionsRight, intersecaoAtiva);
-    caixaDireitaItems = gerarFormas(currentStage, currentStage.restrictionsRight, currentStage.restrictionsLeft, intersecaoAtiva, [caixaEsquerdaItems.length]);
+    caixaEsquerdaItems = gerarFormas(currentStage.restrictionsLeft, currentStage.restrictionsRight, intersecaoAtiva, currentStage.numShapes, currentStage.minimumRatio, currentStage.random);
+    caixaDireitaItems = gerarFormas(currentStage.restrictionsRight, currentStage.restrictionsLeft, intersecaoAtiva, currentStage.numShapes, currentStage.minimumRatio, currentStage.random, [caixaEsquerdaItems.length]);
     if (intersecaoAtiva)
-        caixaIntersecaoItems = gerarFormas(currentStage, [...currentStage.restrictionsLeft, ...currentStage.restrictionsRight], [], intersecaoAtiva, [caixaEsquerdaItems.length, caixaDireitaItems.length]);
+        caixaIntersecaoItems = gerarFormas([...currentStage.restrictionsLeft, ...currentStage.restrictionsRight], [], intersecaoAtiva, currentStage.numShapes, currentStage.minimumRatio, currentStage.random, [caixaEsquerdaItems.length, caixaDireitaItems.length]);
 
     // adicionar as regras das restrições nas respostas
     let respostasItems = [].concat(currentStage.restrictionsLeft, currentStage.restrictionsRight);
