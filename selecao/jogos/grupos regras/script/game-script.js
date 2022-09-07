@@ -828,15 +828,24 @@ function shuffleArray(array) {
     }
 }
 
+/**
+ * Gera formas para uma caixa de forma dijunta, ou seja, formas geradas aqui pertencem somente a essa caixa, não a outra caixa ou a interseção das duas.
+ * Comportamento com casos específicos (Em suma, rejeições tem prioridade e rejeições da outra caixa são ignoradas):
+ * - Quando uma característica é aceita na outra caixa, ela é considerada rejeitada nessa caixa
+ * - Se uma característica é aceita em ambas as caixas, ela é considerada rejeitada (a geração de formas é dijunta)
+ * - Se nas restrições dessa caixa há uma característica que é aceita e rejeitada ao mesmo tempo, a característica é considerada rejeitada
+ * - Se nas restrições da outra caixa há uma característica que é aceita e rejeitada ao mesmo tempo, a característica é considerada rejeitada
+ * @param {Array<Number, boolean>[]} restricoesNessaCaixa Array de restrições para essa caixa (formato [[CARACTERISTICA, ACCEPTED/REJECTED], ...]. Ex: [[CARACTERISTIC.COLOR.BLUE, ACCEPTED]]
+ * @param {Array<Number, boolean>[]} restricoesNoutraCaixa Array de restrições para a outra caixa
+ * @param {boolean} intersecaoAtiva Indica se a geração deve levar em conta a existência da caixa de interseção
+ * @param {Number} maxNumFormas O máximo de formas que podem ser geradas para todas as caixas
+ * @param {Number} minRazaoFormas A razão mínima do número máximo de formas que devem ser geradas para uma caixa
+ * @param {Object<Object, boolean>} parametrosAleatorio Parametros para a geração aleatória de formas (formato {CARACTERISTICA: MAXIMA QUANTIDADE DE FORMAS COM ESSA CARACTERISTICA, ...})
+ * @param {Number[]} [numFormasEscolhidasParaCaixas] A quantidade de formas geradas para outras caixas (controla a quantidade máxima de formas geradas para essa caixa)
+ * @returns {Object<Number, Number>[]} Array contendo as peças geradas para essa caixa (formato [{CLASSE_CARACTERISTICA: CARACTERISTICA, ...}, ...])
+ */
 function gerarFormas(restricoesNessaCaixa, restricoesNoutraCaixa, intersecaoAtiva, maxNumFormas, minRazaoFormas, parametrosAleatorio, numFormasEscolhidasParaCaixas = null) {
-
-    // TODO: document edge cases:
-    // - when there are no restrictions (?)
-    // - when there iss no intersection (?)
-    // - when other box accepts something that this box rejects (and vice versa)
-    // - when in a box there are two restrictions that are the same, but one accepts and the other rejects
-
-    if (numFormasEscolhidasParaCaixas === null) numFormasEscolhidasParaCaixas = []
+    if (numFormasEscolhidasParaCaixas === null) numFormasEscolhidasParaCaixas = [];
 
     let numFormasParaGerar;
     // calcular o número de formas que podem ser geradas sem deixar as outras caixas abaixo do mínimo
@@ -852,24 +861,10 @@ function gerarFormas(restricoesNessaCaixa, restricoesNoutraCaixa, intersecaoAtiv
         max -= postMinOtherBoxesSum;
         numFormasParaGerar = getRandomIntInclusive(min, max);
     }
-    caixaItems = []
-    caixaItems.length = numFormasParaGerar
+    caixaItems = [];
+    caixaItems.length = numFormasParaGerar;
 
-    /*
-    Na hora de gerar as formas, há três possibilidades para as caracteristicas:
-    1 - A caracteristica é aceita pela restrição:
-        Essa característica é forçada em todas as formas geradas e, portanto, todas as formas tem essa característica (como ser da cor azul)
-    2 - A caracteristica é rejeitada pela restrição:
-        Essa característica é randomizada retirando a possibilidade de ser a característica rejeitada (como não ser um quadrado).
-        Como as formas geradas aqui são somente para uma caixa, as suas caracteristicas não podem ser aceitas pela outra restrição, ou teriamos
-        uma forma na interseção. A interseção tem sua própria geração de formas, então as características aceitas pela outra caixa tem que ser rejeitadas aqui.
-    3 - A caracteristica não é afetada pela restrição
-        Essa caracteristica é randomizada
-
-    A randomização é limitada por parametrosAleatorio[i], que é o número máximo de diferentes características de uma classe que podem ser geradas.
-    Exemplo: {[CARACTERISTIC.SHAPE]: 2} significa que só podem ser geradas duas formas diferentes (como quadrado e retângulo)
-    */
-
+    // defina as características que devem ser aceitas e rejeitadas
     let caracteristicasAceitas = new Set(),
         caracteristicasRejeitadas = new Set(); 
 
@@ -881,13 +876,32 @@ function gerarFormas(restricoesNessaCaixa, restricoesNoutraCaixa, intersecaoAtiv
     }
     for (const [caracteristica, aceita] of restricoesNoutraCaixa) {
         if (aceita)
+            // uma característica aceita pela outra caixa tem que ser rejeitada. A geração de formas é dijunta
             caracteristicasRejeitadas.add(caracteristica);
     }
 
+    /*
+    Na hora de gerar as formas, há três casos para as caracteristicas:
+    1 - A caracteristica é aceita pela restrição:
+        Essa característica é forçada em todas as formas geradas e, portanto, todas as formas tem essa característica (como ser da cor azul)
+    2 - A caracteristica é rejeitada pela restrição:
+        Essa característica é randomizada retirando a possibilidade de ser a característica rejeitada (como não ser um quadrado).
+        Como as formas geradas aqui são somente para uma caixa, as suas caracteristicas não podem ser aceitas pela outra restrição, ou teriamos
+        uma forma na interseção. A interseção tem sua própria geração de formas, então as características aceitas pela outra caixa tem que ser rejeitadas aqui.
+    3 - A caracteristica não é afetada pela restrição
+        Essa caracteristica é randomizada
+
+    A randomização é limitada por parametrosAleatorio[CLASSE CARACTERISTICA], que é o número máximo de diferentes características de uma classe que podem ser geradas.
+    Exemplo: {[CARACTERISTIC.SHAPE]: 2} significa que só podem ser geradas duas formas diferentes (como quadrado e retângulo)
+    */
+
+    // para cada caracteristica, cria um array com todas as possibilidades de caracteristicas
     let caracteristicasRandomChoices = {};
+    // caso 1
     for (const caracteristica of caracteristicasAceitas) {
-        caracteristicasRandomChoices[CARACTERISTIC.getClass(caracteristica)] = caracteristica
+        caracteristicasRandomChoices[CARACTERISTIC.getClass(caracteristica)] = caracteristica;
     }
+    // caso 2
     for (const caracteristica of caracteristicasRejeitadas) {
         let classe = CARACTERISTIC.getClass(caracteristica);
         let todasCaracteristicasDaClasse = Array(classe.length).keys().map(i => classe.id + i/classe.length); 
@@ -895,6 +909,7 @@ function gerarFormas(restricoesNessaCaixa, restricoesNoutraCaixa, intersecaoAtiv
         shuffleArray(caracteristicasPossiveis);
         caracteristicasRandomChoices[classe] = caracteristicasPossiveis.slice(classe in parametrosAleatorio ? parametrosAleatorio[classe] : 1); // caso uma classe não for especificada em random, seu valor é 1
     }
+    // caso 3
     // randomiza caracteristicas não afetadas pela restrição
     // a operação feita aqui é Set(todas as classes) - Set(classes das caracteristicas aceitas + classes das caracteristicas rejeitadas)
     for (const classe of setDifference(
@@ -909,8 +924,9 @@ function gerarFormas(restricoesNessaCaixa, restricoesNoutraCaixa, intersecaoAtiv
         caracteristicasRandomChoices[classe] = caracteristicasPossiveis.slice(classe in parametrosAleatorio ? parametrosAleatorio[classe] : 1); // caso uma classe não for especificada em random, seu valor é 1
     }
 
+    // gera as formas
     for (let i = 0; i < caixaItems.length; i++) {
-        let forma = {}
+        let forma = {};
         for (const [classe, caracteristicas] of caracteristicasRandomChoices) {
             forma[classe] = caracteristicas[i % caracteristicas.length];
         }
