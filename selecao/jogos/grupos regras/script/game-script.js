@@ -11,12 +11,12 @@ let quantidade = 0;
 
 const textNumeroFase = 'textbox-numero-fase';
 
-const divRestricaoEsquerdaId = 'restricao-esquerda';
-const divRestricaoDireitaId = 'restricao-direita';
+const divRestricaoEsquerdaId = 'container-restricao-esquerda';
+const divRestricaoDireitaId = 'container-restricao-direita';
 
-const dropEsquerdo = 'drop-esquerdo';
-const dropIntersecao = 'drop-intersecao';
-const dropDireito = 'drop-direito';
+const dropEsquerdoId = 'caixa-esquerda';
+const dropIntersecaoId = 'caixa-intersecao';
+const dropDireitoId = 'caixa-direita';
 
 const divCaixaEsquerdaId = 'caixa-esquerda';
 const divCaixaDireitaId = 'caixa-direita';
@@ -72,6 +72,83 @@ const CARACTERISTIC = function() {
 
     cEnum['getClassNumber'] = function(value) {
         return Math.floor(value);
+    }
+
+    return Object.freeze(cEnum)
+}();
+
+const CARACTERISTIC_EXTRA = function() {
+    let members = [
+        // [ENUM_NAME, ENUM_VALUES]
+        ['COLOR', ['BLUE', 'RED', 'YELLOW']],
+        ['SHAPE', ['TRIANGLE', 'SQUARE', 'RECTANGLE', 'CIRCLE']],
+        ['SIZE', ['BIG', 'SMALL']],
+        ['OUTLINE', ['OUTLINED', 'NOTOUTLINED']]
+    ];
+
+    // TODO: make cEnum[memberName] a Map instead of an object, for easier iteration
+    let cEnum = {
+        COLOR: {
+            BLUE: {
+                path_component: 'Z',
+                restriction: 'azul'
+            },
+            RED: {
+                path_component: 'V',
+                restriction: 'vermelho'
+            },
+            YELLOW: {
+                path_component: 'A',
+                restriction: 'amarelo'
+            }
+        },
+        SHAPE: {
+            TRIANGLE: {
+                path_component: 'T',
+                restriction: 'triangulo'
+            },
+            SQUARE: {
+                path_component: 'Q',
+                restriction: 'quadrado'
+            },
+            RECTANGLE: {
+                path_component: 'R',
+                restriction: 'retangulo'
+            },
+            CIRCLE: {
+                path_component: 'C',
+                restriction: 'circulo'
+            }
+        },
+        SIZE: {
+            BIG: {
+                path_component: 'G',
+                restriction: 'grande'
+            },
+            SMALL: {
+                path_component: 'P',
+                restriction: 'pequeno'
+            }
+        },
+        OUTLINE: {
+            OUTLINED: {
+                path_component: 'C',
+                restriction: 'contorno'
+            },
+            NOTOUTLINED: {
+                path_component: 'S',
+                restriction: 'semContorno'
+            }
+        }
+
+    };
+
+    for (let i = 0; i < members.length; i++) {
+        let [memberName, memberValues] = members[i];
+        for (let j = 0; j < memberValues.length; j++) {
+            // lookup with CARACTERISTIC
+            cEnum[i + j/memberValues.length] = cEnum[memberName][memberValues[j]];
+        }
     }
 
     return Object.freeze(cEnum)
@@ -142,9 +219,9 @@ function reset() {
     removeChildElementsByTag(divRespostasId, 'img');
     removeChildElementsByTag(divRestricaoEsquerdaId, 'img');
     removeChildElementsByTag(divRestricaoDireitaId, 'img');
-    removeChildElementsByTag(dropEsquerdo, 'img');
-    removeChildElementsByTag(dropIntersecao, 'img');
-    removeChildElementsByTag(dropDireito, 'img');
+    removeChildElementsByTag(dropEsquerdoId, 'img');
+    removeChildElementsByTag(dropIntersecaoId, 'img');
+    removeChildElementsByTag(dropDireitoId, 'img');
 
      //Array contendo todos os elementos gerados
     restricao1 = [];
@@ -1478,16 +1555,6 @@ function game() {
            return;
     }
     
-    /*Containers*/
-    let divRespostas = document.getElementById(divRespostasId);
-    let divRestricaoEsquerda = document.getElementById(divRestricaoEsquerdaId);
-    let divRestricaoDireita = document.getElementById(divRestricaoDireitaId);
-
-    let divCaixaEsquerda = document.getElementById(divCaixaEsquerdaId);
-    let divCaixaDireita = document.getElementById(divCaixaDireitaId);
-    let divCaixaIntersecao = document.getElementById(divCaixaIntersecaoId);
-
-
     let currentStage = stage_data[etapaAtual % stage_data.length];
     let intersecaoAtiva = etapaAtual >= 10;
     let caixaEsquerdaItems, caixaDireitaItems, caixaIntersecaoItems = null;
@@ -1515,6 +1582,23 @@ function game() {
     respostasItems = respostasItems.concat(regrasNaoUsadas.slice(0, currentStage.numOptions - respostasItems.length));
     shuffleArray(respostasItems);
 
+    /*Containers*/
+    let divRespostas = document.getElementById(divRespostasId);
+    let divRestricaoEsquerda = document.getElementById(divRestricaoEsquerdaId);
+    let divRestricaoDireita = document.getElementById(divRestricaoDireitaId);
+
+    let divCaixaEsquerda = document.getElementById(divCaixaEsquerdaId);
+    let divCaixaDireita = document.getElementById(divCaixaDireitaId);
+    let divCaixaIntersecao = document.getElementById(divCaixaIntersecaoId);
+
+    respostasItems.map(item => {
+        imgTag = document.createElement("img");
+        imgTag.src = '../img/restricoes/' + CARACTERISTIC_EXTRA[item[0]].restriction + (item[1] == ACCEPTED ? '-sim' : '-nao') + '.svg';
+        imgTag.classList.add('drag');
+        //imgTag.classList.add('game-img');
+        //imgTag.classList.add('img-restricao-esquerda');
+        divRespostas.appendChild(imgTag);
+    });
     
     /*verificar quantas imagens eu preciso criar*/
     /*verificar quantas imagens eu preciso criar*/
@@ -1621,9 +1705,9 @@ function game() {
 function background(caixas){
 
     var dropzoneArea = document.getElementById('dropzone-container');
-    var dropEsquerda = document.getElementById(dropEsquerdo);
-    var dropMeio = document.getElementById(dropIntersecao);
-    var dropDireita = document.getElementById(dropDireito);
+    var dropEsquerda = document.getElementById(dropEsquerdoId);
+    var dropMeio = document.getElementById(dropIntersecaoId);
+    var dropDireita = document.getElementById(dropDireitoId);
 
     /* Gerar imagens do fundo */
     if(caixas == 2) {
@@ -1788,9 +1872,9 @@ function check(){ //Confere se acertou
     let flag1 = 0, flag2 = 0, flag3 = 0, lixo, mov = 0;
     imgMov1 = [];
     imgMov2 = [];
-    var imagensDropEsquerdo = document.getElementById(dropEsquerdo).getElementsByTagName('img');
-    var imagensDropIntersecao = document.getElementById(dropIntersecao).getElementsByTagName('img');
-    var imagensDropDireito = document.getElementById(dropDireito).getElementsByTagName('img');
+    var imagensDropEsquerdo = document.getElementById(dropEsquerdoId).getElementsByTagName('img');
+    var imagensDropIntersecao = document.getElementById(dropIntersecaoId).getElementsByTagName('img');
+    var imagensDropDireito = document.getElementById(dropDireitoId).getElementsByTagName('img');
     var imagensGeradas = document.getElementById(divRespostasId).getElementsByTagName('img');
     var textoAcerto = document.getElementById('resultado-jogo');
     var textoErro = document.getElementById('resultadoNegativo-jogo')
