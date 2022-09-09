@@ -939,16 +939,16 @@ function gerarFormas(restricoesNessaCaixa, restricoesNoutraCaixa, intersecaoAtiv
     {
         let min = maxNumFormas * minRazaoFormas,
             max = maxNumFormas * (1 - minRazaoFormas * (intersecaoAtiva ? 2 : 1));
-        if (numFormasEscolhidasParaCaixas.length === (intersecaoAtiva ? 2 : 1)) {
-            // essa é a última caixa a ser gerada, então tem que completar o número de formas
-            min = max;
-        }
 
         // calcula quanto as outras caixas passaram do mínimo
         let postMinOtherBoxesSum = numFormasEscolhidasParaCaixas.reduce((previousValue, currentValue) => previousValue + (currentValue - min), 0);
 
         // diminui o máximo de acordo com o quanto as outras caixas passaram do mínimo
         max -= postMinOtherBoxesSum;
+        if (numFormasEscolhidasParaCaixas.length === (intersecaoAtiva ? 2 : 1)) {
+            // essa é a última caixa a ser gerada, então tem que completar o número de formas
+            min = max;
+        }
         numFormasParaGerar = getRandomIntInclusive(min, max);
     }
     let caixaItems = [];
