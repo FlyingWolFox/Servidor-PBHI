@@ -119,7 +119,7 @@
                     <article id="textbox-tutorial">
                         <p id="textbox-fase">Fase n&uacute;mero <span id="textbox-numero-fase">1</span>:</p>
 
-                        <textarea id="texto-textbox" readonly>TODO: Identifique as características das peças do grupo azul e do grupo laranja e arraste as peças disponíveis para o grupo correto.
+                        <textarea id="texto-textbox" readonly>Identifique as características das peças de cada grupo e arraste as regras corretas disponíveis abaixo para a caixa do grupamento correto.
                         </textarea>
                     </article>
                     <div class="conteiner-botoes">
@@ -550,7 +550,7 @@
         });
 
         function ativarAudio(button) {
-            let textoInstrucao = 'Identifique as características das peças do grupo azul e do grupo laranja e arraste as peças disponíveis para o grupo correto.';
+            let textoInstrucao = 'Identifique as características das peças de cada grupo e arraste as regras corretas disponíveis abaixo para a caixa do grupamento correto.';
             let utterance1 = new SpeechSynthesisUtterance(textoInstrucao);
 
             if (estadoDoAudio == false || estadoDoAudio == true) {

@@ -1040,6 +1040,7 @@ function game() {
     var tamanhosDistintos = 0; //quantidade de tamanhos distintas possiveis nas opcoes
     var contornosDistintos = 0; //quantidade de contornos distintas possiveis nas opcoes
     var i;
+    var j;
     var textNumeroFaseDom = document.getElementById(textNumeroFase);
 	textNumeroFaseDom.innerHTML = (etapaAtual + 1);
 
@@ -1591,6 +1592,7 @@ function game() {
     let divCaixaDireita = document.getElementById(divCaixaDireitaId);
     let divCaixaIntersecao = document.getElementById(divCaixaIntersecaoId);
 
+    //renderizando restrições em "regras disponíveis"
     respostasItems.map(item => {
         imgTag = document.createElement("img");
         imgTag.src = '../img/restricoes/' + CARACTERISTIC_EXTRA[item[0]].restriction + (item[1] == ACCEPTED ? '-sim' : '-nao') + '.svg';
@@ -1610,7 +1612,14 @@ function game() {
     let numero = 0;
     quantidade = 0;
 
-    if(etapaAtual < 10){ //Inicial - Sem intersecção - 2 respostas prontas 
+    var arrayReferenciaDois = [];
+    var arrayIndicesDois = [];
+    var arrayDeOpcoesDois = [];
+    var arrayOpcoesFinalDois = [];
+    var novaImagemDois;
+    let numeroDois = 0;
+
+    if(etapaAtual < 10){ //Inicial - Sem intersecção - 2 respostas prontas
        quantidade = 2;
     }
     if(etapaAtual > 11 && etapaAtual < 38){ //Intermediário - Com intersecção - 3 respostas prontas 
@@ -1622,8 +1631,15 @@ function game() {
         arrayReferencia.push('');
     }
 
+    for (j = 0; j < (tamOpcoes - 1); j++) {
+        arrayReferenciaDois.push('');
+    }
+
     novaImagem = imgRestricao(coresDistintas, formasDistintas, tamanhosDistintos, contornosDistintos);
     arrayDeOpcoes.push(novaImagem);
+
+    novaImagemDois = imgRestricao(coresDistintas, formasDistintas, tamanhosDistintos, contornosDistintos);
+    arrayDeOpcoesDois.push(novaImagemDois);
 
     //Criar a quantidade de imagens especificadas e fazer o push para o array
 
@@ -1638,12 +1654,28 @@ function game() {
 
     });
 
+    j = 2;
+    arrayReferenciaDois.forEach(el => {
+
+        do {
+            novaImagemDois = novaImgBlocoLogicoComRestricoes(arrayDeOpcoesDois, coresDistintas = 2, formasDistintas = 2, tamanhosDistintos = 2, contornosDistintos = 2, j = 2, quantidade = 2);
+        } while (repetida(novaImagemDois, arrayDeOpcoesDois));
+        arrayDeOpcoesDois.push(novaImagemDois);
+        j++;
+
+    });
+
     /* Gera as imagens das restrições */
     console.log('RESTRICOES');
     for (i = 0; i < 4; i++){
         arrayReferencia.push('');
     }
     i=0;
+
+    for (j = 0; j < 4; j++) {
+        arrayReferenciaDois.push('');
+    }
+    j = 0;
 
     arrayReferencia.forEach(el =>{  //Caixa da esquerda
 
@@ -1654,8 +1686,9 @@ function game() {
         else{
             novaImagem = getRestrictScr(estadoRestricao1[i], i, restricao1[i]);
             novaImagem.setAttribute('class', 'img-restricao-esquerda');
-            console.log(novaImagem.getAttribute("src"));
-            divRestricaoEsquerda.appendChild(novaImagem);
+            // console.log(novaImagem.getAttribute("src"));
+            // divRestricaoEsquerda.appendChild(novaImagem);
+            // divRespostas.appendChild(novaImagem);
         }
         
         i++;
@@ -1674,7 +1707,8 @@ function game() {
             novaImagem = getRestrictScr(estadoRestricao2[i], i, restricao2[i]);
             novaImagem.setAttribute('class', 'img-restricao-direita');
             // console.log(novaImagem.getAttribute("src"));
-            divRestricaoDireita.appendChild(novaImagem);
+            // divRestricaoDireita.appendChild(novaImagem);
+            // divRespostas.appendChild(novaImagem);
         }
         
         i++;
@@ -1690,15 +1724,28 @@ function game() {
 
         arrayOpcoesFinal[numero] = el;
         arrayIndices.push(numero);
-
     });
 
-    /*Fazendo o append com a divForms*/
+    arrayDeOpcoesDois.forEach(el => {
+        do {
+            numeroDois = getRandomIntInclusive(0, (tamOpcoes - 1));
+        } while (conferir(numeroDois, arrayIndicesDois));
+
+        arrayOpcoesFinalDois[numeroDois] = el;
+        arrayIndicesDois.push(numeroDois);
+    });
+
+    //exibindo imagens ao lado esquerdo da caixa de drop esquerdo
     arrayOpcoesFinal.forEach(el => {
-        divRespostas.appendChild(el);
+        // divRespostas.appendChild(el);
+        divRestricaoEsquerda.appendChild(el);
     });
 
-    background(quantidade);
+    arrayOpcoesFinalDois.forEach(el => {
+        divRestricaoDireita.appendChild(el);
+    });
+
+    background(1);
 
 }
 
