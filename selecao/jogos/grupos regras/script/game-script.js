@@ -3,8 +3,8 @@ var estrela = 0;      //Contagem das estrelas (5 por etapa)
 var endGame;
 var restricao1 = [];   //Restriçoes da primeira caixa (esquerda)
 var restricao2 = [];   //Restriçoes da terceira caixa (direita)
-var estadoRestricao1 = [] //Imagem como proibida (Negado) / Imagem é para ser colocada (Aceito) - ESQUERDA
-var estadoRestricao2 = [] //Imagem como proibida (Negado) / Imagem é para ser colocada (Aceito) - DIREITA
+var estadoRestricao1 = []; //Imagem como proibida (Negado) / Imagem é para ser colocada (Aceito) - ESQUERDA
+var estadoRestricao2 = []; //Imagem como proibida (Negado) / Imagem é para ser colocada (Aceito) - DIREITA
 var imgMov1 = [];      //Confere se falta colocar alguma imagem da primeira caixa 
 var imgMov2 = [];      //Confere se falta colocar alguma imagem da terceira caixa 
 let quantidade = 0;
@@ -59,22 +59,22 @@ const CARACTERISTIC = function () {
         for (let j = 0; j < memberValues.length; j++) {
             cEnum[memberName][memberValues[j]] = i + j / memberValues.length;
         }
-        cEnum[memberName]['length'] = memberValues.length;
-        cEnum[memberName]['id'] = i;
+        cEnum[memberName].length = memberValues.length;
+        cEnum[memberName].id = i;
         cEnum[i] = cEnum[memberName]; // add reverse lookup
     }
-    cEnum['length'] = members.length;
+    cEnum.length = members.length;
 
-    cEnum['getClass'] = function (value) {
+    cEnum.getClass = function (value) {
         let classId = Math.floor(value);
         return cEnum[classId];
-    }
+    };
 
-    cEnum['getClassNumber'] = function (value) {
+    cEnum.getClassNumber = function (value) {
         return Math.floor(value);
-    }
+    };
 
-    return Object.freeze(cEnum)
+    return Object.freeze(cEnum);
 }();
 
 const CARACTERISTIC_EXTRA = function () {
@@ -151,7 +151,7 @@ const CARACTERISTIC_EXTRA = function () {
         }
     }
 
-    return Object.freeze(cEnum)
+    return Object.freeze(cEnum);
 }();
 
 const [ACCEPTED, REJECTED] = [true, false];
@@ -630,7 +630,7 @@ function imgRestricao(quantCor, quantTipo, quantTam, quantCont) {
     arq = getImgScr(tipo, cor, tam, cont);
     novaImg.setAttribute('src', arq);
     novaImg.classList.add('drag');
-    console.log("PRIMEIRA IMG")
+    console.log("PRIMEIRA IMG");
     console.log('novaimg: tipo=' + tipo + ', cor=' + cor + ', tam=' + tam + ', contorno=' + cont + ', src=' + arq);
     novaImg.setAttribute('alt', getImgAlt(novaImg));
     novaImg.setAttribute('title', novaImg.getAttribute('alt'));
@@ -842,40 +842,40 @@ function conferir(numero, completo) {   //Confere se o número já foi utilizado
 function chuva() {
     for (let i = 1; i < 50; i++) {
         let rand = Math.floor(Math.random() * document.body.clientWidth - 20);
-        let cor = Math.floor(Math.random() * 4)
-        let rotate = Math.floor(Math.random() * 360)
+        let cor = Math.floor(Math.random() * 4);
+        let rotate = Math.floor(Math.random() * 360);
         switch (cor) {
             case 0:
-                cor = '#fc21bf'
+                cor = '#fc21bf';
                 break;
             case 1:
-                cor = 'skyblue'
+                cor = 'skyblue';
                 break;
             case 2:
-                cor = '#c400ff'
+                cor = '#c400ff';
                 break;
             case 3:
-                cor = '#16fcab'
+                cor = '#16fcab';
                 break;
             case 4:
-                cor = '#ff1616'
+                cor = '#ff1616';
                 break;
         }
         var confete = document.createElement('span');
         confete.classList.add('gota');
-        confete.style.marginLeft = rand + 'px'
-        confete.style.backgroundColor = cor
-        confete.style.transform = 'rotate(' + rotate + 'deg)'
+        confete.style.marginLeft = rand + 'px';
+        confete.style.backgroundColor = cor;
+        confete.style.transform = 'rotate(' + rotate + 'deg)';
         confete.style.setProperty('animation-delay', 0.1 * i + 's');
         document.querySelector('body').append(confete);
     }
 }
 
 function stopChuva() {
-    var filhos = document.querySelector('body').querySelectorAll('.gota')
+    var filhos = document.querySelector('body').querySelectorAll('.gota');
     filhos.forEach(filho => {
-        filho.parentElement.removeChild(filho)
-    })
+        filho.parentElement.removeChild(filho);
+    });
 }
 
 function setDifference(setA, setB) {
@@ -1073,7 +1073,7 @@ function game() {
             random: new Map([[CARACTERISTIC.SHAPE, 4], [CARACTERISTIC.COLOR, 3], [CARACTERISTIC.SIZE, 2], [CARACTERISTIC.OUTLINE, 2]]),
             minimumRatio: 1 / 5  // the same of minimum_shapes: 2
         },
-    ]
+    ];
 
     switch (etapaAtual) {
         case 0:
@@ -1575,7 +1575,7 @@ function game() {
     let regrasUsadas = [].concat(
         // obter as regras comuns à todos items em cada das caixas
         caixaEsquerdaItems.map(item => new Set(todasCaracteristicas.map(caracteristica => [caracteristica, caracteristica == item.get(CARACTERISTIC.getClass(caracteristica)) ? ACCEPTED : REJECTED]))).concat(regrasItemsIntersecao).reduce(setIntersection, new Set(todasCaracteristicas)),
-        caixaDireitaItems.map(item => new Set(todasCaracteristicas.map(caracteristica => [caracteristica, caracteristica == item.get(CARACTERISTIC.getClass(caracteristica)) ? ACCEPTED : REJECTED]))).concat(regrasItemsIntersecao).reduce(setIntersection, new Set(todasCaracteristicas)),
+        caixaDireitaItems.map(item => new Set(todasCaracteristicas.map(caracteristica => [caracteristica, caracteristica == item.get(CARACTERISTIC.getClass(caracteristica)) ? ACCEPTED : REJECTED]))).concat(regrasItemsIntersecao).reduce(setIntersection, new Set(todasCaracteristicas))
     ).reduce(setUnion, new Set());
     // TODO: maybe use set operations?
     let regrasNaoUsadas = todasCaracteristicas.map(caracteristica => [[caracteristica, ACCEPTED], [caracteristica, REJECTED]]).flat().filter(i => !regrasUsadas.has(i));
@@ -1763,7 +1763,7 @@ function background(caixas) {
         dropEsquerda.setAttribute('style', 'grid-column: 2/3; grid-row: 1/;');
         dropDireita.setAttribute('style', 'grid-column: 4/5; grid-row: 2/4;');
         dropMeio.setAttribute('style', 'display: none;');
-        dropzoneArea.setAttribute('style', 'grid-template-columns: 2fr 5fr 1fr 5fr 2fr;')
+        dropzoneArea.setAttribute('style', 'grid-template-columns: 2fr 5fr 1fr 5fr 2fr;');
         dropEsquerda.classList.remove('drop-meio-ativo');
         dropMeio.classList.remove('drop-meio-ativo');
         dropDireita.classList.remove('drop-meio-ativo');
@@ -1773,7 +1773,7 @@ function background(caixas) {
         dropEsquerda.setAttribute('style', 'grid-column: 2/4; grid-row: 1/3;');
         dropDireita.setAttribute('style', 'grid-column: 3/5; grid-row: 2/4;');
         dropMeio.setAttribute('style', 'grid-column: 3/4; grid-row: 2/3;');
-        dropzoneArea.setAttribute('style', 'grid-template-columns: 2fr repeat(3, 3fr) 2fr;')
+        dropzoneArea.setAttribute('style', 'grid-template-columns: 2fr repeat(3, 3fr) 2fr;');
         dropEsquerda.classList.add('drop-meio-ativo');
         dropMeio.classList.add('drop-meio-ativo');
         dropDireita.classList.add('drop-meio-ativo');
@@ -1843,7 +1843,7 @@ function first(container, letra) {   //Analisa a caixa da esquerda
 
         contador++;
         aux = aux + flag;
-    })
+    });
 
     return aux;
 }
@@ -1925,13 +1925,13 @@ function check() { //Confere se acertou
     var imagensDropDireito = document.getElementById(dropDireitoId).getElementsByTagName('img');
     var imagensGeradas = document.getElementById(divRespostasId).getElementsByTagName('img');
     var textoAcerto = document.getElementById('resultado-jogo');
-    var textoErro = document.getElementById('resultadoNegativo-jogo')
+    var textoErro = document.getElementById('resultadoNegativo-jogo');
 
     var modalAcerto = document.getElementById("modalAcerto");
     var modalErro = document.getElementById('modalErro');
-    var modalFim = document.getElementById('modalFim')
+    var modalFim = document.getElementById('modalFim');
 
-    var btnReiniciar = document.getElementById('botao-restart')
+    var btnReiniciar = document.getElementById('botao-restart');
     var botaoOk = document.getElementById('botao-proximo');
 
     /*Verifica se as caixas estão corretas e se todas as imagens corretas foram movidas */
@@ -1946,7 +1946,7 @@ function check() { //Confere se acertou
 
         if (imagensDropEsquerdo.length != 0) {
 
-            lixo = third(imagensDropEsquerdo, 's')
+            lixo = third(imagensDropEsquerdo, 's');
             imgMov2.forEach(el => {
                 if (el == 0) {
                     flag1++;
@@ -1957,7 +1957,7 @@ function check() { //Confere se acertou
 
         if (imagensDropDireito.length != 0) {
 
-            lixo = first(imagensDropDireito, 's')
+            lixo = first(imagensDropDireito, 's');
             imgMov1.forEach(el => {
                 if (el == 0) {
                     flag3++;
@@ -1998,7 +1998,7 @@ function check() { //Confere se acertou
     /*Verifica todas as situações de resposta*/
     if (mov != 0) {
 
-        console.warn('n movi todas')
+        console.warn('n movi todas');
         modalErro.style.display = 'block';
         textoErro.innerText = 'Você ainda não moveu todas as imagens... Tente novamente.';
 
@@ -2088,14 +2088,14 @@ function check() { //Confere se acertou
                     }
                     game();
                     modalAcerto.style.display = 'none';
-                }
+                };
             }
             else {
-                chuva()
+                chuva();
                 textoAcerto.innerHTML = "Você concluiu o jogo! Parabens!";
                 modalFim.style.display = 'block';
                 btnReiniciar.onclick = function (event) {
-                    stopChuva()
+                    stopChuva();
                     etapaAtual = 0;
                     endGame = false;
                     resetEstrelas();
@@ -2115,5 +2115,5 @@ document.body.onload = game();
 var botaoResultado = document.getElementById('botao-resultado');
 botaoResultado.addEventListener('click', check);
 document.addEventListener("dragstart", function (event) {
-    console.log('0')
-}, false)
+    console.log('0');
+}, false);
