@@ -33,16 +33,16 @@ var ano = localStorage.getItem('ano');
 var etapaMax = 25;
 
 const anosEnum = Object.freeze({
-    "Primeiro ano": 1,
-    "Segundo ano": 2,
-    "Terceiro ano": 3,
-    "Quarto ano": 4,
-    "Quinto ano": 5,
-    "Sexto ano": 6
+	"Primeiro ano": 1,
+	"Segundo ano": 2,
+	"Terceiro ano": 3,
+	"Quarto ano": 4,
+	"Quinto ano": 5,
+	"Sexto ano": 6
 });
 
 // generate nested enum where the enums elements don't have the same value
-const CARACTERISTIC = function () {
+const CARACTERISTIC = function() {
     let members = [
         // [ENUM_NAME, ENUM_VALUES]
         ['COLOR', ['BLUE', 'RED', 'YELLOW']],
@@ -57,7 +57,7 @@ const CARACTERISTIC = function () {
         // TODO: make cEnum[memberName] a Map instead of an object, for easier iteration
         cEnum[memberName] = {};
         for (let j = 0; j < memberValues.length; j++) {
-            cEnum[memberName][memberValues[j]] = i + j / memberValues.length;
+            cEnum[memberName][memberValues[j]] = i + j/memberValues.length;
         }
         cEnum[memberName]['length'] = memberValues.length;
         cEnum[memberName]['id'] = i;
@@ -65,19 +65,19 @@ const CARACTERISTIC = function () {
     }
     cEnum['length'] = members.length;
 
-    cEnum['getClass'] = function (value) {
+    cEnum['getClass'] = function(value) {
         let classId = Math.floor(value);
         return cEnum[classId];
     }
 
-    cEnum['getClassNumber'] = function (value) {
+    cEnum['getClassNumber'] = function(value) {
         return Math.floor(value);
     }
 
     return Object.freeze(cEnum)
 }();
 
-const CARACTERISTIC_EXTRA = function () {
+const CARACTERISTIC_EXTRA = function() {
     let members = [
         // [ENUM_NAME, ENUM_VALUES]
         ['COLOR', ['BLUE', 'RED', 'YELLOW']],
@@ -147,7 +147,7 @@ const CARACTERISTIC_EXTRA = function () {
         let [memberName, memberValues] = members[i];
         for (let j = 0; j < memberValues.length; j++) {
             // lookup with CARACTERISTIC
-            cEnum[i + j / memberValues.length] = cEnum[memberName][memberValues[j]];
+            cEnum[i + j/memberValues.length] = cEnum[memberName][memberValues[j]];
         }
     }
 
@@ -162,7 +162,7 @@ const coresEnum = Object.freeze({
     "amarelo": 2
 });
 const formasEnum = Object.freeze({
-    "triangulo": 0,
+    "triangulo": 0, 
     "quadrado": 1,
     "retangulo": 2,
     "circulo": 3
@@ -176,33 +176,33 @@ const contornoEnum = Object.freeze({
     "semContorno": 1
 });
 
-function getFasesPorAno() {
-    switch (ano) {
-        case "Primeiro ano":
-            etapaMax = 40;
-            break;
-        case "Segundo ano":
-            etapaMax = 40;
-            break;
-        case "Terceiro ano":
-            etapaMax = 40;
-            break;
-        case "Quarto ano":
-            etapaMax = 40;
-            break;
-        case "Quinto ano":
-            etapaMax = 40;
-            break;
-        case "Sexto ano":
-            etapaMax = 40;
-            break;
-    }
-    console.log("esse eh o numero maximo de fases desse ano: " + etapaMax);
+function getFasesPorAno(){
+	switch(ano){
+		case "Primeiro ano":
+			etapaMax = 40;
+			break;
+		case "Segundo ano":
+			etapaMax = 40;
+			break;
+		case "Terceiro ano":
+			etapaMax = 40;
+			break;
+		case "Quarto ano":
+			etapaMax = 40;
+			break;
+		case "Quinto ano":
+			etapaMax = 40;
+			break;
+		case "Sexto ano":
+			etapaMax = 40;
+			break;			
+	}
+	console.log("esse eh o numero maximo de fases desse ano: " + etapaMax);
 }
 getFasesPorAno();
 
 function removeChildElementsByTag(parent, tag) {
-    if (parent != null) {
+    if(parent != null){
         var parentDom = document.getElementById(parent);
         var elements = parentDom.getElementsByTagName(tag);
         var i;
@@ -223,7 +223,7 @@ function reset() {
     removeChildElementsByTag(dropIntersecaoId, 'img');
     removeChildElementsByTag(dropDireitoId, 'img');
 
-    //Array contendo todos os elementos gerados
+     //Array contendo todos os elementos gerados
     restricao1 = [];
     restricao2 = [];
 }
@@ -249,78 +249,78 @@ function getRandomIntInclusive(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-function getImgAlt(img) {
-    var alt = '';
+function getImgAlt(img){
+	var alt = '';
 
-    switch (parseInt(img.getAttribute('data-tipo'))) {
-        case formasEnum.triangulo:
-            alt += 'Triângulo';
-            break;
-        case formasEnum.retangulo:
-            alt += 'Retângulo';
-            break;
-        case formasEnum.circulo:
-            alt += 'Círculo';
-            break;
-        case formasEnum.quadrado:
-            alt += 'Quadrado';
-            break;
-    }
+	switch (parseInt(img.getAttribute('data-tipo'))) {
+		case formasEnum.triangulo:
+			alt += 'Triângulo';
+			break;
+		case formasEnum.retangulo:
+			alt += 'Retângulo';
+			break;
+		case formasEnum.circulo:
+			alt += 'Círculo';
+			break;
+		case formasEnum.quadrado:
+			alt += 'Quadrado';
+			break;
+	}
 
-    switch (parseInt(img.getAttribute('data-cor'))) {
-        case coresEnum.azul:
-            alt += ' azul';
-            break;
-        case coresEnum.amarelo:
-            alt += ' amarelo';
-            break;
-        case coresEnum.vermelho:
-            alt += ' vermelho';
-            break;
-    }
+	switch (parseInt(img.getAttribute('data-cor'))) {
+		case coresEnum.azul:
+			alt += ' azul';
+			break;
+		case coresEnum.amarelo:
+			alt += ' amarelo';
+			break;
+		case coresEnum.vermelho:
+			alt += ' vermelho';
+			break;
+	}
 
-    switch (parseInt(img.getAttribute('data-tam'))) {
-        case tamanhoEnum.grande:
-            alt += ', grande';
-            break;
-        case tamanhoEnum.pequeno:
-            alt += ', pequeno';
-            break;
-    }
+	switch (parseInt(img.getAttribute('data-tam'))) {
+		case tamanhoEnum.grande:
+			alt += ', grande';
+			break;
+		case tamanhoEnum.pequeno:
+			alt += ', pequeno';
+			break;
+	}
 
-    switch (parseInt(img.getAttribute('data-cont'))) {
-        case contornoEnum.comContorno:
-            alt += ' e com contorno';
-            break;
-        case contornoEnum.semContorno:
-            alt += ' e sem contorno';
-            break;
-    }
+	switch (parseInt(img.getAttribute('data-cont'))) {
+		case contornoEnum.comContorno:
+			alt += ' e com contorno';
+			break;
+		case contornoEnum.semContorno:
+			alt += ' e sem contorno';
+			break;
+	}
 
-    alt += '.';
+	alt += '.';
 
-    return alt;
+	return alt;
 }
 
 function repetida(imgGerada, arrayImg) {
-    let flag = 0;
+    let flag =0;
     let aux;
 
     arrayImg.forEach(el => {
-        if (el.getAttribute('data-tipo') == imgGerada.getAttribute('data-tipo')) {
+        if(el.getAttribute('data-tipo') == imgGerada.getAttribute('data-tipo')){
             flag++;
         }
-        if (el.getAttribute('data-cor') == imgGerada.getAttribute('data-cor')) {
+        if(el.getAttribute('data-cor') == imgGerada.getAttribute('data-cor')){
             flag++;
         }
-        if (el.getAttribute('data-tam') == imgGerada.getAttribute('data-tam')) {
+        if(el.getAttribute('data-tam') == imgGerada.getAttribute('data-tam')){
             flag++;
         }
-        if (el.getAttribute('data-cont') == imgGerada.getAttribute('data-cont')) {
+        if(el.getAttribute('data-cont') == imgGerada.getAttribute('data-cont')){
             flag++;
         }
-
-        if (flag == 4) {
+        
+        if(flag == 4){
             console.log("FLAGGGG");
             console.log(flag);
             aux = 1;
@@ -328,10 +328,10 @@ function repetida(imgGerada, arrayImg) {
         flag = 0;
     });
 
-    if (aux == 1) {
+    if(aux == 1){
         return 1;
     }
-    else {
+    else{
         return 0;
     }
 }
@@ -342,17 +342,17 @@ function getRestrictScr(estado, classificação, valor) {   //Cria a src a parti
     var alt = '';
     var novaImg = document.createElement("img");
 
-    if (estado == 'Negado') {
+    if(estado == 'Negado'){
         srcAlt += 'Não podem peças que ';
     }
-    else {
+    else{  
         srcAlt += 'Podem peças que ';
     }
 
     switch (classificação) {
 
         case forma:
-            switch (valor) {
+            switch(valor){
                 case formasEnum.triangulo:
                     alt += 'triangulo';
                     srcAlt += 'são triângulos';
@@ -415,12 +415,12 @@ function getRestrictScr(estado, classificação, valor) {   //Cria a src a parti
             }
             break;
 
-    }
+    } 
 
-    if (estado == 'Negado') {
+    if(estado == 'Negado'){                         
         alt += '-nao';
     }
-    else {
+    else{
         alt += '-sim';
     }
 
@@ -486,158 +486,158 @@ function getImgScr(forma, cor, tamanho, contorno) {   //Cria a src a partir dos 
     return src;
 }
 
-function imgRestricao(quantCor, quantTipo, quantTam, quantCont) {
+function imgRestricao(quantCor, quantTipo, quantTam, quantCont){
+	
+	var novaImg = document.createElement("img");
+	var arq, tipo, tam, cor, cont;
 
-    var novaImg = document.createElement("img");
-    var arq, tipo, tam, cor, cont;
-
-    /*Adiciona as características priorizando as restrições*/
-    if (restricao1[forma] != null) {
-        if (estadoRestricao1[forma] == 'Aceito') {
+	/*Adiciona as características priorizando as restrições*/
+	if(restricao1[forma] != null){	
+        if(estadoRestricao1[forma] == 'Aceito'){
             novaImg.setAttribute('data-tipo', restricao1[forma]);
-            tipo = restricao1[forma];
+		    tipo = restricao1[forma];
         }
-        else {
-            do {
-                tipo = getRandomIntInclusive(0, 3);
-            } while (tipo == restricao1[forma] && tipo == restricao2[forma]);
+        else{
+            do{
+                tipo = getRandomIntInclusive(0,3);
+            }while(tipo == restricao1[forma] && tipo == restricao2[forma]);
             novaImg.setAttribute('data-tipo', tipo);
         }
-
-    } else {
-        if (restricao2[forma] != null && quantTipo == 1) {
-            if (estadoRestricao2[forma] == 'Aceito') {
+		
+	}else{
+		if(restricao2[forma] != null && quantTipo == 1){	
+			if(estadoRestricao2[forma] == 'Aceito'){
                 novaImg.setAttribute('data-tipo', restricao2[forma]);
                 tipo = restricao2[forma];
             }
-            else {
-                do {
-                    tipo = getRandomIntInclusive(0, 3);
-                } while (tipo == restricao2[forma]);
+            else{
+                do{
+                    tipo = getRandomIntInclusive(0,3);
+                }while(tipo == restricao2[forma]);
                 novaImg.setAttribute('data-tipo', tipo);
             }
 
-        } else {
-            do {
-                tipo = getRandomIntInclusive(0, 3);
-            } while (restricao2[forma] != null && tipo == restricao2[forma]);
+		}else{
+			do{
+                tipo = getRandomIntInclusive(0,3);
+            }while(restricao2[forma] != null && tipo == restricao2[forma]);
             novaImg.setAttribute('data-tipo', tipo);
-        }
+		}
 
-    }
+	}
 
-    if (restricao1[1] != null) {
-        if (estadoRestricao1[1] == 'Aceito') {
+	if(restricao1[1] != null){	
+		if(estadoRestricao1[1] == 'Aceito'){
             novaImg.setAttribute('data-cor', restricao1[1]);
-            cor = restricao1[1];
+		    cor = restricao1[1];
         }
-        else {
-            do {
-                cor = getRandomIntInclusive(0, 2);
-            } while (cor == restricao1[1]);
+        else{
+            do{
+                cor = getRandomIntInclusive(0,2);
+            }while(cor == restricao1[1]);
             novaImg.setAttribute('data-cor', cor);
         }
 
-    } else {
-        if (restricao2[1] != null && quantCor == 1) {
-            if (estadoRestricao2[1] == 'Aceito') {
+	}else{
+		if(restricao2[1] != null && quantCor == 1){	 
+			if(estadoRestricao2[1] == 'Aceito'){
                 novaImg.setAttribute('data-cor', restricao2[1]);
                 cor = restricao2[1];
             }
-            else {
-                do {
-                    cor = getRandomIntInclusive(0, 2);
-                } while (cor == restricao2[1]);
+            else{
+                do{
+                    cor = getRandomIntInclusive(0,2);
+                }while(cor == restricao2[1]);
                 novaImg.setAttribute('data-cor', cor);
             }
 
-        } else {
-            do {
-                cor = getRandomIntInclusive(0, 2);
-            } while (restricao2[1] != null && cor == restricao2[1]);
+		}else{
+			do{
+                cor = getRandomIntInclusive(0,2);
+            }while(restricao2[1] != null && cor == restricao2[1]);
             novaImg.setAttribute('data-cor', cor);
-        }
-    }
+		}
+	}
 
-    if (restricao1[tamanho] != null) {
-        if (estadoRestricao1[tamanho] == 'Aceito') {
+	if(restricao1[tamanho] != null){	
+		if(estadoRestricao1[tamanho] == 'Aceito'){
             novaImg.setAttribute('data-tam', restricao1[tamanho]);
-            tam = restricao1[tamanho];
+		    tam = restricao1[tamanho];
         }
-        else {
-            do {
-                tam = getRandomIntInclusive(0, 1);
-            } while (tam == restricao1[tamanho]);
+        else{
+            do{
+                tam = getRandomIntInclusive(0,1);
+            }while(tam == restricao1[tamanho]);
             novaImg.setAttribute('data-tam', tam);
         }
 
-    } else {
-        if (restricao2[tamanho] != null && quantTam == 1) {
-            if (estadoRestricao2[tamanho] == 'Aceito') {
+	}else{
+		if(restricao2[tamanho] != null && quantTam == 1){	
+			if(estadoRestricao2[tamanho] == 'Aceito'){
                 novaImg.setAttribute('data-tam', restricao2[tamanho]);
                 tam = restricao2[tamanho];
             }
-            else {
-                do {
-                    tam = getRandomIntInclusive(0, 1);
-                } while (tam == restricao2[tamanho]);
+            else{
+                do{
+                    tam = getRandomIntInclusive(0,1);
+                }while(tam == restricao2[tamanho]);
                 novaImg.setAttribute('data-tam', tam);
             }
 
-        } else {
-            do {
-                tam = getRandomIntInclusive(0, 1);
-            } while (restricao2[tamanho] != null && tam == restricao2[tamanho]);
+		}else{
+			do{
+                tam = getRandomIntInclusive(0,1);
+            }while(restricao2[tamanho] != null && tam == restricao2[tamanho]);
             novaImg.setAttribute('data-tam', tam);
-        }
+		}
 
-    }
+	}
 
-    if (restricao1[contorno] != null) {
-        if (estadoRestricao1[contorno] == 'Aceito') {
+	if(restricao1[contorno] != null){	
+		if(estadoRestricao1[contorno] == 'Aceito'){
             novaImg.setAttribute('data-cont', restricao1[contorno]);
-            cont = restricao1[contorno];
+		    cont = restricao1[contorno];
         }
-        else {
-            do {
-                cont = getRandomIntInclusive(0, 1);
-            } while (cont == restricao1[contorno]);
+        else{
+            do{
+                cont = getRandomIntInclusive(0,1);
+            }while(cont == restricao1[contorno]);
             novaImg.setAttribute('data-cont', cont);
         }
 
-    } else {
-        if (restricao2[contorno] != null && quantCont == 1) {
-            if (estadoRestricao2[contorno] == 'Aceito') {
+	}else{
+		if(restricao2[contorno] != null && quantCont == 1){	
+            if(estadoRestricao2[contorno] == 'Aceito'){
                 novaImg.setAttribute('data-cont', restricao2[contorno]);
                 cont = restricao2[contorno];
             }
-            else {
-                do {
-                    cont = getRandomIntInclusive(0, 1);
-                } while (cont == restricao2[contorno]);
+            else{
+                do{
+                    cont = getRandomIntInclusive(0,1);
+                }while(cont == restricao2[contorno]);
                 novaImg.setAttribute('data-cont', cont);
             }
 
-        } else {
-            do {
-                cont = getRandomIntInclusive(0, 1);
-            } while (restricao2[contorno] != null && cont == restricao2[contorno]);
+		}else{
+			do{
+                cont = getRandomIntInclusive(0,1);
+            }while(restricao2[contorno] != null && cont == restricao2[contorno]);
             novaImg.setAttribute('data-cont', cont);
-        }
+		}
 
-    }
+	}
 
-    arq = getImgScr(tipo, cor, tam, cont);
-    novaImg.setAttribute('src', arq);
-    novaImg.classList.add('drag');
+	arq = getImgScr(tipo, cor, tam, cont);
+	novaImg.setAttribute('src', arq);
+	novaImg.classList.add('drag');
     console.log("PRIMEIRA IMG")
-    console.log('novaimg: tipo=' + tipo + ', cor=' + cor + ', tam=' + tam + ', contorno=' + cont + ', src=' + arq);
-    novaImg.setAttribute('alt', getImgAlt(novaImg));
-    novaImg.setAttribute('title', novaImg.getAttribute('alt'));
-    novaImg.classList.add('game-img');
+	console.log('novaimg: tipo=' + tipo + ', cor=' + cor + ', tam=' + tam + ', contorno=' + cont + ', src=' + arq);
+	novaImg.setAttribute('alt', getImgAlt(novaImg));
+	novaImg.setAttribute('title', novaImg.getAttribute('alt'));	
+	novaImg.classList.add('game-img');
     tam == 1 ? novaImg.classList.add('pequeno') : novaImg.classList.add('grande');
 
-    return novaImg;
+	return novaImg;
 
 }
 
@@ -729,84 +729,84 @@ function novaImgBlocoLogicoComRestricoes(arrayPecasExistentes, maxCores, maxForm
         cont = getRandomIntInclusive(0, 1);
     }
 
-    if (parametro == 2 && quantidade != 0) {
+    if(parametro == 2 && quantidade != 0){
 
-        if (restricao2[0] != null) {
+        if(restricao2[0] != null){
             tipo = restricao2[0];
         }
-        else {
-            while (restricao1[0] != null && tipo == restricao1[0]) {
+        else{
+            while(restricao1[0] != null && tipo == restricao1[0]){
                 tipo = getRandomIntInclusive(0, 3);
             }
         }
 
-        if (restricao2[1] != null) {
+        if(restricao2[1] != null){	
             cor = restricao2[1];
         }
-        else {
-            while (restricao1[1] != null && cor == restricao1[1]) {
+        else{
+            while(restricao1[1] != null && cor == restricao1[1]){
                 cor = getRandomIntInclusive(0, 2);
             }
         }
 
-        if (restricao2[2] != null) {
+        if(restricao2[2] != null){	
             tam = restricao2[2];
         }
-        else {
-            while (restricao1[2] != null && tam == restricao1[2]) {
+        else{
+            while(restricao1[2] != null && tam == restricao1[2]){
                 tam = getRandomIntInclusive(0, 1);
             }
         }
 
-        if (restricao2[3] != null) {
+        if(restricao2[3] != null){	
             cont = restricao2[3];
         }
-        else {
-            while (restricao1[3] != null && cont == restricao1[3]) {
+        else{
+            while(restricao1[3] != null && cont == restricao1[3]){
                 cont = getRandomIntInclusive(0, 1);
             }
         }
 
     }
 
-    if (parametro == 3 && quantidade == 3) {
-        if (restricao2[0] != null) {
+    if(parametro == 3 && quantidade == 3){
+        if(restricao2[0] != null){
             tipo = restricao2[0];
         }
-        else {
-            if (restricao1[0] != null) {
+        else{
+            if(restricao1[0] != null){
                 tipo = restricao1[0];
             }
         }
 
-        if (restricao2[1] != null) {
+        if(restricao2[1] != null){	
             cor = restricao2[1];
         }
-        else {
-            if (restricao1[1] != null) {
+        else{
+            if(restricao1[1] != null){	
                 cor = restricao1[1];
             }
         }
 
-        if (restricao2[2] != null) {
+        if(restricao2[2] != null){	
             tam = restricao2[2];
         }
-        else {
-            if (restricao1[2] != null) {
+        else{
+            if(restricao1[2] != null){	
                 tam = restricao1[2];
             }
         }
 
-        if (restricao2[3] != null) {
+        if(restricao2[3] != null){	
             cont = restricao2[3];
         }
-        else {
-            if (restricao1[3] != null) {
+        else{
+            if(restricao1[3] != null){	
                 cont = restricao1[3];
             }
         }
     }
-
+    
     arq = getImgScr(tipo, cor, tam, cont);
     novaImg.setAttribute('src', arq);
     novaImg.setAttribute('data-cor', cor);
@@ -814,9 +814,9 @@ function novaImgBlocoLogicoComRestricoes(arrayPecasExistentes, maxCores, maxForm
     novaImg.setAttribute('data-tam', tam);
     novaImg.setAttribute('data-cont', cont);
     novaImg.classList.add('drag');
-    novaImg.setAttribute('alt', getImgAlt(novaImg));
-    novaImg.setAttribute('title', novaImg.getAttribute('alt'));
-    novaImg.classList.add('game-img');
+	novaImg.setAttribute('alt', getImgAlt(novaImg));
+	novaImg.setAttribute('title', novaImg.getAttribute('alt'));	
+	novaImg.classList.add('game-img');
     tam == 1 ? novaImg.classList.add('pequeno') : novaImg.classList.add('grande');
 
 
@@ -825,53 +825,53 @@ function novaImgBlocoLogicoComRestricoes(arrayPecasExistentes, maxCores, maxForm
     return novaImg;
 }
 
-function conferir(numero, completo) {   //Confere se o número já foi utilizado 
+function conferir(numero, completo){   //Confere se o número já foi utilizado 
 
     var flagTest = 0;
-
-    completo.forEach(el => {
-        if (el == numero) {
+ 
+    completo.forEach(el=>{
+        if(el == numero){
             flagTest = 1;
         }
     });
-
+ 
     return flagTest;
+ 
+ }
 
+ function chuva() {
+	for (let i = 1; i < 50; i++) {
+		let rand = Math.floor(Math.random() * document.body.clientWidth-20);
+		let cor = Math.floor(Math.random() * 4)
+		let rotate = Math.floor(Math.random() * 360)
+		switch(cor){
+			case 0:
+				cor = '#fc21bf'
+			break;
+			case 1:
+				cor = 'skyblue'
+			break;
+			case 2:
+				cor = '#c400ff'
+			break;
+			case 3:
+				cor = '#16fcab'
+			break;
+			case 4:
+				cor = '#ff1616'
+			break;
+		}
+		var confete = document.createElement('span');
+		confete.classList.add('gota');
+		confete.style.marginLeft = rand+'px'
+		confete.style.backgroundColor = cor
+		confete.style.transform = 'rotate('+rotate+'deg)'
+		confete.style.setProperty('animation-delay', 0.1*i + 's');
+		document.querySelector('body').append(confete);
+	}
 }
 
-function chuva() {
-    for (let i = 1; i < 50; i++) {
-        let rand = Math.floor(Math.random() * document.body.clientWidth - 20);
-        let cor = Math.floor(Math.random() * 4)
-        let rotate = Math.floor(Math.random() * 360)
-        switch (cor) {
-            case 0:
-                cor = '#fc21bf'
-                break;
-            case 1:
-                cor = 'skyblue'
-                break;
-            case 2:
-                cor = '#c400ff'
-                break;
-            case 3:
-                cor = '#16fcab'
-                break;
-            case 4:
-                cor = '#ff1616'
-                break;
-        }
-        var confete = document.createElement('span');
-        confete.classList.add('gota');
-        confete.style.marginLeft = rand + 'px'
-        confete.style.backgroundColor = cor
-        confete.style.transform = 'rotate(' + rotate + 'deg)'
-        confete.style.setProperty('animation-delay', 0.1 * i + 's');
-        document.querySelector('body').append(confete);
-    }
-}
-
-function stopChuva() {
+function stopChuva(){
     var filhos = document.querySelector('body').querySelectorAll('.gota')
     filhos.forEach(filho => {
         filho.parentElement.removeChild(filho)
@@ -888,21 +888,21 @@ function setDifference(setA, setB) {
 
 // TODO: replace with a better implementation
 function setIntersection(setA, setB) {
-    const _intersection = new Set();
-    for (const elem of setB) {
-        if (setA.has(elem)) {
-            _intersection.add(elem);
-        }
+  const _intersection = new Set();
+  for (const elem of setB) {
+    if (setA.has(elem)) {
+      _intersection.add(elem);
     }
-    return _intersection;
+  }
+  return _intersection;
 }
 
 function setUnion(setA, setB) {
-    const _union = new Set(setA);
-    for (const elem of setB) {
-        _union.add(elem);
-    }
-    return _union;
+  const _union = new Set(setA);
+  for (const elem of setB) {
+    _union.add(elem);
+  }
+  return _union;
 }
 
 function shuffleArray(array) {
@@ -956,7 +956,7 @@ function gerarFormas(restricoesNessaCaixa, restricoesNoutraCaixa, intersecaoAtiv
 
     // defina as características que devem ser aceitas e rejeitadas
     let caracteristicasAceitas = new Set(),
-        caracteristicasRejeitadas = new Set();
+        caracteristicasRejeitadas = new Set(); 
 
     for (const [caracteristica, aceita] of restricoesNessaCaixa) {
         if (aceita)
@@ -986,7 +986,7 @@ function gerarFormas(restricoesNessaCaixa, restricoesNoutraCaixa, intersecaoAtiv
     */
 
     // para cada caracteristica, cria um array com todas as possibilidades de caracteristicas
-    let caracteristicasRandomChoices = new Map();
+    let caracteristicasRandomChoices = new Map(); 
     // caso 1
     for (const caracteristica of caracteristicasAceitas) {
         caracteristicasRandomChoices.set(CARACTERISTIC.getClass(caracteristica), caracteristica);
@@ -998,7 +998,7 @@ function gerarFormas(restricoesNessaCaixa, restricoesNoutraCaixa, intersecaoAtiv
             // se já tiver uma classe aceita, não sobrescreva,
             // exceto se for a mesma caracteristica, pois essa caracteristica é rejeitada por estar na inteserção das caixas
             continue;
-        let todasCaracteristicasDaClasse = [...Array(classe.length).keys()].map(i => classe.id + i / classe.length);
+        let todasCaracteristicasDaClasse = [...Array(classe.length).keys()].map(i => classe.id + i/classe.length); 
         let caracteristicasPossiveis = todasCaracteristicasDaClasse.filter(caracteristica => !caracteristicasRejeitadas.has(caracteristica));
         shuffleArray(caracteristicasPossiveis);
         caracteristicasRandomChoices.set(classe, caracteristicasPossiveis.slice(0, parametrosAleatorio.has(classe) ? parametrosAleatorio.get(classe) : 1)); // caso uma classe não for especificada em random, seu valor é 1
@@ -1007,13 +1007,13 @@ function gerarFormas(restricoesNessaCaixa, restricoesNoutraCaixa, intersecaoAtiv
     // randomiza caracteristicas não afetadas pela restrição
     // a operação feita aqui é Set(todas as classes) - Set(classes das caracteristicas aceitas + classes das caracteristicas rejeitadas)
     for (const classe of setDifference(
-        new Set([...Array(CARACTERISTIC.length).keys()].map(classeNum => CARACTERISTIC.getClass(classeNum))), // pega todas as classes (os números inteiros do enum)
-        new Set([].concat(
-            [...caracteristicasAceitas].map(caracteristica => CARACTERISTIC.getClass(caracteristica)),
-            [...caracteristicasRejeitadas].map(caracteristica => CARACTERISTIC.getClass(caracteristica))
-        ))
-    )) {
-        let todasCaracteristicasDaClasse = [...Array(classe.length).keys()].map(i => classe.id + i / classe.length);
+                                       new Set([...Array(CARACTERISTIC.length).keys()].map(classeNum => CARACTERISTIC.getClass(classeNum))), // pega todas as classes (os números inteiros do enum)
+                                       new Set([].concat(
+                                                         [...caracteristicasAceitas].map(caracteristica => CARACTERISTIC.getClass(caracteristica)),
+                                                         [...caracteristicasRejeitadas].map(caracteristica => CARACTERISTIC.getClass(caracteristica))
+                                                         ))
+                                       )) {
+        let todasCaracteristicasDaClasse = [...Array(classe.length).keys()].map(i => classe.id + i/classe.length);
         shuffleArray(todasCaracteristicasDaClasse);
         caracteristicasRandomChoices.set(classe, todasCaracteristicasDaClasse.slice(0, parametrosAleatorio.has(classe) ? parametrosAleatorio.get(classe) : 1)); // caso uma classe não for especificada em random, seu valor é 1
     }
@@ -1040,9 +1040,8 @@ function game() {
     var tamanhosDistintos = 0; //quantidade de tamanhos distintas possiveis nas opcoes
     var contornosDistintos = 0; //quantidade de contornos distintas possiveis nas opcoes
     var i;
-    var j;
     var textNumeroFaseDom = document.getElementById(textNumeroFase);
-    textNumeroFaseDom.innerHTML = (etapaAtual + 1);
+	textNumeroFaseDom.innerHTML = (etapaAtual + 1);
 
     /*Padronizado os valores das variaveis de controle de acordo com a etapa sendo:
     0-9: Duas caixas | 10-19: Três caixas (Com respostas nas opções) | 20-29: Mais de uma restrição 
@@ -1055,7 +1054,7 @@ function game() {
             numShapes: 3,
             // caracteristics that will be used on the shapes
             random: new Map([[CARACTERISTIC.SHAPE, 3]]),  // [[CARACTERISTIC, quantity]] // TODO: Default 1? // TODO: maybe check this value? If it's bigger than the number of shapes, it will cause an error
-            minimumRatio: 1 / 3  // the same of minimum_shapes: 1  // the minimum number of shapes that must be in a restriction (a intersection is also considered)
+            minimumRatio: 1/3  // the same of minimum_shapes: 1  // the minimum number of shapes that must be in a restriction (a intersection is also considered)
         },
         {
             restrictionsLeft: [[CARACTERISTIC.SHAPE.TRIANGLE, ACCEPTED]],
@@ -1063,7 +1062,7 @@ function game() {
             numOptions: 4,
             numShapes: 6,
             random: new Map([[CARACTERISTIC.SHAPE, 4], [CARACTERISTIC.COLOR, 3], [CARACTERISTIC.SIZE, 2], [CARACTERISTIC.OUTLINE, 2]]),
-            minimumRatio: 1 / 3  // the same of minimum_shapes: 2
+            minimumRatio: 1/3  // the same of minimum_shapes: 2
         },
         {
             restrictionsLeft: [[CARACTERISTIC.SHAPE.TRIANGLE, ACCEPTED], [CARACTERISTIC.COLOR.RED, ACCEPTED], [CARACTERISTIC.SIZE.SMALL, REJECTED]],
@@ -1071,33 +1070,32 @@ function game() {
             numOptions: 6,
             numShapes: 10,
             random: new Map([[CARACTERISTIC.SHAPE, 4], [CARACTERISTIC.COLOR, 3], [CARACTERISTIC.SIZE, 2], [CARACTERISTIC.OUTLINE, 2]]),
-            minimumRatio: 1 / 5  // the same of minimum_shapes: 2
+            minimumRatio: 1/5  // the same of minimum_shapes: 2
         },
     ]
-
     switch (etapaAtual) {
         case 0:
-            tamOpcoes = 4;
-            restricao1[forma] = formasEnum.triangulo;
-            restricao2[forma] = formasEnum.quadrado;
-            estadoRestricao1[forma] = 'Aceito';
-            estadoRestricao2[forma] = 'Aceito';
-            coresDistintas = 1;
-            formasDistintas = 4;
-            tamanhosDistintos = 1;
-            contornosDistintos = 1;
-            break;
-        case 1:
-            tamOpcoes = 4;
-            restricao1[forma] = formasEnum.circulo;
-            restricao2[forma] = formasEnum.retangulo;
-            estadoRestricao1[forma] = 'Aceito';
-            estadoRestricao2[forma] = 'Aceito';
-            coresDistintas = 1;
-            formasDistintas = 4;
-            tamanhosDistintos = 1;
-            contornosDistintos = 1;
-            break;
+           tamOpcoes = 4;
+           restricao1[forma] = formasEnum.triangulo;
+           restricao2[forma] = formasEnum.quadrado;
+           estadoRestricao1[forma] = 'Aceito';
+           estadoRestricao2[forma] = 'Aceito';
+           coresDistintas = 1;
+           formasDistintas = 4;
+           tamanhosDistintos = 1;
+           contornosDistintos = 1;
+           break;
+       case 1:
+           tamOpcoes = 4;
+           restricao1[forma] = formasEnum.circulo;
+           restricao2[forma] = formasEnum.retangulo;
+           estadoRestricao1[forma] = 'Aceito';
+           estadoRestricao2[forma] = 'Aceito';
+           coresDistintas = 1;
+           formasDistintas = 4;
+           tamanhosDistintos = 1;
+           contornosDistintos = 1;
+           break;
         case 2:
             tamOpcoes = 5;
             restricao1[forma] = formasEnum.circulo;
@@ -1553,10 +1551,10 @@ function game() {
             contornosDistintos = 2;
             endGame = true;
             break;
-        default:
-            return;
+        default:	
+           return;
     }
-
+    
     let currentStage = stage_data[etapaAtual % stage_data.length];
     let intersecaoAtiva = etapaAtual >= 10;
     let caixaEsquerdaItems, caixaDireitaItems, caixaIntersecaoItems = null;
@@ -1570,17 +1568,16 @@ function game() {
     // adicionar as regras das restrições nas respostas
     let respostasItems = [].concat(currentStage.restrictionsLeft, currentStage.restrictionsRight);
     // gerar regras que são incorretas
-    let todasCaracteristicas = [...Array(CARACTERISTIC.length).keys()].map(i => [...Array(CARACTERISTIC[i].length).keys()].map(j => CARACTERISTIC[i].id + j / CARACTERISTIC[i].length)).flat();
+    let todasCaracteristicas = [...Array(CARACTERISTIC.length).keys()].map(i => [...Array(CARACTERISTIC[i].length).keys()].map(j => CARACTERISTIC[i].id + j/CARACTERISTIC[i].length)).flat();
     let regrasItemsIntersecao = intersecaoAtiva ? caixaIntersecaoItems.map(item => new Set(todasCaracteristicas.map(caracteristica => [caracteristica, caracteristica == item[CARACTERISTIC.getClass(caracteristica)] ? ACCEPTED : REJECTED]))) : [];
     let regrasUsadas = [].concat(
-        // obter as regras comuns à todos items em cada das caixas
-        caixaEsquerdaItems.map(item => new Set(todasCaracteristicas.map(caracteristica => [caracteristica, caracteristica == item.get(CARACTERISTIC.getClass(caracteristica)) ? ACCEPTED : REJECTED]))).concat(regrasItemsIntersecao).reduce(setIntersection, new Set(todasCaracteristicas)),
-        caixaDireitaItems.map(item => new Set(todasCaracteristicas.map(caracteristica => [caracteristica, caracteristica == item.get(CARACTERISTIC.getClass(caracteristica)) ? ACCEPTED : REJECTED]))).concat(regrasItemsIntersecao).reduce(setIntersection, new Set(todasCaracteristicas)),
-    ).reduce(setUnion, new Set());
+                                 // obter as regras comuns à todos items em cada das caixas
+                                 caixaEsquerdaItems.map(item => new Set(todasCaracteristicas.map(caracteristica => [caracteristica, caracteristica == item.get(CARACTERISTIC.getClass(caracteristica)) ? ACCEPTED : REJECTED]))).concat(regrasItemsIntersecao).reduce(setIntersection, new Set(todasCaracteristicas)),
+                                 caixaDireitaItems.map(item => new Set(todasCaracteristicas.map(caracteristica => [caracteristica, caracteristica == item.get(CARACTERISTIC.getClass(caracteristica)) ? ACCEPTED : REJECTED]))).concat(regrasItemsIntersecao).reduce(setIntersection, new Set(todasCaracteristicas)),
+                                ).reduce(setUnion, new Set());
     // TODO: maybe use set operations?
     let regrasNaoUsadas = todasCaracteristicas.map(caracteristica => [[caracteristica, ACCEPTED], [caracteristica, REJECTED]]).flat().filter(i => !regrasUsadas.has(i));
     shuffleArray(regrasNaoUsadas);
-
     // completar as respostas com as regras incorretas para respostasItems ter currentStage.numOptions
     respostasItems = respostasItems.concat(regrasNaoUsadas.slice(0, currentStage.numOptions - respostasItems.length));
     shuffleArray(respostasItems);
@@ -1594,7 +1591,6 @@ function game() {
     let divCaixaDireita = document.getElementById(divCaixaDireitaId);
     let divCaixaIntersecao = document.getElementById(divCaixaIntersecaoId);
 
-    //renderizando restrições em "regras disponíveis"
     respostasItems.map(item => {
         imgTag = document.createElement("img");
         imgTag.src = '../img/restricoes/' + CARACTERISTIC_EXTRA[item[0]].restriction + (item[1] == ACCEPTED ? '-sim' : '-nao') + '.svg';
@@ -1603,7 +1599,7 @@ function game() {
         //imgTag.classList.add('img-restricao-esquerda');
         divRespostas.appendChild(imgTag);
     });
-
+    
     /*verificar quantas imagens eu preciso criar*/
     /*verificar quantas imagens eu preciso criar*/
     var arrayReferencia = [];
@@ -1614,143 +1610,99 @@ function game() {
     let numero = 0;
     quantidade = 0;
 
-    var arrayReferenciaDois = [];
-    var arrayIndicesDois = [];
-    var arrayDeOpcoesDois = [];
-    var arrayOpcoesFinalDois = [];
-    var novaImagemDois;
-    let numeroDois = 0;
-
-    if (etapaAtual < 10) { //Inicial - Sem intersecção - 2 respostas prontas 
-        quantidade = 2;
+    if(etapaAtual < 10){ //Inicial - Sem intersecção - 2 respostas prontas 
+       quantidade = 2;
     }
-    if (etapaAtual > 11 && etapaAtual < 38) { //Intermediário - Com intersecção - 3 respostas prontas 
-        quantidade = 3;
+    if(etapaAtual > 11 && etapaAtual < 38){ //Intermediário - Com intersecção - 3 respostas prontas 
+       quantidade = 3;
     }
 
     /* Primeira imagem correta*/
-    for (i = 0; i < (tamOpcoes - 1); i++) {
+    for (i = 0; i < (tamOpcoes-1); i++){
         arrayReferencia.push('');
-    }
-
-    for (j = 0; j < (tamOpcoes - 1); j++) {
-        arrayReferenciaDois.push('');
     }
 
     novaImagem = imgRestricao(coresDistintas, formasDistintas, tamanhosDistintos, contornosDistintos);
     arrayDeOpcoes.push(novaImagem);
 
-    novaImagemDois = imgRestricao(coresDistintas, formasDistintas, tamanhosDistintos, contornosDistintos);
-    arrayDeOpcoesDois.push(novaImagemDois);
-
     //Criar a quantidade de imagens especificadas e fazer o push para o array
 
-    i = 2;
+	i=2;
     arrayReferencia.forEach(el => {
-
-        do {
+        
+        do{
             novaImagem = novaImgBlocoLogicoComRestricoes(arrayDeOpcoes, coresDistintas, formasDistintas, tamanhosDistintos, contornosDistintos, i, quantidade);
-        } while (repetida(novaImagem, arrayDeOpcoes));
+        }while(repetida(novaImagem, arrayDeOpcoes));
         arrayDeOpcoes.push(novaImagem);
-        i++;
-
-    });
-
-    j = 2;
-    arrayReferenciaDois.forEach(el => {
-
-        do {
-            novaImagemDois = novaImgBlocoLogicoComRestricoes(arrayDeOpcoesDois, coresDistintas = 2, formasDistintas = 2, tamanhosDistintos = 2, contornosDistintos = 2, j = 2, quantidade = 2);
-        } while (repetida(novaImagemDois, arrayDeOpcoesDois));
-        arrayDeOpcoesDois.push(novaImagemDois);
-        j++;
+		i++;
 
     });
 
     /* Gera as imagens das restrições */
     console.log('RESTRICOES');
-    for (i = 0; i < 4; i++) {
+    for (i = 0; i < 4; i++){
         arrayReferencia.push('');
     }
-    i = 0;
+    i=0;
 
-    for (j = 0; j < 4; j++) {
-        arrayReferenciaDois.push('');
-    }
-    j = 0;
+    arrayReferencia.forEach(el =>{  //Caixa da esquerda
 
-    arrayReferencia.forEach(el => {  //Caixa da esquerda
-
-        if (restricao1[i] == null) {
+        if(restricao1[i] == null){
             i++;
             return;
         }
-        else {
+        else{
             novaImagem = getRestrictScr(estadoRestricao1[i], i, restricao1[i]);
             novaImagem.setAttribute('class', 'img-restricao-esquerda');
-            // console.log(novaImagem.getAttribute("src"));
-            // divRestricaoEsquerda.appendChild(novaImagem);
-            // divRespostas.appendChild(novaImagem);
+            console.log(novaImagem.getAttribute("src"));
+            divRestricaoEsquerda.appendChild(novaImagem);
         }
-
+        
         i++;
-
+        
     });
 
-    i = 0;
+    i=0;
     arrayReferencia.forEach(el => {  //Caixa da direita
 
-        if (restricao2[i] == null) {
+        if(restricao2[i] == null){
             i++;
             return;
         }
-        else {
+        else{
             //gerando a lógica para uma imagem restrição
             novaImagem = getRestrictScr(estadoRestricao2[i], i, restricao2[i]);
             novaImagem.setAttribute('class', 'img-restricao-direita');
             // console.log(novaImagem.getAttribute("src"));
-            // divRestricaoDireita.appendChild(novaImagem);
-            // divRespostas.appendChild(novaImagem);
+            divRestricaoDireita.appendChild(novaImagem);
         }
-
+        
         i++;
-
+        
     });
 
-    /*Modifica a ordem das imagens no array*/
-    arrayDeOpcoes.forEach(el => {
-        do {
-            numero = getRandomIntInclusive(0, (tamOpcoes - 1));
-        } while (conferir(numero, arrayIndices));
+	/*Modifica a ordem das imagens no array*/
+    arrayDeOpcoes.forEach(el =>{
+
+        do{
+            numero = getRandomIntInclusive(0, (tamOpcoes-1));
+        }while(conferir(numero, arrayIndices));
 
         arrayOpcoesFinal[numero] = el;
         arrayIndices.push(numero);
+
     });
 
-    arrayDeOpcoesDois.forEach(el => {
-        do {
-            numeroDois = getRandomIntInclusive(0, (tamOpcoes - 1));
-        } while (conferir(numeroDois, arrayIndicesDois));
-
-        arrayOpcoesFinalDois[numeroDois] = el;
-        arrayIndicesDois.push(numeroDois);
-    });
-
-    //exibindo imagens ao lado esquerdo da caixa de drop esquerdo
+    /*Fazendo o append com a divForms*/
     arrayOpcoesFinal.forEach(el => {
-        // divRespostas.appendChild(el);
-        divRestricaoEsquerda.appendChild(el);
+        divRespostas.appendChild(el);
     });
 
-    arrayOpcoesFinalDois.forEach(el => {
-        divRestricaoDireita.appendChild(el);
-    });
-
-    background(1);
+    background(quantidade);
 
 }
 
-function background(caixas) {
+function background(caixas){
 
     var dropzoneArea = document.getElementById('dropzone-container');
     var dropEsquerda = document.getElementById(dropEsquerdoId);
@@ -1758,7 +1710,7 @@ function background(caixas) {
     var dropDireita = document.getElementById(dropDireitoId);
 
     /* Gerar imagens do fundo */
-    if (caixas == 2) {
+    if(caixas == 2) {
 
         dropEsquerda.setAttribute('style', 'grid-column: 2/3; grid-row: 1/;');
         dropDireita.setAttribute('style', 'grid-column: 4/5; grid-row: 2/4;');
@@ -1781,141 +1733,141 @@ function background(caixas) {
     }
 }
 
-function first(container, letra) {   //Analisa a caixa da esquerda
+function first(container, letra){   //Analisa a caixa da esquerda
 
-    /*contador - índice do array, armazenando a quantidade de flags por imagem
-    flag - indica se o atributo é diferente do contido na restrição 
-    aux - guarda o valor de todas as flags*/
-    var contador = 0, flag = 0, aux = 0;
+   /*contador - índice do array, armazenando a quantidade de flags por imagem
+   flag - indica se o atributo é diferente do contido na restrição 
+   aux - guarda o valor de todas as flags*/
+   var contador = 0, flag = 0, aux = 0;
 
-    /*Analisa as imagens do container com relação a primeira restrição*/
-    Array.prototype.filter.call(container, el => {
-        flag = 0;
+   /*Analisa as imagens do container com relação a primeira restrição*/
+   Array.prototype.filter.call(container, el => {
+       flag = 0;
 
-        if (estadoRestricao1[forma] != null && estadoRestricao1[forma] == 'Aceito') {
-            if (restricao1[0] != null && el.getAttribute('data-tipo') != restricao1[forma]) {
-                flag++;
-            }
+    if(estadoRestricao1[forma] != null && estadoRestricao1[forma] == 'Aceito'){
+        if(restricao1[0]!=null && el.getAttribute('data-tipo') != restricao1[forma]){
+            flag++;
         }
-        if (estadoRestricao1[forma] != null && estadoRestricao1[forma] == 'Negado') {
-            if (restricao1[0] != null && el.getAttribute('data-tipo') == restricao1[forma]) {
-                flag++;
-            }
-        }
+    }
+    if(estadoRestricao1[forma] != null && estadoRestricao1[forma] == 'Negado'){
+         if(restricao1[0]!=null && el.getAttribute('data-tipo') == restricao1[forma]){
+            flag++;
+         }
+     }
 
-        if (estadoRestricao1[cor] != null && estadoRestricao1[cor] == 'Aceito') {
-            if (restricao1[1] != null && el.getAttribute('data-cor') != restricao1[cor]) {
-                flag++;
-            }
-        }
-        if (estadoRestricao1[cor] != null && estadoRestricao1[cor] == 'Negado') {
-            if (restricao1[1] != null && el.getAttribute('data-cor') == restricao1[cor]) {
-                flag++;
-            }
-        }
+     if(estadoRestricao1[cor] != null && estadoRestricao1[cor] == 'Aceito'){
+         if(restricao1[1]!=null && el.getAttribute('data-cor') != restricao1[cor]){
+             flag++; 
+         }
+     }
+     if(estadoRestricao1[cor] != null && estadoRestricao1[cor] == 'Negado'){
+         if(restricao1[1]!=null && el.getAttribute('data-cor') == restricao1[cor]){
+             flag++; 
+         }
+     }
 
-        if (estadoRestricao1[tamanho] != null && estadoRestricao1[tamanho] == 'Aceito') {
-            if (restricao1[2] != null && el.getAttribute('data-tam') != restricao1[tamanho]) {
-                flag++;
-            }
-        }
-        if (estadoRestricao1[tamanho] != null && estadoRestricao1[tamanho] == 'Negado') {
-            if (restricao1[2] != null && el.getAttribute('data-tam') == restricao1[tamanho]) {
-                flag++;
-            }
-        }
+     if(estadoRestricao1[tamanho] != null && estadoRestricao1[tamanho] == 'Aceito'){
+         if(restricao1[2]!=null && el.getAttribute('data-tam') != restricao1[tamanho]){
+             flag++;
+         }
+     }
+     if(estadoRestricao1[tamanho] != null && estadoRestricao1[tamanho] == 'Negado'){
+         if(restricao1[2]!=null && el.getAttribute('data-tam') == restricao1[tamanho]){
+             flag++;
+         }
+     }
 
 
-        if (estadoRestricao1[contorno] != null && estadoRestricao1[contorno] == 'Aceito') {
-            if (restricao1[3] != null && el.getAttribute('data-cont') != restricao1[contorno]) {
-                flag++;
-            }
-        }
-        if (estadoRestricao1[contorno] != null && estadoRestricao1[contorno] == 'Negado') {
-            if (restricao1[3] != null && el.getAttribute('data-cont') == restricao1[contorno]) {
-                flag++;
-            }
-        }
+     if(estadoRestricao1[contorno] != null && estadoRestricao1[contorno] == 'Aceito'){
+         if(restricao1[3]!=null && el.getAttribute('data-cont') != restricao1[contorno]){
+             flag++;
+         }
+     }
+     if(estadoRestricao1[contorno] != null && estadoRestricao1[contorno] == 'Negado'){
+         if(restricao1[3]!=null && el.getAttribute('data-cont') == restricao1[contorno]){
+             flag++;
+         }
+     }
 
-        if (letra == 's') {
-            imgMov1[contador] = flag;
-        }
+       if(letra == 's'){
+           imgMov1[contador] = flag;	
+       }
 
-        contador++;
-        aux = aux + flag;
-    })
+       contador++;
+       aux = aux + flag;
+   })
 
-    return aux;
+   return aux;
 }
 
-function third(container, letra) {   //Analisa a caixa da direita
+function third(container, letra){   //Analisa a caixa da direita
 
-    /*contador - índice do array, armazenando a quantidade de flags por imagem
-    flag - indica se o atributo é diferente do contido na restrição 
-    aux - guarda o valor de todas as flags*/
-    var contador = 0, flag = 0, aux = 0;
+   /*contador - índice do array, armazenando a quantidade de flags por imagem
+   flag - indica se o atributo é diferente do contido na restrição 
+   aux - guarda o valor de todas as flags*/
+   var contador = 0, flag = 0, aux = 0;
 
-    /*Analisa as imagens do container com relação a segunda restrição*/
-    Array.prototype.filter.call(container, el => {
-        flag = 0;
+   /*Analisa as imagens do container com relação a segunda restrição*/
+   Array.prototype.filter.call(container, el => {
+       flag = 0;
 
-        if (estadoRestricao2[forma] != null && estadoRestricao2[forma] == 'Aceito') {
-            if (restricao2[forma] != null && el.getAttribute('data-tipo') != restricao2[forma]) {
+       if(estadoRestricao2[forma] != null && estadoRestricao2[forma] == 'Aceito'){
+           if(restricao2[forma]!=null && el.getAttribute('data-tipo') != restricao2[forma]){
                 flag++;
-            }
-        }
-        if (estadoRestricao2[forma] != null && estadoRestricao2[forma] == 'Negado') {
-            if (restricao2[0] != null && el.getAttribute('data-tipo') == restricao2[forma]) {
-                flag++;
-            }
-        }
-
-        if (estadoRestricao2[cor] != null && estadoRestricao2[cor] == 'Aceito') {
-            if (restricao2[1] != null && el.getAttribute('data-cor') != restricao2[cor]) {
-                flag++;
-            }
-        }
-        if (estadoRestricao2[cor] != null && estadoRestricao2[cor] == 'Negado') {
-            if (restricao2[1] != null && el.getAttribute('data-cor') == restricao2[cor]) {
+           }
+       }
+       if(estadoRestricao2[forma] != null && estadoRestricao2[forma] == 'Negado'){
+            if(restricao2[0]!=null && el.getAttribute('data-tipo') == restricao2[forma]){
                 flag++;
             }
         }
 
-        if (estadoRestricao2[tamanho] != null && estadoRestricao2[tamanho] == 'Aceito') {
-            if (restricao2[2] != null && el.getAttribute('data-tam') != restricao2[tamanho]) {
-                flag++;
+        if(estadoRestricao2[cor] != null && estadoRestricao2[cor] == 'Aceito'){
+            if(restricao2[1]!=null && el.getAttribute('data-cor') != restricao2[cor]){
+                flag++; 
             }
         }
-        if (estadoRestricao2[tamanho] != null && estadoRestricao2[tamanho] == 'Negado') {
-            if (restricao2[2] != null && el.getAttribute('data-tam') == restricao2[tamanho]) {
-                flag++;
-            }
-        }
-
-
-        if (estadoRestricao2[contorno] != null && estadoRestricao2[contorno] == 'Aceito') {
-            if (restricao2[3] != null && el.getAttribute('data-cont') != restricao2[contorno]) {
-                flag++;
-            }
-        }
-        if (estadoRestricao2[contorno] != null && estadoRestricao2[contorno] == 'Negado') {
-            if (restricao2[3] != null && el.getAttribute('data-cont') == restricao2[contorno]) {
-                flag++;
+        if(estadoRestricao2[cor] != null && estadoRestricao2[cor] == 'Negado'){
+            if(restricao2[1]!=null && el.getAttribute('data-cor') == restricao2[cor]){
+                flag++; 
             }
         }
 
-        if (letra == 's') {
-            imgMov2[contador] = flag;
+        if(estadoRestricao2[tamanho] != null && estadoRestricao2[tamanho] == 'Aceito'){
+            if(restricao2[2]!=null && el.getAttribute('data-tam') != restricao2[tamanho]){
+                flag++;
+            }
+        }
+        if(estadoRestricao2[tamanho] != null && estadoRestricao2[tamanho] == 'Negado'){
+            if(restricao2[2]!=null && el.getAttribute('data-tam') == restricao2[tamanho]){
+                flag++;
+            }
         }
 
-        contador++;
-        aux = aux + flag;
-    });
 
-    return aux;
+        if(estadoRestricao2[contorno] != null && estadoRestricao2[contorno] == 'Aceito'){
+            if(restricao2[3]!=null && el.getAttribute('data-cont') != restricao2[contorno]){
+                flag++;
+            }
+        }
+        if(estadoRestricao2[contorno] != null && estadoRestricao2[contorno] == 'Negado'){
+            if(restricao2[3]!=null && el.getAttribute('data-cont') == restricao2[contorno]){
+                flag++;
+            }
+        }
+
+       if(letra == 's'){
+           imgMov2[contador] = flag;	
+       }
+
+       contador++;
+       aux = aux + flag;
+   });
+
+   return aux;
 }
 
-function check() { //Confere se acertou
+function check(){ //Confere se acertou
 
     let flag1 = 0, flag2 = 0, flag3 = 0, lixo, mov = 0;
     imgMov1 = [];
@@ -1931,85 +1883,85 @@ function check() { //Confere se acertou
     var modalErro = document.getElementById('modalErro');
     var modalFim = document.getElementById('modalFim')
 
-    var btnReiniciar = document.getElementById('botao-restart')
-    var botaoOk = document.getElementById('botao-proximo');
+	var btnReiniciar = document.getElementById('botao-restart')
+    var botaoOk = document.getElementById('botao-proximo');    
 
     /*Verifica se as caixas estão corretas e se todas as imagens corretas foram movidas */
-    flag1 = first(imagensDropEsquerdo, 'n');
-    flag3 = third(imagensDropDireito, 'n');
+   flag1 = first(imagensDropEsquerdo, 'n');
+   flag3 = third(imagensDropDireito, 'n');
 
 
-    /* Confere se a imagem não pertence aos dois*/
-    if (quantidade != 2) {
+   /* Confere se a imagem não pertence aos dois*/
+   if(quantidade != 2){
 
         flag2 = first(imagensDropIntersecao, 'n') + third(imagensDropIntersecao, 'n');
 
-        if (imagensDropEsquerdo.length != 0) {
+        if(imagensDropEsquerdo.length != 0){
 
             lixo = third(imagensDropEsquerdo, 's')
             imgMov2.forEach(el => {
-                if (el == 0) {
+                if(el == 0){
                     flag1++;
-                }
-
-            });
+                }	
+    
+           });
         }
-
-        if (imagensDropDireito.length != 0) {
+        
+        if(imagensDropDireito.length != 0){
 
             lixo = first(imagensDropDireito, 's')
             imgMov1.forEach(el => {
-                if (el == 0) {
+                if(el == 0){
                     flag3++;
-                }
-
-            });
+                }	
+    
+           });
         }
-    }
+   }
 
-    /*confere se ainda há opções*/
-    if (imagensGeradas.length != 0) {
+   /*confere se ainda há opções*/
+   if(imagensGeradas.length != 0){
 
-        lixo = first(imagensGeradas, 's');
-        lixo = third(imagensGeradas, 's');
+       lixo = first(imagensGeradas, 's');
+       lixo = third(imagensGeradas, 's');
 
-        /*Analisa as flags.
-        Se a flag da determinada imagem for 0, significa que ela está correta e deve ser movida*/
-        imgMov1.forEach(el => {
+       /*Analisa as flags.
+       Se a flag da determinada imagem for 0, significa que ela está correta e deve ser movida*/
+       imgMov1.forEach(el => {
 
-            if (el == 0) {
+            if(el == 0){
                 mov++;
-            }
+            }	
 
-        });
+       });
 
-        imgMov2.forEach(el => {
-
-            if (el == 0) {
+       imgMov2.forEach(el => {
+       
+            if(el == 0){
                 mov++;
-            }
+            }	
 
-        });
-    }
+       });
+   }
 
-    //mov = 0;
-    //flag1, flag2, flag3 = 0, 0, 0;
-
+   //mov = 0;
+   //flag1, flag2, flag3 = 0, 0, 0;
+   
     /*Verifica todas as situações de resposta*/
     if (mov != 0) {
 
         console.warn('n movi todas')
         modalErro.style.display = 'block';
         textoErro.innerText = 'Você ainda não moveu todas as imagens... Tente novamente.';
-
+   
     } else {
         if (flag1 == 0 && flag2 == 0 && flag3 == 0) {
-            if (endGame == false && etapaAtual <= etapaMax) {
-
+            if(endGame == false && etapaAtual <= etapaMax){
+            
                 modalAcerto.style.display = 'block';
                 textoAcerto.innerText = 'Você acertou! Fase concluída.';
-                botaoOk.innerHTML = "Próxima";
-                botaoOk.onclick = function (event) {
+                botaoOk.innerHTML = "Próxima"; 
+                botaoOk.onclick = function (event){
 
 
                     etapaAtual++;
@@ -2041,10 +1993,10 @@ function check() { //Confere se acertou
                         case 16:
                         case 17:
                         case 18:
-                        case 19:
-                            var texto = document.getElementById('texto2');
-                            texto.innerHTML = etapaAtual.toString() + "/20";
-                            break;
+                        case 19: 
+                        var texto = document.getElementById('texto2');
+                        texto.innerHTML = etapaAtual.toString() + "/20";
+                        break;   
                         case 20:
                             arrayEstrelas[1].setAttribute('src', '../img/estrelas/star1.svg');
                             var texto = document.getElementById('texto2');
@@ -2053,26 +2005,26 @@ function check() { //Confere se acertou
                         case 21:
                         case 22:
                         case 23:
-                        case 24:
-                        case 25:
+                        case 24:                    
+                        case 25:     
                         case 26:
                         case 27:
                         case 28:
                         case 29:
                             var texto = document.getElementById('texto3');
                             texto.innerHTML = etapaAtual.toString() + "/30";
-                            break;
+                            break; 
                         case 30:
                             arrayEstrelas[2].setAttribute('src', '../img/estrelas/star1.svg');
                             var texto = document.getElementById('texto3');
                             texto.innerHTML = etapaAtual.toString() + "/30";
-                            break;
+                            break;    
                         case 31:
                         case 32:
                         case 33:
                         case 34:
-                        case 35:
-                        case 36:
+                        case 35:                    
+                        case 36:     
                         case 37:
                         case 38:
                             var texto = document.getElementById('texto4');
@@ -2089,12 +2041,12 @@ function check() { //Confere se acertou
                     game();
                     modalAcerto.style.display = 'none';
                 }
-            }
-            else {
+            } 
+            else{
                 chuva()
                 textoAcerto.innerHTML = "Você concluiu o jogo! Parabens!";
                 modalFim.style.display = 'block';
-                btnReiniciar.onclick = function (event) {
+                btnReiniciar.onclick = function (event){
                     stopChuva()
                     etapaAtual = 0;
                     endGame = false;
@@ -2103,8 +2055,8 @@ function check() { //Confere se acertou
                     modalFim.style.display = 'none';
                 };
             }
-        } else {
-
+        }else {
+            
             modalErro.style.display = 'block';
             textoErro.innerText = 'Resposta errada... Tente novamente!';
         }
@@ -2114,6 +2066,6 @@ function check() { //Confere se acertou
 document.body.onload = game();
 var botaoResultado = document.getElementById('botao-resultado');
 botaoResultado.addEventListener('click', check);
-document.addEventListener("dragstart", function (event) {
+document.addEventListener("dragstart", function( event ) {
     console.log('0')
-}, false)
+},false)
