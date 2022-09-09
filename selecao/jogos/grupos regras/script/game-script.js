@@ -1067,11 +1067,19 @@ function game() {
         },
         {
             restrictionsLeft: [[CARACTERISTIC.SHAPE.TRIANGLE, ACCEPTED], [CARACTERISTIC.COLOR.RED, ACCEPTED], [CARACTERISTIC.SIZE.SMALL, REJECTED]],
-            restrictionsRight: [[CARACTERISTIC.SHAPE.SQUARE, ACCEPTED], [CARACTERISTIC.OUTLINE.FILLED, ACCEPTED]],
+            restrictionsRight: [[CARACTERISTIC.SHAPE.SQUARE, ACCEPTED], [CARACTERISTIC.OUTLINE.OUTLINED, ACCEPTED]],
             numOptions: 6,
             numShapes: 10,
             random: new Map([[CARACTERISTIC.SHAPE, 4], [CARACTERISTIC.COLOR, 3], [CARACTERISTIC.SIZE, 2], [CARACTERISTIC.OUTLINE, 2]]),
             minimumRatio: 1 / 5  // the same of minimum_shapes: 2
+        },
+        {
+            restrictionsLeft: [[CARACTERISTIC.SHAPE.TRIANGLE, ACCEPTED], [CARACTERISTIC.COLOR.RED, ACCEPTED], [CARACTERISTIC.SIZE.SMALL, REJECTED]],
+            restrictionsRight: [[CARACTERISTIC.SHAPE.SQUARE, ACCEPTED], [CARACTERISTIC.COLOR.RED, ACCEPTED], [CARACTERISTIC.OUTLINE.OUTLINED, ACCEPTED]],
+            numOptions: 6,
+            numShapes: 12,
+            random: new Map([[CARACTERISTIC.SHAPE, 4], [CARACTERISTIC.COLOR, 3], [CARACTERISTIC.SIZE, 2], [CARACTERISTIC.OUTLINE, 2]]),
+            minimumRatio: 1 / 3  // the same of minimum_shapes: 4
         },
     ];
 
