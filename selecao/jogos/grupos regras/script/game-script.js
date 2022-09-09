@@ -989,7 +989,7 @@ function gerarFormas(restricoesNessaCaixa, restricoesNoutraCaixa, intersecaoAtiv
     let caracteristicasRandomChoices = new Map();
     // caso 1
     for (const caracteristica of caracteristicasAceitas) {
-        caracteristicasRandomChoices.set(CARACTERISTIC.getClass(caracteristica), caracteristica);
+        caracteristicasRandomChoices.set(CARACTERISTIC.getClass(caracteristica), [caracteristica]);
     }
     // caso 2
     for (const caracteristica of caracteristicasRejeitadas) {
