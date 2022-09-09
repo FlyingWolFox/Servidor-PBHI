@@ -1559,7 +1559,7 @@ function game() {
 
     let currentStage = stage_data[etapaAtual % stage_data.length];
     let intersecaoAtiva = etapaAtual >= 10;
-    let caixaEsquerdaItems, caixaDireitaItems, caixaIntersecaoItems = null;
+    let caixaEsquerdaItems, caixaDireitaItems, caixaIntersecaoItems = [];
 
     // gerar as formas em cada caixa
     caixaEsquerdaItems = gerarFormas(currentStage.restrictionsLeft, currentStage.restrictionsRight, intersecaoAtiva, currentStage.numShapes, currentStage.minimumRatio, currentStage.random, []);
@@ -1602,6 +1602,33 @@ function game() {
         //imgTag.classList.add('game-img');
         //imgTag.classList.add('img-restricao-esquerda');
         divRespostas.appendChild(imgTag);
+    });
+
+    caixaEsquerdaItems.forEach(item => {
+        imgTag = document.createElement("img");
+        imgTag.src = '../img/fig-rosto/' + CARACTERISTIC_EXTRA[item.get(CARACTERISTIC.SHAPE)].path_component + CARACTERISTIC_EXTRA[item.get(CARACTERISTIC.COLOR)].path_component + CARACTERISTIC_EXTRA[item.get(CARACTERISTIC.SIZE)].path_component + CARACTERISTIC_EXTRA[item.get(CARACTERISTIC.OUTLINE)].path_component + '.svg';
+        //imgTag.classList.add('drag');
+        imgTag.classList.add('game-img');
+        //imgTag.classList.add('img-restricao-esquerda');
+        divCaixaEsquerda.appendChild(imgTag);
+    });
+
+    caixaDireitaItems.forEach(item => {
+        imgTag = document.createElement("img");
+        imgTag.src = '../img/fig-rosto/' + CARACTERISTIC_EXTRA[item.get(CARACTERISTIC.SHAPE)].path_component + CARACTERISTIC_EXTRA[item.get(CARACTERISTIC.COLOR)].path_component + CARACTERISTIC_EXTRA[item.get(CARACTERISTIC.SIZE)].path_component + CARACTERISTIC_EXTRA[item.get(CARACTERISTIC.OUTLINE)].path_component + '.svg';
+        //imgTag.classList.add('drag');
+        imgTag.classList.add('game-img');
+        //imgTag.classList.add('img-restricao-esquerda');
+        divCaixaDireita.appendChild(imgTag);
+    });
+
+    caixaIntersecaoItems.forEach(item => {
+        imgTag = document.createElement("img");
+        imgTag.src = '../img/fig-rosto/' + CARACTERISTIC_EXTRA[item.get(CARACTERISTIC.SHAPE)].path_component + CARACTERISTIC_EXTRA[item.get(CARACTERISTIC.COLOR)].path_component + CARACTERISTIC_EXTRA[item.get(CARACTERISTIC.SIZE)].path_component + CARACTERISTIC_EXTRA[item.get(CARACTERISTIC.OUTLINE)].path_component + '.svg';
+        //imgTag.classList.add('drag');
+        imgTag.classList.add('game-img');
+        //imgTag.classList.add('img-restricao-esquerda');
+        divCaixaIntersecao.appendChild(imgTag);
     });
 
     /*verificar quantas imagens eu preciso criar*/
@@ -1992,8 +2019,8 @@ function check() { //Confere se acertou
         });
     }
 
-    //mov = 0;
-    //flag1, flag2, flag3 = 0, 0, 0;
+    mov = 0;
+    [flag1, flag2, flag3] = [0, 0, 0];
 
     /*Verifica todas as situações de resposta*/
     if (mov != 0) {
