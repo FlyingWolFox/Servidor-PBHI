@@ -90,7 +90,7 @@ const CARACTERISTIC = function () {
         // iterate over the carcateristics of a class
         cEnum[memberName][Symbol.iterator] = function* () {
             for (const caracteristic of memberValues) {
-                yield caracteristic;
+                yield cEnum[memberName][caracteristic];
             }
         };
         cEnum[i] = cEnum[memberName]; // add reverse lookup
