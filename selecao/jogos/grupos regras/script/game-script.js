@@ -2049,8 +2049,8 @@ function quaoIncorreto(respostasOpcoes) {
  */
 function checarResposta() {
     "use strict";
-    let respostasEsquerda = [...document.getElementById(divRestricaoEsquerdaId).children].map(el => [el.getAttribute('data-caracteristica'), el.getAttribute('data-aceita')]);
-    let respostasDireita = [...document.getElementById(divRestricaoDireitaId).children].map(el => [el.getAttribute('data-caracteristica'), el.getAttribute('data-aceita')]);
+    let respostasEsquerda = [...document.getElementById(divRestricaoEsquerdaId).children].map(el => [parseFloat(el.getAttribute('data-caracteristica')), el.getAttribute('data-aceita') === 'true']);
+    let respostasDireita = [...document.getElementById(divRestricaoDireitaId).children].map(el =>   [parseFloat(el.getAttribute('data-caracteristica')), el.getAttribute('data-aceita') === 'true']);
     let respostasOpcoes = [...document.getElementById(divOpcoesId).children].map(el => [el.getAttribute('data-caracteristica'), el.getAttribute('data-aceita')]);
 
     // checar se os arrays são do mesmo tamanho
