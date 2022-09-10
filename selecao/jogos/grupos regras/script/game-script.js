@@ -41,7 +41,34 @@ const anosEnum = Object.freeze({
     "Sexto ano": 6
 });
 
-// generate nested enum where the enums elements don't have the same value
+// gerar enum aninhado onde os elementos do subenum não possuem o mesmo valor, podendo obter o valor do enum a partir do valor do subenum
+// o array members vira um objeto que funciona como um enum, ex: CARACTERISTICAS.SHAPE.SQUARE == 1.25
+// exemplo de estrutura de enum gerado aqui:
+// CARACTERISTIC = {
+//   SHAPE: {   // id do enum = 1, já que se fazer o Math.floor de qualquer dos seus elementos, o resultado é 1
+//     TRIANGLE: 1.0, // 1 + 0/4 = 1.0 (id do enum + id do elemento no subenum/quantidade de elementos do subenum)
+//     SQUARE: 1.25,    // 1 + 1/4 = 1.25
+//     CIRCLE: 1.5,   // 1 + 2/4 = 1.5
+//     TRIANGLE: 1.75,  // 1 + 3/4 = 1.75
+//     id: 1, // id do enum
+//     length: 4, // quantidade de elementos do subenum
+//     Symbol.iterator: function*   // função que permite iterar sobre os elementos do subenum (TRIANGLE, SQUARE, CIRCLE, TRIANGLE)
+//   },
+//   COLOR: {   // id do enum = 2
+//     BLUE: 2.0,   // 2 + 0/4 = 2.0
+//     RED: 2.3333333333333335,  // 2 + 1/3 = 2.3333333333333335
+//     GREEN: 2.6666666666666665,   // 2 + 2/3 = 2.6666666666666665
+//     id: 2, // id do enum
+//     length: 3, // quantidade de elementos do subenum
+//     Symbol.iterator: function*   // função que permite iterar sobre os elementos do subenum (BLUE, RED, GREEN)
+//   },
+//   length: 2, // quantidade de subenums
+//   "0": "SHAPE", // permite obter o nome do subenum a partir do id do enum
+//   "1": "COLOR",
+//   Symbol.iterator: function*   // função que permite iterar sobre os subenums (SHAPE, COLOR)
+//   getClass: function (subenumValue) // função que retorna o objeto da classe (valor enum pai) da caracteristica (valor do subenum), ex: CARACTERISTIC.getClass(CARACTERISTIC.SHAPE.SQUARE) == CARACTERISTICAS.SHAPE
+//   getClassId: function (subenumValue) // mesmo que getClass, mas retorna o id do enum pai, ex: CARACTERISTIC.getClassId(CARACTERISTIC.SHAPE.SQUARE) == 0
+// }
 const CARACTERISTIC = function () {
     let members = [
         // [ENUM_NAME, ENUM_VALUES]
@@ -54,13 +81,18 @@ const CARACTERISTIC = function () {
     let cEnum = {};
     for (let i = 0; i < members.length; i++) {
         let [memberName, memberValues] = members[i];
-        // TODO: make cEnum[memberName] a Map instead of an object, for easier iteration
         cEnum[memberName] = {};
         for (let j = 0; j < memberValues.length; j++) {
             cEnum[memberName][memberValues[j]] = i + j / memberValues.length;
         }
-        cEnum[memberName].length = memberValues.length;
         cEnum[memberName].id = i;
+        cEnum[memberName].length = memberValues.length;
+        // iterate over the carcateristics of a class
+        cEnum[memberName][Symbol.iterator] = function* () {
+            for (const caracteristic of memberValues) {
+                yield caracteristic;
+            }
+        };
         cEnum[i] = cEnum[memberName]; // add reverse lookup
     }
     cEnum.length = members.length;
@@ -74,9 +106,20 @@ const CARACTERISTIC = function () {
         return Math.floor(value);
     };
 
+    // iterator para iterar sobre as classes de características
+    cEnum[Symbol.iterator] = function* () {
+        let classes = members.map(([memberName, _]) => memberName);
+        for (const className of classes) {
+            yield this[className];
+        }
+    };
+
     return Object.freeze(cEnum);
 }();
 
+// igual a CARACTERISTIC, mas com outras informações para cada característica
+// ex: CARACTERISTICAS.SHAPE.SQUARE.formaAlt == 'Quadrado'
+// é feito para ser acessado com CARACTERISTIC, ex: CARACTERISTIC_EXTRA[CARACTERISTIC.SHAPE.SQUARE].formaAlt == 'Quadrado'
 const CARACTERISTIC_EXTRA = function () {
     let members = [
         // [ENUM_NAME, ENUM_VALUES]
@@ -86,15 +129,20 @@ const CARACTERISTIC_EXTRA = function () {
         ['OUTLINE', ['OUTLINED', 'NOTOUTLINED']]
     ];
 
+    // funciona como uma planilha do excel, onde cada coluna é uma caracteristica e cada linha é uma informação da caracteristica
+    // subMembers:
+    //  formasSrc: componente do caminho das imagens das formas (ex: triângulo azul, pequeno e com contorno -> 'TZPC.svg)
+    //  formasAlt: nome da caracteristica para exibição (ex: triângulo azul, pequeno e com contorno -> 'Triângulo azul, pequeno com contorno')
+    //  restricaoSrc: componente do caminho das imagens das restrições (ex: restrição peças azuis -> 'azul-sim.svg')
+    //  restricaoAlt: nome da restrição para exibição (ex: restrição peças azuis -> 'Podem peças que são azuis')
     let subMembers = [
-        //                 [   BLUE,         RED,     YELLOW], [    TRIANGLE,      SQUARE,    RECTANGLE,     CIRCLE], [      BIG,      SMALL], [      OUTLINED,    NOTOUTLINED],
-        ['formaSrc',       [    'Z',         'V',        'A'], [         'T',         'Q',          'R',        'C'], [      'G',        'P'], [           'C',            'S']],
-        ['formaAlt',       [ 'azul',  'vermelho',  'amarelo'], [ 'Triângulo',  'Quadrado',  'Retângulo',  'Círculo'], [ 'grande',  'pequeno'], ['com contorno', 'sem Contorno']],
-        ['restrictionSrc', [ 'azul',  'vermelho',  'amarelo'], [ 'triangulo',  'quadrado',  'retangulo',  'circulo'], [ 'grande',  'pequeno'], [    'contorno',  'semContorno']],
-        ['restrictionAlt', ['azuis', 'vermelhas', 'amarelas'], ['triângulos', 'quadrados', 'retângulos', 'círculos'], ['grandes', 'pequenas'], [    'contorno',     'contorno']],
+        //               [   BLUE,         RED,     YELLOW], [    TRIANGLE,      SQUARE,    RECTANGLE,     CIRCLE], [      BIG,      SMALL], [      OUTLINED,    NOTOUTLINED],
+        ['formaSrc',     [    'Z',         'V',        'A'], [         'T',         'Q',          'R',        'C'], [      'G',        'P'], [           'C',            'S']],
+        ['formaAlt',     [ 'azul',  'vermelho',  'amarelo'], [ 'Triângulo',  'Quadrado',  'Retângulo',  'Círculo'], [ 'grande',  'pequeno'], ['com contorno', 'sem Contorno']],
+        ['restricaoSrc', [ 'azul',  'vermelho',  'amarelo'], [ 'triangulo',  'quadrado',  'retangulo',  'circulo'], [ 'grande',  'pequeno'], [    'contorno',  'semContorno']],
+        ['restricaoAlt', ['azuis', 'vermelhas', 'amarelas'], ['triângulos', 'quadrados', 'retângulos', 'círculos'], ['grandes', 'pequenas'], [    'contorno',     'contorno']],
     ];
 
-    // TODO: make cEnum[memberName] a Map instead of an object, for easier iteration
     let cEnum = {};
 
     for (let i = 0; i < members.length; i++) {
@@ -104,6 +152,7 @@ const CARACTERISTIC_EXTRA = function () {
             cEnum[memberName][memberValues[j]] = {};
             for (const subMemberArray of subMembers) {
                 let subMemberName = subMemberArray[0];
+                // access subMembers, ex CARACTERISTIC_EXTRA.SHAPE.SQUARE.formaSrc
                 cEnum[memberName][memberValues[j]][subMemberName] = subMemberArray[(i + 1)][j];
             }
             // lookup with CARACTERISTIC
@@ -111,25 +160,29 @@ const CARACTERISTIC_EXTRA = function () {
         }
     }
 
+    // retorna o caminho da imagem de uma forma
     cEnum.getFormaSrc = function (forma) {
         return `../img/fig-rosto/${cEnum[forma.get(CARACTERISTIC.SHAPE)].formaSrc}${cEnum[forma.get(CARACTERISTIC.COLOR)].formaSrc}${cEnum[forma.get(CARACTERISTIC.SIZE)].formaSrc}${cEnum[forma.get(CARACTERISTIC.OUTLINE)].formaSrc}.svg`;
     };
 
+    // retorna o texto da descrição de uma forma
     cEnum.getFormaAlt = function (forma) {
         return `${cEnum[forma.get(CARACTERISTIC.SHAPE)].formaAlt} ${cEnum[forma.get(CARACTERISTIC.COLOR)].formaAlt}, ${cEnum[forma.get(CARACTERISTIC.SIZE)].formaAlt} e ${cEnum[forma.get(CARACTERISTIC.OUTLINE)].formaAlt}.`;
     };
 
+    // retorna o caminho da imagem de uma restrição
     cEnum.getRestricaoScr = function ([regra, aceita]) {
-        return `../img/restricoes/${cEnum[regra].restrictionSrc}-${aceita ? 'sim' : 'nao'}.svg`;
+        return `../img/restricoes/${cEnum[regra].restricaoSrc}-${aceita ? 'sim' : 'nao'}.svg`;
     };
 
+    // retorna o texto da descrição de uma restrição
     cEnum.getRestricaoAlt = function ([regra, aceita]) {
         if (regra == CARACTERISTIC.OUTLINE.NOTOUTLINED)
             return 'Não podem peças que não tem contorno';
         else if (regra == CARACTERISTIC.OUTLINE.OUTLINED)
             return 'Podem peças que tem contorno';
         else
-            return `${aceita ? 'P' : 'Não p'}odem peças que são ${cEnum[regra].restrictionAlt}`;
+            return `${aceita ? 'P' : 'Não p'}odem peças que são ${cEnum[regra].restricaoAlt}`;
     };
 
     return Object.freeze(cEnum);
