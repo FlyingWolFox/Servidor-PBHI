@@ -1035,10 +1035,12 @@ function gerarFormas(restricoesNessaCaixa, restricoesNoutraCaixa, intersecaoAtiv
         let todasCaracteristicasDaClasse = [...CARACTERISTIC].map(classe => [...classe]).flat();
         let caracteristicasPossiveis = todasCaracteristicasDaClasse.filter(caracteristica => !caracteristicasRejeitadas.has(caracteristica));
         shuffleArray(caracteristicasPossiveis);
+        // limita a quantidade de possibilidades de caracteristicas por classe baseando-se em parametrosAleatorio
+        // caso uma classe não for especificada em parametrosAleatorio, seu valor é 1
         caracteristicasRandomChoices.set(classe, caracteristicasPossiveis.slice(0, parametrosAleatorio.has(classe) ? parametrosAleatorio.get(classe) : 1)); // caso uma classe não for especificada em random, seu valor é 1
     }
     // caso 3
-    // randomiza caracteristicas não afetadas pela restrição
+    // randomiza caracteristicas não afetadas pelas restrições
     // a operação feita aqui é Set(todas as classes) - Set(classes das caracteristicas aceitas + classes das caracteristicas rejeitadas)
     for (const classe of setDifference(
         new Set(CARACTERISTIC), // pega todas as classes
@@ -1049,14 +1051,16 @@ function gerarFormas(restricoesNessaCaixa, restricoesNoutraCaixa, intersecaoAtiv
     )) {
         let todasCaracteristicasDaClasse = [...classe];
         shuffleArray(todasCaracteristicasDaClasse);
-        caracteristicasRandomChoices.set(classe, todasCaracteristicasDaClasse.slice(0, parametrosAleatorio.has(classe) ? parametrosAleatorio.get(classe) : 1)); // caso uma classe não for especificada em random, seu valor é 1
+        // limita a quantidade de possibilidades de caracteristicas por classe baseando-se em parametrosAleatorio
+        // caso uma classe não for especificada em parametrosAleatorio, seu valor é 1
+        caracteristicasRandomChoices.set(classe, todasCaracteristicasDaClasse.slice(0, parametrosAleatorio.has(classe) ? parametrosAleatorio.get(classe) : 1));
     }
 
     // gera as formas
     for (let i = 0; i < caixaItems.length; i++) {
         let forma = new Map();
         for (const [classe, caracteristicas] of caracteristicasRandomChoices.entries()) {
-            forma.set(classe, caracteristicas[i % caracteristicas.length]);
+            forma.set(classe, caracteristicas[i % caracteristicas.length]); // percorrer o array de possibilidades de forma circular
         }
         caixaItems[i] = forma;
     }
@@ -1078,9 +1082,6 @@ function game() {
     var textNumeroFaseDom = document.getElementById(textNumeroFase);
     textNumeroFaseDom.innerHTML = (etapaAtual + 1);
 
-    /*Padronizado os valores das variaveis de controle de acordo com a etapa sendo:
-    0-9: Duas caixas | 10-19: Três caixas (Com respostas nas opções) | 20-29: Mais de uma restrição 
-    30-37: Restrições "Negado" e "Aceito" | 38-39: Três caixas (Sem respostas nas opções)*/
     stage_data = [
         {
             restrictionsLeft: [[CARACTERISTIC.SHAPE.TRIANGLE, ACCEPTED]],  // [CARACTERISTIC, Accepted/Rejected]
@@ -1117,6 +1118,9 @@ function game() {
         },
     ];
 
+    /*Padronizado os valores das variaveis de controle de acordo com a etapa sendo:
+    0-9: Duas caixas | 10-19: Três caixas (Com respostas nas opções) | 20-29: Mais de uma restrição 
+    30-37: Restrições "Negado" e "Aceito" | 38-39: Três caixas (Sem respostas nas opções)*/
     switch (etapaAtual) {
         case 0:
             tamOpcoes = 4;
@@ -1607,20 +1611,36 @@ function game() {
     caixaEsquerdaItems = gerarFormas(currentStage.restrictionsLeft, currentStage.restrictionsRight, intersecaoAtiva, currentStage.numShapes, currentStage.minimumRatio, currentStage.random, []);
     caixaDireitaItems = gerarFormas(currentStage.restrictionsRight, currentStage.restrictionsLeft, intersecaoAtiva, currentStage.numShapes, currentStage.minimumRatio, currentStage.random, [caixaEsquerdaItems.length]);
     if (intersecaoAtiva)
+        // a interseção tem as restrições das duas caixas e, por isso, a "outra caixa" da interseção é vazia
         caixaIntersecaoItems = gerarFormas([...currentStage.restrictionsLeft, ...currentStage.restrictionsRight], [], intersecaoAtiva, currentStage.numShapes, currentStage.minimumRatio, currentStage.random, [caixaEsquerdaItems.length, caixaDireitaItems.length]);
 
     // adicionar as regras das restrições nas respostas
     let respostasItems = [].concat(currentStage.restrictionsLeft, currentStage.restrictionsRight);
     // gerar regras que são incorretas
     let todasCaracteristicas = [...CARACTERISTIC].map(classe => [...classe]).flat();
+    // obter as regras comuns à todos items da interseção
+    // se não há interseção, ou seja, interseção está vazia, esse array será vazio
     let regrasItemsIntersecao = intersecaoAtiva ? caixaIntersecaoItems.map(item => new Set(todasCaracteristicas.map(caracteristica => [caracteristica, caracteristica == item[CARACTERISTIC.getClass(caracteristica)] ? ACCEPTED : REJECTED]))) : [];
     let regrasUsadas = [].concat(
-        // obter as regras comuns à todos items em cada das caixas
-        caixaEsquerdaItems.map(item => new Set(todasCaracteristicas.map(caracteristica => [caracteristica, caracteristica == item.get(CARACTERISTIC.getClass(caracteristica)) ? ACCEPTED : REJECTED]))).concat(regrasItemsIntersecao).reduce(setIntersection, new Set(todasCaracteristicas)),
-        caixaDireitaItems.map(item => new Set(todasCaracteristicas.map(caracteristica => [caracteristica, caracteristica == item.get(CARACTERISTIC.getClass(caracteristica)) ? ACCEPTED : REJECTED]))).concat(regrasItemsIntersecao).reduce(setIntersection, new Set(todasCaracteristicas))
-    ).reduce(setUnion, new Set());
+                                 // obter as regras comuns à todos items em cada uma das caixas
+                                 caixaEsquerdaItems.map(item => new Set(
+                                                                        // obtem as restrições de cada forma. Todas as características que a forma possui são aceitas, as que não possui são rejeitadas
+                                                                        // (ex: se a forma é quadrada, então a característica quadrado é aceita e as características retângulo, círculo e triângulo são rejeitadas)
+                                                                        // o resultado é um conjunto no estilo [[característica, aceito/rejeitado], [característica, aceito/rejeitado], ...]
+                                                                        todasCaracteristicas.map(caracteristica => [caracteristica, caracteristica == item.get(CARACTERISTIC.getClass(caracteristica)) ? ACCEPTED : REJECTED])
+                                                                       ))
+                                                 .concat(regrasItemsIntersecao) // concatena as formas da interseção, já que também fazem parte da caixa esquerda
+                                                 .reduce(setIntersection, new Set(todasCaracteristicas)), // obtem a interseção das regras de todas as formas da caixa, retornando um conjunto de todas as regras aplicaveis a essa caixa
+                                 caixaDireitaItems.map(item => new Set(
+                                                                     todasCaracteristicas.map(caracteristica => [caracteristica, caracteristica == item.get(CARACTERISTIC.getClass(caracteristica)) ? ACCEPTED : REJECTED])
+                                                                      ))
+                                                 .concat(regrasItemsIntersecao)
+                                                 .reduce(setIntersection, new Set(todasCaracteristicas))
+                                ).reduce(setUnion, new Set()); // une todas as regras de todas as caixas
     // TODO: maybe use set operations?
-    let regrasNaoUsadas = todasCaracteristicas.map(caracteristica => [[caracteristica, ACCEPTED], [caracteristica, REJECTED]]).flat().filter(i => !regrasUsadas.has(i));
+    let regrasNaoUsadas = todasCaracteristicas.map(caracteristica => [[caracteristica, ACCEPTED], [caracteristica, REJECTED]]) // obtem todas as regras possíveis
+                                              .flat()
+                                              .filter(i => !regrasUsadas.has(i));
     shuffleArray(regrasNaoUsadas);
 
     // completar as respostas com as regras incorretas para respostasItems ter currentStage.numOptions
