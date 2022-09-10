@@ -1032,7 +1032,7 @@ function gerarFormas(restricoesNessaCaixa, restricoesNoutraCaixa, intersecaoAtiv
             // se já tiver uma classe aceita, não sobrescreva,
             // exceto se for a mesma caracteristica, pois essa caracteristica é rejeitada por estar na inteserção das caixas
             continue;
-        let todasCaracteristicasDaClasse = [...CARACTERISTIC].map(classe => [...classe]).flat();
+        let todasCaracteristicasDaClasse = [...classe];
         let caracteristicasPossiveis = todasCaracteristicasDaClasse.filter(caracteristica => !caracteristicasRejeitadas.has(caracteristica));
         shuffleArray(caracteristicasPossiveis);
         // limita a quantidade de possibilidades de caracteristicas por classe baseando-se em parametrosAleatorio
