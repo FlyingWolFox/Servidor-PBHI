@@ -1069,6 +1069,8 @@ function gerarFormas(restricoesNessaCaixa, restricoesNoutraCaixa, intersecaoAtiv
 }
 
 endGame = false;
+let gRespostasCertasEsquerda = null;
+let gRespostasCertasDireita = null;
 function game() {
     reset();
     //iniciar variaveis de controle
@@ -1647,6 +1649,10 @@ function game() {
     respostasItems = respostasItems.concat(regrasNaoUsadas.slice(0, currentStage.numOptions - respostasItems.length));
     shuffleArray(respostasItems);
 
+    // colocar as repostas no objeto global para ser usado na checagem da resposta
+    gRespostasCertasEsquerda = currentStage.restrictionsLeft;
+    gRespostasCertasDireita = currentStage.restrictionsRight;
+
     /*Containers*/
     let divRespostas = document.getElementById(divRespostasId);
     let divRestricaoEsquerda = document.getElementById(divRestricaoEsquerdaId);
@@ -2013,6 +2019,56 @@ function third(container, letra) {   //Analisa a caixa da direita
     });
 
     return aux;
+}
+
+const [RESPOSTA_CORRETA, RESPOSTA_INCOMPLETA, RESPOSTA_ERRADA] = [1, 2, 3];
+
+/**
+ * determina se a resposta está incompleta ou incorreta
+ * @param {Array<Number, boolean>[]} respostasOpcoes Array contendo as respostas que ficaram no array de opções
+ * @returns RESPOSTA_INCOMPLETA se não moveu todas as imagens, RESPOSTA_ERRADA se moveu mas errou
+ */
+function quaoIncorreto(respostasOpcoes) {
+    let respostasOpcoesSet = new Set(respostasOpcoes);
+    // checa se há respostas corretas nas opções
+    // se tiver, o usuário não moveu todas ainda, retornar RESPOSTA_INCOMPLETA
+    // se não tiver, o usuário moveu, mas arrajou as respostas de forma incorreta, retornar RESPOSTA_ERRADA
+    if (gRespostasCertasEsquerda.some(x => respostasOpcoesSet.has(x))) {
+        return RESPOSTA_INCOMPLETA;
+    }
+    if (gRespostasCertasDireita.some(x => respostasOpcoesSet.has(x))) {
+        return RESPOSTA_INCOMPLETA;
+    }
+
+    return RESPOSTA_ERRADA;
+}
+
+/**
+ * confere se o usuário acertou a reposta
+ * @returns RESPOSTA_CORRETA se acertou, RESPOSTA_INCOMPLETA se não moveu todas as imagens, RESPOSTA_ERRADA se moveu mas errou
+ */
+function checarResposta() {
+    "use strict";
+    let respostasEsquerda = [...document.getElementById(divRestricaoEsquerdaId).children].map(el => [el.getAttribute('data-caracteristica'), el.getAttribute('data-aceita')]);
+    let respostasDireita = [...document.getElementById(divRestricaoDireitaId).children].map(el => [el.getAttribute('data-caracteristica'), el.getAttribute('data-aceita')]);
+    let respostasOpcoes = [...document.getElementById(divOpcoesId).children].map(el => [el.getAttribute('data-caracteristica'), el.getAttribute('data-aceita')]);
+
+    // checar se os arrays são do mesmo tamanho
+    if (respostasEsquerda.length !== gRespostasCertasEsquerda.length || respostasDireita.length !== gRespostasCertasDireita.length) {
+        return quaoIncorreto(respostasOpcoes);
+    }
+
+    // checar se as respostas da esquerda possuem todas as respostas corretas
+    let respostasEsquerdaSet = new Set(respostasEsquerda);
+    if (!gRespostasCertasEsquerda.every(resposta => respostasEsquerdaSet.has(resposta)))
+        return quaoIncorreto(respostasOpcoes);
+
+    // checar se as respostas da direita possuem todas as respostas corretas
+    let respostasDireitaSet = new Set(respostasDireita);
+    if (!gRespostasCertasDireita.every(resposta => respostasDireitaSet.has(resposta)))
+        return quaoIncorreto(respostasOpcoes);
+
+    return RESPOSTA_CORRETA;
 }
 
 function check() { //Confere se acertou
