@@ -86,70 +86,51 @@ const CARACTERISTIC_EXTRA = function () {
         ['OUTLINE', ['OUTLINED', 'NOTOUTLINED']]
     ];
 
-    // TODO: make cEnum[memberName] a Map instead of an object, for easier iteration
-    let cEnum = {
-        COLOR: {
-            BLUE: {
-                path_component: 'Z',
-                restriction: 'azul'
-            },
-            RED: {
-                path_component: 'V',
-                restriction: 'vermelho'
-            },
-            YELLOW: {
-                path_component: 'A',
-                restriction: 'amarelo'
-            }
-        },
-        SHAPE: {
-            TRIANGLE: {
-                path_component: 'T',
-                restriction: 'triangulo'
-            },
-            SQUARE: {
-                path_component: 'Q',
-                restriction: 'quadrado'
-            },
-            RECTANGLE: {
-                path_component: 'R',
-                restriction: 'retangulo'
-            },
-            CIRCLE: {
-                path_component: 'C',
-                restriction: 'circulo'
-            }
-        },
-        SIZE: {
-            BIG: {
-                path_component: 'G',
-                restriction: 'grande'
-            },
-            SMALL: {
-                path_component: 'P',
-                restriction: 'pequeno'
-            }
-        },
-        OUTLINE: {
-            OUTLINED: {
-                path_component: 'C',
-                restriction: 'contorno'
-            },
-            NOTOUTLINED: {
-                path_component: 'S',
-                restriction: 'semContorno'
-            }
-        }
+    let subMembers = [
+        //                 [   BLUE,         RED,     YELLOW], [    TRIANGLE,      SQUARE,    RECTANGLE,     CIRCLE], [      BIG,      SMALL], [      OUTLINED,    NOTOUTLINED],
+        ['formaSrc',       [    'Z',         'V',        'A'], [         'T',         'Q',          'R',        'C'], [      'G',        'P'], [           'C',            'S']],
+        ['formaAlt',       [ 'azul',  'vermelho',  'amarelo'], [ 'Triângulo',  'Quadrado',  'Retângulo',  'Círculo'], [ 'grande',  'pequeno'], ['com contorno', 'sem Contorno']],
+        ['restrictionSrc', [ 'azul',  'vermelho',  'amarelo'], [ 'triangulo',  'quadrado',  'retangulo',  'circulo'], [ 'grande',  'pequeno'], [    'contorno',  'semContorno']],
+        ['restrictionAlt', ['azuis', 'vermelhas', 'amarelas'], ['triângulos', 'quadrados', 'retângulos', 'círculos'], ['grandes', 'pequenas'], [    'contorno',     'contorno']],
+    ];
 
-    };
+    // TODO: make cEnum[memberName] a Map instead of an object, for easier iteration
+    let cEnum = {};
 
     for (let i = 0; i < members.length; i++) {
         let [memberName, memberValues] = members[i];
+        cEnum[memberName] = {};
         for (let j = 0; j < memberValues.length; j++) {
+            cEnum[memberName][memberValues[j]] = {};
+            for (const subMemberArray of subMembers) {
+                let subMemberName = subMemberArray[0];
+                cEnum[memberName][memberValues[j]][subMemberName] = subMemberArray[(i + 1)][j];
+            }
             // lookup with CARACTERISTIC
             cEnum[i + j / memberValues.length] = cEnum[memberName][memberValues[j]];
         }
     }
+
+    cEnum.getFormaSrc = function (forma) {
+        return `../img/fig-rosto/${cEnum[forma.get(CARACTERISTIC.SHAPE)].formaSrc}${cEnum[forma.get(CARACTERISTIC.COLOR)].formaSrc}${cEnum[forma.get(CARACTERISTIC.SIZE)].formaSrc}${cEnum[forma.get(CARACTERISTIC.OUTLINE)].formaSrc}.svg`;
+    };
+
+    cEnum.getFormaAlt = function (forma) {
+        return `${cEnum[forma.get(CARACTERISTIC.SHAPE)].formaAlt} ${cEnum[forma.get(CARACTERISTIC.COLOR)].formaAlt}, ${cEnum[forma.get(CARACTERISTIC.SIZE)].formaAlt} e ${cEnum[forma.get(CARACTERISTIC.OUTLINE)].formaAlt}.`;
+    };
+
+    cEnum.getRestricaoScr = function ([regra, aceita]) {
+        return `../img/restricoes/${cEnum[regra].restrictionSrc}-${aceita ? 'sim' : 'nao'}.svg`;
+    };
+
+    cEnum.getRestricaoAlt = function ([regra, aceita]) {
+        if (regra == CARACTERISTIC.OUTLINE.NOTOUTLINED)
+            return 'Não podem peças que não tem contorno';
+        else if (regra == CARACTERISTIC.OUTLINE.OUTLINED)
+            return 'Podem peças que tem contorno';
+        else
+            return `${aceita ? 'P' : 'Não p'}odem peças que são ${cEnum[regra].restrictionAlt}`;
+    };
 
     return Object.freeze(cEnum);
 }();
@@ -1605,7 +1586,9 @@ function game() {
     //renderizando restrições em "regras disponíveis"
     respostasItems.map(item => {
         imgTag = document.createElement("img");
-        imgTag.src = '../img/restricoes/' + CARACTERISTIC_EXTRA[item[0]].restriction + (item[1] == ACCEPTED ? '-sim' : '-nao') + '.svg';
+        imgTag.src = CARACTERISTIC_EXTRA.getRestricaoScr(item);
+        imgTag.alt = CARACTERISTIC_EXTRA.getRestricaoAlt(item);
+        imgTag.title = imgTag.alt;
         imgTag.classList.add('drag');
         //imgTag.classList.add('game-img');
         //imgTag.classList.add('img-restricao-esquerda');
@@ -1614,27 +1597,36 @@ function game() {
 
     caixaEsquerdaItems.forEach(item => {
         imgTag = document.createElement("img");
-        imgTag.src = '../img/fig-rosto/' + CARACTERISTIC_EXTRA[item.get(CARACTERISTIC.SHAPE)].path_component + CARACTERISTIC_EXTRA[item.get(CARACTERISTIC.COLOR)].path_component + CARACTERISTIC_EXTRA[item.get(CARACTERISTIC.SIZE)].path_component + CARACTERISTIC_EXTRA[item.get(CARACTERISTIC.OUTLINE)].path_component + '.svg';
+        imgTag.src = CARACTERISTIC_EXTRA.getFormaSrc(item);
+        imgTag.alt = CARACTERISTIC_EXTRA.getFormaAlt(item);
+        imgTag.title = imgTag.alt;
         //imgTag.classList.add('drag');
         imgTag.classList.add('game-img');
+        imgTag.classList.add(item[CARACTERISTIC.SIZE] == CARACTERISTIC.SIZE.SMALL ? 'pequeno' : 'grande');
         //imgTag.classList.add('img-restricao-esquerda');
         divCaixaEsquerda.appendChild(imgTag);
     });
 
     caixaDireitaItems.forEach(item => {
         imgTag = document.createElement("img");
-        imgTag.src = '../img/fig-rosto/' + CARACTERISTIC_EXTRA[item.get(CARACTERISTIC.SHAPE)].path_component + CARACTERISTIC_EXTRA[item.get(CARACTERISTIC.COLOR)].path_component + CARACTERISTIC_EXTRA[item.get(CARACTERISTIC.SIZE)].path_component + CARACTERISTIC_EXTRA[item.get(CARACTERISTIC.OUTLINE)].path_component + '.svg';
+        imgTag.src = CARACTERISTIC_EXTRA.getFormaSrc(item);
+        imgTag.alt = CARACTERISTIC_EXTRA.getFormaAlt(item);
+        imgTag.title = imgTag.alt;
         //imgTag.classList.add('drag');
         imgTag.classList.add('game-img');
+        imgTag.classList.add(item[CARACTERISTIC.SIZE] == CARACTERISTIC.SIZE.SMALL ? 'pequeno' : 'grande');
         //imgTag.classList.add('img-restricao-esquerda');
         divCaixaDireita.appendChild(imgTag);
     });
 
     caixaIntersecaoItems.forEach(item => {
         imgTag = document.createElement("img");
-        imgTag.src = '../img/fig-rosto/' + CARACTERISTIC_EXTRA[item.get(CARACTERISTIC.SHAPE)].path_component + CARACTERISTIC_EXTRA[item.get(CARACTERISTIC.COLOR)].path_component + CARACTERISTIC_EXTRA[item.get(CARACTERISTIC.SIZE)].path_component + CARACTERISTIC_EXTRA[item.get(CARACTERISTIC.OUTLINE)].path_component + '.svg';
+        imgTag.src = CARACTERISTIC_EXTRA.getFormaSrc(item);
+        imgTag.alt = CARACTERISTIC_EXTRA.getFormaAlt(item);
+        imgTag.title = imgTag.alt;
         //imgTag.classList.add('drag');
         imgTag.classList.add('game-img');
+        imgTag.classList.add(item[CARACTERISTIC.SIZE] == CARACTERISTIC.SIZE.SMALL ? 'pequeno' : 'grande');
         //imgTag.classList.add('img-restricao-esquerda');
         divCaixaIntersecao.appendChild(imgTag);
     });
