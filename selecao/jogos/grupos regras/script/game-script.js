@@ -1032,7 +1032,7 @@ function gerarFormas(restricoesNessaCaixa, restricoesNoutraCaixa, intersecaoAtiv
             // se já tiver uma classe aceita, não sobrescreva,
             // exceto se for a mesma caracteristica, pois essa caracteristica é rejeitada por estar na inteserção das caixas
             continue;
-        let todasCaracteristicasDaClasse = [...Array(classe.length).keys()].map(i => classe.id + i / classe.length);
+        let todasCaracteristicasDaClasse = [...CARACTERISTIC].map(classe => [...classe]).flat();
         let caracteristicasPossiveis = todasCaracteristicasDaClasse.filter(caracteristica => !caracteristicasRejeitadas.has(caracteristica));
         shuffleArray(caracteristicasPossiveis);
         caracteristicasRandomChoices.set(classe, caracteristicasPossiveis.slice(0, parametrosAleatorio.has(classe) ? parametrosAleatorio.get(classe) : 1)); // caso uma classe não for especificada em random, seu valor é 1
@@ -1041,13 +1041,13 @@ function gerarFormas(restricoesNessaCaixa, restricoesNoutraCaixa, intersecaoAtiv
     // randomiza caracteristicas não afetadas pela restrição
     // a operação feita aqui é Set(todas as classes) - Set(classes das caracteristicas aceitas + classes das caracteristicas rejeitadas)
     for (const classe of setDifference(
-        new Set([...Array(CARACTERISTIC.length).keys()].map(classeNum => CARACTERISTIC.getClass(classeNum))), // pega todas as classes (os números inteiros do enum)
+        new Set(CARACTERISTIC), // pega todas as classes
         new Set([].concat(
             [...caracteristicasAceitas].map(caracteristica => CARACTERISTIC.getClass(caracteristica)),
             [...caracteristicasRejeitadas].map(caracteristica => CARACTERISTIC.getClass(caracteristica))
         ))
     )) {
-        let todasCaracteristicasDaClasse = [...Array(classe.length).keys()].map(i => classe.id + i / classe.length);
+        let todasCaracteristicasDaClasse = [...classe];
         shuffleArray(todasCaracteristicasDaClasse);
         caracteristicasRandomChoices.set(classe, todasCaracteristicasDaClasse.slice(0, parametrosAleatorio.has(classe) ? parametrosAleatorio.get(classe) : 1)); // caso uma classe não for especificada em random, seu valor é 1
     }
@@ -1612,7 +1612,7 @@ function game() {
     // adicionar as regras das restrições nas respostas
     let respostasItems = [].concat(currentStage.restrictionsLeft, currentStage.restrictionsRight);
     // gerar regras que são incorretas
-    let todasCaracteristicas = [...Array(CARACTERISTIC.length).keys()].map(i => [...Array(CARACTERISTIC[i].length).keys()].map(j => CARACTERISTIC[i].id + j / CARACTERISTIC[i].length)).flat();
+    let todasCaracteristicas = [...CARACTERISTIC].map(classe => [...classe]).flat();
     let regrasItemsIntersecao = intersecaoAtiva ? caixaIntersecaoItems.map(item => new Set(todasCaracteristicas.map(caracteristica => [caracteristica, caracteristica == item[CARACTERISTIC.getClass(caracteristica)] ? ACCEPTED : REJECTED]))) : [];
     let regrasUsadas = [].concat(
         // obter as regras comuns à todos items em cada das caixas
