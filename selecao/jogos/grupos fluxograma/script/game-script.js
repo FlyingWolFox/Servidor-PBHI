@@ -31,7 +31,6 @@ var btnTerminei = document.getElementById(botaoTerminei);
 var viewDiv = document.getElementById(diagramaBox);
 var ano = localStorage.getItem('ano');
 var etapaMax = 14;
-console.log('esse eh o ano:' + ano);
 
 const coresEnum = Object.freeze({
     "azul": 0,
@@ -82,7 +81,6 @@ function getFasesPorAno(){
 			etapaMax = 13;
 			break;			
 	}
-	console.log("esse eh o numero maximo de fases desse ano: " + etapaMax);
 }
 getFasesPorAno();
 
@@ -141,12 +139,10 @@ function desabilitaBotoes(){
 function habilitaBotoes(){
     btnConferir.disabled = false;
     btnTerminei.disabled = false;
-    console.log('terminei a animação de dentro de habilita......');
 }
 
 function habilitaTerminei(){
     btnTerminei.disabled = false;
-    console.log('terminei a animação de dentro de habilita......');
 }
 
 function resetEstrelas() {
@@ -1101,8 +1097,6 @@ function game() {
         case 0:
             try {
                 removeDiagram() 
-            removeDiagram()
-                removeDiagram() 
             } catch (error) {
                 
             }
@@ -1689,7 +1683,6 @@ function resolver(){    //Reconhece onde colocar as imagens pelo fluxograma
                         formaProximoNode = nodeSim.getShape().getId();
                     } else if (form != 'T') {
                         var nodeNao = pegarProximoNodeNao(proximoNode)[0];
-                        console.log(nodeNao);
                         proximoNode = nodeNao;
                         nodeTexto = nodeNao.getText();
                         formaProximoNode = nodeNao.getShape().getId();
@@ -1840,13 +1833,12 @@ function anima(caminhar, nodeTexto) {
     var dropDireita = document.getElementById(dropTerceiro);
     var dropMeio = document.getElementById(dropSegundo);
     var cam = caminhar.shift();
-        console.log(cam.getText());
         if (cam != null) {
             if (cam.getText() == 'INÍCIO') {
                 timeouts.push(setTimeout(function () { 
                     desabilitaBotoes();
                     nodeImg = pegarNodeImg()
-                    animacao(nodeImg, cam); console.log("Passei no node:", cam.getText())
+                    animacao(nodeImg, cam);
                     divForms.childNodes[3].style.transition = "1s";
                     divForms.childNodes[3].style.transform = 'scale(1.5) translate(-50%,-15%)';
                 }, tempo));
@@ -1855,7 +1847,7 @@ function anima(caminhar, nodeTexto) {
             } 
             else if (cam.getText() == 'FIM') {
                 timeouts.push(setTimeout(function () { 
-                    animacao(nodeImg, cam); console.log("Passei no node:", cam.getText())
+                    animacao(nodeImg, cam);
                     divForms.childNodes[3].style.transform = 'scale(1)';
                 }, tempo));
                 tempo = tempo + tempoAdicional;
@@ -1864,7 +1856,6 @@ function anima(caminhar, nodeTexto) {
             else if(cam.getText() == "Colocar na esquerda" || cam.getText() == "Esquerda"){
                 timeouts.push(setTimeout(function () { 
                     animacao(nodeImg, cam);
-                    console.log("Passei no node:", cam.getText());
                     var cordenadas = dropEsquerda.getBoundingClientRect()
                     var x = cordenadas.x
                     var y = cordenadas.y
@@ -1883,7 +1874,6 @@ function anima(caminhar, nodeTexto) {
             else if(cam.getText() == "Colocar na direita" || cam.getText() == "Direita"){
                 timeouts.push(setTimeout(function () { 
                     animacao(nodeImg, cam);
-                    console.log("Passei no node:", cam.getText());
                     var cordenadas = dropDireita.getBoundingClientRect()
                     var x = cordenadas.x
                     var y = cordenadas.y
@@ -1902,7 +1892,6 @@ function anima(caminhar, nodeTexto) {
             else if(cam.getText() == "Colocar na interseção" || cam.getText() == "Interseção"){
                 timeouts.push(setTimeout(function () { 
                     animacao(nodeImg, cam);
-                    console.log("Passei no node:", cam.getText());
                     var cordenadas = dropMeio.getBoundingClientRect()
                     var x = cordenadas.x
                     var y = cordenadas.y
@@ -1927,7 +1916,7 @@ function anima(caminhar, nodeTexto) {
                 anima(caminhar, nodeTexto);
             }
             else {
-                timeouts.push(setTimeout(function () {animacao(nodeImg, cam); console.log("Passei no node:", cam.getText());}, tempo));
+                timeouts.push(setTimeout(function () {animacao(nodeImg, cam);}, tempo));
                 tempo = tempo + tempoAdicional;
                 anima(caminhar, nodeTexto);
             }
@@ -2327,10 +2316,7 @@ function check(){ //Confere se acertou
             modalErro.style.display = 'block';
             textoErro.innerText = 'Resposta errada... Tente novamente!';
         }
-	ligacao();
-        for(let i = 0; i < tempoLigacao.length; i++){
-            console.log(tempoLigacao[i]);
-        }
+	    ligacao();
     }
 }
 
@@ -2342,7 +2328,6 @@ function ligacao(){
 		var nomeLink = link.getText();
 		//formaProximoNode = proximoNode.getShape().getId()
 		if(destino.getShape().getId() == 'Rectangle' && destino.getOutgoingLinks() == ''){
-			console.log('O node não está ligado a nada');
 			diagram.factory.createDiagramLink(destino, fimNode);
 		}
 		if(origem.getShape().getId() == 'Decision'){
@@ -2350,10 +2335,7 @@ function ligacao(){
         }else{
             texto = texto + 'O node ' + `${origem.getText()} está ligado ao node ${destino.getText()}` + '\n';
         }
-        
-		
 	}
-	console.log(texto);
 }
 
 function resetFlux(){
@@ -2387,8 +2369,6 @@ function createDiagram(rest1,rest2,type1,type2,inter)
 {	
     backgroundColor = "#f2ebcf";
 	linkDashStyle = DashStyle.Solid; 
-	 linkDashStyle = DashStyle.Solid; 
-	linkDashStyle = DashStyle.Solid; 
 	baseShape = null;
 	headShape = "Triangle";
 	headBrush = "#7F7F7F";
@@ -2405,7 +2385,7 @@ function createDiagram(rest1,rest2,type1,type2,inter)
 	diagram.setUndoEnabled(true);
     diagram.setRoundedLinks(false);
     diagram.setAutoResize(false);
-	diagram.setBounds(new Rect(0, 0, largura,131));
+	diagram.setBounds(new Rect(0, 0, largura, 131));
 
 	var theme = new Theme();
 	var shapeNodeStyle = new Style();
@@ -2444,7 +2424,6 @@ function startDiagrama(rest1,rest2,type1,type2,inter){
 
 function iniciarDiagrama(rest1, rest2, type1, type2, inter) {
     var width = window.screen.availWidth;
-    console.log(width);
     //var largura = 22;
     var largura = width * 0.0165;
     var altura = largura * 0.7599;
@@ -2550,7 +2529,6 @@ function iniciarDiagrama(rest1, rest2, type1, type2, inter) {
         child1.setBrush(corFimInicio);
         child1.setFont(fonte);
         child1.setText("INÍCIO");
-        console.log("esse eh a posicao X do node: " + width * 0.049)
         // cria os nodes de passos
         child2 = diagram.getFactory().createShapeNode((width * 0.0074), 100 - (altura * 2) - (espacoy), largura, altura * 0.66);
         child2.setBrush(corEsquerda);
@@ -2566,8 +2544,6 @@ function iniciarDiagrama(rest1, rest2, type1, type2, inter) {
         child6.setFont(fonte);
         child6.setBrush(corDescarta);
         child6.setText("Não mover");
-
-        
 
         for (i = 0; i < formas.length; i++) {
             switch (parseInt(i)) {
@@ -2669,7 +2645,6 @@ function iniciarDiagrama(rest1, rest2, type1, type2, inter) {
                     ;
             }
         }
-
         for (let forma of rest1) {
             formas.push(forma);
         }
@@ -2687,12 +2662,9 @@ function iniciarDiagrama(rest1, rest2, type1, type2, inter) {
         var corDescarta = '#ccff66';
         var fonte = new Font("sans-serif", 3, true, false);
         
-        
         if (inter) {
             decisionNode2 = diagram.getFactory().createShapeNode((width * 0.033), 100 - (altura * 2) - (espacoy), largura, altura * 0.66);
             decisionNode2.setBrush(corInter);
-            decisionNode2.setFont(fonte); 
-        decisionNode2.setFont(fonte); 
             decisionNode2.setFont(fonte); 
             decisionNode2.setText("Colocar na interseção");
         }
@@ -2708,7 +2680,6 @@ function iniciarDiagrama(rest1, rest2, type1, type2, inter) {
         child1.setBrush(corFimInicio);
         child1.setFont(fonte);
         child1.setText("INÍCIO");
-        console.log("esse eh a posicao X do node: " + width * 0.049)
         // cria os nodes de passos
         child2 = diagram.getFactory().createShapeNode((width * 0.0074), 100 - (altura * 2) - (espacoy), largura, altura * 0.66);
         child2.setBrush(corEsquerda);
@@ -2724,8 +2695,6 @@ function iniciarDiagrama(rest1, rest2, type1, type2, inter) {
         child6.setFont(fonte);
         child6.setBrush(corDescarta);
         child6.setText("Não mover");
-
-        
 
         for (i = 0; i < formas.length; i++) {
             switch (parseInt(i)) {
