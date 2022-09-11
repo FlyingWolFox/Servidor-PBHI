@@ -1683,7 +1683,8 @@ function game() {
         imgTag.classList.add('game-img');
         imgTag.classList.add(item[CARACTERISTIC.SIZE] == CARACTERISTIC.SIZE.SMALL ? 'pequeno' : 'grande');
         //imgTag.classList.add('img-restricao-esquerda');
-        divCaixaEsquerda.appendChild(imgTag);
+        // divCaixaEsquerda.appendChild(imgTag);
+        divRestricaoEsquerda.appendChild(imgTag);
     });
 
     caixaDireitaItems.forEach(item => {
@@ -1695,7 +1696,8 @@ function game() {
         imgTag.classList.add('game-img');
         imgTag.classList.add(item[CARACTERISTIC.SIZE] == CARACTERISTIC.SIZE.SMALL ? 'pequeno' : 'grande');
         //imgTag.classList.add('img-restricao-esquerda');
-        divCaixaDireita.appendChild(imgTag);
+        // divCaixaDireita.appendChild(imgTag);
+        divRestricaoDireita.appendChild(imgTag);
     });
 
     caixaIntersecaoItems.forEach(item => {
@@ -1842,15 +1844,15 @@ function game() {
         arrayIndicesDois.push(numeroDois);
     });
 
-    //exibindo imagens ao lado esquerdo da caixa de drop esquerdo
-    arrayOpcoesFinal.forEach(el => {
-        // divRespostas.appendChild(el);
-        divRestricaoEsquerda.appendChild(el);
-    });
+    // exibindo imagens ao lado esquerdo da caixa de drop esquerdo
+    // arrayOpcoesFinal.forEach(el => {
+    //     // divRespostas.appendChild(el);
+    //     divRestricaoEsquerda.appendChild(el);
+    // });
 
-    arrayOpcoesFinalDois.forEach(el => {
-        divRestricaoDireita.appendChild(el);
-    });
+    // arrayOpcoesFinalDois.forEach(el => {
+    //     divRestricaoDireita.appendChild(el);
+    // });
 
     background(1);
 
@@ -1858,7 +1860,7 @@ function game() {
 
 function background(caixas) {
 
-    var dropzoneArea = document.getElementById('dropzone-container');
+    var dropzoneArea = document.getElementById('dropzone-container-grupos-regras');
     var dropEsquerda = document.getElementById(dropEsquerdoId);
     var dropMeio = document.getElementById(dropIntersecaoId);
     var dropDireita = document.getElementById(dropDireitoId);

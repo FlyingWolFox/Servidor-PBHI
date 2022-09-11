@@ -98,6 +98,7 @@ span#span-fullscreen {
     height: 33px;
     margin-top: 0px;
     margin-right: 0px;
+    margin-left: -15px;
     border-radius: 50%;
     padding: 0px 6px;
     color: white;
@@ -126,7 +127,6 @@ a#span-textbox {
 
 }
 
-
 span#span-about {
 
     width: 20px;
@@ -138,6 +138,18 @@ span#span-about {
     grid-row: 1;
     grid-column: 3/4;
 
+}
+
+section#dropzone-container-grupos-regras {
+    margin-left: -70px;
+}
+
+section.restricao-esquerda {
+    margin-left: 100px;
+}
+
+section.restricao-direita {
+    margin-top: 70px;
 }
 
 

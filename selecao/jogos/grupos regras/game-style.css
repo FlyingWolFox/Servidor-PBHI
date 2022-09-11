@@ -105,20 +105,21 @@ section#container-sequencia {
 
 }
 
-p.container-formas-titulo {
-
+p.container-respostas-titulo {
     width: 100%;
     color: #C4C4C4;
     background-color: #FAFAFA;
     text-align: center;
+    margin-top: 10px;
+    margin-bottom: 5px;
 }
 
-section#container-formas {
+section#container-respostas {
 
-    width: 100%;
-    height: 180px;
+    height: 50px;
     padding: 5px 0px 5px 0px;
     margin-bottom: 0px;
+    gap: 10px;
     background-color: #FAFAFA;
     border: solid 0px black;
     border-radius: 0px;
@@ -132,7 +133,9 @@ section#container-formas {
 
 img.game-img {
 
-    max-width: 6%;
+    margin-top: 10px;
+    margin-left: 10px;
+    max-width: 30%;
 
 }
 
@@ -523,12 +526,13 @@ button#span-about {
 
 /* Estlios do jogo  */
 
-section#dropzone-container {
+section#dropzone-container-grupos-regras {
 
     width: 100%;
     height: 100%;
-    margin-top: 10px;
-    margin-bottom: 5px;
+    margin-top: 25px;
+    margin-bottom: 25px;
+    margin-left: -4px;
     display: grid;
     grid-template-columns: 3fr repeat(3, 3fr) 3fr;
     grid-template-rows: 2fr 8fr 2fr;
@@ -547,6 +551,8 @@ section.drop-esquerdo {
     align-content: flex-start;
     align-items: baseline;
     justify-content: flex-start;
+    gap: 10px;
+    padding: 10px;
 
 }
 
@@ -564,6 +570,8 @@ section.drop-direito {
     align-content: flex-end;
     justify-content: flex-end;
     min-height: 100px;
+    gap: 10px;
+    padding: 10px;
 
 }
 
@@ -581,13 +589,14 @@ section#intDrop {
 }
 
 section.restricao-esquerda {
-
-    width: 100%;
+    width: 150px;
     grid-column: 1/2;
     grid-row: 1/4;
-    display: flex;
+    margin-left: 25px;
+    /* margin-right: -70px; */
+    /* display: flex;
     flex-direction: column;
-    align-items: flex-end;
+    align-items: flex-end; */
 }
 
 img.img-restricao-esquerda {
@@ -601,21 +610,25 @@ img.img-restricao-esquerda {
 
 section.restricao-direita {
 
-    width: 100%;
+    width: 150px;
     grid-column: 5/6;
     grid-row: 1/4;
-    display: flex;
+    margin-top: 35px;
+    margin-left: 30px;
+    /* margin-left: 30px; */
+    /* display: flex;
     flex-direction: column;
     align-items: flex-start;
-    justify-content: flex-end;
-
+    justify-content: flex-end; */
+    /* display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr;
+    row-gap: 10px; */
 }
 
 img.img-restricao-direita {
 
     width: 80px;
-    margin-left: 10px;
-    margin-bottom: 10px;
 
 }
 
@@ -762,9 +775,10 @@ button#botao-resultado {
 
 }
 
-div.formas-titulo {
+div.respostas-titulo {
     height: min-content;
     width: 100%;
+    background-color: #FAFAFA; 
 }
 
 @media(max-width: 425px) {
