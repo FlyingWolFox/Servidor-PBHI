@@ -1078,6 +1078,257 @@ function criaFluxograma(){
     }
 }
 
+function criaFluxograma2(){
+    //iniciar variaveis de controle
+    var tamOpcoes = 0; //quantidade de opções de resposta
+    var coresDistintas = 0; //quantidade de cores distintas possiveis nas opcoes
+    var formasDistintas = 0; //quantidade de formas distintas possiveis nas opcoes
+    var tamanhosDistintos = 0; //quantidade de tamanhos distintas possiveis nas opcoes
+    var contornosDistintos = 0; //quantidade de contornos distintas possiveis nas opcoes
+    var i;
+    var textNumeroFaseDom = document.getElementById(textNumeroFase);
+	textNumeroFaseDom.innerHTML = (etapaAtual + 1);
+
+    /*Padronizado os valores das variaveis de controle de acordo com a etapa sendo:
+    0-9: Duas caixas | 10-19: Três caixas (Com respostas nas opções) | 20-29: Mais de uma restrição 
+    30-37: Restrições "Negado" e "Aceito" | 38-39: Três caixas (Sem respostas nas opções)*/
+    switch (etapaAtual) {
+        case 0:
+            try {
+                removeDiagram() 
+            } catch (error) {
+                
+            }
+            tamOpcoes = 4;
+            quantidade = 2;
+            restricao1[forma] = formasEnum.triangulo;
+            restricao2[forma] = formasEnum.quadrado;
+            estadoRestricao1[forma] = 'Aceito';
+            estadoRestricao2[forma] = 'Aceito';
+            coresDistintas = 1;
+            formasDistintas = 4;
+            tamanhosDistintos = 1;
+            contornosDistintos = 1;
+            if(primeiraRodada == true){
+                createDiagram2([restricao1[forma]],[restricao2[forma]],[0],[0],false)
+                background(quantidade);
+            }
+            else{
+                startDiagrama2([restricao1[forma]],[restricao2[forma]],[0],[0],false)
+                background(quantidade);
+            }
+           break;
+        case 1:
+            removeDiagram()
+            tamOpcoes = 4;
+            quantidade = 2;
+            restricao1[forma] = formasEnum.circulo;
+            restricao2[forma] = formasEnum.retangulo;
+            estadoRestricao1[forma] = 'Aceito';
+            estadoRestricao2[forma] = 'Aceito';
+            coresDistintas = 1;
+            formasDistintas = 4;
+            tamanhosDistintos = 1;
+            contornosDistintos = 1;
+            startDiagrama2([restricao1[forma]],[restricao2[forma]],[0],[0],false)
+            background(quantidade);
+            break;
+        case 2:
+            removeDiagram()
+            tamOpcoes = 4;
+            quantidade = 2;
+            restricao1[forma] = formasEnum.circulo;
+            restricao2[forma] = formasEnum.triangulo;
+            estadoRestricao1[forma] = 'Aceito';
+            estadoRestricao2[forma] = 'Aceito';
+            coresDistintas = 2;
+            formasDistintas = 4;
+            tamanhosDistintos = 1;
+            contornosDistintos = 1;
+            startDiagrama2([restricao1[forma]],[restricao2[forma]],[0],[0],false)
+            background(quantidade);
+            break;
+        case 3:
+            removeDiagram()
+            tamOpcoes = 4;
+            quantidade = 2;
+            restricao1[forma] = formasEnum.retangulo;
+            restricao2[forma] = formasEnum.quadrado;
+            estadoRestricao1[forma] = 'Aceito';
+            estadoRestricao2[forma] = 'Aceito';
+            coresDistintas = 2;
+            formasDistintas = 4;
+            tamanhosDistintos = 1;
+            contornosDistintos = 1;
+            startDiagrama2([restricao1[forma]],[restricao2[forma]],[0],[0],false)
+            background(quantidade);
+            break;
+        case 4:
+            removeDiagram()
+            tamOpcoes = 4;
+            quantidade = 2;
+            restricao1[forma] = formasEnum.triangulo;
+            restricao2[forma] = formasEnum.quadrado;
+            estadoRestricao1[forma] = 'Aceito';
+            estadoRestricao2[forma] = 'Aceito';
+            coresDistintas = 3;
+            formasDistintas = 4;
+            tamanhosDistintos = 1;
+            contornosDistintos = 1;
+            startDiagrama2([restricao1[forma]],[restricao2[forma]],[0],[0],false)
+            background(quantidade);
+            break;
+        case 5:
+            removeDiagram()
+            tamOpcoes = 4;
+            quantidade = 3;
+            restricao1[cor] = coresEnum.azul;
+            restricao2[forma] = formasEnum.retangulo;
+            estadoRestricao1[cor] = 'Aceito';
+            estadoRestricao2[forma] = 'Aceito';
+            coresDistintas = 3;
+            formasDistintas = 2;
+            tamanhosDistintos = 1;
+            contornosDistintos = 1;
+            startDiagrama2([restricao1[cor]],[restricao2[forma]],[1],[0],true)
+            background(quantidade);
+            break;
+        case 6:
+            removeDiagram()
+            tamOpcoes = 4;
+            quantidade = 3;
+            restricao1[forma] = formasEnum.circulo;
+            restricao2[cor] = coresEnum.amarelo;
+            estadoRestricao1[forma] = 'Aceito';
+            estadoRestricao2[cor] = 'Aceito';
+            coresDistintas = 3;
+            formasDistintas = 2;
+            tamanhosDistintos = 1;
+            contornosDistintos = 2;
+            startDiagrama2([restricao1[forma]],[restricao2[cor]],[0],[1],true)
+            background(quantidade);
+            break;
+        case 7:
+            removeDiagram()
+            tamOpcoes = 4;
+            quantidade = 3;
+            restricao1[forma] = formasEnum.triangulo;
+            restricao2[tamanho] = tamanhoEnum.pequeno;
+            estadoRestricao1[forma] = 'Aceito';
+            estadoRestricao2[tamanho] = 'Aceito';
+            coresDistintas = 1;
+            formasDistintas = 4;
+            tamanhosDistintos = 2;
+            contornosDistintos = 1;
+            startDiagrama2([restricao1[forma]],[restricao2[tamanho]],[0],[2],true)
+            background(quantidade);
+            break;
+        case 8:
+            removeDiagram()
+            tamOpcoes = 4;
+            quantidade = 3;
+            restricao1[contorno] = contornoEnum.comContorno;
+            restricao2[cor] = coresEnum.vermelho;
+            estadoRestricao1[contorno] = 'Aceito';
+            estadoRestricao2[cor] = 'Aceito';
+            coresDistintas = 3;
+            formasDistintas = 2;
+            tamanhosDistintos = 1;
+            contornosDistintos = 2;
+            startDiagrama2([restricao1[contorno]],[restricao2[cor]],[3],[1],true)
+            background(quantidade);
+            break;
+        case 9:
+            removeDiagram()
+            tamOpcoes = 4;
+            quantidade = 2;
+            restricao1[contorno] = contornoEnum.semContorno;
+            restricao1[forma] = formasEnum.retangulo;
+            restricao2[forma] = formasEnum.triangulo;
+            estadoRestricao1[contorno] = 'Aceito';
+            estadoRestricao1[forma] = 'Aceito';
+            estadoRestricao2[forma] = 'Aceito';
+            coresDistintas = 2;
+            formasDistintas = 4;
+            tamanhosDistintos = 1;
+            contornosDistintos = 2;
+            startDiagrama2([restricao1[contorno],restricao1[forma]],[restricao2[forma]],[3,0],[0],false)
+            background(quantidade);
+            break;
+        case 10:        //Inicia intersecção (com resposta)
+            removeDiagram()
+            tamOpcoes = 4;
+            quantidade = 2;
+            restricao1[forma] = formasEnum.quadrado;
+            restricao1[cor] = coresEnum.vermelho;
+            restricao2[cor] = coresEnum.azul;
+            estadoRestricao1[cor] = 'Aceito';
+            estadoRestricao1[forma] = 'Aceito';
+            estadoRestricao2[cor] = 'Aceito';
+            coresDistintas = 3;
+            formasDistintas = 4;
+            tamanhosDistintos = 1;
+            contornosDistintos = 2;
+            startDiagrama2([restricao1[forma],restricao1[cor]],[restricao2[cor]],[0,1],[1],false)
+            background(quantidade);
+            break;
+        case 11:
+            removeDiagram()
+            tamOpcoes = 4;
+            quantidade = 2;
+            restricao1[cor] = coresEnum.amarelo;
+            restricao1[tamanho] = tamanhoEnum.pequeno;
+            restricao2[tamanho] = tamanhoEnum.grande;
+            estadoRestricao1[cor] = 'Aceito';
+            estadoRestricao1[tamanho] = 'Aceito';
+            estadoRestricao2[tamanho] = 'Aceito';
+            coresDistintas = 2;
+            formasDistintas = 4;
+            tamanhosDistintos = 2;
+            contornosDistintos = 1;
+            startDiagrama2([restricao1[cor], restricao1[tamanho]],[restricao2[tamanho]],[1,2],[2],false)
+            background(quantidade);
+            break;
+        case 12:
+            removeDiagram()
+            tamOpcoes = 4;
+            quantidade = 3;
+            restricao1[contorno] = contornoEnum.semContorno;
+            restricao1[forma] = formasEnum.retangulo;
+            restricao2[cor] = coresEnum.vermelho;
+            estadoRestricao1[contorno] = 'Aceito';
+            estadoRestricao1[forma] = 'Aceito';
+            estadoRestricao2[cor] = 'Aceito';
+            coresDistintas = 2;
+            formasDistintas = 4;
+            tamanhosDistintos = 1;
+            contornosDistintos = 2;
+            startDiagrama2([restricao1[contorno],restricao1[forma]],[restricao2[cor]],[3,0],[1],true)
+            background(quantidade);
+            break;
+        case 13:
+            removeDiagram()
+            tamOpcoes = 4;
+            quantidade = 3;
+            restricao1[tamanho] = tamanhoEnum.pequeno;
+            restricao1[cor] = coresEnum.azul;
+            restricao2[forma] = formasEnum.circulo;
+            estadoRestricao1[tamanho] = 'Aceito';
+            estadoRestricao1[cor] = 'Aceito';
+            estadoRestricao2[forma] = 'Aceito';
+            coresDistintas = 3;
+            formasDistintas = 3;
+            tamanhosDistintos = 2;
+            contornosDistintos = 1;
+            startDiagrama2([restricao1[tamanho],restricao1[cor]],[restricao2[forma]],[2,1],[0],true);
+            background(quantidade);
+            endGame=true;
+            break;
+        default:	
+           return;
+    }
+}
+
 function game() {
     reset();
     //iniciar variaveis de controle
@@ -2413,13 +2664,383 @@ function createDiagram(rest1,rest2,type1,type2,inter)
     
 };
 
+function createDiagram2(rest1,rest2,type1,type2,inter)
+{	
+    backgroundColor = "#f2ebcf";
+	linkDashStyle = DashStyle.Solid; 
+	baseShape = null;
+	headShape = "Triangle";
+	headBrush = "#7F7F7F";
+    var la = 0;
+    var al = 0;
+    la = viewDiv.clientWidth;
+    al = viewDiv.clientHeight;
+    console.log("A altura da div é: " + al);
+    la = (la/3.77);
+    al = (al/3.77);
+    console.log("A altura depois da divisão é: " + al);
+
+	// Criação do componente diagrama
+	//diagram = AbstractionLayer.createControl(Diagram, null, null, null, $("#diagram")[0]);
+	diagram.setAllowInplaceEdit(false);
+	diagram.setRouteLinks(false);
+	diagram.setShowGrid(false);
+	diagram.setUndoEnabled(true);
+    diagram.setRoundedLinks(false);
+    diagram.setAutoResize(false);
+	diagram.setBounds(new Rect(0,0,la, al));
+
+	var theme = new Theme();
+	var shapeNodeStyle = new Style();
+	shapeNodeStyle.setBrush({ type: 'SolidBrush', color: '#f2ebcf' });
+	shapeNodeStyle.setStroke("#7F7F7F");
+	shapeNodeStyle.setTextColor("#585A5C");
+	shapeNodeStyle.setFontName("Verdana");
+    shapeNodeStyle.setFontSize(3);
+    shapeNodeStyle.setShadowColor('');
+	theme.styles["std:ShapeNode"] = shapeNodeStyle;
+	var linkStyle = new Style();
+	linkStyle.setStroke("#7F7F7F");
+	linkStyle.setStrokeThickness(1.0);
+	linkStyle.setShadowColor('');
+	linkStyle.setTextColor("#585A5C");
+	linkStyle.setFontName("Verdana");
+	linkStyle.setFontSize(3);
+	theme.styles["std:DiagramLink"] = linkStyle;
+	diagram.setTheme(theme);	
+
+	diagram.addEventListener(Events.linkCreated, onLinkCreated);
+    diagram.addEventListener(Events.nodeCreated, onNodeCreated);
+	diagram.addEventListener(Events.nodeDeleting, onNodeDeleting);
+    iniciarDiagrama2(rest1,rest2,type1,type2,inter)
+    
+};
+
 window.addEventListener('resize', function () {
     removeDiagram();
-    criaFluxograma();
+    criaFluxograma2();
 });
 
 function startDiagrama(rest1,rest2,type1,type2,inter){
     iniciarDiagrama(rest1,rest2,type1,type2,inter)
+}
+
+function startDiagrama2(rest1,rest2,type1,type2,inter){
+    iniciarDiagrama2(rest1,rest2,type1,type2,inter)
+}
+
+function iniciarDiagrama2(rest1, rest2, type1, type2, inter) {
+    var width = window.screen.availWidth;
+    //var largura = 22;
+    var largura = width * 0.0165;
+    var altura = largura * 0.7599;
+    var espacoy = 2;
+    var formas = [];
+    
+    if(largura < 20.5){
+        for (i = 0; i < rest1.length; i++) {
+            switch (parseInt(type1[i])) {
+                case 0:
+                    switch (parseInt(rest1[i])) {
+                        case 0: rest1[i] = "Triângulo?"; break;
+                        case 1: rest1[i] = "Quadrado?"; break;
+                        case 2: rest1[i] = "Retângulo?"; break;
+                        case 3: rest1[i] = "Círculo?"; break;
+                    }
+                    ;
+                case 1:
+                    switch (parseInt(rest1[i])) {
+                        case 0: rest1[i] = "Azul?"; break;
+                        case 1: rest1[i] = "Vermelho?"; break;
+                        case 2: rest1[i] = "Amarelo?"; break;
+                    }
+                    ;
+                case 2:
+                    switch (parseInt(rest1[i])) {
+                        case 0: rest1[i] = "Grande?"; break;
+                        case 1: rest1[i] = "Pequeno?"; break;
+                    }
+                    ;
+                case 3:
+                    switch (parseInt(rest1[i])) {
+                        case 0: rest1[i] = "Borda?"; break;
+                        case 1: rest1[i] = "Borda?"; break;
+                    }
+                    ;
+            }
+        }
+        for (i = 0; i < rest2.length; i++) {
+            switch (parseInt(type2[i])) {
+                case 0:
+                    switch (parseInt(rest2[i])) {
+                        case 0: rest2[i] = "Triângulo?"; break;
+                        case 1: rest2[i] = "Quadrado?"; break;
+                        case 2: rest2[i] = "Retângulo?"; break;
+                        case 3: rest2[i] = "Círculo?"; break;
+                    }
+                    ;
+                case 1:
+                    switch (parseInt(rest2[i])) {
+                        case 0: rest2[i] = "Azul?"; break;
+                        case 1: rest2[i] = "Vermelho?"; break;
+                        case 2: rest2[i] = "Amarelo?"; break;
+                    }
+                    ;
+                case 2:
+                    switch (parseInt(rest2[i])) {
+                        case 0: rest2[i] = "Grande?"; break;
+                        case 1: rest2[i] = "Pequeno?"; break;
+                    }
+                    ;
+                case 3:
+                    switch (parseInt(rest2[i])) {
+                        case 0: rest2[i] = "Borda?"; break;
+                        case 1: rest2[i] = "Borda?"; break;
+                    }
+                    ;
+            }
+        }
+
+        for (let forma of rest1) {
+            formas.push(forma);
+        }
+        for (let forma of rest2) {
+            formas.push(forma);
+            if (inter) {
+                formas.push(forma);
+            }
+        }
+        var corNode = '#fbfc97';
+        var corDireita = '#fff5e6';
+        var corEsquerda = '#ecf8f9';
+        var corInter = '#eeefe1';
+        var corFimInicio = '#7ee0e0';
+        var corDescarta = '#ccff66';
+        var fonte = new Font("sans-serif", 2.8, true, false);
+
+        if (inter) {
+            decisionNode2 = diagram.getFactory().createShapeNode((width * 0.033), 100 - (altura * 2) - (espacoy), largura, altura * 0.66);
+            decisionNode2.setBrush(corInter);
+            decisionNode2.setFont(fonte); 
+            decisionNode2.setText("Interseção");
+        }
+        child7 = diagram.getFactory().createShapeNode((width * 0.049), 100 - (altura * 2 - espacoy * 10), largura * 0.75, altura * 0.66);
+        child7.setShape('Ellipse');
+        child7.setBrush(corFimInicio);
+        child7.setFont(fonte);
+        child7.setText("FIM");
+
+        // cria o node inicio
+        child1 = diagram.getFactory().createShapeNode((width * 0.049),1, largura * 0.75, altura * 0.66); //Parâmetros [x, y, largura, altura]
+        child1.setShape('Ellipse');
+        child1.setBrush(corFimInicio);
+        child1.setFont(fonte);
+        child1.setText("INÍCIO");
+        // cria os nodes de passos
+        child2 = diagram.getFactory().createShapeNode((width * 0.0074), 100 - (altura * 2) - (espacoy), largura, altura * 0.66);
+        child2.setBrush(corEsquerda);
+        child2.setFont(fonte);
+        child2.setText("Esquerda");
+
+        child5 = diagram.getFactory().createShapeNode((width * 0.0842), 100 - (altura * 2) - (espacoy), largura, altura * 0.66);
+        child5.setBrush(corDireita);
+        child5.setFont(fonte);
+        child5.setText("Direita");
+
+        child6 = diagram.getFactory().createShapeNode((width * 0.0623), 100 - (altura * 2) - (espacoy), largura, altura * 0.66);
+        child6.setFont(fonte);
+        child6.setBrush(corDescarta);
+        child6.setText("Não mover");
+
+        for (i = 0; i < formas.length; i++) {
+            switch (parseInt(i)) {
+                case 0: decisionNode1 = diagram.getFactory().createShapeNode((width * 0.0491) - largura / 10, altura * (1), largura, altura);; break;
+                case 1: if (rest1.length > 1) {
+                    decisionNode1 = diagram.getFactory().createShapeNode((width * 0.022), altura * (1.75), largura, altura);
+                }
+                else {
+                    decisionNode1 = diagram.getFactory().createShapeNode((width * 0.0623), altura * (1.75), largura, altura);
+                }
+                    break;
+                case 2: if (rest1.length > 1) {
+                    decisionNode1 = diagram.getFactory().createShapeNode((width * 0.0623), altura * (1.75), largura, altura);
+                }
+                else {
+                    decisionNode1 = diagram.getFactory().createShapeNode((width * 0.033), altura * (1.75) - espacoy, largura, altura);
+                }
+                    ; break;
+                case 3: if (rest1.length > 1) {
+                    decisionNode1 = diagram.getFactory().createShapeNode((width * 0.033), altura * (2.75) - espacoy, largura, altura);
+                }
+                else {
+                    decisionNode1 = diagram.getFactory().createShapeNode((width * 0.022), altura * (2.75), largura, altura);
+                }
+                    ; break;
+                case 4: if (rest1.length > 1) {
+                    decisionNode1 = diagram.getFactory().createShapeNode((width * 0.0623), altura * (2.75), largura, altura);
+                }
+                else {
+                    decisionNode1 = diagram.getFactory().createShapeNode((width * 0.033), altura * (2.75) - espacoy, largura, altura);
+                }
+                    ; break;
+            }
+            decisionNode1.setShape('Decision');
+            decisionNode1.setBrush(corNode);
+            decisionNode1.setFont(fonte);
+            decisionNode1.setText(formas[i]);
+        }
+    }else{
+        for (i = 0; i < rest1.length; i++) {
+            switch (parseInt(type1[i])) {
+                case 0:
+                    switch (parseInt(rest1[i])) {
+                        case 0: rest1[i] = "É triângulo?"; break;
+                        case 1: rest1[i] = "É quadrado?"; break;
+                        case 2: rest1[i] = "É retângulo?"; break;
+                        case 3: rest1[i] = "É círculo?"; break;
+                    }
+                    ;
+                case 1:
+                    switch (parseInt(rest1[i])) {
+                        case 0: rest1[i] = "É azul?"; break;
+                        case 1: rest1[i] = "É vermelho?"; break;
+                        case 2: rest1[i] = "É amarelo?"; break;
+                    }
+                    ;
+                case 2:
+                    switch (parseInt(rest1[i])) {
+                        case 0: rest1[i] = "É grande?"; break;
+                        case 1: rest1[i] = "É pequeno?"; break;
+                    }
+                    ;
+                case 3:
+                    switch (parseInt(rest1[i])) {
+                        case 0: rest1[i] = "tem borda?"; break;
+                        case 1: rest1[i] = "tem borda?"; break;
+                    }
+                    ;
+            }
+        }
+        for (i = 0; i < rest2.length; i++) {
+            switch (parseInt(type2[i])) {
+                case 0:
+                    switch (parseInt(rest2[i])) {
+                        case 0: rest2[i] = "É triângulo?"; break;
+                        case 1: rest2[i] = "É quadrado?"; break;
+                        case 2: rest2[i] = "É retângulo?"; break;
+                        case 3: rest2[i] = "É círculo?"; break;
+                    }
+                    ;
+                case 1:
+                    switch (parseInt(rest2[i])) {
+                        case 0: rest2[i] = "É azul?"; break;
+                        case 1: rest2[i] = "É vermelho?"; break;
+                        case 2: rest2[i] = "É amarelo?"; break;
+                    }
+                    ;
+                case 2:
+                    switch (parseInt(rest2[i])) {
+                        case 0: rest2[i] = "É grande?"; break;
+                        case 1: rest2[i] = "É pequeno?"; break;
+                    }
+                    ;
+                case 3:
+                    switch (parseInt(rest2[i])) {
+                        case 0: rest2[i] = "tem borda?"; break;
+                        case 1: rest2[i] = "tem borda?"; break;
+                    }
+                    ;
+            }
+        }
+        for (let forma of rest1) {
+            formas.push(forma);
+        }
+        for (let forma of rest2) {
+            formas.push(forma);
+            if (inter) {
+                formas.push(forma);
+            }
+        }
+        var corNode = '#fbfc97';
+        var corDireita = '#fff5e6';
+        var corEsquerda = '#ecf8f9';
+        var corInter = '#eeefe1';
+        var corFimInicio = '#7ee0e0';
+        var corDescarta = '#ccff66';
+        var fonte = new Font("sans-serif", 3, true, false);
+        
+        if (inter) {
+            decisionNode2 = diagram.getFactory().createShapeNode((width * 0.033), 100 - (altura * 2) - (espacoy), largura, altura * 0.66);
+            decisionNode2.setBrush(corInter);
+            decisionNode2.setFont(fonte); 
+            decisionNode2.setText("Colocar na interseção");
+        }
+        child7 = diagram.getFactory().createShapeNode((width * 0.049), 100 - (altura * 2 - espacoy * 10), largura * 0.75, altura * 0.66);
+        child7.setShape('Ellipse');
+        child7.setBrush(corFimInicio);
+        child7.setFont(fonte);
+        child7.setText("FIM");
+
+        // cria o node inicio
+        child1 = diagram.getFactory().createShapeNode((width * 0.049),1, largura * 0.75, altura * 0.66); //Parâmetros [x, y, largura, altura]
+        child1.setShape('Ellipse');
+        child1.setBrush(corFimInicio);
+        child1.setFont(fonte);
+        child1.setText("INÍCIO");
+        // cria os nodes de passos
+        child2 = diagram.getFactory().createShapeNode((width * 0.0074), 100 - (altura * 2) - (espacoy), largura, altura * 0.66);
+        child2.setBrush(corEsquerda);
+        child2.setFont(fonte);
+        child2.setText("Colocar na esquerda");
+
+        child5 = diagram.getFactory().createShapeNode((width * 0.0842), 100 - (altura * 2) - (espacoy), largura, altura * 0.66);
+        child5.setBrush(corDireita);
+        child5.setFont(fonte);
+        child5.setText("Colocar na direita");
+
+        child6 = diagram.getFactory().createShapeNode((width * 0.0623), 100 - (altura * 2) - (espacoy), largura, altura * 0.66);
+        child6.setFont(fonte);
+        child6.setBrush(corDescarta);
+        child6.setText("Não mover");
+
+        for (i = 0; i < formas.length; i++) {
+            switch (parseInt(i)) {
+                case 0: decisionNode1 = diagram.getFactory().createShapeNode((width * 0.0491) - largura / 10, altura * (1), largura, altura);; break;
+                case 1: if (rest1.length > 1) {
+                    decisionNode1 = diagram.getFactory().createShapeNode((width * 0.022), altura * (1.75), largura, altura);
+                }
+                else {
+                    decisionNode1 = diagram.getFactory().createShapeNode((width * 0.0623), altura * (1.75), largura, altura);
+                }
+                    break;
+                case 2: if (rest1.length > 1) {
+                    decisionNode1 = diagram.getFactory().createShapeNode((width * 0.0623), altura * (1.75), largura, altura);
+                }
+                else {
+                    decisionNode1 = diagram.getFactory().createShapeNode((width * 0.033), altura * (1.75) - espacoy, largura, altura);
+                }
+                    ; break;
+                case 3: if (rest1.length > 1) {
+                    decisionNode1 = diagram.getFactory().createShapeNode((width * 0.033), altura * (2.75) - espacoy, largura, altura);
+                }
+                else {
+                    decisionNode1 = diagram.getFactory().createShapeNode((width * 0.022), altura * (2.75), largura, altura);
+                }
+                    ; break;
+                case 4: if (rest1.length > 1) {
+                    decisionNode1 = diagram.getFactory().createShapeNode((width * 0.0623), altura * (2.75), largura, altura);
+                }
+                else {
+                    decisionNode1 = diagram.getFactory().createShapeNode((width * 0.033), altura * (2.75) - espacoy, largura, altura);
+                }
+                    ; break;
+            }
+            decisionNode1.setShape('Decision');
+            decisionNode1.setBrush(corNode);
+            decisionNode1.setFont(fonte);
+            decisionNode1.setText(formas[i]);
+        }
+    }
 }
 
 function iniciarDiagrama(rest1, rest2, type1, type2, inter) {
