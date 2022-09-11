@@ -1,0 +1,882 @@
+[
+	{
+		"random": {
+			"CARACTERISTIC.SHAPE": 4,
+			"CARACTERISTIC.COLOR": 1,
+			"CARACTERISTIC.SIZE": 1,
+			"CARACTERISTIC.OUTLINE": 1
+		},
+		"restrictionsLeft": [
+			[
+				"CARACTERISTIC.SHAPE.TRIANGLE",
+				true
+			]
+		],
+		"restrictionsRight": [
+			[
+				"CARACTERISTIC.SHAPE.SQUARE",
+				true
+			]
+		],
+		"numOptions": 4
+	},
+	{
+		"random": {
+			"CARACTERISTIC.SHAPE": 4,
+			"CARACTERISTIC.COLOR": 1,
+			"CARACTERISTIC.SIZE": 1,
+			"CARACTERISTIC.OUTLINE": 1
+		},
+		"restrictionsLeft": [
+			[
+				"CARACTERISTIC.SHAPE.CIRCLE",
+				true
+			]
+		],
+		"restrictionsRight": [
+			[
+				"CARACTERISTIC.SHAPE.RECTANGLE",
+				true
+			]
+		],
+		"numOptions": 4
+	},
+	{
+		"random": {
+			"CARACTERISTIC.SHAPE": 4,
+			"CARACTERISTIC.COLOR": 2,
+			"CARACTERISTIC.SIZE": 1,
+			"CARACTERISTIC.OUTLINE": 1
+		},
+		"restrictionsLeft": [
+			[
+				"CARACTERISTIC.SHAPE.CIRCLE",
+				true
+			]
+		],
+		"restrictionsRight": [
+			[
+				"CARACTERISTIC.SHAPE.TRIANGLE",
+				true
+			]
+		],
+		"numOptions": 5
+	},
+	{
+		"random": {
+			"CARACTERISTIC.SHAPE": 4,
+			"CARACTERISTIC.COLOR": 2,
+			"CARACTERISTIC.SIZE": 1,
+			"CARACTERISTIC.OUTLINE": 1
+		},
+		"restrictionsLeft": [
+			[
+				"CARACTERISTIC.SHAPE.RECTANGLE",
+				true
+			]
+		],
+		"restrictionsRight": [
+			[
+				"CARACTERISTIC.SHAPE.SQUARE",
+				true
+			]
+		],
+		"numOptions": 5
+	},
+	{
+		"random": {
+			"CARACTERISTIC.SHAPE": 4,
+			"CARACTERISTIC.COLOR": 3,
+			"CARACTERISTIC.SIZE": 1,
+			"CARACTERISTIC.OUTLINE": 1
+		},
+		"restrictionsLeft": [
+			[
+				"CARACTERISTIC.SHAPE.TRIANGLE",
+				true
+			]
+		],
+		"restrictionsRight": [
+			[
+				"CARACTERISTIC.SHAPE.SQUARE",
+				true
+			]
+		],
+		"numOptions": 6
+	},
+	{
+		"random": {
+			"CARACTERISTIC.SHAPE": 4,
+			"CARACTERISTIC.COLOR": 3,
+			"CARACTERISTIC.SIZE": 1,
+			"CARACTERISTIC.OUTLINE": 1
+		},
+		"restrictionsLeft": [
+			[
+				"CARACTERISTIC.SHAPE.TRIANGLE",
+				true
+			]
+		],
+		"restrictionsRight": [
+			[
+				"CARACTERISTIC.SHAPE.RECTANGLE",
+				true
+			]
+		],
+		"numOptions": 7
+	},
+	{
+		"random": {
+			"CARACTERISTIC.SHAPE": 3,
+			"CARACTERISTIC.COLOR": 3,
+			"CARACTERISTIC.SIZE": 1,
+			"CARACTERISTIC.OUTLINE": 2
+		},
+		"restrictionsLeft": [
+			[
+				"CARACTERISTIC.SHAPE.TRIANGLE",
+				true
+			]
+		],
+		"restrictionsRight": [
+			[
+				"CARACTERISTIC.SHAPE.RECTANGLE",
+				true
+			]
+		],
+		"numOptions": 6
+	},
+	{
+		"random": {
+			"CARACTERISTIC.SHAPE": 4,
+			"CARACTERISTIC.COLOR": 2,
+			"CARACTERISTIC.SIZE": 1,
+			"CARACTERISTIC.OUTLINE": 1
+		},
+		"restrictionsLeft": [
+			[
+				"CARCATERISTIC.COLOR.BLUE",
+				true
+			]
+		],
+		"restrictionsRight": [
+			[
+				"CARCATERISTIC.COLOR.YELLOW",
+				true
+			]
+		],
+		"numOptions": 6
+	},
+	{
+		"random": {
+			"CARACTERISTIC.SHAPE": 4,
+			"CARACTERISTIC.COLOR": 3,
+			"CARACTERISTIC.SIZE": 1,
+			"CARACTERISTIC.OUTLINE": 1
+		},
+		"restrictionsLeft": [
+			[
+				"CARCATERISTIC.COLOR.YELLOW",
+				true
+			]
+		],
+		"restrictionsRight": [
+			[
+				"CARCATERISTIC.COLOR.RED",
+				true
+			]
+		],
+		"numOptions": 6
+	},
+	{
+		"random": {
+			"CARACTERISTIC.SHAPE": 2,
+			"CARACTERISTIC.COLOR": 3,
+			"CARACTERISTIC.SIZE": 1,
+			"CARACTERISTIC.OUTLINE": 1
+		},
+		"restrictionsLeft": [
+			[
+				"CARCATERISTIC.COLOR.RED",
+				true
+			]
+		],
+		"restrictionsRight": [
+			[
+				"CARCATERISTIC.COLOR.YELLOW",
+				true
+			]
+		],
+		"numOptions": 5
+	},
+	{
+		"random": {
+			"CARACTERISTIC.SHAPE": 4,
+			"CARACTERISTIC.COLOR": 1,
+			"CARACTERISTIC.SIZE": 2,
+			"CARACTERISTIC.OUTLINE": 1
+		},
+		"restrictionsLeft": [
+			[
+				"CARACTERISTIC.SIZE.SMALL",
+				true
+			]
+		],
+		"restrictionsRight": [
+			[
+				"CARACTERISTIC.SIZE.BIG",
+				true
+			]
+		],
+		"numOptions": 6
+	},
+	{
+		"random": {
+			"CARACTERISTIC.SHAPE": 4,
+			"CARACTERISTIC.COLOR": 2,
+			"CARACTERISTIC.SIZE": 1,
+			"CARACTERISTIC.OUTLINE": 1
+		},
+		"restrictionsLeft": [
+			[
+				"CARCATERISTIC.COLOR.BLUE",
+				true
+			]
+		],
+		"restrictionsRight": [
+			[
+				"CARACTERISTIC.SHAPE.SQUARE",
+				true
+			]
+		],
+		"numOptions": 4
+	},
+	{
+		"random": {
+			"CARACTERISTIC.SHAPE": 4,
+			"CARACTERISTIC.COLOR": 2,
+			"CARACTERISTIC.SIZE": 1,
+			"CARACTERISTIC.OUTLINE": 1
+		},
+		"restrictionsLeft": [
+			[
+				"CARCATERISTIC.COLOR.YELLOW",
+				true
+			]
+		],
+		"restrictionsRight": [
+			[
+				"CARACTERISTIC.SHAPE.RECTANGLE",
+				true
+			]
+		],
+		"numOptions": 6
+	},
+	{
+		"random": {
+			"CARACTERISTIC.SHAPE": 4,
+			"CARACTERISTIC.COLOR": 2,
+			"CARACTERISTIC.SIZE": 1,
+			"CARACTERISTIC.OUTLINE": 1
+		},
+		"restrictionsLeft": [
+			[
+				"CARACTERISTIC.SHAPE.CIRCLE",
+				true
+			]
+		],
+		"restrictionsRight": [
+			[
+				"CARCATERISTIC.COLOR.RED",
+				true
+			]
+		],
+		"numOptions": 7
+	},
+	{
+		"random": {
+			"CARACTERISTIC.SHAPE": 4,
+			"CARACTERISTIC.COLOR": 3,
+			"CARACTERISTIC.SIZE": 1,
+			"CARACTERISTIC.OUTLINE": 1
+		},
+		"restrictionsLeft": [
+			[
+				"CARCATERISTIC.COLOR.RED",
+				true
+			]
+		],
+		"restrictionsRight": [
+			[
+				"CARACTERISTIC.SHAPE.TRIANGLE",
+				true
+			]
+		],
+		"numOptions": 7
+	},
+	{
+		"random": {
+			"CARACTERISTIC.SHAPE": 2,
+			"CARACTERISTIC.COLOR": 3,
+			"CARACTERISTIC.SIZE": 1,
+			"CARACTERISTIC.OUTLINE": 1
+		},
+		"restrictionsLeft": [
+			[
+				"CARCATERISTIC.COLOR.BLUE",
+				true
+			]
+		],
+		"restrictionsRight": [
+			[
+				"CARACTERISTIC.SHAPE.RECTANGLE",
+				true
+			]
+		],
+		"numOptions": 5
+	},
+	{
+		"random": {
+			"CARACTERISTIC.SHAPE": 2,
+			"CARACTERISTIC.COLOR": 3,
+			"CARACTERISTIC.SIZE": 1,
+			"CARACTERISTIC.OUTLINE": 2
+		},
+		"restrictionsLeft": [
+			[
+				"CARACTERISTIC.SHAPE.CIRCLE",
+				true
+			]
+		],
+		"restrictionsRight": [
+			[
+				"CARCATERISTIC.COLOR.YELLOW",
+				true
+			]
+		],
+		"numOptions": 6
+	},
+	{
+		"random": {
+			"CARACTERISTIC.SHAPE": 4,
+			"CARACTERISTIC.COLOR": 1,
+			"CARACTERISTIC.SIZE": 2,
+			"CARACTERISTIC.OUTLINE": 1
+		},
+		"restrictionsLeft": [
+			[
+				"CARACTERISTIC.SHAPE.TRIANGLE",
+				true
+			]
+		],
+		"restrictionsRight": [
+			[
+				"CARACTERISTIC.SIZE.SMALL",
+				true
+			]
+		],
+		"numOptions": 6
+	},
+	{
+		"random": {
+			"CARACTERISTIC.SHAPE": 4,
+			"CARACTERISTIC.COLOR": 1,
+			"CARACTERISTIC.SIZE": 2,
+			"CARACTERISTIC.OUTLINE": 1
+		},
+		"restrictionsLeft": [
+			[
+				"CARACTERISTIC.SIZE.BIG",
+				true
+			]
+		],
+		"restrictionsRight": [
+			[
+				"CARACTERISTIC.SHAPE.SQUARE",
+				true
+			]
+		],
+		"numOptions": 6
+	},
+	{
+		"random": {
+			"CARACTERISTIC.SHAPE": 2,
+			"CARACTERISTIC.COLOR": 3,
+			"CARACTERISTIC.SIZE": 1,
+			"CARACTERISTIC.OUTLINE": 2
+		},
+		"restrictionsLeft": [
+			[
+				"CARACTERISTIC.OUTLINE.OUTLINED",
+				true
+			]
+		],
+		"restrictionsRight": [
+			[
+				"CARCATERISTIC.COLOR.RED",
+				true
+			]
+		],
+		"numOptions": 6
+	},
+	{
+		"random": {
+			"CARACTERISTIC.SHAPE": 3,
+			"CARACTERISTIC.COLOR": 3,
+			"CARACTERISTIC.SIZE": 2,
+			"CARACTERISTIC.OUTLINE": 1
+		},
+		"restrictionsLeft": [
+			[
+				"CARCATERISTIC.COLOR.BLUE",
+				true
+			]
+		],
+		"restrictionsRight": [
+			[
+				"CARACTERISTIC.SIZE.SMALL",
+				true
+			]
+		],
+		"numOptions": 7
+	},
+	{
+		"random": {
+			"CARACTERISTIC.SHAPE": 4,
+			"CARACTERISTIC.COLOR": 3,
+			"CARACTERISTIC.SIZE": 1,
+			"CARACTERISTIC.OUTLINE": 2
+		},
+		"restrictionsLeft": [
+			[
+				"CARACTERISTIC.SHAPE.SQUARE",
+				true
+			],
+			[
+				"CARCATERISTIC.COLOR.RED",
+				true
+			]
+		],
+		"restrictionsRight": [
+			[
+				"CARACTERISTIC.OUTLINE.NOTOUTLINED",
+				true
+			]
+		],
+		"numOptions": 8
+	},
+	{
+		"random": {
+			"CARACTERISTIC.SHAPE": 4,
+			"CARACTERISTIC.COLOR": 3,
+			"CARACTERISTIC.SIZE": 1,
+			"CARACTERISTIC.OUTLINE": 1
+		},
+		"restrictionsLeft": [
+			[
+				"CARCATERISTIC.COLOR.YELLOW",
+				true
+			]
+		],
+		"restrictionsRight": [
+			[
+				"CARACTERISTIC.SHAPE.SQUARE",
+				true
+			]
+		],
+		"numOptions": 8
+	},
+	{
+		"random": {
+			"CARACTERISTIC.SHAPE": 4,
+			"CARACTERISTIC.COLOR": 1,
+			"CARACTERISTIC.SIZE": 1,
+			"CARACTERISTIC.OUTLINE": 2
+		},
+		"restrictionsLeft": [
+			[
+				"CARACTERISTIC.SHAPE.TRIANGLE",
+				true
+			]
+		],
+		"restrictionsRight": [
+			[
+				"CARACTERISTIC.OUTLINE.NOTOUTLINED",
+				true
+			]
+		],
+		"numOptions": 7
+	},
+	{
+		"random": {
+			"CARACTERISTIC.SHAPE": 4,
+			"CARACTERISTIC.COLOR": 1,
+			"CARACTERISTIC.SIZE": 1,
+			"CARACTERISTIC.OUTLINE": 2
+		},
+		"restrictionsLeft": [
+			[
+				"CARACTERISTIC.SHAPE.TRIANGLE",
+				true
+			]
+		],
+		"restrictionsRight": [
+			[
+				"CARACTERISTIC.OUTLINE.OUTLINED",
+				true
+			]
+		],
+		"numOptions": 7
+	},
+	{
+		"random": {
+			"CARACTERISTIC.SHAPE": 4,
+			"CARACTERISTIC.COLOR": 2,
+			"CARACTERISTIC.SIZE": 1,
+			"CARACTERISTIC.OUTLINE": 2
+		},
+		"restrictionsLeft": [
+			[
+				"CARACTERISTIC.SHAPE.RECTANGLE",
+				true
+			],
+			[
+				"CARACTERISTIC.OUTLINE.NOTOUTLINED",
+				true
+			]
+		],
+		"restrictionsRight": [
+			[
+				"CARCATERISTIC.COLOR.RED",
+				true
+			]
+		],
+		"numOptions": 7
+	},
+	{
+		"random": {
+			"CARACTERISTIC.SHAPE": 4,
+			"CARACTERISTIC.COLOR": 2,
+			"CARACTERISTIC.SIZE": 2,
+			"CARACTERISTIC.OUTLINE": 1
+		},
+		"restrictionsLeft": [
+			[
+				"CARACTERISTIC.SHAPE.SQUARE",
+				true
+			]
+		],
+		"restrictionsRight": [
+			[
+				"CARCATERISTIC.COLOR.BLUE",
+				true
+			],
+			[
+				"CARACTERISTIC.SIZE.BIG",
+				true
+			]
+		],
+		"numOptions": 7
+	},
+	{
+		"random": {
+			"CARACTERISTIC.SHAPE": 1,
+			"CARACTERISTIC.COLOR": 3,
+			"CARACTERISTIC.SIZE": 2,
+			"CARACTERISTIC.OUTLINE": 2
+		},
+		"restrictionsLeft": [
+			[
+				"CARACTERISTIC.SHAPE.RECTANGLE",
+				true
+			],
+			[
+				"CARACTERISTIC.SIZE.BIG",
+				true
+			]
+		],
+		"restrictionsRight": [
+			[
+				"CARACTERISTIC.SIZE.BIG",
+				true
+			],
+			[
+				"CARACTERISTIC.OUTLINE.NOTOUTLINED",
+				true
+			]
+		],
+		"numOptions": 7
+	},
+	{
+		"random": {
+			"CARACTERISTIC.SHAPE": 3,
+			"CARACTERISTIC.COLOR": 3,
+			"CARACTERISTIC.SIZE": 2,
+			"CARACTERISTIC.OUTLINE": 1
+		},
+		"restrictionsLeft": [
+			[
+				"CARCATERISTIC.COLOR.BLUE",
+				true
+			],
+			[
+				"CARACTERISTIC.SIZE.SMALL",
+				true
+			]
+		],
+		"restrictionsRight": [
+			[
+				"CARACTERISTIC.SHAPE.CIRCLE",
+				true
+			]
+		],
+		"numOptions": 7
+	},
+	{
+		"random": {
+			"CARACTERISTIC.SHAPE": 2,
+			"CARACTERISTIC.COLOR": 3,
+			"CARACTERISTIC.SIZE": 2,
+			"CARACTERISTIC.OUTLINE": 2
+		},
+		"restrictionsLeft": [
+			[
+				"CARACTERISTIC.SHAPE.TRIANGLE",
+				true
+			],
+			[
+				"CARCATERISTIC.COLOR.YELLOW",
+				true
+			]
+		],
+		"restrictionsRight": [
+			[
+				"CARACTERISTIC.SIZE.BIG",
+				true
+			],
+			[
+				"CARACTERISTIC.OUTLINE.NOTOUTLINED",
+				true
+			]
+		],
+		"numOptions": 7
+	},
+	{
+		"random": {
+			"CARACTERISTIC.SHAPE": 4,
+			"CARACTERISTIC.COLOR": 3,
+			"CARACTERISTIC.SIZE": 1,
+			"CARACTERISTIC.OUTLINE": 1
+		},
+		"restrictionsLeft": [
+			[
+				"CARCATERISTIC.COLOR.BLUE",
+				false
+			]
+		],
+		"restrictionsRight": [
+			[
+				"CARACTERISTIC.SHAPE.TRIANGLE",
+				false
+			]
+		],
+		"numOptions": 7
+	},
+	{
+		"random": {
+			"CARACTERISTIC.SHAPE": 3,
+			"CARACTERISTIC.COLOR": 3,
+			"CARACTERISTIC.SIZE": 1,
+			"CARACTERISTIC.OUTLINE": 1
+		},
+		"restrictionsLeft": [
+			[
+				"CARCATERISTIC.COLOR.BLUE",
+				false
+			]
+		],
+		"restrictionsRight": [
+			[
+				"CARCATERISTIC.COLOR.RED",
+				false
+			]
+		],
+		"numOptions": 6
+	},
+	{
+		"random": {
+			"CARACTERISTIC.SHAPE": 2,
+			"CARACTERISTIC.COLOR": 3,
+			"CARACTERISTIC.SIZE": 2,
+			"CARACTERISTIC.OUTLINE": 2
+		},
+		"restrictionsLeft": [
+			[
+				"CARACTERISTIC.SHAPE.CIRCLE",
+				false
+			]
+		],
+		"restrictionsRight": [
+			[
+				"CARACTERISTIC.SIZE.BIG",
+				false
+			]
+		],
+		"numOptions": 6
+	},
+	{
+		"random": {
+			"CARACTERISTIC.SHAPE": 4,
+			"CARACTERISTIC.COLOR": 1,
+			"CARACTERISTIC.SIZE": 1,
+			"CARACTERISTIC.OUTLINE": 2
+		},
+		"restrictionsLeft": [
+			[
+				"CARACTERISTIC.SHAPE.TRIANGLE",
+				false
+			]
+		],
+		"restrictionsRight": [
+			[
+				"CARACTERISTIC.OUTLINE.NOTOUTLINED",
+				false
+			]
+		],
+		"numOptions": 7
+	},
+	{
+		"random": {
+			"CARACTERISTIC.SHAPE": 4,
+			"CARACTERISTIC.COLOR": 2,
+			"CARACTERISTIC.SIZE": 1,
+			"CARACTERISTIC.OUTLINE": 2
+		},
+		"restrictionsLeft": [
+			[
+				"CARACTERISTIC.SHAPE.RECTANGLE",
+				false
+			],
+			[
+				"CARACTERISTIC.OUTLINE.OUTLINED",
+				false
+			]
+		],
+		"restrictionsRight": [
+			[
+				"CARCATERISTIC.COLOR.YELLOW",
+				false
+			]
+		],
+		"numOptions": 7
+	},
+	{
+		"random": {
+			"CARACTERISTIC.SHAPE": 4,
+			"CARACTERISTIC.COLOR": 2,
+			"CARACTERISTIC.SIZE": 2,
+			"CARACTERISTIC.OUTLINE": 1
+		},
+		"restrictionsLeft": [
+			[
+				"CARACTERISTIC.SHAPE.SQUARE",
+				false
+			]
+		],
+		"restrictionsRight": [
+			[
+				"CARCATERISTIC.COLOR.BLUE",
+				false
+			],
+			[
+				"CARACTERISTIC.SIZE.SMALL",
+				false
+			]
+		],
+		"numOptions": 7
+	},
+	{
+		"random": {
+			"CARACTERISTIC.SHAPE": 2,
+			"CARACTERISTIC.COLOR": 3,
+			"CARACTERISTIC.SIZE": 1,
+			"CARACTERISTIC.OUTLINE": 2
+		},
+		"restrictionsLeft": [
+			[
+				"CARACTERISTIC.OUTLINE.NOTOUTLINED",
+				false
+			]
+		],
+		"restrictionsRight": [
+			[
+				"CARCATERISTIC.COLOR.RED",
+				true
+			]
+		],
+		"numOptions": 7
+	},
+	{
+		"random": {
+			"CARACTERISTIC.SHAPE": 4,
+			"CARACTERISTIC.COLOR": 1,
+			"CARACTERISTIC.SIZE": 2,
+			"CARACTERISTIC.OUTLINE": 2
+		},
+		"restrictionsLeft": [
+			[
+				"CARACTERISTIC.SHAPE.SQUARE",
+				false
+			]
+		],
+		"restrictionsRight": [
+			[
+				"CARACTERISTIC.SIZE.SMALL",
+				false
+			]
+		],
+		"numOptions": 7
+	},
+	{
+		"random": {
+			"CARACTERISTIC.SHAPE": 4,
+			"CARACTERISTIC.COLOR": 3,
+			"CARACTERISTIC.SIZE": 2,
+			"CARACTERISTIC.OUTLINE": 1
+		},
+		"restrictionsLeft": [
+			[
+				"CARCATERISTIC.COLOR.RED",
+				true
+			]
+		],
+		"restrictionsRight": [
+			[
+				"CARACTERISTIC.SHAPE.CIRCLE",
+				false
+			]
+		],
+		"numOptions": 8
+	},
+	{
+		"random": {
+			"CARACTERISTIC.SHAPE": 3,
+			"CARACTERISTIC.COLOR": 3,
+			"CARACTERISTIC.SIZE": 2,
+			"CARACTERISTIC.OUTLINE": 2
+		},
+		"restrictionsLeft": [
+			[
+				"CARACTERISTIC.OUTLINE.OUTLINED",
+				false
+			]
+		],
+		"restrictionsRight": [
+			[
+				"CARACTERISTIC.SIZE.SMALL",
+				true
+			]
+		],
+		"numOptions": 7
+	}
+]
