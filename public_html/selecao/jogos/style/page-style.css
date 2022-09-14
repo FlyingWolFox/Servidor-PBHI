@@ -41,7 +41,7 @@ body {
     min-height: 100vh;
     font-family: 'Roboto', Verdana, "Geneva", Tahoma, sans-serif;
     background-color: var(--cor-do-body);
-    padding: 60px;
+    /* padding: 60px; */
 }
 
 body.index-body {
@@ -68,7 +68,7 @@ h2 {
 
 .grid {
 
-    width: 100vw;
+    width: 100%;
     display: grid;
     grid-template-columns: 1fr minmax(300px, 7fr) 1fr;
     justify-content: center;
@@ -119,6 +119,13 @@ h2 {
 
 .margin-segundo-main {
     margin-bottom: 95px;
+}
+
+main#alterando-margem-1 {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 0.5fr 10fr 0.5fr;
+    justify-items: center;
 }
 
 #alterando-margem-1 {

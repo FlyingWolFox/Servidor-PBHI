@@ -26,6 +26,45 @@
         href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@100;300;400;500;700;800;900&display=swap"
         rel="stylesheet">
 
+    <style>
+        form#professores-form{
+            width: 100%;
+            height: 100%;
+
+            padding: 30px 0 0 30px;
+
+            display: flex;
+            flex-direction: column;
+            /* justify-content: center; */
+        }
+        section.form-section input.form-input{
+            width: 50%;
+            min-width: 300px;
+            margin-bottom: 35px;
+        }
+        p.sobre_input{
+            font-weight: 800;
+            font-size: 1.3em;
+            color: rgb(39, 39, 39);
+            margin: 10px 0;
+        }
+        input.botao{
+            width: fit-content;
+            height: fit-content;
+            padding: 10px 20px;
+            margin-bottom: 20px;
+            font-size: 1em;
+            color: var(--cor-do-body);
+            text-transform: uppercase;
+            font-weight: bold;
+            background: #65B335;
+            border: 5px solid #FFFFFF;
+            border-radius: 10px;
+        }
+        input.botao:hover{
+            cursor: pointer;
+        }
+    </style>
 </head>
 
 <body class="index-body">
@@ -58,16 +97,16 @@
                         <p class="menu-text">Contato</p>
                     </a>
                 </li>
-                <li class="menu-list-item selected">
-                    <a href="./materiasProfessores.html" class="menu-link" target="_blank">
+                <li class="menu-list-item ">
+                    <a href="./materiaisProfessores.html" class="menu-link">
                         <i class="menu-icon icofont-info"></i>
                         <p class="menu-text">Materiais para <br> Professores</p>
                     </a>
                 </li>
-                <li class="menu-list-item">
-                    <a href="./crieAtividade.html" class="menu-link">
+                <li class="menu-list-item selected">
+                    <a href="./professores.html" class="menu-link">
                         <i class="menu-icon icofont-atividade"></i>
-                        <p class="menu-text">Gerar <br> Atividade</p>
+                        <p class="menu-text">Acesso<br> Professores</p>
                     </a>
                 </li>
             </ul>
@@ -76,36 +115,20 @@
 
     <main class="grid">
         <section class="objective-main-section grid-center box-center">
-            <h2 class="objective-section-title">Materiais para Professores</h2>
-            
-           <p style="grid-column: 1/4; grid-row: 1; padding-top: 7px; font-size: 1.2rem;">Material explicativo do projeto e dos jogos educacionais para atividades em sala de aula.</p>
-            <section id="section-bt-professores" style="">
-               
-                 </br>           
-
-                <a href="./documentos/bases.pdf" id="botao-instrucoes-pdf" class="button-download " target="_blank">
-                    <h2 class="title-pdf">O Desenvolvimento das Bases do Pensamento Computacional na Interação com a Disciplina de Matemática</h2>
-                    <img class="img-download-pdf" src="./img/vector-download.png">
-                    <p class="subtitle-download-pdf">Clique aqui para baixar o pdf.</p>
-                </a>
-                <a href="./documentos/atividades_plataforma.pdf" id="botao-blocos-pdf" class="button-download">
-                    <h2 class="title-pdf">Guia de Uso das Atividades da Plataforma</h2>
-                    <img class="img-download-pdf" src="./img/vector-download.png">
-                    <p class="subtitle-download-pdf">Clique aqui para baixar o pdf.</p>
-                </a>
-                <a href="./documentos/atividades_desplugadas.pdf" id="botao-outros-pdf" class="button-download">
-                    <h2 class="title-pdf">Guia e Sugestões de Atividades Desplugadas</h2>
-                    <img class="img-download-pdf" src="./img/vector-download.png">
-                    <p class="subtitle-download-pdf">Clique aqui para baixar o pdf.</p>
-                </a>
-                
+            <h2 class="objective-section-title">Acesso Professores</h2>
+            <section id="section-bt-professores">
+                <form id="professores-form" onsubmit="send_mail()">
+                    <section class="form-section" style="grid-column: 1/2; grid-row: 1/3; width: 100%;">
+                        <p class="sobre_input">Diga seu email para criar ou atualizar seu código:</p>
+                        <input type="text" id="email_professor" class="form-input" name="emailProfessor" placeholder="Seu email">                
+                        <p class="sobre_input">Acesse se já tem um código:</p>
+                        <input type="text" id="codigo-professor" class="form-input" name="codigoProfessor" placeholder="Seu código">                
+                        <br>
+                        <input type="submit" class="botao" id="botao-resultado" value="Enviar">
+                    </section>
+                 </form>
             </section>
-            
-
-
         </section>
-
-
     </main>
 
     <footer class="footer-grid">
@@ -125,6 +148,12 @@
         </section>
     </footer>
     <script src="./script/page-script.js"></script>
+    <!-- <script src="./script/professores/mainPage.js"></script> -->
+    <script>
+        function send_mail(){
+            alert("passei")
+        }
+    </script>
 </body>
 
 </html>
