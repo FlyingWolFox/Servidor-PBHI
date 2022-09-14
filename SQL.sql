@@ -1,67 +1,73 @@
-CREATE TABLE Jogador 
+drop database temlogicadb;
+create database temlogicaDB;
+use temlogicaDB;
+
+CREATE TABLE jogador 
 ( 
- Nome CHAR(n),  
- ID INT PRIMARY KEY,  
- Ano INT,  
+ nome CHAR(30),  
+ id INT PRIMARY KEY,  
+ ano INT
 ); 
 
-CREATE TABLE Partida 
+CREATE TABLE partida 
 ( 
- ID INT,  
- Tempo_Partida INT,  
- Data_Hora INT,  
- Sucesso INT,  
- Fase_Atual INT,  
- ID_Jogador INT,  
- Nome_Jogo INT,  
+ id INT PRIMARY KEY,  
+ tempo_partida INT,  
+ data_Hora INT,  
+ sucesso INT,  
+ fase_Atual INT,  
+ id_jogador INT,  
+ nome_jogo INT 
 ); 
 
-CREATE TABLE Jogo 
+CREATE TABLE jogo 
 ( 
- Nome INT PRIMARY KEY,  
- Max_Fase INT,  
+ nome INT PRIMARY KEY,  
+ max_fase INT 
 ); 
 
-CREATE TABLE Interação 
+CREATE TABLE interacao 
 ( 
- Data_Hora INT,  
- Origem INT,  
- Destino INT,  
- Tipo_Ligacao INT,  
- ID_partida INT,  
- ID INT PRIMARY KEY,  
+ data_Hora INT,  
+ origem INT,  
+ destino INT,  
+ tipo_ligacao INT,  
+ id_partida INT,  
+ id INT PRIMARY KEY  
 ); 
 
-CREATE TABLE Atividade 
+CREATE TABLE atividade 
 ( 
- Codigo INT PRIMARY KEY,  
- Email_Professor INT,  
- Escola INT,  
- Turma INT,  
- Jogo INT,  
- Duracao INT,  
+ codigo INT PRIMARY KEY,  
+ email_professor INT,  
+ escola INT,  
+ turma INT,  
+ jogo INT,  
+ duracao INT
 ); 
 
-CREATE TABLE Professor 
+CREATE TABLE professor 
 ( 
- Email INT PRIMARY KEY,  
- Codigo INT,  
+ email INT PRIMARY KEY,  
+ codigo INT
 ); 
 
-CREATE TABLE Session 
+CREATE TABLE session 
 ( 
- ID INT PRIMARY KEY,  
- Data_Entrada INT,  
- Data_Saida INT,  
- Navegador INT,  
- Plataforma INT,  
- ID_Jogador INT,  
- ID_Atividade INT,  
+ id INT PRIMARY KEY,  
+ data_Entrada INT,  
+ data_Saida INT,  
+ navegador INT,  
+ plataforma INT,  
+ id_jogador INT,  
+ id_atividade INT  
 ); 
 
-ALTER TABLE Partida ADD FOREIGN KEY(ID_Jogador) REFERENCES Jogador (ID_Jogador)
-ALTER TABLE Partida ADD FOREIGN KEY(Nome_Jogo) REFERENCES Jogo (Nome_Jogo)
-ALTER TABLE Interação ADD FOREIGN KEY(ID_partida) REFERENCES Partida (ID_partida)
-ALTER TABLE Atividade ADD FOREIGN KEY(Email_Professor) REFERENCES Professor (Email_Professor)
-ALTER TABLE Session ADD FOREIGN KEY(ID_Jogador) REFERENCES Jogador (ID_Jogador)
-ALTER TABLE Session ADD FOREIGN KEY(ID_Atividade) REFERENCES Atividade (ID_Atividade)
+ALTER TABLE partida ADD FOREIGN KEY(id_jogador) REFERENCES jogador (id);
+ALTER TABLE partida ADD FOREIGN KEY(nome_jogo) REFERENCES Jogo (nome);
+ALTER TABLE interacao ADD FOREIGN KEY(id_partida) REFERENCES partida (id);
+ALTER TABLE atividade ADD FOREIGN KEY(email_professor) REFERENCES professor (email);
+ALTER TABLE session ADD FOREIGN KEY(id_jogador) REFERENCES jogador (id);
+ALTER TABLE session ADD FOREIGN KEY(id_atividade) REFERENCES atividade (codigo);
+
+
