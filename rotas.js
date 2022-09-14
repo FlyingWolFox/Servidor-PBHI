@@ -156,7 +156,7 @@ routerDefault.get('/getTaxaAcerto', async (req,res) => {
 routerDefault.get('/getAllPartidas', async (req,res) => {
     let fields = await sql.getAllPartidas();
     if(fields){
-        res.json(fields);
+        res.json(fields); 
     }
     else console.log("deu merda");
 })
