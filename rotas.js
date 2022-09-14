@@ -181,7 +181,7 @@ routerDefault.get('/getJogos', async (req, res) => {
 routerDefault.post('/getLink', async (req, res)=>{
     const id = nanoid(8)
     const datah_criacao = new Date()
-    const intervalo  = datah_criacao.getTime() + (3*60*1000)
+    const intervalo  = datah_criacao.getTime() + (req.body.duracao*60*1000)
     const criacao_UTC = datah_criacao.toISOString().slice(0, 19).replace('T', ' ');
     const datah_expiracao = new Date();
     datah_expiracao.setTime(intervalo);
@@ -190,8 +190,12 @@ routerDefault.post('/getLink', async (req, res)=>{
     //await sql.insertAtividade(id, "João Vittor", "Turma B", "Repetição", "Segundo Ano")
     const URL = 'localhost:3000/atividade/'+ id 
     console.log(req.body);
-    
-    res.send(URL);
+    if(!req.body){
+        res.send("Tá chegando vazio!")
+    }else{
+        res.send(URL);
+    }
+  
 })
 
 routerDefault.all('*', (req,res)=>{ 

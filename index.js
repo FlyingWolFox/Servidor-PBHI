@@ -1,6 +1,8 @@
 //requisições do express
 const express = require('express');
 const app = express();
+const multer = require('multer');
+const formParser = multer();
 const session = require('express-session');
 const logger = require('./logger.js');
 const routerDefault = require('./rotas');
@@ -69,7 +71,7 @@ app.use(express.static('./public_html'));
 //parser de url para o formulario, parser do body para as partidas
 app.use(express.urlencoded({extended:false}));
 app.use(express.json());
-
+app.use(formParser.array());
 
 
 // requisicoes do servidor
