@@ -135,7 +135,8 @@ img.game-img {
 
     margin-top: 10px;
     margin-left: 10px;
-    max-width: 30%;
+    width: 50px;
+    /* max-width: 75%; */
 
 }
 
@@ -597,6 +598,8 @@ section.restricao-esquerda {
     /* display: flex;
     flex-direction: column;
     align-items: flex-end; */
+    /* background-image: url('../img/bg-slot.svg');
+    background-repeat: no-repeat; */
 }
 
 img.img-restricao-esquerda {

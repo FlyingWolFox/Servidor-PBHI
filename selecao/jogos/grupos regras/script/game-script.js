@@ -1681,10 +1681,10 @@ function game() {
         imgTag.title = imgTag.alt;
         //imgTag.classList.add('drag');
         imgTag.classList.add('game-img');
-        imgTag.classList.add(item[CARACTERISTIC.SIZE] == CARACTERISTIC.SIZE.SMALL ? 'pequeno' : 'grande');
+        imgTag.classList.add(item[CARACTERISTIC.SIZE] === CARACTERISTIC.SIZE.SMALL ? 'pequeno' : 'grande');
+        imgTag.classList.add(item[CARACTERISTIC.SIZE] === CARACTERISTIC.SIZE.SMALL ? 'pequeno' : 'grande');
         //imgTag.classList.add('img-restricao-esquerda');
-        // divCaixaEsquerda.appendChild(imgTag);
-        divRestricaoEsquerda.appendChild(imgTag);
+        divCaixaEsquerda.appendChild(imgTag);
     });
 
     caixaDireitaItems.forEach(item => {
@@ -1696,8 +1696,7 @@ function game() {
         imgTag.classList.add('game-img');
         imgTag.classList.add(item[CARACTERISTIC.SIZE] == CARACTERISTIC.SIZE.SMALL ? 'pequeno' : 'grande');
         //imgTag.classList.add('img-restricao-esquerda');
-        // divCaixaDireita.appendChild(imgTag);
-        divRestricaoDireita.appendChild(imgTag);
+        divCaixaDireita.appendChild(imgTag);
     });
 
     caixaIntersecaoItems.forEach(item => {
