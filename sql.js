@@ -279,7 +279,7 @@ sql.obterJogos = async () => { //Obtem as linhas da tabela jogo
   })
 }
 
-//PAGINA DE LOGIN E CADASTRO DE PROFESSORES
+//================================================================== PAGINA DE LOGIN E CADASTRO DE PROFESSORES =========================================================================
 sql.salvarNovoProfessor = (email,id,nome) => {//Verifica o professor pelo código enviado
   return new Promise(resolve => {
     connection.query('insert into professor (email,codigo,nome_professor) values ("'+email+'","'+id+'","'+nome+'");',
@@ -290,9 +290,10 @@ sql.salvarNovoProfessor = (email,id,nome) => {//Verifica o professor pelo códig
     )
   })
 }
+
 sql.getProfessorByCodigo = (codigo) => {
   return new Promise(resolve => {
-    connection.query('SELECT * from professor where codigo='+codigo,
+    connection.query('select * from professor where codigo="'+codigo+'";',
       (error,results) => {
         if(error){console.log(error)}
         resolve(results)

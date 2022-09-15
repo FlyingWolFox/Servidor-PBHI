@@ -25,19 +25,22 @@ routerProfessores.post('/conferirProfessor', async (req, res, next) =>{
    
 })
 
-routerProfessores.post('/conferirCodigo', async (req, res, next) => {
+routerProfessores.post('/conferirCodigo', async (req, res) => {
     const codigo = req.body.codigo;
 
-    sql.getProfessorByCodigo(codigo)
+    let resultado = await sql.getProfessorByCodigo(codigo)
+    if(resultado.length > 0){
+        console.log(resultado)
+        res.json(resultado);
+    }
 })
 
-routerProfessores.post('/setProfessorCodigo', async (req, res, next) => {
+routerProfessores.post('/setProfessorCodigo', async (req, res) => {
     const email = req.body.email;
     const nome = req.body.nome;
-
     const id = nanoid(8);
 
-    sql.salvarNovoProfessor(email,id,nome)
+    await sql.salvarNovoProfessor(email,id,nome)
     send_mail(email,id)
     res.json(id)
 })
