@@ -9,6 +9,7 @@ const routerDefault = require('./rotas');
 const mysqlStore = require('express-mysql-session')(session);
 const connection = require('mysql2/promise');
 const routerAtividade = require('./rotasAtividade.js');
+const routerProfessores = require('./rotasProfessores.js');
 // const fs = require('fs');
 // const geoip = require('geoip-lite');
 const TWO_HOURS = 1000 * 60 * 60 * 2
@@ -77,6 +78,7 @@ app.use(formParser.array());
 // requisicoes do servidor
 app.set('trust proxy', true);
 //app.disable('etag');
+app.use('/professores', routerProfessores);
 app.use('/atividade', routerAtividade);
 app.use(routerDefault);
 
