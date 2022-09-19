@@ -1,9 +1,9 @@
 const express = require('express');
 const routerProfessores = express.Router()
-const sql = require("./sql.js");
-const sessao = require('./session');
+const sql = require("../sql.js");
+const sessao = require('../session');
 const nanoid = require('nanoid').nanoid;
-const send_mail = require('./sendmail.js');
+const send_mail = require('../sendmail.js');
 const jwt = require('jsonwebtoken');
 const useragent = require('express-useragent');
 

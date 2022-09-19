@@ -1,8 +1,8 @@
 const express = require('express');
 const routerAtividade = express.Router()
-const sql = require("./sql.js");
-const sessao = require('./session');
-const { addJogos, obterJogos } = require('./sql.js');
+const sql = require("../sql.js");
+const sessao = require('../session');
+const { addJogos, obterJogos } = require('../sql.js');
 
 const useragent = require('express-useragent');
 

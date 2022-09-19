@@ -3,9 +3,9 @@
 /* Arquivo de rotas default, aqui estão definidos os endpoints de comunicação dos jogos */
 const express = require('express');
 const routerDefault = express.Router()
-const sql = require("./sql.js");
-const sessao = require('./session');
-const { addJogos, obterJogos } = require('./sql.js');
+const sql = require("../sql.js");
+const sessao = require('../session');
+const { addJogos, obterJogos } = require('../sql.js');
 const nanoid = require('nanoid').nanoid;
 const useragent = require('express-useragent');
 
