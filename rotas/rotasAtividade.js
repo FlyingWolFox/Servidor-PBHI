@@ -38,13 +38,22 @@ routerAtividade.get('/:atividadeid', async (req, res, next) =>{
    
 })
 
-routerAtividade.post('/formAtividade.html',  (req, res) =>{
+
+routerAtividade.post('/getSessionAtividade',  async (req, res) =>{
+    const atividade_id = req.session.id_atividade
+    const atividade = await sql.getAtividadeById(atividade_id)
+    res.json(atividade)
+})
+
+routerAtividade.post('/formAtividade.html',  async (req, res) =>{
     const nome = req.body.nome;
     if(nome){
         console.log(nome);
+        const atividade_id = req.session.id_atividade
+        const atividade = await sql.getAtividadeById(atividade_id)
+        console.log(atividade)
         //puxa do bd a atividade, insere no bd o jogador(nome e ano) verifica qual é o jogo para depois redirecionar
-        res.send("Sucesso!")
-        //res.redirect("./selecao/jogos/repeticao/index.html")
+        res.redirect("./selecao/jogos/repeticao/index.html")
     }
 
 }) 
