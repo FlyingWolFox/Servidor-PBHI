@@ -1681,8 +1681,8 @@ function game() {
         imgTag.title = imgTag.alt;
         //imgTag.classList.add('drag');
         imgTag.classList.add('game-img');
-        imgTag.classList.add(item[CARACTERISTIC.SIZE] === CARACTERISTIC.SIZE.SMALL ? 'pequeno' : 'grande');
-        imgTag.classList.add(item[CARACTERISTIC.SIZE] === CARACTERISTIC.SIZE.SMALL ? 'pequeno' : 'grande');
+        imgTag.classList.add(item.get(CARACTERISTIC.SIZE) === CARACTERISTIC.SIZE.SMALL ? 'pequeno' : 'grande');
+        imgTag.classList.add(item.get(CARACTERISTIC.SIZE) === CARACTERISTIC.SIZE.SMALL ? 'pequeno' : 'grande');
         //imgTag.classList.add('img-restricao-esquerda');
         divCaixaEsquerda.appendChild(imgTag);
     });
@@ -1694,7 +1694,7 @@ function game() {
         imgTag.title = imgTag.alt;
         //imgTag.classList.add('drag');
         imgTag.classList.add('game-img');
-        imgTag.classList.add(item[CARACTERISTIC.SIZE] == CARACTERISTIC.SIZE.SMALL ? 'pequeno' : 'grande');
+        imgTag.classList.add(item.get(CARACTERISTIC.SIZE) == CARACTERISTIC.SIZE.SMALL ? 'pequeno' : 'grande');
         //imgTag.classList.add('img-restricao-esquerda');
         divCaixaDireita.appendChild(imgTag);
     });
@@ -1706,7 +1706,7 @@ function game() {
         imgTag.title = imgTag.alt;
         //imgTag.classList.add('drag');
         imgTag.classList.add('game-img');
-        imgTag.classList.add(item[CARACTERISTIC.SIZE] == CARACTERISTIC.SIZE.SMALL ? 'pequeno' : 'grande');
+        imgTag.classList.add(item.get(CARACTERISTIC.SIZE) == CARACTERISTIC.SIZE.SMALL ? 'pequeno' : 'grande');
         //imgTag.classList.add('img-restricao-esquerda');
         divCaixaIntersecao.appendChild(imgTag);
     });
