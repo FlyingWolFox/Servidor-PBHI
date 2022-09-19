@@ -138,9 +138,9 @@ sql.getAtividadeById = (id) =>{
       });
   });
 };
-sql.insertAtividade = (id, nome_professor, turma, jogo, ano, datah_criacao, datah_expiracao) =>{
+sql.insertAtividade = (id, nome_professor, turma, jogo, ano, datah_criacao, datah_expiracao, email, comentario) =>{
   return new Promise((resolve, reject)=>{
-      connection.query('INSERT INTO atividade (id_atividade, professor_nome, turma, jogo, ano) VALUES (?, ?, ?, ?, ?, ?, ?)', [id, nome_professor, turma, jogo, ano, datah_criacao, datah_expiracao], (error, result)=>{
+      connection.query('INSERT INTO atividade (id_atividade, professor_nome, turma, jogo, ano, datah_criacao, datah_expiracao, professor_email, comentario) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)', [id, nome_professor, turma, jogo, ano, datah_criacao, datah_expiracao, email, comentario], (error, result)=>{
           if(error){
               return reject(error);
           }

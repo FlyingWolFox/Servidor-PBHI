@@ -40,7 +40,7 @@ routerProfessores.post('/setProfessorCodigo', async (req, res) => {
     const nome = req.body.nome;
     const id = nanoid(8);
 
-    await sql.salvarNovoProfessor(email,id,nome)
+    await sql.salvarNovoProfessor(email,id,nome) // todo: trocar setar por update
     send_mail(email,id)
     res.json(id)
 })

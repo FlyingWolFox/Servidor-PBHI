@@ -14,15 +14,26 @@ routerAtividade.use(useragent.express());
 routerAtividade.get('/:atividadeid', async (req, res, next) =>{
     const id = req.params.atividadeid;
     const atividade = await sql.getAtividadeById(id);
+    const horaAtual = new Date().toISOString().slice(0, 19).replace('T', ' ');
+    const expira = atividade.datah_expiracao.toISOString().slice(0,19).replace('T', ' ');
+    console.log(atividade.datah_expiracao);
     if(atividade){
-        res.redirect("./public_html/atividade/formAtividade.html")
+        if(horaAtual < expira){
+            req.session.id_atividade = id;
+            console.log(horaAtual, expira);
+            res.redirect("../atividade/recepcaoAtividade.html");
+            
+        }else{
+            res.status(404).send("Parece que o link da sua atividade expirou ou não existe!");
+        }
+        
     }else{
         res.status(404).send("Parece que o link da sua atividade expirou ou não existe!");
     }
     //todo: verificar se a atividade consta no bd e se ela ainda está válida, se não constar avisar que o link para essa atividade expirou ou não existe
 
     
-    console.log(typeof(id));
+    console.log(typeof(atividade));
     //res.json("Você veio do meu link especial e o id da sua atividade é:" + id);
    
 })
