@@ -40,10 +40,21 @@ routerProfessores.post('/setProfessorCodigo', async (req, res) => {
     const nome = req.body.nome;
     const id = nanoid(8);
 
-    await sql.salvarNovoProfessor(email,id,nome) // todo: trocar setar por update
+    await sql.salvarNovoProfessor(email,id,nome) 
     send_mail(email,id)
-    res.json(id)
+    res.json("Email enviado com sucesso!")
 })
+
+routerProfessores.post('/UpdateProfessorCodigo', async (req, res) => {
+    
+    const email = req.body.email;
+    const id = nanoid(8);
+    console.log(email)
+    await sql.updateProfessor(email,id); 
+    send_mail(email,id);
+    res.json("Código atualizado com sucesso!")
+})
+
 
 routerProfessores.all('*', (req,res)=>{ 
      res.status(404).send('<h1>recurso não encontrado</h1');
