@@ -4,7 +4,7 @@ function formHandler(event){
  async function getLink() {
     const form = document.getElementById('crieAtividade-form');
     form.addEventListener('submit', formHandler);
-    const response = await fetch("/getLink", {method:'post', body: new FormData(form)});
+    const response = await fetch("/professores/getLink", {method:'post', body: new FormData(form)});
     var botao = document.getElementById('botao-resultado');
     botao.innerHTML = await response.text()
     console.log(botao.innerHTML)
@@ -35,7 +35,5 @@ async function getListaJogos(){
         }
     })
 }
-
-
 
 getListaJogos();

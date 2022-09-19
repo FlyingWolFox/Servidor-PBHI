@@ -69,6 +69,7 @@ routerProfessores.post('/UpdateProfessorCodigo', async (req, res) => {
 })
 
 routerProfessores.post('/getLink', async (req, res)=>{
+    console.log("Passei")
     const id = nanoid(8)
     const datah_criacao = new Date()
     const intervalo  = datah_criacao.getTime() + (req.body.duracao*60*1000)
@@ -77,7 +78,7 @@ routerProfessores.post('/getLink', async (req, res)=>{
     datah_expiracao.setTime(intervalo);
     const expiracao_UTC = datah_expiracao.toISOString().slice(0, 19).replace('T', ' ');
     console.log(criacao_UTC, expiracao_UTC);
-    await sql.insertAtividade(id, req.body.nomeProfessor, req.body.turma, req.body.nome_jogo,req.body.anoAtividade, criacao_UTC, expiracao_UTC, req.body.email, req.body.comentarioAtividade)
+    await sql.insertAtividade(id, req.body.nomeProfessor, req.body.escola,req.body.turma, req.body.nome_jogo,req.body.anoAtividade, criacao_UTC, expiracao_UTC, req.body.email, req.body.comentarioAtividade)
     const URL = 'localhost:3000/atividade/'+ id 
     console.log(req.body);
     if(!req.body){
