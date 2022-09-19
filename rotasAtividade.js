@@ -16,7 +16,6 @@ routerAtividade.get('/:atividadeid', async (req, res, next) =>{
     const atividade = await sql.getAtividadeById(id);
     const horaAtual = new Date().toISOString().slice(0, 19).replace('T', ' ');
     const expira = atividade.datah_expiracao.toISOString().slice(0,19).replace('T', ' ');
-    console.log(atividade.datah_expiracao);
     if(atividade){
         if(horaAtual < expira){
             req.session.id_atividade = id;
@@ -35,7 +34,6 @@ routerAtividade.get('/:atividadeid', async (req, res, next) =>{
     
     console.log(typeof(atividade));
     //res.json("Você veio do meu link especial e o id da sua atividade é:" + id);
-   
 })
 
 routerAtividade.post('/formAtividade.html',  (req, res) =>{

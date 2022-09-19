@@ -32,8 +32,8 @@ CREATE TABLE sessionp
 
 CREATE TABLE professor 
 ( 
- email VARCHAR(50) PRIMARY KEY NOT NULL,  
  codigo VARCHAR(8) NOT NULL UNIQUE,  
+ email VARCHAR(50) PRIMARY KEY NOT NULL,  
  nome_professor VARCHAR(45) NOT NULL
 );
 
@@ -50,7 +50,7 @@ CREATE TABLE partida
 
 CREATE TABLE jogo 
 ( 
- nome VARCHAR(30) PRIMARY KEY NOT NULL,  
+ nome_jogo VARCHAR(30) PRIMARY KEY NOT NULL,  
  max_fase INT
 );
 
@@ -75,32 +75,34 @@ CREATE TABLE interacao
 
 CREATE TABLE atividade 
 ( 
- codigo VARCHAR(8) PRIMARY KEY NOT NULL,  
+ id_atividade VARCHAR(8) PRIMARY KEY NOT NULL,  
  jogo VARCHAR(30) NOT NULL,  
- data_criacao TIMESTAMP NOT NULL,  
- data_expira TIMESTAMP NOT NULL,  
  escola VARCHAR(30) NOT NULL,  
  turma VARCHAR(10) NOT NULL,  
- nome_professor VARCHAR(45) NOT NULL,  
- email_professor VARCHAR(50) NOT NULL
+ datah_criacao TIMESTAMP NOT NULL,  
+ datah_expiracao TIMESTAMP NOT NULL,  
+ professor_nome VARCHAR(45) NOT NULL,  
+ professor_email VARCHAR(50) NOT NULL,
+ ano VARCHAR(30) NOT NULL,
+ comentario VARCHAR(300) 
 );
 
 ALTER TABLE partida ADD FOREIGN KEY(id_jogador) REFERENCES jogador (id);
-ALTER TABLE partida ADD FOREIGN KEY(nome_jogo) REFERENCES jogo (nome);
+ALTER TABLE partida ADD FOREIGN KEY(nome_jogo) REFERENCES jogo (nome_jogo);
 ALTER TABLE interacao ADD FOREIGN KEY(id_partida) REFERENCES partida (id);
-ALTER TABLE atividade ADD FOREIGN KEY(jogo) REFERENCES jogo (nome);
-ALTER TABLE atividade ADD FOREIGN KEY(email_professor) REFERENCES professor (email);
+ALTER TABLE atividade ADD FOREIGN KEY(jogo) REFERENCES jogo (nome_jogo);
+ALTER TABLE atividade ADD FOREIGN KEY(professor_email) REFERENCES professor (email);
 ALTER TABLE sessionp ADD FOREIGN KEY(id_jogador) REFERENCES jogador (id);
-ALTER TABLE sessionp ADD FOREIGN KEY(id_atividade) REFERENCES atividade (codigo);
+ALTER TABLE sessionp ADD FOREIGN KEY(id_atividade) REFERENCES atividade (id_atividade);
 
-INSERT INTO jogo (nome,max_fase) VALUES ('COMPLETAR', '24');
-INSERT INTO jogo (nome,max_fase) VALUES ('COMPLETAR COM NÚMEROS','24');
-INSERT INTO jogo (nome,max_fase) VALUES ('REPETIÇÃO','17');
-INSERT INTO jogo (nome,max_fase) VALUES ('SEQUÊNCIA DE NÚMEROS','24');
-INSERT INTO jogo (nome,max_fase) VALUES ('CRIAR PADRÃO','17');
-INSERT INTO jogo (nome,max_fase) VALUES ('GRUPOS','40');
-INSERT INTO jogo (nome,max_fase) VALUES ('LOGICS','30');
-INSERT INTO jogo (nome,max_fase) VALUES ('DOMINÓ DA DIFERENÇA','16');
-INSERT INTO jogo (nome,max_fase) VALUES ('FLUXOGRAMA','14');
-INSERT INTO jogo (nome,max_fase) VALUES ('SEQUÊNCIA DECRESCENTE' ,'24');
+INSERT INTO jogo (nome_jogo,max_fase) VALUES ('COMPLETAR', '24');
+INSERT INTO jogo (nome_jogo,max_fase) VALUES ('COMPLETAR COM NÚMEROS','24');
+INSERT INTO jogo (nome_jogo,max_fase) VALUES ('REPETIÇÃO','17');
+INSERT INTO jogo (nome_jogo,max_fase) VALUES ('SEQUÊNCIA DE NÚMEROS','24');
+INSERT INTO jogo (nome_jogo,max_fase) VALUES ('CRIAR PADRÃO','17');
+INSERT INTO jogo (nome_jogo,max_fase) VALUES ('GRUPOS','40');
+INSERT INTO jogo (nome_jogo,max_fase) VALUES ('LOGICS','30');
+INSERT INTO jogo (nome_jogo,max_fase) VALUES ('DOMINÓ DA DIFERENÇA','16');
+INSERT INTO jogo (nome_jogo,max_fase) VALUES ('FLUXOGRAMA','14');
+INSERT INTO jogo (nome_jogo,max_fase) VALUES ('SEQUÊNCIA DECRESCENTE' ,'24');
 
