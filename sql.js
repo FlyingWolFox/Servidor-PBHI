@@ -39,7 +39,6 @@ sql.getAllPartidas = () =>{
          });
       });
     };
-
     sql.getNaoFinalizados = () =>{
       return new Promise((resolve, reject)=>{
           connection.query('select jogador.nome, MAX(faseAtual) as UltimaFase, jogo.nFases as Total, (jogo.nFases) - MAX(faseAtual) as "NRespondidas" from partida join jogo on partida.nome_jogo = jogo.nome_jogo join jogador on partida.id_jogador = jogador.id_jogador where partida.nome_jogo = "COMPLETAR" group by partida.id_jogador having (jogo.nFases) - MAX(faseAtual) > 0 ', (error, results)=>{
@@ -219,12 +218,6 @@ sql.insertSession = (session_id, id_jogador, browser, platform) =>{
 });
 };
 
-
-sql.createTableAlunos = () => { //Cria uma tabela para os alunos
-    connection.query(
-        "create table if not exists alunos(id int auto_increment,nome varchar(30),ano varchar(30),primary key(id))"
-      );
-}
 sql.addAluno = (nome,ano) => { //Adiciona os dados nome e ano à tabela alunos
   return new Promise((resolve) => {
     connection.query(
@@ -234,41 +227,7 @@ sql.addAluno = (nome,ano) => { //Adiciona os dados nome e ano à tabela alunos
     )
   })
 }
-sql.createTableJogos = () => { //Cria a tabela para armazenar os jogos
-  connection.query(
-      "create table if not exists jogo(nome varchar(30),nFases int,primary key(nome))"
-    );
-}
-sql.addJogos = () => { //Cria a tabela para armazenar os jogos
-  connection.query(
-    "INSERT INTO jogo (nome_jogo,nFases) VALUES ('completar','24')"
-  );
-  connection.query(
-    "INSERT INTO jogo (nome_jogo,nFases) VALUES ('completar numeros','24')"
-  );
-  connection.query(
-    "INSERT INTO jogo (nome_jogo,nFases) VALUES ('repeticao','17')"
-  );
-  connection.query(
-    "INSERT INTO jogo (nome_jogo,nFases) VALUES ('sequencia de numeros','24')"
-  );
-  connection.query(
-    "INSERT INTO jogo (nome_jogo,nFases) VALUES ('criar padrao','17')"
-  );
-  connection.query(
-    "INSERT INTO jogo (nome_jogo,nFases) VALUES ('grupos','40')"
-  );
-  connection.query(
-    "INSERT INTO jogo (nome_jogo,nFases) VALUES ('logics','30')"
-    
-  );
-  connection.query(
-    "INSERT INTO jogo (nome_jogo,nFases) VALUES ('domino da diferenca','16')"
-  );
-  connection.query(
-    "INSERT INTO jogo (nome_jogo,nFases) VALUES ('fluxograma','14')"
-  );
-}
+
 sql.obterJogos = async () => { //Obtem as linhas da tabela jogo
   return new Promise(resolve => {
     connection.query("SELECT * FROM jogo",
@@ -280,6 +239,7 @@ sql.obterJogos = async () => { //Obtem as linhas da tabela jogo
 }
 
 //================================================================== PAGINA DE LOGIN E CADASTRO DE PROFESSORES =========================================================================
+
 sql.salvarNovoProfessor = (email,id,nome) => {//Verifica o professor pelo código enviado
   return new Promise(resolve => {
     connection.query('insert into professor (email,codigo,nome_professor) values ("'+email+'","'+id+'","'+nome+'");',
