@@ -37,3 +37,21 @@ async function send_email(){
         })
     });
 }
+
+async function update_codigo(){
+    const form = document.getElementById('updateProf-form');
+    form.addEventListener('submit', event.preventDefault());
+    const email = document.getElementById('emailProfessor').value;
+    console.log(email);
+    await fetch('/professores/UpdateProfessorCodigo',{
+        method:'POST',
+        headers : { 
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+           },
+        body: JSON.stringify({
+            email: email,
+
+        })
+    });
+}

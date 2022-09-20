@@ -290,7 +290,17 @@ sql.salvarNovoProfessor = (email,id,nome) => {//Verifica o professor pelo códig
     )
   })
 }
-
+sql.updateProfessor = (email, codigo) => {
+  return new Promise((resolve, reject)=>{
+    connection.query('update professor set codigo = ? where email = ?', [codigo, email], (error, result)=>{
+        if(error){
+            return reject(error);
+        }
+        
+          return resolve(result);
+    });
+});
+}
 sql.getProfessorByCodigo = (codigo) => {
   return new Promise(resolve => {
     connection.query('select * from professor where codigo="'+codigo+'";',
