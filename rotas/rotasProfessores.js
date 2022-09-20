@@ -31,15 +31,15 @@ routerProfessores.post('/conferirProfessor', async (req, res, next) =>{
 
 routerProfessores.post('/conferirCodigo', async (req, res) => {
     let codigo = req.body.codigo;
-
     let email = await sql.getProfessorByCodigo(codigo)
+    console.log(email)
     if(email.length > 0){
             let jwtSecretKey = JWT_SECRET_KEY;
             let data = {
                 email: email,
             }
           
-            const token = jwt.sign(data, jwtSecretKey);
+          const token = jwt.sign(data, jwtSecretKey);
           console.log(token)
           req.session.token = token;
             res.redirect(302, '/professores/OpcoesProfessores.html');
@@ -67,13 +67,12 @@ routerProfessores.post('/UpdateProfessorCodigo', async (req, res) => {
     const email = req.body.email;
     const nome = req.body.nome;
     const id = nanoid(8);
-    console.log(email)
     const professor = await sql.getProfessorByEmail(email);
-    if(professor){
+    if(professor.length > 0){
         await sql.updateProfessor(email,id); 
         res.json("Código atualizado com sucesso!")
     }else{
-        console.log("Nao deveria passar aqui")
+        console.log("Passei pelo salvar ")
         const salvo =  await sql.salvarNovoProfessor(email,id,nome) 
     }
     send_mail(email,id);
@@ -92,6 +91,8 @@ routerProfessores.get('/crieAtividade', async (req, res) => {
         res.status(401).send("Acesso não autorizado")
     }
 })
+
+//=================================================== Funções de GET ==================================================
 routerProfessores.post('/getLink', async (req, res)=>{
     console.log("Passei")
     const id = nanoid(8)

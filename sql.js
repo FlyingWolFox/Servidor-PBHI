@@ -127,16 +127,7 @@ sql.getJogadorByNomeAno = (nome, ano) =>{
         });
     });
 };
-sql.getAtividadeById = (id) =>{
-  return new Promise((resolve, reject)=>{
-      connection.query('SELECT * FROM atividade WHERE id_atividade = ?', [id], (error, result)=>{
-          if(error){
-              return reject(error);
-          }
-          return resolve(result[0]);
-      });
-  });
-};
+
 sql.insertAtividade = (id, nome_professor, escola, turma, jogo, ano, datah_criacao, datah_expiracao, email, comentario) =>{
   return new Promise((resolve, reject)=>{
       connection.query('INSERT INTO atividade (id_atividade, professor_nome, escola, turma, jogo, ano, datah_criacao, datah_expiracao, professor_email, comentario) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', [id, nome_professor, escola ,turma, jogo, ano, datah_criacao, datah_expiracao, email, comentario], (error, result)=>{
@@ -271,7 +262,6 @@ sql.getProfessorByCodigo = (codigo) => {
     )
   })
 }
-
 sql.getProfessorByEmail = (email) => {
   return new Promise(resolve => {
     connection.query('select * from professor where email="'+email+'";',
@@ -282,4 +272,17 @@ sql.getProfessorByEmail = (email) => {
     )
   })
 }
+
+//================================================================== GETS E SETS DA ATIVIDADE =========================================================================
+sql.getAtividadeById = (id) =>{
+  return new Promise((resolve, reject)=>{
+      connection.query('SELECT * FROM atividade WHERE id_atividade = ?', [id], (error, result)=>{
+          if(error){
+              return reject(error);
+          }
+          return resolve(result[0]);
+      });
+  });
+};
+
 module.exports = sql;

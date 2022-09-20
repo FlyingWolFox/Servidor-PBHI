@@ -5,6 +5,7 @@ const sessao = require('../session');
 
 
 const useragent = require('express-useragent');
+const { getAtividadeById } = require('../sql.js');
 
 
 
@@ -38,13 +39,6 @@ routerAtividade.get('/:atividadeid', async (req, res, next) =>{
    
 })
 
-
-routerAtividade.post('/getSessionAtividade',  async (req, res) =>{
-    const atividade_id = req.session.id_atividade
-    const atividade = await sql.getAtividadeById(atividade_id)
-    res.json(atividade)
-})
-
 routerAtividade.post('/formAtividade.html',  async (req, res) =>{
     const nome = req.body.nome;
     if(nome){
@@ -57,6 +51,19 @@ routerAtividade.post('/formAtividade.html',  async (req, res) =>{
     }
 
 }) 
+
+//=================================================== Funções de GET ==================================================
+
+routerAtividade.post('/getSessionAtividade',  async (req, res) =>{
+    const atividade_id = req.session.id_atividade
+    const atividade = await sql.getAtividadeById(atividade_id)
+    res.json(atividade)
+})
+
+routerAtividade.post('/getAtividadeDados', async (req, res) => {
+    const atividade = await getAtividadeById();
+
+})
 
 
 routerAtividade.all('*', (req,res)=>{ 

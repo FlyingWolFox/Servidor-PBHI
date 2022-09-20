@@ -14,7 +14,7 @@ async function logar_codigo(){
         })
     })
     resultado = await dados.json()
-    console.log(resultado[0])
+    console.log(resultado)
 }
 
 

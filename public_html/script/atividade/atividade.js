@@ -1,7 +1,12 @@
 window.addEventListener('load', async (event) => {
-    let dados_atividade = await fetch("/atividade/getSessionAtividade")
-    let nome_professor
+    const dados_atividade = await fetch("/atividade/getSessionAtividade")
+    const nome_professor = document.getElementById("nome_professor")
+    const data_encerramento = document.getElementById("data_encerramento")
+    const escola = document.getElementById("escola")
+    const turma = document.getElementById("turma")
+    const comentario = document.getElementById("comentario")
 
+    await fetch
 });
 
 async function conferirAluno(){
