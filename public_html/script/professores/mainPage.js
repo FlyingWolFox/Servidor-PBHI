@@ -13,7 +13,7 @@ async function logar_codigo(){
             codigo: codigo
         })
     })
-    resultado = await dados.json()
+    resultado = await dados.text()
     console.log(resultado[0])
 }
 
