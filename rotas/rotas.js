@@ -3,9 +3,9 @@
 /* Arquivo de rotas default, aqui estão definidos os endpoints de comunicação dos jogos */
 const express = require('express');
 const routerDefault = express.Router()
-const sql = require("../sql.js");
-const sessao = require('../session');
-const { addJogos, obterJogos } = require('../sql.js');
+const sql = require("./sql.js");
+const sessao = require('./session');
+const { addJogos, obterJogos } = require('./sql.js');
 const nanoid = require('nanoid').nanoid;
 const useragent = require('express-useragent');
 
@@ -177,25 +177,6 @@ routerDefault.get('/logout',  async (req, res)=>{
 routerDefault.get('/getJogos', async (req, res) => {
    const jogos = await sql.getJogos();
     res.json(jogos);
-})
-routerDefault.post('/getLink', async (req, res)=>{
-    const id = nanoid(8)
-    const datah_criacao = new Date()
-    const intervalo  = datah_criacao.getTime() + (req.body.duracao*60*1000)
-    const criacao_UTC = datah_criacao.toISOString().slice(0, 19).replace('T', ' ');
-    const datah_expiracao = new Date();
-    datah_expiracao.setTime(intervalo);
-    const expiracao_UTC = datah_expiracao.toISOString().slice(0, 19).replace('T', ' ');
-    console.log(criacao_UTC, expiracao_UTC);
-    await sql.insertAtividade(id, req.body.nomeProfessor, req.body.escola,req.body.turma, req.body.nome_jogo,req.body.anoAtividade, criacao_UTC, expiracao_UTC, req.body.email, req.body.comentarioAtividade)
-    const URL = 'localhost:3000/atividade/'+ id 
-    console.log(req.body);
-    if(!req.body){
-        res.send("Tá chegando vazio!")
-    }else{
-        res.send(URL);
-    }
-  
 })
 
 routerDefault.all('*', (req,res)=>{ 

@@ -1,8 +1,8 @@
 const express = require('express');
 const routerAtividade = express.Router()
-const sql = require("../sql.js");
-const sessao = require('../session');
-const { addJogos, obterJogos } = require('../sql.js');
+const sql = require("./sql.js");
+const sessao = require('./session');
+const { addJogos, obterJogos } = require('./sql.js');
 
 const useragent = require('express-useragent');
 
@@ -16,6 +16,7 @@ routerAtividade.get('/:atividadeid', async (req, res, next) =>{
     const atividade = await sql.getAtividadeById(id);
     const horaAtual = new Date().toISOString().slice(0, 19).replace('T', ' ');
     const expira = atividade.datah_expiracao.toISOString().slice(0,19).replace('T', ' ');
+    console.log(atividade.datah_expiracao);
     if(atividade){
         if(horaAtual < expira){
             req.session.id_atividade = id;
@@ -34,10 +35,7 @@ routerAtividade.get('/:atividadeid', async (req, res, next) =>{
     
     console.log(typeof(atividade));
     //res.json("Você veio do meu link especial e o id da sua atividade é:" + id);
-})
-
-routerAtividade.post('/getAtividadeInSession', async (req,res,next) => {
-    res.json(req.session.id_atividade);
+   
 })
 
 routerAtividade.post('/formAtividade.html',  (req, res) =>{

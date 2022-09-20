@@ -1,11 +1,15 @@
 const express = require('express');
 const routerProfessores = express.Router()
-const sql = require("../sql.js");
-const sessao = require('../session');
+const sql = require("./sql.js");
+const sessao = require('./session');
 const nanoid = require('nanoid').nanoid;
-const send_mail = require('../sendmail.js');
-
+const send_mail = require('./sendmail.js');
+const jwt = require('jsonwebtoken');
 const useragent = require('express-useragent');
+
+const JWT_SECRET_KEY = "sakpodkafau23482903423948alkdasdajopk";
+  
+const TOKEN_HEADER_KEY = "gfg_token_header_key";
 
 routerProfessores.use(useragent.express());
 
@@ -26,13 +30,22 @@ routerProfessores.post('/conferirProfessor', async (req, res, next) =>{
 })
 
 routerProfessores.post('/conferirCodigo', async (req, res) => {
-    const codigo = req.body.codigo;
+    let codigo = req.body.codigo;
 
-    let resultado = await sql.getProfessorByCodigo(codigo)
-    if(resultado.length > 0){
-        console.log(resultado)
-        res.json(resultado);
-    }
+    let email = await sql.getProfessorByCodigo(codigo)
+    if(email.length > 0){
+            let jwtSecretKey = JWT_SECRET_KEY;
+            let data = {
+                email: email,
+            }
+          
+            const token = jwt.sign(data, jwtSecretKey);
+          console.log(token)
+            res.send(token);
+        }
+       else{
+        res.status(401).send("Ocorreu um erro ao conferir o novo professor");
+       }
 })
 
 routerProfessores.post('/setProfessorCodigo', async (req, res) => {
@@ -40,9 +53,9 @@ routerProfessores.post('/setProfessorCodigo', async (req, res) => {
     const nome = req.body.nome;
     const id = nanoid(8);
 
-    await sql.salvarNovoProfessor(email,id,nome) 
+   const salvo =  await sql.salvarNovoProfessor(email,id,nome) 
     send_mail(email,id)
-    res.json("Email enviado com sucesso!")
+    res.json("Código enviado com sucesso!")
 })
 
 routerProfessores.post('/UpdateProfessorCodigo', async (req, res) => {
@@ -55,6 +68,25 @@ routerProfessores.post('/UpdateProfessorCodigo', async (req, res) => {
     res.json("Código atualizado com sucesso!")
 })
 
+routerProfessores.post('/getLink', async (req, res)=>{
+    const id = nanoid(8)
+    const datah_criacao = new Date()
+    const intervalo  = datah_criacao.getTime() + (req.body.duracao*60*1000)
+    const criacao_UTC = datah_criacao.toISOString().slice(0, 19).replace('T', ' ');
+    const datah_expiracao = new Date();
+    datah_expiracao.setTime(intervalo);
+    const expiracao_UTC = datah_expiracao.toISOString().slice(0, 19).replace('T', ' ');
+    console.log(criacao_UTC, expiracao_UTC);
+    await sql.insertAtividade(id, req.body.nomeProfessor, req.body.turma, req.body.nome_jogo,req.body.anoAtividade, criacao_UTC, expiracao_UTC, req.body.email, req.body.comentarioAtividade)
+    const URL = 'localhost:3000/atividade/'+ id 
+    console.log(req.body);
+    if(!req.body){
+        res.send("Tá chegando vazio!")
+    }else{
+        res.send(URL);
+    }
+  
+})
 
 routerProfessores.all('*', (req,res)=>{ 
      res.status(404).send('<h1>recurso não encontrado</h1');
