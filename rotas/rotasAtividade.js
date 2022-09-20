@@ -14,10 +14,11 @@ routerAtividade.use(useragent.express());
 
 routerAtividade.get('/:atividadeid', async (req, res, next) =>{
     const id = req.params.atividadeid;
-    const atividade = await sql.getAtividadeById(id);
+    const atividade = (await sql.getAtividadeById(id))[0];
+    console.log("Atividade: "+atividade)
+    console.log(atividade.datah_expiracao);
     const horaAtual = new Date().toISOString().slice(0, 19).replace('T', ' ');
     const expira = atividade.datah_expiracao.toISOString().slice(0,19).replace('T', ' ');
-    console.log(atividade.datah_expiracao);
     if(atividade){
         if(horaAtual < expira){
             req.session.id_atividade = id;
@@ -59,12 +60,6 @@ routerAtividade.post('/getSessionAtividade',  async (req, res) =>{
     const atividade = await sql.getAtividadeById(atividade_id)
     res.json(atividade)
 })
-
-routerAtividade.post('/getAtividadeDados', async (req, res) => {
-    const atividade = await getAtividadeById();
-
-})
-
 
 routerAtividade.all('*', (req,res)=>{ 
      res.status(404).send('<h1>recurso não encontrado</h1');
