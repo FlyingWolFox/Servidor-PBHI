@@ -272,5 +272,14 @@ sql.getProfessorByCodigo = (codigo) => {
   })
 }
 
-
+sql.getProfessorByEmail = (email) => {
+  return new Promise(resolve => {
+    connection.query('select * from professor where email="'+email+'";',
+      (error,results) => {
+        if(error){console.log(error)}
+        resolve(results)
+      }
+    )
+  })
+}
 module.exports = sql;

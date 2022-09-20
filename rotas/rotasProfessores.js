@@ -37,37 +37,63 @@ routerProfessores.post('/conferirCodigo', async (req, res) => {
             let jwtSecretKey = JWT_SECRET_KEY;
             let data = {
                 email: email,
+                codigo: codigo
+
             }
           
             const token = jwt.sign(data, jwtSecretKey);
           console.log(token)
-            res.send(token);
+          req.session.token = token;
+            res.redirect(302, '/professores/OpcoesProfessores.html');
         }
        else{
         res.status(401).send("Ocorreu um erro ao conferir o novo professor");
        }
 })
 
-routerProfessores.post('/setProfessorCodigo', async (req, res) => {
-    const email = req.body.email;
-    const nome = req.body.nome;
-    const id = nanoid(8);
-
-   const salvo =  await sql.salvarNovoProfessor(email,id,nome) 
-    send_mail(email,id)
-    res.json("Código enviado com sucesso!")
+routerProfessores.get('/OpcoesProfessores.html', async (req, res) => {
+    const token = req.session.token;
+    console.log(token);
+    const jwtSecretKey = JWT_SECRET_KEY
+    const verificado = jwt.verify(token, jwtSecretKey)
+    
+    if(verificado){
+         res.send("Sucesso")
+    }else{
+        res.status(401).send("Acesso não autorizado")
+    }
 })
 
 routerProfessores.post('/UpdateProfessorCodigo', async (req, res) => {
     
     const email = req.body.email;
+    const nome = req.body.nome;
     const id = nanoid(8);
     console.log(email)
-    await sql.updateProfessor(email,id); 
+    const professor = await sql.getProfessorByEmail(email);
+    if(professor){
+        await sql.updateProfessor(email,id); 
+        res.json("Código atualizado com sucesso!")
+    }else{
+        console.log("Nao deveria passar aqui")
+        const salvo =  await sql.salvarNovoProfessor(email,id,nome) 
+    }
     send_mail(email,id);
-    res.json("Código atualizado com sucesso!")
+    
 })
 
+routerProfessores.get('/crieAtividade', async (req, res) => {
+    const token = req.session.token;
+    console.log(token);
+    const jwtSecretKey = JWT_SECRET_KEY
+    const verificado = jwt.verify(token, jwtSecretKey)
+    
+    if(verificado){
+         res.redirect('/crieAtividade.html');
+    }else{
+        res.status(401).send("Acesso não autorizado")
+    }
+})
 routerProfessores.post('/getLink', async (req, res)=>{
     console.log("Passei")
     const id = nanoid(8)
