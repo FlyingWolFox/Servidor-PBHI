@@ -45,7 +45,7 @@ routerProfessores.post('/conferirCodigo', async (req, res) => {
             res.redirect(302, '/professores/OpcoesProfessores.html');
         }
        else{
-        res.status(401).send("Ocorreu um erro ao conferir o novo professor");
+        res.status(401).json("Ocorreu um erro ao conferir o novo professor");
        }
 })
 
