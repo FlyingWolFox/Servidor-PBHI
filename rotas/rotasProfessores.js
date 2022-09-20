@@ -37,8 +37,6 @@ routerProfessores.post('/conferirCodigo', async (req, res) => {
             let jwtSecretKey = JWT_SECRET_KEY;
             let data = {
                 email: email,
-                codigo: codigo
-
             }
           
             const token = jwt.sign(data, jwtSecretKey);
