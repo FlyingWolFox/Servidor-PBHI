@@ -1686,26 +1686,35 @@ function game() {
     // obter as regras comuns à todos items da interseção
     // se não há interseção, ou seja, interseção está vazia, esse array será vazio
     let regrasItemsIntersecao = intersecaoAtiva ? caixaIntersecaoItems.map(item => new Set(todasCaracteristicas.map(caracteristica => [caracteristica, caracteristica == item[CARACTERISTIC.getClass(caracteristica)] ? ACCEPTED : REJECTED]))) : [];
-    let regrasUsadas = [].concat(
+    // array index is equivalent to todasCaracteristicas index, value is a bitset:
+    // bit 0 - if the caracteristic is rejected (1 << REJECTED --> 1 << false --> 1 << 0 --> 1)
+    // bit 1 - if the caracteristic is accepted (1 << ACCEPTED --> 1 << true --> 1 << 1 --> 2)
+    regrasItemsIntersecao = caixaIntersecaoItems.map(item => todasCaracteristicas.map(caracteristica => 1 << (caracteristica == item.get(CARACTERISTIC.getClass(caracteristica)))));
+    let regrasUsadas = [
                                  // obter as regras comuns à todos items em cada uma das caixas
-                                 caixaEsquerdaItems.map(item => new Set(
-                                                                        // obtem as restrições de cada forma. Todas as características que a forma possui são aceitas, as que não possui são rejeitadas
-                                                                        // (ex: se a forma é quadrada, então a característica quadrado é aceita e as características retângulo, círculo e triângulo são rejeitadas)
-                                                                        // o resultado é um conjunto no estilo [[característica, aceito/rejeitado], [característica, aceito/rejeitado], ...]
-                                                                        todasCaracteristicas.map(caracteristica => [caracteristica, caracteristica == item.get(CARACTERISTIC.getClass(caracteristica)) ? ACCEPTED : REJECTED])
-                                                                       ))
-                                                 .concat(regrasItemsIntersecao) // concatena as formas da interseção, já que também fazem parte da caixa esquerda
-                                                 .reduce(setIntersection, new Set(todasCaracteristicas)), // obtem a interseção das regras de todas as formas da caixa, retornando um conjunto de todas as regras aplicaveis a essa caixa
-                                 caixaDireitaItems.map(item => new Set(
-                                                                     todasCaracteristicas.map(caracteristica => [caracteristica, caracteristica == item.get(CARACTERISTIC.getClass(caracteristica)) ? ACCEPTED : REJECTED])
-                                                                      ))
-                                                 .concat(regrasItemsIntersecao)
-                                                 .reduce(setIntersection, new Set(todasCaracteristicas))
-                                ).reduce(setUnion, new Set()); // une todas as regras de todas as caixas
-    // TODO: maybe use set operations?
-    let regrasNaoUsadas = todasCaracteristicas.map(caracteristica => [[caracteristica, ACCEPTED], [caracteristica, REJECTED]]) // obtem todas as regras possíveis
-                                              .flat()
-                                              .filter(i => !regrasUsadas.has(i));
+                                                                // obtem as restrições de cada forma. Todas as características que a forma possui são aceitas, as que não possui são rejeitadas
+                                                                // (ex: se a forma é quadrada, então a característica quadrado é aceita e as características retângulo, círculo e triângulo são rejeitadas)
+                                                                // o resultado é um conjunto no estilo [[característica, aceito/rejeitado], [característica, aceito/rejeitado], ...]
+                                 caixaEsquerdaItems.map(item => todasCaracteristicas.map(caracteristica => 1 << (caracteristica == item.get(CARACTERISTIC.getClass(caracteristica)))))
+                                                   .concat(regrasItemsIntersecao) // concatena as formas da interseção, já que também fazem parte da caixa esquerda
+                                                   .reduce((a, c) => {c.forEach((el, i) => a[i].push(el)); return a;}, Array(todasCaracteristicas.length).fill(0).map(_ => [])) // zip all arrays inside of the array
+                                                   .map(el => el.reduce((a, c) => a & c)), // bitwise and all elements of the array // obtem a interseção das regras de todas as formas da caixa, retornando um conjunto de todas as regras aplicaveis a essa caixa
+                                 caixaDireitaItems.map(item => todasCaracteristicas.map(caracteristica => 1 << (caracteristica == item.get(CARACTERISTIC.getClass(caracteristica)))))
+                                                   .concat(regrasItemsIntersecao)
+                                                   .reduce((a, c) => {c.forEach((el, i) => a[i].push(el)); return a;}, Array(todasCaracteristicas.length).fill(0).map(_ => []))
+                                                   .map(el => el.reduce((a, c) => a & c))
+                                ].reduce((a, c) => {c.forEach((el, i) => a[i].push(el)); return a;}, Array(todasCaracteristicas.length).fill(0).map(_ => []))
+                                 .map(el => el.reduce((a, c) => a | c)); // une todas as regras de todas as caixas
+    regrasNaoUsadas = todasCaracteristicas.map(_ => (1 << ACCEPTED) || (1 << REJECTED)) // obtem todas as regras possíveis
+                                          .map((el, i) => el & ~regrasUsadas[i]) // remove as regras usadas
+                                          .map(el => {
+                                                // converte de bitset para aceito/rejeitado
+                                                let res = [];
+                                                if (el & (1 << ACCEPTED)) res.push(ACCEPTED);
+                                                if (el & (1 << REJECTED)) res.push(REJECTED);
+                                                return res;
+                                          })
+                                          .flatMap((el, i) => el.map(el => [todasCaracteristicas[i], el]));
     shuffleArray(regrasNaoUsadas);
 
     // completar as respostas com as regras incorretas para respostasItems ter currentStage.numOptions
