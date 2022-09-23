@@ -281,6 +281,16 @@ function getRandomIntInclusive(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
+function getNormalRandomIntInclusive(min, max) {
+    let random = 0;
+    for (let i = 0; i < 10; i++) {
+        random += Math.random();
+    }
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(random * (max - min + 1)) + min;
+}
+
 function getImgAlt(img) {
     var alt = '';
 
@@ -1624,7 +1634,7 @@ function game() {
     } else {
         shuffleArray(currentStage.restrictions);
         // TODO: use normal distribution here
-        leftBoxNumOfClasses = getRandomIntInclusive(1, currentStage.restrictions.length - 2);
+        leftBoxNumOfClasses = getNormalRandomIntInclusive(1, currentStage.restrictions.length - 2);
         let classRestrictionsLeft = currentStage.restrictions.slice(0, leftBoxNumOfClasses);
         let classRestrictionsRight = currentStage.restrictions.slice(leftBoxNumOfClasses);
 
