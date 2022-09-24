@@ -136,11 +136,11 @@ const CARACTERISTIC_EXTRA = function () {
     //  restricaoSrc: componente do caminho das imagens das restrições (ex: restrição peças azuis -> 'azul-sim.svg')
     //  restricaoAlt: nome da restrição para exibição (ex: restrição peças azuis -> 'Podem peças que são azuis')
     let subMembers = [
-        //               [   BLUE,         RED,     YELLOW], [    TRIANGLE,      SQUARE,    RECTANGLE,     CIRCLE], [      BIG,      SMALL], [      OUTLINED,        NOTOUTLINED],
-        ['formaSrc',     [    'Z',         'V',        'A'], [         'T',         'Q',          'R',        'C'], [      'G',        'P'], [           'C',                'S']],
-        ['formaAlt',     [ 'azul',  'vermelho',  'amarelo'], [ 'Triângulo',  'Quadrado',  'Retângulo',  'Círculo'], [ 'grande',  'pequeno'], ['com contorno',     'sem Contorno']],
-        ['restricaoSrc', [ 'azul',  'vermelho',  'amarelo'], [ 'triangulo',  'quadrado',  'retangulo',  'circulo'], [ 'grande',  'pequeno'], [    'contorno',      'semContorno']],
-        ['restricaoAlt', ['azuis', 'vermelhas', 'amarelas'], ['triângulos', 'quadrados', 'retângulos', 'círculos'], ['grandes', 'pequenas'], ['tem contorno', 'não tem contorno']],
+        //               [   BLUE,         RED,     YELLOW], [    TRIANGLE,      SQUARE,    RECTANGLE,     CIRCLE], [      BIG,      SMALL], [      OUTLINED,    NOTOUTLINED],
+        ['formaSrc',     [    'Z',         'V',        'A'], [         'T',         'Q',          'R',        'C'], [      'G',        'P'], [           'C',            'S']],
+        ['formaAlt',     [ 'azul',  'vermelho',  'amarelo'], [ 'Triângulo',  'Quadrado',  'Retângulo',  'Círculo'], [ 'grande',  'pequeno'], ['com contorno', 'sem Contorno']],
+        ['restricaoSrc', [ 'azul',  'vermelho',  'amarelo'], [ 'triangulo',  'quadrado',  'retangulo',  'circulo'], [ 'grande',  'pequeno'], [    'contorno',  'semContorno']],
+        ['restricaoAlt', ['azuis', 'vermelhas', 'amarelas'], ['triângulos', 'quadrados', 'retângulos', 'círculos'], ['grandes', 'pequenas'], ['com contorno', 'sem contorno']],
     ];
 
     let cEnum = {};
@@ -178,7 +178,7 @@ const CARACTERISTIC_EXTRA = function () {
     // retorna o texto da descrição de uma restrição
     cEnum.getRestricaoAlt = function ([regra, aceita]) {
         if (CARACTERISTIC.getClass(regra) == CARACTERISTIC.OUTLINE)
-            return `${aceita ? 'P' : 'Não p'}odem peças que ${cEnum[regra].restricaoAlt}`;
+            return `${aceita ? 'P' : 'Não p'}odem peças ${cEnum[regra].restricaoAlt}`;
         else
             return `${aceita ? 'P' : 'Não p'}odem peças que são ${cEnum[regra].restricaoAlt}`;
     };
