@@ -2125,16 +2125,13 @@ const [RESPOSTA_CORRETA, RESPOSTA_INCOMPLETA, RESPOSTA_ERRADA] = [1, 2, 3];
  * @returns RESPOSTA_INCOMPLETA se não moveu todas as imagens, RESPOSTA_ERRADA se moveu mas errou
  */
 function quaoIncorreto(respostasOpcoes) {
-    let respostasOpcoesSet = new Set(respostasOpcoes);
     // checa se há respostas corretas nas opções
     // se tiver, o usuário não moveu todas ainda, retornar RESPOSTA_INCOMPLETA
     // se não tiver, o usuário moveu, mas arrajou as respostas de forma incorreta, retornar RESPOSTA_ERRADA
-    if (gRespostasCertasEsquerda.some(x => respostasOpcoesSet.has(x))) {
+    if (gRespostasCertasEsquerda.some(x => respostasOpcoes.some(y => y[0] === x[0] && y[1] === x[1])))
         return RESPOSTA_INCOMPLETA;
-    }
-    if (gRespostasCertasDireita.some(x => respostasOpcoesSet.has(x))) {
+    if (gRespostasCertasDireita.some(x => respostasOpcoes.some(y => y[0] === x[0] && y[1] === x[1])))
         return RESPOSTA_INCOMPLETA;
-    }
 
     return RESPOSTA_ERRADA;
 }
@@ -2155,13 +2152,11 @@ function checarResposta() {
     }
 
     // checar se as respostas da esquerda possuem todas as respostas corretas
-    let respostasEsquerdaSet = new Set(respostasEsquerda);
-    if (!gRespostasCertasEsquerda.every(resposta => respostasEsquerdaSet.has(resposta)))
+    if (!gRespostasCertasEsquerda.every(resposta => respostasEsquerda.some(x => x[0] === resposta[0] && x[1] === resposta[1])))
         return quaoIncorreto(respostasOpcoes);
 
     // checar se as respostas da direita possuem todas as respostas corretas
-    let respostasDireitaSet = new Set(respostasDireita);
-    if (!gRespostasCertasDireita.every(resposta => respostasDireitaSet.has(resposta)))
+    if (!gRespostasCertasDireita.every(resposta => respostasDireita.some(x => x[0] === resposta[0] && x[1] === resposta[1])))
         return quaoIncorreto(respostasOpcoes);
 
     return RESPOSTA_CORRETA;
