@@ -6,12 +6,13 @@
   margin-bottom: 5px;
 }
 
-#cat {
-  align-items: center;
+#cat{
+ align-items: center;
 }
 
-.quadrado {
-
+.quadrado
+ {
+  
   justify-content: center;
   align-items: ;
   height: 200px;
@@ -19,11 +20,12 @@
   flex-basis: 100%;
   flex-grow: 1;
   padding: 5px;
-
+  
 }
 
-.triangulo {
-
+.triangulo
+ {
+  
   justify-content: center;
   align-items: ;
   height: 400px;
@@ -34,35 +36,35 @@
 
 }
 
-.quadrado_fundo {
+.quadrado_fundo{
   background-image: url("img/quadrado_fundo.png");
   background-size: 350px;
   width: 320px;
   height: 350px;
   background-repeat: no-repeat;
-  background-position: right;
+  background-position: right; 
   padding-left: 80px;
   padding-top: 50px;
 }
 
-.triangulo_fundo {
+.triangulo_fundo{
   background-image: url("img/triangulo_fundo.png");
   background-size: 350px;
   width: 320px;
   height: 350px;
   background-repeat: no-repeat;
-  background-position: right;
+  background-position: right; 
   padding-left: 80px;
   padding-top: 50px;
 }
 
-.sem_fundo {
+.sem_fundo{
   background-image: url("img/sem_fundo.png");
   background-size: 350px;
   width: 320px;
   height: 350px;
   background-repeat: no-repeat;
-  background-position: right;
+  background-position: right; 
   padding-left: 80px;
   padding-top: 50px;
 }
@@ -90,3 +92,4 @@ img {
   padding-right: 118px;
   padding-bottom: 1px;
 }
+
