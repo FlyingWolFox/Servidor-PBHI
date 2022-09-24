@@ -1785,6 +1785,27 @@ function game() {
         divCaixaIntersecao.appendChild(imgTag);
     });
 
+
+    // configurar o visual das caixas
+    let dropzoneArea = document.getElementById('dropzone-container-grupos-regras');
+    if (!intersecaoAtiva) {
+        divCaixaEsquerda.setAttribute('style', 'grid-column: 2/3; grid-row: 1/;');
+        divCaixaDireita.setAttribute('style', 'grid-column: 4/5; grid-row: 2/4;');
+        divCaixaIntersecao.setAttribute('style', 'display: none;');
+        dropzoneArea.setAttribute('style', 'grid-template-columns: 2fr 5fr 1fr 5fr 2fr;');
+        divCaixaEsquerda.classList.remove('drop-meio-ativo');
+        divCaixaIntersecao.classList.remove('drop-meio-ativo');
+        divCaixaDireita.classList.remove('drop-meio-ativo');
+    } else {
+        divCaixaEsquerda.setAttribute('style', 'grid-column: 2/4; grid-row: 1/3;');
+        divCaixaDireita.setAttribute('style', 'grid-column: 3/5; grid-row: 2/4;');
+        divCaixaIntersecao.setAttribute('style', 'grid-column: 3/4; grid-row: 2/3;');
+        dropzoneArea.setAttribute('style', 'grid-template-columns: 2fr repeat(3, 3fr) 2fr;');
+        divCaixaEsquerda.classList.add('drop-meio-ativo');
+        divCaixaIntersecao.classList.add('drop-meio-ativo');
+        divCaixaDireita.classList.add('drop-meio-ativo');
+    }
+
     /*verificar quantas imagens eu preciso criar*/
     /*verificar quantas imagens eu preciso criar*/
     var arrayReferencia = [];
@@ -1927,7 +1948,7 @@ function game() {
     //     divRestricaoDireita.appendChild(el);
     // });
 
-    background(1);
+    //background(1);
 
 }
 
