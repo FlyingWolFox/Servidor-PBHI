@@ -1911,6 +1911,24 @@ function game() {
         arrayIndicesDois.push(numeroDois);
     });
 
+    //implementando interrogação
+    let interrogacaoEsq = document.getElementById("container-restricao-esquerda");
+
+    console.log("CERTAS ESQUERDA: " + gRespostasCertasEsquerda.length);
+    console.log("CERTAS DIREITA: " + gRespostasCertasDireita.length);
+
+    for (let i = 0; i < gRespostasCertasEsquerda.length; i++) {
+        interrogacaoEsq.style.backgroundImage = "url('../img/bg-slot.svg')";
+        interrogacaoEsq.style.backgroundRepeat = "no-repeat";
+    }
+
+    let interrogacaoDir = document.getElementById("container-restricao-direita");
+
+    for (let j = 0; j < gRespostasCertasDireita.length; j++) {
+        interrogacaoDir.style.backgroundImage = "url('../img/bg-slot.svg')";
+        interrogacaoDir.style.backgroundRepeat = "no-repeat";
+    }
+
     // exibindo imagens ao lado esquerdo da caixa de drop esquerdo
     // arrayOpcoesFinal.forEach(el => {
     //     // divRespostas.appendChild(el);
