@@ -10,6 +10,12 @@ var imgMov2 = [];      //Confere se falta colocar alguma imagem da terceira caix
 let quantidade = 0;
 var primeiraRodada = true;
 var tempoLigacao = [] //Vetor que vai armazenar o timeStamp de cada ligaçaõ feita pelo usuário.
+var corNode = '#FEFFC1';
+var corDireita = '#fff5e6';
+var corEsquerda = '#c8ecee';
+var corInter = '#eeefe1';
+var corFimInicio = '#7ee0e0';
+var corDescarta = '#FFE6EC';
 
 const textNumeroFase = 'textbox-numero-fase';
 const divFormas = 'container-formas';
@@ -834,7 +840,6 @@ function criaFluxograma(){
     var formasDistintas = 0; //quantidade de formas distintas possiveis nas opcoes
     var tamanhosDistintos = 0; //quantidade de tamanhos distintas possiveis nas opcoes
     var contornosDistintos = 0; //quantidade de contornos distintas possiveis nas opcoes
-    var i;
     var textNumeroFaseDom = document.getElementById(textNumeroFase);
 	textNumeroFaseDom.innerHTML = (etapaAtual + 1);
 
@@ -1079,13 +1084,6 @@ function criaFluxograma(){
 }
 
 function criaFluxograma2(){
-    //iniciar variaveis de controle
-    var tamOpcoes = 0; //quantidade de opções de resposta
-    var coresDistintas = 0; //quantidade de cores distintas possiveis nas opcoes
-    var formasDistintas = 0; //quantidade de formas distintas possiveis nas opcoes
-    var tamanhosDistintos = 0; //quantidade de tamanhos distintas possiveis nas opcoes
-    var contornosDistintos = 0; //quantidade de contornos distintas possiveis nas opcoes
-    var i;
     var textNumeroFaseDom = document.getElementById(textNumeroFase);
 	textNumeroFaseDom.innerHTML = (etapaAtual + 1);
 
@@ -1596,13 +1594,6 @@ function game() {
     let numero = 0;
     quantidade = 0;
 
-    /*if(etapaAtual <= 4 || (etapaAtual >= 9 && etapaAtual <= 11)){ //Inicial - Sem intersecção - 2 respostas prontas 
-       quantidade = 2;
-    }
-    if((etapaAtual >= 5 && etapaAtual <= 8) || (etapaAtual >= 12 && etapaAtual <= 13)){ //Intermediário - Com intersecção - 3 respostas prontas 
-       quantidade = 3;
-    }*/
-
     /* Primeira imagem correta*/
     for (i = 0; i < (tamOpcoes-1); i++){
         arrayReferencia.push('');
@@ -2078,6 +2069,7 @@ function pegarNodeImg(){
 }
 var timeouts = [];
 var nodeImg;
+
 function anima(caminhar, nodeTexto) {
     var divForms = document.getElementById(divFormas);
     var dropEsquerda = document.getElementById(dropPrimeiro);
@@ -2140,7 +2132,7 @@ function anima(caminhar, nodeTexto) {
                 tempo = tempo + tempoAdicional;
                 anima(caminhar, nodeTexto);
             }
-            else if(cam.getText() == "Colocar na interseção" || cam.getText() == "Interseção"){
+            else if(cam.getText() == "Colocar na interseção" || cam.getText() == "Interseção"){//////////////
                 timeouts.push(setTimeout(function () { 
                     animacao(nodeImg, cam);
                     var cordenadas = dropMeio.getBoundingClientRect()
@@ -2577,6 +2569,7 @@ function ligacao(){
 		var origem = link.getOrigin();
 		var destino = link.getDestination();
 		var nomeLink = link.getText();
+
 		//formaProximoNode = proximoNode.getShape().getId()
 		if(destino.getShape().getId() == 'Rectangle' && destino.getOutgoingLinks() == ''){
 			diagram.factory.createDiagramLink(destino, fimNode);
@@ -2626,7 +2619,7 @@ function createDiagram(rest1,rest2,type1,type2,inter)
     var largura = viewDiv.scrollWidth;
     var altura = viewDiv.scrollHeight;
     largura = (largura/3.77);
-    altura = (altura/3.77);
+    altura = (altura/3.82);
 
 	// Criação do componente diagrama
 	diagram = AbstractionLayer.createControl(Diagram, null, null, null, $("#diagram")[0]);
@@ -2636,7 +2629,7 @@ function createDiagram(rest1,rest2,type1,type2,inter)
 	diagram.setUndoEnabled(true);
     diagram.setRoundedLinks(false);
     diagram.setAutoResize(false);
-	diagram.setBounds(new Rect(0, 0, largura, 131));
+	diagram.setBounds(new Rect(0, 0, largura, altura));
 
 	var theme = new Theme();
 	var shapeNodeStyle = new Style();
@@ -2657,9 +2650,6 @@ function createDiagram(rest1,rest2,type1,type2,inter)
 	theme.styles["std:DiagramLink"] = linkStyle;
 	diagram.setTheme(theme);	
 
-	diagram.addEventListener(Events.linkCreated, onLinkCreated);
-    diagram.addEventListener(Events.nodeCreated, onNodeCreated);
-	diagram.addEventListener(Events.nodeDeleting, onNodeDeleting);
     iniciarDiagrama(rest1,rest2,type1,type2,inter)
     
 };
@@ -2677,7 +2667,7 @@ function createDiagram2(rest1,rest2,type1,type2,inter)
     al = viewDiv.clientHeight;
     console.log("A altura da div é: " + al);
     la = (la/3.77);
-    al = (al/3.77);
+    al = (al/3.81);
     console.log("A altura depois da divisão é: " + al);
 
 	// Criação do componente diagrama
@@ -2709,9 +2699,6 @@ function createDiagram2(rest1,rest2,type1,type2,inter)
 	theme.styles["std:DiagramLink"] = linkStyle;
 	diagram.setTheme(theme);	
 
-	diagram.addEventListener(Events.linkCreated, onLinkCreated);
-    diagram.addEventListener(Events.nodeCreated, onNodeCreated);
-	diagram.addEventListener(Events.nodeDeleting, onNodeDeleting);
     iniciarDiagrama2(rest1,rest2,type1,type2,inter)
     
 };
@@ -2810,12 +2797,6 @@ function iniciarDiagrama2(rest1, rest2, type1, type2, inter) {
                 formas.push(forma);
             }
         }
-        var corNode = '#fbfc97';
-        var corDireita = '#fff5e6';
-        var corEsquerda = '#ecf8f9';
-        var corInter = '#eeefe1';
-        var corFimInicio = '#7ee0e0';
-        var corDescarta = '#ccff66';
         var fonte = new Font("sans-serif", 2.8, true, false);
 
         if (inter) {
@@ -2961,12 +2942,6 @@ function iniciarDiagrama2(rest1, rest2, type1, type2, inter) {
                 formas.push(forma);
             }
         }
-        var corNode = '#fbfc97';
-        var corDireita = '#fff5e6';
-        var corEsquerda = '#ecf8f9';
-        var corInter = '#eeefe1';
-        var corFimInicio = '#7ee0e0';
-        var corDescarta = '#ccff66';
         var fonte = new Font("sans-serif", 3, true, false);
         
         if (inter) {
@@ -3048,7 +3023,7 @@ function iniciarDiagrama(rest1, rest2, type1, type2, inter) {
     //var largura = 22;
     var largura = width * 0.0165;
     var altura = largura * 0.7599;
-    var espacoy = 2;
+    var espacoy = 1.6;
     var formas = [];
     
     if(largura < 20.5){
@@ -3124,12 +3099,6 @@ function iniciarDiagrama(rest1, rest2, type1, type2, inter) {
                 formas.push(forma);
             }
         }
-        var corNode = '#fbfc97';
-        var corDireita = '#fff5e6';
-        var corEsquerda = '#ecf8f9';
-        var corInter = '#eeefe1';
-        var corFimInicio = '#7ee0e0';
-        var corDescarta = '#ccff66';
         var fonte = new Font("sans-serif", 2.8, true, false);
 
         if (inter) {
@@ -3275,12 +3244,6 @@ function iniciarDiagrama(rest1, rest2, type1, type2, inter) {
                 formas.push(forma);
             }
         }
-        var corNode = '#fbfc97';
-        var corDireita = '#fff5e6';
-        var corEsquerda = '#ecf8f9';
-        var corInter = '#eeefe1';
-        var corFimInicio = '#7ee0e0';
-        var corDescarta = '#ccff66';
         var fonte = new Font("sans-serif", 3, true, false);
         
         if (inter) {
@@ -3364,21 +3327,49 @@ function removeDiagram(){       //Apagando diagrama
 function onLinkCreated(sender, args) {      //Criação do link
     var link = args.getLink();
     var origem = link.getOrigin();
+    var destino = link.getDestination();
     var formaOrigem = origem.getShape().getId();
     var timestamp = new Date().getTime();
+    var listaLigacoes = origem.getOutgoingLinks();
+    var ligacaoCriada = true;
     link.setTextAlignment(MindFusion.Diagramming.Alignment.Far);
     //Ao se criar o link verifica se o node origem do link é um nodeShape 'DECISION' e
     //adiciona o texto SIM ao primeiro link criado ou NÂO caso exista um SIM
-    if (formaOrigem =='Decision') {
-        for (let l of origem.getOutgoingLinks()) {
-            if (l.getText() == '') {
-                link.setText('SIM');
-            } else if (l.getText() == 'SIM') {
-                link.setText('NÂO');
+    if (destino.getText() == 'INÍCIO'){
+        diagram.removeItem(link);
+        ligacaoCriada = false;
+    }else if (origem.getText() == 'INÍCIO'){
+        if (listaLigacoes.length > 1){
+            diagram.removeItem(link);
+            ligacaoCriada = false;
+        }
+    }else if (origem.getText() == 'FIM'){
+        diagram.removeItem(link);
+        ligacaoCriada = false;
+    }else if (formaOrigem =='Decision'){
+        if (listaLigacoes.length <= 2){
+            for (let l of origem.getOutgoingLinks()) {
+                if (l.getText() == '') {
+                    link.setText('SIM');
+                } else if (l.getText() == 'SIM') {
+                    link.setText('NÂO');
+                }
             }
+            tempoLigacao.push(timestamp);
+            ligacaoCriada = true;
+        }else{
+            diagram.removeItem(link);
+            ligacaoCriada = false;
+        }
+    }else if (formaOrigem == 'Rectangle'){
+        if (listaLigacoes.length > 1){
+            diagram.removeItem(link);
+            ligacaoCriada = false;
         }
     }
-    tempoLigacao.push(timestamp);
+    if(ligacaoCriada){
+        tempoLigacao.push(timestamp);
+    }
 }
 
 function onNodeCreated(sender, args) {
@@ -3389,23 +3380,12 @@ function onNodeCreated(sender, args) {
 }
 
 function onNodeDeleting(sender, args) {
-    var node = args.getNode();
-    var texto = node.getText();
-    var forma = node.getShape().id;
-    var bounds = node.getBounds();
-    var cor = node.getBrush();
-    var fonte = node.getFont();
-
-    var novoNode = diagram.getFactory().createShapeNode();
-    novoNode.setBounds(bounds);
-    novoNode.setText(texto);
-    novoNode.setShape(forma);
-    novoNode.setBrush(cor);
-    novoNode.setFont(fonte);
-
-    return novoNode;
+    args.setCancel(true);
 }
 
 document.body.onload = game();
 var botaoResultado = document.getElementById('botao-resultado');
 botaoResultado.addEventListener('click', check);
+diagram.addEventListener(Events.linkCreated, onLinkCreated);
+diagram.addEventListener(Events.nodeCreated, onNodeCreated);
+diagram.addEventListener(Events.nodeDeleting, onNodeDeleting);
