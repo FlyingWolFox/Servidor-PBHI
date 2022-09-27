@@ -1884,159 +1884,187 @@ function resolver(){    //Reconhece onde colocar as imagens pelo fluxograma
         var proximoNode = inicio[0].getDestination();
         var nodeTexto = proximoNode.getText();
         var formaProximoNode = proximoNode.getShape().getId();
+        var testaLoop = 0;
+        var loopInfinito = false;
 
-        caminhar.push(child1)
-        caminhar.push(inicio[0].getDestination())
-        while (nodeTexto != 'FIM') {
-            var formaAtual = divForms.childNodes[contador];
-            if (formaProximoNode == 'Decision') {
-                if (nodeTexto.toLowerCase().includes('retângulo')) {
-                    if (form == 'R') {
-                        var nodeSim = pegarProximoNodeSim(proximoNode)[0];
-                        proximoNode = nodeSim;
-                        nodeTexto = nodeSim.getText();
-                        formaProximoNode = nodeSim.getShape().getId();
+        caminhar.push(child1);
+        caminhar.push(inicio[0].getDestination());
+        if(proximoNode.getText() == 'FIM'){
+            loopInfinito = true;
+            modalErroFluxograma();
+        }else{
+            try {
+                while (nodeTexto != 'FIM') {
+                    testaLoop++;
+                    if(testaLoop >= 20){
+                        console.log('ENTREI EM LOOP INFINITO...');
+                        loopInfinito = true;
+                        break;
                     }
-                    else if (form != 'R') {
-                        var nodeNao = pegarProximoNodeNao(proximoNode)[0];
-                        proximoNode = nodeNao;
-                        nodeTexto = nodeNao.getText();
-                        formaProximoNode = nodeNao.getShape().getId();
+                    var formaAtual = divForms.childNodes[contador];
+                    if (formaProximoNode == 'Decision') {
+                        if (nodeTexto.toLowerCase().includes('retângulo')) {
+                            if (form == 'R') {
+                                var nodeSim = pegarProximoNodeSim(proximoNode)[0];
+                                proximoNode = nodeSim;
+                                nodeTexto = nodeSim.getText();
+                                formaProximoNode = nodeSim.getShape().getId();
+                            }
+                            else if (form != 'R') {
+                                var nodeNao = pegarProximoNodeNao(proximoNode)[0];
+                                proximoNode = nodeNao;
+                                nodeTexto = nodeNao.getText();
+                                formaProximoNode = nodeNao.getShape().getId();
+                            }
+                        }
+                        else if (nodeTexto.toLowerCase().includes('círculo')) {
+                            if (form == 'C') {
+                                var nodeSim = pegarProximoNodeSim(proximoNode)[0];
+                                proximoNode = nodeSim;
+                                nodeTexto = nodeSim.getText();
+                                formaProximoNode = nodeSim.getShape().getId();
+                            } else if (form != 'C') {
+                                var nodeNao = pegarProximoNodeNao(proximoNode)[0];
+                                proximoNode = nodeNao;
+                                nodeTexto = nodeNao.getText();
+                                formaProximoNode = nodeNao.getShape().getId();
+                            }
+                        }
+                        else if (nodeTexto.toLowerCase().includes('triângulo')) {
+                            if (form == 'T') {
+                                var nodeSim = pegarProximoNodeSim(proximoNode)[0];
+                                proximoNode = nodeSim;
+                                nodeTexto = nodeSim.getText();
+                                formaProximoNode = nodeSim.getShape().getId();
+                            } else if (form != 'T') {
+                                var nodeNao = pegarProximoNodeNao(proximoNode)[0];
+                                proximoNode = nodeNao;
+                                nodeTexto = nodeNao.getText();
+                                formaProximoNode = nodeNao.getShape().getId();
+                            }
+                        }
+                        else if (nodeTexto.toLowerCase().includes('quadrado')) {
+                            if (form == 'Q') {
+                                var nodeSim = pegarProximoNodeSim(proximoNode)[0];
+                                proximoNode = nodeSim;
+                                nodeTexto = nodeSim.getText();
+                                formaProximoNode = nodeSim.getShape().getId();
+                            } else if (form != 'Q') {
+                                var nodeNao = pegarProximoNodeNao(proximoNode)[0];
+                                proximoNode = nodeNao;
+                                nodeTexto = nodeNao.getText();
+                                formaProximoNode = nodeNao.getShape().getId();
+                            }
+                        }
+                        else if (nodeTexto.toLowerCase().includes('amarelo')) {
+                            if (cor == 'A') {
+                                var nodeSim = pegarProximoNodeSim(proximoNode)[0];
+                                proximoNode = nodeSim;
+                                nodeTexto = nodeSim.getText();
+                                formaProximoNode = nodeSim.getShape().getId();
+                            } else if (cor != 'A') {
+                                var nodeNao = pegarProximoNodeNao(proximoNode)[0];
+                                proximoNode = nodeNao;
+                                nodeTexto = nodeNao.getText();
+                                formaProximoNode = nodeNao.getShape().getId();
+                            }
+                        }
+                        else if (nodeTexto.toLowerCase().includes('vermelho')) {
+                            if (cor == 'V') {
+                                var nodeSim = pegarProximoNodeSim(proximoNode)[0];
+                                proximoNode = nodeSim;
+                                nodeTexto = nodeSim.getText();
+                                formaProximoNode = nodeSim.getShape().getId();
+                            } else if (cor != 'V') {
+                                var nodeNao = pegarProximoNodeNao(proximoNode)[0];
+                                proximoNode = nodeNao;
+                                nodeTexto = nodeNao.getText();
+                                formaProximoNode = nodeNao.getShape().getId();
+                            }
+                        }
+                        else if (nodeTexto.toLowerCase().includes('azul')) {
+                            if (cor == 'Z') {
+                                var nodeSim = pegarProximoNodeSim(proximoNode)[0];
+                                proximoNode = nodeSim;
+                                nodeTexto = nodeSim.getText();
+                                formaProximoNode = nodeSim.getShape().getId();
+                            } else if (cor != 'Z') {
+                                var nodeNao = pegarProximoNodeNao(proximoNode)[0];
+                                proximoNode = nodeNao;
+                                nodeTexto = nodeNao.getText();
+                                formaProximoNode = nodeNao.getShape().getId();
+                            }
+                        }
+                        else if (nodeTexto.toLowerCase().includes('grande')) {
+                            if (tamanho == 'G') {
+                                var nodeSim = pegarProximoNodeSim(proximoNode)[0];
+                                proximoNode = nodeSim;
+                                nodeTexto = nodeSim.getText();
+                                formaProximoNode = nodeSim.getShape().getId();
+                            } else if (tamanho != 'G') {
+                                var nodeNao = pegarProximoNodeNao(proximoNode)[0];
+                                proximoNode = nodeNao;
+                                nodeTexto = nodeNao.getText();
+                                formaProximoNode = nodeNao.getShape().getId();
+                            }
+                        }
+                        else if (nodeTexto.toLowerCase().includes('pequeno')) {
+                            if (tamanho == 'P') {
+                                var nodeSim = pegarProximoNodeSim(proximoNode)[0];
+                                proximoNode = nodeSim;
+                                nodeTexto = nodeSim.getText();
+                                formaProximoNode = nodeSim.getShape().getId();
+                            } else if (tamanho != 'P') {
+                                var nodeNao = pegarProximoNodeNao(proximoNode)[0];
+                                proximoNode = nodeNao;
+                                nodeTexto = nodeNao.getText();
+                                formaProximoNode = nodeNao.getShape().getId();
+                            }
+                        }
+                        else if (nodeTexto.toLowerCase().includes('borda')) {
+                            if (borda == 'C') {
+                                var nodeSim = pegarProximoNodeSim(proximoNode)[0];
+                                proximoNode = nodeSim;
+                                nodeTexto = nodeSim.getText();
+                                formaProximoNode = nodeSim.getShape().getId();
+                            } else if (borda != 'C') {
+                                var nodeNao = pegarProximoNodeNao(proximoNode)[0];
+                                proximoNode = nodeNao;
+                                nodeTexto = nodeNao.getText();
+                                formaProximoNode = nodeNao.getShape().getId();
+                            }
+                        }
+                    }else if (formaProximoNode == 'Rectangle') {
+                        resposta = resposta + ' ' + nodeTexto + '\n'
+                        var nodeStep = pegarProximoNode(proximoNode);
+                        proximoNode = nodeStep;
+                        nodeTexto = nodeStep.getText();
+                        formaProximoNode = nodeStep.getShape().getId();
+                        
                     }
+                    caminhar.push(proximoNode)
                 }
-                else if (nodeTexto.toLowerCase().includes('círculo')) {
-                    if (form == 'C') {
-                        var nodeSim = pegarProximoNodeSim(proximoNode)[0];
-                        proximoNode = nodeSim;
-                        nodeTexto = nodeSim.getText();
-                        formaProximoNode = nodeSim.getShape().getId();
-                    } else if (form != 'C') {
-                        var nodeNao = pegarProximoNodeNao(proximoNode)[0];
-                        proximoNode = nodeNao;
-                        nodeTexto = nodeNao.getText();
-                        formaProximoNode = nodeNao.getShape().getId();
-                    }
-                }
-                else if (nodeTexto.toLowerCase().includes('triângulo')) {
-                    if (form == 'T') {
-                        var nodeSim = pegarProximoNodeSim(proximoNode)[0];
-                        proximoNode = nodeSim;
-                        nodeTexto = nodeSim.getText();
-                        formaProximoNode = nodeSim.getShape().getId();
-                    } else if (form != 'T') {
-                        var nodeNao = pegarProximoNodeNao(proximoNode)[0];
-                        proximoNode = nodeNao;
-                        nodeTexto = nodeNao.getText();
-                        formaProximoNode = nodeNao.getShape().getId();
-                    }
-                }
-                else if (nodeTexto.toLowerCase().includes('quadrado')) {
-                    if (form == 'Q') {
-                        var nodeSim = pegarProximoNodeSim(proximoNode)[0];
-                        proximoNode = nodeSim;
-                        nodeTexto = nodeSim.getText();
-                        formaProximoNode = nodeSim.getShape().getId();
-                    } else if (form != 'Q') {
-                        var nodeNao = pegarProximoNodeNao(proximoNode)[0];
-                        proximoNode = nodeNao;
-                        nodeTexto = nodeNao.getText();
-                        formaProximoNode = nodeNao.getShape().getId();
-                    }
-                }
-                else if (nodeTexto.toLowerCase().includes('amarelo')) {
-                    if (cor == 'A') {
-                        var nodeSim = pegarProximoNodeSim(proximoNode)[0];
-                        proximoNode = nodeSim;
-                        nodeTexto = nodeSim.getText();
-                        formaProximoNode = nodeSim.getShape().getId();
-                    } else if (cor != 'A') {
-                        var nodeNao = pegarProximoNodeNao(proximoNode)[0];
-                        proximoNode = nodeNao;
-                        nodeTexto = nodeNao.getText();
-                        formaProximoNode = nodeNao.getShape().getId();
-                    }
-                }
-                else if (nodeTexto.toLowerCase().includes('vermelho')) {
-                    if (cor == 'V') {
-                        var nodeSim = pegarProximoNodeSim(proximoNode)[0];
-                        proximoNode = nodeSim;
-                        nodeTexto = nodeSim.getText();
-                        formaProximoNode = nodeSim.getShape().getId();
-                    } else if (cor != 'V') {
-                        var nodeNao = pegarProximoNodeNao(proximoNode)[0];
-                        proximoNode = nodeNao;
-                        nodeTexto = nodeNao.getText();
-                        formaProximoNode = nodeNao.getShape().getId();
-                    }
-                }
-                else if (nodeTexto.toLowerCase().includes('azul')) {
-                    if (cor == 'Z') {
-                        var nodeSim = pegarProximoNodeSim(proximoNode)[0];
-                        proximoNode = nodeSim;
-                        nodeTexto = nodeSim.getText();
-                        formaProximoNode = nodeSim.getShape().getId();
-                    } else if (cor != 'Z') {
-                        var nodeNao = pegarProximoNodeNao(proximoNode)[0];
-                        proximoNode = nodeNao;
-                        nodeTexto = nodeNao.getText();
-                        formaProximoNode = nodeNao.getShape().getId();
-                    }
-                }
-                else if (nodeTexto.toLowerCase().includes('grande')) {
-                    if (tamanho == 'G') {
-                        var nodeSim = pegarProximoNodeSim(proximoNode)[0];
-                        proximoNode = nodeSim;
-                        nodeTexto = nodeSim.getText();
-                        formaProximoNode = nodeSim.getShape().getId();
-                    } else if (tamanho != 'G') {
-                        var nodeNao = pegarProximoNodeNao(proximoNode)[0];
-                        proximoNode = nodeNao;
-                        nodeTexto = nodeNao.getText();
-                        formaProximoNode = nodeNao.getShape().getId();
-                    }
-                }
-                else if (nodeTexto.toLowerCase().includes('pequeno')) {
-                    if (tamanho == 'P') {
-                        var nodeSim = pegarProximoNodeSim(proximoNode)[0];
-                        proximoNode = nodeSim;
-                        nodeTexto = nodeSim.getText();
-                        formaProximoNode = nodeSim.getShape().getId();
-                    } else if (tamanho != 'P') {
-                        var nodeNao = pegarProximoNodeNao(proximoNode)[0];
-                        proximoNode = nodeNao;
-                        nodeTexto = nodeNao.getText();
-                        formaProximoNode = nodeNao.getShape().getId();
-                    }
-                }
-                else if (nodeTexto.toLowerCase().includes('borda')) {
-                    if (borda == 'C') {
-                        var nodeSim = pegarProximoNodeSim(proximoNode)[0];
-                        proximoNode = nodeSim;
-                        nodeTexto = nodeSim.getText();
-                        formaProximoNode = nodeSim.getShape().getId();
-                    } else if (borda != 'C') {
-                        var nodeNao = pegarProximoNodeNao(proximoNode)[0];
-                        proximoNode = nodeNao;
-                        nodeTexto = nodeNao.getText();
-                        formaProximoNode = nodeNao.getShape().getId();
-                    }
-                }
+            } catch (error) {
+                loopInfinito = true;
             }
-            else if (formaProximoNode == 'Rectangle') {
-                resposta = resposta + ' ' + nodeTexto + '\n'
-                var nodeStep = pegarProximoNode(proximoNode);
-                proximoNode = nodeStep;
-                nodeTexto = nodeStep.getText();
-                formaProximoNode = nodeStep.getShape().getId();
-                
-            }
-            caminhar.push(proximoNode)
         }
-        contador++
-        anima(caminhar,nodeTexto)
-        
+        if(!loopInfinito){
+            contador++;
+            anima(caminhar,nodeTexto);
+        }else{
+            modalErroFluxograma();
+        }
 	}
 }
+
+function modalErroFluxograma(){
+    var modalErro = document.getElementById('modalErro');
+    var textoErro = document.getElementById('resultadoNegativo-jogo');
+
+    modalErro.style.display = 'block';
+    textoErro.innerText = 'Fluxograma errado... Tente novamente.';
+}
+
 function pegarNodeImg(){
     var newDivForms = pegarFilhos();
     newDivForms = pegarNome(newDivForms)
