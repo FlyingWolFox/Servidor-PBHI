@@ -178,9 +178,9 @@ const CARACTERISTIC_EXTRA = function () {
     // retorna o texto da descrição de uma restrição
     cEnum.getRestricaoAlt = function ([regra, aceita]) {
         if (CARACTERISTIC.getClass(regra) == CARACTERISTIC.OUTLINE)
-            return `${aceita ? 'P' : 'Não p'}odem peças ${cEnum[regra].restricaoAlt}`;
+            return `${aceita ? 'Só' : 'Não'} podem peças ${cEnum[regra].restricaoAlt}`;
         else
-            return `${aceita ? 'P' : 'Não p'}odem peças que são ${cEnum[regra].restricaoAlt}`;
+            return `${aceita ? 'Só' : 'Não'} podem peças que são ${cEnum[regra].restricaoAlt}`;
     };
 
     return Object.freeze(cEnum);
