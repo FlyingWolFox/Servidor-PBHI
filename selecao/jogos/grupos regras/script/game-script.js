@@ -1696,9 +1696,9 @@ function game() {
 
     // colocar as repostas nas referências globais para ser usado na checagem da resposta
      gRespostasCertasEsquerda = [...acceptedRestrictionsLeft.map(caracteristica => [caracteristica, ACCEPTED]),
-                                 ...acceptedRestrictionsRight.map(caracteristica => [caracteristica, ACCEPTED])];
-     gRespostasCertasDireita = [...rejectedRestrictionsLeft.map(caracteristica => [caracteristica, REJECTED]),
-                                ...rejectedRestrictionsRight.map(caracteristica => [caracteristica, REJECTED])];
+                                 ...rejectedRestrictionsLeft.map(caracteristica => [caracteristica, REJECTED])];
+     gRespostasCertasDireita = [...acceptedRestrictionsRight.map(caracteristica => [caracteristica, REJECTED]),
+                                ...rejectedRestrictionsRight.map(caracteristica => [caracteristica, ACCEPTED])];
 
     /*Containers*/
     let divRespostas = document.getElementById(divRespostasId);
