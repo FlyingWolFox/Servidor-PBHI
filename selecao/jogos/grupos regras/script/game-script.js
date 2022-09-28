@@ -1772,6 +1772,11 @@ function game() {
         divCaixaEsquerda.classList.remove('drop-meio-ativo');
         divCaixaIntersecao.classList.remove('drop-meio-ativo');
         divCaixaDireita.classList.remove('drop-meio-ativo');
+
+        let caixaEsquerdaDrop = document.getElementById("container-restricao-esquerda");
+        caixaEsquerdaDrop.style.marginLeft = "160px";
+        let caixaDireitaDrop = document.getElementById("container-restricao-direita");
+        caixaDireitaDrop.style.marginLeft = "10px";
     } else {
         divCaixaEsquerda.setAttribute('style', 'grid-column: 2/4; grid-row: 1/3;');
         divCaixaDireita.setAttribute('style', 'grid-column: 3/5; grid-row: 2/4;');
@@ -1915,22 +1920,34 @@ function game() {
     });
 
     //implementando interrogação
-    let interrogacaoEsq = document.getElementById("container-restricao-esquerda");
+    // let interrogacaoEsq = document.getElementById("container-restricao-esquerda");
 
     console.log("CERTAS ESQUERDA: " + gRespostasCertasEsquerda.length);
     console.log("CERTAS DIREITA: " + gRespostasCertasDireita.length);
 
-    for (let i = 0; i < gRespostasCertasEsquerda.length; i++) {
-        interrogacaoEsq.style.backgroundImage = "url('../img/bg-slot.svg')";
-        interrogacaoEsq.style.backgroundRepeat = "no-repeat";
-    }
+    // for (let i = 0; i < gRespostasCertasEsquerda.length; i++) {
+    //     interrogacaoEsq.style.backgroundImage = "url('../img/bg-slot.svg')";
+    //     interrogacaoEsq.style.backgroundRepeat = "no-repeat";
+    // }
 
+    // let interrogacaoDir = document.getElementById("container-restricao-direita");
+
+    // for (let j = 0; j < gRespostasCertasDireita.length; j++) {
+    //     interrogacaoDir.style.backgroundImage = "url('../img/bg-slot.svg')";
+    //     interrogacaoDir.style.backgroundRepeat = "no-repeat";
+    // }
+
+    let interrogacaoEspaco = 46; // altura da img da restrição
+ 
+    let interrogacaoEsq = document.getElementById("container-restricao-esquerda");
+    interrogacaoEsq.style.backgroundImage = "url('../img/bg-slot.svg'),".repeat(gRespostasCertasEsquerda.length).slice(0, -1);
+    interrogacaoEsq.style.backgroundRepeat = "no-repeat,".repeat(gRespostasCertasEsquerda.length).slice(0, -1);
+    interrogacaoEsq.style.backgroundPosition = Array(gRespostasCertasEsquerda.length).fill(`top Xpx left`).map((str, i) => str.replace("X", i*interrogacaoEspaco)).join(",");
+ 
     let interrogacaoDir = document.getElementById("container-restricao-direita");
-
-    for (let j = 0; j < gRespostasCertasDireita.length; j++) {
-        interrogacaoDir.style.backgroundImage = "url('../img/bg-slot.svg')";
-        interrogacaoDir.style.backgroundRepeat = "no-repeat";
-    }
+    interrogacaoDir.style.backgroundImage = "url('../img/bg-slot.svg'),".repeat(gRespostasCertasDireita.length).slice(0, -1);
+    interrogacaoDir.style.backgroundRepeat = "no-repeat,".repeat(gRespostasCertasDireita.length).slice(0, -1);
+    interrogacaoDir.style.backgroundPosition = Array(gRespostasCertasDireita.length).fill(`top Xpx right`).map((str, i) => str.replace("X", i*interrogacaoEspaco)).join(",");
 
     // exibindo imagens ao lado esquerdo da caixa de drop esquerdo
     // arrayOpcoesFinal.forEach(el => {
