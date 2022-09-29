@@ -1647,11 +1647,15 @@ function game() {
         caixaIntersecaoItems = gerarFormas([...acceptedRestrictionsLeft, ... acceptedRestrictionsRight], maxNumShapes, currentStage.random);
     }
 
+    // colocar as repostas nas referências globais para ser usado na checagem da resposta
+    let respostasCertasEsquerda = new Set([...acceptedRestrictionsLeft.map(caracteristica => [caracteristica, ACCEPTED]),
+                                           ...rejectedRestrictionsLeft.map(caracteristica => [caracteristica, REJECTED])]);
+    let respostasCertasDireita = new Set([...acceptedRestrictionsRight.map(caracteristica => [caracteristica, ACCEPTED]),
+                                          ...rejectedRestrictionsRight.map(caracteristica => [caracteristica, REJECTED])]);
+    
+
     // adicionar as restrições corretas nas respostas
-    let respostasItems = [...acceptedRestrictionsLeft.map(caracteristica => [caracteristica, ACCEPTED]),
-                          ...acceptedRestrictionsRight.map(caracteristica => [caracteristica, ACCEPTED]),
-                          ...rejectedRestrictionsLeft.map(caracteristica => [caracteristica, REJECTED]),
-                          ...rejectedRestrictionsRight.map(caracteristica => [caracteristica, REJECTED])];
+    let respostasItems = [...respostasCertasEsquerda, ...respostasCertasDireita];
     // gerar regras que são incorretas
     let todasCaracteristicas = [...CARACTERISTIC].map(classe => [...classe]).flat();
     // obter as regras comuns à todos items da interseção
@@ -1697,12 +1701,6 @@ function game() {
     respostasItems = respostasItems.concat(regrasNaoUsadas).slice(0, currentStage.maxNumOptions);
     shuffleArray(respostasItems);
 
-    // colocar as repostas nas referências globais para ser usado na checagem da resposta
-     gRespostasCertasEsquerda = [...acceptedRestrictionsLeft.map(caracteristica => [caracteristica, ACCEPTED]),
-                                 ...rejectedRestrictionsLeft.map(caracteristica => [caracteristica, REJECTED])];
-     gRespostasCertasDireita = [...acceptedRestrictionsRight.map(caracteristica => [caracteristica, REJECTED]),
-                                ...rejectedRestrictionsRight.map(caracteristica => [caracteristica, ACCEPTED])];
-
     /*Containers*/
     let divRespostas = document.getElementById(divRespostasId);
     let divRestricaoEsquerda = document.getElementById(divRestricaoEsquerdaId);
@@ -1713,6 +1711,8 @@ function game() {
     let divCaixaIntersecao = document.getElementById(divCaixaIntersecaoId);
 
     //renderizando restrições em "regras disponíveis"
+    gRespostasCertasEsquerda = [];
+    gRespostasCertasDireita = [];
     respostasItems.map(item => {
         imgTag = document.createElement("img");
         imgTag.src = CARACTERISTIC_EXTRA.getRestricaoScr(item);
@@ -1721,6 +1721,10 @@ function game() {
         imgTag.classList.add('drag');
         //imgTag.classList.add('game-img');
         //imgTag.classList.add('img-restricao-esquerda');
+        if (respostasCertasEsquerda.has(item))
+            gRespostasCertasEsquerda.push(imgTag);
+        else if (respostasCertasDireita.has(item))
+            gRespostasCertasDireita.push(imgTag);
         divRespostas.appendChild(imgTag);
     });
 
@@ -2136,12 +2140,13 @@ const [RESPOSTA_CORRETA, RESPOSTA_INCOMPLETA, RESPOSTA_ERRADA] = [1, 2, 3];
  * @returns RESPOSTA_INCOMPLETA se não moveu todas as imagens, RESPOSTA_ERRADA se moveu mas errou
  */
 function quaoIncorreto(respostasOpcoes) {
+    let respostasOpcoesSet = new Set(respostasOpcoes);
     // checa se há respostas corretas nas opções
     // se tiver, o usuário não moveu todas ainda, retornar RESPOSTA_INCOMPLETA
     // se não tiver, o usuário moveu, mas arrajou as respostas de forma incorreta, retornar RESPOSTA_ERRADA
-    if (gRespostasCertasEsquerda.some(x => respostasOpcoes.some(y => y[0] === x[0] && y[1] === x[1])))
+    if (gRespostasCertasEsquerda.some(x => respostasOpcoesSet.has(x)))
         return RESPOSTA_INCOMPLETA;
-    if (gRespostasCertasDireita.some(x => respostasOpcoes.some(y => y[0] === x[0] && y[1] === x[1])))
+    if (gRespostasCertasDireita.some(x => respostasOpcoesSet.has(x)))
         return RESPOSTA_INCOMPLETA;
 
     return RESPOSTA_ERRADA;
@@ -2153,21 +2158,21 @@ function quaoIncorreto(respostasOpcoes) {
  */
 function checarResposta() {
     "use strict";
-    let respostasEsquerda = [...document.getElementById(divRestricaoEsquerdaId).children].map(el => [parseFloat(el.getAttribute('data-caracteristica')), el.getAttribute('data-aceita') === 'true']);
-    let respostasDireita = [...document.getElementById(divRestricaoDireitaId).children].map(el =>   [parseFloat(el.getAttribute('data-caracteristica')), el.getAttribute('data-aceita') === 'true']);
-    let respostasOpcoes = [...document.getElementById(divOpcoesId).children].map(el => [el.getAttribute('data-caracteristica'), el.getAttribute('data-aceita')]);
+    let respostasEsquerda = new Set([...document.getElementById(divRestricaoEsquerdaId).children]);
+    let respostasDireita = new Set([...document.getElementById(divRestricaoDireitaId).children]);
+    let respostasOpcoes = [...document.getElementById(divRespostasId).children];
 
     // checar se os arrays são do mesmo tamanho
-    if (respostasEsquerda.length !== gRespostasCertasEsquerda.length || respostasDireita.length !== gRespostasCertasDireita.length) {
+    if (respostasEsquerda.size !== gRespostasCertasEsquerda.length || respostasDireita.size !== gRespostasCertasDireita.length) {
         return quaoIncorreto(respostasOpcoes);
     }
 
     // checar se as respostas da esquerda possuem todas as respostas corretas
-    if (!gRespostasCertasEsquerda.every(resposta => respostasEsquerda.some(x => x[0] === resposta[0] && x[1] === resposta[1])))
+    if (!gRespostasCertasEsquerda.every(resposta => respostasEsquerda.has(resposta)))
         return quaoIncorreto(respostasOpcoes);
 
     // checar se as respostas da direita possuem todas as respostas corretas
-    if (!gRespostasCertasDireita.every(resposta => respostasDireita.some(x => x[0] === resposta[0] && x[1] === resposta[1])))
+    if (!gRespostasCertasDireita.every(resposta => respostasDireita.has(resposta)))
         return quaoIncorreto(respostasOpcoes);
 
     return RESPOSTA_CORRETA;
