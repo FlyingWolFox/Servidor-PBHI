@@ -154,13 +154,13 @@
                     <section class="drop restricao-esquerda" id="container-restricao-esquerda">
                     </section>
                  
-                    <section id="caixa-esquerda" class='drop drop-esquerdo'>
+                    <section id="caixa-esquerda" class='drop-esquerdo'>
                         <!-- Locais onde os triangulos estarão -->
                     </section>
-                    <section id='caixa-intersecao' class='drop drop-intersecao'>
+                    <section id='caixa-intersecao' class='drop-intersecao'>
                         <!-- Local onde fica a interseção -->
                     </section>
-                    <section id="caixa-direita" class='drop drop-direito'>
+                    <section id="caixa-direita" class='drop-direito'>
                         <!-- local onde os quadrados estarão -->
                     </section>
             
@@ -169,7 +169,7 @@
                     </section>
                 </section>
 
-                <button id="botao-resultado" onclick="resetaTimeStamps()">TERMINEI!</button>
+                <button id="botao-resultado">TERMINEI!</button>
                 <div class="respostas-titulo">
                     <p class='container-respostas-titulo'>Regras Disponíveis</p>
                     <section id="container-respostas" class="drop">
@@ -247,20 +247,10 @@
     <script>
         var containerRespotas = document.getElementById('container-respostas');
         var dropzone = document.getElementsByClassName('drop');
-        var dropEsquerdo = document.getElementById('caixa-esquerda');
-        var dropDireito = document.getElementById('caixa-direita');
-        var dropIntersecao = document.getElementById('caixa-intersecao');
         var dropRestricoesEsquerda = document.getElementById('container-restricao-esquerda');
         var dropRestricoesDireita = document.getElementById('container-restricao-direita');
         var dropzoneArea = document.getElementById('dropzone-container');
         var timeStamps = [];
-
-        function resetaTimeStamps() {
-            let tamanho = timeStamps.length;
-            for (let i = 0; i < tamanho; i++) {
-                console.log(`timestamp ${i}: ${timeStamps.pop()}`);
-            }
-        }
 
         const droppableSequencia = new Draggable.Droppable(containerRespotas, {
             draggable: '.drag',
@@ -273,9 +263,7 @@
                 if (zone.classList.contains('draggable-dropzone--occupied')) {
                     zone.classList.remove('draggable-dropzone--occupied');
                 }
-                console.log("a peça foi arrastade de " + containerRespotas.id);
             });
-            timeStamps.push(new Date().getTime());
         });
 
         droppableSequencia.on('droppable:stop', () => {
@@ -283,87 +271,8 @@
             Array.prototype.filter.call(dropzone, zone => {
                 if (zone.classList.contains('draggable-dropzone--occupied')) {
                     zone.classList.remove('draggable-dropzone--occupied');
-                    console.log("a peça foi dropada em " + zone.id);
                 }
             });
-            timeStamps.push(new Date().getTime());
-        });
-
-        const retornoDrop1 = new Draggable.Droppable(dropEsquerdo, {
-            draggable: '.drag',
-            dropzone: '.drop'
-        });
-
-        retornoDrop1.on('drag:start', () => {
-            Array.prototype.filter.call(dropzone, zone => {
-                if (zone.classList.contains('draggable-dropzone--occupied')) {
-                    zone.classList.remove('draggable-dropzone--occupied');
-                }
-                console.log("a peça foi arrastade de " + dropEsquerdo.id);
-            });
-            timeStamps.push(new Date().getTime());
-        });
-
-        retornoDrop1.on('droppable:stop', () => {
-
-            Array.prototype.filter.call(dropzone, zone => {
-                if (zone.classList.contains('draggable-dropzone--occupied')) {
-                    zone.classList.remove('draggable-dropzone--occupied');
-                    console.log("a peça foi dropada em " + zone.id);
-                }
-            });
-
-            timeStamps.push(new Date().getTime());
-        });
-
-        const retornoDrop2 = new Draggable.Droppable(dropDireito, {
-            draggable: '.drag',
-            dropzone: '.drop'
-        });
-
-        retornoDrop2.on('drag:start', () => {
-            Array.prototype.filter.call(dropzone, zone => {
-                if (zone.classList.contains('draggable-dropzone--occupied')) {
-                    zone.classList.remove('draggable-dropzone--occupied');
-                }
-                console.log("a peça foi arrastade de " + dropDireito.id);
-            });
-            timeStamps.push(new Date().getTime());
-        });
-
-        retornoDrop2.on('droppable:stop', () => {
-            Array.prototype.filter.call(dropzone, zone => {
-                if (zone.classList.contains('draggable-dropzone--occupied')) {
-                    zone.classList.remove('draggable-dropzone--occupied');
-                    console.log("a peça foi dropada em " + zone.id);
-                }
-            });
-            timeStamps.push(new Date().getTime());
-        });
-
-        const retornoIntDrop = new Draggable.Droppable(dropIntersecao, {
-            draggable: '.drag',
-            dropzone: '.drop'
-        });
-
-        retornoIntDrop.on('drag:start', () => {
-            Array.prototype.filter.call(dropzone, zone => {
-                if (zone.classList.contains('draggable-dropzone--occupied')) {
-                    zone.classList.remove('draggable-dropzone--occupied');
-                }
-                console.log("a peça foi arrastade de " + dropIntersecao.id);
-            });
-            timeStamps.push(new Date().getTime());
-        });
-
-        retornoIntDrop.on('droppable:stop', () => {
-            Array.prototype.filter.call(dropzone, zone => {
-                if (zone.classList.contains('draggable-dropzone--occupied')) {
-                    zone.classList.remove('draggable-dropzone--occupied');
-                    console.log("a peça foi dropada em " + zone.id);
-                }
-            });
-            timeStamps.push(new Date().getTime());
         });
 
         const retornoDropRestricaoEsquerda = new Draggable.Droppable(dropRestricoesEsquerda, {
@@ -376,19 +285,15 @@
                 if (zone.classList.contains('draggable-dropzone--occupied')) {
                     zone.classList.remove('draggable-dropzone--occupied');
                 }
-                console.log("a peça foi arrastade de " + dropIntersecao.id);
             });
-            timeStamps.push(new Date().getTime());
         });
 
         retornoDropRestricaoEsquerda.on('droppable:stop', () => {
             Array.prototype.filter.call(dropzone, zone => {
                 if (zone.classList.contains('draggable-dropzone--occupied')) {
                     zone.classList.remove('draggable-dropzone--occupied');
-                    console.log("a peça foi dropada em " + zone.id);
                 }
             });
-            timeStamps.push(new Date().getTime());
         });
 
         const retornoDropRestricaoDireita = new Draggable.Droppable(dropRestricoesDireita, {
@@ -401,19 +306,15 @@
                 if (zone.classList.contains('draggable-dropzone--occupied')) {
                     zone.classList.remove('draggable-dropzone--occupied');
                 }
-                console.log("a peça foi arrastade de " + dropIntersecao.id);
             });
-            timeStamps.push(new Date().getTime());
         });
 
         retornoDropRestricaoDireita.on('droppable:stop', () => {
             Array.prototype.filter.call(dropzone, zone => {
                 if (zone.classList.contains('draggable-dropzone--occupied')) {
                     zone.classList.remove('draggable-dropzone--occupied');
-                    console.log("a peça foi dropada em " + zone.id);
                 }
             });
-            timeStamps.push(new Date().getTime());
         });
 
     </script>
