@@ -2620,6 +2620,15 @@ function resetFlux(){
     game();
 }
 
+/* CÓDIGO PARA AJEITAR A ALTURA DO FLUXOGRAMA NO MODO FULLSCREEN */
+window.addEventListener("resize", () => { 
+    if (window.innerHeight == screen.height) {
+        document.getElementById("fluxograma-container").style.height = "700px";
+    } else {
+        document.getElementById("fluxograma-container").style.height = "450px"
+    }
+});
+
 // CÓDIGO REFETENTE AO FLUXOGRAMA
 /// <reference path="Scripts/jspack-vsdoc.js" />
 
