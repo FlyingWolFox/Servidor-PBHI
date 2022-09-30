@@ -1769,8 +1769,8 @@ function game() {
     // configurar o visual das caixas
     let dropzoneArea = document.getElementById('dropzone-container-grupos-regras');
     if (!intersecaoAtiva) {
-        divCaixaEsquerda.setAttribute('style', 'grid-column: 2/3; grid-row: 1/;');
-        divCaixaDireita.setAttribute('style', 'grid-column: 4/5; grid-row: 2/4;');
+        divCaixaEsquerda.setAttribute('style', 'grid-column: 2/3; grid-row: 1/3;');
+        divCaixaDireita.setAttribute('style', 'grid-column: 4/5; grid-row: 1/3;');
         divCaixaIntersecao.setAttribute('style', 'display: none;');
         dropzoneArea.setAttribute('style', 'grid-template-columns: 2fr 5fr 1fr 5fr 2fr;');
         divCaixaEsquerda.classList.remove('drop-meio-ativo');
