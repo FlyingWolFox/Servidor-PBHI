@@ -158,8 +158,8 @@ section#dropzone-container {
 
 }
 
-section#drop1,
-section#drop2 {
+section#caixa-esquerda,
+section#caixa-direita {
 
     min-width: 30%;
     height: 100px;
@@ -168,8 +168,8 @@ section#drop2 {
     flex: unset;
 }
 
-section#drop1 img.game-img,
-section#drop2 img.game-img {
+section#caixa-esquerda img.game-img,
+section#caixa-direita img.game-img {
 
     max-width: 20%;
 }
@@ -252,9 +252,9 @@ span#modal-close-button {
         min-height: unset;
     }
     
-    section#drop1,
-    section#drop2,
-    #section#intDrop {
+    section#caixa-esquerda,
+    section#caixa-direita,
+    #section#caixa-intersecao {
         
         width: 100%;
         height: 100%;
@@ -273,31 +273,31 @@ span#modal-close-button {
 
     /* ===== AJUSTE DOS BLOCOS GRANDES ====== */
     
-    section#drop1 img.drag.grande,
-    section#drop2 img.drag.grande {
+    section#caixa-esquerda img.drag.grande,
+    section#caixa-direita img.drag.grande {
 
         width: 30px;
         max-width: unset;
     }
 
-    section#drop1.drop-meio-ativo img.drag.grande,
-    section#drop2.drop-meio-ativo img.drag.grande {
-
-        width: 30px;
-        max-width: unset;
-
-    }
-
-    section#intDrop.drop-meio-ativo img.drag.grande {
+    section#caixa-esquerda.drop-meio-ativo img.drag.grande,
+    section#caixa-direita.drop-meio-ativo img.drag.grande {
 
         width: 30px;
         max-width: unset;
 
     }
 
-    section#intDrop img.draggable-mirror,
-    section#drop1 img.draggable-mirror,
-    section#drop2 img.draggable-mirror {
+    section#caixa-intersecao.drop-meio-ativo img.drag.grande {
+
+        width: 30px;
+        max-width: unset;
+
+    }
+
+    section#caixa-intersecao img.draggable-mirror,
+    section#caixa-esquerda img.draggable-mirror,
+    section#caixa-direita img.draggable-mirror {
         width: 6%;
     }
 
@@ -310,31 +310,31 @@ span#modal-close-button {
 
     /* ==== AJUSTE DOS BLOCOS PEQUENOS ===== */
 
-    section#drop1 img.drag.pequeno,
-    section#drop2 img.drag.pequeno {
+    section#caixa-esquerda img.drag.pequeno,
+    section#caixa-direita img.drag.pequeno {
 
         width: 25px;
         max-width: unset;
     }
 
-    section#drop1.drop-meio-ativo img.drag.pequeno,
-    section#drop2.drop-meio-ativo img.drag.pequeno {
-
-        width: 25px;
-        max-width: unset;
-
-    }
-
-    section#intDrop.drop-meio-ativo img.drag.pequeno {
+    section#caixa-esquerda.drop-meio-ativo img.drag.pequeno,
+    section#caixa-direita.drop-meio-ativo img.drag.pequeno {
 
         width: 25px;
         max-width: unset;
 
     }
 
-    section#intDrop img.draggable-mirror.pequeno,
-    section#drop1 img.draggable-mirror.pequeno,
-    section#drop2 img.draggable-mirror.pequeno {
+    section#caixa-intersecao.drop-meio-ativo img.drag.pequeno {
+
+        width: 25px;
+        max-width: unset;
+
+    }
+
+    section#caixa-intersecao img.draggable-mirror.pequeno,
+    section#caixa-esquerda img.draggable-mirror.pequeno,
+    section#caixa-direita img.draggable-mirror.pequeno {
         width: 8%;
     }
 
@@ -374,9 +374,9 @@ span#modal-close-button {
         min-height: unset;
     }
 
-    section#drop1,
-    section#drop2,
-    #section#intDrop {
+    section#caixa-esquerda,
+    section#caixa-direita,
+    #section#caixa-intersecao {
 
         width: 100%;
         height: 100%;
@@ -395,31 +395,31 @@ span#modal-close-button {
 
     /* ===== AJUSTE DOS BLOCOS GRANDES ====== */
     
-    section#drop1 img.drag.grande,
-    section#drop2 img.drag.grande {
+    section#caixa-esquerda img.drag.grande,
+    section#caixa-direita img.drag.grande {
 
         width: 30px;
         max-width: unset;
     }
 
-    section#drop1.drop-meio-ativo img.drag.grande,
-    section#drop2.drop-meio-ativo img.drag.grande {
-
-        width: 30px;
-        max-width: unset;
-
-    }
-
-    section#intDrop.drop-meio-ativo img.drag.grande {
+    section#caixa-esquerda.drop-meio-ativo img.drag.grande,
+    section#caixa-direita.drop-meio-ativo img.drag.grande {
 
         width: 30px;
         max-width: unset;
 
     }
 
-    section#intDrop img.draggable-mirror,
-    section#drop1 img.draggable-mirror,
-    section#drop2 img.draggable-mirror {
+    section#caixa-intersecao.drop-meio-ativo img.drag.grande {
+
+        width: 30px;
+        max-width: unset;
+
+    }
+
+    section#caixa-intersecao img.draggable-mirror,
+    section#caixa-esquerda img.draggable-mirror,
+    section#caixa-direita img.draggable-mirror {
         width: 6%;
     }
 
@@ -432,31 +432,31 @@ span#modal-close-button {
 
     /* ==== AJUSTE DOS BLOCOS PEQUENOS ===== */
 
-    section#drop1 img.drag.pequeno,
-    section#drop2 img.drag.pequeno {
+    section#caixa-esquerda img.drag.pequeno,
+    section#caixa-direita img.drag.pequeno {
 
         width: 25px;
         max-width: unset;
     }
 
-    section#drop1.drop-meio-ativo img.drag.pequeno,
-    section#drop2.drop-meio-ativo img.drag.pequeno {
-
-        width: 25px;
-        max-width: unset;
-
-    }
-
-    section#intDrop.drop-meio-ativo img.drag.pequeno {
+    section#caixa-esquerda.drop-meio-ativo img.drag.pequeno,
+    section#caixa-direita.drop-meio-ativo img.drag.pequeno {
 
         width: 25px;
         max-width: unset;
 
     }
 
-    section#intDrop img.draggable-mirror.pequeno,
-    section#drop1 img.draggable-mirror.pequeno,
-    section#drop2 img.draggable-mirror.pequeno {
+    section#caixa-intersecao.drop-meio-ativo img.drag.pequeno {
+
+        width: 25px;
+        max-width: unset;
+
+    }
+
+    section#caixa-intersecao img.draggable-mirror.pequeno,
+    section#caixa-esquerda img.draggable-mirror.pequeno,
+    section#caixa-direita img.draggable-mirror.pequeno {
         width: 8%;
     }
 
@@ -497,9 +497,9 @@ span#modal-close-button {
         min-height: unset;
     }
 
-    section#drop1,
-    section#drop2,
-    #section#intDrop {
+    section#caixa-esquerda,
+    section#caixa-direita,
+    #section#caixa-intersecao {
 
         width: 100%;
         height: 100%;
@@ -518,22 +518,22 @@ span#modal-close-button {
 
     /* ===== AJUSTE DOS BLOCOS GRANDES ====== */
     
-    section#drop1 img.drag.grande,
-    section#drop2 img.drag.grande {
+    section#caixa-esquerda img.drag.grande,
+    section#caixa-direita img.drag.grande {
 
         width: 45px;
         max-width: unset;
     }
 
-    section#drop1.drop-meio-ativo img.drag.grande,
-    section#drop2.drop-meio-ativo img.drag.grande {
+    section#caixa-esquerda.drop-meio-ativo img.drag.grande,
+    section#caixa-direita.drop-meio-ativo img.drag.grande {
 
         width: 45px;
         max-width: unset;
 
     }
 
-    section#intDrop.drop-meio-ativo img.drag.grande {
+    section#caixa-intersecao.drop-meio-ativo img.drag.grande {
 
         width: 45px;
 
@@ -541,9 +541,9 @@ span#modal-close-button {
 
     }
 
-    section#intDrop img.draggable-mirror,
-    section#drop1 img.draggable-mirror,
-    section#drop2 img.draggable-mirror {
+    section#caixa-intersecao img.draggable-mirror,
+    section#caixa-esquerda img.draggable-mirror,
+    section#caixa-direita img.draggable-mirror {
         width: 6%;
     }
 
@@ -556,31 +556,31 @@ span#modal-close-button {
 
     /* ==== AJUSTE DOS BLOCOS PEQUENOS ===== */
 
-    section#drop1 img.drag.pequeno,
-    section#drop2 img.drag.pequeno {
+    section#caixa-esquerda img.drag.pequeno,
+    section#caixa-direita img.drag.pequeno {
 
         width: 35px;
         max-width: unset;
     }
 
-    section#drop1.drop-meio-ativo img.drag.pequeno,
-    section#drop2.drop-meio-ativo img.drag.pequeno {
-
-        width: 35px;
-        max-width: unset;
-
-    }
-
-    section#intDrop.drop-meio-ativo img.drag.pequeno {
+    section#caixa-esquerda.drop-meio-ativo img.drag.pequeno,
+    section#caixa-direita.drop-meio-ativo img.drag.pequeno {
 
         width: 35px;
         max-width: unset;
 
     }
 
-    section#intDrop img.draggable-mirror.pequeno,
-    section#drop1 img.draggable-mirror.pequeno,
-    section#drop2 img.draggable-mirror.pequeno {
+    section#caixa-intersecao.drop-meio-ativo img.drag.pequeno {
+
+        width: 35px;
+        max-width: unset;
+
+    }
+
+    section#caixa-intersecao img.draggable-mirror.pequeno,
+    section#caixa-esquerda img.draggable-mirror.pequeno,
+    section#caixa-direita img.draggable-mirror.pequeno {
         width: 8%;
     }
 
@@ -621,9 +621,9 @@ span#modal-close-button {
         min-height: unset;
     }
 
-    section#drop1,
-    section#drop2,
-    #section#intDrop {
+    section#caixa-esquerda,
+    section#caixa-direita,
+    #section#caixa-intersecao {
 
         width: 100%;
         height: 100%;
@@ -642,22 +642,22 @@ span#modal-close-button {
 
     /* ===== AJUSTE DOS BLOCOS GRANDES ====== */
     
-    section#drop1 img.drag.grande,
-    section#drop2 img.drag.grande {
+    section#caixa-esquerda img.drag.grande,
+    section#caixa-direita img.drag.grande {
 
         width: 45px;
         max-width: unset;
     }
 
-    section#drop1.drop-meio-ativo img.drag.grande,
-    section#drop2.drop-meio-ativo img.drag.grande {
+    section#caixa-esquerda.drop-meio-ativo img.drag.grande,
+    section#caixa-direita.drop-meio-ativo img.drag.grande {
 
         width: 45px;
         max-width: unset;
 
     }
 
-    section#intDrop.drop-meio-ativo img.drag.grande {
+    section#caixa-intersecao.drop-meio-ativo img.drag.grande {
 
         width: 45px;
 
@@ -665,9 +665,9 @@ span#modal-close-button {
 
     }
 
-    section#intDrop img.draggable-mirror,
-    section#drop1 img.draggable-mirror,
-    section#drop2 img.draggable-mirror {
+    section#caixa-intersecao img.draggable-mirror,
+    section#caixa-esquerda img.draggable-mirror,
+    section#caixa-direita img.draggable-mirror {
         width: 6%;
     }
 
@@ -680,31 +680,31 @@ span#modal-close-button {
 
     /* ==== AJUSTE DOS BLOCOS PEQUENOS ===== */
 
-    section#drop1 img.drag.pequeno,
-    section#drop2 img.drag.pequeno {
+    section#caixa-esquerda img.drag.pequeno,
+    section#caixa-direita img.drag.pequeno {
 
         width: 35px;
         max-width: unset;
     }
 
-    section#drop1.drop-meio-ativo img.drag.pequeno,
-    section#drop2.drop-meio-ativo img.drag.pequeno {
-
-        width: 35px;
-        max-width: unset;
-
-    }
-
-    section#intDrop.drop-meio-ativo img.drag.pequeno {
+    section#caixa-esquerda.drop-meio-ativo img.drag.pequeno,
+    section#caixa-direita.drop-meio-ativo img.drag.pequeno {
 
         width: 35px;
         max-width: unset;
 
     }
 
-    section#intDrop img.draggable-mirror.pequeno,
-    section#drop1 img.draggable-mirror.pequeno,
-    section#drop2 img.draggable-mirror.pequeno {
+    section#caixa-intersecao.drop-meio-ativo img.drag.pequeno {
+
+        width: 35px;
+        max-width: unset;
+
+    }
+
+    section#caixa-intersecao img.draggable-mirror.pequeno,
+    section#caixa-esquerda img.draggable-mirror.pequeno,
+    section#caixa-direita img.draggable-mirror.pequeno {
         width: 8%;
     }
 
