@@ -149,7 +149,7 @@ img.game-img {
 
 }
 
-section#dropzone-container {
+section#dropzone-container-grupos-regras {
 
     width: 100%;
     min-height: 50px;
@@ -181,7 +181,7 @@ button#botao-resultado {
     font-size: 1em;
 }
 
-section#container-formas {
+section#container-respostas {
     width: 100%;
     min-height: 50px;
     padding: 0px;
@@ -237,14 +237,14 @@ span#modal-close-button {
         font-size: 10px;
     }
 
-    section#dropzone-container {
+    section#dropzone-container-grupos-regras {
 
         width: 100%;
         height: 100%;
         min-width: unset;
     }
 
-    section#container-formas {
+    section#container-respostas {
 
         width: 100%;
         height: 66px;
@@ -301,7 +301,7 @@ span#modal-close-button {
         width: 6%;
     }
 
-    section#container-formas img.drag.grande {
+    section#container-respostas img.drag.grande {
 
         width: 30px;
         max-width: unset;
@@ -338,11 +338,11 @@ span#modal-close-button {
         width: 8%;
     }
 
-    section#container-formas img.draggable-mirror.pequeno {
+    section#container-respostas img.draggable-mirror.pequeno {
         width: 4%;
     }
 
-    section#container-formas img.drag.pequeno {
+    section#container-respostas img.drag.pequeno {
 
         width: 25px;
         max-width: unset;
@@ -359,14 +359,14 @@ span#modal-close-button {
         font-size: 12px;
     }
 
-    section#dropzone-container {
+    section#dropzone-container-grupos-regras {
 
         width: 100%;
         height: 100%;
         min-width: unset;
     }
 
-    section#container-formas {
+    section#container-respostas {
 
         width: 100%;
         height: 89px;
@@ -423,7 +423,7 @@ span#modal-close-button {
         width: 6%;
     }
 
-    section#container-formas img.drag.grande {
+    section#container-respostas img.drag.grande {
 
         width: 30px;
         max-width: unset;
@@ -460,11 +460,11 @@ span#modal-close-button {
         width: 8%;
     }
 
-    section#container-formas img.draggable-mirror.pequeno {
+    section#container-respostas img.draggable-mirror.pequeno {
         width: 4%;
     }
 
-    section#container-formas img.drag.pequeno {
+    section#container-respostas img.drag.pequeno {
 
         width: 25px;
         max-width: unset;
@@ -482,14 +482,14 @@ span#modal-close-button {
         font-size: 12px;
     }
 
-    section#dropzone-container {
+    section#dropzone-container-grupos-regras {
 
         width: 100%;
         height: 100%;
         min-width: unset;
     }
 
-    section#container-formas {
+    section#container-respostas {
 
         width: 100%;
         height: 110px;
@@ -547,7 +547,7 @@ span#modal-close-button {
         width: 6%;
     }
 
-    section#container-formas img.drag.grande {
+    section#container-respostas img.drag.grande {
 
         width: 45px;
         max-width: unset;
@@ -584,11 +584,11 @@ span#modal-close-button {
         width: 8%;
     }
 
-    section#container-formas img.draggable-mirror.pequeno {
+    section#container-respostas img.draggable-mirror.pequeno {
         width: 4%;
     }
 
-    section#container-formas img.drag.pequeno {
+    section#container-respostas img.drag.pequeno {
 
         width: 35px;
         max-width: unset;
@@ -606,14 +606,14 @@ span#modal-close-button {
         font-size: 12px;
     }
 
-    section#dropzone-container {
+    section#dropzone-container-grupos-regras {
 
         width: 100%;
         height: 100%;
         min-width: unset;
     }
 
-    section#container-formas {
+    section#container-respostas {
 
         width: 100%;
         height: 117px;
@@ -671,7 +671,7 @@ span#modal-close-button {
         width: 6%;
     }
 
-    section#container-formas img.drag.grande {
+    section#container-respostas img.drag.grande {
 
         width: 45px;
         max-width: unset;
@@ -708,11 +708,11 @@ span#modal-close-button {
         width: 8%;
     }
 
-    section#container-formas img.draggable-mirror.pequeno {
+    section#container-respostas img.draggable-mirror.pequeno {
         width: 4%;
     }
 
-    section#container-formas img.drag.pequeno {
+    section#container-respostas img.drag.pequeno {
 
         width: 35px;
         max-width: unset;
