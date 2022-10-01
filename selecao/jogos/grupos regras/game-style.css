@@ -131,29 +131,6 @@ section#container-respostas {
     align-content: center;
 }
 
-img.game-img  {
-
-    margin-top: 10px;
-    margin-left: 10px;
-    width: 50px;
-    /* max-width: 75%; */
-
-}
-
-img.grande {
-    margin-top: 10px;
-    margin-left: 10px;
-    width: 50px;
-    max-width: 75%;
-}
-
-img.pequeno {
-    margin-top: 10px;
-    margin-left: 10px;
-    width: 40px;
-    max-width: 55%; 
-}
-
 #texto-info{
     display: flex;
     
@@ -611,7 +588,7 @@ section.drop-direito > .game-img {
     justify-content: center;
 } */
 
-section#intDrop {
+section#caixa-intersecao {
 
     grid-column: 3/4;
     grid-row: 2/3;
@@ -675,28 +652,31 @@ img.img-restricao-direita {
 /* AJUSTES DOS BLOCOS GRANDES */
 
 
-section#drop1 img,
-section#drop2 img {
+section#caixa-esquerda img,
+section#caixa-direita img {
 
-    width: 90px;
-    max-width: unset;
-    margin: 5px;
+    margin-top: 10px;
+    margin-left: 10px;
+    width: 50px;
+    /* max-width: 75%; */
 }
 
-section#container-formas img {
+section#caixa-esquerda.drop-meio-ativo img,
+section#caixa-direita.drop-meio-ativo img {
 
-    width: 90px;
-    margin: 5px;
+    margin-top: 10px;
+    margin-left: 10px;
+    width: 50px;
 
 }
 
-section#intDrop img {
+section#caixa-intersecao img {
 
-    width: 90px;
+    width: 50px;
 }
 
-section#drop1 img.draggable-mirror,
-section#drop2 img.draggable-mirror {
+section#caixa-esquerda img.draggable-mirror,
+section#caixa-direita img.draggable-mirror {
 
     width: 4.5%;
 }
@@ -712,23 +692,23 @@ section#container-formas img.draggable-mirror{
     width: 4.5%;
 }
 
-section#drop1.drop-meio-ativo img,
-section#drop2.drop-meio-ativo img {
+section#caixa-esquerda.drop-meio-ativo img,
+section#caixa-direita.drop-meio-ativo img {
 
     width: 90px;
     max-width: unset;
     margin: 5px;
 }
 
-section#intDrop.drop-meio-ativo img {
+section#caixa-intersecao.drop-meio-ativo img {
 
-    width: 90px;
+    width: 50px;
     margin: 0px 4px;
 }
 
-section#drop1.drop-meio-ativo img.draggable-mirror,
-section#drop2.drop-meio-ativo img.draggable-mirror,
-section#intDrop img.draggable-mirror {
+section#caixa-esquerda.drop-meio-ativo img.draggable-mirror,
+section#caixa-direita.drop-meio-ativo img.draggable-mirror,
+section#caixa-intersecao img.draggable-mirror {
 
     width: 4.5%;
 
@@ -736,12 +716,13 @@ section#intDrop img.draggable-mirror {
 
 /* AJUSTE DOS BLOCOS PEQUENOS */
 
-section#drop1 img.pequeno,
-section#drop2 img.pequeno {
+section#caixa-esquerda img.pequeno,
+section#caixa-direita img.pequeno {
 
-    width: 70px;
-    max-width: unset;
-    margin: 5px;
+    margin-top: 10px;
+    margin-left: 10px;
+    width: 40px;
+    max-width: 55%; 
 }
 
 section#container-formas img.pequeno {
@@ -751,20 +732,20 @@ section#container-formas img.pequeno {
 
 }
 
-section#intDrop img.pequeno {
+section#caixa-caixa-intersecao img.pequeno {
 
     width: 70px;
 
 }
 
 
-section#drop1 img.draggable-mirror.pequeno,
-section#drop2 img.draggable-mirror.pequeno {
+section#caixa-esquerda img.draggable-mirror.pequeno,
+section#caixa-direita img.draggable-mirror.pequeno {
 
     width: 3.5%;
 }
 
-section#intDrop img.draggable-mirror.pequeno {
+section#caixa-caixa-intersecao img.draggable-mirror.pequeno {
 
     width: 3%;
 
@@ -775,24 +756,24 @@ section#container-formas img.draggable-mirror.pequeno{
     width: 3.5%;
 }
 
-section#drop1.drop-meio-ativo img.pequeno,
-section#drop2.drop-meio-ativo img.pequeno {
+section#caixa-esquerda.drop-meio-ativo img.pequeno,
+section#caixa-direita.drop-meio-ativo img.pequeno {
 
-    width: 70px;
-    max-width: unset;
-    margin: 5px;
+    margin-top: 10px;
+    margin-left: 10px;
+    width: 40px;
+    max-width: 55%; 
 }
 
-section#intDrop.drop-meio-ativo img.pequeno {
+section#caixa-intersecao.drop-meio-ativo img.pequeno {
 
-    width: 70px;
+    width: 40px;
     margin: 0px 4px;
-
 }
 
-section#drop1.drop-meio-ativo img.draggable-mirror.pequeno,
-section#drop2.drop-meio-ativo img.draggable-mirror.pequeno,
-section#intDrop img.draggable-mirror.pequeno {
+section#caixa-esquerda.drop-meio-ativo img.draggable-mirror.pequeno,
+section#caixa-direita.drop-meio-ativo img.draggable-mirror.pequeno,
+section#caixa-caixa-intersecao img.draggable-mirror.pequeno {
 
     width: 3.5%;
 
@@ -1104,9 +1085,9 @@ div.respostas-titulo {
         height: 90px;
     }
 
-    section#drop1,
-    section#drop2,
-    #section#intDrop {
+    section#caixa-esquerda,
+    section#caixa-direita,
+    #section#caixa-intersecao {
         
         width: 100%;
         height: 100%;
@@ -1125,31 +1106,31 @@ div.respostas-titulo {
     
     /* ===== AJUSTE DOS BLOCOS GRANDES ====== */
     
-    section#drop1 img.drag.grande,
-    section#drop2 img.drag.grande {
+    section#caixa-esquerda img.drag.grande,
+    section#caixa-direita img.drag.grande {
 
         width: 50px;
         max-width: unset;
     }
 
-    section#drop1.drop-meio-ativo img.drag.grande,
-    section#drop2.drop-meio-ativo img.drag.grande {
-
-        width: 50px;
-        max-width: unset;
-
-    }
-
-    section#intDrop.drop-meio-ativo img.drag.grande {
+    section#caixa-esquerda.drop-meio-ativo img.drag.grande,
+    section#caixa-direita.drop-meio-ativo img.drag.grande {
 
         width: 50px;
         max-width: unset;
 
     }
 
-    section#intDrop img.draggable-mirror,
-    section#drop1 img.draggable-mirror,
-    section#drop2 img.draggable-mirror {
+    section#caixa-intersecao.drop-meio-ativo img.drag.grande {
+
+        width: 50px;
+        max-width: unset;
+
+    }
+
+    section#caixa-intersecao img.draggable-mirror,
+    section#caixa-esquerda img.draggable-mirror,
+    section#caixa-direita img.draggable-mirror {
         width: 6%;
     }
 
@@ -1162,31 +1143,31 @@ div.respostas-titulo {
 
     /* ==== AJUSTE DOS BLOCOS PEQUENOS ===== */
 
-    section#drop1 img.drag.pequeno,
-    section#drop2 img.drag.pequeno {
+    section#caixa-esquerda img.drag.pequeno,
+    section#caixa-direita img.drag.pequeno {
 
         width: 40px;
         max-width: unset;
     }
 
-    section#drop1.drop-meio-ativo img.drag.pequeno,
-    section#drop2.drop-meio-ativo img.drag.pequeno {
-
-        width: 40px;
-        max-width: unset;
-
-    }
-
-    section#intDrop.drop-meio-ativo img.drag.pequeno {
+    section#caixa-esquerda.drop-meio-ativo img.drag.pequeno,
+    section#caixa-direita.drop-meio-ativo img.drag.pequeno {
 
         width: 40px;
         max-width: unset;
 
     }
 
-    section#intDrop img.draggable-mirror.pequeno,
-    section#drop1 img.draggable-mirror.pequeno,
-    section#drop2 img.draggable-mirror.pequeno {
+    section#caixa-intersecao.drop-meio-ativo img.drag.pequeno {
+
+        width: 40px;
+        max-width: unset;
+
+    }
+
+    section#caixa-intersecao img.draggable-mirror.pequeno,
+    section#caixa-esquerda img.draggable-mirror.pequeno,
+    section#caixa-direita img.draggable-mirror.pequeno {
         width: 8%;
     }
 
@@ -1210,9 +1191,9 @@ div.respostas-titulo {
         height: 150px;
     }
 
-    section#drop1,
-    section#drop2,
-    #section#intDrop {
+    section#caixa-esquerda,
+    section#caixa-direita,
+    #section#caixa-intersecao {
         
         width: 100%;
         height: 100%;
@@ -1231,31 +1212,31 @@ div.respostas-titulo {
     
     /* ===== AJUSTE DOS BLOCOS GRANDES ====== */
     
-    section#drop1 img.drag.grande,
-    section#drop2 img.drag.grande {
+    section#caixa-esquerda img.drag.grande,
+    section#caixa-direita img.drag.grande {
 
         width: 80px;
         max-width: unset;
     }
 
-    section#drop1.drop-meio-ativo img.drag.grande,
-    section#drop2.drop-meio-ativo img.drag.grande {
-
-        width: 80px;
-        max-width: unset;
-
-    }
-
-    section#intDrop.drop-meio-ativo img.drag.grande {
+    section#caixa-esquerda.drop-meio-ativo img.drag.grande,
+    section#caixa-direita.drop-meio-ativo img.drag.grande {
 
         width: 80px;
         max-width: unset;
 
     }
 
-    section#intDrop img.draggable-mirror,
-    section#drop1 img.draggable-mirror,
-    section#drop2 img.draggable-mirror {
+    section#caixa-intersecao.drop-meio-ativo img.drag.grande {
+
+        width: 80px;
+        max-width: unset;
+
+    }
+
+    section#caixa-intersecao img.draggable-mirror,
+    section#caixa-esquerda img.draggable-mirror,
+    section#caixa-direita img.draggable-mirror {
         width: unset;
     }
 
@@ -1268,31 +1249,31 @@ div.respostas-titulo {
 
     /* ==== AJUSTE DOS BLOCOS PEQUENOS ===== */
 
-    section#drop1 img.drag.pequeno,
-    section#drop2 img.drag.pequeno {
+    section#caixa-esquerda img.drag.pequeno,
+    section#caixa-direita img.drag.pequeno {
 
         width: 60px;
         max-width: unset;
     }
 
-    section#drop1.drop-meio-ativo img.drag.pequeno,
-    section#drop2.drop-meio-ativo img.drag.pequeno {
-
-        width: 60px;
-        max-width: unset;
-
-    }
-
-    section#intDrop.drop-meio-ativo img.drag.pequeno {
+    section#caixa-esquerda.drop-meio-ativo img.drag.pequeno,
+    section#caixa-direita.drop-meio-ativo img.drag.pequeno {
 
         width: 60px;
         max-width: unset;
 
     }
 
-    section#intDrop img.draggable-mirror.pequeno,
-    section#drop1 img.draggable-mirror.pequeno,
-    section#drop2 img.draggable-mirror.pequeno {
+    section#caixa-intersecao.drop-meio-ativo img.drag.pequeno {
+
+        width: 60px;
+        max-width: unset;
+
+    }
+
+    section#caixa-intersecao img.draggable-mirror.pequeno,
+    section#caixa-esquerda img.draggable-mirror.pequeno,
+    section#caixa-direita img.draggable-mirror.pequeno {
         width: unset;
     }
 
