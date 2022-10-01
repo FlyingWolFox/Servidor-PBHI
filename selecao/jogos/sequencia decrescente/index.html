@@ -63,7 +63,7 @@
             <a href="../../index.html" class="link-logo">
                 <img id="logo-header" src="../img/logo.png" alt="" class="logo grid-item">
             </a>
-            <h2 id="title-jogo" class="">JOGO DA SEQUÊNCIA</h2>
+            <h2 id="title-jogo" class="">SEQUÊNCIA DECRESCENTE</h2>
         </header>
 
         <main id="main-body" class="grid grid-full">
@@ -294,6 +294,14 @@
         textRoll(90, 6000)
     </script>
 
+    <script>
+        if (!localStorage.getItem('titulo')) {
+            localStorage.setItem('titulo', 'SEQUÊNCIA DECRESCENTE');
+        }
+
+        let mudandoTituloSequenciaDecrescente = document.getElementById('title-jogo');
+        mudandoTituloSequenciaDecrescente.innerHTML = `${localStorage.getItem('titulo')} - ${localStorage.getItem('ano')}`;
+    </script>
 
     </script>
     <!--aqui-->
@@ -301,7 +309,7 @@
     <script type="text/javascript">
         var synth = window.speechSynthesis;
 
-        if(!localStorage.getItem('audio')){
+        if (!localStorage.getItem('audio')) {
             localStorage.setItem('audio', 'ligado');
         }
 
@@ -369,7 +377,7 @@
         }, 1000);
 
 
-        window.addEventListener("blur", function (event) {
+        window.addEventListener("beforeunload", function (event) {
             synth.cancel();
             const botaoDeAudio = document.getElementById('botao-repetir-voz');
             botaoDeAudio.setAttribute('onclick', 'ativarAudio(this)');

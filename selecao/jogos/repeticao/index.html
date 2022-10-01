@@ -62,7 +62,7 @@
             <a href="../../index.html" class="link-logo">
                 <img id="logo-header" src="../img/logo.png" alt="" class="logo grid-item">
             </a>
-            <h2 id="title-jogo" class=""></h2>
+            <h2 id="title-jogo" class="">JOGO DA REPETIÇÃO</h2>
 
             <!--VERIFICANDO A SÉRIE E DESABILITANDO A VISIBILIDADE PARA O USUÁRIO-->
             <h2></h2>
@@ -330,14 +330,13 @@
         textRoll(90, 6000)
     </script>
 
-
     <script>
         if (!localStorage.getItem('titulo')) {
             localStorage.setItem('titulo', 'JOGO DA REPETICAO');
         }
 
         let mudandoTituloRepeticao = document.getElementById('title-jogo');
-        mudandoTituloRepeticao.innerHTML = localStorage.titulo;
+        mudandoTituloRepeticao.innerHTML = `${localStorage.getItem('titulo')} - ${localStorage.getItem('ano')}`;
     </script>
     </script>
 
@@ -413,7 +412,7 @@
         }, 1000);
 
 
-        window.addEventListener("blur", function (event) {
+        window.addEventListener("beforeunload", function (event) {
             synth.cancel();
             const botaoDeAudio = document.getElementById('botao-repetir-voz');
             botaoDeAudio.setAttribute('onclick', 'ativarAudio(this)');

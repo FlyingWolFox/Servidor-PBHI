@@ -64,7 +64,7 @@
             <a href="../../index.html" class="link-logo">
                 <img id="logo-header" src="../img/logo.png" alt="" class="logo grid-item">
             </a>
-            <h2 id="title-jogo" class="">Dominó da Diferença</h2>
+            <h2 id="title-jogo" class="">DOMINÓ DA DIFERENÇA</h2>
 
             <!--VERIFICANDO A SÉRIE E DESABILITANDO A VISIBILIDADE PARA O USUÁRIO-->
             <h2></h2>
@@ -345,13 +345,22 @@
         textRoll(90, 6000)
     </script>
 
+    <script>
+        if (!localStorage.getItem('titulo')) {
+            localStorage.setItem('titulo', 'DOMINÓ DA DIFERENÇA');
+        }
+
+        let mudandoTituloDomino = document.getElementById('title-jogo');
+        mudandoTituloDomino.innerHTML = `${localStorage.getItem('titulo')} - ${localStorage.getItem('ano')}`;
+    </script>
+
     </script>
 
     <!-- Funções para manipulações de áudio -->
     <script type="text/javascript">
         var synth = window.speechSynthesis;
 
-        if(!localStorage.getItem('audio')){
+        if (!localStorage.getItem('audio')) {
             localStorage.setItem('audio', 'ligado');
         }
 
@@ -419,7 +428,7 @@
         }, 1000);
 
 
-        window.addEventListener("blur", function (event) {
+        window.addEventListener("beforeunload", function (event) {
             synth.cancel();
             const botaoDeAudio = document.getElementById('botao-repetir-voz');
             botaoDeAudio.setAttribute('onclick', 'ativarAudio(this)');

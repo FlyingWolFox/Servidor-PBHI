@@ -197,6 +197,8 @@
         let completarNumeros = document.getElementById('completar-numeros');
         let sequenciaDeNumeros = document.getElementById('sequencia-de-numeros');
 
+        let sequenciaDecrescente = document.getElementById('sequencia-decrescente');
+
         let fluxograma = document.getElementById('fluxograma');
         let domino = document.getElementById('em-breve');
         let logix = document.getElementById('em-breve2');
@@ -237,7 +239,6 @@
             localStorage.setItem('titulo', 'JOGO DOS GRUPOS')
         })
 
-
         criarSequencia.addEventListener('click', function () {
             localStorage.setItem('titulo', 'CRIAR SEQUÊNCIA')
         })
@@ -250,6 +251,9 @@
             localStorage.setItem('titulo', 'SEQUÊNCIA DE NÚMEROS')
         })
 
+        sequenciaDecrescente.addEventListener('click', function() {
+            localStorage.setItem('titulo', 'SEQUÊNCIA DECRESCENTE');
+        });
 
         fluxograma.addEventListener('click', function () {
             localStorage.setItem('titulo', 'FLUXOGRAMA')
