@@ -1774,12 +1774,13 @@ function game() {
     let dropzoneArea = document.getElementById('dropzone-container-grupos-regras');
     if (!intersecaoAtiva) {
         divCaixaEsquerda.setAttribute('style', 'grid-column: 2/3; grid-row: 1/3;');
-        divCaixaDireita.setAttribute('style', 'grid-column: 4/5; grid-row: 1/3;');
+        divCaixaDireita.setAttribute('style', 'grid-column: 4/5; grid-row: 1/3; align-content: flex-start');
         divCaixaIntersecao.setAttribute('style', 'display: none;');
         dropzoneArea.setAttribute('style', 'grid-template-columns: 2fr 5fr 1fr 5fr 2fr;');
         divCaixaEsquerda.classList.remove('drop-meio-ativo');
         divCaixaIntersecao.classList.remove('drop-meio-ativo');
         divCaixaDireita.classList.remove('drop-meio-ativo');
+        divRestricaoDireita.setAttribute('style', 'margin-top: 0px;');
 
         let caixaEsquerdaDrop = document.getElementById("container-restricao-esquerda");
         caixaEsquerdaDrop.style.marginLeft = "160px";
@@ -1787,12 +1788,14 @@ function game() {
         caixaDireitaDrop.style.marginLeft = "10px";
     } else {
         divCaixaEsquerda.setAttribute('style', 'grid-column: 2/4; grid-row: 1/3;');
-        divCaixaDireita.setAttribute('style', 'grid-column: 3/5; grid-row: 2/4;');
+        divCaixaDireita.setAttribute('style', 'grid-column: 3/5; grid-row: 2/4; align-content: flex-end');
         divCaixaIntersecao.setAttribute('style', 'grid-column: 3/4; grid-row: 2/3;');
         dropzoneArea.setAttribute('style', 'grid-template-columns: 2fr repeat(3, 3fr) 2fr;');
         divCaixaEsquerda.classList.add('drop-meio-ativo');
         divCaixaIntersecao.classList.add('drop-meio-ativo');
         divCaixaDireita.classList.add('drop-meio-ativo');
+        divCaixaDireita.setAttribute('align-content', 'flex-end');
+        divRestricaoDireita.setAttribute('style', 'margin-top: 45px;');
     }
 
     /*verificar quantas imagens eu preciso criar*/

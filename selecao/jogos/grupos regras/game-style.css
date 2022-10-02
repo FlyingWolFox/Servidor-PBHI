@@ -562,7 +562,6 @@ section.drop-direito {
     border: 1px solid #FF9B09;
     flex-wrap: wrap;
     align-items: baseline;
-    align-content: flex-end;
     justify-content: flex-start;
     direction: rtl;
     min-height: 100px;
@@ -628,7 +627,6 @@ section.restricao-direita {
     width: 45px;
     grid-column: 5/6;
     grid-row: 1/4;
-    margin-top: 45px;
     margin-left: 12px;
     display: flex;
     flex-direction: column;
