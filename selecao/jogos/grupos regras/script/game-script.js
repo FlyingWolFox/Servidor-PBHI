@@ -1561,11 +1561,15 @@ function game() {
 
     let currentStage = stage_data[etapaAtual % stage_data.length];
     let intersecaoAtiva = etapaAtual >= 10;
+    endGame = etapaAtual + 1 >= etapaMax;
 
+    // TODO: remove this after testing
     if (etapaAtual % stage_data.length != 0)
         intersecaoAtiva = true;
     else
         intersecaoAtiva = false;
+    etapaMax = stage_data.length;
+    endGame = etapaAtual + 1 >= etapaMax;
 
     // TODO: set endGame variable properly!
     // TODO: comment this out when done
@@ -2178,103 +2182,53 @@ function checarResposta() {
     return RESPOSTA_CORRETA;
 }
 
-function check() { //Confere se acertou
+/**
+ * Função da UI que é chamada quando o usuário clica no botão de checar resposta
+ * Confere se a resposta está correta e mostra a mensagem apropriada
+ */
+function check() {
 
-    let flag1 = 0, flag2 = 0, flag3 = 0, lixo, mov = 0;
-    imgMov1 = [];
-    imgMov2 = [];
-    var imagensDropEsquerdo = document.getElementById(dropEsquerdoId).getElementsByTagName('img');
-    var imagensDropIntersecao = document.getElementById(dropIntersecaoId).getElementsByTagName('img');
-    var imagensDropDireito = document.getElementById(dropDireitoId).getElementsByTagName('img');
-    var imagensGeradas = document.getElementById(divRespostasId).getElementsByTagName('img');
-    var textoAcerto = document.getElementById('resultado-jogo');
-    var textoErro = document.getElementById('resultadoNegativo-jogo');
+    let textoAcerto = document.getElementById('resultado-jogo');
+    let textoErro = document.getElementById('resultadoNegativo-jogo');
 
-    var modalAcerto = document.getElementById("modalAcerto");
-    var modalErro = document.getElementById('modalErro');
-    var modalFim = document.getElementById('modalFim');
+    let modalAcerto = document.getElementById("modalAcerto");
+    let modalErro = document.getElementById('modalErro');
+    let modalFim = document.getElementById('modalFim');
 
-    var btnReiniciar = document.getElementById('botao-restart');
-    var botaoOk = document.getElementById('botao-proximo');
+    let btnReiniciar = document.getElementById('botao-restart');
+    let botaoOk = document.getElementById('botao-proximo');
 
-    /*Verifica se as caixas estão corretas e se todas as imagens corretas foram movidas */
-    flag1 = first(imagensDropEsquerdo, 'n');
-    flag3 = third(imagensDropDireito, 'n');
+    let respostaExatidao = checarResposta();
+    switch (respostaExatidao) {
+        case RESPOSTA_ERRADA:
+            modalErro.style.display = 'block';
+            textoErro.innerText = 'Resposta errada... Tente novamente!';
+            break;
 
+        case RESPOSTA_INCOMPLETA:
+            modalErro.style.display = 'block';
+            textoErro.innerText = 'Você ainda não moveu todas as imagens... Tente novamente.';
+            break;
 
-    /* Confere se a imagem não pertence aos dois*/
-    if (quantidade != 2) {
-
-        flag2 = first(imagensDropIntersecao, 'n') + third(imagensDropIntersecao, 'n');
-
-        if (imagensDropEsquerdo.length != 0) {
-
-            lixo = third(imagensDropEsquerdo, 's');
-            imgMov2.forEach(el => {
-                if (el == 0) {
-                    flag1++;
-                }
-
-            });
-        }
-
-        if (imagensDropDireito.length != 0) {
-
-            lixo = first(imagensDropDireito, 's');
-            imgMov1.forEach(el => {
-                if (el == 0) {
-                    flag3++;
-                }
-
-            });
-        }
-    }
-
-    /*confere se ainda há opções*/
-    if (imagensGeradas.length != 0) {
-
-        lixo = first(imagensGeradas, 's');
-        lixo = third(imagensGeradas, 's');
-
-        /*Analisa as flags.
-        Se a flag da determinada imagem for 0, significa que ela está correta e deve ser movida*/
-        imgMov1.forEach(el => {
-
-            if (el == 0) {
-                mov++;
+        case RESPOSTA_CORRETA:
+            if (endGame) {
+                chuva();
+                textoAcerto.innerHTML = "Você concluiu o jogo! Parabens!";
+                modalFim.style.display = 'block';
+                btnReiniciar.onclick = function (event) {
+                    stopChuva();
+                    etapaAtual = 0;
+                    endGame = false;
+                    resetEstrelas();
+                    game();
+                    modalFim.style.display = 'none';
+                };
             }
-
-        });
-
-        imgMov2.forEach(el => {
-
-            if (el == 0) {
-                mov++;
-            }
-
-        });
-    }
-
-    mov = 0;
-    [flag1, flag2, flag3] = [0, 0, 0];
-
-    /*Verifica todas as situações de resposta*/
-    if (mov != 0) {
-
-        console.warn('n movi todas');
-        modalErro.style.display = 'block';
-        textoErro.innerText = 'Você ainda não moveu todas as imagens... Tente novamente.';
-
-    } else {
-        if (flag1 == 0 && flag2 == 0 && flag3 == 0) {
-            if (endGame == false && etapaAtual <= etapaMax) {
-
+            else {
                 modalAcerto.style.display = 'block';
                 textoAcerto.innerText = 'Você acertou! Fase concluída.';
                 botaoOk.innerHTML = "Próxima";
                 botaoOk.onclick = function (event) {
-
-
                     etapaAtual++;
                     estrela++;
                     switch (estrela) {
@@ -2288,13 +2242,11 @@ function check() { //Confere se acertou
                         case 7:
                         case 8:
                         case 9:
-                            var texto = document.getElementById('texto1');
-                            texto.innerHTML = etapaAtual.toString() + "/10";
+                            document.getElementById('texto1').innerHTML = etapaAtual.toString() + "/10";
                             break;
                         case 10:
                             arrayEstrelas[0].setAttribute('src', '../img/estrelas/star1.svg');
-                            var texto = document.getElementById('texto1');
-                            texto.innerHTML = etapaAtual.toString() + "/10";
+                            document.getElementById('texto1').innerHTML = etapaAtual.toString() + "/10";
                             break;
                         case 11:
                         case 12:
@@ -2305,13 +2257,11 @@ function check() { //Confere se acertou
                         case 17:
                         case 18:
                         case 19:
-                            var texto = document.getElementById('texto2');
-                            texto.innerHTML = etapaAtual.toString() + "/20";
+                            document.getElementById('texto2').innerHTML = etapaAtual.toString() + "/20";
                             break;
                         case 20:
                             arrayEstrelas[1].setAttribute('src', '../img/estrelas/star1.svg');
-                            var texto = document.getElementById('texto2');
-                            texto.innerHTML = etapaAtual.toString() + "/20";
+                            document.getElementById('texto2').innerHTML = etapaAtual.toString() + "/20";
                             break;
                         case 21:
                         case 22:
@@ -2322,13 +2272,11 @@ function check() { //Confere se acertou
                         case 27:
                         case 28:
                         case 29:
-                            var texto = document.getElementById('texto3');
-                            texto.innerHTML = etapaAtual.toString() + "/30";
+                            document.getElementById('texto3').innerHTML = etapaAtual.toString() + "/30";
                             break;
                         case 30:
                             arrayEstrelas[2].setAttribute('src', '../img/estrelas/star1.svg');
-                            var texto = document.getElementById('texto3');
-                            texto.innerHTML = etapaAtual.toString() + "/30";
+                            document.getElementById('texto3').innerHTML = etapaAtual.toString() + "/30";
                             break;
                         case 31:
                         case 32:
@@ -2338,13 +2286,11 @@ function check() { //Confere se acertou
                         case 36:
                         case 37:
                         case 38:
-                            var texto = document.getElementById('texto4');
-                            texto.innerHTML = etapaAtual.toString() + "/40";
+                            document.getElementById('texto4').innerHTML = etapaAtual.toString() + "/40";
                             break;
                         case 39:
                             arrayEstrelas[3].setAttribute('src', '../img/estrelas/star1.svg');
-                            var texto = document.getElementById('texto4');
-                            texto.innerHTML = etapaAtual.toString() + "/40";
+                            document.getElementById('texto4').innerHTML = etapaAtual.toString() + "/40";
                             break;
                         default:
                             break;
@@ -2353,24 +2299,7 @@ function check() { //Confere se acertou
                     modalAcerto.style.display = 'none';
                 };
             }
-            else {
-                chuva();
-                textoAcerto.innerHTML = "Você concluiu o jogo! Parabens!";
-                modalFim.style.display = 'block';
-                btnReiniciar.onclick = function (event) {
-                    stopChuva();
-                    etapaAtual = 0;
-                    endGame = false;
-                    resetEstrelas();
-                    game();
-                    modalFim.style.display = 'none';
-                };
-            }
-        } else {
-
-            modalErro.style.display = 'block';
-            textoErro.innerText = 'Resposta errada... Tente novamente!';
-        }
+            break;
     }
 }
 
