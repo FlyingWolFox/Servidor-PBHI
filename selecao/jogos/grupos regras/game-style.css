@@ -681,7 +681,7 @@ section#caixa-direita img.draggable-mirror {
     width: 4.5%;
 }
 
-section#intDrop img.draggable-mirror {
+section#caixa-intersecao img.draggable-mirror {
 
     width: 3%;
 
@@ -695,9 +695,10 @@ section#container-respostas img.draggable-mirror{
 section#caixa-esquerda.drop-meio-ativo img,
 section#caixa-direita.drop-meio-ativo img {
 
-    width: 90px;
-    max-width: unset;
-    margin: 5px;
+    margin-top: 10px;
+    margin-left: 10px;
+    width: 50px;
+    /* max-width: 75%; */
 }
 
 section#caixa-intersecao.drop-meio-ativo img {
