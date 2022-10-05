@@ -39,13 +39,13 @@ routerProfessores.post('/conferirCodigo', async (req, res) => {
                 email: email,
             }
           
-          const token = jwt.sign(data, jwtSecretKey);
-          console.log(token)
-          req.session.token = token;
-        res.redirect(302, '/professores/OpcoesProfessores.html');
+            const token = jwt.sign(data, jwtSecretKey);
+            console.log(token)
+            req.session.token = token;
+            res.redirect(302, '/professores/OpcoesProfessores.html');
         }
        else{
-        res.status(401).send("Ocorreu um erro ao conferir o novo professor");
+            res.status(401).send("Ocorreu um erro ao conferir o novo professor");
        }
 })
 
