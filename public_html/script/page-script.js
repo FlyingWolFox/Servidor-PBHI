@@ -77,19 +77,14 @@ var logado = false;
 function setEventoBotão(){
   buttonLogin = document.getElementById('botao-modal-login')
   buttonLogin.removeEventListener('click', trocarPagIndex);
-  buttonLogin.addEventListener('click', post);
+  buttonLogin.addEventListener('click', salvaNome);
 }
-function criarModalLogin(nome, anoAluno){ //Criando modal de login
+function criarModalLogin(nome){ //Criando modal de login
   const body = document.querySelector('body')
   let fundo = document.createElement('form')
   fundo.setAttribute('id','modal-login')
   let backgroundLogin = document.createElement('div')
   backgroundLogin.setAttribute('id','background-modal-login')
-  let anoAtual = document.createElement('input')
-  anoAtual.setAttribute('type','text')
-  anoAtual.setAttribute('name','ano')
-  anoAtual.setAttribute('id','anoAtual-modal-login')
-  anoAtual.setAttribute('value', anoAluno)
   let firstName = document.createElement('input')
   let buttonLogin = document.createElement('input')
   firstName.setAttribute('type','text')
@@ -111,54 +106,26 @@ function criarModalLogin(nome, anoAluno){ //Criando modal de login
     firstName.addEventListener('input', setEventoBotão)
   }else{
     firstName.setAttribute('placeholder','Nome Completo')
-    buttonLogin.addEventListener('click', post)
+    buttonLogin.addEventListener('click', salvaNome)
   }
-  backgroundLogin.appendChild(anoAtual);
   backgroundLogin.appendChild(firstName)
   backgroundLogin.appendChild(buttonLogin)
   fundo.appendChild(backgroundLogin)
   body.appendChild(fundo)
 }
- function trocarPagIndex(){
-  window.location.href = 'selecao/index.html'
-  
-}
  
-async function checkStatus(ano){
-  var anoAluno = ano;
-  if(!anoAluno){
-    console.log('não recebi o ano')
-  }
-  let resultado = await (await fetch('/getStatus'))
-  resultado = await resultado.json();
-  criarModalLogin(resultado.nome, anoAluno);
+function trocarPagIndex(){
+   window.location.href = 'selecao/index.html';
 }
+var nome = localStorage.getItem('nome');
+criarModalLogin(nome);
 
-async function post(){
-  var modal = document.getElementById('modal-login')
-  var Fnome = document.getElementById('firstName-modal-login').value 
-  var Fano = document.getElementById('anoAtual-modal-login').value 
-
-  var data = {
-    nome: Fnome,
-    ano: Fano
+//
+function salvaNome(){
+  let nome = document.getElementById('firstName-modal-login').value
+  if(nome.length > 0){
+    document.getElementById('modal-login').style.display = 'none';
+    localStorage.setItem('nome',nome)
   }
-
-  let resultado = await fetch('/nome', {
-    method: "POST",
-    headers : { 
-      'Content-Type': 'application/json',
-      'Accept': 'application/json'
-     },
-    body: JSON.stringify(data)
-  })
-
-  let error = await resultado.json();
-
-  if(error){
-    console.log(error)
-  }
-  else{
-    window.location.href = './selecao/index.html';
-  }
+  logado = true;
 }

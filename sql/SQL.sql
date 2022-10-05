@@ -66,11 +66,13 @@ CREATE TABLE interacao
  id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,  
  data_hora TIMESTAMP DEFAULT NULL,  
  origem VARCHAR(30) DEFAULT NULL,  
- destino VARCHAR(30) DEFAULT NULL,  
+ destino VARCHAR(30) DEFAULT NULL,   
+ nome_jogo VARCHAR(30) DEFAULT NULL,
+ fase_atual VARCHAR(30) DEFAULT NULL,
  no_origem ENUM('INÍCIO','FIM','Colocar na Esquerda','Colocar na direita','Colocar na interseção','Não mover','É quadrado?','É círculo?','É retângulo?','É triângulo?','É vermelho?','É amarelo?','É azul?','É pequeno?','É grande?','Tem borda?') DEFAULT NULL,
  no_destino ENUM('INÍCIO','FIM','Colocar na Esquerda','Colocar na direita','Colocar na interseção','Não mover','É quadrado?','É círculo?','É retângulo?','É triângulo?','É vermelho?','É amarelo?','É azul?','É pequeno?','É grande?','Tem borda?') DEFAULT NULL,
- tipo_ligacao ENUM('SIM','NÃO','SEM LIGAÇÃO') DEFAULT NULL,
- id_partida INT NOT NULL
+ tipo_ligacao ENUM('SIM','NÃO','SEM LIGAÇÃO') DEFAULT NULL
+--  id_partida INT NOT NULL
 );
 
 CREATE TABLE atividade 
@@ -89,7 +91,8 @@ CREATE TABLE atividade
 
 ALTER TABLE partida ADD FOREIGN KEY(id_jogador) REFERENCES jogador (id);
 ALTER TABLE partida ADD FOREIGN KEY(nome_jogo) REFERENCES jogo (nome_jogo);
-ALTER TABLE interacao ADD FOREIGN KEY(id_partida) REFERENCES partida (id);
+-- ALTER TABLE interacao ADD FOREIGN KEY(id_partida) REFERENCES partida (id);
+-- ALTER TABLE interacao ADD FOREIGN KEY(nome_jogo) REFERENCES partida (nome_jogo);
 ALTER TABLE atividade ADD FOREIGN KEY(jogo) REFERENCES jogo (nome_jogo);
 ALTER TABLE atividade ADD FOREIGN KEY(professor_email) REFERENCES professor (email);
 ALTER TABLE sessionp ADD FOREIGN KEY(id_jogador) REFERENCES jogador (id);
