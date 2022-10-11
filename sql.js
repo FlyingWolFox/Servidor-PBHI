@@ -1,6 +1,6 @@
 const connection = require('./connection')
 if(!connection){
-
+//teste
 }
 let sql = {};
 sql.getJogador = (id) =>{
