@@ -71,9 +71,7 @@ routerDefault.post('/partida', async (req,res)=>{
 
 
 routerDefault.post('/nome', async (req,res) => {
-    console.log("Passei1")
     req.session.regenerate((e) => {})
-    console.log("Passei2")
     const nome = req.body.nome;
     const ano = req.body.ano;
 
