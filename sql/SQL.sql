@@ -1,6 +1,57 @@
 create database temlogicaDB;
 use temlogicaDB;
 
+CREATE TABLE professor 
+( 
+ codigo VARCHAR(8) NOT NULL UNIQUE,  
+ email VARCHAR(50) PRIMARY KEY NOT NULL,  
+ nome_professor VARCHAR(45) NOT NULL
+);
+
+
+CREATE TABLE jogo 
+( 
+ nome_jogo VARCHAR(30) PRIMARY KEY NOT NULL,  
+ max_fase INT
+);
+
+CREATE TABLE jogador 
+( 
+ id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,  
+ nome VARCHAR(30) DEFAULT NULL,  
+ ano VARCHAR(30) DEFAULT NULL
+);
+
+CREATE TABLE interacao 
+( 
+ id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,  
+--  data_hora TIMESTAMP DEFAULT NULL,  
+ data_hora TIMESTAMP,  
+ origem VARCHAR(30) DEFAULT NULL,  
+ destino VARCHAR(30) DEFAULT NULL,   
+ nome_jogo VARCHAR(30) DEFAULT NULL,
+ fase_atual VARCHAR(30) DEFAULT NULL,
+ no_origem ENUM('INÍCIO','FIM','Colocar na Esquerda','Colocar na direita','Colocar na interseção','Não mover','É quadrado?','É círculo?','É retângulo?','É triângulo?','É vermelho?','É amarelo?','É azul?','É pequeno?','É grande?','Tem borda?') DEFAULT NULL,
+ no_destino ENUM('INÍCIO','FIM','Colocar na Esquerda','Colocar na direita','Colocar na interseção','Não mover','É quadrado?','É círculo?','É retângulo?','É triângulo?','É vermelho?','É amarelo?','É azul?','É pequeno?','É grande?','Tem borda?') DEFAULT NULL,
+ tipo_ligacao ENUM('SIM','NÃO','SEM LIGAÇÃO') DEFAULT NULL
+--  id_partida INT NOT NULL
+);
+
+CREATE TABLE atividade 
+( 
+ id_atividade VARCHAR(8) PRIMARY KEY NOT NULL,  
+ jogo VARCHAR(30) NOT NULL,  
+ escola VARCHAR(30) NOT NULL,  
+ turma VARCHAR(10) NOT NULL,  
+ datah_criacao TIMESTAMP NOT NULL,  
+ datah_expiracao TIMESTAMP NOT NULL,  
+ professor_nome VARCHAR(45) NOT NULL,  
+ professor_email VARCHAR(50) NOT NULL,
+ ano VARCHAR(30) NOT NULL,
+ comentario VARCHAR(300) 
+);
+
+
 CREATE TABLE `sessions` (
   `session_id` varchar(128) NOT NULL,
   `expires` bigint DEFAULT NULL,
@@ -30,13 +81,6 @@ CREATE TABLE sessionp
  id_atividade VARCHAR(30) DEFAULT NULL
 );
 
-CREATE TABLE professor 
-( 
- codigo VARCHAR(8) NOT NULL UNIQUE,  
- email VARCHAR(50) PRIMARY KEY NOT NULL,  
- nome_professor VARCHAR(45) NOT NULL
-);
-
 CREATE TABLE partida 
 ( 
  id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,  
@@ -46,47 +90,6 @@ CREATE TABLE partida
  fase_atual INT NOT NULL DEFAULT '0',  
  id_jogador INT NOT NULL,  
  nome_jogo VARCHAR(30) DEFAULT NULL
-);
-
-CREATE TABLE jogo 
-( 
- nome_jogo VARCHAR(30) PRIMARY KEY NOT NULL,  
- max_fase INT
-);
-
-CREATE TABLE jogador 
-( 
- id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,  
- nome VARCHAR(30) DEFAULT NULL,  
- ano VARCHAR(30) DEFAULT NULL
-);
-
-CREATE TABLE interacao 
-( 
- id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,  
- data_hora TIMESTAMP DEFAULT NULL,  
- origem VARCHAR(30) DEFAULT NULL,  
- destino VARCHAR(30) DEFAULT NULL,   
- nome_jogo VARCHAR(30) DEFAULT NULL,
- fase_atual VARCHAR(30) DEFAULT NULL,
- no_origem ENUM('INÍCIO','FIM','Colocar na Esquerda','Colocar na direita','Colocar na interseção','Não mover','É quadrado?','É círculo?','É retângulo?','É triângulo?','É vermelho?','É amarelo?','É azul?','É pequeno?','É grande?','Tem borda?') DEFAULT NULL,
- no_destino ENUM('INÍCIO','FIM','Colocar na Esquerda','Colocar na direita','Colocar na interseção','Não mover','É quadrado?','É círculo?','É retângulo?','É triângulo?','É vermelho?','É amarelo?','É azul?','É pequeno?','É grande?','Tem borda?') DEFAULT NULL,
- tipo_ligacao ENUM('SIM','NÃO','SEM LIGAÇÃO') DEFAULT NULL
---  id_partida INT NOT NULL
-);
-
-CREATE TABLE atividade 
-( 
- id_atividade VARCHAR(8) PRIMARY KEY NOT NULL,  
- jogo VARCHAR(30) NOT NULL,  
- escola VARCHAR(30) NOT NULL,  
- turma VARCHAR(10) NOT NULL,  
- datah_criacao TIMESTAMP NOT NULL,  
- datah_expiracao TIMESTAMP NOT NULL,  
- professor_nome VARCHAR(45) NOT NULL,  
- professor_email VARCHAR(50) NOT NULL,
- ano VARCHAR(30) NOT NULL,
- comentario VARCHAR(300) 
 );
 
 ALTER TABLE partida ADD FOREIGN KEY(id_jogador) REFERENCES jogador (id);

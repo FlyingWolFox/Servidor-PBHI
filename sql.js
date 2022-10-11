@@ -1,8 +1,9 @@
 const connection = require('./connection')
 if(!connection){
-//teste
+  
 }
 let sql = {};
+
 sql.getJogador = (id) =>{
     return new Promise((resolve, reject)=>{
         connection.query('SELECT * FROM jogador WHERE id_jogador = ?', [id], (error, jogador)=>{
