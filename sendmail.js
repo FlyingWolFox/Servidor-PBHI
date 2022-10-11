@@ -10,22 +10,24 @@ const transporter = nodemailer.createTransport({
 });
 
 
-const send_mail = (email,codigo) => {
+const send_mail = async (email,codigo) => {
+    return new Promise((resolve, reject) => {
+        const mailOptions = {
+            from: 'riquependragon@gmail.com',
+            to: email,
+            subject: 'Código de acesso como professor',
+            text: 'Seu novo código é '+codigo
+        };
     
-    const mailOptions = {
-        from: 'riquependragon@gmail.com',
-        to: email,
-        subject: 'Código de acesso como professor',
-        text: 'Seu novo código é '+codigo
-    };
-
-    transporter.sendMail(mailOptions, function(error, info){
-        if (error) {
-          console.log(error);
-        } else {
-          console.log('Email enviado: ' + info.response);
-        }
-    });
+        transporter.sendMail(mailOptions, function(error, info){
+            if (error) {
+              reject(error)
+            } else {
+            //   console.log('Email enviado: ' + info.response);
+              resolve(info.response)
+            }
+        });        
+    })
 }
 
 module.exports = send_mail;

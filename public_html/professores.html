@@ -128,12 +128,13 @@
                 </form>
                 <form class=Prof-form id="cadastroProf-form" onsubmit="send_email()">
                     <section class="form-section" style="grid-column: 1/2; grid-row: 1/3; width: 100%;">
-                        <p class="sobre_input">Não tem cadastro?</p>
+                        <p class="sobre_input">Não tem cadastro ou quer um novo código?</p>
                         <input type="text" id="email_professor" class="form-input" name="emailProfessor" placeholder="Seu email" maxlength="50">                
                         <input type="text" id="nome_professor" class="form-input" name="nomeProfessor" placeholder="Seu nome" maxlength="45">                  
                         <br>
                         <input type="submit" class="botao" id="botao-resultado" value="Gerar novo código">
                     </section>
+                    <div id="boxResposta" class="responseMsg"></div>
                  </form>
                 </section>
             </section>
