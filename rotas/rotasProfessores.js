@@ -101,16 +101,21 @@ routerProfessores.post('/getLink', async (req, res)=>{
     const datah_expiracao = new Date();
     datah_expiracao.setTime(intervalo);
     const expiracao_UTC = datah_expiracao.toISOString().slice(0, 19).replace('T', ' ');
-    console.log(criacao_UTC, expiracao_UTC);
-    await sql.insertAtividade(id, req.body.nomeProfessor, req.body.escola,req.body.turma, req.body.nome_jogo,req.body.anoAtividade, criacao_UTC, expiracao_UTC, req.body.email, req.body.comentarioAtividade)
-    const URL = process.env.APP_URL+'/atividade/'+ id 
-    console.log(req.body);
-    if(!req.body){
-        res.send("Tá chegando vazio!")
+    // console.log(criacao_UTC, expiracao_UTC);
+
+    if(!req.body.escola || !req.body.turma || !req.body.anoAtividade || !req.body.email || !req.body.nome_jogo){
+        res.status(404).send("Preencha todos os campos")
     }else{
-        res.send(URL);
-    }
-  
+        try{
+            await sql.insertAtividade(id, req.body.nomeProfessor, req.body.escola,req.body.turma, req.body.nome_jogo,req.body.anoAtividade, criacao_UTC, expiracao_UTC, req.body.email, req.body.comentarioAtividade)
+            const URL = process.env.APP_URL+'/atividade/'+ id 
+            console.log(req.body);
+    
+            res.status(200).send(URL);
+        }catch{
+            res.status(401).send("É necessário ter um email cadastrado")
+        }
+    }  
 })
 
 routerProfessores.all('*', (req,res)=>{ 

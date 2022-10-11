@@ -8,11 +8,25 @@ function formHandler(event){
     const form = document.getElementById('crieAtividade-form');
     form.addEventListener('submit', formHandler);
     const response = await fetch("/professores/getLink", {method:'post', body: new FormData(form)});
-    var botao = document.getElementById('botao-resultado');
-    botao.innerHTML = await response.text()
-    console.log(botao.innerHTML)
-    CopiaURL()
-    botao.disabled = true;
+    const botao = document.getElementById('botao-resultado');
+    const responseBox = document.getElementById('boxResposta');
+
+    if (response.status == 200){
+        responseBox.style.display = "none";
+        responseBox.classList.add("infoMsg");
+        responseBox.innerHTML = "Link foi copiado"
+        responseBox.style.display = "block";
+        
+        botao.innerHTML = await response.text()
+        CopiaURL()
+        botao.disabled = true;
+        
+    }else{
+        responseBox.style.display = "none";
+        responseBox.style.display = "block";
+        responseBox.innerHTML = await response.text()
+        responseBox.classList.add("errorMsg");
+    }
   }
 
  

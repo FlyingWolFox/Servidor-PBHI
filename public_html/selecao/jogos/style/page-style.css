@@ -980,6 +980,36 @@ button#botao-retorno {
     font-weight: unset;
 }
 
+/* ----------------------------- */
+/*   Ajuste css Erros e Acertos  */
+/* ----------------------------- */
+div.responseMsg{
+    display: none;
+
+    border: 1px solid ;
+    padding: 7px 30px;
+    border-radius: 5px;
+    box-sizing: border-box;
+
+    text-align: center;
+    color: white;
+    transition: all 0.5s;
+}
+
+div.errorMsg{
+    background-color: #610000d0;
+    border-color: #ff0000;
+}
+div.sucessMsg{
+    background-color: #71c93bea;
+    border-color: #92ff4f;
+}
+div.infoMsg{
+    background-color: #0077ffb0;
+    border-color: #1e84f8;
+}
+
+
 /* -------------------------- */
 /*  Ajuste do css no Tablet   */
 /* -------------------------- */

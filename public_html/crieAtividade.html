@@ -71,8 +71,10 @@
 
             font-weight: 700;
         }
-        section.container-botao{
-            margin: 10px auto;
+        section#btnMsg{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
         textarea#comentario-atividade{
             border: solid black 3px;
@@ -87,7 +89,7 @@
             font-weight: 700; 
         }
         button#botao-resultado{
-            margin-bottom: 0;
+            margin: 10px auto;
         }
     </style>
 </head>
@@ -171,8 +173,11 @@
                     <textarea id="comentario-atividade" name="comentarioAtividade" maxlength="300"
                         placeholder="Escreva aqui um comentário descrevendo a atividade para seus alunos..."></textarea>
                 </section>
-                <section class = 'container-botao'>
+                <section id="btnMsg">
                     <button onclick = getLink() class="botao" id="botao-resultado">Gerar Link</button>
+
+                    <div id="boxResposta" class="responseMsg">
+                    </div>
                 </section>
                 </section>
             </form>
