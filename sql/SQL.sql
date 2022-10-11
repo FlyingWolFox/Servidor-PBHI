@@ -69,8 +69,6 @@ ALTER TABLE partida ADD FOREIGN KEY(nome_jogo) REFERENCES jogo (nome_jogo);
 -- ALTER TABLE interacao ADD FOREIGN KEY(nome_jogo) REFERENCES partida (nome_jogo);
 ALTER TABLE atividade ADD FOREIGN KEY(jogo) REFERENCES jogo (nome_jogo);
 ALTER TABLE atividade ADD FOREIGN KEY(professor_email) REFERENCES professor (email);
-ALTER TABLE sessionp ADD FOREIGN KEY(id_jogador) REFERENCES jogador (id);
-ALTER TABLE sessionp ADD FOREIGN KEY(id_atividade) REFERENCES atividade (id_atividade);
 alter table jogo add diretorio varchar(80) NULL;
 
 update jogo set diretorio = "./selecao/jogos/repeticao/index.html" where nome_jogo = 'REPETIÇÃO';
@@ -122,3 +120,6 @@ CREATE TABLE sessionp
  id_jogador INT DEFAULT NULL,  
  id_atividade VARCHAR(30) DEFAULT NULL
 );
+
+ALTER TABLE sessionp ADD FOREIGN KEY(id_jogador) REFERENCES jogador (id);
+ALTER TABLE sessionp ADD FOREIGN KEY(id_atividade) REFERENCES atividade (id_atividade);
