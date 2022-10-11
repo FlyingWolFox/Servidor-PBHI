@@ -57,7 +57,7 @@ CREATE TABLE `sessions` (
   `expires` bigint DEFAULT NULL,
   `data` mediumtext,
   PRIMARY KEY (`session_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 DELIMITER $$
 USE `temlogicadb`$$
