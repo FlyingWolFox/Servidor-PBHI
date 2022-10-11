@@ -139,14 +139,15 @@ async function post(){
     nome: Fnome,
     ano: Fano
   }
-  let resultado = await fetch('/nome', {
-    method: "POST",
-    headers : { 
-      'Content-Type': 'application/json',
-      'Accept': 'application/json'
-     },
-    body: JSON.stringify(data)
-  })
+  // let resultado = await fetch('/nome', {
+  //   method: "POST",
+  //   headers : { 
+  //     'Content-Type': 'application/json',
+  //     'Accept': 'application/json'
+  //    },
+  //   body: JSON.stringify(data)
+  // })
+  let resultado = await fetch('/getTempoMedio')
   let error = await resultado.text();
   if(error){
     console.log(error)
