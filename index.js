@@ -1,4 +1,5 @@
 //requisições do express
+require('dotenv').config()
 const express = require('express');
 const app = express();
 const multer = require('multer');
@@ -15,19 +16,19 @@ const routerProfessores = require('./rotas/rotasProfessores.js');
 const TWO_HOURS = 1000 * 60 * 60 * 2
 
 var option = {
-    host: 'localhost',
-    user: 'root',
-    password: 'dumb123',
-    database: 'temlogicaDB',
+    host: process.env.DATABASE_HOST,
+    user: process.env.DATABASE_USER,
+    password: process.env.DATABASE_PASSWORD,
+    database: process.env.DATABASE_NAME,
     waitForConnections: true,
     connectionLimit: 10,
     
 }
 optStore = {
-    host: 'localhost',
-    user: 'root',
-    password: 'dumb123',
-    database: 'temlogicaDB',
+    host: process.env.DATABASE_HOST,
+    user: process.env.DATABASE_USER,
+    password: process.env.DATABASE_PASSWORD,
+    database: process.env.DATABASE_NAME,
     waitForConnections: true,
     connectionLimit: 10,
     createDatabaseTable: false,
