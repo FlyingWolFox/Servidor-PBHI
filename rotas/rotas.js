@@ -74,7 +74,7 @@ routerDefault.post('/nome', async (req,res,next) => {
     req.session.regenerate((e) => {})
     const nome = req.body.nome;
     const ano = req.body.ano;
-    
+    console.log("Passei")
 
     var erros = [];
 

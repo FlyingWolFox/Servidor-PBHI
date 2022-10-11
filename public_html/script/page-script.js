@@ -147,7 +147,7 @@ async function post(){
      },
     body: JSON.stringify(data)
   })
-  let error = await resultado.json();
+  let error = await resultado.text();
   if(error){
     console.log(error)
   }

@@ -46,7 +46,7 @@ CREATE TABLE `interacao` (
   PRIMARY KEY (`id`),
   KEY `id_jogador_idx` (`id_jogador`),
   CONSTRAINT `id_jogador` FOREIGN KEY (`id_jogador`) REFERENCES `jogador` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 
 CREATE TABLE atividade 
