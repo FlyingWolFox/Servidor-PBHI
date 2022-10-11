@@ -100,7 +100,7 @@ routerDefault.post('/nome', async (req,res,next) => {
         res.json("");
     }
    
-})//
+})
 routerDefault.get('/getTempoMedio', async (req, res) =>{
     const tempoMedio = await sql.getTempoMedio();
     if(tempoMedio){
