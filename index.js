@@ -8,9 +8,7 @@ const session = require('express-session');
 const logger = require('./logger.js');
 const routerDefault = require('./rotas/rotas');
 const mysqlStore = require('express-mysql-session')(session);
-console.log("Não passei")
 const connection = require('mysql2/promise');
-console.log("passei")
 const routerAtividade = require('./rotas/rotasAtividade.js');
 const routerProfessores = require('./rotas/rotasProfessores.js');
 // const fs = require('fs');
