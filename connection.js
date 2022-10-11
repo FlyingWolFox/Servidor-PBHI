@@ -1,4 +1,4 @@
-const mysql = require('mysql2');
+const mysql = require('mysql');
 const connection = mysql.createPool({
   connectionLimit: 10,
   host: process.env.DATABASE_HOST,
