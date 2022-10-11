@@ -1,5 +1,5 @@
-create database temlogicaDB;
-use temlogicaDB;
+create database heroku_55518ae5848ddec;
+use heroku_55518ae5848ddec;
 
 CREATE TABLE professor 
 ( 
@@ -60,7 +60,7 @@ CREATE TABLE `sessions` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 DELIMITER $$
-USE `temlogicadb`$$
+USE `heroku_55518ae5848ddec`$$
 CREATE DEFINER=`root`@`localhost` TRIGGER `sessions_BEFORE_DELETE` BEFORE DELETE ON `sessions` FOR EACH ROW BEGIN
 update sessionp 
 inner join sessions on sessionp.idsessionP = sessions.session_id
