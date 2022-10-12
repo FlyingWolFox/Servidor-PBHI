@@ -44,8 +44,11 @@ async function send_email(){
 async function setMsgResponse(response){
     const responseBox = document.getElementById("boxResposta");
 
+    // console.log(response.status)
+
     if (response.status == 200){
         responseBox.style.display = "none";
+        responseBox.classList.remove("errorMsg");
         responseBox.classList.add("sucessMsg");
         responseBox.innerHTML = await response.text()
         responseBox.style.display = "block";
@@ -53,6 +56,7 @@ async function setMsgResponse(response){
         responseBox.style.display = "none";
         responseBox.style.display = "block";
         responseBox.innerHTML = await response.text()
+        responseBox.classList.remove("sucessMsg");
         responseBox.classList.add("errorMsg");
     }
 }

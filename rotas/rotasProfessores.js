@@ -81,10 +81,10 @@ routerProfessores.post('/UpdateProfessorCodigo', async (req, res) => {
 
             if(professor.length > 0){
                 await sql.updateProfessor(email,id); 
-                res.status(200).send("Criado com sucesso! Verifique o email.")
+                res.status(200).send("Atualizado com sucesso! Verifique o email.")
             }else{
                 await sql.salvarNovoProfessor(email,id,nome) 
-                res.status(200).send("Atualizado com sucesso! Verifique o email.")
+                res.status(200).send("Criado com sucesso! Verifique o email.")
             }
         }catch{
             res.status(404).send("Não foi possível mandar o email!")
