@@ -13,6 +13,7 @@ function formHandler(event){
 
     if (response.status == 200){
         responseBox.style.display = "none";
+        responseBox.classList.remove("errorMsg");
         responseBox.classList.add("infoMsg");
         responseBox.innerHTML = "Link foi copiado"
         responseBox.style.display = "block";
@@ -25,6 +26,7 @@ function formHandler(event){
         responseBox.style.display = "none";
         responseBox.style.display = "block";
         responseBox.innerHTML = await response.text()
+        responseBox.classList.remove("infoMsg");
         responseBox.classList.add("errorMsg");
     }
   }
