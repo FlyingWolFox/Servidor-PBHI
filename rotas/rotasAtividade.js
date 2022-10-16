@@ -51,7 +51,7 @@ routerAtividade.post('/formAtividade.html',  async (req, res) =>{
         console.log(atividade)
         const id_jogador = await insertJogador(nome, atividade[0].ano);
         req.session.id_jogador = id_jogador;
-        const diretorio = (await sql.getJogobyNome(atividade[0].jogo)).diretorio;
+        const diretorio = (await sql.getJogoPorNome(atividade[0].jogo)).diretorio;
         //puxa do bd a atividade, insere no bd o jogador(nome e ano) verifica qual é o jogo para depois redirecionar
         console.log(diretorio)
         res.redirect('../'+ diretorio);

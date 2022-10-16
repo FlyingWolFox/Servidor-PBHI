@@ -128,7 +128,8 @@ sql.getJogadorByNomeAno = (nome, ano) =>{
         });
     });
 };
-sql.getJogoByNome = (jogo) =>{
+
+sql.getJogoPorNome = (jogo) =>{
   return new Promise((resolve, reject)=>{
       connection.query('SELECT * FROM jogo WHERE nome_jogo = ?', [jogo], (error, result)=>{
           if(error){
