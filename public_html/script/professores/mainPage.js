@@ -13,7 +13,11 @@ async function logar_codigo(){
             codigo: codigo
         })
     })
-    if(response.status != 200) setMsgResponse(response);
+    if(response.status != 200){
+        setMsgResponse(response);
+    }else{
+        window.location.href = '../professores/OpcoesProfessores.html'
+    }
     resultado = await dados.text()
     console.log(resultado)
 }

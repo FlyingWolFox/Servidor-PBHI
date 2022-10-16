@@ -128,6 +128,16 @@ sql.getJogadorByNomeAno = (nome, ano) =>{
         });
     });
 };
+sql.getJogoByNome = (jogo) =>{
+  return new Promise((resolve, reject)=>{
+      connection.query('SELECT * FROM jogo WHERE nome_jogo = ?', [jogo], (error, result)=>{
+          if(error){
+              return reject(error);
+          }
+          return resolve(result[0]);
+      });
+  });
+};
 
 sql.insertAtividade = (id, nome_professor, escola, turma, jogo, ano, datah_criacao, datah_expiracao, email, comentario) =>{
   return new Promise((resolve, reject)=>{
@@ -154,7 +164,7 @@ sql.insertContato = (nome, email, texto) =>{
 };
 sql.insertJogador = (nome, ano) =>{
     return new Promise((resolve, reject)=>{
-        connection.query('INSERT INTO jogador (nome, ano_jogador) VALUES (?, ?)', [nome, ano], (error, result)=>{
+        connection.query('INSERT INTO jogador (nome, ano) VALUES (?, ?)', [nome, ano], (error, result)=>{
             if(error){
                 return reject(error);
             }
@@ -176,9 +186,9 @@ sql.insertPartida = (nome_jogo,id_jogador,tempoDeJogo,data_hora, sucesso, fase_a
   });
 };
 
-sql.insertInteracao = (origem, destino, tipoLigacao, data_hora,id_jogador, nome_jogo, fase_atual) =>{
+sql.insertInteracao = (origem, destino, tipoLigacao, data_hora, nome_jogo, fase_atual,id_jogador) =>{
   return new Promise((resolve, reject)=>{
-      connection.query('INSERT INTO interacao (no_origem, no_destino, tipo_Ligacao, data_hora, id, nome_jogo, fase_atual ) VALUES (?, ?, ?, ? ,?, ?, ?)', [origem, destino, tipoLigacao, data_hora,id_jogador,nome_jogo, fase_atual], (error, result)=>{
+      connection.query('INSERT INTO interacao (no_origem, no_destino, tipo_Ligacao, data_hora, nome_jogo, fase_atual, id_jogador ) VALUES (?, ?, ?, ? ,?, ?, ?)', [origem, destino, tipoLigacao, data_hora,nome_jogo, fase_atual,id_jogador], (error, result)=>{
           if(error){
               return reject(error);
           }
@@ -200,7 +210,7 @@ sql.deleteSession = (id) =>{
 
 sql.insertSession = (session_id, id_jogador, browser, platform) =>{
   return new Promise((resolve, reject)=>{
-    connection.query('INSERT INTO sessionp (idsessionP, id_jogador, browser, platform) VALUES (?, ?, ?, ?)', [session_id, id_jogador, browser, platform], (error, result)=>{
+    connection.query('INSERT INTO sessionp (id, id_jogador, navegador, plataforma) VALUES (?, ?, ?, ?)', [session_id, id_jogador, browser, platform], (error, result)=>{
         if(error){
             return reject(error);
         }
@@ -213,7 +223,7 @@ sql.insertSession = (session_id, id_jogador, browser, platform) =>{
 sql.addAluno = (nome,ano) => { //Adiciona os dados nome e ano à tabela alunos
   return new Promise((resolve) => {
     connection.query(
-      "INSERT INTO jogador (nome,ano_jogador) VALUES ('"+nome+"','"+ano+"')", (erro,result) => {
+      "INSERT INTO jogador (nome,ano) VALUES ('"+nome+"','"+ano+"')", (error,result) => {
         resolve(result.insertId)
      }
     )

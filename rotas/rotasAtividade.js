@@ -5,7 +5,7 @@ const sessao = require('../session');
 
 
 const useragent = require('express-useragent');
-const { getAtividadeById } = require('../sql.js');
+const { getAtividadeById, insertJogador } = require('../sql.js');
 
 
 
@@ -14,7 +14,9 @@ routerAtividade.use(useragent.express());
 
 routerAtividade.get('/:atividadeid', async (req, res, next) =>{
     const id = req.params.atividadeid;
+    console.log(id)
     const atividade = (await sql.getAtividadeById(id))[0];
+    req.session.id_atividade = atividade;
     console.log("Atividade: "+atividade)
     console.log(atividade.datah_expiracao);
     const horaAtual = new Date().toISOString().slice(0, 19).replace('T', ' ');
@@ -43,13 +45,17 @@ routerAtividade.get('/:atividadeid', async (req, res, next) =>{
 routerAtividade.post('/formAtividade.html',  async (req, res) =>{
     const nome = req.body.nome;
     if(nome){
-        console.log(nome);
         const atividade_id = req.session.id_atividade
-        const atividade = await sql.getAtividadeById(atividade_id)
+        console.log(atividade_id)
+        const atividade = await sql.getAtividadeById(atividade_id);
         console.log(atividade)
+        const id_jogador = await insertJogador(nome, atividade[0].ano);
+        req.session.id_jogador = id_jogador;
+        const diretorio = (await sql.getJogobyNome(atividade[0].jogo)).diretorio;
         //puxa do bd a atividade, insere no bd o jogador(nome e ano) verifica qual é o jogo para depois redirecionar
-        res.redirect("./selecao/jogos/repeticao/index.html")
-    }
+        console.log(diretorio)
+        res.redirect('../'+ diretorio);
+    }else{res.status(404).send("Preencha todos os campos!")}
 
 }) 
 
