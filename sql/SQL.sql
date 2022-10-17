@@ -23,6 +23,7 @@ CREATE TABLE jogo
 ( 
  nome_jogo VARCHAR(30) PRIMARY KEY NOT NULL,  
  max_fase INT
+--  diretorio VARCHAR(100)
 );
 
 CREATE TABLE jogador 
@@ -71,15 +72,6 @@ ALTER TABLE atividade ADD FOREIGN KEY(jogo) REFERENCES jogo (nome_jogo);
 ALTER TABLE atividade ADD FOREIGN KEY(professor_email) REFERENCES professor (email);
 alter table jogo add diretorio varchar(80) NULL;
 
-update jogo set diretorio = "./selecao/jogos/repeticao/index.html" where nome_jogo = 'REPETIÇÃO';
-update jogo set diretorio = "./selecao/jogos/completar/index.html" where nome_jogo = 'COMPLETAR';
-update jogo set diretorio = "./selecao/jogos/completarnumero/index.html" where nome_jogo = 'COMPLETAR COM NÚMEROS';
-update jogo set diretorio = "./selecao/jogos/crie seu padrao/index.html" where nome_jogo = 'CRIE SEU PADRÃO';
-update jogo set diretorio = "./selecao/jogos/domino da diferenca/index.html" where nome_jogo = 'DOMINÓ DA DIFERENÇA';
-update jogo set diretorio = "./selecao/jogos/grupos/index.html" where nome_jogo = 'GRUPOS';
-update jogo set diretorio = "./selecao/jogos/grupos fluxograma/index.html" where nome_jogo = 'FLUXOGRAMA';
-update jogo set diretorio = "./selecao/jogos/sequencia numero/index.html" where nome_jogo = 'SEQUÊNCIA DE NÚMEROS';
-update jogo set diretorio = "./selecao/jogos/sequencia decrescente/index.html" where nome_jogo = 'SEQUÊNCIA DECRESCENTE';
 
 INSERT INTO jogo (nome_jogo,max_fase) VALUES ('COMPLETAR', '24');
 INSERT INTO jogo (nome_jogo,max_fase) VALUES ('COMPLETAR COM NÚMEROS','24');
@@ -91,6 +83,17 @@ INSERT INTO jogo (nome_jogo,max_fase) VALUES ('LOGICS','30');
 INSERT INTO jogo (nome_jogo,max_fase) VALUES ('DOMINÓ DA DIFERENÇA','16');
 INSERT INTO jogo (nome_jogo,max_fase) VALUES ('FLUXOGRAMA','14');
 INSERT INTO jogo (nome_jogo,max_fase) VALUES ('SEQUÊNCIA DECRESCENTE' ,'24');
+
+update jogo set diretorio = "./selecao/jogos/repeticao/index.html" where nome_jogo = 'REPETIÇÃO';
+update jogo set diretorio = "./selecao/jogos/completar/index.html" where nome_jogo = 'COMPLETAR';
+update jogo set diretorio = "./selecao/jogos/completarnumero/index.html" where nome_jogo = 'COMPLETAR COM NÚMEROS';
+update jogo set diretorio = "./selecao/jogos/crie seu padrao/index.html" where nome_jogo = 'CRIE SEU PADRÃO';
+update jogo set diretorio = "./selecao/jogos/domino da diferenca/index.html" where nome_jogo = 'DOMINÓ DA DIFERENÇA';
+update jogo set diretorio = "./selecao/jogos/grupos/index.html" where nome_jogo = 'GRUPOS';
+update jogo set diretorio = "./selecao/jogos/grupos fluxograma/index.html" where nome_jogo = 'FLUXOGRAMA';
+update jogo set diretorio = "./selecao/jogos/sequencia numero/index.html" where nome_jogo = 'SEQUÊNCIA DE NÚMEROS';
+update jogo set diretorio = "./selecao/jogos/sequencia decrescente/index.html" where nome_jogo = 'SEQUÊNCIA DECRESCENTE';
+
 
 CREATE TABLE `sessions` (
   `session_id` varchar(128) NOT NULL,
