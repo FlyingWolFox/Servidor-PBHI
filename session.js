@@ -37,7 +37,8 @@ sessao.copySession = async (req) =>{
   const id_jogador = req.session.id_jogador;
   const browser = req.useragent.browser;
   const platform = req.useragent.platform;
-  const response = await insertSession(session_id, id_jogador, browser, platform);
+  const id_atividade = req.session.id_atividade;
+  const response = await insertSession(session_id, id_jogador, browser, platform, id_atividade);
   return response;
 }
 module.exports = sessao;

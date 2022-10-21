@@ -209,9 +209,9 @@ sql.deleteSession = (id) =>{
   });
 };
 
-sql.insertSession = (session_id, id_jogador, browser, platform) =>{
+sql.insertSession = (session_id, id_jogador, browser, platform, id_atividade) =>{
   return new Promise((resolve, reject)=>{
-    connection.query('INSERT INTO sessionp (id, id_jogador, navegador, plataforma) VALUES (?, ?, ?, ?)', [session_id, id_jogador, browser, platform], (error, result)=>{
+    connection.query('INSERT INTO sessionp (id, id_jogador, navegador, plataforma, id_atividade) VALUES (?, ?, ?, ?, ?)', [session_id, id_jogador, browser, platform, id_atividade], (error, result)=>{
         if(error){
             return reject(error);
         }

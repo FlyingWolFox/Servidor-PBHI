@@ -85,7 +85,7 @@ function criarModalLogin(nome, anoAluno){ //Criando modal de login
   let backgroundLogin = document.createElement('div')
   backgroundLogin.setAttribute('id','background-modal-login')
   let anoAtual = document.createElement('input')
-  anoAtual.setAttribute('type','text')
+  anoAtual.setAttribute('type','hidden')
   anoAtual.setAttribute('name','ano')
   anoAtual.setAttribute('id','anoAtual-modal-login')
   anoAtual.setAttribute('value', anoAluno)
@@ -148,7 +148,7 @@ async function post(){
     body: JSON.stringify(data)
   })
   let error = await resultado.text();
-  if(error){
+  if(error.length > 0){
     console.log(error)
   }
   else{

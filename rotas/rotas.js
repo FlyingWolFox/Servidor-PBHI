@@ -95,7 +95,7 @@ routerDefault.post('/nome', async (req,res) => {
         req.session.ano = ano;
         req.session.logado = true;
         sessao.copySession(req);
-        res.json("");
+        res.json();
     }
    
 })

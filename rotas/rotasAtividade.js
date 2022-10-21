@@ -6,6 +6,7 @@ const sessao = require('../session');
 
 const useragent = require('express-useragent');
 const { getAtividadeById, insertJogador } = require('../sql.js');
+const { copySession } = require('../session');
 
 
 
@@ -53,6 +54,7 @@ routerAtividade.post('/formAtividade.html',  async (req, res) =>{
         req.session.id_jogador = id_jogador;
         const diretorio = (await sql.getJogoPorNome(atividade[0].jogo)).diretorio;
         //puxa do bd a atividade, insere no bd o jogador(nome e ano) verifica qual é o jogo para depois redirecionar
+        copySession(req)
         console.log(diretorio)
         res.redirect('../'+ diretorio);
     }else{res.status(404).send("Preencha todos os campos!")}
