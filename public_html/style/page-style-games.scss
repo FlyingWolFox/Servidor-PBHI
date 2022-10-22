@@ -1,5 +1,6 @@
 $bg_color: #F3F7FD;
 $default_color_game: #9DCC38;
+$modal_green_color: #9DCC38;
 $azul_escuro: #1C4459;
 
 *{
@@ -24,6 +25,61 @@ h2 {
 textarea, input, button, select {
     font-family: inherit;
     font-size: inherit;
+}
+
+div.modal{
+    position: fixed;
+    left: 0;
+    top: 0;
+
+    width: 100%;
+    height: 100%;
+
+    display: none;
+    justify-content: center;
+    align-items: center;
+
+    overflow: auto;
+    z-index: 100;
+
+    p{
+        font-size: 1.25em;
+    }
+    div.modal_content{
+        width: 30%;
+        min-width: 250px;
+
+        border: 7px solid $modal_green_color;
+        border-radius: 10px;
+        padding: 20px;
+        background-color: #fefefe;
+
+        color: $azul_escuro;
+        text-align: justify;
+
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+        align-items: center;
+
+        button#botao_info_close{
+            width: 35%;
+
+            border: none;
+            border-radius: 10px;
+            margin-top: 20px;
+            padding: 10px;
+            background-color: $modal_green_color;
+
+            color: #fff;
+            text-transform: uppercase;
+            font-weight: bold;
+
+            &:hover{
+                cursor: pointer;
+            }
+        }
+    }
 }
 
 div#tela_jogo{

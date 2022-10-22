@@ -19,6 +19,50 @@ textarea, input, button, select {
   font-size: inherit;
 }
 
+div.modal {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  overflow: auto;
+  z-index: 100;
+}
+div.modal p {
+  font-size: 1.25em;
+}
+div.modal div.modal_content {
+  width: 30%;
+  min-width: 250px;
+  border: 7px solid #9DCC38;
+  border-radius: 10px;
+  padding: 20px;
+  background-color: #fefefe;
+  color: #1C4459;
+  text-align: justify;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+}
+div.modal div.modal_content button#botao_info_close {
+  width: 35%;
+  border: none;
+  border-radius: 10px;
+  margin-top: 20px;
+  padding: 10px;
+  background-color: #9DCC38;
+  color: #fff;
+  text-transform: uppercase;
+  font-weight: bold;
+}
+div.modal div.modal_content button#botao_info_close:hover {
+  cursor: pointer;
+}
+
 div#tela_jogo {
   display: flex;
   flex-direction: column;

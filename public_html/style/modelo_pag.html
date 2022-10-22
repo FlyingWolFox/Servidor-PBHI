@@ -30,6 +30,22 @@
             <h2 id="title_jogo" nome-real="MODELO">JOGO MODELO</h2>
         </header>
         <main id="main_body">
+            <div id="modal_info" class="modal">
+                <div class="modal_content" id="modal_content">
+                    <p>
+                        Olá, nos encontramos mais uma vez 😀, desta vez vou te mostrar um jogo bem legal, o Jogo de Completar! O Jogo de Completar mostra uma sequência de figuras com algumas delas faltando 🤔 e a sua tarefa é identificar quais peças estão faltando e arrastar para a sequência de figuras acima, depois é só clicar em TERMINEI!!
+                    </p>
+                    <button id="botao_info_close"
+                        onclick="document.getElementById('modal_info').style.display='none'">Entendi
+                    </button>
+
+                    <!-- <button id="botao-de-voz">
+                        <span id="texto-de-voz">
+                            <img src="../img/svg/audio.svg" alt="botão de aúdio" id="img-de-voz">
+                        </span>
+                    </button> -->
+                </div>
+            </div>
             <section id="game_section">
                 <header id="box_instrucoes">
                     <div id="progresso_conquistas">
@@ -68,7 +84,7 @@
                             </a>
                         </div>
                         <span class="button_header" id="span_about" 
-                            onclick="document.getElementById('modalInfo').style.display='block'">?</span>
+                            onclick="document.getElementById('modal_info').style.display='flex'">?</span>
                     </div>
                 </header>
             </section>
