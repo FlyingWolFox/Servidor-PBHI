@@ -1,0 +1,279 @@
+$bg_color: #F3F7FD;
+$default_color_game: #9DCC38;
+$azul_escuro: #1C4459;
+
+*{
+    margin: 0;
+    padding: 0;
+}
+
+body{
+
+    min-height: 100vh;
+    font-family: 'Roboto', Verdana, "Geneva", Tahoma, sans-serif;
+    background-color: $bg_color;
+    // background-color: #999;
+}
+
+h2 {
+
+    font-family: 'M PLUS Rounded 1c', sans-serif;
+    font-weight: 800;
+}
+
+textarea, input, button, select {
+    font-family: inherit;
+    font-size: inherit;
+}
+
+div#tela_jogo{
+
+    display: flex;
+    flex-direction: column;
+
+    width: 100%;
+    max-width: 1200px;
+
+    min-height: 100vh;
+
+    margin: 0 auto;
+
+    header#game_header {
+        width: 90%;
+
+        margin: 0 auto;
+
+        display: grid;
+        grid-template-columns: repeat(3,1fr);
+        align-items: center;
+        justify-items: center;
+        
+        a#link_logo {
+            width: 100%;
+            padding-left: 50px;
+            
+            img#logo{
+                
+                padding: 10px 0px;
+                height: min(50px,7vw);
+            }
+        }
+        h2#title_jogo{
+
+            background-color: $default_color_game;
+            color: white;
+            
+            padding: 5px 50px;
+            border-radius: 25px;
+            box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
+
+            font-size: 1em;
+            white-space: nowrap;
+        }
+    }
+    main#main_body{
+        width: 90%;
+
+        margin: 0 auto;
+
+        section#game_section{
+            width: 100%;
+            min-height: calc(100vh - 85px - 75px);
+
+            display: flex;
+            flex-direction: column;
+
+            border-radius: 10px;
+            background-color: #fff;
+            box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.25);
+
+            header#box_instrucoes{
+                width: 100%;
+
+                display: flex;
+                // grid-template-columns: 20% 68% 12%;
+                justify-content: space-between;
+                align-items: center;
+
+                background-color: $default_color_game;
+                border-radius: 5px 5px 0px 0px;
+                
+                div#progresso_conquistas{
+                    width: 20%;
+                    grid-column: 1;
+                    grid-row: 1;
+
+                    // margin-left: 20px;
+                    box-sizing: border-box;
+
+                    color: white;
+
+                    p#texto_progresso {
+    
+                        font-weight: bold;
+                        text-align: center;
+                        margin-bottom: 5px;
+                    }
+                    section#conquistas_conteiner {
+                        display: flex;
+                        justify-content: center;
+                        
+                        div.estrela_container{
+                            text-align: center;
+
+                            margin: 0px min(10px,0.5vw);
+                            
+                            img.estrela {
+                                width: 25px;
+                            }
+                        }
+                    }
+                }
+                div#tutorial_conteiner{
+                    width: 60%;
+                    min-height: 100px;
+                    
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+
+                    position: relative;
+                    
+                    img#mascote_instrucoes{
+                        height: 90px;
+
+                        position: absolute;
+                        left: 0;
+
+                        margin-left: -30px;
+                        z-index: 1;
+                    }
+                    article#textbox_tutorial{
+                        width: 100%;
+                        height: 100%;       
+                        
+                        margin-left: 40px;
+                        padding: 10px 0 0px 10px;
+                        background-color: white;
+                        border-radius: 5px;
+                        box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.13);
+    
+                        p#textbox_fase{
+    
+                            width: 100%;
+                            text-align: center;
+                            font-weight: bold;
+                            color: #1C4459;
+                        
+                        }
+                        textarea#texto_textbox{
+                            width: 95%;
+    
+                            padding-left: 5px;
+                            border:unset;
+                            resize: none;
+                            outline: none;
+    
+                            font-size: 14px;
+                        }
+                    }
+                }
+                div#conteiner_botoes{
+                    width: 15%;
+
+                    display: flex;
+                    justify-content: space-between;
+                    flex-direction: column;
+                    flex-wrap: wrap;
+
+                    .button_header{
+                        width: 40px;
+                        height: 40px;
+                        
+                        color: white;
+                        font-size: 25px;
+                        text-align: center;
+                        line-height: 40px;
+
+                        border: 5px solid white;
+                        border-radius: 50%;
+
+                        &:hover{
+                            cursor: pointer;
+                        }
+                    }
+                    div.botoes_janela {
+                        width: 100%;
+
+                        margin-top: -50px;
+
+                        display: flex;
+                        flex-wrap: wrap;
+                        justify-content: space-evenly;
+
+                        span#span_fullscreen {
+                            background-color: #606060;          
+                        }                      
+                        a#span_textbox { 
+                            text-decoration: none;
+                            background-color: #E25A40;
+                        }
+
+                    }
+                    span#span_about {
+
+                        width: 35px;
+                        height: 35px;
+
+                        align-self: center;
+
+                        background-color: rgb(96, 96, 96);
+
+                        line-height: 35px;
+                        font-weight: 800;
+                    }
+                }
+            }
+        }
+    }
+    footer#footer_grid{
+        width: 90%;
+
+        display: grid;
+        grid-template-columns: repeat(3,1fr);
+        justify-items: center;
+        align-items: center;
+
+        position: relative;
+        bottom: 0;
+
+        background-color: $bg_color;
+        margin: 10px auto;
+        box-sizing: border-box;
+
+        color: $azul_escuro;
+
+        p.footer_text {
+
+            text-align: center;
+            font-weight: 400;
+        }        
+        p#footer_center{
+            grid-column: 2/3;
+        }
+        section#footer_right{
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            grid-column: 3/4;
+
+            justify-self: flex-end;
+
+            p{
+                font-weight: 700;
+                font-size: 13px;
+            }
+        }
+    }
+}
+

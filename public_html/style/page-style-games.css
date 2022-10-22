@@ -1,0 +1,209 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  min-height: 100vh;
+  font-family: "Roboto", Verdana, "Geneva", Tahoma, sans-serif;
+  background-color: #F3F7FD;
+}
+
+h2 {
+  font-family: "M PLUS Rounded 1c", sans-serif;
+  font-weight: 800;
+}
+
+textarea, input, button, select {
+  font-family: inherit;
+  font-size: inherit;
+}
+
+div#tela_jogo {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 1200px;
+  min-height: 100vh;
+  margin: 0 auto;
+}
+div#tela_jogo header#game_header {
+  width: 90%;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  align-items: center;
+  justify-items: center;
+}
+div#tela_jogo header#game_header a#link_logo {
+  width: 100%;
+  padding-left: 50px;
+}
+div#tela_jogo header#game_header a#link_logo img#logo {
+  padding: 10px 0px;
+  height: min(50px, 7vw);
+}
+div#tela_jogo header#game_header h2#title_jogo {
+  background-color: #9DCC38;
+  color: white;
+  padding: 5px 50px;
+  border-radius: 25px;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
+  font-size: 1em;
+  white-space: nowrap;
+}
+div#tela_jogo main#main_body {
+  width: 90%;
+  margin: 0 auto;
+}
+div#tela_jogo main#main_body section#game_section {
+  width: 100%;
+  min-height: calc(100vh - 85px - 75px);
+  display: flex;
+  flex-direction: column;
+  border-radius: 10px;
+  background-color: #fff;
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.25);
+}
+div#tela_jogo main#main_body section#game_section header#box_instrucoes {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #9DCC38;
+  border-radius: 5px 5px 0px 0px;
+}
+div#tela_jogo main#main_body section#game_section header#box_instrucoes div#progresso_conquistas {
+  width: 20%;
+  grid-column: 1;
+  grid-row: 1;
+  box-sizing: border-box;
+  color: white;
+}
+div#tela_jogo main#main_body section#game_section header#box_instrucoes div#progresso_conquistas p#texto_progresso {
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 5px;
+}
+div#tela_jogo main#main_body section#game_section header#box_instrucoes div#progresso_conquistas section#conquistas_conteiner {
+  display: flex;
+  justify-content: center;
+}
+div#tela_jogo main#main_body section#game_section header#box_instrucoes div#progresso_conquistas section#conquistas_conteiner div.estrela_container {
+  text-align: center;
+  margin: 0px min(10px, 0.5vw);
+}
+div#tela_jogo main#main_body section#game_section header#box_instrucoes div#progresso_conquistas section#conquistas_conteiner div.estrela_container img.estrela {
+  width: 25px;
+}
+div#tela_jogo main#main_body section#game_section header#box_instrucoes div#tutorial_conteiner {
+  width: 60%;
+  min-height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+div#tela_jogo main#main_body section#game_section header#box_instrucoes div#tutorial_conteiner img#mascote_instrucoes {
+  height: 90px;
+  position: absolute;
+  left: 0;
+  margin-left: -30px;
+  z-index: 1;
+}
+div#tela_jogo main#main_body section#game_section header#box_instrucoes div#tutorial_conteiner article#textbox_tutorial {
+  width: 100%;
+  height: 100%;
+  margin-left: 40px;
+  padding: 10px 0 0px 10px;
+  background-color: white;
+  border-radius: 5px;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.13);
+}
+div#tela_jogo main#main_body section#game_section header#box_instrucoes div#tutorial_conteiner article#textbox_tutorial p#textbox_fase {
+  width: 100%;
+  text-align: center;
+  font-weight: bold;
+  color: #1C4459;
+}
+div#tela_jogo main#main_body section#game_section header#box_instrucoes div#tutorial_conteiner article#textbox_tutorial textarea#texto_textbox {
+  width: 95%;
+  padding-left: 5px;
+  border: unset;
+  resize: none;
+  outline: none;
+  font-size: 14px;
+}
+div#tela_jogo main#main_body section#game_section header#box_instrucoes div#conteiner_botoes {
+  width: 15%;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  flex-wrap: wrap;
+}
+div#tela_jogo main#main_body section#game_section header#box_instrucoes div#conteiner_botoes .button_header {
+  width: 40px;
+  height: 40px;
+  color: white;
+  font-size: 25px;
+  text-align: center;
+  line-height: 40px;
+  border: 5px solid white;
+  border-radius: 50%;
+}
+div#tela_jogo main#main_body section#game_section header#box_instrucoes div#conteiner_botoes .button_header:hover {
+  cursor: pointer;
+}
+div#tela_jogo main#main_body section#game_section header#box_instrucoes div#conteiner_botoes div.botoes_janela {
+  width: 100%;
+  margin-top: -50px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+}
+div#tela_jogo main#main_body section#game_section header#box_instrucoes div#conteiner_botoes div.botoes_janela span#span_fullscreen {
+  background-color: #606060;
+}
+div#tela_jogo main#main_body section#game_section header#box_instrucoes div#conteiner_botoes div.botoes_janela a#span_textbox {
+  text-decoration: none;
+  background-color: #E25A40;
+}
+div#tela_jogo main#main_body section#game_section header#box_instrucoes div#conteiner_botoes span#span_about {
+  width: 35px;
+  height: 35px;
+  align-self: center;
+  background-color: rgb(96, 96, 96);
+  line-height: 35px;
+  font-weight: 800;
+}
+div#tela_jogo footer#footer_grid {
+  width: 90%;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  justify-items: center;
+  align-items: center;
+  position: relative;
+  bottom: 0;
+  background-color: #F3F7FD;
+  margin: 10px auto;
+  box-sizing: border-box;
+  color: #1C4459;
+}
+div#tela_jogo footer#footer_grid p.footer_text {
+  text-align: center;
+  font-weight: 400;
+}
+div#tela_jogo footer#footer_grid p#footer_center {
+  grid-column: 2/3;
+}
+div#tela_jogo footer#footer_grid section#footer_right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  grid-column: 3/4;
+  justify-self: flex-end;
+}
+div#tela_jogo footer#footer_grid section#footer_right p {
+  font-weight: 700;
+  font-size: 13px;
+}/*# sourceMappingURL=page-style-games.css.map */
