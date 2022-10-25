@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
+
     <title>Tem Lógica - Modelo de Página</title>
 
     <meta charset="UTF-8">
@@ -21,8 +23,27 @@
         href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@100;300;400;500;700;800;900&display=swap"
         rel="stylesheet">
 </head>
+
 <body>
-    <div id="tela_jogo">
+    <section id="aviso_orientacao">
+        <div id="aviso_orientacao_caixa">
+            <h1 id="texto_orientacao"> Vire seu aparelho na horizontal para jogar</h1>
+            <div id="orientacao_imgs">
+                <div class="grupo_imagem_orientacao">
+                    <img class="icone_modal" src="../img/orientacao-img/Group30.svg" alt="">
+                    <img id="img_celular_horizontal" src="../img/orientacao-img/Subtract.svg" alt="">
+                    <h1 id="texto_orientacao_vertical">Vertical</h1>
+                </div>
+                <img id="vetor_orientacao" src="../img/orientacao-img/Vector5.svg" alt="">
+                <div class="grupo_imagem_orientacao" id="orientacao-grupo-horizontal">
+                    <img class="icone_modal" src="../img/orientacao-img/Group176.svg" alt="">
+                    <img id="img_celular_horizontal" src="../img/orientacao-img/Subtract-1.svg" alt="">
+                    <h1 id="texto_orientacao_vertical">Horizontal</h1>
+                </div>
+            </div>
+        </div>
+    </section>
+    <div id="tela_jogo">      
         <header id="game_header">
             <a href="../index.html" id="link_logo">
                 <img src="../img/logo.png" id="logo" alt="">
@@ -35,15 +56,17 @@
                     <p>
                         Olá, nos encontramos mais uma vez 😀, desta vez vou te mostrar um jogo bem legal, o Jogo de Completar! O Jogo de Completar mostra uma sequência de figuras com algumas delas faltando 🤔 e a sua tarefa é identificar quais peças estão faltando e arrastar para a sequência de figuras acima, depois é só clicar em TERMINEI!!
                     </p>
-                    <button id="botao_info_close"
-                        onclick="document.getElementById('modal_info').style.display='none'">Entendi
-                    </button>
-
-                    <!-- <button id="botao-de-voz">
-                        <span id="texto-de-voz">
-                            <img src="../img/svg/audio.svg" alt="botão de aúdio" id="img-de-voz">
-                        </span>
-                    </button> -->
+                    <div id="modal_button_box">
+                        <button id="botao_info_close"
+                            onclick="document.getElementById('modal_info').style.display='none'">Entendi
+                        </button>
+    
+                        <button id="botao_de_voz">
+                            <span id="texto_de_voz">
+                                <img src="../img/svg/audio.svg" alt="botão de aúdio" id="img_de_voz">
+                            </span>
+                        </button>
+                    </div>
                 </div>
             </div>
             <section id="game_section">
@@ -107,4 +130,5 @@
         </footer>
     </div>
 </body>
+
 </html>
