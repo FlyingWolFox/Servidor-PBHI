@@ -30,6 +30,7 @@ const divRestricao2 = 'conteiner-restricao-direita';
 const forma = 0, cor = 1, tamanho = 2, contorno = 3;
 const divEstrelas = 'container-estrelas';
 const diagramaBox = 'fluxograma-container';
+const audio = document.querySelector('audio')
 
 var arrayEstrelas = document.getElementById(divEstrelas).getElementsByTagName('img');
 var btnConferir = document.getElementById(botaoChecar);
@@ -1203,6 +1204,9 @@ function criaFluxograma2(){
             formasDistintas = 2;
             tamanhosDistintos = 1;
             contornosDistintos = 2;
+            rest1 = [0];
+            rest2 = [1];
+            temInter = true;
             startDiagrama2([restricao1[forma]],[restricao2[cor]],[0],[1],true)
             background(quantidade);
             break;
@@ -1855,19 +1859,19 @@ function resolver(){    //Reconhece onde colocar as imagens pelo fluxograma
     tempo = 100;
     tempoAdicional = 2000;
 
-    if(child2.getOutgoingLinks() == ''){
+    if(child2.getOutgoingLinks() == '' && child2.getIncomingLinks() != ''){
         diagram.factory.createDiagramLink(child2, child7);
     }
-    if(child5.getOutgoingLinks() == ''){
+    if(child5.getOutgoingLinks() == '' && child5.getIncomingLinks() != ''){
         diagram.factory.createDiagramLink(child5, child7);
     }
 
-    if(child6.getOutgoingLinks() == ''){
+    if(child6.getOutgoingLinks() == '' && child6.getIncomingLinks() != ''){
         diagram.factory.createDiagramLink(child6, child7);
     }
 
     if((etapaAtual >= 5 && etapaAtual <= 8) || (etapaAtual >= 12 && etapaAtual <=13)){
-        if(decisionNode2.getOutgoingLinks() == ''){
+        if(decisionNode2.getOutgoingLinks() == '' && decisionNode2.getIncomingLinks() != ''){
             
             diagram.factory.createDiagramLink(decisionNode2, child7);
         }
@@ -2278,7 +2282,7 @@ function criarImg(forma,cor,tamanho,contorno){ //Cria uma nova imagem
 //Decide pra qual node vai o "ponteiro"
 function pegarProximoNodeSim(proximoNode,sentido){
     if(proximoNode.getShape().getId() == 'Rectangle'){
-        if(proximoNode.getOutgoingLinks() == ''){
+        if(proximoNode.getOutgoingLinks() == '' && proximoNode.getIncomingLinks() != ''){
             diagram.factory.createDiagramLink(proximoNode, child7);
         }
     }
@@ -2309,7 +2313,7 @@ function pegarProximoNodeSim(proximoNode,sentido){
 
 function pegarProximoNodeNao(proximoNode,sentido){
     if(proximoNode.getShape().getId() == 'Rectangle'){
-        if(proximoNode.getOutgoingLinks() == ''){
+        if(proximoNode.getOutgoingLinks() == '' && proximoNode.getIncomingLinks() != ''){
             diagram.factory.createDiagramLink(proximoNode, child7);
         }
     }
@@ -2339,7 +2343,7 @@ function pegarProximoNodeNao(proximoNode,sentido){
 
 function pegarProximoNode(proximoNode,sentido){
     if(proximoNode.getShape().getId() == 'Rectangle'){
-        if(proximoNode.getOutgoingLinks() == ''){
+        if(proximoNode.getOutgoingLinks() == '' && proximoNode.getIncomingLinks() != ''){
             diagram.factory.createDiagramLink(proximoNode, child7);
         }
     }
@@ -2629,7 +2633,7 @@ async function ligacao(){
 		var nomeLink = link.getText();
 
 		//formaProximoNode = proximoNode.getShape().getId()
-		if(destino.getShape().getId() == 'Rectangle' && destino.getOutgoingLinks() == ''){
+		if(destino.getShape().getId() == 'Rectangle' && destino.getOutgoingLinks() == '' && destino.getIncomingLinks() != ''){
 			diagram.factory.createDiagramLink(destino, fimNode);
 		}
 		if(origem.getShape().getId() == 'Decision'){
@@ -3408,19 +3412,36 @@ function onLinkCreated(sender, args) {      //Criação do link
     var timestamp = new Date().getTime();
     var listaLigacoes = origem.getOutgoingLinks();
     var ligacaoCriada = true;
+    var corLinkErrada = "rgba(255,0,0,0.4)";
+    var tamanhoLinkErrada = 2.0;
     link.setTextAlignment(MindFusion.Diagramming.Alignment.Far);
     //Ao se criar o link verifica se o node origem do link é um nodeShape 'DECISION' e
     //adiciona o texto SIM ao primeiro link criado ou NÂO caso exista um SIM
     if (destino.getText() == 'INÍCIO'){
-        diagram.removeItem(link);
+        link.setStroke(corLinkErrada);
+        link.setStrokeThickness(tamanhoLinkErrada);
+        tocarErro();
+        setTimeout(() => {
+            diagram.removeItem(link);
+        }, 1000);
         ligacaoCriada = false;
     }else if (origem.getText() == 'INÍCIO'){
         if (listaLigacoes.length > 1){
-            diagram.removeItem(link);
+            link.setStroke(corLinkErrada);
+            link.setStrokeThickness(tamanhoLinkErrada);
+            tocarErro();
+            setTimeout(() => {
+                diagram.removeItem(link);
+            }, 1000);
             ligacaoCriada = false;
         }
     }else if (origem.getText() == 'FIM'){
-        diagram.removeItem(link);
+        link.setStroke(corLinkErrada);
+        link.setStrokeThickness(tamanhoLinkErrada);
+        tocarErro();
+        setTimeout(() => {
+            diagram.removeItem(link);
+        }, 1000);
         ligacaoCriada = false;
     }else if (formaOrigem =='Decision'){
         if (listaLigacoes.length <= 2){
@@ -3434,18 +3455,32 @@ function onLinkCreated(sender, args) {      //Criação do link
             tempoLigacao.push(timestamp);
             ligacaoCriada = true;
         }else{
-            diagram.removeItem(link);
+            link.setStroke(corLinkErrada);
+            link.setStrokeThickness(tamanhoLinkErrada);
+            tocarErro();
+            setTimeout(() => {
+                diagram.removeItem(link);
+            }, 1000);
             ligacaoCriada = false;
         }
     }else if (formaOrigem == 'Rectangle'){
         if (listaLigacoes.length > 1){
-            diagram.removeItem(link);
+            link.setStroke(corLinkErrada);
+            link.setStrokeThickness(tamanhoLinkErrada);
+            tocarErro();
+            setTimeout(() => {
+                diagram.removeItem(link);
+            }, 1000);
             ligacaoCriada = false;
         }
     }
     if(ligacaoCriada){
         tempoLigacao.push(timestamp);
     }
+}
+
+function tocarErro(){
+    audio.play()
 }
 
 function onNodeCreated(sender, args) {
@@ -3459,9 +3494,57 @@ function onNodeDeleting(sender, args) {
     args.setCancel(true);
 }
 
+function onLinkCreating(sender, args){
+    var link = args.getLink();
+    var origem = link.getOrigin();
+    //var destino = link.getDestination();
+    var formaOrigem = origem.getShape().getId();
+    var timestamp = new Date().getTime();
+    var listaLigacoes = origem.getOutgoingLinks();
+    var ligacaoCriada = true;
+    var corLinkErrada = "rgba(255,0,0,0.4)";
+    var tamanhoLinkErrada = 2.0;
+    console.log('Ligação sendo criada...');
+
+    if (origem.getText() == 'INÍCIO'){
+        if (listaLigacoes.length >= 1){
+            link.setStroke(corLinkErrada);
+            link.setStrokeThickness(tamanhoLinkErrada);
+            ligacaoCriada = false;
+        }
+    }else if (origem.getText() == 'FIM'){
+        link.setStroke(corLinkErrada);
+        link.setStrokeThickness(tamanhoLinkErrada);
+        ligacaoCriada = false;
+    }else if (formaOrigem =='Decision'){
+        if (listaLigacoes.length < 2){
+            for (let l of origem.getOutgoingLinks()) {
+                if (l.getText() == '') {
+                    link.setText('SIM');
+                } else if (l.getText() == 'SIM') {
+                    link.setText('NÂO');
+                }
+            }
+            tempoLigacao.push(timestamp);
+            ligacaoCriada = true;
+        }else{
+            link.setStroke(corLinkErrada);
+            link.setStrokeThickness(tamanhoLinkErrada);
+            ligacaoCriada = false;
+        }
+    }else if (formaOrigem == 'Rectangle'){
+        if (listaLigacoes.length > 0){
+            link.setStroke(corLinkErrada);
+            link.setStrokeThickness(tamanhoLinkErrada);
+            ligacaoCriada = false;
+        }
+    }
+}
+
 document.body.onload = game();
 var botaoResultado = document.getElementById('botao-resultado');
 botaoResultado.addEventListener('click', check);
 diagram.addEventListener(Events.linkCreated, onLinkCreated);
 diagram.addEventListener(Events.nodeCreated, onNodeCreated);
 diagram.addEventListener(Events.nodeDeleting, onNodeDeleting);
+diagram.addEventListener(Events.linkCreating, onLinkCreating);
