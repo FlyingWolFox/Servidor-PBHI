@@ -2925,7 +2925,7 @@ function game() {
 
                     // if add the min set and we surpass the limit, we're done
                     // the same as if any component (class) of currentRestriction is bigger than the limit
-                    if (currentRestrictions.union(maxSet).arr.some((v, i) => v > limit[i])) break;
+                    if (currentRestrictions.union(maxSet).arr.some((v, i) => v.size > limit[i])) break;
 
                     // add the min set to the solution
                     maxSetSide.push(maxSet);
