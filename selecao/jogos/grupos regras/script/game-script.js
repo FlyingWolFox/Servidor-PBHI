@@ -1429,6 +1429,11 @@ function stagePreprocessor(input) {
     let randomLimits = new Map([...CARACTERISTIC].map(classe => [classe, 1]));
     for (const [classe, max] of input.randomLimits) 
         randomLimits.set(classe, max);
+
+    // reverse sort each type of rejection by quantity of rejections of that class
+    rejectedClasses[0].sort((a, b) => b[1] - a[1]);
+    rejectedClasses[1].sort((a, b) => b[1] - a[1]);
+    rejectedClasses[2].sort((a, b) => b[1] - a[1]);
     
 
     return {
@@ -1693,9 +1698,9 @@ function game() {
             restrictionClasses: [
             //  [                class, accepted?, rejQty, rejectionMode]
                 [  CARACTERISTIC.SHAPE,     false,      3,    BOTH_SIDES], 
-                [CARACTERISTIC.OUTLINE,     false,      1,    BOTH_SIDES],
                 [  CARACTERISTIC.COLOR,     false,      2,    BOTH_SIDES],
-                [   CARACTERISTIC.SIZE,     false,      1,    BOTH_SIDES]
+                [   CARACTERISTIC.SIZE,     false,      1,    ONE_SIDE.NO_ACCEPTED],
+                [CARACTERISTIC.OUTLINE,     false,      1,    ONE_SIDE.NO_ACCEPTED]
             ],
             maxNumAnswers: 6,
             maxNumShapes: 12,
@@ -2217,17 +2222,40 @@ function game() {
     let acceptedRestrictionsRight = new RestrictionContainer();
     let rejectedRestrictionsRight = new RestrictionContainer();
 
+    let leftChoosenSets = [];
+    let rightChoosenSets = [];
+    let middleChoosenSets = [];
+
     if (!intersecaoAtiva) {
         // TODO: adapt new code to the first levels
-        // níveis inicias, eles devem ter somente uma classe de restrição que deve sempre ser aceita
-        let caracteristicasDisponiveis = [...currentStage.acceptedClasses[0]];
-        let [left, right] = shuffleArray(caracteristicasDisponiveis);
-        acceptedRestrictionsLeft.insertNoHint(left);
-        acceptedRestrictionsRight.insertNoHint(right);
+        // TODO: enforce restriction be accepted
+        // níveis iniciais, eles devem ter somente uma classe de restrição que deve sempre ser aceita
+        let classe = currentStage.acceptedClasses[0];
+        let caracteristicasDisponiveis = [...classe];
+        let [left, right] = pickRandom(caracteristicasDisponiveis, 2);
+        acceptedRestrictionsLeft.insert(classe, left);
+        acceptedRestrictionsRight.insert(classe, right);
+
+
+        // random control
+        currentStage.randomLimits.delete(classe);
+        let leftSet = new RestrictionSetContainer().add(classe, left),
+            rightSet = new RestrictionSetContainer().add(classe, right);
+
+        for (const [classe, qty] of currentStage.randomLimits.entries()) {
+            let choosenCaracteristics = pickRandom([...classe], qty);
+            leftSet.add(classe, ...choosenCaracteristics);
+            rightSet.add(classe, ...choosenCaracteristics);
+        }
+
+        leftChoosenSets = leftSet.toSingleSubsets();
+        rightChoosenSets = rightSet.toSingleSubsets();
+        
+
     } else {
         // distribuir as restrições entre as caixas
 
-        let smallerBoxeRatio = (1 - randomNormalDistr()) / 2;  // (0, 0.5]
+        let smallerBoxRatio = -Math.abs(0.5 - randomNormalDistr()) + 0.5; // (0, 0.5] with mean 0.5
         let smallerBoxAccepted,
             smallerBoxRejected,
             biggerBoxAccepted,
@@ -2266,43 +2294,171 @@ function game() {
 
         */
 
-        for (const [rejClass, rejQty] of currentStage.rejectedClasses[ONE_SIDE.NO_ACCEPTED]) {
-            let choosenCaracteristics = pickRandom([...rejClass], rejQty);
-            let ratioIfInsertOnSmaller = (smallerBoxSize + rejQty) / (smallerBoxSize + biggerBoxSize + rejQty),
-                ratioIfInsertOnBigger = (biggerBoxSize + rejQty) / (smallerBoxSize + biggerBoxSize + rejQty);
+        // decide who will fix bad distributions
+        // restrictions ACCEPTED and ONE_SIDE.NO_ACCEPTED needs to have a restriction of a different class in the other box
+        // restrictions ONE_SIDE.WITH_ACCEPTED needs to have a restriction of a different class in the same box
+        // restrictions BOTH_SIDE doesn't need anything
+        let oswaToFix = false,
+            osnaToFix = false,
+            //bsToFix = false, // not needed as BOTH_SIDES fixes everything automatically
+            accToFix = false;
+        
+        let bothNonZeroFix = false,
+            oswaFix = false;
 
-            // if the ratio after insertion on the smaller box is closer to the boxesRatio, insert on the smaller box
-            if (Math.abs(ratioIfInsertOnSmaller - smallerBoxeRatio) <= Math.abs(ratioIfInsertOnBigger - smallerBoxeRatio)) {
-                smallerBoxRejected.insert(rejClass, ...choosenCaracteristics);
-                smallerBoxSize += rejQty;
-            } else {
-                biggerBoxRejected.insert(rejClass, ...choosenCaracteristics);
-                biggerBoxSize += rejQty;
-            }
+        let oswaRejOnSmallerBox = false,
+            oswaRejOnBiggerBox = false;
+
+        if (currentStage.acceptedClasses.length > 0) {
+            bothNonZeroFix = true;
+            accToFix = true;
+        } else if (currentStage.rejectedClasses[BOTH_SIDES].length > 0) {
+            //bsToFix = true;
+        } else if (currentStage.rejectedClasses[ONE_SIDE.NO_ACCEPTED].length > 0) {
+            bothNonZeroFix = true;
+            osnaToFix = true;
+        } else if (currentStage.rejectedClasses[ONE_SIDE.WITH_ACCEPTED].length > 0) {
+            oswaFix = true;
+            oswaToFix = true;
         }
 
+        // in case of it isn't oswa that'll fix
+        if (currentStage.rejectedClasses[ONE_SIDE.WITH_ACCEPTED].length > 0) {
+            oswaFix = true;
+            bothNonZeroFix = false; // solving oswa will solve bothNonZero
+        }
+        
+        let smallerBoxNumClasses = 0,
+            biggerBoxNumClasses = 0;
+
+        // TODO: order ONE_SIDE by the number of restrictions (rejQty)
+        if (oswaToFix) {
+            let rejClassesEarly = currentStage.rejectedClasses[ONE_SIDE.WITH_ACCEPTED].splice(0, 2);
+
+            for (const [rejClass, rejQty] of rejClassesEarly) {
+                let choosenCaracteristics = pickRandom([...rejClass], rejQty + 1);
+                let acceptedCaracteristic = choosenCaracteristics.pop();
+
+                if (oswaRejOnSmallerBox) {
+                    smallerBoxRejected.insert(rejClass, ...choosenCaracteristics);
+                    biggerBoxAccepted.insert(rejClass, acceptedCaracteristic);  // add the accepted restriction on the other box
+                    smallerBoxSize += rejQty;
+                    biggerBoxSize += 1;
+                } else if (oswaRejOnBiggerBox) {
+                    biggerBoxRejected.insert(rejClass, ...choosenCaracteristics);
+                    smallerBoxAccepted.insert(rejClass, acceptedCaracteristic);  // add the accepted restriction on the other box
+                    biggerBoxSize += rejQty;
+                    smallerBoxSize += 1;
+                } else {
+                    // +1 because we're adding the accepted restriction on the other box
+                    let ratioIfInsertOnSmaller = (smallerBoxSize + rejQty) / (smallerBoxSize + biggerBoxSize + 1 + rejQty),
+                        ratioIfInsertOnBigger = (smallerBoxSize) / (smallerBoxSize + biggerBoxSize + 1 + rejQty);
+                    
+                    // if the ratio after insertion on the smaller box is closer to the boxesRatio, insert on the smaller box
+                    if (Math.abs(ratioIfInsertOnSmaller - smallerBoxRatio) <= Math.abs(ratioIfInsertOnBigger - smallerBoxRatio)) {
+                        smallerBoxRejected.insert(rejClass, ...choosenCaracteristics);
+                        biggerBoxAccepted.insert(rejClass, acceptedCaracteristic);  // add the accepted restriction on the other box
+                        smallerBoxSize += rejQty;
+                        biggerBoxSize += 1;
+                        oswaRejOnSmallerBox = true;
+                    } else {
+                        biggerBoxRejected.insert(rejClass, ...choosenCaracteristics);
+                        smallerBoxAccepted.insert(rejClass, acceptedCaracteristic);  // add the accepted restriction on the other box
+                        biggerBoxSize += rejQty;
+                        smallerBoxSize += 1;
+                        oswaRejOnBiggerBox = true;
+                    }
+                }
+
+            }
+
+            smallerBoxNumClasses = biggerBoxNumClasses = 2;
+            // not needed
+            //bothNonZeroFix = false;
+            //oswaFix = false;
+        }
         for (const [rejClass, rejQty] of currentStage.rejectedClasses[ONE_SIDE.WITH_ACCEPTED]) {
             let choosenCaracteristics = pickRandom([...rejClass], rejQty + 1);
             let acceptedCaracteristic = choosenCaracteristics.pop();
 
             // +1 because we're adding the accepted restriction on the other box
             let ratioIfInsertOnSmaller = (smallerBoxSize + rejQty) / (smallerBoxSize + biggerBoxSize + 1 + rejQty),
-                ratioIfInsertOnBigger = (biggerBoxSize + rejQty) / (smallerBoxSize + biggerBoxSize + 1 + rejQty);
+                ratioIfInsertOnBigger = (smallerBoxSize) / (smallerBoxSize + biggerBoxSize + 1 + rejQty);
             
             // if the ratio after insertion on the smaller box is closer to the boxesRatio, insert on the smaller box
-            if (Math.abs(ratioIfInsertOnSmaller - smallerBoxeRatio) <= Math.abs(ratioIfInsertOnBigger - smallerBoxeRatio)) {
+            if (Math.abs(ratioIfInsertOnSmaller - smallerBoxRatio) <= Math.abs(ratioIfInsertOnBigger - smallerBoxRatio)) {
                 smallerBoxRejected.insert(rejClass, ...choosenCaracteristics);
                 biggerBoxAccepted.insert(rejClass, acceptedCaracteristic);  // add the accepted restriction on the other box
                 smallerBoxSize += rejQty;
                 biggerBoxSize += 1;
+                smallerBoxNumClasses++;
+                biggerBoxNumClasses++;
+                oswaRejOnSmallerBox = true;
             } else {
                 biggerBoxRejected.insert(rejClass, ...choosenCaracteristics);
                 smallerBoxAccepted.insert(rejClass, acceptedCaracteristic);  // add the accepted restriction on the other box
                 biggerBoxSize += rejQty;
                 smallerBoxSize += 1;
+                smallerBoxNumClasses++;
+                biggerBoxNumClasses++;
+                oswaRejOnBiggerBox = true;
             }
         }
 
+        if (oswaRejOnBiggerBox && oswaRejOnSmallerBox) {
+            oswaFix = false;
+            bothNonZeroFix = false;
+        }
+        
+
+        if (osnaToFix) {
+            if (bothNonZeroFix) {
+                const [rejClass, rejQty] = currentStage.rejectedClasses[ONE_SIDE.NO_ACCEPTED].shift();
+                let choosenCaracteristics = pickRandom([...rejClass], rejQty);
+                if (smallerBoxSize === 0) {
+                    smallerBoxRejected.insert(rejClass, ...choosenCaracteristics);
+                    smallerBoxSize += rejQty;
+                    smallerBoxNumClasses++;
+                } else {
+                    biggerBoxRejected.insert(rejClass, ...choosenCaracteristics);
+                    biggerBoxSize += rejQty;
+                    biggerBoxNumClasses++;
+                }
+            } else if (oswaFix) {
+                const [rejClass, rejQty] = currentStage.rejectedClasses[ONE_SIDE.NO_ACCEPTED].shift();
+                let choosenCaracteristics = pickRandom([...rejClass], rejQty);
+
+                if(oswaRejOnSmallerBox) {
+                    smallerBoxRejected.insert(rejClass, ...choosenCaracteristics);
+                    smallerBoxSize += rejQty;
+                    smallerBoxNumClasses++;
+                } else { // if oswaRejOnBiggerBox
+                    biggerBoxRejected.insert(rejClass, ...choosenCaracteristics);
+                    biggerBoxSize += rejQty;
+                    biggerBoxNumClasses++;
+                }
+            }
+        }
+        for (const [rejClass, rejQty] of currentStage.rejectedClasses[ONE_SIDE.NO_ACCEPTED]) {
+            let choosenCaracteristics = pickRandom([...rejClass], rejQty);
+            let ratioIfInsertOnSmaller = (smallerBoxSize + rejQty) / (smallerBoxSize + biggerBoxSize + rejQty),
+                ratioIfInsertOnBigger = (smallerBoxSize) / (smallerBoxSize + biggerBoxSize + rejQty);
+
+            // if the ratio after insertion on the smaller box is closer to the boxesRatio, insert on the smaller box
+            if (Math.abs(ratioIfInsertOnSmaller - smallerBoxRatio) <= Math.abs(ratioIfInsertOnBigger - smallerBoxRatio)) {
+                smallerBoxRejected.insert(rejClass, ...choosenCaracteristics);
+                smallerBoxSize += rejQty;
+                smallerBoxNumClasses++;
+            } else {
+                biggerBoxRejected.insert(rejClass, ...choosenCaracteristics);
+                biggerBoxSize += rejQty;
+                biggerBoxNumClasses++;
+            }
+        }
+
+        //if (bsToFix) {
+        //* not needed as BOTH_SIDES fixes everything automatically
+        //}
         for (const [rejClass, rejQty] of currentStage.rejectedClasses[BOTH_SIDES]) {
             let choosenCaracteristics = pickRandom([...rejClass], rejQty);
             // first add one rejected restriction on each box (needed to not become ONE_SIDE.NO_ACCEPTED by the greedy algorithm)
@@ -2317,347 +2473,244 @@ function game() {
             for (const caracteristic of choosenCaracteristics) {
                 // insert each caracteristic one at a time to try to get closer to the boxesRatio
                 let ratioIfInsertOnSmaller = (smallerBoxSize + 1) / (smallerBoxSize + biggerBoxSize + 1),
-                    ratioIfInsertOnBigger = (biggerBoxSize + 1) / (smallerBoxSize + biggerBoxSize + 1);
+                    ratioIfInsertOnBigger = (smallerBoxSize) / (smallerBoxSize + biggerBoxSize + 1);
                 // if the ratio after insertion on the smaller box is closer to the boxesRatio, insert on the smaller box
-                if (Math.abs(ratioIfInsertOnSmaller - smallerBoxeRatio) <= Math.abs(ratioIfInsertOnBigger - smallerBoxeRatio)) {
+                if (Math.abs(ratioIfInsertOnSmaller - smallerBoxRatio) <= Math.abs(ratioIfInsertOnBigger - smallerBoxRatio)) {
                     smallerBoxRejected.insert(rejClass, caracteristic);
                     smallerBoxSize += 1;
+                    smallerBoxNumClasses++;
                 } else {
                     biggerBoxRejected.insert(rejClass, caracteristic);
                     biggerBoxSize += 1;
+                    biggerBoxNumClasses++;
                 }
             }
+
+            bothNonZeroFix = false;
+            oswaFix = false;
         }
 
         // TODO: calculate how many restrictions can be inserted on each box instead of deciding where to insert for each restriction
+        if (accToFix) {
+            if (smallerBoxSize > 0 && biggerBoxSize > 0)
+                bothNonZeroFix = false;
+
+            if (bothNonZeroFix) {
+                const accClass = currentStage.acceptedClasses.shift();
+                let choosenCaracteristic = [...accClass][Math.floor(Math.random() * accClass.length)];
+
+                if (smallerBoxSize === 0) {
+                    smallerBoxAccepted.insert(accClass, choosenCaracteristic);
+                    smallerBoxSize += 1;
+                    smallerBoxNumClasses++;
+                } else {
+                    biggerBoxAccepted.insert(accClass, choosenCaracteristic);
+                    biggerBoxSize += 1;
+                    biggerBoxNumClasses++;
+                }
+            } else if (oswaFix) {
+                const accClass = currentStage.acceptedClasses.shift();
+                let choosenCaracteristic = [...accClass][Math.floor(Math.random() * accClass.length)];
+
+                if (oswaRejOnSmallerBox) {
+                    smallerBoxAccepted.insert(accClass, choosenCaracteristic);
+                    smallerBoxSize += 1;
+                    smallerBoxNumClasses++;
+                } else { // if oswaRejOnBiggerBox
+                    biggerBoxAccepted.insert(accClass, choosenCaracteristic);
+                    biggerBoxSize += 1;
+                    biggerBoxNumClasses++;
+                }
+            }
+        }
         for (const accClass of currentStage.acceptedClasses) {
             let choosenCaracteristic = [...accClass][Math.floor(Math.random() * accClass.length)];
             let ratioIfInsertOnSmaller = (smallerBoxSize + 1) / (smallerBoxSize + biggerBoxSize + 1),
-                ratioIfInsertOnBigger = (biggerBoxSize + 1) / (smallerBoxSize + biggerBoxSize + 1);
+                ratioIfInsertOnBigger = (smallerBoxSize) / (smallerBoxSize + biggerBoxSize + 1);
 
             // if the ratio after insertion on the smaller box is closer to the boxesRatio, insert on the smaller box
-            if (Math.abs(ratioIfInsertOnSmaller - smallerBoxeRatio) <= Math.abs(ratioIfInsertOnBigger - smallerBoxeRatio)) {
+            if (Math.abs(ratioIfInsertOnSmaller - smallerBoxRatio) <= Math.abs(ratioIfInsertOnBigger - smallerBoxRatio)) {
                 smallerBoxAccepted.insert(accClass, choosenCaracteristic);
                 smallerBoxSize += 1;
+                smallerBoxNumClasses++;
             } else {
                 biggerBoxAccepted.insert(accClass, choosenCaracteristic);
                 biggerBoxSize += 1;
+                biggerBoxNumClasses++;
             }
         }
-    }
 
-    // --WIP: random control--
-    let leftSets = [];
-    let rightSets = [];
-    let middleSets = [];
-    // generate the subsets that exist on each side
-    {
-        let leftRestrictions = acceptedRestrictionsLeft.concat(rejectedRestrictionsLeft);
-        let rightRestrictions = acceptedRestrictionsRight.concat(rejectedRestrictionsRight);
-        let leftUnspecifiedClasses = [...CARACTERISTIC].filter(c => leftRestrictions.arr[c.id].length === 0);
-        let rightUnspecifiedClasses = [...CARACTERISTIC].filter(c => rightRestrictions.arr[c.id].length === 0);
-        let leftPossibilities = leftRestrictions.arr.flatMap(arr => arr.map(caracteristic => [[caracteristic, ACCEPTED], [caracteristic, REJECTED]]));
-        let rightPossibilities = rightRestrictions.arr.flatMap(arr => arr.map(caracteristic => [[caracteristic, ACCEPTED], [caracteristic, REJECTED]]));
+        let leftSets = [];
+        let rightSets = [];
+        let middleSets = [];
+        // generate the subsets that exist on each side
+        {
+            let leftRestrictions = acceptedRestrictionsLeft.concat(rejectedRestrictionsLeft);
+            let rightRestrictions = acceptedRestrictionsRight.concat(rejectedRestrictionsRight);
+            let leftUnspecifiedClasses = [...CARACTERISTIC].filter(c => leftRestrictions.arr[c.id].length === 0);
+            let rightUnspecifiedClasses = [...CARACTERISTIC].filter(c => rightRestrictions.arr[c.id].length === 0);
+            let leftPossibilities = leftRestrictions.arr.flatMap(arr => arr.map(caracteristic => [[caracteristic, ACCEPTED], [caracteristic, REJECTED]]));
+            let rightPossibilities = rightRestrictions.arr.flatMap(arr => arr.map(caracteristic => [[caracteristic, ACCEPTED], [caracteristic, REJECTED]]));
 
-        // generate all possible combinations of restrictions
+            // generate all possible combinations of restrictions
 
-        let fullSet = new RestrictionSetContainer().invert();
+            let fullSet = new RestrictionSetContainer().invert();
 
-        for (const comb of cartesianProduct(...leftPossibilities)) {
-            let set = fullSet; // no worry about mutating the fullSet, set will be replaced by a modified copy of it
-            for (const [caracteristic, accepted] of comb) {
-                let classe = CARACTERISTIC.getClass(caracteristic);
-                let currentSet = new RestrictionSetContainer();
-                currentSet.add(classe, caracteristic);
-                if (accepted === REJECTED) 
-                    currentSet = currentSet.invert(classe);
-                set = set.intersection(currentSet, classe);
+            for (const comb of cartesianProduct(...leftPossibilities)) {
+                let set = fullSet; // no worry about mutating the fullSet, set will be replaced by a modified copy of it
+                for (const [caracteristic, accepted] of comb) {
+                    // TODO: maybe include class inside of comb?
+                    let classe = CARACTERISTIC.getClass(caracteristic);
+                    let currentSet = new RestrictionSetContainer();
+                    currentSet.add(classe, caracteristic);
+                    if (accepted === REJECTED) 
+                        currentSet = currentSet.invert(classe);
+                    set = set.intersection(currentSet, classe);
+                }
+                leftUnspecifiedClasses.forEach(classe => set.add(classe, ...classe));
+                // TODO: maybe move this to inside of the previous loop?
+                if (set.anyEmpty()) {
+                    // no shapes in this set
+                    continue;
+                }
+                leftSets.push(set);
             }
-            leftUnspecifiedClasses.forEach(classe => set.add(classe, ...classe));
-            if (set.anyEmpty()) {
-                // no shapes in this set
-                continue;
-            }
-            leftSets.push(set);
-        }
 
-        for (const comb of cartesianProduct(...rightPossibilities)) {
-            let set = fullSet; // no worry about mutating the fullSet, set will be replaced by a modified copy of it
-            for (const [caracteristic, accepted] of comb) {
-                let classe = CARACTERISTIC.getClass(caracteristic);
-                let currentSet = new RestrictionSetContainer();
-                currentSet.add(classe, caracteristic);
-                if (accepted === REJECTED) 
-                    currentSet = currentSet.invert(classe);
+            for (const comb of cartesianProduct(...rightPossibilities)) {
+                let set = fullSet; // no worry about mutating the fullSet, set will be replaced by a modified copy of it
+                for (const [caracteristic, accepted] of comb) {
+                    let classe = CARACTERISTIC.getClass(caracteristic);
+                    let currentSet = new RestrictionSetContainer();
+                    currentSet.add(classe, caracteristic);
+                    if (accepted === REJECTED) 
+                        currentSet = currentSet.invert(classe);
+                    
+                    set = set.intersection(currentSet, classe);
+                }
+                rightUnspecifiedClasses.forEach(classe => set.add(classe, ...classe));
+                if (set.anyEmpty()) {
+                    // no shapes in this set
+                    continue;
+                }
+                rightSets.push(set);
+            }
+
+            // intersect combinations with a side to get possible sets for that side
+
+            // leftWithRightSets = right possibilities <&- left restrictions
+            // so this are the sets that are subsets of the left side including the intersection
+            let leftWithRightSets = [];
+            let rightWithLeftSets = [];
+
+            let leftRestrictionSet = fullSet.clone();
+            // TODO: optimize this shit! (virtual goes nice here)
+            acceptedRestrictionsLeft.arr.forEach((arr, i) => {
+                if (arr.length !== 0)
+                    leftRestrictionSet.set(CARACTERISTIC[i], ...arr);
+            });
+            rejectedRestrictionsLeft.arr.forEach((arr, i) => {
+                arr.forEach(caracteristic => {
+                    let set = RestrictionSetContainer();
+                    set.add(CARACTERISTIC[i], caracteristic);
+                    leftRestrictionSet = leftRestrictionSet.intersection(set.invert(CARACTERISTIC[i]), CARACTERISTIC[i]);
+                });
+            });
+            //leftUnspecifiedClasses.forEach(c => leftRestrictionSet.add(c, ...c));
+            let rightRestrictionSet = fullSet.clone();
+            acceptedRestrictionsRight.arr.forEach((arr, i) => {
+                if (arr.length !== 0)
+                    rightRestrictionSet.set(CARACTERISTIC[i], ...arr);
+            });
+            rejectedRestrictionsRight.arr.forEach((arr, i) => {
+                arr.forEach(caracteristic => {
+                    let set = new RestrictionSetContainer();
+                    set.add(CARACTERISTIC[i], caracteristic);
+                    rightRestrictionSet = rightRestrictionSet.intersection(set.invert(CARACTERISTIC[i]), CARACTERISTIC[i]);
+                });
+            });
+            //rightUnspecifiedClasses.forEach(c => rightRestrictionSet.add(c, ...c));
+
+            for (const rightSet of rightSets) {
+                let intersection = rightSet.intersection(leftRestrictionSet);
+                if (intersection.anyEmpty()) {
+                    // no shapes in this set
+                    continue;
+                }
+                leftWithRightSets.push(intersection);
+            }
+
+            for (const leftSet of leftSets) {
+                let intersection = leftSet.intersection(rightRestrictionSet);
+                if (intersection.anyEmpty()) 
+                    continue;
                 
-                set = set.intersection(currentSet, classe);
+                rightWithLeftSets.push(intersection);
             }
-            rightUnspecifiedClasses.forEach(classe => set.add(classe, ...classe));
-            if (set.anyEmpty()) {
-                // no shapes in this set
-                continue;
+
+            // generate intersection set
+            let middleSet = new RestrictionSetContainer();
+            {
+                let set = fullSet;
+                let leftComb = [].concat(
+                    acceptedRestrictionsLeft.arr.flatMap(arr => arr.map(caracteristic => [caracteristic, ACCEPTED])),
+                    rejectedRestrictionsLeft.arr.flatMap(arr => arr.map(caracteristic => [caracteristic, REJECTED]))
+                );
+                for (const [caracteristic, accepted] of leftComb) {
+                    let classe = CARACTERISTIC.getClass(caracteristic);
+                    let currentSet = new RestrictionSetContainer();
+                    currentSet.add(classe, caracteristic);
+                    if (accepted === REJECTED) 
+                        currentSet = currentSet.invert(classe);
+                    set = set.intersection(currentSet, classe);
+                }
+                leftUnspecifiedClasses.forEach(classe => set.add(classe, ...classe));
+                if (set.anyEmpty()) {
+                    // no shapes in this set
+                    console.error('!PANIC! no shapes in the intersection possibility set!');
+                }
+
+                let intersection = set.intersection(rightRestrictionSet);
+                if (intersection.anyEmpty()) 
+                    console.error('!PANIC! no shapes in the intersection set!');
+                set = intersection;
+                middleSet = set;
             }
-            rightSets.push(set);
+
+            // remove intersection set from left and right sets
+            //leftSets = leftWithRightSets.filter(s => !middleSet.equals(s));
+            leftWithRightSets.splice(leftWithRightSets.findIndex((set) => middleSet.equals(set)), 1);
+            leftSets = leftWithRightSets;
+            //rightSets = rightWithLeftSets.filter(s => !middleSet.equals(s));
+            rightWithLeftSets.splice(rightWithLeftSets.findIndex((set) => middleSet.equals(set)), 1);
+            rightSets = rightWithLeftSets;
+
+
+            // generate all "simple" sets for all sides
+            leftSets = leftSets.flatMap(s => s.toSingleSubsets());
+            rightSets = rightSets.flatMap(s => s.toSingleSubsets());
+            middleSets = middleSet.toSingleSubsets();
         }
 
-        // intersect combinations with a side to get possible sets for that side
-
-        // leftWithRightSets = right possibilities <&- left restrictions
-        // so this are the sets that are subsets of the left side including the intersection
-        let leftWithRightSets = [];
-        let rightWithLeftSets = [];
-
-        let leftRestrictionSet = fullSet.clone();
-        // TODO: optimize this shit! (virtual goes nice here)
-        acceptedRestrictionsLeft.arr.forEach((arr, i) => {
-            if (arr.length !== 0)
-                leftRestrictionSet.set(CARACTERISTIC[i], ...arr);
-        });
-        rejectedRestrictionsLeft.arr.forEach((arr, i) => {
-            arr.forEach(caracteristic => {
-                let set = RestrictionSetContainer();
-                set.add(CARACTERISTIC[i], caracteristic);
-                leftRestrictionSet = leftRestrictionSet.intersection(set.invert(CARACTERISTIC[i]), CARACTERISTIC[i]);
-            });
-        });
-        //leftUnspecifiedClasses.forEach(c => leftRestrictionSet.add(c, ...c));
-        let rightRestrictionSet = fullSet.clone();
-        acceptedRestrictionsRight.arr.forEach((arr, i) => {
-            if (arr.length !== 0)
-                rightRestrictionSet.set(CARACTERISTIC[i], ...arr);
-        });
-        rejectedRestrictionsRight.arr.forEach((arr, i) => {
-            arr.forEach(caracteristic => {
+        // random limits
+        let limit = [
+            currentStage.randomLimits.get(CARACTERISTIC.SHAPE),
+            currentStage.randomLimits.get(CARACTERISTIC.COLOR),
+            currentStage.randomLimits.get(CARACTERISTIC.SIZE),
+            currentStage.randomLimits.get(CARACTERISTIC.OUTLINE)
+        ];
+        // calculate minima
+        let minimumConfig, minimumSet;
+        {
+            let possibleConfigurations = []; // [[result_set, [left, middle, right]], ...]
+            for (const [leftSet, middleSet, rightSet] of cartesianProduct(leftSets, middleSets, rightSets)) {
                 let set = new RestrictionSetContainer();
-                set.add(CARACTERISTIC[i], caracteristic);
-                rightRestrictionSet = rightRestrictionSet.intersection(set.invert(CARACTERISTIC[i]), CARACTERISTIC[i]);
-            });
-        });
-        //rightUnspecifiedClasses.forEach(c => rightRestrictionSet.add(c, ...c));
-
-        for (const rightSet of rightSets) {
-            let intersection = rightSet.intersection(leftRestrictionSet);
-            if (intersection.anyEmpty()) {
-                // no shapes in this set
-                continue;
-            }
-            leftWithRightSets.push(intersection);
-        }
-
-        for (const leftSet of leftSets) {
-            let intersection = leftSet.intersection(rightRestrictionSet);
-            if (intersection.anyEmpty()) 
-                continue;
-            
-            rightWithLeftSets.push(intersection);
-        }
-
-        // generate intersection set
-        let middleSet = new RestrictionSetContainer();
-        {
-            let set = fullSet;
-            let leftComb = [].concat(
-                acceptedRestrictionsLeft.arr.flatMap(arr => arr.map(caracteristic => [caracteristic, ACCEPTED])),
-                rejectedRestrictionsLeft.arr.flatMap(arr => arr.map(caracteristic => [caracteristic, REJECTED]))
-            );
-            for (const [caracteristic, accepted] of leftComb) {
-                let classe = CARACTERISTIC.getClass(caracteristic);
-                let currentSet = new RestrictionSetContainer();
-                currentSet.add(classe, caracteristic);
-                if (accepted === REJECTED) 
-                    currentSet = currentSet.invert(classe);
-                set = set.intersection(currentSet, classe);
-            }
-            leftUnspecifiedClasses.forEach(classe => set.add(classe, ...classe));
-            if (set.anyEmpty()) {
-                // no shapes in this set
-                console.error('!PANIC! no shapes in the intersection possibility set!');
+                set = set.union(leftSet);
+                set = set.union(middleSet);
+                set = set.union(rightSet);
+                possibleConfigurations.push([set, [leftSet, middleSet, rightSet]]);
             }
 
-            let intersection = set.intersection(rightRestrictionSet);
-            if (intersection.anyEmpty()) 
-                console.error('!PANIC! no shapes in the intersection set!');
-            set = intersection;
-            middleSet = set;
-        }
-
-        // remove intersection set from left and right sets
-        //leftSets = leftWithRightSets.filter(s => !middleSet.equals(s));
-        leftWithRightSets.splice(leftWithRightSets.findIndex((set) => middleSet.equals(set)), 1);
-        leftSets = leftWithRightSets;
-        //rightSets = rightWithLeftSets.filter(s => !middleSet.equals(s));
-        rightWithLeftSets.splice(rightWithLeftSets.findIndex((set) => middleSet.equals(set)), 1);
-        rightSets = rightWithLeftSets;
-
-
-        // generate all "simple" sets for all sides
-        leftSets = leftSets.flatMap(s => s.toSingleSubsets());
-        rightSets = rightSets.flatMap(s => s.toSingleSubsets());
-        middleSets = middleSet.toSingleSubsets();
-    }
-
-    // random limits
-    let limit = [
-        currentStage.randomLimits.get(CARACTERISTIC.SHAPE),
-        currentStage.randomLimits.get(CARACTERISTIC.COLOR),
-        currentStage.randomLimits.get(CARACTERISTIC.SIZE),
-        currentStage.randomLimits.get(CARACTERISTIC.OUTLINE)
-    ];
-    // calculate minima
-    let minimumConfig, minimumSet;
-    {
-        let possibleConfigurations = []; // [[result_set, [left, middle, right]], ...]
-        for (const [leftSet, middleSet, rightSet] of cartesianProduct(leftSets, middleSets, rightSets)) {
-            let set = new RestrictionSetContainer();
-            set = set.union(leftSet);
-            set = set.union(middleSet);
-            set = set.union(rightSet);
-            possibleConfigurations.push([set, [leftSet, middleSet, rightSet]]);
-        }
-
-        console.log('[i] {CALCULATE MINIMA} possible configurations: ' + possibleConfigurations.length);
-        // "normalize" the limit vector (for dot product)
-        // src: https://github.com/stackgl/gl-vec3/blob/master/normalize.js
-        let limitNorm = Array(4);
-        {
-            let x = limit[0],
-                y = limit[1],
-                z = limit[2],
-                w = limit[3];
-            let len = x*x + y*y + z*z + w*w;
-            if (len > 0) {
-                len = 1 / Math.sqrt(len);
-                limitNorm[0] = limit[0] * len;
-                limitNorm[1] = limit[1] * len;
-                limitNorm[2] = limit[2] * len;
-                limitNorm[3] = limit[3] * len;
-            }
-        }
-
-        console.log('[i] {CALCULATE MINIMA} defined random limit: ' + limit);
-
-        let minConfig = null;
-        let minSum = Infinity;
-        let minDot = Infinity;
-
-        for (const [set, comb] of possibleConfigurations) {
-            let a = set;
-            a = a.arr.map(s => s.length);
-            let aSum = a.reduce((acc, cur) => acc + cur, 0);
-
-            if (aSum >= minSum)
-                continue;
-
-            let x = a[0],
-                y = a[1],
-                z = a[2],
-                w = a[3];
-            let len = x*x + y*y + z*z + w*w;
-            if (len > 0) {
-                len = 1 / Math.sqrt(len);
-                a[0] *= len;
-                a[1] *= len;
-                a[2] *= len;
-                a[3] *= len;
-            }
-            let aDot = a[0] * limitNorm[0] + a[1] * limitNorm[1] + a[2] * limitNorm[2] + a[3] * limitNorm[3];
-            aDot = (1 - aDot);
-
-            if (aDot >= minDot)
-                continue;
-
-            // it's smaller than the current minimum
-            minConfig = [set, comb];
-            minSum = aSum;
-            minDot = aDot;
-        }
-
-        // TODO: look, we just need to do this shit for the specified classes, cut this shit down
-        console.log('[i] {CALCULATE MINIMA} minima: ' + minConfig[0]);
-        minimumSet = minConfig[0];
-        minimumConfig = minConfig[1];
-    }
-
-    let leftChoosenSets = [minimumConfig[0]],
-        middleChoosenSets = [minimumConfig[1]],
-        rightChoosenSets = [minimumConfig[2]];
-
-    let currentRestrictions = minimumSet;
-
-    //TODO: skip shit if smaller than limit
-    if (zipArr(minimumSet.arr.map(c => c.length), limit).some(([a, b]) => a > b)) {
-        console.warn('Minima is larger than the limit. Limit isn\'t reasonable, setting minima to limit.');
-        console.info(`Minima was: ${minimumSet.arr.map(c => c.length)}`);
-        limit = minimumSet.arr.map(c => c.length);
-    } else {
-        // fill to limit, maximizing chaos
-
-        // remove the already choosen sets from the possible sets
-        leftSets.splice(leftSets.indexOf(minimumConfig[0]), 1);
-        middleSets.splice(middleSets.indexOf(minimumConfig[1]), 1);
-        rightSets.splice(rightSets.indexOf(minimumConfig[2]), 1);
-
-        /*
-        greedy algo wheee:
-        This is like the Multi-dimensional knapsack problem, but dynamic!
-
-        So here's the problem:
-        We have N sets (leftSets + middleSets + rightSets) and we have to choose a combination of them
-        trying to pick the biggest amount of sets while keeping currentRestrictions smaller or equal than "limit".
-
-        Every set has a weight, which is the amount of restrictions it adds to currentRestrictions.
-        Since a set and current restrictions may have an intersection, the weight is not the same as the number of restrictions of that set.
-
-        The profit of a set is the sum of the reduction of the weight of the other sets AND the dot product of this reduction in relation to "limit".
-        Since choosing a set changes the weight of the other sets, these weights will decrease (this is why it's dynamic).
-        This reduction is part of the profit and the biggest it's the better.
-        However multiple sets can have the same "reduction". To tiebreak, we look at the "direction" of these reductions:
-            The weights of all sets forms a n-dimensional vector. In case we choose a set, theis vector will change, becoming smaller.
-            This change is also a n-dimensional vector. In case of the same number of reductions, which vector would be better?
-            The best diff vector (original vector - new vector) is the one that follow the "spirit" (or proprotions) of the limit.
-            So, the more parallel a diff vector is to -limit (since limit is positive) the better!
-
-            This means if the limit is [4, 2] and there's two options of sets each with a diff vector of [-3, 0] and [-2,-1] we choose the latter,
-            since it's parallel to -limit. This means that when we can't add sets anymore (because adding any of the remaining will surpass the limit),
-            we'll have "usage" "closer" to limit on all components. With the limit of [4, 3], it's better that usage is [3, 2] than [4, 1]. Not just
-            the first usage is closer to limit and also more parallel, but its number of combinations is bigger (3x2=6 vs 4x1=4). This helps maximize
-            chaos in the generation
-            
-
-        Since every time we choose a set, the reduction of the wheight of all remaining vectors change, this problem is dynamic. This makes the problem
-        significantly harder. This greedy algo may not be optimal, but it's probably the best choice. Dynamic Programming can't be apllied here because
-        the dynamicity causes poor (or non existant) subproblem overlapping.
-        So intead of sorting the sets and choosing the first ones, we'll choose the set with the max profit/weight ratio and then
-        recalculate the new reductions, choose the max/min set and so on, until we can't add any set to our solution that would surpass the limit.
-
-        Oh, one thing: we have to identify each set if we merge all of then in a single array, so they can be added to the correct side.
-
-        So the algo:
-        1. Merge the arrays of sets into one, identifying from where they come from.
-        2. Calculate the weights of sets (original vector)
-        3. Calculate the profit and weight for every set and choose the max profit/weight ratio
-           The minimum is choosen first on sum of reductions/weight (or inverse) and if it's equal, choose the smaller dot product with limit (the "spirit")
-        4. If the addition of the min/max set surpasses limit, bail out, we finished here
-        5. Remove that set from the array
-        6. Reuse the new weight of sets from the min/max set
-        7. If we still have sets to choose, GOTO 3, else finish
-
-
-        TODO: OPTIMIZATIONS possible here:
-        - If the limit for a class is 1, we can't add any sets that have a restriction for this class that is different from what is choose for the
-          minima already. So we can remove all sets that doesn't contain the restriction choosen for that class on the minima
-        - If the limit for a class is MAX, then we can ignore it, removing all restrictions of this classe for all sets (removing duplicates of course).
-          We can add these restrictions back later.
-          Maybe we can calculate a dynamic max. For example, if one side is NO TRIANGLE and the other is SQUARE, triangles can't appear. Can we do something with this?
-        */
-        {
-            let allSets = [...leftSets.map(s => [leftChoosenSets, s]),
-                           ...rightSets.map(s => [rightChoosenSets, s]),
-                           ...middleSets.map(s => [middleChoosenSets, s])];
-            let weightsConfig = allSets.map(([_, s]) => s.subtract(currentRestrictions));
-            let weights = weightsConfig.map(c => c.size());
-            // TODO: maybe we should use vectors as weights instead of a single value? Following the same logic as the profit, trying to get something more "aligned" to limit. All ops would probably be dot products.
-
+            console.log('[i] {CALCULATE MINIMA} possible configurations: ' + possibleConfigurations.length);
             // "normalize" the limit vector (for dot product)
             // src: https://github.com/stackgl/gl-vec3/blob/master/normalize.js
             let limitNorm = Array(4);
@@ -2676,72 +2729,217 @@ function game() {
                 }
             }
 
-            while(allSets.length !== 0) {
-                let maxSet, maxSetSide;
-                // -Infinity/0 = -Infinity, so any ratio here will be bigger on the first iteration
-                let maxSetWeight = 0,
-                    maxSetDiffSum = -Infinity,
-                    maxSetDiffDot = -Infinity;
-                let maxSetWeightsConfig, maxSetWeights;
-                for (const [i, [side, set]] of allSets.entries()) {
-                    let setWeight = weights[i];
+            console.log('[i] {CALCULATE MINIMA} defined random limit: ' + limit);
 
-                    // calculate profit
-                    let setWeightsConfigs = weightsConfig.map(s => s.subtract(set));
-                    let setWeights = setWeightsConfigs.map(c => c.size());
+            let minConfig = null;
+            let minSum = Infinity;
+            let minDot = Infinity;
 
-                    // diffVec = weights - setWeights (vector operation)
-                    let diffVec = zipArr(weights, setWeights).map(([a, b]) => a - b);
+            for (const [set, comb] of possibleConfigurations) {
+                let a = set;
+                a = a.arr.map(s => s.length);
+                let aSum = a.reduce((acc, cur) => acc + cur, 0);
 
-                    let diffSum = diffVec.reduce((a, b) => a + b, 0);
-                    if (diffSum/setWeight <= maxSetDiffSum/maxSetWeight) continue;
+                if (aSum >= minSum)
+                    continue;
 
-                    // calculate dot product
-                    // normalize the diffVec (for dot product)
-                    let diffVecNorm = Array(4);
-                    {
-                        let x = diffVec[0],
-                            y = diffVec[1],
-                            z = diffVec[2],
-                            w = diffVec[3];
-                        let len = x*x + y*y + z*z + w*w;
-                        if (len > 0) {
-                            len = 1 / Math.sqrt(len);
-                            diffVecNorm[0] = diffVec[0] * len;
-                            diffVecNorm[1] = diffVec[1] * len;
-                            diffVecNorm[2] = diffVec[2] * len;
-                            diffVecNorm[3] = diffVec[3] * len;
-                        }
+                let x = a[0],
+                    y = a[1],
+                    z = a[2],
+                    w = a[3];
+                let len = x*x + y*y + z*z + w*w;
+                if (len > 0) {
+                    len = 1 / Math.sqrt(len);
+                    a[0] *= len;
+                    a[1] *= len;
+                    a[2] *= len;
+                    a[3] *= len;
+                }
+                let aDot = a[0] * limitNorm[0] + a[1] * limitNorm[1] + a[2] * limitNorm[2] + a[3] * limitNorm[3];
+                aDot = (1 - aDot);
+
+                if (aDot >= minDot)
+                    continue;
+
+                // it's smaller than the current minimum
+                minConfig = [set, comb];
+                minSum = aSum;
+                minDot = aDot;
+            }
+
+            // TODO: look, we just need to do this shit for the specified classes, cut this shit down
+            console.log('[i] {CALCULATE MINIMA} minima: ' + JSON.stringify(minConfig[0].arr.map(s => [...s])));
+            minimumSet = minConfig[0];
+            minimumConfig = minConfig[1];
+        }
+
+        leftChoosenSets = [minimumConfig[0]];
+        middleChoosenSets = [minimumConfig[1]];
+        rightChoosenSets = [minimumConfig[2]];
+
+        let currentRestrictions = minimumSet;
+
+        //TODO: skip shit if smaller than limit
+        if (zipArr(minimumSet.arr.map(c => c.length), limit).some(([a, b]) => a > b)) {
+            console.warn('Minima is larger than the limit. Limit isn\'t reasonable, setting minima to limit.');
+            console.info(`Minima was: ${minimumSet.arr.map(c => c.length)}`);
+            limit = minimumSet.arr.map(c => c.length);
+        } else {
+            // fill to limit, maximizing chaos
+
+            // remove the already choosen sets from the possible sets
+            leftSets.splice(leftSets.indexOf(minimumConfig[0]), 1);
+            middleSets.splice(middleSets.indexOf(minimumConfig[1]), 1);
+            rightSets.splice(rightSets.indexOf(minimumConfig[2]), 1);
+
+            /*
+            greedy algo wheee:
+            This is like the Multi-dimensional knapsack problem, but dynamic!
+
+            So here's the problem:
+            We have N sets (leftSets + middleSets + rightSets) and we have to choose a combination of them
+            trying to pick the biggest amount of sets while keeping currentRestrictions smaller or equal than "limit".
+
+            Every set has a weight, which is the amount of restrictions it adds to currentRestrictions.
+            Since a set and current restrictions may have an intersection, the weight is not the same as the number of restrictions of that set.
+
+            The profit of a set is the sum of the reduction of the weight of the other sets AND the dot product of this reduction in relation to "limit".
+            Since choosing a set changes the weight of the other sets, these weights will decrease (this is why it's dynamic).
+            This reduction is part of the profit and the biggest it's the better.
+            However multiple sets can have the same "reduction". To tiebreak, we look at the "direction" of these reductions:
+                The weights of all sets forms a n-dimensional vector. In case we choose a set, theis vector will change, becoming smaller.
+                This change is also a n-dimensional vector. In case of the same number of reductions, which vector would be better?
+                The best diff vector (original vector - new vector) is the one that follow the "spirit" (or proprotions) of the limit.
+                So, the more parallel a diff vector is to -limit (since limit is positive) the better!
+                TODO: ^ it's not -limit
+
+                This means if the limit is [4, 2] and there's two options of sets each with a diff vector of [-3, 0] and [-2,-1] we choose the latter,
+                since it's parallel to -limit. This means that when we can't add sets anymore (because adding any of the remaining will surpass the limit),
+                we'll have "usage" "closer" to limit on all components. With the limit of [4, 3], it's better that usage is [3, 2] than [4, 1]. Not just
+                the first usage is closer to limit and also more parallel, but its number of combinations is bigger (3x2=6 vs 4x1=4). This helps maximize
+                chaos in the generation
+                
+
+            Since every time we choose a set, the reduction of the wheight of all remaining vectors change, this problem is dynamic. This makes the problem
+            significantly harder. This greedy algo may not be optimal, but it's probably the best choice. Dynamic Programming can't be apllied here because
+            the dynamicity causes poor (or non existant) subproblem overlapping.
+            So intead of sorting the sets and choosing the first ones, we'll choose the set with the max profit/weight ratio and then
+            recalculate the new reductions, choose the max/min set and so on, until we can't add any set to our solution that would surpass the limit.
+
+            Oh, one thing: we have to identify each set if we merge all of then in a single array, so they can be added to the correct side.
+
+            So the algo:
+            1. Merge the arrays of sets into one, identifying from where they come from.
+            2. Calculate the weights of sets (original vector)
+            3. Calculate the profit and weight for every set and choose the max profit/weight ratio
+               The minimum is choosen first on sum of reductions/weight (or inverse) and if it's equal, choose the smaller dot product with limit (the "spirit")
+            4. If the addition of the min/max set surpasses limit, bail out, we finished here
+            5. Remove that set from the array
+            6. Reuse the new weight of sets from the min/max set
+            7. If we still have sets to choose, GOTO 3, else finish
+
+
+            TODO: OPTIMIZATIONS possible here:
+            - If the limit for a class is 1, we can't add any sets that have a restriction for this class that is different from what is choose for the
+              minima already. So we can remove all sets that doesn't contain the restriction choosen for that class on the minima
+            - If the limit for a class is MAX, then we can ignore it, removing all restrictions of this classe for all sets (removing duplicates of course).
+              We can add these restrictions back later.
+              Maybe we can calculate a dynamic max. For example, if one side is NO TRIANGLE and the other is SQUARE, triangles can't appear. Can we do something with this?
+            */
+            {
+                let allSets = [...leftSets.map(s => [leftChoosenSets, s]),
+                               ...rightSets.map(s => [rightChoosenSets, s]),
+                               ...middleSets.map(s => [middleChoosenSets, s])];
+                let weightsConfig = allSets.map(([_, s]) => s.subtract(currentRestrictions));
+                let weights = weightsConfig.map(c => c.size());
+                // TODO: maybe we should use vectors as weights instead of a single value? Following the same logic as the profit, trying to get something more "aligned" to limit. All ops would probably be dot products.
+
+                // "normalize" the limit vector (for dot product)
+                // src: https://github.com/stackgl/gl-vec3/blob/master/normalize.js
+                let limitNorm = Array(4);
+                {
+                    let x = limit[0],
+                        y = limit[1],
+                        z = limit[2],
+                        w = limit[3];
+                    let len = x*x + y*y + z*z + w*w;
+                    if (len > 0) {
+                        len = 1 / Math.sqrt(len);
+                        limitNorm[0] = limit[0] * len;
+                        limitNorm[1] = limit[1] * len;
+                        limitNorm[2] = limit[2] * len;
+                        limitNorm[3] = limit[3] * len;
                     }
-
-                    let diffDot = zipArr(diffVecNorm, limitNorm).reduce((a, b) => a + b[0] * b[1], 0);
-                    if (diffDot/setWeight <= maxSetDiffDot/maxSetWeight) continue;
-
-                    // we found a new max
-                    maxSet = set;
-                    maxSetSide = side;
-                    maxSetWeight = setWeight;
-                    maxSetDiffSum = diffSum;
-                    maxSetDiffDot = diffDot;
-                    maxSetWeightsConfig = setWeightsConfigs;
-                    maxSetWeights = setWeights;
                 }
 
-                // if add the min set and we surpass the limit, we're done
-                // the same as if any component (class) of currentRestriction is bigger than the limit
-                if (currentRestrictions.union(maxSet).arr.some((v, i) => v > limit[i])) break;
+                while(allSets.length !== 0) {
+                    let maxSet, maxSetSide;
+                    // -Infinity/0 = -Infinity, so any ratio here will be bigger on the first iteration
+                    let maxSetWeight = 0,
+                        maxSetDiffSum = -Infinity,
+                        maxSetDiffDot = -Infinity;
+                    let maxSetWeightsConfig, maxSetWeights;
+                    for (const [i, [side, set]] of allSets.entries()) {
+                        let setWeight = weights[i];
 
-                // add the min set to the solution
-                maxSetSide.push(maxSet);
-                currentRestrictions = currentRestrictions.union(maxSet);
-                // remove the min set from the array
-                allSets.splice(allSets.findIndex(([_, s]) => s === maxSet), 1);
-                // reuse the new weights
-                weightsConfig = maxSetWeightsConfig;
-                weights = maxSetWeights;
+                        // calculate profit
+                        let setWeightsConfigs = weightsConfig.map(s => s.subtract(set));
+                        let setWeights = setWeightsConfigs.map(c => c.size());
+
+                        // diffVec = weights - setWeights (vector operation)
+                        let diffVec = zipArr(weights, setWeights).map(([a, b]) => a - b);
+
+                        let diffSum = diffVec.reduce((a, b) => a + b, 0);
+                        if (diffSum/setWeight <= maxSetDiffSum/maxSetWeight) continue;
+
+                        // calculate dot product
+                        // normalize the diffVec (for dot product)
+                        let diffVecNorm = Array(4);
+                        {
+                            let x = diffVec[0],
+                                y = diffVec[1],
+                                z = diffVec[2],
+                                w = diffVec[3];
+                            let len = x*x + y*y + z*z + w*w;
+                            if (len > 0) {
+                                len = 1 / Math.sqrt(len);
+                                diffVecNorm[0] = diffVec[0] * len;
+                                diffVecNorm[1] = diffVec[1] * len;
+                                diffVecNorm[2] = diffVec[2] * len;
+                                diffVecNorm[3] = diffVec[3] * len;
+                            }
+                        }
+
+                        let diffDot = zipArr(diffVecNorm, limitNorm).reduce((a, b) => a + b[0] * b[1], 0);
+                        if (diffDot/setWeight <= maxSetDiffDot/maxSetWeight) continue;
+
+                        // we found a new max
+                        maxSet = set;
+                        maxSetSide = side;
+                        maxSetWeight = setWeight;
+                        maxSetDiffSum = diffSum;
+                        maxSetDiffDot = diffDot;
+                        maxSetWeightsConfig = setWeightsConfigs;
+                        maxSetWeights = setWeights;
+                    }
+
+                    // if add the min set and we surpass the limit, we're done
+                    // the same as if any component (class) of currentRestriction is bigger than the limit
+                    if (currentRestrictions.union(maxSet).arr.some((v, i) => v > limit[i])) break;
+
+                    // add the min set to the solution
+                    maxSetSide.push(maxSet);
+                    currentRestrictions = currentRestrictions.union(maxSet);
+                    // remove the min set from the array
+                    allSets.splice(allSets.findIndex(([_, s]) => s === maxSet), 1);
+                    // reuse the new weights
+                    weightsConfig = maxSetWeightsConfig;
+                    weights = maxSetWeights;
+                }
             }
         }
     }
+
 
     // WIP: okay now we have the sets that compose each box
     // now pick the shapes for each box!
@@ -2759,14 +2957,14 @@ function game() {
                           [caixaIntersecaoItems, Math.round(currentStage.maxNumShapes/3)],
                           [caixaDireitaItems,    Math.round(currentStage.maxNumShapes/3)]];
         maxLengths.sort(([box1, _1], [box2, _2]) => box1.length - box2.length);
-        // smaller box gets more limit
-        maxLengths[0][1] = currentStage.maxNumShapes - Math.round(currentStage.maxNumShapes/3 * 2);
+        // smaller box gets more limit (ignore intersection)
+        maxLengths[1][1] = currentStage.maxNumShapes - Math.round(currentStage.maxNumShapes/3 * 2);
         if (maxLengths[0][0].length < maxLengths[0][1]) {
             // a box has too litle, special limitation will be done
             let maxToBeRedistributed = currentStage.maxNumShapes;
-            let minLength = maxLengths[0][0].length;
+            let minLength = maxLengths[1][0].length;
             maxLengths = maxLengths.map(([box, _], i) => {
-                let maxLength = Math.min(box.length, Math.round(minLength * (Math.random() + 1)), maxToBeRedistributed/(maxLengths.length - i));
+                let maxLength = Math.min(box.length, Math.round(minLength * (Math.random() + 1)), Math.round(maxToBeRedistributed/(maxLengths.length - i)));
                 maxToBeRedistributed -= maxLength;
                 return [box, maxLength];
             });
