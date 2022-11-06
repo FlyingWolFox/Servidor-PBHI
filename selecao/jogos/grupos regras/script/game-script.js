@@ -2692,12 +2692,8 @@ function game() {
         }
 
         // random limits
-        let limit = [
-            currentStage.randomLimits.get(CARACTERISTIC.SHAPE),
-            currentStage.randomLimits.get(CARACTERISTIC.COLOR),
-            currentStage.randomLimits.get(CARACTERISTIC.SIZE),
-            currentStage.randomLimits.get(CARACTERISTIC.OUTLINE)
-        ];
+        let limit = [...currentStage.randomLimits.entries()].map(([classe, limit]) => [classe.id, limit]).sort(([classeId1, _1], [classId2, _2]) => classeId1 - classId2).map(([_, limit]) => limit);
+
         // calculate minima
         let minimumConfig, minimumSet;
         {
@@ -2711,64 +2707,34 @@ function game() {
             }
 
             console.log('[i] {CALCULATE MINIMA} possible configurations: ' + possibleConfigurations.length);
-            // "normalize" the limit vector (for dot product)
-            // src: https://github.com/stackgl/gl-vec3/blob/master/normalize.js
-            let limitNorm = Array(4);
-            {
-                let x = limit[0],
-                    y = limit[1],
-                    z = limit[2],
-                    w = limit[3];
-                let len = x*x + y*y + z*z + w*w;
-                if (len > 0) {
-                    len = 1 / Math.sqrt(len);
-                    limitNorm[0] = limit[0] * len;
-                    limitNorm[1] = limit[1] * len;
-                    limitNorm[2] = limit[2] * len;
-                    limitNorm[3] = limit[3] * len;
-                }
-            }
-
             console.log('[i] {CALCULATE MINIMA} defined random limit: ' + limit);
 
             let minConfig = null;
             let minSum = Infinity;
-            let minDot = Infinity;
+            let minSetProfit = 0;
 
             for (const [set, comb] of possibleConfigurations) {
-                let a = set;
-                a = a.arr.map(s => s.length);
-                let aSum = a.reduce((acc, cur) => acc + cur, 0);
+                let setWeightVec = set.arr.map(s => s.size);
 
-                if (aSum >= minSum)
+                let effectiveCapacity = Math.min(...setWeightVec.map((w, i) => Math.floor(limit[i] / w)));
+                let setProfit = 1 * effectiveCapacity;
+
+                if (setProfit < minSetProfit)
                     continue;
 
-                let x = a[0],
-                    y = a[1],
-                    z = a[2],
-                    w = a[3];
-                let len = x*x + y*y + z*z + w*w;
-                if (len > 0) {
-                    len = 1 / Math.sqrt(len);
-                    a[0] *= len;
-                    a[1] *= len;
-                    a[2] *= len;
-                    a[3] *= len;
-                }
-                let aDot = a[0] * limitNorm[0] + a[1] * limitNorm[1] + a[2] * limitNorm[2] + a[3] * limitNorm[3];
-                aDot = (1 - aDot);
-
-                if (aDot >= minDot)
+                let setWeightSum = setWeightVec.reduce((a, b) => a + b, 0);
+                if (setWeightSum >= minSum)
                     continue;
+
 
                 // it's smaller than the current minimum
                 minConfig = [set, comb];
-                minSum = aSum;
-                minDot = aDot;
+                minSum = setWeightSum;
+                minSetProfit = setProfit;
             }
 
             // TODO: look, we just need to do this shit for the specified classes, cut this shit down
-            console.log('[i] {CALCULATE MINIMA} minima: ' + JSON.stringify(minConfig[0].arr.map(s => [...s])));
+            console.info('[i] {CALCULATE MINIMA} minima: ' + JSON.stringify(minConfig[0].arr.map(s => [...s])));
             minimumSet = minConfig[0];
             minimumConfig = minConfig[1];
         }
@@ -2838,6 +2804,9 @@ function game() {
             6. Reuse the new weight of sets from the min/max set
             7. If we still have sets to choose, GOTO 3, else finish
 
+            TODO: CITE THE PAPER!!!
+            https://www.sci.wsu.edu/math/faculty/lih/MDKP.pdf
+
 
             TODO: OPTIMIZATIONS possible here:
             - If the limit for a class is 1, we can't add any sets that have a restriction for this class that is different from what is choose for the
@@ -2850,91 +2819,45 @@ function game() {
                 let allSets = [...leftSets.map(s => [leftChoosenSets, s]),
                                ...rightSets.map(s => [rightChoosenSets, s]),
                                ...middleSets.map(s => [middleChoosenSets, s])];
-                let weightsConfig = allSets.map(([_, s]) => s.subtract(currentRestrictions));
-                let weights = weightsConfig.map(c => c.size());
-                // TODO: maybe we should use vectors as weights instead of a single value? Following the same logic as the profit, trying to get something more "aligned" to limit. All ops would probably be dot products.
-
-                // "normalize" the limit vector (for dot product)
-                // src: https://github.com/stackgl/gl-vec3/blob/master/normalize.js
-                let limitNorm = Array(4);
-                {
-                    let x = limit[0],
-                        y = limit[1],
-                        z = limit[2],
-                        w = limit[3];
-                    let len = x*x + y*y + z*z + w*w;
-                    if (len > 0) {
-                        len = 1 / Math.sqrt(len);
-                        limitNorm[0] = limit[0] * len;
-                        limitNorm[1] = limit[1] * len;
-                        limitNorm[2] = limit[2] * len;
-                        limitNorm[3] = limit[3] * len;
-                    }
-                }
 
                 while(allSets.length !== 0) {
                     let maxSet, maxSetSide;
-                    // -Infinity/0 = -Infinity, so any ratio here will be bigger on the first iteration
-                    let maxSetWeight = 0,
-                        maxSetDiffSum = -Infinity,
-                        maxSetDiffDot = -Infinity;
-                    let maxSetWeightsConfig, maxSetWeights;
+                    let maxSetProfit = 0;
+                    let currentLimit = limit.map((l, i) => l - currentRestrictions.arr[i].size);
                     for (const [i, [side, set]] of allSets.entries()) {
-                        let setWeight = weights[i];
+                        let setWeightVec = set.subtract(currentRestrictions).arr.map(s => s.size);
 
-                        // calculate profit
-                        let setWeightsConfigs = weightsConfig.map(s => s.subtract(set));
-                        let setWeights = setWeightsConfigs.map(c => c.size());
-
-                        // diffVec = weights - setWeights (vector operation)
-                        let diffVec = zipArr(weights, setWeights).map(([a, b]) => a - b);
-
-                        let diffSum = diffVec.reduce((a, b) => a + b, 0);
-                        if (diffSum/setWeight <= maxSetDiffSum/maxSetWeight) continue;
-
-                        // calculate dot product
-                        // normalize the diffVec (for dot product)
-                        let diffVecNorm = Array(4);
-                        {
-                            let x = diffVec[0],
-                                y = diffVec[1],
-                                z = diffVec[2],
-                                w = diffVec[3];
-                            let len = x*x + y*y + z*z + w*w;
-                            if (len > 0) {
-                                len = 1 / Math.sqrt(len);
-                                diffVecNorm[0] = diffVec[0] * len;
-                                diffVecNorm[1] = diffVec[1] * len;
-                                diffVecNorm[2] = diffVec[2] * len;
-                                diffVecNorm[3] = diffVec[3] * len;
-                            }
+                        // TODO: what if w is 0? Better, what if effectiveCapacity is inf?
+                        //                                                                        prevents 0/0. If w is 0, then the capcity of this dimension if inf
+                        let effectiveCapacity = Math.min(...setWeightVec.map((w, i) => Math.floor(w === 0 ? Infinity : currentLimit[i] / w)));
+                        if (effectiveCapacity === 0) {
+                            // this set can't be choosen, it's too heavy
+                            continue;
                         }
 
-                        let diffDot = zipArr(diffVecNorm, limitNorm).reduce((a, b) => a + b[0] * b[1], 0);
-                        if (diffDot/setWeight <= maxSetDiffDot/maxSetWeight) continue;
+                        // TODO: calculate profit, here it's 1, making just the effective capacity important
+                        let setProfit = 1 * effectiveCapacity;
+                        if (setProfit > maxSetProfit) {
+                            // we found a new max
+                            maxSet = set;
+                            maxSetSide = side;
+                            maxSetProfit = setProfit;
 
-                        // we found a new max
-                        maxSet = set;
-                        maxSetSide = side;
-                        maxSetWeight = setWeight;
-                        maxSetDiffSum = diffSum;
-                        maxSetDiffDot = diffDot;
-                        maxSetWeightsConfig = setWeightsConfigs;
-                        maxSetWeights = setWeights;
+                            // TODO: tie break here
+                            // if setProfit is infinty, we can't get a better set
+                            if (setProfit === Infinity)
+                                break;
+                        }
                     }
 
-                    // if add the min set and we surpass the limit, we're done
-                    // the same as if any component (class) of currentRestriction is bigger than the limit
-                    if (currentRestrictions.union(maxSet).arr.some((v, i) => v.size > limit[i])) break;
+                    // if we didn't find any set that fits, we're done
+                    if (maxSetProfit === 0) break;
 
                     // add the min set to the solution
                     maxSetSide.push(maxSet);
                     currentRestrictions = currentRestrictions.union(maxSet);
                     // remove the min set from the array
                     allSets.splice(allSets.findIndex(([_, s]) => s === maxSet), 1);
-                    // reuse the new weights
-                    weightsConfig = maxSetWeightsConfig;
-                    weights = maxSetWeights;
                 }
             }
         }
