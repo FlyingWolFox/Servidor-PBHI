@@ -2690,6 +2690,9 @@ function game() {
             rightSets = rightSets.flatMap(s => s.toSingleSubsets());
             middleSets = middleSet.toSingleSubsets();
         }
+        shuffleArray(leftSets);
+        shuffleArray(rightSets);
+        shuffleArray(middleSets);
 
         // random limits
         let limit = [...currentStage.randomLimits.entries()].map(([classe, limit]) => [classe.id, limit]).sort(([classeId1, _1], [classId2, _2]) => classeId1 - classId2).map(([_, limit]) => limit);
