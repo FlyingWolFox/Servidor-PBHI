@@ -2959,7 +2959,7 @@ function game() {
     shuffleArray(regrasNaoUsadas);
 
     // completar as respostas com as regras incorretas para respostasItems ter currentStage.numOptions
-    respostasItems = respostasItems.concat(regrasNaoUsadas).slice(0, currentStage.maxNumOptions);
+    respostasItems = respostasItems.concat(regrasNaoUsadas).slice(0, currentStage.maxNumAnswers);
     shuffleArray(respostasItems);
 
     /*Containers*/
