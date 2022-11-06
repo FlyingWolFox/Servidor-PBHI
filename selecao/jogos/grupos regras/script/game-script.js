@@ -1662,8 +1662,8 @@ function game() {
                 [  CARACTERISTIC.SHAPE,     false,      3,    BOTH_SIDES], 
                 [CARACTERISTIC.OUTLINE,     true]
             ],
-            maxNumAnswers: 27,
-            maxNumShapes: 91,
+            maxNumAnswers: 6,
+            maxNumShapes: 12,
             // for non specified classes, the limit is 1
             randomLimits: [
             //  [               class, max]
@@ -1682,8 +1682,8 @@ function game() {
                 [  CARACTERISTIC.COLOR,     true],
                 [   CARACTERISTIC.SIZE,     true]
             ],
-            maxNumAnswers: 6,
-            maxNumShapes: 12,
+            maxNumAnswers: 9,
+            maxNumShapes: 15,
             // for non specified classes, the limit is 1
             randomLimits: [
             //  [               class, max]
@@ -1702,8 +1702,8 @@ function game() {
                 [   CARACTERISTIC.SIZE,     false,      1,    ONE_SIDE.NO_ACCEPTED],
                 [CARACTERISTIC.OUTLINE,     false,      1,    ONE_SIDE.NO_ACCEPTED]
             ],
-            maxNumAnswers: 6,
-            maxNumShapes: 12,
+            maxNumAnswers: 9,
+            maxNumShapes: 15,
             // for non specified classes, the limit is 1
             randomLimits: [
             //  [               class, max]
