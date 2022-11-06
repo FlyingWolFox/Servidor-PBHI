@@ -2881,11 +2881,15 @@ function game() {
                           [caixaDireitaItems,    Math.round(currentStage.maxNumShapes/3)]];
         maxLengths.sort(([box1, _1], [box2, _2]) => box1.length - box2.length);
         // smaller box gets more limit (ignore intersection)
-        maxLengths[1][1] = currentStage.maxNumShapes - Math.round(currentStage.maxNumShapes/3 * 2);
+        if (maxLengths[0][0] !== caixaIntersecaoItems)
+            maxLengths[0][1] = currentStage.maxNumShapes - Math.round(currentStage.maxNumShapes/3 * 2);
+        else
+            maxLengths[1][1] = currentStage.maxNumShapes - Math.round(currentStage.maxNumShapes/3 * 2);
+        
         if (maxLengths[0][0].length < maxLengths[0][1]) {
             // a box has too litle, special limitation will be done
             let maxToBeRedistributed = currentStage.maxNumShapes;
-            let minLength = maxLengths[1][0].length;
+            let minLength = maxLengths[0][0] !== caixaIntersecaoItems ? maxLengths[0][0].length : maxLengths[1][0].length;
             maxLengths = maxLengths.map(([box, _], i) => {
                 let maxLength = Math.min(box.length, Math.round(minLength * (Math.random() + 1)), Math.round(maxToBeRedistributed/(maxLengths.length - i)));
                 maxToBeRedistributed -= maxLength;
