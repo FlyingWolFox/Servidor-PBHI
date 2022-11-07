@@ -1058,7 +1058,7 @@ function CaracteristicContainer() {
     };
 
     this.concat = function (other) {
-        let newRestrictions = new RestrictionContainer();
+        let newRestrictions = new CaracteristicContainer();
         for (let i = 0; i < this.arr.length; i++) 
             newRestrictions.arr[i] = this.arr[i].concat(other.arr[i]);
         
@@ -2355,7 +2355,6 @@ function game() {
 
             }
 
-            smallerBoxNumClasses = biggerBoxNumClasses = 2;
             // not needed
             //bothNonZeroFix = false;
             //oswaFix = false;
@@ -2374,16 +2373,12 @@ function game() {
                 biggerBoxAccepted.insert(rejClass, acceptedCaracteristic);  // add the accepted restriction on the other box
                 smallerBoxSize += rejQty;
                 biggerBoxSize += 1;
-                smallerBoxNumClasses++;
-                biggerBoxNumClasses++;
                 oswaRejOnSmallerBox = true;
             } else {
                 biggerBoxRejected.insert(rejClass, ...choosenCaracteristics);
                 smallerBoxAccepted.insert(rejClass, acceptedCaracteristic);  // add the accepted restriction on the other box
                 biggerBoxSize += rejQty;
                 smallerBoxSize += 1;
-                smallerBoxNumClasses++;
-                biggerBoxNumClasses++;
                 oswaRejOnBiggerBox = true;
             }
         }
@@ -2401,11 +2396,9 @@ function game() {
                 if (smallerBoxSize === 0) {
                     smallerBoxRejected.insert(rejClass, ...choosenCaracteristics);
                     smallerBoxSize += rejQty;
-                    smallerBoxNumClasses++;
                 } else {
                     biggerBoxRejected.insert(rejClass, ...choosenCaracteristics);
                     biggerBoxSize += rejQty;
-                    biggerBoxNumClasses++;
                 }
             } else if (oswaFix) {
                 const [rejClass, rejQty] = currentStage.rejectedClasses[ONE_SIDE.NO_ACCEPTED].shift();
@@ -2414,11 +2407,9 @@ function game() {
                 if(oswaRejOnSmallerBox) {
                     smallerBoxRejected.insert(rejClass, ...choosenCaracteristics);
                     smallerBoxSize += rejQty;
-                    smallerBoxNumClasses++;
                 } else { // if oswaRejOnBiggerBox
                     biggerBoxRejected.insert(rejClass, ...choosenCaracteristics);
                     biggerBoxSize += rejQty;
-                    biggerBoxNumClasses++;
                 }
             }
         }
@@ -2431,11 +2422,9 @@ function game() {
             if (Math.abs(ratioIfInsertOnSmaller - smallerBoxRatio) <= Math.abs(ratioIfInsertOnBigger - smallerBoxRatio)) {
                 smallerBoxRejected.insert(rejClass, ...choosenCaracteristics);
                 smallerBoxSize += rejQty;
-                smallerBoxNumClasses++;
             } else {
                 biggerBoxRejected.insert(rejClass, ...choosenCaracteristics);
                 biggerBoxSize += rejQty;
-                biggerBoxNumClasses++;
             }
         }
 
@@ -2461,11 +2450,9 @@ function game() {
                 if (Math.abs(ratioIfInsertOnSmaller - smallerBoxRatio) <= Math.abs(ratioIfInsertOnBigger - smallerBoxRatio)) {
                     smallerBoxRejected.insert(rejClass, caracteristic);
                     smallerBoxSize += 1;
-                    smallerBoxNumClasses++;
                 } else {
                     biggerBoxRejected.insert(rejClass, caracteristic);
                     biggerBoxSize += 1;
-                    biggerBoxNumClasses++;
                 }
             }
 
@@ -2485,11 +2472,9 @@ function game() {
                 if (smallerBoxSize === 0) {
                     smallerBoxAccepted.insert(accClass, choosenCaracteristic);
                     smallerBoxSize += 1;
-                    smallerBoxNumClasses++;
                 } else {
                     biggerBoxAccepted.insert(accClass, choosenCaracteristic);
                     biggerBoxSize += 1;
-                    biggerBoxNumClasses++;
                 }
             } else if (oswaFix) {
                 const accClass = currentStage.acceptedClasses.shift();
@@ -2498,11 +2483,9 @@ function game() {
                 if (oswaRejOnSmallerBox) {
                     smallerBoxAccepted.insert(accClass, choosenCaracteristic);
                     smallerBoxSize += 1;
-                    smallerBoxNumClasses++;
                 } else { // if oswaRejOnBiggerBox
                     biggerBoxAccepted.insert(accClass, choosenCaracteristic);
                     biggerBoxSize += 1;
-                    biggerBoxNumClasses++;
                 }
             }
         }
@@ -2515,11 +2498,9 @@ function game() {
             if (Math.abs(ratioIfInsertOnSmaller - smallerBoxRatio) <= Math.abs(ratioIfInsertOnBigger - smallerBoxRatio)) {
                 smallerBoxAccepted.insert(accClass, choosenCaracteristic);
                 smallerBoxSize += 1;
-                smallerBoxNumClasses++;
             } else {
                 biggerBoxAccepted.insert(accClass, choosenCaracteristic);
                 biggerBoxSize += 1;
-                biggerBoxNumClasses++;
             }
         }
 
