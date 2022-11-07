@@ -944,49 +944,11 @@ function* cartesianProduct(head, ...tail) {
 }
 
 /**
- * Gera formas para uma caixa.
- * Todas as formas terão as restricoesAceitas, e carcateristicas que não estejam em restricoesAceitas, serão randomizada de acordo com escolhasAletaorias.
- * @param {RestrictionContainer} restricoesAceitas // TODO: FIXME // Array de restrições para essa caixa (formato [[CARACTERISTICA, ACCEPTED/REJECTED], ...]. Ex: [[CARACTERISTIC.COLOR.BLUE, ACCEPTED]]
- * @param {Number} maxNumFormas O máximo de formas que podem ser geradas para todas as caixas
- * @param {Map<Object, Number>} escolhasAleatorias Map contendo as escolhas aleatórias para cada classe de característica (formato: Map([[CARACTERISTIC.CLASS, [CARACTERISTIC.CLASS.C, ...]], ...]). Ex: Map([[CARACTERISTIC.COLOR, [CARACTERISTIC.COLOR.BLUE, CARACTERISTIC.COLOR.RED]]])
+ * Gera as formas para uma caixa, gerando uma forma para cada conjunto em restrictionSets
+ * @param {RestrictionSetContainer[]} restrictionSets Array de conjuntos simples (uma característica por classe)
  * @returns {Map<Object, Number>[]} Array contendo as peças geradas para essa caixa (formato Map([[CLASSE_CARACTERISTICA, CARACTERISTICA], ...]))
  */
-function gerarFormas(restricoesAceitas, maxNumFormas, escolhasAleatorias) {
-    "use strict";
-    // seleciona um número aleatório de formas para gerar
-    let numFormasParaGerar = getNormalRandomIntInclusive(1, maxNumFormas);
-    let caixaItems = [];
-
-    let escolhasCaracteristicas = new Map();
-    // força as caracteristicas aceitas
-    for (const classe of [...CARACTERISTIC]) {
-        let caracteristicasAceitas = restricoesAceitas.get(classe);
-        if (caracteristicasAceitas.length !== 0)
-            // subsitui o array de possibilidades pelas caracteristica aceitas
-            escolhasCaracteristicas.set(classe, caracteristicasAceitas);
-        else
-            escolhasCaracteristicas.set(classe, escolhasAleatorias.get(classe));
-    }
-
-    let allPiecesPossibilities = [...cartesianProduct(...escolhasCaracteristicas.values())];
-    shuffleArray(allPiecesPossibilities);
-
-    for (const pieceMap of allPiecesPossibilities) {
-        let piece = new Map();
-        for (const caracteristica of pieceMap) {
-            piece.set(CARACTERISTIC.getClass(caracteristica), caracteristica);
-        }
-        caixaItems.push(piece);
-        if (caixaItems.length >= numFormasParaGerar) break;
-    }
-
-    return caixaItems;
-}
-
-/**
- * TODO: doc this
- */
-function gerarFormas2(restrictionSets) {
+function gerarFormas(restrictionSets) {
     'use strict';
 
     let caixaItems = [];
@@ -1001,12 +963,24 @@ function gerarFormas2(restrictionSets) {
     return caixaItems;
 }
 
+/**
+ * Faz a operação zip em dois arrays
+ * @param {any[]} arr1
+ * @param {any[]} arr2 
+ * @returns {any[][]} Array de arrays, onde cada array é um par de elementos de arr1 e arr2
+ */
 function zipArr(arr1, arr2) {
     return arr1.map((k, i) => [k, arr2[i]]);
 }
 
 // src: https://stackoverflow.com/a/19270021
 // it's a partial fisher-yates shuffle
+/**
+ * Escolhe aleatoriamente n elementos de um array. O array original não é modificado. Lança um erro se n > array.length
+ * @param {any[]} arr 
+ * @param {Integer} n 
+ * @returns {any[]} Array com n elementos aleatórios de arr
+ */
 function pickRandom(arr, n) {
     let result = new Array(n),
         len = arr.length,
@@ -1021,6 +995,10 @@ function pickRandom(arr, n) {
     return result;
 }
 
+/**
+ * Gera um número aleatório seguindo uma distribuição quase normal
+ * @returns {Number} Número em (0,1]
+ */
 function randomNormalDistr() {
     const sampleSize = 10;
     let random = 0;
@@ -1031,32 +1009,38 @@ function randomNormalDistr() {
     return random;
 }
 
-const ONE_SIDE = {
+// Constantes de definição de tipo de rejeição
+const ONE_SIDE = { // rejeições somente em uma caixa
     NO_ACCEPTED: 0,
-    WITH_ACCEPTED: 1
+    WITH_ACCEPTED: 1 // característica aceita da mesma classe na outra caixa
 };
-const BOTH_SIDES = 2;
+const BOTH_SIDES = 2; // ambas as caixas possuem as rejeições
 
-function RestrictionContainer() {
+/**
+ * CaracteristicContainer é uma estrutura de dados que armazena as características
+ * indexando por classe, possibilitando obter as características de uma classe sem
+ * muito trabalho
+ */
+function CaracteristicContainer() {
     if (!new.target)
-        return new RestrictionContainer();
+        return new CaracteristicContainer();
 
     // the array of the map
     this.arr = Array.from(Array(CARACTERISTIC.length), () => []);
 
-    // insert restriction on map without passing the class
-    this.insertNoHint = function (restricao) {
-        let classId = CARACTERISTIC.getClassNumber(restricao);
-        this.arr[classId].push(restricao);
+    // insert caracteristic on map without passing the class
+    this.insertNoHint = function (caracteristica) {
+        let classId = CARACTERISTIC.getClassNumber(caracteristica);
+        this.arr[classId].push(caracteristica);
     };
 
-    // insert restrictions on map
-    this.insert = function (classe, ...restricoes) {
-        this.arr[classe.id].push(...restricoes);
+    // insert caracteristics on map
+    this.insert = function (classe, ...caracteristicas) {
+        this.arr[classe.id].push(...caracteristicas);
     };
 
-    // return all restrictions of a class
-    // or all restrictions if no class is given
+    // return all caracteristics of a class
+    // or all caracteristics if no class is given
     this.get = function (classe) {
         if (!classe)
             return this.arr.flat();
@@ -1064,13 +1048,13 @@ function RestrictionContainer() {
         return this.arr[classe.id];
     };
 
-    this.has = function (classe, restricao) {
-        return this.arr[classe.id].includes(restricao);
+    this.has = function (classe, caracteristica) {
+        return this.arr[classe.id].includes(caracteristica);
     };
 
-    this.hasNoHint = function (restricao) {
-        let classId = CARACTERISTIC.getClassNumber(restricao);
-        return this.arr[classId].includes(restricao);
+    this.hasNoHint = function (caracteristica) {
+        let classId = CARACTERISTIC.getClassNumber(caracteristica);
+        return this.arr[classId].includes(caracteristica);
     };
 
     this.concat = function (other) {
@@ -1083,58 +1067,48 @@ function RestrictionContainer() {
 
 }
 
-// RestrictionSetContainer is a RestrictionContainer but this.arr[classe.id] is a Set
-function RestrictionSetContainer() {
+/**
+ * CaracteristicSetContainer é um CaracteristicContainer, mas que armazena as características
+ * em um Set, oferecendo operações com conjuntos e remoção de duplicatas
+ */
+function CaracteristicSetContainer() {
     if (!new.target) 
         // TODO: make it throw
-        return new RestrictionSetContainer();
+        return new CaracteristicSetContainer();
     
 
     // the array of the map
     this.arr = Array.from(Array(CARACTERISTIC.length), () => new Set());
 
-    // add restriction to map without passing the class
-    this.addNoHint = function (restricao) {
-        let classId = CARACTERISTIC.getClassNumber(restricao);
-        this.arr[classId].add(restricao);
+    // add caracteristics to map
+    this.add = function (classe, ...caracteristicas) {
+        caracteristicas.forEach(caracteristica => this.arr[classe.id].add(caracteristica));
         return this;
     };
 
-    // add restrictions to map
-    this.add = function (classe, ...restricoes) {
-        restricoes.forEach(restricao => this.arr[classe.id].add(restricao));
+    // set caracteristics to map
+    this.set = function (classe, ...caracteristicas) {
+        this.arr[classe.id] = new Set(caracteristicas);
         return this;
     };
 
-    // set restrictions to map
-    this.set = function (classe, ...restricoes) {
-        this.arr[classe.id] = new Set(restricoes);
-        return this;
-    };
-
-    // return all restrictions of a class
-    // or all restrictions if no class is given
+    // return all caracteristics of a class
+    // or all caracteristics if no class is given
     this.get = function (classe) {
         if (!classe) 
             return new Set(this.arr.flatMap(set => [...set]));
         
-
         return this.arr[classe.id];
     };
 
-    this.has = function (classe, restricao) {
-        return this.arr[classe.id].has(restricao);
-    };
-
-    this.hasNoHint = function (restricao) {
-        let classId = CARACTERISTIC.getClassNumber(restricao);
-        return this.arr[classId].has(restricao);
+    this.has = function (classe, caracteristica) {
+        return this.arr[classe.id].has(caracteristica);
     };
 
     // TODO: make "virtual" versions of set ops. These make the ops with the empty classes (empty arr entries) as they were full (like invert() were applied to them)
 
     this.intersection = function (other, classe) {
-        let newSet = new RestrictionSetContainer();
+        let newSet = new CaracteristicSetContainer();
 
         // if a class is given, intersect only that class
         if (typeof classe !== 'undefined') {
@@ -1162,7 +1136,7 @@ function RestrictionSetContainer() {
     };
 
     this.union = function (other, classe) {
-        let newSet = new RestrictionSetContainer();
+        let newSet = new CaracteristicSetContainer();
 
         // if a class is given, union only that class
         if (typeof classe !== 'undefined') {
@@ -1192,7 +1166,7 @@ function RestrictionSetContainer() {
     };
 
     this.subtract = function (other, classe) {
-        let newSet = new RestrictionSetContainer();
+        let newSet = new CaracteristicSetContainer();
 
         // if a class is given, subtract only that class
         if (typeof classe !== 'undefined') {
@@ -1301,7 +1275,7 @@ function RestrictionSetContainer() {
     };
 
     this.invert = function (classe) {
-        let newSet = new RestrictionSetContainer();
+        let newSet = new CaracteristicSetContainer();
 
         // if a class is given, invert only that class
         if (typeof classe !== 'undefined') {
@@ -1321,7 +1295,7 @@ function RestrictionSetContainer() {
     };
 
     this.clone = function () {
-        let newSet = new RestrictionSetContainer();
+        let newSet = new CaracteristicSetContainer();
         newSet.arr = this.arr.map((set) => new Set(set));
         return newSet;
     };
@@ -1340,7 +1314,7 @@ function RestrictionSetContainer() {
 
         // if class is not given, get all subsets all classes
         for (const comb of cartesianProduct(...this.arr)) {
-            let newSet = new RestrictionSetContainer();
+            let newSet = new CaracteristicSetContainer();
             newSet.arr = comb.map(cateristica => new Set([cateristica]));
             subsets.push(newSet);
         }
@@ -1348,7 +1322,7 @@ function RestrictionSetContainer() {
         return subsets;
     };
 
-    // TODO: maybe make this like Array.length? With the pŕoperty being updated when 'this' is modified?
+    // TODO: maybe make this like Array.length? With the property being updated when 'this' is modified?
     this.size = function (classe) {
         // if a class is given, get size only that class
         if (typeof classe !== 'undefined') 
@@ -2212,22 +2186,20 @@ function game() {
     etapaMax = stageData.length;
     endGame = etapaAtual + 1 >= etapaMax;
 
-    // TODO: set endGame variable properly!
     // TODO: comment this out when done
 
     // definir as restrções para cada caixa
 
-    let acceptedRestrictionsLeft = new RestrictionContainer();
-    let rejectedRestrictionsLeft = new RestrictionContainer();
-    let acceptedRestrictionsRight = new RestrictionContainer();
-    let rejectedRestrictionsRight = new RestrictionContainer();
+    let acceptedRestrictionsLeft = new CaracteristicContainer();
+    let rejectedRestrictionsLeft = new CaracteristicContainer();
+    let acceptedRestrictionsRight = new CaracteristicContainer();
+    let rejectedRestrictionsRight = new CaracteristicContainer();
 
     let leftChoosenSets = [];
     let rightChoosenSets = [];
     let middleChoosenSets = [];
 
     if (!intersecaoAtiva) {
-        // TODO: adapt new code to the first levels
         // TODO: enforce restriction be accepted
         // níveis iniciais, eles devem ter somente uma classe de restrição que deve sempre ser aceita
         let classe = currentStage.acceptedClasses[0];
@@ -2236,11 +2208,10 @@ function game() {
         acceptedRestrictionsLeft.insert(classe, left);
         acceptedRestrictionsRight.insert(classe, right);
 
-
         // random control
         currentStage.randomLimits.delete(classe);
-        let leftSet = new RestrictionSetContainer().add(classe, left),
-            rightSet = new RestrictionSetContainer().add(classe, right);
+        let leftSet = new CaracteristicSetContainer().add(classe, left),
+            rightSet = new CaracteristicSetContainer().add(classe, right);
 
         for (const [classe, qty] of currentStage.randomLimits.entries()) {
             let choosenCaracteristics = pickRandom([...classe], qty);
@@ -2250,7 +2221,6 @@ function game() {
 
         leftChoosenSets = leftSet.toSingleSubsets();
         rightChoosenSets = rightSet.toSingleSubsets();
-        
 
     } else {
         // distribuir as restrições entre as caixas
@@ -2292,12 +2262,28 @@ function game() {
         This order was choosen because restrictions in 1 are very rigid (all to be inserted on a single box) and can throw off the ratio.
         With the more flexible distribution of restrictions in 2 and 3, we can distribute to try to get closer to the ratio.
 
+        To prevent "bad" distributions (like all restrictions on a single box), we'll force the distributor to insert in a box.
+        To better do this, we'll force the last distributor to behave in a certain way. I say the last distributor because
+        in a steage there may not be accepeted restrictions, so the last may be BOTH_SIDE, for example.
+        This forcing is set by the <distributor>ToFix variables.
+
+        To prevent "bad" distributions we may have to have restrictions (of different classe) on both boxes (bothNonZeroFix)
+        and we may have to have two classes of restrictions on a box (twoClassesFix).
+        These "fixes" are required depending on the types of restrictions in the stage:
+            - ACCEPTED and ONE_SIDE.NO_ACCEPTED needs to have a restriction of a different class in the other box (bothNonZeroFix)
+            - ONE_SIDE.WITH_ACCEPTED needs to have a restriction of a different class in the same box (oswaFix)
+        BOTH_SIDE doesn't need anything. In fact if a stage uses BOTH_ACCEPTED, no fix is required, since it fixes both problems.
+
+        The codename of the distributors are:
+            - ONE_SIDE.WITH_ACCEPTED: oswa
+            - ONE_SIDE.NO_ACCEPTED: osna
+            - BOTH_SIDE: bs
+            - ACCEPTED: acc
+
+        Because ONE_SIDE.WITH_ACCEPTED has it's own fix, it's the first distributor to run.
         */
 
         // decide who will fix bad distributions
-        // restrictions ACCEPTED and ONE_SIDE.NO_ACCEPTED needs to have a restriction of a different class in the other box
-        // restrictions ONE_SIDE.WITH_ACCEPTED needs to have a restriction of a different class in the same box
-        // restrictions BOTH_SIDE doesn't need anything
         let oswaToFix = false,
             osnaToFix = false,
             //bsToFix = false, // not needed as BOTH_SIDES fixes everything automatically
@@ -2327,9 +2313,6 @@ function game() {
             oswaFix = true;
             bothNonZeroFix = false; // solving oswa will solve bothNonZero
         }
-        
-        let smallerBoxNumClasses = 0,
-            biggerBoxNumClasses = 0;
 
         // TODO: order ONE_SIDE by the number of restrictions (rejQty)
         if (oswaToFix) {
@@ -2554,14 +2537,14 @@ function game() {
 
             // generate all possible combinations of restrictions
 
-            let fullSet = new RestrictionSetContainer().invert();
+            let fullSet = new CaracteristicSetContainer().invert();
 
             for (const comb of cartesianProduct(...leftPossibilities)) {
                 let set = fullSet; // no worry about mutating the fullSet, set will be replaced by a modified copy of it
                 for (const [caracteristic, accepted] of comb) {
                     // TODO: maybe include class inside of comb?
                     let classe = CARACTERISTIC.getClass(caracteristic);
-                    let currentSet = new RestrictionSetContainer();
+                    let currentSet = new CaracteristicSetContainer();
                     currentSet.add(classe, caracteristic);
                     if (accepted === REJECTED) 
                         currentSet = currentSet.invert(classe);
@@ -2580,7 +2563,7 @@ function game() {
                 let set = fullSet; // no worry about mutating the fullSet, set will be replaced by a modified copy of it
                 for (const [caracteristic, accepted] of comb) {
                     let classe = CARACTERISTIC.getClass(caracteristic);
-                    let currentSet = new RestrictionSetContainer();
+                    let currentSet = new CaracteristicSetContainer();
                     currentSet.add(classe, caracteristic);
                     if (accepted === REJECTED) 
                         currentSet = currentSet.invert(classe);
@@ -2610,7 +2593,7 @@ function game() {
             });
             rejectedRestrictionsLeft.arr.forEach((arr, i) => {
                 arr.forEach(caracteristic => {
-                    let set = RestrictionSetContainer();
+                    let set = CaracteristicSetContainer();
                     set.add(CARACTERISTIC[i], caracteristic);
                     leftRestrictionSet = leftRestrictionSet.intersection(set.invert(CARACTERISTIC[i]), CARACTERISTIC[i]);
                 });
@@ -2623,7 +2606,7 @@ function game() {
             });
             rejectedRestrictionsRight.arr.forEach((arr, i) => {
                 arr.forEach(caracteristic => {
-                    let set = new RestrictionSetContainer();
+                    let set = new CaracteristicSetContainer();
                     set.add(CARACTERISTIC[i], caracteristic);
                     rightRestrictionSet = rightRestrictionSet.intersection(set.invert(CARACTERISTIC[i]), CARACTERISTIC[i]);
                 });
@@ -2648,7 +2631,7 @@ function game() {
             }
 
             // generate intersection set
-            let middleSet = new RestrictionSetContainer();
+            let middleSet = new CaracteristicSetContainer();
             {
                 let set = fullSet;
                 let leftComb = [].concat(
@@ -2657,7 +2640,7 @@ function game() {
                 );
                 for (const [caracteristic, accepted] of leftComb) {
                     let classe = CARACTERISTIC.getClass(caracteristic);
-                    let currentSet = new RestrictionSetContainer();
+                    let currentSet = new CaracteristicSetContainer();
                     currentSet.add(classe, caracteristic);
                     if (accepted === REJECTED) 
                         currentSet = currentSet.invert(classe);
@@ -2698,11 +2681,13 @@ function game() {
         let limit = [...currentStage.randomLimits.entries()].map(([classe, limit]) => [classe.id, limit]).sort(([classeId1, _1], [classId2, _2]) => classeId1 - classId2).map(([_, limit]) => limit);
 
         // calculate minima
+        // This uses a greedy algorithm, the same as the next one, when chosing more sets
+        // the diff is that this one just chooses one item and then stops
         let minimumConfig, minimumSet;
         {
             let possibleConfigurations = []; // [[result_set, [left, middle, right]], ...]
             for (const [leftSet, middleSet, rightSet] of cartesianProduct(leftSets, middleSets, rightSets)) {
-                let set = new RestrictionSetContainer();
+                let set = new CaracteristicSetContainer();
                 set = set.union(leftSet);
                 set = set.union(middleSet);
                 set = set.union(rightSet);
@@ -2762,54 +2747,45 @@ function game() {
             rightSets.splice(rightSets.indexOf(minimumConfig[2]), 1);
 
             /*
-            greedy algo wheee:
-            This is like the Multi-dimensional knapsack problem, but dynamic!
+            TODO: explain the situation, the enviroment, the objective, the algo, etc here. Like, why the weights change?
+            Another greedy algorithm. This is the 0-1 Multi-dimensional knapsack problem, but dynamic, since the weights change every iteration.
+            TODO: Do a full citation here, following whatever the citation style is.
+            This implements the algorithm PECH of this paper:
+            Akçay, Y., Li, H. & Xu, S.H. Greedy algorithm for the general multidimensional knapsack problem.
+            Ann Oper Res 150, 17–29 (2007). https://doi.org/10.1007/s10479-006-0150-4
 
             So here's the problem:
-            We have N sets (leftSets + middleSets + rightSets) and we have to choose a combination of them
-            trying to pick the biggest amount of sets while keeping currentRestrictions smaller or equal than "limit".
+            We have N sets (leftSets + middleSets + rightSets) and we have to pick the biggest amount of them
+            while keeping currentRestrictions smaller or equal than "limit".
 
-            Every set has a weight, which is the amount of restrictions it adds to currentRestrictions.
-            Since a set and current restrictions may have an intersection, the weight is not the same as the number of restrictions of that set.
+            Every set has a weight, which is 1 for each class (the dimensions).
+            Since a set and currentRestrictions (the current state of our "solution") may have an intersection,
+            the "real weight" may not be [1, 1, 1, 1]. This "real weight" is how much the set adds to the currentRestrictions.
+            If currentRestrictions already has CARACTERISTIC.SHAPE.SQUARE on it, a set with this same caracteristic will have weight zero on this class.
 
-            The profit of a set is the sum of the reduction of the weight of the other sets AND the dot product of this reduction in relation to "limit".
-            Since choosing a set changes the weight of the other sets, these weights will decrease (this is why it's dynamic).
-            This reduction is part of the profit and the biggest it's the better.
-            However multiple sets can have the same "reduction". To tiebreak, we look at the "direction" of these reductions:
-                The weights of all sets forms a n-dimensional vector. In case we choose a set, theis vector will change, becoming smaller.
-                This change is also a n-dimensional vector. In case of the same number of reductions, which vector would be better?
-                The best diff vector (original vector - new vector) is the one that follow the "spirit" (or proprotions) of the limit.
-                So, the more parallel a diff vector is to -limit (since limit is positive) the better!
-                TODO: ^ it's not -limit
+            Limit is a vector of the maximum amount of caracteristics for each class we can have. A limit of [2, 3, 1, 2] means that we can have at most:
+                - 2 colors
+                - 3 shapes
+                - 1 size
+                - 2 outline
 
-                This means if the limit is [4, 2] and there's two options of sets each with a diff vector of [-3, 0] and [-2,-1] we choose the latter,
-                since it's parallel to -limit. This means that when we can't add sets anymore (because adding any of the remaining will surpass the limit),
-                we'll have "usage" "closer" to limit on all components. With the limit of [4, 3], it's better that usage is [3, 2] than [4, 1]. Not just
-                the first usage is closer to limit and also more parallel, but its number of combinations is bigger (3x2=6 vs 4x1=4). This helps maximize
-                chaos in the generation
-                
+            Although the paper uses reward/profit, we don't use it, letting it be 1. This causes the algorithm to pick the sets that have the biggest
+            effective capacity, ie, the sets that can have the biggest amount of copies. A reward calculation that provides a "foresight" of the
+            future may be implemented in the future.
 
-            Since every time we choose a set, the reduction of the wheight of all remaining vectors change, this problem is dynamic. This makes the problem
-            significantly harder. This greedy algo may not be optimal, but it's probably the best choice. Dynamic Programming can't be apllied here because
-            the dynamicity causes poor (or non existant) subproblem overlapping.
-            So intead of sorting the sets and choosing the first ones, we'll choose the set with the max profit/weight ratio and then
-            recalculate the new reductions, choose the max/min set and so on, until we can't add any set to our solution that would surpass the limit.
+            TODO: specify performance like the paper does
+            This algorithm is a greedy algorithm, so it's not optimal, but it's fast and it's good enough for our purposes. In the paper, the authors
+            say that the algorithm is pretty fast while providing really good results on our problem (low number of dimensions, low number of sets).
 
-            Oh, one thing: we have to identify each set if we merge all of then in a single array, so they can be added to the correct side.
+            TODO: salvage some parts of the old comment:
+            - Since choosing a set changes the weight of the other sets, these weights will decrease (this is why it's dynamic).
+            - Since every time we choose a set, the reduction of the wheight of all remaining vectors change, this problem is dynamic. This makes the problem
+            significantly harder.
+            - Dynamic Programming can't be apllied here because the dynamicity causes poor (or non existant) subproblem overlapping.
+            - The problem is dynamic, sorting and choosing the first sets doesn't work.
+            - Oh, one thing: we have to identify each set if we merge all of then in a single array, so they can be added to the correct side.
 
-            So the algo:
-            1. Merge the arrays of sets into one, identifying from where they come from.
-            2. Calculate the weights of sets (original vector)
-            3. Calculate the profit and weight for every set and choose the max profit/weight ratio
-               The minimum is choosen first on sum of reductions/weight (or inverse) and if it's equal, choose the smaller dot product with limit (the "spirit")
-            4. If the addition of the min/max set surpasses limit, bail out, we finished here
-            5. Remove that set from the array
-            6. Reuse the new weight of sets from the min/max set
-            7. If we still have sets to choose, GOTO 3, else finish
-
-            TODO: CITE THE PAPER!!!
-            https://www.sci.wsu.edu/math/faculty/lih/MDKP.pdf
-
+            TODO: give an overview of the algorithm as implemented here
 
             TODO: OPTIMIZATIONS possible here:
             - If the limit for a class is 1, we can't add any sets that have a restriction for this class that is different from what is choose for the
@@ -2856,28 +2832,22 @@ function game() {
                     // if we didn't find any set that fits, we're done
                     if (maxSetProfit === 0) break;
 
-                    // add the min set to the solution
+                    // add the max set to the solution
                     maxSetSide.push(maxSet);
                     currentRestrictions = currentRestrictions.union(maxSet);
-                    // remove the min set from the array
+                    // remove the max set from the array
                     allSets.splice(allSets.findIndex(([_, s]) => s === maxSet), 1);
                 }
             }
         }
     }
 
-
-    // WIP: okay now we have the sets that compose each box
-    // now pick the shapes for each box!
-
     // gerar as formas em cada caixa
-    let caixaEsquerdaItems = gerarFormas2(leftChoosenSets);
-    let caixaIntersecaoItems = gerarFormas2(middleChoosenSets);
-    let caixaDireitaItems = gerarFormas2(rightChoosenSets);
+    let caixaEsquerdaItems = gerarFormas(leftChoosenSets);
+    let caixaIntersecaoItems = gerarFormas(middleChoosenSets);
+    let caixaDireitaItems = gerarFormas(rightChoosenSets);
 
-    // WIP: how do we limit the num of shapes, following a normal distribution while having a minimum of 1 shape per box and a total of maxNumShapes?
-
-    // limit the amount of shapes maintaining the ratio
+    // limit the amount of shapes maintaining a somewhat normal distribution
     {
         let maxLengths = [[caixaEsquerdaItems,   Math.round(currentStage.maxNumShapes/3)],
                           [caixaIntersecaoItems, Math.round(currentStage.maxNumShapes/3)],
@@ -2904,9 +2874,6 @@ function game() {
             box.length = maxLength;
         });
     }
-
-    // DONE!
-
 
     // colocar as repostas nas referências globais para ser usado na checagem da resposta
     let respostasCertasEsquerda = new Set([...acceptedRestrictionsLeft.get().flat().map(caracteristica => [caracteristica, ACCEPTED]),
