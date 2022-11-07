@@ -2946,7 +2946,7 @@ function game() {
                                                    .map(el => el.reduce((a, c) => a & c))
                                 ].reduce((acc, cur) => cur.map((_, i) => (acc[i] || []).concat(cur[i])), []) // zip
                                  .map(el => el.reduce((a, c) => a | c)); // faz a união das regras das caixas
-    regrasNaoUsadas = todasCaracteristicas.map(_ => (1 << ACCEPTED) || (1 << REJECTED)) // obtem todas as regras possíveis
+    let regrasNaoUsadas = todasCaracteristicas.map(_ => (1 << ACCEPTED) || (1 << REJECTED)) // obtem todas as regras possíveis
                                           .map((el, i) => el & ~regrasUsadas[i]) // remove as regras usadas
                                           .map(el => {
                                                 // converte de bitset para aceito/rejeitado
