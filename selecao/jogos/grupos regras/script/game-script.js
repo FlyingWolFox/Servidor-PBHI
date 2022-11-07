@@ -2941,8 +2941,8 @@ function game() {
     //renderizando restrições em "regras disponíveis"
     gRespostasCertasEsquerda = [];
     gRespostasCertasDireita = [];
-    respostasItems.map(item => {
-        imgTag = document.createElement("img");
+    respostasItems.forEach(item => {
+        let imgTag = document.createElement("img");
         imgTag.src = CARACTERISTIC_EXTRA.getRestricaoScr(item);
         imgTag.alt = CARACTERISTIC_EXTRA.getRestricaoAlt(item);
         imgTag.title = imgTag.alt;
@@ -2957,7 +2957,7 @@ function game() {
     });
 
     caixaEsquerdaItems.forEach(item => {
-        imgTag = document.createElement("img");
+        let imgTag = document.createElement("img");
         imgTag.src = CARACTERISTIC_EXTRA.getFormaSrc(item);
         imgTag.alt = CARACTERISTIC_EXTRA.getFormaAlt(item);
         imgTag.title = imgTag.alt;
@@ -2970,7 +2970,7 @@ function game() {
     });
 
     caixaDireitaItems.forEach(item => {
-        imgTag = document.createElement("img");
+        let imgTag = document.createElement("img");
         imgTag.src = CARACTERISTIC_EXTRA.getFormaSrc(item);
         imgTag.alt = CARACTERISTIC_EXTRA.getFormaAlt(item);
         imgTag.title = imgTag.alt;
@@ -2982,7 +2982,7 @@ function game() {
     });
 
     caixaIntersecaoItems.forEach(item => {
-        imgTag = document.createElement("img");
+        let imgTag = document.createElement("img");
         imgTag.src = CARACTERISTIC_EXTRA.getFormaSrc(item);
         imgTag.alt = CARACTERISTIC_EXTRA.getFormaAlt(item);
         imgTag.title = imgTag.alt;
