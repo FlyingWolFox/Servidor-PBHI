@@ -1577,6 +1577,34 @@ function CaracteristicSet(shapes) {
 
 }
 
+/**
+ * Retorna um novo Set com a interseção entre os dois Sets.
+ * @param {Set} setA 
+ * @param {Set} setB 
+ * @returns {Set} Novo set com a interseção
+ */
+function setIntersection(setA, setB) {
+    const _intersection = new Set();
+    for (const elem of setB) {
+        if (setA.has(elem))
+            _intersection.add(elem);
+    }
+    return _intersection;
+}
+
+/**
+ * Retorna um novo Set com a setA - setB.
+ * @param {Set} setA 
+ * @param {Set} setB 
+ * @returns {Set} Novo set com a diferença
+ */
+function setDifference(setA, setB) {
+    const _difference = new Set(setA);
+    for (const elem of setB)
+        _difference.delete(elem);
+    return _difference;
+}
+
 endGame = false;
 let gRespostasCertasEsquerda = null;
 let gRespostasCertasDireita = null;
@@ -2574,21 +2602,6 @@ function game() {
         let middleSets = []; // interseção
         // gerar os subconjuntos que existem em cada lado
         {
-            let setIntersection = function (setA, setB) {
-                const _intersection = new Set();
-                for (const elem of setB) {
-                    if (setA.has(elem))
-                        _intersection.add(elem);
-                }
-                return _intersection;
-            };
-            let setDifference = function (setA, setB) {
-                const _difference = new Set(setA);
-                for (const elem of setB)
-                    _difference.delete(elem);
-                return _difference;
-            };
-
             // conjunto com todas as características
             let universalSet = new CaracteristicSetContainer();
             [...CARACTERISTIC].forEach(classe => universalSet.add(classe, ...classe));
@@ -2654,36 +2667,28 @@ function game() {
         shuffleArray(rightSets);
         shuffleArray(middleSets);
 
-        // random limits
-        let limit = [...currentStage.randomLimits.entries()].map(([classe, limit]) => [classe.id, limit]).sort(([classeId1, _1], [classId2, _2]) => classeId1 - classId2).map(([_, limit]) => limit);
+        let limitVec = Array(CARACTERISTIC.length);
+        currentStage.randomLimits.forEach((limit, classe) => {
+            limitVec[classe.id] = limit;
+        });
 
-        // calculate minima
-        // This uses a greedy algorithm, the same as the next one, when chosing more sets
-        // the diff is that this one just chooses one item and then stops
-        let minimumConfig, minimumSet;
+        // calcular o mínimo de características que são necessárias para que nenhuma caixa fique vazia
+        // Ex: se é possível que as três caixas só tenham quadrados, escolhemos essa configuração
+        // ao invés de escolher outra em que uma caixa tenha círculos e as outras quadrados.
+        // Isso usa um algoritmo guloso, o mesmo que o próximo, a diferença é que esse só escolhe um item e para
+        let minCombination, minSet;
         {
-            let possibleConfigurations = []; // [[result_set, [left, middle, right]], ...]
-            for (const [leftSet, middleSet, rightSet] of cartesianProduct(leftSets, middleSets, rightSets)) {
-                let set = new CaracteristicSetContainer();
-                set = set.union(leftSet);
-                set = set.union(middleSet);
-                set = set.union(rightSet);
-                possibleConfigurations.push([set, [leftSet, middleSet, rightSet]]);
-            }
-
-            console.log('[i] {CALCULATE MINIMA} possible configurations: ' + possibleConfigurations.length);
-            console.log('[i] {CALCULATE MINIMA} defined random limit: ' + limit);
-
-            let minConfig = null;
-            let minSum = Infinity;
             let minSetProfit = 0;
+            let minSum = Infinity;
 
-            for (const [set, comb] of possibleConfigurations) {
+            for (const combination of cartesianProduct(leftSets, middleSets, rightSets)) {
+                let [leftSet, middleSet, rightSet] = combination;
+                let set = new CaracteristicSetContainer().union(leftSet).union(middleSet).union(rightSet);
+
                 let setWeightVec = set.arr.map(s => s.size);
+                let effectiveCapacity = Math.min(...setWeightVec.map((w, i) => Math.floor(limitVec[i] / w)));
 
-                let effectiveCapacity = Math.min(...setWeightVec.map((w, i) => Math.floor(limit[i] / w)));
                 let setProfit = 1 * effectiveCapacity;
-
                 if (setProfit < minSetProfit)
                     continue;
 
@@ -2691,130 +2696,117 @@ function game() {
                 if (setWeightSum >= minSum)
                     continue;
 
-
-                // it's smaller than the current minimum
-                minConfig = [set, comb];
+                // novo mínimo encontrado
+                minSet = set;
+                minCombination = combination;
                 minSum = setWeightSum;
                 minSetProfit = setProfit;
             }
 
-            // TODO: look, we just need to do this shit for the specified classes, cut this shit down
-            console.info('[i] {CALCULATE MINIMA} minima: ' + JSON.stringify(minConfig[0].arr.map(s => [...s])));
-            minimumSet = minConfig[0];
-            minimumConfig = minConfig[1];
+            console.info('Configuração mínima: ' + JSON.stringify(minSet.arr.map(s => [...s])));
         }
 
-        leftChoosenSets = [minimumConfig[0]];
-        middleChoosenSets = [minimumConfig[1]];
-        rightChoosenSets = [minimumConfig[2]];
+        leftChoosenSets = [minCombination[0]];
+        middleChoosenSets = [minCombination[1]];
+        rightChoosenSets = [minCombination[2]];
 
-        let currentRestrictions = minimumSet;
+        // as características que estão sendo usadas no monmento
+        let currentCaracteristics = minSet;
 
-        //TODO: skip shit if smaller than limit
-        if (zipArr(minimumSet.arr.map(c => c.length), limit).some(([a, b]) => a > b)) {
-            console.warn('Minima is larger than the limit. Limit isn\'t reasonable, setting minima to limit.');
-            console.info(`Minima was: ${minimumSet.arr.map(c => c.length)}`);
-            limit = minimumSet.arr.map(c => c.length);
-        } else {
-            // fill to limit, maximizing chaos
+        if (zipArr(minSet.arr.map(c => c.length), limitVec).some(([a, b]) => a > b)) {
+            console.warn('Configuração mínima é menor que o limite. O limite não é razoável, usando a configuração mínima como limite.');
+            console.info(`Configuração mínima era: ${minSet.arr.map(c => c.length)}`);
+            limitVec = minSet.arr.map(c => c.length);
 
-            // remove the already choosen sets from the possible sets
-            leftSets.splice(leftSets.indexOf(minimumConfig[0]), 1);
-            middleSets.splice(middleSets.indexOf(minimumConfig[1]), 1);
-            rightSets.splice(rightSets.indexOf(minimumConfig[2]), 1);
+        // encher até o limite, maximizando o caos
 
-            /*
-            TODO: explain the situation, the enviroment, the objective, the algo, etc here. Like, why the weights change?
-            Another greedy algorithm. This is the 0-1 Multi-dimensional knapsack problem, but dynamic, since the weights change every iteration.
-            TODO: Do a full citation here, following whatever the citation style is.
-            This implements the algorithm PECH of this paper:
-            Akçay, Y., Li, H. & Xu, S.H. Greedy algorithm for the general multidimensional knapsack problem.
-            Ann Oper Res 150, 17–29 (2007). https://doi.org/10.1007/s10479-006-0150-4
+        // remover os conjuntos já escolhidos
+        leftSets.splice(leftSets.indexOf(minCombination[0]), 1);
+        middleSets.splice(middleSets.indexOf(minCombination[1]), 1);
+        rightSets.splice(rightSets.indexOf(minCombination[2]), 1);
 
-            So here's the problem:
-            We have N sets (leftSets + middleSets + rightSets) and we have to pick the biggest amount of them
-            while keeping currentRestrictions smaller or equal than "limit".
+        /*
+        Outro algoritmo guloso. Este é o problema da mochila multidimensional 0-1 (0-1 MDKP), só que dinâmico, já que os
+        pesos mudam a cada iteração.
+        Foi implementado aqui o algoritmo PECH_α desse artigo:
+        Akçay, Y., Li, H. & Xu, S.H. Greedy algorithm for the general multidimensional knapsack problem.
+        Ann Oper Res 150, 17–29 (2007). https://doi.org/10.1007/s10479-006-0150-4
+        O PDF que eu usei está aqui: https://www.sci.wsu.edu/math/faculty/lih/MDKP.pdf (o PDF é gratuito no Springer
+        também, acesse pelo link doi)
 
-            Every set has a weight, which is 1 for each class (the dimensions).
-            Since a set and currentRestrictions (the current state of our "solution") may have an intersection,
-            the "real weight" may not be [1, 1, 1, 1]. This "real weight" is how much the set adds to the currentRestrictions.
-            If currentRestrictions already has CARACTERISTIC.SHAPE.SQUARE on it, a set with this same caracteristic will have weight zero on this class.
+        O problema que estamos tentando resolver é o seguinte: temos N conjuntos (leftSets, middleSets, rightSets) e
+        temos que escolher o maior número possível deles, de forma que currentCaracteristics seja menor ou igual a limitVec.
 
-            Limit is a vector of the maximum amount of caracteristics for each class we can have. A limit of [2, 3, 1, 2] means that we can have at most:
-                - 2 colors
-                - 3 shapes
-                - 1 size
-                - 2 outline
+        Todo conjunto tem um peso, que é 1 para cada classe (as dimensões). Como um conjunto e currentCaracteristics (o
+        conjunto de características que estão sendo usadas no momento) podem possuir uma interseção, o "peso real" pode
+        não ser [1, 1, 1, 1]. Esse "peso real" é quanto o conjuntos adiciona ao currentCaracteristics.
+        Se currentCaracteristics já tem CARACTERISTIC.SHAPE.SQUARE, um conjunto que também tem vai ter peso real zero
+        nessa classe/dimensão. Como adicionar um conjunto à solução altera currentCaracteristics, o peso real dos
+        conjuntos restantes podem mudar, por isso esse problema é dinâmico.
 
-            Although the paper uses reward/profit, we don't use it, letting it be 1. This causes the algorithm to pick the sets that have the biggest
-            effective capacity, ie, the sets that can have the biggest amount of copies. A reward calculation that provides a "foresight" of the
-            future may be implemented in the future.
+        A capacidade da mochila é limitVec, que é um vetor com a quantidade máxima de características de cada classe que
+        podem ser usadas. Um limitVec igual a [2, 3, 1, 2] siginifica que podemos ter no máximo 2 cores, 3 formas, 1
+        tamanho e 2 contornos.
 
-            TODO: specify performance like the paper does
-            This algorithm is a greedy algorithm, so it's not optimal, but it's fast and it's good enough for our purposes. In the paper, the authors
-            say that the algorithm is pretty fast while providing really good results on our problem (low number of dimensions, low number of sets).
+        Mesmo que o artigo use recompença/lucro, aqui ele não é usado, sendo 1 para todos os conjuntos. Isso causa o
+        algoritmo a escolher conjuntos com a maior capacidade efetiva, ou seja, conjuntos que possam ter o maior número
+        máximo de cópias sem ultrapassar o limite (isso é explicado melhor no artigo). Um cálculo de recompensa que 
+        que melhore a qualidade da solução pode ser implementada no futuro.
 
-            TODO: salvage some parts of the old comment:
-            - Since choosing a set changes the weight of the other sets, these weights will decrease (this is why it's dynamic).
-            - Since every time we choose a set, the reduction of the wheight of all remaining vectors change, this problem is dynamic. This makes the problem
-            significantly harder.
-            - Dynamic Programming can't be apllied here because the dynamicity causes poor (or non existant) subproblem overlapping.
-            - The problem is dynamic, sorting and choosing the first sets doesn't work.
-            - Oh, one thing: we have to identify each set if we merge all of then in a single array, so they can be added to the correct side.
+        PECH é um algoritmo muito bom e muito rápido. No nosso caso, número pequeno de dimenções (4) e número pequeno
+        de items (no máximo 93, bem menos em média), ele provê soluções ótimas ou quasi-ótimas. O único algoritmo que
+        seria melhor em precisão, devido ao número de items (ver Tabela 10 do artigo), seria PIR_G (Pirkul & Narasimhan,
+        1986), mas esse usa programação linear e é mais complexo de implementar.
 
-            TODO: give an overview of the algorithm as implemented here
+        A implementação aqui segue o seguinte algoritmo:
+        1. Junta todos os conjuntos em um único array, adicionando com eles um identificador de qual lado eles são.
+        2. Itera sobre os conjuntos, calculando a recompensa de cada um, escolhendo o melhor e adicionando ele à solução.
+        3. Caso esse melhor conjunto tenha capacidade efetiva de 0, o melhor conjunto não é inserido e o algoritmo
+           termina, pois não há como inserir mais conjuntos na solução.
+        4. Caso contrário, o conjunto é adicionado à solução e o currentCaracteristics é atualizado.
+        5. Caso não tenha mais conjuntos para iterar, o algoritmo termina.
+        */
+        {
+            let allSets = [...leftSets.map(s => [leftChoosenSets, s]),
+                            ...rightSets.map(s => [rightChoosenSets, s]),
+                            ...middleSets.map(s => [middleChoosenSets, s])];
 
-            TODO: OPTIMIZATIONS possible here:
-            - If the limit for a class is 1, we can't add any sets that have a restriction for this class that is different from what is choose for the
-              minima already. So we can remove all sets that doesn't contain the restriction choosen for that class on the minima
-            - If the limit for a class is MAX, then we can ignore it, removing all restrictions of this classe for all sets (removing duplicates of course).
-              We can add these restrictions back later.
-              Maybe we can calculate a dynamic max. For example, if one side is NO TRIANGLE and the other is SQUARE, triangles can't appear. Can we do something with this?
-            */
-            {
-                let allSets = [...leftSets.map(s => [leftChoosenSets, s]),
-                               ...rightSets.map(s => [rightChoosenSets, s]),
-                               ...middleSets.map(s => [middleChoosenSets, s])];
+            while(allSets.length !== 0) {
+                let maxSet, maxSetSide;
+                let maxSetProfit = 0;
+                let currentLimit = limitVec.map((l, i) => l - currentCaracteristics.arr[i].size);
+                for (const [i, [side, set]] of allSets.entries()) {
+                    let setWeightVec = set.difference(currentCaracteristics).arr.map(s => s.size);
 
-                while(allSets.length !== 0) {
-                    let maxSet, maxSetSide;
-                    let maxSetProfit = 0;
-                    let currentLimit = limit.map((l, i) => l - currentRestrictions.arr[i].size);
-                    for (const [i, [side, set]] of allSets.entries()) {
-                        let setWeightVec = set.difference(currentRestrictions).arr.map(s => s.size);
-
-                        // TODO: what if w is 0? Better, what if effectiveCapacity is inf?
-                        //                                                                        prevents 0/0. If w is 0, then the capcity of this dimension if inf
-                        let effectiveCapacity = Math.min(...setWeightVec.map((w, i) => Math.floor(w === 0 ? Infinity : currentLimit[i] / w)));
-                        if (effectiveCapacity === 0) {
-                            // this set can't be choosen, it's too heavy
-                            continue;
-                        }
-
-                        // TODO: calculate profit, here it's 1, making just the effective capacity important
-                        let setProfit = 1 * effectiveCapacity;
-                        if (setProfit > maxSetProfit) {
-                            // we found a new max
-                            maxSet = set;
-                            maxSetSide = side;
-                            maxSetProfit = setProfit;
-
-                            // TODO: tie break here
-                            // if setProfit is infinty, we can't get a better set
-                            if (setProfit === Infinity)
-                                break;
-                        }
+                    //                                                                        previne 0/0. Se w é 0, então a capacidade dessa dimensão é infinita
+                    let effectiveCapacity = Math.min(...setWeightVec.map((w, i) => Math.floor(w === 0 ? Infinity : currentLimit[i] / w)));
+                    if (effectiveCapacity === 0) {
+                        // não pode ser escolhido, não cabe
+                        continue;
                     }
 
-                    // if we didn't find any set that fits, we're done
-                    if (maxSetProfit === 0) break;
+                    // TODO: calculate profit, here it's 1, making just the effective capacity important
+                    let setProfit = 1 * effectiveCapacity;
+                    if (setProfit > maxSetProfit) {
+                        // novo máximo encontrado
+                        maxSet = set;
+                        maxSetSide = side;
+                        maxSetProfit = setProfit;
 
-                    // add the max set to the solution
-                    maxSetSide.push(maxSet);
-                    currentRestrictions = currentRestrictions.union(maxSet);
-                    // remove the max set from the array
-                    allSets.splice(allSets.findIndex(([_, s]) => s === maxSet), 1);
+                        // se a recompensa é infinita, não há como conseguir um conjunto melhor
+                        if (setProfit === Infinity)
+                            break;
+                    }
                 }
+
+                // nenhum conjunto cabe, terminamos
+                if (maxSetProfit === 0) break;
+
+                // adiciona o conjunto à solução
+                maxSetSide.push(maxSet);
+                currentCaracteristics = currentCaracteristics.union(maxSet);
+                // remove o conjunto escolhido do array
+                allSets.splice(allSets.findIndex(([_, s]) => s === maxSet), 1);
             }
         }
     }
