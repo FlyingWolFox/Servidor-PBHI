@@ -2717,8 +2717,7 @@ function game() {
             console.warn('Configuração mínima é menor que o limite. O limite não é razoável, usando a configuração mínima como limite.');
             console.info(`Configuração mínima era: ${minSet.arr.map(c => c.length)}`);
             limitVec = minSet.arr.map(c => c.length);
-
-        // encher até o limite, maximizando o caos
+        }
 
         // remover os conjuntos já escolhidos
         leftSets.splice(leftSets.indexOf(minCombination[0]), 1);
@@ -2785,7 +2784,6 @@ function game() {
                         continue;
                     }
 
-                    // TODO: calculate profit, here it's 1, making just the effective capacity important
                     let setProfit = 1 * effectiveCapacity;
                     if (setProfit > maxSetProfit) {
                         // novo máximo encontrado
@@ -2816,20 +2814,20 @@ function game() {
     let caixaIntersecaoItems = gerarFormas(middleChoosenSets);
     let caixaDireitaItems = gerarFormas(rightChoosenSets);
 
-    // limit the amount of shapes maintaining a somewhat normal distribution
+    // limitar a quantidade de formas mantendo a quantidade mais ou menos bem dividida entre as caixas
     {
         let maxLengths = [[caixaEsquerdaItems,   Math.round(currentStage.maxNumShapes/3)],
                           [caixaIntersecaoItems, Math.round(currentStage.maxNumShapes/3)],
                           [caixaDireitaItems,    Math.round(currentStage.maxNumShapes/3)]];
         maxLengths.sort(([box1, _1], [box2, _2]) => box1.length - box2.length);
-        // smaller box gets more limit (ignore intersection)
+        // caixa menor recebe um limite maior (ignora interseção)
         if (maxLengths[0][0] !== caixaIntersecaoItems)
             maxLengths[0][1] = currentStage.maxNumShapes - Math.round(currentStage.maxNumShapes/3 * 2);
         else
             maxLengths[1][1] = currentStage.maxNumShapes - Math.round(currentStage.maxNumShapes/3 * 2);
         
         if (maxLengths[0][0].length < maxLengths[0][1]) {
-            // a box has too litle, special limitation will be done
+            // uma caixa tem menos que o limite/3, então restringir a quantidade de formas baseado nela
             let maxToBeRedistributed = currentStage.maxNumShapes;
             let minLength = maxLengths[0][0] !== caixaIntersecaoItems ? maxLengths[0][0].length : maxLengths[1][0].length;
             maxLengths = maxLengths.map(([box, _], i) => {
