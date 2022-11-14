@@ -1027,45 +1027,44 @@ function CaracteristicContainer() {
 
     // the array of the map
     this.arr = Array.from(Array(CARACTERISTIC.length), () => []);
-
-    // insert caracteristic on map without passing the class
-    this.insertNoHint = function (caracteristica) {
-        let classId = CARACTERISTIC.getClassNumber(caracteristica);
-        this.arr[classId].push(caracteristica);
-    };
-
-    // insert caracteristics on map
-    this.insert = function (classe, ...caracteristicas) {
-        this.arr[classe.id].push(...caracteristicas);
-    };
-
-    // return all caracteristics of a class
-    // or all caracteristics if no class is given
-    this.get = function (classe) {
-        if (!classe)
-            return this.arr.flat();
-
-        return this.arr[classe.id];
-    };
-
-    this.has = function (classe, caracteristica) {
-        return this.arr[classe.id].includes(caracteristica);
-    };
-
-    this.hasNoHint = function (caracteristica) {
-        let classId = CARACTERISTIC.getClassNumber(caracteristica);
-        return this.arr[classId].includes(caracteristica);
-    };
-
-    this.concat = function (other) {
-        let newRestrictions = new CaracteristicContainer();
-        for (let i = 0; i < this.arr.length; i++) 
-            newRestrictions.arr[i] = this.arr[i].concat(other.arr[i]);
-        
-        return newRestrictions;
-    };
-
 }
+
+/**
+ * Insere característica da classe classe no container
+ * @param {CARACTERISTIC[*]} classe 
+ * @param  {...CARACTERISTIC[*][*]} caracteristicas 
+ */
+CaracteristicContainer.prototype.insert = function (classe, ...caracteristicas) {
+    this.arr[classe.id].push(...caracteristicas);
+};
+
+/**
+ * Retorna as características no container.
+ * Method Overload:
+ * - get(classe) -> retorna todas as características da classe
+ * - get() -> retorna todas as características de todas as classes, num array de uma dimensão
+ * @param {CARACTERISTIC[*]} classe 
+ * @returns {CARACTERISTIC[*][*][]} Array com as características
+ */
+CaracteristicContainer.prototype.get = function (classe) {
+    if (!classe)
+        return this.arr.flat();
+
+    return this.arr[classe.id];
+};
+
+/**
+ * Concatena dois containers, retornando um novo container. Pode haver caracteristicas repetidas no novo container
+ * @param {CaracteristicContainer} other O outro container para concatenar
+ * @returns {CaracteristicContainer} Novo array com as características de this e other
+ */
+CaracteristicContainer.prototype.concat = function (other) {
+    let newRestrictions = new CaracteristicContainer();
+    for (let i = 0; i < this.arr.length; i++) 
+        newRestrictions.arr[i] = this.arr[i].concat(other.arr[i]);
+    
+    return newRestrictions;
+};
 
 /**
  * CaracteristicSetContainer é um CaracteristicContainer, mas que armazena as características
@@ -1076,301 +1075,335 @@ function CaracteristicSetContainer() {
         // TODO: make it throw
         return new CaracteristicSetContainer();
     
-
     // the array of the map
     this.arr = Array.from(Array(CARACTERISTIC.length), () => new Set());
+}
 
-    // add caracteristics to map
-    this.add = function (classe, ...caracteristicas) {
-        caracteristicas.forEach(caracteristica => this.arr[classe.id].add(caracteristica));
-        return this;
-    };
+/**
+ * Insere característica da classe classe no set. Retorna this
+ * @param {CARACTERISTIC[*]} classe 
+ * @param  {...CARACTERISTIC[*][*]} caracteristicas 
+ * @returns {CaracteristicSetContainer} this
+ */
+CaracteristicSetContainer.prototype.add = function (classe, ...caracteristicas) {
+    caracteristicas.forEach(caracteristica => this.arr[classe.id].add(caracteristica));
+    return this;
+};
 
-    // set caracteristics to map
-    this.set = function (classe, ...caracteristicas) {
-        this.arr[classe.id] = new Set(caracteristicas);
-        return this;
-    };
+/**
+ * Deifine as características de uma classe no container, sobrescrevendo as caracteristicas antigas. Retorna this
+ * @param {CARACTERISTIC[*]} classe 
+ * @param  {...CARACTERISTIC[*][*]} caracteristicas 
+ * @returns {CaracteristicSetContainer} this
+ */
+CaracteristicSetContainer.prototype.set = function (classe, ...caracteristicas) {
+    this.arr[classe.id] = new Set(caracteristicas);
+    return this;
+};
 
-    // return all caracteristics of a class
-    // or all caracteristics if no class is given
-    this.get = function (classe) {
-        if (!classe) 
-            return new Set(this.arr.flatMap(set => [...set]));
+/**
+ * Retorna as características no container.
+ * Method Overload:
+ * - get(classe) -> retorna todas as características da classe
+ * - get() -> retorna todas as características de todas as classes, num Set
+ * @param {CARACTERISTIC[*]} classe 
+ * @returns {Set<CARACTERISTIC[*][*]>} Set com as características
+ */
+CaracteristicSetContainer.prototype.get = function (classe) {
+    if (!classe) 
+        return new Set(this.arr.flatMap(set => [...set]));
+    
+    return new Set([...this.arr[classe.id]]);
+};
+
+// TODO: make "virtual" versions of set ops. These make the ops with the empty classes (empty arr entries) as they were full (like invert() were applied to them)
+
+/**
+ * Retornar um novo CaracteristicSetContainer contendo a interseção de this e other.
+ * Method Overload:
+ * - intersect(other) -> retorna a interseção de this e other
+ * - intersect(classe, other) -> retorna a interseção de this e other na classe `classe`, com as outras classes sendo igual a this
+ * @param {CaracteristicSetContainer} other 
+ * @param {CARACTERISTIC[*]} classe 
+ * @returns {CaracteristicSetContainer} Novo CaracteristicSetContainer com a interseção
+ */
+CaracteristicSetContainer.prototype.intersection = function (other, classe) {
+    let newSet = new CaracteristicSetContainer();
+
+    // if a class is given, intersect only that class
+    if (typeof classe !== 'undefined') {
+        for (let i = 0; i < this.arr.length; i++) {
+            if (i === classe.id) {
+                for (const r of other.arr[i]) {
+                    if (this.arr[i].has(r)) 
+                        newSet.arr[i].add(r);
+                }
+            } else {
+                newSet.arr[i] = new Set(this.arr[i]);
+            }
+        }
+    }
+
+    // if class is not given, intersect all classes
+    for (let i = 0; i < this.arr.length; i++) {
+        for (const r of other.arr[i]) {
+            if (this.arr[i].has(r)) 
+                newSet.arr[i].add(r);
+        }
+    }
+
+    return newSet;
+};
+
+/**
+ * Retornar um novo CaracteristicSetContainer contendo a união de this e other.
+ * Method Overload:
+ * - union(other) -> retorna a união de this e other
+ * - union(classe, other) -> retorna a união de this e other na classe `classe`, com as outras classes sendo igual a this
+ * @param {CaracteristicSetContainer} other 
+ * @param {CARACTERISTIC[*]} classe 
+ * @returns {CaracteristicSetContainer} Novo CaracteristicSetContainer com a união
+ */
+CaracteristicSetContainer.prototype.union = function (other, classe) {
+    let newSet = new CaracteristicSetContainer();
+
+    // if a class is given, union only that class
+    if (typeof classe !== 'undefined') {
+        for (let i = 0; i < this.arr.length; i++) {
+            if (i === classe.id) {
+                for (const r of other.arr[i]) 
+                    newSet.arr[i].add(r);
+                
+                for (const r of this.arr[i]) 
+                    newSet.arr[i].add(r);
+            } else {
+                newSet.arr[i] = new Set(this.arr[i]);
+            }
+        }
+    }
+
+    // if class is not given, union all classes
+    for (let i = 0; i < this.arr.length; i++) {
+        for (const r of other.arr[i]) 
+            newSet.arr[i].add(r);
         
-        return this.arr[classe.id];
-    };
+        for (const r of this.arr[i]) 
+            newSet.arr[i].add(r);
+    }
 
-    this.has = function (classe, caracteristica) {
-        return this.arr[classe.id].has(caracteristica);
-    };
+    return newSet;
+};
 
-    // TODO: make "virtual" versions of set ops. These make the ops with the empty classes (empty arr entries) as they were full (like invert() were applied to them)
+/**
+ * Retornar um novo CaracteristicSetContainer contendo a diferença de this e other.
+ * Method Overload:
+ * - difference(other) -> retorna a diferença de this e other
+ * - difference(classe, other) -> retorna a diferença de this e other na classe `classe`, com as outras classes sendo igual a this
+ * @param {CaracteristicSetContainer} other
+ * @param {CARACTERISTIC[*]} classe
+ * @returns {CaracteristicSetContainer} Novo CaracteristicSetContainer com a diferença
+ */
+CaracteristicSetContainer.prototype.difference = function (other, classe) {
+    let newSet = new CaracteristicSetContainer();
 
-    this.intersection = function (other, classe) {
-        let newSet = new CaracteristicSetContainer();
-
-        // if a class is given, intersect only that class
-        if (typeof classe !== 'undefined') {
-            for (let i = 0; i < this.arr.length; i++) {
-                if (i === classe.id) {
-                    for (const r of other.arr[i]) {
-                        if (this.arr[i].has(r)) 
-                            newSet.arr[i].add(r);
-                    }
-                } else {
-                    newSet.arr[i] = new Set(this.arr[i]);
-                }
-            }
-        }
-
-        // if class is not given, intersect all classes
+    // if a class is given, subtract only that class
+    if (typeof classe !== 'undefined') {
         for (let i = 0; i < this.arr.length; i++) {
-            for (const r of other.arr[i]) {
-                if (this.arr[i].has(r)) 
-                    newSet.arr[i].add(r);
-            }
-        }
-
-        return newSet;
-    };
-
-    this.union = function (other, classe) {
-        let newSet = new CaracteristicSetContainer();
-
-        // if a class is given, union only that class
-        if (typeof classe !== 'undefined') {
-            for (let i = 0; i < this.arr.length; i++) {
-                if (i === classe.id) {
-                    for (const r of other.arr[i]) 
+            if (i === classe.id) {
+                for (const r of this.arr[i]) {
+                    if (!other.arr[i].has(r)) 
                         newSet.arr[i].add(r);
-                    
-                    for (const r of this.arr[i]) 
-                        newSet.arr[i].add(r);
-                } else {
-                    newSet.arr[i] = new Set(this.arr[i]);
                 }
+            } else {
+                newSet.arr[i] = new Set(this.arr[i]);
             }
         }
+    }
 
-        // if class is not given, union all classes
-        for (let i = 0; i < this.arr.length; i++) {
-            for (const r of other.arr[i]) 
-                newSet.arr[i].add(r);
-            
-            for (const r of this.arr[i]) 
+    // if class is not given, subtract all classes
+    for (let i = 0; i < this.arr.length; i++) {
+        for (const r of this.arr[i]) {
+            if (!other.arr[i].has(r)) 
                 newSet.arr[i].add(r);
         }
+    }
 
-        return newSet;
-    };
+    return newSet;
+};
 
-    this.subtract = function (other, classe) {
-        let newSet = new CaracteristicSetContainer();
-
-        // if a class is given, subtract only that class
-        if (typeof classe !== 'undefined') {
-            for (let i = 0; i < this.arr.length; i++) {
-                if (i === classe.id) {
-                    for (const r of this.arr[i]) {
-                        if (!other.arr[i].has(r)) 
-                            newSet.arr[i].add(r);
-                    }
-                } else {
-                    newSet.arr[i] = new Set(this.arr[i]);
-                }
-            }
-        }
-
-        // if class is not given, subtract all classes
-        for (let i = 0; i < this.arr.length; i++) {
-            for (const r of this.arr[i]) {
-                if (!other.arr[i].has(r)) 
-                    newSet.arr[i].add(r);
-            }
-        }
-
-        return newSet;
-    };
-
-    this.isSubsetOf = function (other, classe) {
-        // if a class is given, check only that class
-        if (typeof classe !== 'undefined') {
-            for (const r of this.arr[classe.id]) {
-                if (!other.arr[classe.id].has(r))
-                    return false;
-            }
-            return true;
-        }
-
-        // if class is not given, check all classes
-        for (let i = 0; i < this.arr.length; i++) {
-            for (const r of this.arr[i]) {
-                if (!other.arr[i].has(r)) 
-                    return false;
-            }
-        }
-
-        return true;
-    };
-
-    this.isSupersetOf = function (other, classe) {
-        // if a class is given, check only that class
-        if (typeof classe !== 'undefined') {
-            for (const r of other.arr[classe.id]) {
-                if (!this.arr[classe.id].has(r)) 
-                    return false;
-            }
-            return true;
-        }
-
-        // if class is not given, check all classes
-        for (let i = 0; i < this.arr.length; i++) {
-            for (const r of other.arr[i]) {
-                if (!this.arr[i].has(r)) 
-                    return false;
-            }
-        }
-
-        return true;
-    };
-
-    this.equals = function (other, classe) {
-        // if a class is given, check only that class
-        if (typeof classe !== 'undefined') {
-            return this.arr[classe.id].size === other.arr[classe.id].size &&
-                this.isSubsetOf(other, classe);
-        }
-
-        // if class is not given, check all classes
-        for (let i = 0; i < this.arr.length; i++) {
-            if (this.arr[i].size !== other.arr[i].size) 
+/**
+ * Retornar se this é um subconjunto de other.
+ * Method Overload:
+ * - isSubsetOf(other) -> retorna se this é um subconjunto de other
+ * - isSubsetOf(classe, other) -> retorna se this[classe] é um subconjunto de other[classe]
+ * @param {CaracteristicSetContainer} other
+ * @param {CARACTERISTIC[*]} classe
+ * @returns {boolean} Se this é um subconjunto de other
+ */
+CaracteristicSetContainer.prototype.isSubsetOf = function (other, classe) {
+    // if a class is given, check only that class
+    if (typeof classe !== 'undefined') {
+        for (const r of this.arr[classe.id]) {
+            if (!other.arr[classe.id].has(r))
                 return false;
         }
+        return true;
+    }
 
-        return this.isSubsetOf(other);
-    };
-
-    this.isEmpty = function (classe) {
-        // if a class is given, check only that class
-        if (typeof classe !== 'undefined') 
-            return this.arr[classe.id].size === 0;
-
-        // if class is not given, check all classes
-        for (let i = 0; i < this.arr.length; i++) {
-            if (this.arr[i].size !== 0) 
+    // if class is not given, check all classes
+    for (let i = 0; i < this.arr.length; i++) {
+        for (const r of this.arr[i]) {
+            if (!other.arr[i].has(r)) 
                 return false;
         }
+    }
 
-        return true;
-    };
+    return true;
+};
 
-    this.anyEmpty = function () {
-        for (let i = 0; i < this.arr.length; i++) {
-            if (this.arr[i].size === 0) 
-                return true;
-        }
+/**
+ * Retornar se this é igual a other.
+ * Method Overload:
+ * - isEqualTo(other) -> retorna se this é igual a other
+ * - isEqualTo(classe, other) -> retorna se this[classe] é igual a other[classe]
+ * @param {CaracteristicSetContainer} other
+ * @param {CARACTERISTIC[*]} classe
+ * @returns {boolean} Se this é igual a other
+ */
+CaracteristicSetContainer.prototype.equals = function (other, classe) {
+    // if a class is given, check only that class
+    if (typeof classe !== 'undefined') {
+        return this.arr[classe.id].size === other.arr[classe.id].size &&
+            this.isSubsetOf(other, classe);
+    }
 
-        return false;
-    };
+    // if class is not given, check all classes
+    for (let i = 0; i < this.arr.length; i++) {
+        if (this.arr[i].size !== other.arr[i].size) 
+            return false;
+    }
 
-    this.invert = function (classe) {
-        let newSet = new CaracteristicSetContainer();
+    return this.isSubsetOf(other);
+};
 
-        // if a class is given, invert only that class
-        if (typeof classe !== 'undefined') {
-            newSet.arr = this.arr.map((set) => new Set(set));
-            let allCaracteristics = [...CARACTERISTIC[classe.id]];
-            newSet.arr[classe.id] = new Set(allCaracteristics.filter((x) => !this.arr[classe.id].has(x)));
-            return newSet;
-        }
+/**
+ * Retorna se há uma classe vazia, ou seja, se não há nenhuma característica de uma classe no container.
+ * Exemplo: se não há nenhuma característica de classe CARACTERISTIC.COR no container, retorna true.
+ * @returns {boolean} Se há uma classe vazia
+ */
+CaracteristicSetContainer.prototype.anyEmpty = function () {
+    for (let i = 0; i < this.arr.length; i++) {
+        if (this.arr[i].size === 0) 
+            return true;
+    }
 
-        // if class is not given, invert all classes
-        for (const classe of [...CARACTERISTIC]) {
-            let allCaracteristics = [...CARACTERISTIC[classe.id]];
-            newSet.arr[classe.id] = new Set(allCaracteristics.filter((x) => !this.arr[classe.id].has(x)));
-        }
+    return false;
+};
 
-        return newSet;
-    };
+/**
+ * Inverte o container, retornando um novo conjunto contendo as características que não estão no container.
+ * Method Overload:
+ * - invert() -> inverte todo o container
+ * - invert(classe) -> inverte somente a classe
+ * @param {*} classe 
+ * @returns {CaracteristicSetContainer} Novo CaracteristicSetContainer com o inverso de this
+ */
+CaracteristicSetContainer.prototype.invert = function (classe) {
+    let newSet = new CaracteristicSetContainer();
 
-    this.clone = function () {
-        let newSet = new CaracteristicSetContainer();
+    // if a class is given, invert only that class
+    if (typeof classe !== 'undefined') {
         newSet.arr = this.arr.map((set) => new Set(set));
+        let allCaracteristics = [...CARACTERISTIC[classe.id]];
+        newSet.arr[classe.id] = new Set(allCaracteristics.filter((x) => !this.arr[classe.id].has(x)));
         return newSet;
-    };
+    }
 
-    this.toSingleSubsets = function (classe) {
-        let subsets = [];
+    // if class is not given, invert all classes
+    for (const classe of [...CARACTERISTIC]) {
+        let allCaracteristics = [...CARACTERISTIC[classe.id]];
+        newSet.arr[classe.id] = new Set(allCaracteristics.filter((x) => !this.arr[classe.id].has(x)));
+    }
 
-        // if a class is given, get all subsets only that class
-        if (typeof classe !== 'undefined') {
-            for (const r of this.arr[classe.id]) {
-                let newSet = this.clone();
-                newSet.arr[classe.id] = new Set([r]);
-                subsets.push(newSet);
-            }
-        }
+    return newSet;
+};
 
-        // if class is not given, get all subsets all classes
-        for (const comb of cartesianProduct(...this.arr)) {
-            let newSet = new CaracteristicSetContainer();
-            newSet.arr = comb.map(cateristica => new Set([cateristica]));
+/**
+ * Retorna uma cópia do container.
+ * @returns {CaracteristicSetContainer} Cópia do container
+ */
+CaracteristicSetContainer.prototype.clone = function () {
+    let newSet = new CaracteristicSetContainer();
+    newSet.arr = this.arr.map((set) => new Set(set));
+    return newSet;
+};
+
+/**
+ * Retorna um array com todos os subconjuntos contendo uma caracteristica de por classe.
+ * @param {*} classe 
+ * @returns 
+ */
+CaracteristicSetContainer.prototype.toSingleSubsets = function (classe) {
+    let subsets = [];
+
+    // if a class is given, get all subsets only that class
+    if (typeof classe !== 'undefined') {
+        for (const r of this.arr[classe.id]) {
+            let newSet = this.clone();
+            newSet.arr[classe.id] = new Set([r]);
             subsets.push(newSet);
         }
-
-        return subsets;
-    };
-
-    // TODO: maybe make this like Array.length? With the property being updated when 'this' is modified?
-    this.size = function (classe) {
-        // if a class is given, get size only that class
-        if (typeof classe !== 'undefined') 
-            return this.arr[classe.id].size;
-
-        // if class is not given, get size all classes
-        let size = 0;
-        for (let i = 0; i < this.arr.length; i++) 
-            size += this.arr[i].size;
-
-        return size;
-    };
-}
-
-/* input:
-{
-    restrictionClasses: [
-      //[              class, accepted?, rejQty, rejectionMode]
-        [CARACTERISTIC.SHAPE,     true],
-        [CARACTERISTIC.COLOR,     false,      2,    BOTH_SIDES]
-    ],
-    maxNumAnswers: 27,
-    maxNumShapes: 91,
-    // for non specified classes, the limit is 1
-    randomLimits: [
-      //[             class, max]
-        [CARACTERISTIC.SIZE,   2]
-    ]
-}
-*/
-
-/* output:
-{
-    acceptedClasses: [CARACTERISTIC.SHAPE, ...],
-    //rejectedClasses: [CARACTERISTIC.COLOR, ...],
-    //rejectionOptions: [{qty: 2, mode: BOTH_SIDES}, ...],
-    rejectedClasses: {
-        // mode: [[class, qty], ...] 
-        ONE_SIDE.NO_ACCEPTED: [[CARACTERISTIC.SIZE, 1], ...],
-        ONE_SIDE.WITH_ACCEPTED: [[c, n], ...],
-        BOTH_SIDES: [[CARACTERISTIC.COLOR, 2], ...]
     }
-    maxNumAnswers: 27,
-    maxNumShapes: 91,
-    randomLimits : new Map([[CARACTERISTIC.SIZE, 2]])
-}
-*/
 
+    // if class is not given, get all subsets all classes
+    for (const comb of cartesianProduct(...this.arr)) {
+        let newSet = new CaracteristicSetContainer();
+        newSet.arr = comb.map(cateristica => new Set([cateristica]));
+        subsets.push(newSet);
+    }
+
+    return subsets;
+};
+
+/**
+ * Preprocessa e converte uma especificação de nível de entrada em uma saída padronizada
+   input:
+   {
+       restrictionClasses: [
+         //[              class, accepted?, rejQty, rejectionMode]
+           [CARACTERISTIC.SHAPE,     true],
+           [CARACTERISTIC.COLOR,     false,      2,    BOTH_SIDES]
+       ],
+       maxNumAnswers: 7,
+       maxNumShapes: 12,
+       // for non specified classes, the limit is 1
+       randomLimits: [
+         //[             class, max]
+           [CARACTERISTIC.SIZE,   2]
+       ]
+   }
+
+   output:
+   {
+       acceptedClasses: [CARACTERISTIC.SHAPE, ...],
+       rejectedClasses: {
+           // mode: [[class, qty], ...] 
+           ONE_SIDE.NO_ACCEPTED: [[CARACTERISTIC.SIZE, 1], ...],
+           ONE_SIDE.WITH_ACCEPTED: [[c, n], ...],
+           BOTH_SIDES: [[CARACTERISTIC.COLOR, 2], ...]
+       }
+       maxNumAnswers: 7,
+       maxNumShapes: 12,
+       randomLimits : new Map([
+                              [CARACTERISTIC.SHAPE, 1],
+                              [CARACTERISTIC.COLOR, 1],
+                              [CARACTERISTIC.SIZE, 2],
+                              [CARACTERISTIC.OUTLINE, 1]
+                            ])
+   }
+ * @param {*} input 
+ * @returns output
+ */
 function stagePreprocessor(input) {
     'use strict';
     let acceptedClasses = [],
@@ -1380,31 +1413,80 @@ function stagePreprocessor(input) {
             [BOTH_SIDES]: []
         };
 
-    // prevents that this function from being deterministic
-    // helps to create variety in the game, even if the same input is given
-    shuffleArray(input.restrictionClasses);
+    let restrictionClasses = [];
+    //  validar entrada
+    if (input.restrictionClasses.length === 0)
+        throw new Error('Nenhuma classe de restrição foi especificada');
 
-    for (const def of input.restrictionClasses) {
-        let [restrictionClass, accepted, rejQty, rejectionMode] = def;
-        if (accepted) {
-            acceptedClasses.push(restrictionClass);
+    let classesUso = new Map([...CARACTERISTIC].map(classe => [classe, false]));
+    for (let [caracteristicClass, accepted, rejQty, rejectionMode] of input.restrictionClasses) {
+        if (classesUso.get(caracteristicClass)) {
+            console.warn('Ignorando classe de restrição repetida: ', caracteristicClass);
+            continue;
         }
-        else {
-            // TODO: check if the class is already in acceptedClasses
-            // TODO: check if the class is already in rejectedClasses
-            // TODO: check if rejQty is bigger than zero
-            // TODO: check if rejectionMode is valid
-            rejectedClasses[rejectionMode].push([restrictionClass, rejQty]);
+        classesUso.set(caracteristicClass, true);
+        
+        // checa se a classe é válida
+        if (![...CARACTERISTIC].includes(caracteristicClass)) {
+            console.error('Classe de restrição inválida: ', caracteristicClass, '\nIgnorando.');
+            continue;
         }
+
+        if (!accepted) {
+            // checa se a quantidade de rejeição é válida
+            if (!Number.isInteger(rejQty) || rejQty <= 0) {
+                console.error('Classe de restrição com quantidade de rejeição inválida: ', caracteristicClass, '\nIgnorando.');
+                continue;
+            }
+            // checa se rejectionMode é válido
+            if (rejectionMode !== ONE_SIDE.NO_ACCEPTED && rejectionMode !== ONE_SIDE.WITH_ACCEPTED && rejectionMode !== BOTH_SIDES) {
+                console.error('Modo de rejeição inválido para classe: ', caracteristicClass, rejectionMode, '\nIgnorando.');
+                continue;
+            }
+
+            if (rejQty > caracteristicClass.length) {
+                console.error('Quantidade de rejeição maior que o número de características da classe: ', caracteristicClass, '\nUsando o máximo possível.');
+                rejQty = caracteristicClass.length;
+            }
+            // correções sobre ONE_SIDE.WITH_ACCEPTED. Não se pode usar todas as características da classe, pois essa situação é equivalente
+            // a ter a mesma característica aceita em ambas as caixas.
+            // Ex: [SQUARE, CIRCLE, TRIANGLE] rejeitadas e [RECTANGLE] aceita == [RECTANGLE] aceita e [RECTANGLE] aceita.
+
+            // classes com menos de 3 características não podem ser ONE_SIDE.WITH_ACCEPTED, pois length([aceita, rejeita]) == length(classe)
+            if (rejectionMode === ONE_SIDE.WITH_ACCEPTED && caracteristicClass.length < 3) {
+                console.error('Modo de rejeição ONE_SIDE.WITH_ACCEPTED não pode ser usado para classes com menos de 3 características: ', caracteristicClass, '\nUsando ONE_SIDE.NO_ACCEPTED.');
+                rejectionMode = ONE_SIDE.NO_ACCEPTED;
+            }
+            // Não permitir que todas as características de uma classe sejam usadas no ONE_SIDE.WITH_ACCEPTED,
+            if (rejectionMode === ONE_SIDE.WITH_ACCEPTED && rejQty > caracteristicClass.length - 2) {
+                console.error('Quantidade de rejeição muito alto para ONE_SIDE.WITH_ACCEPTED (> classe.length - 2) da classe: ', caracteristicClass, '\nUsando o máximo possível.');
+                rejQty = caracteristicClass.length - 2; // evita a situação equivalente a ter a mesma característica aceita em ambos os lados
+            }
+
+
+            if (rejectionMode === BOTH_SIDES && rejQty < 2) {
+                console.error('Modo de rejeição BOTH_SIDES requer pelo menos 2 características rejeitadas: ' + caracteristicClass, '\nUsando 2.');
+                rejQty = 2;
+            }
+        }
+        restrictionClasses.push([caracteristicClass, accepted, rejQty, rejectionMode]);
     }
 
-    // TODO: check for valid limits (ex not < 0)
+    for (let [caracteristicClass, accepted, rejQty, rejectionMode] of restrictionClasses) {
+        if (accepted)
+            acceptedClasses.push(caracteristicClass);
+        else
+            rejectedClasses[rejectionMode].push([caracteristicClass, rejQty]);
+    }
+
     // se a classe não foi especificada em randomParameters, limitar a 1 característica
     let randomLimits = new Map([...CARACTERISTIC].map(classe => [classe, 1]));
     for (const [classe, max] of input.randomLimits) 
         randomLimits.set(classe, max);
 
-    // reverse sort each type of rejection by quantity of rejections of that class
+    // ajuda a criar uma variedade extra no jogo, mesmo que a mesma entrada seja dada
+    shuffleArray(acceptedClasses);
+    // ordenar inversamente cada tipo de rejeição por quantidade de rejeições dessa classe
     rejectedClasses[0].sort((a, b) => b[1] - a[1]);
     rejectedClasses[1].sort((a, b) => b[1] - a[1]);
     rejectedClasses[2].sort((a, b) => b[1] - a[1]);
@@ -1675,6 +1757,25 @@ function game() {
                 [  CARACTERISTIC.COLOR,     false,      2,    BOTH_SIDES],
                 [   CARACTERISTIC.SIZE,     false,      1,    ONE_SIDE.NO_ACCEPTED],
                 [CARACTERISTIC.OUTLINE,     false,      1,    ONE_SIDE.NO_ACCEPTED]
+            ],
+            maxNumAnswers: 9,
+            maxNumShapes: 15,
+            // for non specified classes, the limit is 1
+            randomLimits: [
+            //  [               class, max]
+                [  CARACTERISTIC.SHAPE,  4],
+                [  CARACTERISTIC.COLOR,  3],
+                [   CARACTERISTIC.SIZE,  2],
+                [CARACTERISTIC.OUTLINE,  2]
+            ]
+        },
+        {
+            // ONE_SIDE.WITH_ACCEPTED preprocessor test
+            // SHAPE rejQty is too high!
+            restrictionClasses: [
+            //  [                class, accepted?, rejQty, rejectionMode]
+                [  CARACTERISTIC.SHAPE,     false,      3,    ONE_SIDE.WITH_ACCEPTED], 
+                [  CARACTERISTIC.COLOR,     false,      2,    BOTH_SIDES],
             ],
             maxNumAnswers: 9,
             maxNumShapes: 15,
@@ -2200,8 +2301,10 @@ function game() {
     let middleChoosenSets = [];
 
     if (!intersecaoAtiva) {
-        // TODO: enforce restriction be accepted
         // níveis iniciais, eles devem ter somente uma classe de restrição que deve sempre ser aceita
+        if (currentStage.acceptedClasses.length === 0)
+            throw new Error('Nenhuma classe aceita num nível inicial! Etapa atual era ', etapaAtual);
+
         let classe = currentStage.acceptedClasses[0];
         let caracteristicasDisponiveis = [...classe];
         let [left, right] = pickRandom(caracteristicasDisponiveis, 2);
@@ -2233,8 +2336,8 @@ function game() {
         let smallerBoxSize = 0,
             biggerBoxSize = 0;
 
-        // definir qual caixa é a menor (tem menos restrições)
-        if (Math.random() < 0.5) {
+        // definir qual caixa vai ser a menor (tem menos restrições)
+        if (Math.random() <= 0.5) {
             smallerBoxAccepted = acceptedRestrictionsLeft;
             smallerBoxRejected = rejectedRestrictionsLeft;
             biggerBoxAccepted = acceptedRestrictionsRight;
@@ -2247,167 +2350,134 @@ function game() {
         }
 
         /*
+        Algoritmo guloso (greedy) para distribuir as restrições entre as caixas:
+            1. Inserir características rejeitadas ONE_SIDE:
+                One_SIDE.NO_ACCEPTED e ONE_SIDE.WITH_ACCEPTED vão botar rejQty características rejeitadas numa caixa,
+                com ONE_SIDE.WITH_ACCEPETED adicionando uma característica aceita na outra caixa também.
+                ONE_SIDE.WITH_ACCEPTED é feita primeiro pois facilita correção de distribuições "ruims".
+            2. Inserir características rejeitadas BOTH_SIDES:
+                Distribui rejQty características rejeitadas entre as duas caixas, garantindo que ambas caixas tenham
+                pelo menos uma característica rejeitada (se não seria ONE_SIDE.NO_ACCEPTED).
+            3. Inserir características aceitas:
+                Insere uma característica aceita em uma caixa.
 
-        greedy algorithm to distribute restrictions:
-            1. Insert ONE_SIDE rejected restrictions:
-                Insert these restrictions first because they have the most rigid distribution.
-                ONE_SIDE.NO_ACCEPTED and ONE_SIDE.WITH_ACCEPETD will put rejQty restrictions on a single box, but ONE_SIDE.WITH_ACCEPTED will add a accepted restriction on the other box too.
-                There's no difference in handling ONE_SIDE.NO_ACCEPTED and ONE_SIDE.WITH_ACCEPTED because both have this rigid restriction.
-            2. INSERT BOTH_SIDE rejected restrictions:
-                These restrictions are less rigid than ONE_SIDE restrictions, but at least one restriction on each box is required (if this isn't enforced, it may become ONE_SIDE.NO_ACCPTED).
-            3. Insert accepted restrictions:
-                These restrictions have no rigid distribution, so they can be inserted anywhere.
-            
-        This algotithm tries to distribute the restrictions as closely as possible to the boxesRatio.
-        This order was choosen because restrictions in 1 are very rigid (all to be inserted on a single box) and can throw off the ratio.
-        With the more flexible distribution of restrictions in 2 and 3, we can distribute to try to get closer to the ratio.
+        Esse algorítmo tenta distribuir as restrições de forma mais próxima possível da proporção (boxesRatio).
+        A ordem de inserção foi escolhida para que as regras mais rígídas sejam aplicadas primeiro, pois elas pertubam
+        mais a proporção, com as regras mais flexiveis depois, corrigindo essa pertubação.
 
-        To prevent "bad" distributions (like all restrictions on a single box), we'll force the distributor to insert in a box.
-        To better do this, we'll force the last distributor to behave in a certain way. I say the last distributor because
-        in a steage there may not be accepeted restrictions, so the last may be BOTH_SIDE, for example.
-        This forcing is set by the <distributor>ToFix variables.
+        Para previnir distribuições "ruims" (como todas astrições em uma caixa só), nós forçamos um "distribuidor" a
+        inserir em uma caixa específica (O código que trata a distribuição de restrições ONE_SIDE.WITH_ACCEPTED é um
+        distribuidor, por exemplo). O distribuidor que vai ser forçado a inserir em uma caixa é o último que vai ser
+        usado pelo nível atual (se um nível não tiver características aceitas, mas tem BOTH_SIDES, este vai ser o último
+        distribuidor). As variáveis que forçam seguem o formato <distribuidor>ToFix
 
-        To prevent "bad" distributions we may have to have restrictions (of different classe) on both boxes (bothNonZeroFix)
-        and we may have to have two classes of restrictions on a box (twoClassesFix).
-        These "fixes" are required depending on the types of restrictions in the stage:
-            - ACCEPTED and ONE_SIDE.NO_ACCEPTED needs to have a restriction of a different class in the other box (bothNonZeroFix)
-            - ONE_SIDE.WITH_ACCEPTED needs to have a restriction of a different class in the same box (oswaFix)
-        BOTH_SIDE doesn't need anything. In fact if a stage uses BOTH_ACCEPTED, no fix is required, since it fixes both problems.
+        As duas formas de previnir distribuições "ruims" são:
+            1. bothNonEmptyFix: forçar que pelo menos uma caixa tenha pelo menos uma restrição
+            2. oswaFix: forçar que uma caixa que tem uma restrição ONE_SIDE.WITH_ACCEPTED tenha outra restrição de uma
+                classe diferente (previne que a caixa fique vazia, com as formas só na interseção)
+        Restrições BOTH_SIDES, se presentes, previnem essas distribuições "ruims" automaticamente.
 
-        The codename of the distributors are:
-            - ONE_SIDE.WITH_ACCEPTED: oswa
-            - ONE_SIDE.NO_ACCEPTED: osna
-            - BOTH_SIDE: bs
-            - ACCEPTED: acc
+        Os nomes encurtados dos distribuidores são:
+            - oswa: ONE_SIDE.WITH_ACCEPTED
+            - osna: ONE_SIDE.NO_ACCEPTED
+            - bs: BOTH_SIDES
+            - acc: ACCEPTED
 
-        Because ONE_SIDE.WITH_ACCEPTED has it's own fix, it's the first distributor to run.
+        Como ONE_SIDE.WITH_ACCEPTED possui oswaFix, ele é o primeiro distribuidor a rodar.
         */
 
-        // decide who will fix bad distributions
+        // decidir quem vai corrigir distribuições "ruims"
         let oswaToFix = false,
             osnaToFix = false,
-            //bsToFix = false, // not needed as BOTH_SIDES fixes everything automatically
+            //bsToFix = false, // não é necessário, pois BOTH_SIDES corrige tudo automaticamente
             accToFix = false;
         
-        let bothNonZeroFix = false,
+        let bothNonEmptyFix = false,
             oswaFix = false;
 
+        // Rejeição ONE_SIDE.WITH_ACCEPTED na caixa menor/maior
         let oswaRejOnSmallerBox = false,
             oswaRejOnBiggerBox = false;
 
         if (currentStage.acceptedClasses.length > 0) {
-            bothNonZeroFix = true;
+            bothNonEmptyFix = true;
             accToFix = true;
         } else if (currentStage.rejectedClasses[BOTH_SIDES].length > 0) {
             //bsToFix = true;
         } else if (currentStage.rejectedClasses[ONE_SIDE.NO_ACCEPTED].length > 0) {
-            bothNonZeroFix = true;
+            bothNonEmptyFix = true;
             osnaToFix = true;
         } else if (currentStage.rejectedClasses[ONE_SIDE.WITH_ACCEPTED].length > 0) {
             oswaFix = true;
             oswaToFix = true;
         }
 
-        // in case of it isn't oswa that'll fix
         if (currentStage.rejectedClasses[ONE_SIDE.WITH_ACCEPTED].length > 0) {
             oswaFix = true;
-            bothNonZeroFix = false; // solving oswa will solve bothNonZero
+            bothNonEmptyFix = false; // corrigir oswa já corrige bothNonZero
         }
 
-        // TODO: order ONE_SIDE by the number of restrictions (rejQty)
-        if (oswaToFix) {
-            let rejClassesEarly = currentStage.rejectedClasses[ONE_SIDE.WITH_ACCEPTED].splice(0, 2);
-
-            for (const [rejClass, rejQty] of rejClassesEarly) {
-                let choosenCaracteristics = pickRandom([...rejClass], rejQty + 1);
-                let acceptedCaracteristic = choosenCaracteristics.pop();
-
-                if (oswaRejOnSmallerBox) {
-                    smallerBoxRejected.insert(rejClass, ...choosenCaracteristics);
-                    biggerBoxAccepted.insert(rejClass, acceptedCaracteristic);  // add the accepted restriction on the other box
-                    smallerBoxSize += rejQty;
-                    biggerBoxSize += 1;
-                } else if (oswaRejOnBiggerBox) {
-                    biggerBoxRejected.insert(rejClass, ...choosenCaracteristics);
-                    smallerBoxAccepted.insert(rejClass, acceptedCaracteristic);  // add the accepted restriction on the other box
-                    biggerBoxSize += rejQty;
-                    smallerBoxSize += 1;
-                } else {
-                    // +1 because we're adding the accepted restriction on the other box
-                    let ratioIfInsertOnSmaller = (smallerBoxSize + rejQty) / (smallerBoxSize + biggerBoxSize + 1 + rejQty),
-                        ratioIfInsertOnBigger = (smallerBoxSize) / (smallerBoxSize + biggerBoxSize + 1 + rejQty);
-                    
-                    // if the ratio after insertion on the smaller box is closer to the boxesRatio, insert on the smaller box
-                    if (Math.abs(ratioIfInsertOnSmaller - smallerBoxRatio) <= Math.abs(ratioIfInsertOnBigger - smallerBoxRatio)) {
-                        smallerBoxRejected.insert(rejClass, ...choosenCaracteristics);
-                        biggerBoxAccepted.insert(rejClass, acceptedCaracteristic);  // add the accepted restriction on the other box
-                        smallerBoxSize += rejQty;
-                        biggerBoxSize += 1;
-                        oswaRejOnSmallerBox = true;
-                    } else {
-                        biggerBoxRejected.insert(rejClass, ...choosenCaracteristics);
-                        smallerBoxAccepted.insert(rejClass, acceptedCaracteristic);  // add the accepted restriction on the other box
-                        biggerBoxSize += rejQty;
-                        smallerBoxSize += 1;
-                        oswaRejOnBiggerBox = true;
-                    }
-                }
-
-            }
-
-            // not needed
-            //bothNonZeroFix = false;
-            //oswaFix = false;
-        }
         for (const [rejClass, rejQty] of currentStage.rejectedClasses[ONE_SIDE.WITH_ACCEPTED]) {
             let choosenCaracteristics = pickRandom([...rejClass], rejQty + 1);
             let acceptedCaracteristic = choosenCaracteristics.pop();
 
-            // +1 because we're adding the accepted restriction on the other box
+            //                só corrige se já houve uma inserção
+            if (oswaToFix && (oswaRejOnSmallerBox || oswaRejOnBiggerBox) ) {
+                if (oswaRejOnSmallerBox) {
+                    smallerBoxRejected.insert(rejClass, ...choosenCaracteristics);
+                    biggerBoxAccepted.insert(rejClass, acceptedCaracteristic);  // adicionar a restrição aceita na outra caixa
+                    smallerBoxSize += rejQty;
+                    biggerBoxSize += 1;
+                } else {
+                    biggerBoxRejected.insert(rejClass, ...choosenCaracteristics);
+                    smallerBoxAccepted.insert(rejClass, acceptedCaracteristic);  // adicionar a restrição aceita na outra caixa
+                    biggerBoxSize += rejQty;
+                    smallerBoxSize += 1;
+                }
+                oswaToFix = false;  // corrigido
+            }
+
+            // +1 porque estamos adicionando a restrição aceita na outra caixa
             let ratioIfInsertOnSmaller = (smallerBoxSize + rejQty) / (smallerBoxSize + biggerBoxSize + 1 + rejQty),
                 ratioIfInsertOnBigger = (smallerBoxSize) / (smallerBoxSize + biggerBoxSize + 1 + rejQty);
             
-            // if the ratio after insertion on the smaller box is closer to the boxesRatio, insert on the smaller box
-            if (Math.abs(ratioIfInsertOnSmaller - smallerBoxRatio) <= Math.abs(ratioIfInsertOnBigger - smallerBoxRatio)) {
+            // se a proporção depois da inserção na caixa menor for mais próxima de boxesRatio, inserir na caixa menor
+            if (Math.abs(ratioIfInsertOnSmaller - smallerBoxRatio) < Math.abs(ratioIfInsertOnBigger - smallerBoxRatio)) {
                 smallerBoxRejected.insert(rejClass, ...choosenCaracteristics);
-                biggerBoxAccepted.insert(rejClass, acceptedCaracteristic);  // add the accepted restriction on the other box
+                biggerBoxAccepted.insert(rejClass, acceptedCaracteristic);  // adicionar a restrição aceita na outra caixa
                 smallerBoxSize += rejQty;
                 biggerBoxSize += 1;
                 oswaRejOnSmallerBox = true;
             } else {
                 biggerBoxRejected.insert(rejClass, ...choosenCaracteristics);
-                smallerBoxAccepted.insert(rejClass, acceptedCaracteristic);  // add the accepted restriction on the other box
+                smallerBoxAccepted.insert(rejClass, acceptedCaracteristic);  // adicionar a restrição aceita na outra caixa
                 biggerBoxSize += rejQty;
                 smallerBoxSize += 1;
                 oswaRejOnBiggerBox = true;
             }
         }
 
+        // previne correções desnecessárias
         if (oswaRejOnBiggerBox && oswaRejOnSmallerBox) {
             oswaFix = false;
-            bothNonZeroFix = false;
+            bothNonEmptyFix = false;
         }
         
 
         if (osnaToFix) {
-            if (bothNonZeroFix) {
-                const [rejClass, rejQty] = currentStage.rejectedClasses[ONE_SIDE.NO_ACCEPTED].shift();
-                let choosenCaracteristics = pickRandom([...rejClass], rejQty);
-                if (smallerBoxSize === 0) {
-                    smallerBoxRejected.insert(rejClass, ...choosenCaracteristics);
-                    smallerBoxSize += rejQty;
-                } else {
-                    biggerBoxRejected.insert(rejClass, ...choosenCaracteristics);
-                    biggerBoxSize += rejQty;
-                }
-            } else if (oswaFix) {
+            if (smallerBoxSize > 0 && biggerBoxSize > 0)
+                bothNonEmptyFix = false;
+
+            if (bothNonEmptyFix || oswaFix) {
                 const [rejClass, rejQty] = currentStage.rejectedClasses[ONE_SIDE.NO_ACCEPTED].shift();
                 let choosenCaracteristics = pickRandom([...rejClass], rejQty);
 
-                if(oswaRejOnSmallerBox) {
+                // se tem rejeição oswa, as caixas sempre terão tamanho > 0. boxNonZeroFix e oswaFix são mutuamente exclusivos
+                let insertOnSmaller = smallerBoxSize === 0 || oswaRejOnSmallerBox;
+                if (insertOnSmaller) {
                     smallerBoxRejected.insert(rejClass, ...choosenCaracteristics);
                     smallerBoxSize += rejQty;
-                } else { // if oswaRejOnBiggerBox
+                } else {
                     biggerBoxRejected.insert(rejClass, ...choosenCaracteristics);
                     biggerBoxSize += rejQty;
                 }
@@ -2418,8 +2488,8 @@ function game() {
             let ratioIfInsertOnSmaller = (smallerBoxSize + rejQty) / (smallerBoxSize + biggerBoxSize + rejQty),
                 ratioIfInsertOnBigger = (smallerBoxSize) / (smallerBoxSize + biggerBoxSize + rejQty);
 
-            // if the ratio after insertion on the smaller box is closer to the boxesRatio, insert on the smaller box
-            if (Math.abs(ratioIfInsertOnSmaller - smallerBoxRatio) <= Math.abs(ratioIfInsertOnBigger - smallerBoxRatio)) {
+            // se a proporção depois da inserção na caixa menor for mais próxima de boxesRatio, inserir na caixa menor
+            if (Math.abs(ratioIfInsertOnSmaller - smallerBoxRatio) < Math.abs(ratioIfInsertOnBigger - smallerBoxRatio)) {
                 smallerBoxRejected.insert(rejClass, ...choosenCaracteristics);
                 smallerBoxSize += rejQty;
             } else {
@@ -2429,11 +2499,11 @@ function game() {
         }
 
         //if (bsToFix) {
-        //* not needed as BOTH_SIDES fixes everything automatically
+        //* não é necessário, pois BOTH_SIDES corrige tudo automaticamente
         //}
         for (const [rejClass, rejQty] of currentStage.rejectedClasses[BOTH_SIDES]) {
             let choosenCaracteristics = pickRandom([...rejClass], rejQty);
-            // first add one rejected restriction on each box (needed to not become ONE_SIDE.NO_ACCEPTED by the greedy algorithm)
+            // primeiro insere uma restrição rejeitada em cada caixa
             let smallerCaracteristic = choosenCaracteristics.pop(),
                 biggerCaracteristic = choosenCaracteristics.pop();
             smallerBoxRejected.insert(rejClass, smallerCaracteristic);
@@ -2443,11 +2513,11 @@ function game() {
 
             // TODO: calculate how many restrictions can be inserted on each box instead of deciding where to insert for each restriction
             for (const caracteristic of choosenCaracteristics) {
-                // insert each caracteristic one at a time to try to get closer to the boxesRatio
+                // inserir cada característica uma de cada vez para tentar chegar mais perto de boxesRatio
                 let ratioIfInsertOnSmaller = (smallerBoxSize + 1) / (smallerBoxSize + biggerBoxSize + 1),
                     ratioIfInsertOnBigger = (smallerBoxSize) / (smallerBoxSize + biggerBoxSize + 1);
-                // if the ratio after insertion on the smaller box is closer to the boxesRatio, insert on the smaller box
-                if (Math.abs(ratioIfInsertOnSmaller - smallerBoxRatio) <= Math.abs(ratioIfInsertOnBigger - smallerBoxRatio)) {
+                // se a proporção depois da inserção na caixa menor for mais próxima de boxesRatio, inserir na caixa menor
+                if (Math.abs(ratioIfInsertOnSmaller - smallerBoxRatio) < Math.abs(ratioIfInsertOnBigger - smallerBoxRatio)) {
                     smallerBoxRejected.insert(rejClass, caracteristic);
                     smallerBoxSize += 1;
                 } else {
@@ -2456,46 +2526,37 @@ function game() {
                 }
             }
 
-            bothNonZeroFix = false;
+            bothNonEmptyFix = false;
             oswaFix = false;
         }
 
-        // TODO: calculate how many restrictions can be inserted on each box instead of deciding where to insert for each restriction
         if (accToFix) {
             if (smallerBoxSize > 0 && biggerBoxSize > 0)
-                bothNonZeroFix = false;
+                bothNonEmptyFix = false;
 
-            if (bothNonZeroFix) {
+            if (bothNonEmptyFix || oswaFix) {
                 const accClass = currentStage.acceptedClasses.shift();
                 let choosenCaracteristic = [...accClass][Math.floor(Math.random() * accClass.length)];
 
-                if (smallerBoxSize === 0) {
+                // se tem rejeição oswa, as caixas sempre terão tamanho > 0. boxNonZeroFix e oswaFix são mutuamente exclusivos
+                let insertOnSmaller = smallerBoxSize === 0 || oswaRejOnSmallerBox;
+                if (insertOnSmaller) {
                     smallerBoxAccepted.insert(accClass, choosenCaracteristic);
                     smallerBoxSize += 1;
                 } else {
                     biggerBoxAccepted.insert(accClass, choosenCaracteristic);
                     biggerBoxSize += 1;
                 }
-            } else if (oswaFix) {
-                const accClass = currentStage.acceptedClasses.shift();
-                let choosenCaracteristic = [...accClass][Math.floor(Math.random() * accClass.length)];
-
-                if (oswaRejOnSmallerBox) {
-                    smallerBoxAccepted.insert(accClass, choosenCaracteristic);
-                    smallerBoxSize += 1;
-                } else { // if oswaRejOnBiggerBox
-                    biggerBoxAccepted.insert(accClass, choosenCaracteristic);
-                    biggerBoxSize += 1;
-                }
             }
         }
+        // TODO: calculate how many restrictions can be inserted on each box instead of deciding where to insert for each restriction
         for (const accClass of currentStage.acceptedClasses) {
             let choosenCaracteristic = [...accClass][Math.floor(Math.random() * accClass.length)];
             let ratioIfInsertOnSmaller = (smallerBoxSize + 1) / (smallerBoxSize + biggerBoxSize + 1),
                 ratioIfInsertOnBigger = (smallerBoxSize) / (smallerBoxSize + biggerBoxSize + 1);
 
-            // if the ratio after insertion on the smaller box is closer to the boxesRatio, insert on the smaller box
-            if (Math.abs(ratioIfInsertOnSmaller - smallerBoxRatio) <= Math.abs(ratioIfInsertOnBigger - smallerBoxRatio)) {
+            // se a proporção depois da inserção na caixa menor for mais próxima de boxesRatio, inserir na caixa menor
+            if (Math.abs(ratioIfInsertOnSmaller - smallerBoxRatio) < Math.abs(ratioIfInsertOnBigger - smallerBoxRatio)) {
                 smallerBoxAccepted.insert(accClass, choosenCaracteristic);
                 smallerBoxSize += 1;
             } else {
@@ -2504,155 +2565,90 @@ function game() {
             }
         }
 
+        if (smallerBoxSize === 0 || biggerBoxSize === 0)
+            throw new Error('Deve haver pelo menos duas classes de restrição especificadas quando não há rejeição BOTH_SIDES e é um nível com interseção');
+
+        // <lado>Sets: array de conjuntos que formam todas as formas possíveis na caixa desse lado
         let leftSets = [];
         let rightSets = [];
-        let middleSets = [];
-        // generate the subsets that exist on each side
+        let middleSets = []; // interseção
+        // gerar os subconjuntos que existem em cada lado
         {
-            let leftRestrictions = acceptedRestrictionsLeft.concat(rejectedRestrictionsLeft);
-            let rightRestrictions = acceptedRestrictionsRight.concat(rejectedRestrictionsRight);
-            let leftUnspecifiedClasses = [...CARACTERISTIC].filter(c => leftRestrictions.arr[c.id].length === 0);
-            let rightUnspecifiedClasses = [...CARACTERISTIC].filter(c => rightRestrictions.arr[c.id].length === 0);
-            let leftPossibilities = leftRestrictions.arr.flatMap(arr => arr.map(caracteristic => [[caracteristic, ACCEPTED], [caracteristic, REJECTED]]));
-            let rightPossibilities = rightRestrictions.arr.flatMap(arr => arr.map(caracteristic => [[caracteristic, ACCEPTED], [caracteristic, REJECTED]]));
-
-            // generate all possible combinations of restrictions
-
-            let fullSet = new CaracteristicSetContainer().invert();
-
-            for (const comb of cartesianProduct(...leftPossibilities)) {
-                let set = fullSet; // no worry about mutating the fullSet, set will be replaced by a modified copy of it
-                for (const [caracteristic, accepted] of comb) {
-                    // TODO: maybe include class inside of comb?
-                    let classe = CARACTERISTIC.getClass(caracteristic);
-                    let currentSet = new CaracteristicSetContainer();
-                    currentSet.add(classe, caracteristic);
-                    if (accepted === REJECTED) 
-                        currentSet = currentSet.invert(classe);
-                    set = set.intersection(currentSet, classe);
+            let setIntersection = function (setA, setB) {
+                const _intersection = new Set();
+                for (const elem of setB) {
+                    if (setA.has(elem))
+                        _intersection.add(elem);
                 }
-                leftUnspecifiedClasses.forEach(classe => set.add(classe, ...classe));
-                // TODO: maybe move this to inside of the previous loop?
-                if (set.anyEmpty()) {
-                    // no shapes in this set
-                    continue;
-                }
-                leftSets.push(set);
-            }
+                return _intersection;
+            };
+            let setDifference = function (setA, setB) {
+                const _difference = new Set(setA);
+                for (const elem of setB)
+                    _difference.delete(elem);
+                return _difference;
+            };
 
-            for (const comb of cartesianProduct(...rightPossibilities)) {
-                let set = fullSet; // no worry about mutating the fullSet, set will be replaced by a modified copy of it
-                for (const [caracteristic, accepted] of comb) {
-                    let classe = CARACTERISTIC.getClass(caracteristic);
-                    let currentSet = new CaracteristicSetContainer();
-                    currentSet.add(classe, caracteristic);
-                    if (accepted === REJECTED) 
-                        currentSet = currentSet.invert(classe);
-                    
-                    set = set.intersection(currentSet, classe);
-                }
-                rightUnspecifiedClasses.forEach(classe => set.add(classe, ...classe));
-                if (set.anyEmpty()) {
-                    // no shapes in this set
-                    continue;
-                }
-                rightSets.push(set);
-            }
+            // conjunto com todas as características
+            let universalSet = new CaracteristicSetContainer();
+            [...CARACTERISTIC].forEach(classe => universalSet.add(classe, ...classe));
 
-            // intersect combinations with a side to get possible sets for that side
+            // construir o conjunto que define o conjunto
+            // rejeições são invertidas, pois rejeitar uma característica significa aceitar o complemento
 
-            // leftWithRightSets = right possibilities <&- left restrictions
-            // so this are the sets that are subsets of the left side including the intersection
-            let leftWithRightSets = [];
-            let rightWithLeftSets = [];
-
-            let leftRestrictionSet = fullSet.clone();
-            // TODO: optimize this shit! (virtual goes nice here)
-            acceptedRestrictionsLeft.arr.forEach((arr, i) => {
-                if (arr.length !== 0)
-                    leftRestrictionSet.set(CARACTERISTIC[i], ...arr);
+            let leftSet = universalSet.clone();
+            acceptedRestrictionsLeft.arr.forEach((caracteristicas, i) => {
+                if (caracteristicas.length !== 0)
+                    leftSet.set(CARACTERISTIC[i], ...caracteristicas);
             });
-            rejectedRestrictionsLeft.arr.forEach((arr, i) => {
-                arr.forEach(caracteristic => {
-                    let set = CaracteristicSetContainer();
-                    set.add(CARACTERISTIC[i], caracteristic);
-                    leftRestrictionSet = leftRestrictionSet.intersection(set.invert(CARACTERISTIC[i]), CARACTERISTIC[i]);
-                });
+            rejectedRestrictionsLeft.arr.forEach((caracteristicas, i) => {
+                let classe = CARACTERISTIC[i];
+                let set = new CaracteristicSetContainer().add(classe, ...caracteristicas);
+                leftSet = leftSet.intersection(set.invert(classe), classe);
             });
-            //leftUnspecifiedClasses.forEach(c => leftRestrictionSet.add(c, ...c));
-            let rightRestrictionSet = fullSet.clone();
-            acceptedRestrictionsRight.arr.forEach((arr, i) => {
-                if (arr.length !== 0)
-                    rightRestrictionSet.set(CARACTERISTIC[i], ...arr);
+
+            let rightSet = universalSet.clone();
+            acceptedRestrictionsRight.arr.forEach((caracteristicas, i) => {
+                if (caracteristicas.length !== 0)
+                    rightSet.set(CARACTERISTIC[i], ...caracteristicas);
             });
-            rejectedRestrictionsRight.arr.forEach((arr, i) => {
-                arr.forEach(caracteristic => {
-                    let set = new CaracteristicSetContainer();
-                    set.add(CARACTERISTIC[i], caracteristic);
-                    rightRestrictionSet = rightRestrictionSet.intersection(set.invert(CARACTERISTIC[i]), CARACTERISTIC[i]);
-                });
+            rejectedRestrictionsRight.arr.forEach((caracteristicas, i) => {
+                let classe = CARACTERISTIC[i];
+                let set = new CaracteristicSetContainer().add(classe, ...caracteristicas);
+                rightSet = rightSet.intersection(set.invert(classe), classe);
             });
-            //rightUnspecifiedClasses.forEach(c => rightRestrictionSet.add(c, ...c));
 
-            for (const rightSet of rightSets) {
-                let intersection = rightSet.intersection(leftRestrictionSet);
-                if (intersection.anyEmpty()) {
-                    // no shapes in this set
-                    continue;
-                }
-                leftWithRightSets.push(intersection);
-            }
+            // pega todos os subconjuntos de formas possíveis nas caixas (com cada conjunto representando uma forma),
+            // e usa conjuntos para separar a interseção.
+            // JSON.stringify é usado para comparar conjuntos, pois Set não tem um método de comparação, então converte
+            // os conjuntos em strings e compara as strings
 
-            for (const leftSet of leftSets) {
-                let intersection = leftSet.intersection(rightRestrictionSet);
-                if (intersection.anyEmpty()) 
-                    continue;
-                
-                rightWithLeftSets.push(intersection);
-            }
+            leftSets = new Set(leftSet.toSingleSubsets().map(set => JSON.stringify(set.arr.map(s => [...s]))));
+            rightSets = new Set(rightSet.toSingleSubsets().map(set => JSON.stringify(set.arr.map(s => [...s]))));
+            middleSets = setIntersection(leftSets, rightSets);
 
-            // generate intersection set
-            let middleSet = new CaracteristicSetContainer();
-            {
-                let set = fullSet;
-                let leftComb = [].concat(
-                    acceptedRestrictionsLeft.arr.flatMap(arr => arr.map(caracteristic => [caracteristic, ACCEPTED])),
-                    rejectedRestrictionsLeft.arr.flatMap(arr => arr.map(caracteristic => [caracteristic, REJECTED]))
-                );
-                for (const [caracteristic, accepted] of leftComb) {
-                    let classe = CARACTERISTIC.getClass(caracteristic);
-                    let currentSet = new CaracteristicSetContainer();
-                    currentSet.add(classe, caracteristic);
-                    if (accepted === REJECTED) 
-                        currentSet = currentSet.invert(classe);
-                    set = set.intersection(currentSet, classe);
-                }
-                leftUnspecifiedClasses.forEach(classe => set.add(classe, ...classe));
-                if (set.anyEmpty()) {
-                    // no shapes in this set
-                    console.error('!PANIC! no shapes in the intersection possibility set!');
-                }
+            leftSets = setDifference(leftSets, middleSets);
+            rightSets = setDifference(rightSets, middleSets);
 
-                let intersection = set.intersection(rightRestrictionSet);
-                if (intersection.anyEmpty()) 
-                    console.error('!PANIC! no shapes in the intersection set!');
-                set = intersection;
-                middleSet = set;
-            }
+            // converte as strings para conjuntos
 
-            // remove intersection set from left and right sets
-            //leftSets = leftWithRightSets.filter(s => !middleSet.equals(s));
-            leftWithRightSets.splice(leftWithRightSets.findIndex((set) => middleSet.equals(set)), 1);
-            leftSets = leftWithRightSets;
-            //rightSets = rightWithLeftSets.filter(s => !middleSet.equals(s));
-            rightWithLeftSets.splice(rightWithLeftSets.findIndex((set) => middleSet.equals(set)), 1);
-            rightSets = rightWithLeftSets;
+            leftSets = [...leftSets].map(setStr => {
+                let set = new CaracteristicSetContainer();
+                set.arr = JSON.parse(setStr).map(arr => new Set(arr));
+                return set;
+            });
 
+            rightSets = [...rightSets].map(setStr => {
+                let set = new CaracteristicSetContainer();
+                set.arr = JSON.parse(setStr).map(arr => new Set(arr));
+                return set;
+            });
 
-            // generate all "simple" sets for all sides
-            leftSets = leftSets.flatMap(s => s.toSingleSubsets());
-            rightSets = rightSets.flatMap(s => s.toSingleSubsets());
-            middleSets = middleSet.toSingleSubsets();
+            middleSets = [...middleSets].map(setStr => {
+                let set = new CaracteristicSetContainer();
+                set.arr = JSON.parse(setStr).map(arr => new Set(arr));
+                return set;
+            });
         }
         shuffleArray(leftSets);
         shuffleArray(rightSets);
@@ -2785,7 +2781,7 @@ function game() {
                     let maxSetProfit = 0;
                     let currentLimit = limit.map((l, i) => l - currentRestrictions.arr[i].size);
                     for (const [i, [side, set]] of allSets.entries()) {
-                        let setWeightVec = set.subtract(currentRestrictions).arr.map(s => s.size);
+                        let setWeightVec = set.difference(currentRestrictions).arr.map(s => s.size);
 
                         // TODO: what if w is 0? Better, what if effectiveCapacity is inf?
                         //                                                                        prevents 0/0. If w is 0, then the capcity of this dimension if inf
@@ -2857,10 +2853,10 @@ function game() {
     }
 
     // colocar as repostas nas referências globais para ser usado na checagem da resposta
-    let respostasCertasEsquerda = new Set([...acceptedRestrictionsLeft.get().flat().map(caracteristica => [caracteristica, ACCEPTED]),
-                                           ...rejectedRestrictionsLeft.get().flat().map(caracteristica => [caracteristica, REJECTED])]);
-    let respostasCertasDireita = new Set([...acceptedRestrictionsRight.get().flat().map(caracteristica => [caracteristica, ACCEPTED]),
-                                          ...rejectedRestrictionsRight.get().flat().map(caracteristica => [caracteristica, REJECTED])]);
+    let respostasCertasEsquerda = new Set([...acceptedRestrictionsLeft.get().map(caracteristica => [caracteristica, ACCEPTED]),
+                                           ...rejectedRestrictionsLeft.get().map(caracteristica => [caracteristica, REJECTED])]);
+    let respostasCertasDireita = new Set([...acceptedRestrictionsRight.get().map(caracteristica => [caracteristica, ACCEPTED]),
+                                          ...rejectedRestrictionsRight.get().map(caracteristica => [caracteristica, REJECTED])]);
     
 
     // adicionar as restrições corretas nas respostas
