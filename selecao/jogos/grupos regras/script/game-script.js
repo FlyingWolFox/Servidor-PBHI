@@ -2767,14 +2767,14 @@ function game() {
         */
         {
             let allSets = [...leftSets.map(s => [leftChoosenSets, s]),
-                            ...rightSets.map(s => [rightChoosenSets, s]),
-                            ...middleSets.map(s => [middleChoosenSets, s])];
+                           ...rightSets.map(s => [rightChoosenSets, s]),
+                           ...middleSets.map(s => [middleChoosenSets, s])];
 
             while(allSets.length !== 0) {
                 let maxSet, maxSetSide;
                 let maxSetProfit = 0;
                 let currentLimit = limitVec.map((l, i) => l - currentCaracteristics.arr[i].size);
-                for (const [i, [side, set]] of allSets.entries()) {
+                for (const [side, set] of allSets) {
                     let setWeightVec = set.difference(currentCaracteristics).arr.map(s => s.size);
 
                     //                                                                        previne 0/0. Se w é 0, então a capacidade dessa dimensão é infinita
