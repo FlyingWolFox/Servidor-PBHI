@@ -14,7 +14,7 @@ const routerProfessores = require('./rotas/rotasProfessores.js');
 // const fs = require('fs');
 // const geoip = require('geoip-lite');
 const TWO_HOURS = 1000 * 60 * 60 * 2
-
+//
 var option = {
     host: process.env.DATABASE_HOST,
     user: process.env.DATABASE_USER,
