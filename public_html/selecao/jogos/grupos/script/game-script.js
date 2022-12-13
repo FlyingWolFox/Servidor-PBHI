@@ -9,15 +9,15 @@ var imgMov1 = [];      //Confere se falta colocar alguma imagem da primeira caix
 var imgMov2 = [];      //Confere se falta colocar alguma imagem da terceira caixa 
 let quantidade = 0;
 
-const textNumeroFase = 'textbox-numero-fase';
-const divFormas = 'container-formas';
+const textNumeroFase = 'textbox_numero_fase';
+const divFormas = 'container_formas';
 const dropPrimeiro = 'drop1';
 const dropSegundo = 'intDrop';
 const dropTerceiro = 'drop2';
 const divRestricao1 = 'conteiner-restricao-esquerda';
 const divRestricao2 = 'conteiner-restricao-direita';
 const forma = 0, cor = 1, tamanho = 2, contorno = 3;
-const divEstrelas = 'container-estrelas';
+const divEstrelas = 'conquistas_conteiner';
 var arrayEstrelas = document.getElementById(divEstrelas).getElementsByTagName('img');
 var ano = localStorage.getItem('ano');
 var etapaMax = 25;

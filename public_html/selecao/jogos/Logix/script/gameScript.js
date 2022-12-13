@@ -29,12 +29,12 @@ const forma = 0, cor = 1, tamanho = 2, contorno = 3;
 
 // IDs dos containers
 
-const divNucleo = document.getElementById("container-nucleo");
-const divImgs = document.getElementById("container-formas");
-const divCaixa = 'container-sequencia';
-const textNumeroFase = document.getElementById('textbox-numero-fase');
-const textTutorial = document.getElementById("texto-textbox")
-const divEstrelas = 'container-estrelas';
+const divNucleo = document.getElementById("container_nucleo");
+const divImgs = document.getElementById("container_formas");
+const divCaixa = 'container_sequencia';
+const textNumeroFase = document.getElementById('textbox_numero_fase');
+const textTutorial = document.getElementById("texto_textbox")
+const divEstrelas = 'conquistas_conteiner';
 /** FIM CONSTANTES */
 
 /** VARIAVEIS GLOBAIS COMPARTILHADAS ENTRE AS FUNCOES */
@@ -515,8 +515,8 @@ function gerarRestricoes(qtdNaColuna,restC,restL){
 	var colunas = divNucleo.childNodes; //Pega todas aas colunas do jogo
 	var restricaoLinha = document.createElement("div") //Elemento que armazenará as restrições localizadas nas linhas 
 	restricaoLinha.classList.add("restricaoLinha")
-	document.getElementById('container-nucleo').style.marginLeft = '0'
-	document.getElementById('container-nucleo').style.marginTop = '0'
+	document.getElementById('container_nucleo').style.marginLeft = '0'
+	document.getElementById('container_nucleo').style.marginTop = '0'
 
 	for (i = 0; i < colunas.length;i++){
 		var novorestricao = document.createElement("div")
@@ -525,7 +525,7 @@ function gerarRestricoes(qtdNaColuna,restC,restL){
 	}	
 	for (i = 0; i < restC; i++){
 		if(Math.max.apply(null, qtdNaColuna) == 1){
-			// document.getElementById('container-nucleo').style.marginTop = '-40px'
+			// document.getElementById('container_nucleo').style.marginTop = '-40px'
 		}
 		var flagr = 99;
 		while(flagr != 0){
@@ -564,7 +564,7 @@ function gerarRestricoes(qtdNaColuna,restC,restL){
 	}
 	divNucleo.insertBefore(restricaoLinha,divNucleo.childNodes[0])
 	for (i = 0; i < restL; i++){
-		// document.getElementById('container-nucleo').style.marginLeft = '-50px'
+		// document.getElementById('container_nucleo').style.marginLeft = '-50px'
 		var flagr = 99;
 		while(flagr != 0){
 			//Gerar aleatoriamente os valores

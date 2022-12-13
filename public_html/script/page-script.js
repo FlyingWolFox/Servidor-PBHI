@@ -29,7 +29,7 @@ var indexHead = document.getElementsByTagName('head')[0];
 var fullscreen = false;
 
 try {
-var gameContainer = document.getElementById('main-body');
+var gameContainer = document.getElementById('main_body');
 
 gameContainer.addEventListener('fullscreenchange', (e) => {
 

@@ -105,7 +105,7 @@ section#container-sequencia {
 
 }
 
-p.container-formas-titulo {
+p.container_formas-titulo {
 
     width: 100%;
     color: #C4C4C4;
@@ -113,7 +113,7 @@ p.container-formas-titulo {
     text-align: center;
 }
 
-section#container-formas {
+section#container_formas {
 
     width: 100%;
     height: 180px;
@@ -145,32 +145,14 @@ img.game-img {
     resize: none;
     text-align: justify;
 }
-#botao-info-close {
-
-   width: 35%;
-   height: fit-content;
-   margin: 0px;
-   padding: 10px 10px;
-   font-size: 1.2em;
-   color: #387C7C;
-   background: #7EE0E0;
-   border: 5px solid #FFFFFF;
-   border-radius: 20px;
-   text-transform: uppercase;
-   font-weight: bold;
+div.modal div.modal_content div#modal_button_box button#botao_info_close {
+   color: #387C7C !important;
+   background: #7EE0E0 !important;
 }
 
-button#botao-de-voz-ligado-modal {
-    width: 25%;
-    height: fit-content;
-    margin: 10px;
-    padding: 10px 10px;
-    font-size: 1.2em;
-    color: #387C7C;
-    background: #7EE0E0;
-    border: 5px solid #FFFFFF;
-    border-radius: 20px;
-    font-weight: bold;
+div.modal div.modal_content div#modal_button_box button#botao_de_voz {
+    color: #387C7C !important;
+    background: #7EE0E0 !important;
 }
 
 button#botao-de-voz-desligado-modal {
@@ -387,7 +369,7 @@ p.texto-progresso {
     margin-bottom: 5px;
 }
 
-div.conquistas-conteiner {
+div.conquistas_conteiner {
 
     display: flex;
     justify-content: center;
@@ -630,7 +612,7 @@ section#drop2 img {
     margin: 5px;
 }
 
-section#container-formas img {
+section#container_formas img {
 
     width: 90px;
     margin: 5px;
@@ -654,7 +636,7 @@ section#intDrop img.draggable-mirror {
 
 }
 
-section#container-formas img.draggable-mirror{
+section#container_formas img.draggable-mirror{
 
     width: 4.5%;
 }
@@ -691,7 +673,7 @@ section#drop2 img.pequeno {
     margin: 5px;
 }
 
-section#container-formas img.pequeno {
+section#container_formas img.pequeno {
 
     width: 70px;
     margin: 5px;
@@ -717,7 +699,7 @@ section#intDrop img.draggable-mirror.pequeno {
 
 }
 
-section#container-formas img.draggable-mirror.pequeno{
+section#container_formas img.draggable-mirror.pequeno{
 
     width: 3.5%;
 }
@@ -916,7 +898,7 @@ div.formas-titulo {
 
 }
 
-@media (min-width: 900px) AND (max-width: 1919px) AND (orientation: landscape){
+@media (min-width: 800px) AND (max-width: 1919px) AND (orientation: landscape){
 
     h2#title-jogo {
 
@@ -1045,7 +1027,7 @@ div.formas-titulo {
     
     }
 
-    section#container-formas {
+    section#container_formas {
         width: 100%;
         height: 90px;
     }
@@ -1099,7 +1081,7 @@ div.formas-titulo {
         width: 6%;
     }
 
-    section#container-formas img.drag.grande {
+    section#container_formas img.drag.grande {
 
         width: 50px;
         max-width: unset;
@@ -1136,11 +1118,11 @@ div.formas-titulo {
         width: 8%;
     }
 
-    section#container-formas img.draggable-mirror.pequeno {
+    section#container_formas img.draggable-mirror.pequeno {
         width: 4%;
     }
 
-    section#container-formas img.drag.pequeno {
+    section#container_formas img.drag.pequeno {
 
         width: 40px;
         max-width: unset;
@@ -1151,7 +1133,7 @@ div.formas-titulo {
 
 @media (min-width: 1920px) AND (max-width: 2000px) and (orientation: landscape){
 
-    section#container-formas {
+    section#container_formas {
         width: 100%;
         height: 150px;
     }
@@ -1205,7 +1187,7 @@ div.formas-titulo {
         width: unset;
     }
 
-    section#container-formas img.drag.grande {
+    section#container_formas img.drag.grande {
 
         width: 80px;
         max-width: unset;
@@ -1242,11 +1224,11 @@ div.formas-titulo {
         width: unset;
     }
 
-    section#container-formas img.draggable-mirror.pequeno {
+    section#container_formas img.draggable-mirror.pequeno {
         width: unset;
     }
 
-    section#container-formas img.drag.pequeno {
+    section#container_formas img.drag.pequeno {
 
         width: 60px;
         max-width: unset;

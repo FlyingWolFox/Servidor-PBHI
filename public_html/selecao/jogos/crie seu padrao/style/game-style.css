@@ -154,7 +154,7 @@ p.texto-progresso {
     margin-bottom: 5px;
 }
 
-div.conquistas-conteiner {
+div.conquistas_conteiner {
 
     display: flex;
     justify-content: center;
@@ -236,32 +236,14 @@ a#span-textbox {
     border-radius: 50%;
 
 }
-#botao-info-close {
-
-   width: 35%;
-   height: fit-content;
-   margin: 0px;
-   padding: 10px 10px;
-   font-size: 1.2em;
-   color: #A37027;
-   background: #FFAC33;
-   border: 5px solid #FFFFFF;
-   border-radius: 20px;
-   text-transform: uppercase;
-   font-weight: bold;
+div.modal div.modal_content div#modal_button_box button#botao_info_close {
+   color: #A37027 !important;
+   background: #FFAC33 !important;
 }
 
-button#botao-de-voz-ligado-modal {
-    width: 25%;
-    height: fit-content;
-    margin: 10px;
-    padding: 10px 10px;
-    font-size: 1.2em;
-    color: #A37027;
-    background: rgb(249, 158, 21);
-    border: 5px solid #FFFFFF;
-    border-radius: 20px;
-    font-weight: bold;
+div.modal div.modal_content div#modal_button_box button#botao_de_voz {
+    color: #A37027 !important;
+    background: rgb(249, 158, 21) !important;
 }
 
 button#botao-de-voz-desligado-modal {
@@ -437,7 +419,7 @@ h3#titulo-nucleo {
 
 }
 
-section#container-nucleo {
+section#container_nucleo {
 
     width: 80%;
     height: 130px;
@@ -494,7 +476,7 @@ button#botao-resultado {
 
 }
 
-section#container-sequencia {
+section#container_sequencia {
 
     width: 80%;
     height: 130px;
@@ -506,6 +488,7 @@ section#container-sequencia {
     display: flex;
     align-items: center;
     justify-items: center;
+    justify-content: center;
 
 }
 
@@ -542,7 +525,7 @@ img.draggable-mirror {
 }
 
 
-p.container-formas-titulo {
+p.container_formas_titulo {
 
     width: 100%;
     color: #C4C4C4;
@@ -550,7 +533,7 @@ p.container-formas-titulo {
     text-align: center;
 }
 
-section#container-formas {
+section#container_formas {
 
     width: 100%;
     height: 130px;
@@ -792,7 +775,7 @@ div.formas-titulo {
     }
 }
 
-@media (min-width: 900px) AND (max-width: 1919px) AND (orientation: landscape){
+@media (min-width: 800px) AND (max-width: 1919px) AND (orientation: landscape){
 
     h2#title-jogo {
 
@@ -894,21 +877,21 @@ div.formas-titulo {
     
     }
 
-    section#container-nucleo {
+    section#container_nucleo {
         
         width: 80%;
         height: 80px;
         padding: 0px 10px;
     }
 
-    section#container-sequencia {
+    section#container_sequencia {
         
         width: 80%;
         height: 80px;
     
     }
 
-    section#container-formas {
+    section#container_formas {
         width: 100%;
         height: 80px;
         justify-content: center;
@@ -940,21 +923,21 @@ div.formas-titulo {
 
 @media (min-width: 1920px) AND (max-width: 4000px) and (orientation: landscape){
 
-    section#container-nucleo {
+    section#container_nucleo {
         
         width: 80%;
         height: 110px;
         padding: 0px 10px;
     }
 
-    section#container-sequencia {
+    section#container_sequencia {
         
         width: 80%;
         height: 110px;
     
     }
 
-    section#container-formas {
+    section#container_formas {
         width: 100%;
         height: 105px;
         justify-content: center;

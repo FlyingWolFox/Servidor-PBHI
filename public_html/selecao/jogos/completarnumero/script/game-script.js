@@ -1,12 +1,12 @@
 /** CONSTANTES DO SCRIPT **/
 
 // IDs dos containers
+const divSequencia = 'container_nucleo';
+const divEstrelas = 'conquistas_conteiner';
+const divOpcoes = 'container_formas';
+const divCaixa = 'container_sequencia';
+const textNumeroFase = 'textbox_numero_fase';
 
-const divSequencia = 'container-nucleo';
-const divOpcoes = 'container-formas';
-const divCaixa = 'container-sequencia';
-const textNumeroFase = 'textbox-numero-fase';
-const divEstrelas = 'container-estrelas';
 const anosEnum = Object.freeze({
 	"Primeiro ano": 1,
 	"Segundo ano": 2,

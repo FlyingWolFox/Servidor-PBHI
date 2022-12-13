@@ -38,13 +38,13 @@ window.onclick = function (event) {
 }
 // Ajustes do fullscreen ------------ 
 
-var fullscreenButton = document.getElementById('span-fullscreen');
+var fullscreenButton = document.getElementById('span_fullscreen');
 var gameHeader = document.getElementsByTagName('header')[0];
 var gameFooter = document.getElementsByTagName('footer')[0];
 var indexHead = document.getElementsByTagName('head')[0];
 var fullscreen = false;
 
-var gameContainer = document.getElementById('main-body');
+var gameContainer = document.getElementById('main_body');
 
 gameContainer.addEventListener('fullscreenchange', (e) => {
 
@@ -108,7 +108,7 @@ async function postPartida(url = '', data = {}) {
 }
 //funcoes trigger da partida
 function startPartida(){
-  var nomeJogo  = document.getElementById('title-jogo').getAttribute('nome-real');
+  var nomeJogo  = document.getElementById('title_jogo').getAttribute('nome-real');
   
   partida.nomeJogo = nomeJogo;
   console.log('a pagina carregou completamente e voce esta jogando: ' + partida.nomeJogo);
@@ -118,7 +118,7 @@ function startPartida(){
 function stopPartida(){
   partida.data_hora = new Date().toISOString().slice(0, 19).replace('T', ' ');
 
-  partida.faseAtual = parseInt(document.getElementById('textbox-numero-fase').innerHTML);
+  partida.faseAtual = parseInt(document.getElementById('textbox_numero_fase').innerHTML);
   console.log('essa eh uma instancia de fase gerada pelo botao terminei e essa eh a fase numero' + partida.faseAtual);
   beforeunload();
 }

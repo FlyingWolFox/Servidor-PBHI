@@ -123,32 +123,14 @@ div.progresso-conquistas {
     justify-self: center;
     
 }
-#botao-info-close {
-
-   width: 35%;
-   height: fit-content;
-   margin: 0px;
-   padding: 10px 10px;
-   font-size: 1.2em;
-   color: #A37027;
-   background: rgb(249, 158, 21);
-   border: 5px solid #FFFFFF;
-   border-radius: 20px;
-   text-transform: uppercase;
-   font-weight: bold;
+div.modal div.modal_content div#modal_button_box button#botao_info_close {
+   color: #A37027 !important;
+   background: rgb(249, 158, 21) !important;
 }
 
-button#botao-de-voz-ligado-modal {
-    width: 25%;
-    height: fit-content;
-    margin: 10px;
-    padding: 10px 10px;
-    font-size: 1.2em;
-    color: #A37027;
-    background: rgb(249, 158, 21);
-    border: 5px solid #FFFFFF;
-    border-radius: 20px;
-    font-weight: bold;
+div.modal div.modal_content div#modal_button_box button#botao_de_voz {
+    color: #A37027 !important;
+    background: rgb(249, 158, 21) !important;
 }
 
 button#botao-de-voz-desligado-modal {
@@ -274,7 +256,7 @@ p.texto-progresso {
     margin-bottom: 5px;
 }
 
-div.conquistas-conteiner {
+div.conquistas_conteiner {
 
     display: flex;
     justify-content: center;
@@ -442,7 +424,7 @@ h3#titulo-nucleo {
 
 }
 
-section#container-nucleo {
+section#container_nucleo {
 
     width: 80%;
     height: 190px;
@@ -528,7 +510,7 @@ button#botao-resultado {
 }
 
 
-p.container-formas-titulo {
+p.container_formas-titulo {
 
     width: 100%;
     color: #C4C4C4;
@@ -536,7 +518,7 @@ p.container-formas-titulo {
     text-align: center;
 }
 
-section#container-formas {
+section#container_formas {
 
     width: 100%;
     height: 200px;
@@ -558,10 +540,6 @@ img.game-img {
     width: 7%;
     max-width: unset;
     margin: 0px 5px;
-    border-bottom: 1px solid grey;
-    border-left: 1px solid grey;
-    border-right: 1px solid grey;
-    border-top: 1px solid grey;
 }
 
 img.game-img.pequeno{
@@ -571,7 +549,7 @@ img.game-img.pequeno{
 
 }
 
-section#container-nucleo div.slot img { 
+section#container_nucleo div.slot img { 
 
     width: 103%;
 
@@ -664,10 +642,6 @@ div.formas-titulo {
         margin: 0px 10px;
         max-width: 9%;
         align-self: center;
-        border-bottom: 1px solid #000;
-        border-left: 1px solid #000;
-        border-right: 1px solid #000;
-        border-top: 1px solid #000;
     }
 
     button#botao-resultado {
@@ -778,7 +752,7 @@ div.formas-titulo {
 /* ---------- AJUSTES PARA O DESKTOP ---------- */
 
 
-@media (min-width: 900px) AND (max-width: 1919px) and (orientation: landscape){
+@media (min-width: 800px) AND (max-width: 1919px) and (orientation: landscape){
 
     h2#title-jogo {
 
@@ -882,14 +856,14 @@ div.formas-titulo {
 
     /* ================================= */
     
-    section#container-nucleo {
+    section#container_nucleo {
         
         width: 90%;
         height: 110px;
         padding: 0px 10px;
     }
 
-    section#container-formas {
+    section#container_formas {
         width: 100%;
         height: 110px;
     }
@@ -906,12 +880,12 @@ div.formas-titulo {
         max-width: unset;
     }
 
-    section#container-nucleo div.slot img {
+    section#container_nucleo div.slot img {
 
         width: 59px;
     }
 
-    section#container-nucleo div.slot img.pequeno {
+    section#container_nucleo div.slot img.pequeno {
 
         width: 45px;
     }
@@ -927,14 +901,14 @@ div.formas-titulo {
 
 @media (min-width: 1920px) AND (max-width: 2500px) and (orientation: landscape){
 
-    section#container-nucleo {
+    section#container_nucleo {
         
         width: 90%;
         height: 200px;
         padding: 0px 10px;
     }
 
-    section#container-formas {
+    section#container_formas {
         width: 100%;
         height: 200px;
     }
@@ -956,12 +930,12 @@ div.formas-titulo {
         width: 100px;
     }
 
-    section#container-nucleo div.slot img {
+    section#container_nucleo div.slot img {
 
         width: 100px;
     }
 
-    section#container-nucleo div.slot img.pequeno {
+    section#container_nucleo div.slot img.pequeno {
 
         width: 75px;
     }

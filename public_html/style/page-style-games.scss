@@ -27,6 +27,11 @@ textarea, input, button, select {
     font-size: inherit;
 }
 
+button#botao-resultado{
+    font-weight: bold;
+}
+
+
 div.modal{
     position: fixed;
     left: 0;
@@ -94,6 +99,8 @@ div.modal{
                 background-color: $modal_green_color;
                 border-radius: 10px;
                 border: none;
+                text-transform: uppercase;
+                font-weight: bold;
 
                 img#img_de_voz {
                     display: flex;
@@ -125,244 +132,415 @@ div#tela_jogo{
 
     margin: 0 auto;
 
-    header#game_header {
-        width: 90%;
+    
+}
 
-        margin: 0 auto;
+// Header
+header#game_header {
+    width: 90%;
 
-        display: grid;
-        grid-template-columns: repeat(3,1fr);
-        align-items: center;
-        justify-items: center;
+    margin: 0 auto;
+
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    align-items: center;
+    justify-items: center;
+    
+
+    h2#title_jogo{
+    
+        color: white;
         
-        a#link_logo {
-            width: 100%;
-            padding-left: 50px;
+        padding: 5px 50px;
+        border-radius: 25px;
+        box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
+    
+        font-size: 1em;
+        white-space: nowrap;
+    }
+    
+    a#link_logo {
+        width: 100%;
+        padding-left: 50px;
+        
+        img#logo{
             
-            img#logo{
-                
-                padding: 10px 0px;
-                height: min(50px,7vw);
-            }
-        }
-        h2#title_jogo{
-
-            background-color: $default_color_game;
-            color: white;
-            
-            padding: 5px 50px;
-            border-radius: 25px;
-            box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
-
-            font-size: 1em;
-            white-space: nowrap;
+            padding: 10px 0px;
+            height: min(50px,7vw);
         }
     }
-    main#main_body{
-        width: 90%;
+}
 
-        margin: 0 auto;
+// Main
+main#main_body{
+    width: 90%;
 
-        section#game_section{
+    margin: 0 auto; 
+
+    section#game_section{
+        width: 100%;
+        min-height: calc(100vh - 85px - 75px);
+    
+        display: grid;
+        grid-template-rows: 0% calc(100% - 100px);
+    
+        border-radius: 10px;
+        background-color: #fff;
+        box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.25);   
+
+
+        header#box_instrucoes{
             width: 100%;
-            min-height: calc(100vh - 85px - 75px);
+            min-height: 100px;
+
+            display: flex;
+            // grid-template-columns: 20% 68% 12%;
+            justify-content: space-between;
+            align-items: center;
+        
+            border-radius: 5px 5px 0px 0px; 
+            box-sizing: border-box;
+
+            div#progresso_conquistas{
+                width: 20%;
+                grid-column: 1;
+                grid-row: 1;
+            
+                // margin-left: 20px;
+                box-sizing: border-box;
+            
+                color: white;
+            
+                p#texto_progresso {
+            
+                    font-weight: bold;
+                    text-align: center;
+                    margin-bottom: 5px;
+                }
+                section#conquistas_conteiner {
+                    display: flex;
+                    justify-content: center;
+                    
+                    div.estrela_container{
+                        text-align: center;
+            
+                        margin: 0px min(10px,0.5vw);
+                        
+                        img.estrela {
+                            width: 25px;
+                        }
+                    }
+                }
+            }
+            
+            div#tutorial_conteiner{
+                width: 60%;
+                min-height: 100px;
+                
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            
+                position: relative;
+                
+                img#mascote_instrucoes{
+                    height: 90px;
+            
+                    position: absolute;
+                    left: 0;
+            
+                    margin-left: -30px;
+                    z-index: 1;
+                }
+                article#textbox_tutorial{
+                    width: 100%;
+                    height: 100%;       
+                    
+                    margin-left: 40px;
+                    padding: 10px 0 0px 10px;
+                    background-color: white;
+                    border-radius: 5px;
+                    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.13);
+            
+                    p#textbox_fase{
+            
+                        width: 100%;
+                        text-align: center;
+                        font-weight: bold;
+                        color: #1C4459;
+                    
+                    }
+                    textarea#texto_textbox{
+                        width: 95%;
+            
+                        padding-left: 5px;
+                        border:unset;
+                        resize: none;
+                        outline: none;
+            
+                        font-size: 14px;
+                    }
+                }
+            }
+    
+            div#conteiner_botoes{
+                width: 15%;
+            
+                display: flex;
+                justify-content: space-between;
+                flex-direction: column;
+                flex-wrap: wrap;
+            
+                .button_header{
+                    width: 40px;
+                    height: 40px;
+                    
+                    color: white;
+                    font-size: 25px;
+                    text-align: center;
+                    line-height: 40px;
+            
+                    border: 5px solid white;
+                    border-radius: 50%;
+            
+                    &:hover{
+                        cursor: pointer;
+                    }
+                }
+                div.botoes_janela {
+                    width: 100%;
+            
+                    margin-top: -50px;
+            
+                    display: flex;
+                    flex-wrap: wrap;
+                    justify-content: space-evenly;
+            
+                    span#span_fullscreen {
+                        background-color: #606060;          
+                    }                      
+                    a#span_textbox { 
+                        text-decoration: none;
+                        background-color: #E25A40;
+                    }
+            
+                }
+                span#span_about {
+            
+                    width: 35px;
+                    height: 35px;
+            
+                    align-self: center;
+            
+                    background-color: rgb(96, 96, 96);
+            
+                    line-height: 35px;
+                    font-weight: 800;
+                }
+            }
+        }
+
+        main#game_content{
+            grid-row: 2/3;
+            height: 100%;
+            width: 100%;
 
             display: flex;
             flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
 
-            border-radius: 10px;
-            background-color: #fff;
-            box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.25);
+            margin-top: 100px;
 
-            header#box_instrucoes{
+            div#box_central{
                 width: 100%;
+                height: 100%;
 
                 display: flex;
-                // grid-template-columns: 20% 68% 12%;
-                justify-content: space-between;
+                flex-direction: column;
                 align-items: center;
+                justify-content: space-evenly;
 
-                background-color: $default_color_game;
-                border-radius: 5px 5px 0px 0px;
-                
-                div#progresso_conquistas{
-                    width: 20%;
-                    grid-column: 1;
-                    grid-row: 1;
-
-                    // margin-left: 20px;
-                    box-sizing: border-box;
-
-                    color: white;
-
-                    p#texto_progresso {
-    
-                        font-weight: bold;
-                        text-align: center;
-                        margin-bottom: 5px;
-                    }
-                    section#conquistas_conteiner {
-                        display: flex;
-                        justify-content: center;
-                        
-                        div.estrela_container{
-                            text-align: center;
-
-                            margin: 0px min(10px,0.5vw);
-                            
-                            img.estrela {
-                                width: 25px;
-                            }
-                        }
-                    }
+                h3#titulo_nucleo {
+                    color: #1C4459;
+                    text-transform: uppercase;
                 }
-                div#tutorial_conteiner{
-                    width: 60%;
-                    min-height: 100px;
-                    
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-
-                    position: relative;
-                    
-                    img#mascote_instrucoes{
-                        height: 90px;
-
-                        position: absolute;
-                        left: 0;
-
-                        margin-left: -30px;
-                        z-index: 1;
-                    }
-                    article#textbox_tutorial{
-                        width: 100%;
-                        height: 100%;       
-                        
-                        margin-left: 40px;
-                        padding: 10px 0 0px 10px;
-                        background-color: white;
-                        border-radius: 5px;
-                        box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.13);
-    
-                        p#textbox_fase{
-    
-                            width: 100%;
-                            text-align: center;
-                            font-weight: bold;
-                            color: #1C4459;
-                        
-                        }
-                        textarea#texto_textbox{
-                            width: 95%;
-    
-                            padding-left: 5px;
-                            border:unset;
-                            resize: none;
-                            outline: none;
-    
-                            font-size: 14px;
-                        }
-                    }
-                }
-                div#conteiner_botoes{
-                    width: 15%;
-
-                    display: flex;
-                    justify-content: space-between;
-                    flex-direction: column;
-                    flex-wrap: wrap;
-
-                    .button_header{
-                        width: 40px;
-                        height: 40px;
-                        
-                        color: white;
-                        font-size: 25px;
-                        text-align: center;
-                        line-height: 40px;
-
-                        border: 5px solid white;
-                        border-radius: 50%;
-
-                        &:hover{
-                            cursor: pointer;
-                        }
-                    }
-                    div.botoes_janela {
-                        width: 100%;
-
-                        margin-top: -50px;
-
-                        display: flex;
-                        flex-wrap: wrap;
-                        justify-content: space-evenly;
-
-                        span#span_fullscreen {
-                            background-color: #606060;          
-                        }                      
-                        a#span_textbox { 
-                            text-decoration: none;
-                            background-color: #E25A40;
-                        }
-
-                    }
-                    span#span_about {
-
-                        width: 35px;
-                        height: 35px;
-
-                        align-self: center;
-
-                        background-color: rgb(96, 96, 96);
-
-                        line-height: 35px;
-                        font-weight: 800;
-                    }
-                }
-            }
-        }
-    }
-    footer#footer_grid{
-        width: 90%;
-
-        display: grid;
-        grid-template-columns: repeat(3,1fr);
-        justify-items: center;
-        align-items: center;
-
-        position: relative;
-        bottom: 0;
-
-        background-color: $bg_color;
-        margin: 10px auto;
-        box-sizing: border-box;
-
-        color: $azul_escuro;
-
-        p.footer_text {
-
-            text-align: center;
-            font-weight: 400;
-        }        
-        p#footer_center{
-            grid-column: 2/3;
-        }
-        section#footer_right{
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-            grid-column: 3/4;
-
-            justify-self: flex-end;
-
-            p{
-                font-weight: 700;
-                font-size: 13px;
             }
         }
     }
 }
+
+// Footer
+footer#footer_grid{
+    width: 90%;
+
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    justify-items: center;
+    align-items: center;
+
+    position: relative;
+    bottom: 0;
+
+    background-color: $bg_color;
+    margin: 10px auto;
+    box-sizing: border-box;
+    z-index: -1;
+
+    color: $azul_escuro;
+
+    p.footer_text {
+
+        text-align: center;
+        font-weight: 400;
+    }        
+    p#footer_center{
+        grid-column: 2/3;
+    }
+    section#footer_right{
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        grid-column: 3/4;
+
+        justify-self: flex-end;
+
+        p{
+            font-weight: 700;
+            font-size: 13px;
+        }
+    }
+}
+
+
+
+/*Modal de conclusão*/
+div#modalFim{
+    position: absolute;
+    top: 50%;
+    right: 50%;
+    transform: translate(50%,-50%);
+    width: 75%;
+    min-width: 670px;
+    display: none;
+    flex-direction: column;
+    z-index: 12;
+    animation: loadleft 0.5s;
+
+    div#modalContent{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        height: 100px;
+        
+        div#roboIcon{
+            transform: translateX(-150%);
+            height: 125%;
+            position: absolute;
+            z-index: 10;
+            animation: ocilar infinite 2s;
+
+            div#roboIcon img{
+                height: 100%;
+            }
+        }
+
+        div#modalGlass{
+            position: absolute;
+            background-color: rgba(63, 200, 243, 0.3);
+            min-height: 70px;
+            width: 100%;
+            border-radius: 10px;
+        }
+
+        div#modalBox{
+            background: linear-gradient(90deg, #008AEE 6.72%, #62ECF4 93.1%);
+            clip-path: polygon(15% 0, 100% 0, 85% 100%, 0 100%);
+            min-width: 625px;
+            width: 75%;
+            height: 100%;  
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            div#textZone{
+                margin-left: 75px;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    }
+    
+    section#botao-box{
+        margin-top: 30px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        div#textZone h2{
+            color: white;
+            font-family: 'M PLUS Rounded 1c', sans-serif;
+            font-size: 2.25em;
+            font-weight: ExtraBold ;
+        }
+        div#textZone h3{
+            color: white;   
+            font-family: 'M PLUS Rounded 1c', sans-serif;
+            font-size: 1.5em;
+            font-weight: ExtraBold;
+            margin-top: -10px;
+        }
+
+        button.botao-fim {
+            font-size: 1em;
+            font-weight: 700;
+            color: white;
+            border-radius: 25px;
+            background-color: #32BCF2;
+            padding: 10px 15px;
+            margin-left: 30px;
+            border: none;
+        }
+    }
+}
+
+div#modalBoxQuente{
+    background: linear-gradient(90deg, #F4683C 6.72%, #FF3E3E 93.1%);
+    clip-path: polygon(15% 0, 100% 0, 85% 100%, 0 100%);
+    min-width: 625px;
+    width: 75%;
+    height: 100%;  
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+div#modalGlassQuente{
+    background-color: rgba(245, 105, 60, 0.3);
+    position: absolute;
+    min-height: 70px;
+    width: 100%;
+    border-radius: 10px;
+}
+
+button.botao-fim-quente{
+    background-color: #FF3E3E;
+    font-size: 1em;
+    font-weight: 700;
+    color: white;
+    border-radius: 25px;
+    padding: 10px 15px;
+    margin-left: 30px;
+    border: none;
+}
+
+a.section-link:hover{
+    cursor: pointer;
+}
+
+
 
 @media(orientation: portrait) {
 
