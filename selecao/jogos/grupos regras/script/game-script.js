@@ -1501,81 +1501,132 @@ function stagePreprocessor(input) {
     };
 }
 
-// TODO: is this useful?
-function CaracteristicSet(shapes) {
+/**
+ * Um conjunto para restrições (características + aceita/rejeita).
+ * @param {} shapes Inicializar Set com um array de formas.
+ * @returns RestrictionSet 
+ */
+function RestrictionSet(shapes) {
     if (!new.target) 
-        return new CaracteristicSet();
+        return new RestrictionSet();
     
+    /* 
+    Esse set usa um array de bitsets para representar se uma restrição está no conjunto.
+    A característica é mapeada no array usando o índice em todasCaracteristicas, usando caracteristicasIndex.
+    O valor de cada índice do array é um bitset de 2 bits:
+        bit 0 - Rejeição presente no conjunto (1 << REJECTED == 0b01)
+        bit 1 - Aceitação presente no conjunto (1 << ACCEPTED == 0b10)
+
+    Exemplo, para a característica CARACTERISTIC.SHAPE.SQUARE:
+        0b00 - Nenhuma restrição de SQUARE está presente no conjunto
+        0b01 - Rejeição de SQUARE ([CARACTERISTIC.SHAPE.SQUARE, REJECTED]) está presente no conjunto
+        0b10 - Aceitação de SQUARE ([CARACTERISTIC.SHAPE.SQUARE, ACCEPTED]) está presente no conjunto
+        0b11 - Rejeição e aceitação de SQUARE estão presentes no conjunto
+    */
 
     const [REJECTED, ACCEPTED] = [false, true];
     let todasCaracteristicas = [...CARACTERISTIC].flatMap(classe => [...classe]);
     let caracteristicasIndex = function() {
         let obj = Object.create(null);
         todasCaracteristicas.forEach((el, i) => obj[el] = i);
+        return obj;
     }();
+    this.todasCaracteristicas = todasCaracteristicas;
+    this.caracteristicasIndex = caracteristicasIndex;
 
     if (!shapes) {
-        this.arr = Array(CARACTERISTIC.length).fill(0);
-    } else {
-        this.arr = Array(CARACTERISTIC.length).fill(1 << REJECTED);
-        shapes.forEach(shape => shape.forEach(caracteristic => {
-            let i = caracteristicasIndex[caracteristic];
+        this.arr = Array(this.todasCaracteristicas.length).fill(0);
+    } else if (shapes.length === 1) {
+        this.arr = Array(this.todasCaracteristicas.length).fill(1 << REJECTED);
+        shapes[0].forEach(caracteristic => {
+            let i = this.caracteristicasIndex[caracteristic];
             this.arr[i] = 1 << ACCEPTED;
-        }));
+        });
+
+    } else {
+        this.arr = Array(this.todasCaracteristicas.length).fill(1 << REJECTED | 1 << ACCEPTED);
+        let thisSet = this;
+        shapes.forEach(shape => thisSet = thisSet.intersection(new RestrictionSet([shape])));
+        this.arr = thisSet.arr;
     }
-
-    this.add = function (caracteristic, accepted) {
-        let i = caracteristicasIndex[caracteristic];
-        this.arr[i] |= 1 << accepted;
-        return this;
-    };
-
-    this.set = function (caracteristic, accepted) {
-        let i = caracteristicasIndex[caracteristic];
-        this.arr[i] = 1 << accepted;
-        return this;
-    };
-
-    this.remove = function (caracteristic, accepted) {
-        let i = this.caracteristicasIndex[caracteristic];
-        this.arr[i] &= ~(1 << accepted);
-        return this;
-    };
-
-    this.clear = function (caracteristic) {
-        let i = caracteristicasIndex[caracteristic];
-        this.arr[i] = 0;
-        return this;
-    };
-
-    this.intersection = function (otherSet) {
-        let newSet = new CaracteristicSet();
-
-        for (let i = 0; i < CARACTERISTIC.length; i++) 
-            newSet.arr = this.arr[i] & otherSet.arr[i];
-        
-        return newSet;
-    };
-
-    this.union = function (otherSet) {
-        let newSet = new CaracteristicSet();
-
-        for (let i = 0; i < CARACTERISTIC.length; i++) 
-            newSet.arr = this.arr[i] | otherSet.arr[i];
-        
-        return newSet;
-    };
-
-    this.difference = function (otherSet) {
-        let newSet = new CaracteristicSet();
-
-        for (let i = 0; i < CARACTERISTIC.length; i++) 
-            newSet.arr = this.arr[i] & ~(this.arr[i] & otherSet.arr[i]);
-        
-        return newSet;
-    };
-
 }
+
+RestrictionSet.prototype.add = function (caracteristic, accepted) {
+    let i = this.caracteristicasIndex[caracteristic];
+    this.arr[i] |= 1 << accepted;
+    return this;
+};
+
+RestrictionSet.prototype.set = function (caracteristic, accepted) {
+    let i = this.caracteristicasIndex[caracteristic];
+    this.arr[i] = 1 << accepted;
+    return this;
+};
+
+RestrictionSet.prototype.remove = function (caracteristic, accepted) {
+    let i = this.this.caracteristicasIndex[caracteristic];
+    this.arr[i] &= ~(1 << accepted);
+    return this;
+};
+
+RestrictionSet.prototype.clear = function (caracteristic) {
+    let i = this.caracteristicasIndex[caracteristic];
+    this.arr[i] = 0;
+    return this;
+};
+
+RestrictionSet.prototype.has = function (caracteristic, accepted) {
+    let i = this.caracteristicasIndex[caracteristic];
+    return (this.arr[i] & (1 << accepted)) !== 0;
+};
+
+RestrictionSet.prototype.intersection = function (otherSet) {
+    let newSet = new RestrictionSet();
+
+    for (let i = 0; i < this.todasCaracteristicas.length; i++) 
+        newSet.arr[i] = this.arr[i] & otherSet.arr[i];
+    
+    return newSet;
+};
+
+RestrictionSet.prototype.union = function (otherSet) {
+    let newSet = new RestrictionSet();
+
+    for (let i = 0; i < this.todasCaracteristicas.length; i++) 
+        newSet.arr[i] = this.arr[i] | otherSet.arr[i];
+    
+    return newSet;
+};
+
+RestrictionSet.prototype.difference = function (otherSet) {
+    let newSet = new RestrictionSet();
+
+    for (let i = 0; i < this.todasCaracteristicas.length; i++) 
+        newSet.arr[i] = this.arr[i] & ~(this.arr[i] & otherSet.arr[i]);
+    
+    return newSet;
+};
+
+RestrictionSet.prototype.complement = function () {
+    let newSet = new RestrictionSet();
+
+    for (let i = 0; i < this.todasCaracteristicas.length; i++) 
+        // toggle bits. can't use ~ here because it inverts all bits, giving a negative number
+        newSet.arr[i] = 0x3 ^ this.arr[i];
+    
+    return newSet;
+};
+
+RestrictionSet.prototype.toRestrictionArray = function () {
+    let arr = [];
+    for (let i = 0; i < this.todasCaracteristicas.length; i++) {
+        if (this.arr[i] & (1 << REJECTED))
+            arr.push([this.todasCaracteristicas[i], REJECTED]);
+        if (this.arr[i] & (1 << ACCEPTED))
+            arr.push([this.todasCaracteristicas[i], ACCEPTED]);
+    }
+    return arr;
+};
 
 /**
  * Retorna um novo Set com a interseção entre os dois Sets.
@@ -1608,6 +1659,9 @@ function setDifference(setA, setB) {
 endGame = false;
 let gRespostasCertasEsquerda = null;
 let gRespostasCertasDireita = null;
+let gRestricoesEsquerda = null;
+let gRestricoesDireita = null;
+let gOpcoes = null;
 function game() {
     'use strict';
     reset();
@@ -1813,6 +1867,25 @@ function game() {
                 [  CARACTERISTIC.SHAPE,  4],
                 [  CARACTERISTIC.COLOR,  3],
                 [   CARACTERISTIC.SIZE,  2],
+                [CARACTERISTIC.OUTLINE,  2]
+            ]
+        },
+        {
+            // with intersection, just rejected (all maxed out). Random maxed out
+            restrictionClasses: [
+            //  [                class, accepted?, rejQty, rejectionMode]
+                [  CARACTERISTIC.SHAPE,     false,      2,    BOTH_SIDES], 
+                [  CARACTERISTIC.COLOR,     true],
+                [CARACTERISTIC.OUTLINE,     true]
+            ],
+            maxNumAnswers: 9,
+            maxNumShapes: 15,
+            // for non specified classes, the limit is 1
+            randomLimits: [
+            //  [               class, max]
+                [  CARACTERISTIC.SHAPE,  2],
+                [  CARACTERISTIC.COLOR,  3],
+                [   CARACTERISTIC.SIZE,  1],
                 [CARACTERISTIC.OUTLINE,  2]
             ]
         },
@@ -2852,52 +2925,33 @@ function game() {
     // adicionar as restrições corretas nas respostas
     let respostasItems = [...respostasCertasEsquerda, ...respostasCertasDireita];
     // gerar regras que são incorretas
-    let todasCaracteristicas = [...CARACTERISTIC].map(classe => [...classe]).flat();
     // obter as regras comuns à todos items da interseção
-    /* devido a ES6 Sets compararem por referência, as operações de sets foram feitas com arrays usando bitsets:
-       o índice do array é equivalente ao índice em todasCaracteristicas e o valor é um bitset:
-       bit 0 - 1 se a rejeição dessa caracteristica é aplicavel ao conjunto (1 << REJECTED == 0b01)
-       bit 1 - 1 se a aceitação caracteristica é aplicavel ao conjunto (1 << ACCEPTED == 0b10)
+    let restricoesIntersecao;
+    if (caixaIntersecaoItems.length > 0)
+        restricoesIntersecao = new RestrictionSet(caixaIntersecaoItems);
+    else
+        // creates the universal set, so that the intersections don't return empty sets
+        restricoesIntersecao = new RestrictionSet([]).union(new RestrictionSet([]).complement());
+    let restricoesEsquerda = new RestrictionSet(caixaEsquerdaItems).intersection(restricoesIntersecao);
+    let restricoesDireita = new RestrictionSet(caixaDireitaItems).intersection(restricoesIntersecao);
 
-       esse bitset reflete se como a caracteristica é aplicavel ao aquele conjunto de items:
-        0b00 - caracteristica não é aplicavel ao conjunto (interseção de um conjunto 0b01 e outro 0b10)
-        0b01 - caracteristica é rejeitada no conjunto (todos os items rejeitam a caracteristica)
-        0b10 - caracteristica é aceita no conjunto (todos os items aceitam a caracteristica)
-        0b11 - caracteristica é aceita e rejeitada no conjunto (união de um conjunto 0b01 e outro 0b10)
-    */
-    // primeiro obter as restrições de cada forma. Todas as características que a forma possui são aceitas, as que ela não possui são rejeitadas
-    // (ex: se a forma é quadrada, então a característica quadrado é aceita e as características retângulo, círculo e triângulo são rejeitadas)
-    let regrasItemsIntersecao = caixaIntersecaoItems.map(item => todasCaracteristicas.map(caracteristica => 1 << (caracteristica == item.get(CARACTERISTIC.getClass(caracteristica)))));
-    let regrasUsadas = [
-                                 // obter as regras comuns à todos items em cada uma das caixas
-                                 caixaEsquerdaItems.map(item => todasCaracteristicas.map(caracteristica => 1 << (caracteristica == item.get(CARACTERISTIC.getClass(caracteristica)))))
-                                                   .concat(regrasItemsIntersecao) // concatena as formas da interseção, já que também fazem parte da caixa esquerda
-                                                   .reduce((acc, cur) => cur.map((_, i) => (acc[i] || []).concat(cur[i])), []) // faz o zip em todos os arrays dentro do array
-                                                   .map(el => el.reduce((a, c) => a & c)), // bitwise AND todos os elementos do array, obtendo a interseção das regras de todas as formas da caixa, que é um conjunto de todas as regras aplicaveis a essa caixa
-                                 caixaDireitaItems.map(item => todasCaracteristicas.map(caracteristica => 1 << (caracteristica == item.get(CARACTERISTIC.getClass(caracteristica)))))
-                                                   .concat(regrasItemsIntersecao)
-                                                   .reduce((acc, cur) => cur.map((_, i) => (acc[i] || []).concat(cur[i])), [])
-                                                   .map(el => el.reduce((a, c) => a & c))
-                                ].reduce((acc, cur) => cur.map((_, i) => (acc[i] || []).concat(cur[i])), []) // zip
-                                 .map(el => el.reduce((a, c) => a | c)); // faz a união das regras das caixas
-    let regrasNaoUsadas = todasCaracteristicas.map(_ => (1 << ACCEPTED) || (1 << REJECTED)) // obtem todas as regras possíveis
-                                          .map((el, i) => el & ~regrasUsadas[i]) // remove as regras usadas
-                                          .map(el => {
-                                                // converte de bitset para aceito/rejeitado
-                                                let res = [];
-                                                if (el & (1 << ACCEPTED)) res.push(ACCEPTED);
-                                                if (el & (1 << REJECTED)) res.push(REJECTED);
-                                                return res;
-                                          })
-                                          .flatMap((el, i) => el.map(el => [todasCaracteristicas[i], el]));
-    shuffleArray(regrasNaoUsadas);
+    let restricoesUsadas = restricoesEsquerda.union(restricoesDireita);
+    let restricoesNaoUsadas = new RestrictionSet().complement().difference(restricoesUsadas);
+
+    let restricoesNaoUsadasArray = restricoesNaoUsadas.toRestrictionArray();
+    shuffleArray(restricoesNaoUsadasArray);
 
     // completar as respostas com as regras incorretas para respostasItems ter currentStage.numOptions
-    respostasItems = respostasItems.concat(regrasNaoUsadas).slice(0, currentStage.maxNumAnswers);
+    respostasItems = respostasItems.concat(restricoesNaoUsadasArray).slice(0, currentStage.maxNumAnswers);
     shuffleArray(respostasItems);
+
+    // colocar as restrições nas referências globais para ser usado na checagem da resposta
+    gRestricoesEsquerda = restricoesEsquerda;
+    gRestricoesDireita = restricoesDireita;
 
     /*Containers*/
     let divRespostas = document.getElementById(divRespostasId);
+    // TODO: cull these unused variales?
     let divRestricaoEsquerda = document.getElementById(divRestricaoEsquerdaId);
     let divRestricaoDireita = document.getElementById(divRestricaoDireitaId);
 
@@ -2908,11 +2962,13 @@ function game() {
     //renderizando restrições em "regras disponíveis"
     gRespostasCertasEsquerda = [];
     gRespostasCertasDireita = [];
-    respostasItems.forEach(item => {
+    gOpcoes = respostasItems;
+    respostasItems.forEach((item, i) => {
         let imgTag = document.createElement("img");
         imgTag.src = CARACTERISTIC_EXTRA.getRestricaoScr(item);
         imgTag.alt = CARACTERISTIC_EXTRA.getRestricaoAlt(item);
         imgTag.title = imgTag.alt;
+        imgTag.setAttribute('data-index', i);
         imgTag.classList.add('drag');
         //imgTag.classList.add('game-img');
         //imgTag.classList.add('img-restricao-esquerda');
@@ -3355,22 +3411,34 @@ function quaoIncorreto(respostasOpcoes) {
  * @returns RESPOSTA_CORRETA se acertou, RESPOSTA_INCOMPLETA se não moveu todas as imagens, RESPOSTA_ERRADA se moveu mas errou
  */
 function checarResposta() {
-    "use strict";
-    let respostasEsquerda = new Set([...document.getElementById(divRestricaoEsquerdaId).children]);
-    let respostasDireita = new Set([...document.getElementById(divRestricaoDireitaId).children]);
+    'use strict';
+    let respostasEsquerda = [...document.getElementById(divRestricaoEsquerdaId).children];
+    let respostasDireita = [...document.getElementById(divRestricaoDireitaId).children];
+    let respostasEsquerdaSet = new Set(respostasEsquerda);
+    let respostasDireitaSet = new Set(respostasDireita);
     let respostasOpcoes = [...document.getElementById(divRespostasId).children];
 
     // checar se os arrays são do mesmo tamanho
-    if (respostasEsquerda.size !== gRespostasCertasEsquerda.length || respostasDireita.size !== gRespostasCertasDireita.length) {
-        return quaoIncorreto(respostasOpcoes);
-    }
-
-    // checar se as respostas da esquerda possuem todas as respostas corretas
-    if (!gRespostasCertasEsquerda.every(resposta => respostasEsquerda.has(resposta)))
+    if (respostasEsquerdaSet.size !== gRespostasCertasEsquerda.length ||
+        respostasDireitaSet.size !== gRespostasCertasDireita.length)
         return quaoIncorreto(respostasOpcoes);
 
-    // checar se as respostas da direita possuem todas as respostas corretas
-    if (!gRespostasCertasDireita.every(resposta => respostasDireita.has(resposta)))
+    // checar se todas as respostas corretas foram arrastadas
+    if (!gRespostasCertasEsquerda.every(resposta => respostasEsquerdaSet.has(resposta) || respostasDireitaSet.has(resposta)) || 
+        !gRespostasCertasDireita.every(resposta => respostasEsquerdaSet.has(resposta) || respostasDireitaSet.has(resposta)))
+        return quaoIncorreto(respostasOpcoes);
+
+    // checar se a resposta dada é a mesma que foi definida
+    if (gRespostasCertasEsquerda.every(resposta => respostasEsquerdaSet.has(resposta)) &&
+        gRespostasCertasDireita.every(resposta => respostasDireitaSet.has(resposta)))
+        return RESPOSTA_CORRETA;
+
+    // checar se a resposta pode ser válida (nível com mais de uma resposta correta)
+    respostasEsquerda = respostasEsquerda.map(el => gOpcoes[el.dataset.index]);
+    respostasDireita = respostasDireita.map(el => gOpcoes[el.dataset.index]);
+
+    if (!respostasEsquerda.every(([caracteristica, accepted]) => gRestricoesEsquerda.has(caracteristica, accepted)) ||
+        !respostasDireita.every(([caracteristica, accepted]) => gRestricoesDireita.has(caracteristica, accepted)))
         return quaoIncorreto(respostasOpcoes);
 
     return RESPOSTA_CORRETA;
