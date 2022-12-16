@@ -244,14 +244,14 @@
     <script src="https://cdn.jsdelivr.net/npm/@shopify/draggable@1.0.0-beta.11/lib/draggable.bundle.js"></script>
     <script src="./script/gameScript.js"></script>
     <script>
-        var containerFormas = document.getElementById('container-formas');
-        var containerSequencia = document.getElementById('container-nucleo');
+        var containerFormas = document.getElementById('container_formas');
+        var containerSequencia = document.getElementById('container_nucleo');
         var origem = '';
         var destino = '';
 
         async function postData(url = '', origem, destino, data_hora) {
-            var nomeJogo  = document.getElementById('title-jogo').getAttribute('nome-real');
-            var faseAtual = parseInt(document.getElementById('textbox-numero-fase').innerHTML);
+            var nomeJogo  = document.getElementById('title_jogo').getAttribute('nome-real');
+            var faseAtual = parseInt(document.getElementById('textbox_numero_fase').innerHTML);
         // Default options are marked with *
             var dadosInteracao= {
                 origem: origem,
@@ -317,7 +317,7 @@
         });
     </script>
     <script type="text/javascript">
-        var gameContainer = document.getElementById('main-body');
+        var gameContainer = document.getElementById('main_body');
 
         function descobreOs() {
             var userAgent = navigator.userAgent || navigator.vendor || window.opera;
@@ -350,7 +350,7 @@
             indexHead.appendChild(iosCss);
         }
 
-        var textarea = document.getElementById('texto-textbox');
+        var textarea = document.getElementById('texto_textbox');
         var sentido
 
         function textRoll(timeInterval, timeTimeout) {
