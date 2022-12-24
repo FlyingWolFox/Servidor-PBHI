@@ -1673,6 +1673,19 @@ function game() {
     var textNumeroFaseDom = document.getElementById(textNumeroFase);
     textNumeroFaseDom.innerHTML = (etapaAtual + 1);
 
+    // TODO: make first stages easier, with just the correct answers
+    /* 
+    TODO:
+        if intersecaoAtiva:
+            check if there's more than one restriction
+        else:
+            check if it's only one restriction and it's accepted
+    */
+    // TODO: how to make maxNumOptions random?
+    // TODO: should we maximize the number of forms?
+    // TODO: random will be replaced by the array of possibilities
+    // TODO: check if the quantity of restrictions is smaller than the number of caracteristics
+    // TODO: check if SIZE and OUTLINE doesn't have rejection mode BOTH_SIDES or ONE_SIDE.WITH_ACCEPTED
     let stageData = [
         {
             // no intersection
@@ -2386,6 +2399,7 @@ function game() {
     endGame = etapaAtual + 1 >= etapaMax;
 
     // TODO: comment this out when done
+    // TODO: caracteristic -> characteristic
 
     // definir as restrções para cada caixa
 
@@ -2426,6 +2440,7 @@ function game() {
     } else {
         // distribuir as restrições entre as caixas
 
+        // TODO: make this more controllable
         let smallerBoxRatio = -Math.abs(0.5 - randomNormalDistr()) + 0.5; // (0, 0.5] with mean 0.5
         let smallerBoxAccepted,
             smallerBoxRejected,
@@ -2886,6 +2901,7 @@ function game() {
 
     // limitar a quantidade de formas mantendo a quantidade mais ou menos bem dividida entre as caixas
     {
+        // TODO: make this more controllable
         let maxLengths = [[caixaEsquerdaItems,   Math.round(currentStage.maxNumShapes/3)],
                           [caixaIntersecaoItems, Math.round(currentStage.maxNumShapes/3)],
                           [caixaDireitaItems,    Math.round(currentStage.maxNumShapes/3)]];
@@ -2984,6 +3000,7 @@ function game() {
         //imgTag.classList.add('drag');
         imgTag.classList.add('game-img');
         imgTag.classList.add(item.get(CARACTERISTIC.SIZE) === CARACTERISTIC.SIZE.SMALL ? 'pequeno' : 'grande');
+        // TODO: remove this duplicated line
         imgTag.classList.add(item.get(CARACTERISTIC.SIZE) === CARACTERISTIC.SIZE.SMALL ? 'pequeno' : 'grande');
         //imgTag.classList.add('img-restricao-esquerda');
         divCaixaEsquerda.appendChild(imgTag);
@@ -3015,6 +3032,7 @@ function game() {
 
 
     // configurar o visual das caixas
+    // TODO: apply just once!
     let dropzoneArea = document.getElementById('dropzone-container-grupos-regras');
     if (!intersecaoAtiva) {
         divCaixaEsquerda.setAttribute('style', 'grid-column: 2/3; grid-row: 1/3;');
