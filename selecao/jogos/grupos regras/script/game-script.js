@@ -1072,7 +1072,6 @@ CaracteristicContainer.prototype.concat = function (other) {
  */
 function CaracteristicSetContainer() {
     if (!new.target) 
-        // TODO: make it throw
         return new CaracteristicSetContainer();
     
     // the array of the map
@@ -1115,8 +1114,6 @@ CaracteristicSetContainer.prototype.get = function (classe) {
     
     return new Set([...this.arr[classe.id]]);
 };
-
-// TODO: make "virtual" versions of set ops. These make the ops with the empty classes (empty arr entries) as they were full (like invert() were applied to them)
 
 /**
  * Retornar um novo CaracteristicSetContainer contendo a interseção de this e other.
