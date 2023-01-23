@@ -225,7 +225,7 @@ img#repetir-voz {
 }
 
 #modal-content{
-    border-color: #FDC23E;
+    border-color: #7EE0E0;
     padding: 10px 10px 0 10px;
     display: block;
 }
@@ -261,11 +261,6 @@ a#span-info {
     right: -40px;
 
 }
-
-#modal-content{
-    border-color: #7EE0E0;
-}
-
 
 #texto-textbox:focus,#texto-info:focus{
 

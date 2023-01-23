@@ -125,12 +125,12 @@ div.progresso-conquistas {
 }
 div.modal div.modal_content div#modal_button_box button#botao_info_close {
    color: #A37027 !important;
-   background: rgb(249, 158, 21) !important;
+   background: #FDC23E !important;
 }
 
 div.modal div.modal_content div#modal_button_box button#botao_de_voz {
     color: #A37027 !important;
-    background: rgb(249, 158, 21) !important;
+    background: #FDC23E !important;
 }
 
 button#botao-de-voz-desligado-modal {
