@@ -343,6 +343,9 @@ img#repetir-voz {
 	user-select: none;
 }
 
+div.modal_content {
+    border: 7px solid #FDC23E !important;
+}
 
 button#button-about {
 
