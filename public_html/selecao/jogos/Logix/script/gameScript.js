@@ -45,7 +45,7 @@ var arraySequencia = []; //Array para guardar a sequecia
 var arrayOpcoes = []; //Array contendo todos os elementos gerados nas opcoes
 var tamNucleo; //Quantos elementos o nucleo possui
 var nSlots; //quantas vezes o nucleo se repete na resposta
-var etapaAtual = 0; //Representa o nível do jogo
+var etapaAtual = parseInt(localStorage.fase_atual) - 1; //Representa o nível do jogo
 var estrela = 0;  //Contagem das estrelas 
 var restricoesColunas = []; //Guarda as restrições da coluna
 var restricoesLinhas = [];  //Guarda as restrições da linha

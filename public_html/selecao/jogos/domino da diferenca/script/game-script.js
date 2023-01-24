@@ -42,7 +42,7 @@ var arrayNucleo = []; //Array para guardar o nucleo
 var arraySequencia = []; //Array para guardar a sequecia
 var arrayOpcoes = []; //Array contendo todos os elementos gerados nas opcoes
 var tamNucleo; //Quantos elementos o nucleo possui
-var etapaAtual = 0;
+var etapaAtual = parseInt(localStorage.fase_atual) - 1;
 var estrela = 0; //nível de estrelas do jogador 
 var arrayEstrelas = document.getElementById(divEstrelas).getElementsByTagName('img');
 var erros = [];
