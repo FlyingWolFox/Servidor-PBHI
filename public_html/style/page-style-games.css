@@ -276,6 +276,53 @@ main#main_body section#game_section main#game_content div#box_central h3#titulo_
   color: #1C4459;
   text-transform: uppercase;
 }
+main#main_body section#game_section main#game_content div.modal-content-info {
+  width: 30%;
+  min-width: 250px;
+  min-height: 200px;
+  text-align: center;
+  padding: 20px;
+  margin: 0px auto;
+  margin-top: 10%;
+  color: var(--azul-escuro);
+  border:7px solid #53B3E7;
+  border-radius: 10px;
+  background-color: #fefefe;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+}
+main#main_body section#game_section main#game_content div.modal-content-info img.modal-img-info {
+  width: 25%;
+  margin-left: -10px;
+}
+main#main_body section#game_section main#game_content div.modal-content-info div.modal-text-content-info {
+  width: 60%;
+}
+main#main_body section#game_section main#game_content div.modal-content-info div.modal-text-content-info h2.titulo-modal-info {
+  font-size: 1em;
+  color: #606060;
+  font-weight: unset;
+}
+main#main_body section#game_section main#game_content div.modal-content-info div.modal-text-content-info h2#resultado-jogo-info {
+  color: #53B3E7;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  font-size: 1.5em;
+}
+main#main_body section#game_section main#game_content div.modal-content-info div.modal-text-content-info button#botao-proximo-info {
+    width: fit-content;
+    height: fit-content;
+    padding: 10px 20px;
+    margin-bottom: 20px;
+    font-size: 1em;
+    color: var(--cor-do-body);
+    text-transform: uppercase;
+    font-weight: bold;
+    background: #53B3E7;
+    border: 5px solid #FFFFFF;
+    border-radius: 10px;
+}
 
 footer#footer_grid {
   width: 90%;

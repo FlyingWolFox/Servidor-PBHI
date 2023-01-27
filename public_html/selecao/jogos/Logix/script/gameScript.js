@@ -53,6 +53,9 @@ var endGame = false; //Indica se o jogo terminou ou não
 var arrayEstrelas = document.getElementById(divEstrelas).getElementsByTagName('img');
 var ano = localStorage.getItem('ano');
 var etapaMax = 17;
+var textoInfo = document.getElementById('resultado-jogo-info');
+var modalInfo = document.getElementById("modalInfoPeca");
+var botaoOk = document.getElementById('botao-proximo-info');
 var timeStamps = [];
 textTutorial.innerHTML = "Se atente as restrições acima das áreas azuis, identifique as suas características e arraste as peças disponíveis no fundo da página para a área do núcleo";
 /** FIM VARIAVEIS */
@@ -892,6 +895,21 @@ function game(){
 				}
 				while(cont!=0);
 				contador++;
+				arrayNucleo.forEach((item) => {
+		
+					//Registra o evento click e aparece as informações da peça na tela.
+					item.addEventListener('click', (e) => {
+			
+						botaoOk.onclick = function (event){
+							modalInfo.style.display = 'none';
+						};
+						modalInfo.style.display = 'block';
+						textoInfo.innerHTML = e.target.alt;
+						document.getElementById('img-info-peca').src = e.target.src;
+						botaoOk.innerHTML = "Ok";
+					});
+				
+				});
 				divImgs.insertBefore(arrayNucleo[i],divImgs.childNodes[getRandomIntInclusive(0,contador)])
 				if (contador==nmrImgs) break;
 			}

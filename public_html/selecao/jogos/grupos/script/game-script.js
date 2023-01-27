@@ -20,6 +20,9 @@ const forma = 0, cor = 1, tamanho = 2, contorno = 3;
 const divEstrelas = 'conquistas_conteiner';
 var arrayEstrelas = document.getElementById(divEstrelas).getElementsByTagName('img');
 var ano = localStorage.getItem('ano');
+var textoInfo = document.getElementById('resultado-jogo-info');
+var modalInfo = document.getElementById("modalInfoPeca");
+var botaoOk = document.getElementById('botao-proximo-info');
 var etapaMax = 25;
 
 const anosEnum = Object.freeze({
@@ -1295,6 +1298,22 @@ function game() {
 		i++;
 
     });
+    
+    arrayDeOpcoes.forEach((item) => {
+		
+		//Registra o evento click e aparece as informações da peça na tela.
+		item.addEventListener('click', (e) => {
+
+			botaoOk.onclick = function (event){
+				modalInfo.style.display = 'none';
+			};
+			modalInfo.style.display = 'block';
+			textoInfo.innerHTML = e.target.alt;
+			document.getElementById('img-info-peca').src = e.target.src;
+			botaoOk.innerHTML = "Ok";
+		});
+	
+	});
 
     /* Gera as imagens das restrições */
     console.log('RESTRICOES');
