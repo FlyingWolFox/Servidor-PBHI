@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+
+    <title>Tem Lógica - Crie sua Atividade</title>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="shortcut icon" href="../img/favicon.ico"/>
+
+    <!-- chamada para as folhas de estilo -->
+    <link rel="stylesheet" href="../style/page-style.css">
+
+    <!-- link para os icones me forma de fonte -->
+
+    <link rel="stylesheet" href="../style/icofont/icofont.min.css">
+
+    <!-- link para as fontes do projeto -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+        rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@100;300;400;500;700;800;900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="../selecao/jogos/style/page-style.css">
+    <link rel="stylesheet" href="../selecao/jogos/style/icofont/icofont.min.css">
+
+    <style>
+        form#crieAtividade-form{
+            width: 100%;
+            height: 100%;
+
+            padding: 30px 0 0 30px;
+
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: 1fr 1fr;
+        }
+        
+        input#nome-contato{
+            margin-bottom: 15px;
+        }
+        select{
+            margin: 5px auto;
+            margin-bottom: 15px;
+            border: solid black 3px;
+            border-radius: 3px;
+
+            width: 50%;
+            min-width: 100px;
+            min-height: 35px;
+            
+            text-align: center;
+            font-weight: 700;
+        }
+        label{
+            font-size: 18px;
+        }
+        section.form-section{
+            margin: 10px auto;
+            text-align: initial;
+
+            width: 50%;
+
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+
+            font-weight: 700;
+        }
+        section.container-botao{
+            margin: 10px auto;
+        }
+        textarea#comentario-atividade{
+            border: solid black 3px;
+            border-radius: 5px;
+            margin: 0 auto;
+            padding: 5px;
+
+            width: 75%;
+            height: 100%;
+            resize: none;
+
+            font-weight: 700; 
+        }
+        button#botao-resultado{
+            margin-bottom: 0;
+        }
+    </style>
+</head>
+
+<body class="index-body">
+    <header class="grid">
+        <img src="../img/logo.png" alt="" class="logo grid-center">
+        <img src="../img/sr-logico.png" alt="" class="mascote grid-right">
+        <nav class="menu grid grid-full">
+            <ul class="menu-list grid-center">
+                <li class="menu-list-item">
+                    <a href="../index.html" class="menu-link">
+                        <i class="menu-icon icofont-game-pad"></i>
+                        <p class="menu-text">Jogos</p>
+                    </a>
+                </li>
+                <li class="menu-list-item">
+                    <a href="../objetivos.html" class="menu-link">
+                        <i class="menu-icon icofont-check"></i>
+                        <p class="menu-text">Objetivos</p>
+                    </a>
+                </li>
+                <li class="menu-list-item">
+                    <a href="../sobre.html" class="menu-link">
+                        <i class="menu-icon icofont-question"></i>
+                        <p class="menu-text">Sobre</p>
+                    </a>
+                </li>
+                <li class="menu-list-item">
+                    <a href="../contato.html" class="menu-link">
+                        <i class="menu-icon icofont-google-talk"></i>
+                        <p class="menu-text">Contato</p>
+                    </a>
+                </li>
+                <li class="menu-list-item">
+                    <a href="../materiaisProfessores.html" class="menu-link">
+                        <i class="menu-icon icofont-info"></i>
+                        <p class="menu-text">Materiais para <br> Professores</p>
+                    </a>
+                </li>
+                <li class="menu-list-item selected">
+                    <a href="../professores.html" class="menu-link">
+                        <i class="menu-icon icofont-atividade"  style="padding: 2px; box-sizing: border-box;"></i>
+                        <p class="menu-text">Acesso<br> Professores</p>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="grid grid-full">
+        <section class="contact-main-section grid-center box-center">
+            <h2 class="contact-section-title">Escolha uma opção</h2>
+                <section class = 'container-botao'>
+                    <button onclick="window.location.href='/professores/crieAtividade'" class="botao" id="botao-resultado">Criar atividade</button>
+                </section>
+        </section>
+    </main>
+
+    <footer class="footer-grid">
+        <p class="footer-text grid-center">Copyright Fapesq - <span id="ano">2021</span></p>
+            <script>
+                var ano = document.getElementById("ano");
+                var anoAtual = new Date();
+                ano.innerHTML = anoAtual.getFullYear();
+            </script>
+        <section class="grid-right">
+            <p class="footer-text realizadores-text">Realizadores:</p>
+            <div class="footer-imgs">
+                <img class="footer-img" id="logo-pb" src="../img/logo-pb.png" alt="">
+                <img class="footer-img" id="logo-seect" src="../img/logo-SEECT.png" alt="">
+                <img class="footer-img" id="logo-fapesq" src="../img/logo-fapesq.png" alt="">
+            </div>
+        </section>
+    </footer>
+    <script src=></script>
+</body>
+
+</html>

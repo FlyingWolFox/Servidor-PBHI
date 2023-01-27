@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+
+    <title>Tem Lógica - Materiais Professores</title>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="shortcut icon" href="./img/favicon.ico"/>
+
+    <!-- chamada para as folhas de estilo -->
+    <link rel="stylesheet" href="./selecao/jogos/style/page-style.css">
+
+    <!-- link para os icones me forma de fonte -->
+
+    <link rel="stylesheet" href="./selecao/jogos/style/icofont/icofont.min.css">
+
+    <!-- link para as fontes do projeto -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+        rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@100;300;400;500;700;800;900&display=swap"
+        rel="stylesheet">
+
+</head>
+
+<body class="index-body">
+    <header class="grid">
+        <img src="./img/logo.png" alt="" class="logo grid-center">
+        <img src="./img/sr-logico.png" alt="" class="mascote grid-right">
+        <nav class="menu grid grid-full">
+            <ul class="menu-list grid-center">
+                <li class="menu-list-item">
+                    <a href="./index.html" class="menu-link">
+                        <i class="menu-icon icofont-game-pad"></i>
+                        <p class="menu-text">Jogos</p>
+                    </a>
+                </li>
+                <li class="menu-list-item">
+                    <a href="./objetivos.html" class="menu-link">
+                        <i class="menu-icon icofont-check"></i>
+                        <p class="menu-text">Objetivos</p>
+                    </a>
+                </li>
+                <li class="menu-list-item">
+                    <a href="./sobre.html" class="menu-link">
+                        <i class="menu-icon icofont-question"></i>
+                        <p class="menu-text">Sobre</p>
+                    </a>
+                </li>
+                <li class="menu-list-item">
+                    <a href="./contato.html" class="menu-link">
+                        <i class="menu-icon icofont-google-talk"></i>
+                        <p class="menu-text">Contato</p>
+                    </a>
+                </li>
+                <li class="menu-list-item selected">
+                    <a href="./materiaisProfessores.html" class="menu-link" target="_blank">
+                        <i class="menu-icon icofont-info"></i>
+                        <p class="menu-text">Materiais para <br> Professores</p>
+                    </a>
+                </li>
+                <li class="menu-list-item">
+                    <a href="./professores.html" class="menu-link">
+                        <i class="menu-icon icofont-atividade"></i>
+                        <p class="menu-text">Acesso<br> Professores</p>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="grid">
+        <section class="objective-main-section grid-center box-center">
+            <h2 class="objective-section-title">Materiais para Professores</h2>
+            
+           <p style="grid-column: 1/4; grid-row: 1; padding-top: 7px; font-size: 1.2rem;">Material explicativo do projeto e dos jogos educacionais para atividades em sala de aula.</p>
+            <section id="section-bt-professores">
+               
+                 </br>           
+
+                <a href="./documentos/bases.pdf" id="botao-instrucoes-pdf" class="button-download " target="_blank">
+                    <h2 class="title-pdf">O Desenvolvimento das Bases do Pensamento Computacional na Interação com a Disciplina de Matemática</h2>
+                    <img class="img-download-pdf" src="./img/vector-download.png">
+                    <p class="subtitle-download-pdf">Clique aqui para baixar o pdf.</p>
+                </a>
+                <a href="./documentos/atividades_plataforma.pdf" id="botao-blocos-pdf" class="button-download">
+                    <h2 class="title-pdf">Guia de Uso das Atividades da Plataforma</h2>
+                    <img class="img-download-pdf" src="./img/vector-download.png">
+                    <p class="subtitle-download-pdf">Clique aqui para baixar o pdf.</p>
+                </a>
+                <a href="./documentos/atividades_desplugadas.pdf" id="botao-outros-pdf" class="button-download">
+                    <h2 class="title-pdf">Guia e Sugestões de Atividades Desplugadas</h2>
+                    <img class="img-download-pdf" src="./img/vector-download.png">
+                    <p class="subtitle-download-pdf">Clique aqui para baixar o pdf.</p>
+                </a>
+                
+            </section>
+            
+
+
+        </section>
+
+
+    </main>
+
+    <footer class="footer-grid">
+        <p class="footer-text grid-center">Copyright Fapesq - <span id="ano">2021</span></p>
+            <script>
+                var ano = document.getElementById("ano");
+                var anoAtual = new Date();
+                ano.innerHTML = anoAtual.getFullYear();
+            </script>
+        <section class="grid-right">
+            <p class="footer-text realizadores-text">Realizadores:</p>
+            <div class="footer-imgs">
+                <img class="footer-img" id="logo-pb" src="./img/logo-pb.png" alt="">
+                <img class="footer-img" id="logo-seect" src="./img/logo-SEECT.png" alt="">
+                <img class="footer-img" id="logo-fapesq" src="./img/logo-fapesq.png" alt="">
+            </div>
+        </section>
+    </footer>
+    <script src="./script/page-script.js"></script>
+</body>
+
+</html>
