@@ -1371,8 +1371,8 @@ function background(caixas){
     /* Gerar imagens do fundo */
     if(caixas == 2) {
 
-        dropEsquerda.setAttribute('style', 'grid-column: 2/3; grid-row: 1/;');
-        dropDireita.setAttribute('style', 'grid-column: 4/5; grid-row: 2/4;');
+        dropEsquerda.setAttribute('style', 'grid-column: 2/3; grid-row: 1/4;');
+        dropDireita.setAttribute('style', 'grid-column: 4/5; grid-row: 1/4;');
         dropMeio.setAttribute('style', 'display: none;');
         dropzoneArea.setAttribute('style', 'grid-template-columns: 2fr 5fr 1fr 5fr 2fr;')
         dropEsquerda.classList.remove('drop-meio-ativo');
@@ -1721,6 +1721,3 @@ function check(){ //Confere se acertou
 document.body.onload = game();
 var botaoResultado = document.getElementById('botao-resultado');
 botaoResultado.addEventListener('click', check);
-document.addEventListener("dragstart", function( event ) {
-    console.log('0')
-},false)

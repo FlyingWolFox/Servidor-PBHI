@@ -1,10 +1,8 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-<html xmlns="http://www.w3.org/1999/xhtml">
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-<link href="https://plus.google.com/+MindfusionEu/" rel="publisher" />
 <meta charset="UTF-8">
-
+<meta name = "application-name" content = "SEQUENCIA COM NUMEROS">
 <head>
 
     <title>Tem Lógica - Jogo da Sequência</title>
@@ -36,10 +34,10 @@
     <link
         href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@100;300;400;500;700;800;900&display=swap"
         rel="stylesheet">
-
+    <script src="../script/autenticar.js"></script>
 </head>
 
-<body onload="speaking()">
+<body class='game-body'>
     <section class="aviso-orientacao">
         <div id="aviso-orientacao-caixa">
             <h1 id="texto-orientacao"> vire seu aparelho na horizontal para jogar</h1>
@@ -63,7 +61,7 @@
             <a href="../../index.html" class="link-logo">
                 <img id="logo-header" src="../img/logo.png" alt="" class="logo grid-item">
             </a>
-            <h2 id="title-jogo" class="">SEQUÊNCIA DE NÚMEROS</h2>
+            <h2 id="title-jogo" nome-real="SEQUÊNCIA DE NÚMEROS" class="">SEQUÊNCIA DE NÚMEROS</h2>
         </header>
 
         <main id="main-body" class="grid grid-full">
@@ -228,13 +226,34 @@
     <script>
         var containerFormas = document.getElementById('container-formas');
         var containerSequencia = document.getElementById('container-nucleo');
-        var timeStamps = [];
-
-        function resetaTimeStamps() {
-            let tamanho = timeStamps.length;
-            for (let i = 0; i < tamanho; i++) {
-                console.log(`timestamp ${i}: ${timeStamps.pop()}`);
+        var origem = '';
+        var destino = '';
+        async function postData(url = '', origem, destino, data_hora) {
+            var nomeJogo  = document.getElementById('title-jogo').getAttribute('nome-real');
+            var faseAtual = parseInt(document.getElementById('textbox-numero-fase').innerHTML);
+        // Default options are marked with *
+            var dadosInteracao= {
+                origem: origem,
+                destino:destino,
+                tipoLigacao: 'SEM LIGAÇÃO',
+                data_hora:data_hora,
+                nomeJogo:nomeJogo,
+                faseAtual:faseAtual,
             }
+            const response = await fetch(url, {
+                method: 'POST', // *GET, POST, PUT, DELETE, etc.
+                mode: 'cors', // no-cors, *cors, same-origin
+                cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+                credentials: 'same-origin', // include, *same-origin, omit
+                headers: {
+                    'Content-Type': 'application/json',
+                    // 'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                redirect: 'follow', // manual, *follow, error
+                referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+                body: JSON.stringify(dadosInteracao) // body data type must match "Content-Type" header
+            });
+            return response.text(); // parses JSON response into native JavaScript objects
         }
 
         const droppableSequencia = new Draggable.Droppable(containerFormas, {
@@ -242,11 +261,20 @@
             dropzone: '.dropzone'
         });
 
-        droppableSequencia.on('drag:start', () => {
+        droppableSequencia.on('drag:start', () => { //inicio ->fim
             if (containerSequencia.classList.contains('draggable-dropzone--occupied')) {
                 containerSequencia.classList.remove('draggable-dropzone--occupied');
             }
-            timeStamps.push(new Date().getTime());
+            origem = 'INÍCIO';
+        });
+        droppableSequencia.on('drag:stop', async ()=>{ 
+            if(droppableSequencia.lastDropzone == null){
+                destino = 'INÍCIO';
+            }else{
+                destino = 'FIM';
+            }
+            var data_hora = new Date().toISOString().slice(0, 19).replace('T', ' ');
+            await postData('/interacoes', origem, destino, data_hora);
         });
 
         const retorno = new Draggable.Droppable(containerSequencia, {
@@ -254,12 +282,22 @@
             dropzone: '.dropzone'
         });
 
-        retorno.on('drag:start', () => {
+        retorno.on('drag:start', () => { //fim -> inicio
             if (containerFormas.classList.contains('draggable-dropzone--occupied')) {
                 containerFormas.classList.remove('draggable-dropzone--occupied');
             }
-            timeStamps.push(new Date().getTime());
-        })
+            origem = 'FIM';
+        });
+        
+        retorno.on('drag:stop', async ()=>{// se soltou a peça dentro do mesmo container origem e fim sao o msm no
+            if(retorno.lastDropzone == null){
+                destino = 'FIM';
+            }else{
+                destino = 'INÍCIO';
+            }
+            var data_hora = new Date().toISOString().slice(0, 19).replace('T', ' ');
+            await postData('/interacoes', origem, destino, data_hora);
+        });
     </script>
     <script type="text/javascript">
         function descobreOs() {

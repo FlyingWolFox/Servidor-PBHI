@@ -32,7 +32,7 @@ const forma = 0, cor = 1, tamanho = 2, contorno = 3;
 const divNucleo = document.getElementById("container-nucleo");
 const divImgs = document.getElementById("container-formas");
 const divCaixa = 'container-sequencia';
-const textNumeroFase = document.getElementById('textbox-fase');
+const textNumeroFase = document.getElementById('textbox-numero-fase');
 const textTutorial = document.getElementById("texto-textbox")
 const divEstrelas = 'container-estrelas';
 /** FIM CONSTANTES */
@@ -54,9 +54,7 @@ var arrayEstrelas = document.getElementById(divEstrelas).getElementsByTagName('i
 var ano = localStorage.getItem('ano');
 var etapaMax = 17;
 var timeStamps = [];
-textTutorial.innerHTML = "Se atente as restrições acima das áreas azuis, identifique as suas características e arraste as peças disponíveis no fundo da página para a área do núcleo";			
-console.log('esse eh o ano:' + ano);
-
+textTutorial.innerHTML = "Se atente as restrições acima das áreas azuis, identifique as suas características e arraste as peças disponíveis no fundo da página para a área do núcleo";
 /** FIM VARIAVEIS */
 
 /** FUNCOES DE APOIO */
@@ -671,7 +669,7 @@ function stopChuva(){
 function game(){
 	var contador = 0;
 	reset()
-	textNumeroFase.innerHTML = "Fase número "+(etapaAtual+1)+":"
+	textNumeroFase.innerHTML = (etapaAtual+1);
 
 	//Fases do jogo
 	switch (etapaAtual) {
@@ -956,7 +954,7 @@ function check(){
                 textoAcerto.innerText = 'Você acertou! Fase concluída.';
                 botaoOk.innerHTML = "Próxima"; 
                 botaoOk.onclick = function (event){
-					etapaAtual ++; 
+					etapaAtual++; 
 					estrela++;
                     switch (estrela) {
                         case 0:
@@ -1032,6 +1030,7 @@ function check(){
 				stopChuva()
 				etapaAtual = 0;	
 				endGame = false;
+				resetaTimeStamps();
 				resetEstrelas();
 				game();
 				modalFim.style.display = 'none';

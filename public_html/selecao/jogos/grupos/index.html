@@ -1,9 +1,8 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-<html xmlns="http://www.w3.org/1999/xhtml">
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-<link href="https://plus.google.com/+MindfusionEu/" rel="publisher" />
 <meta charset="UTF-8">
+<meta name = "application-name" content = "GRUPOS">
 
 <head>
 
@@ -36,10 +35,10 @@
     <link
         href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@100;300;400;500;700;800;900&display=swap"
         rel="stylesheet">
-
+    <script src="../script/autenticar.js"></script>
 </head>
 
-<body onload="speaking()">
+<body class="game-body">
     <section class="aviso-orientacao">
         <div id="aviso-orientacao-caixa">
             <h1 id="texto-orientacao"> vire seu aparelho na horizontal para jogar</h1>
@@ -63,7 +62,7 @@
             <a href="../../index.html" class="link-logo">
                 <img id="logo-header" src="../img/logo.png" alt="" class="logo grid-item">
             </a>
-            <h2 id="title-jogo" class="grid-item">JOGO DOS GRUPOS</h2>
+            <h2 id="title-jogo" nome-real="GRUPOS" class="grid-item">JOGO DOS GRUPOS</h2>
         </header>
 
         <main id="main-body" class="grid grid-full">
@@ -164,7 +163,7 @@
                     </section>
                 </section>
 
-                <button id="botao-resultado" onclick="resetaTimeStamps()">TERMINEI!</button>
+                <button id="botao-resultado" onclick="">TERMINEI!</button>
                 <div class="formas-titulo">
                     <p class='container-formas-titulo'>Peças Disponíveis</p>
                     <section id="container-formas" class="drop">
@@ -246,12 +245,54 @@
         var drop2 = document.getElementById('drop2');
         var intDrop = document.getElementById('intDrop')
         var dropzoneArea = document.getElementById('dropzone-container');
-        var timeStamps = [];
-
-        function resetaTimeStamps() {
-            let tamanho = timeStamps.length;
-            for (let i = 0; i < tamanho; i++) {
-                console.log(`timestamp ${i}: ${timeStamps.pop()}`);
+        var origem = '';
+        var destino = '';
+        var data_hora = '';
+        
+        async function postData(url = '', origem, destino, data_hora) {
+            var nomeJogo  = document.getElementById('title-jogo').getAttribute('nome-real');
+            var faseAtual = parseInt(document.getElementById('textbox-numero-fase').innerHTML);
+            // Default options are marked with *
+            var dadosInteracao= {
+                origem: origem,
+                destino:destino,
+                tipoLigacao: 'SEM LIGAÇÃO',
+                data_hora:data_hora,
+                nomeJogo:nomeJogo,
+                faseAtual:faseAtual,
+            }
+            const response = await fetch(url, {
+                method: 'POST', // *GET, POST, PUT, DELETE, etc.
+                mode: 'cors', // no-cors, *cors, same-origin
+                cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+                credentials: 'same-origin', // include, *same-origin, omit
+                headers: {
+                    'Content-Type': 'application/json',
+                    // 'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                redirect: 'follow', // manual, *follow, error
+                referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+                body: JSON.stringify(dadosInteracao) // body data type must match "Content-Type" header
+            });
+            return response.text(); // parses JSON response into native JavaScript objects
+        }
+        
+        function decideDrop(id){
+            switch (id) {
+                case 'drop1':
+                    return 'Colocar na esquerda'
+                    break;
+                case 'drop2':
+                    return 'Colocar na direita'
+                    break;
+                case 'intDrop':
+                    return 'Colocar na interseção'
+                    break;
+                case 'container-formas':
+                    return 'INÍCIO'
+                    break;
+                default:
+                    break;
             }
         }
 
@@ -266,20 +307,20 @@
                 if (zone.classList.contains('draggable-dropzone--occupied')) {
                     zone.classList.remove('draggable-dropzone--occupied');
                 }
-                console.log("a peça foi arrastade de " + containerFormas.id);
             });
-            timeStamps.push(new Date().getTime());
         });
 
-        droppableSequencia.on('droppable:stop', () => {
+        droppableSequencia.on('droppable:stop', async () => {
 
             Array.prototype.filter.call(dropzone, zone => {
                 if (zone.classList.contains('draggable-dropzone--occupied')) {
                     zone.classList.remove('draggable-dropzone--occupied');
-                    console.log("a peça foi dropada em " + zone.id);
+                    origem = 'INÍCIO';
+                    destino = decideDrop(zone.id);
                 }
             });
-            timeStamps.push(new Date().getTime());
+            data_hora = new Date().toISOString().slice(0, 19).replace('T', ' ');
+            await postData('/interacoes', origem, destino, data_hora);
         });
 
         const retornoDrop1 = new Draggable.Droppable(drop1, {
@@ -292,21 +333,20 @@
                 if (zone.classList.contains('draggable-dropzone--occupied')) {
                     zone.classList.remove('draggable-dropzone--occupied');
                 }
-                console.log("a peça foi arrastade de " + drop1.id);
             });
-            timeStamps.push(new Date().getTime());
         });
 
-        retornoDrop1.on('droppable:stop', () => {
+        retornoDrop1.on('droppable:stop', async () => {
 
             Array.prototype.filter.call(dropzone, zone => {
                 if (zone.classList.contains('draggable-dropzone--occupied')) {
                     zone.classList.remove('draggable-dropzone--occupied');
-                    console.log("a peça foi dropada em " + zone.id);
+                    origem = 'Colocar na esquerda';
+                    destino = decideDrop(zone.id);
                 }
             });
-
-            timeStamps.push(new Date().getTime());
+            data_hora = new Date().toISOString().slice(0, 19).replace('T', ' ');
+            await postData('/interacoes', origem, destino, data_hora);
         });
 
         const retornoDrop2 = new Draggable.Droppable(drop2, {
@@ -319,19 +359,19 @@
                 if (zone.classList.contains('draggable-dropzone--occupied')) {
                     zone.classList.remove('draggable-dropzone--occupied');
                 }
-                console.log("a peça foi arrastade de " + drop2.id);
             });
-            timeStamps.push(new Date().getTime());
         });
 
-        retornoDrop2.on('droppable:stop', () => {
+        retornoDrop2.on('droppable:stop', async () => {
             Array.prototype.filter.call(dropzone, zone => {
                 if (zone.classList.contains('draggable-dropzone--occupied')) {
                     zone.classList.remove('draggable-dropzone--occupied');
-                    console.log("a peça foi dropada em " + zone.id);
+                    origem = 'Colocar na direita';
+                    destino = decideDrop(zone.id);
                 }
             });
-            timeStamps.push(new Date().getTime());
+            data_hora = new Date().toISOString().slice(0, 19).replace('T', ' ');
+            await postData('/interacoes', origem, destino, data_hora);
         });
 
         const retornoIntDrop = new Draggable.Droppable(intDrop, {
@@ -344,19 +384,19 @@
                 if (zone.classList.contains('draggable-dropzone--occupied')) {
                     zone.classList.remove('draggable-dropzone--occupied');
                 }
-                console.log("a peça foi arrastade de " + intDrop.id);
             });
-            timeStamps.push(new Date().getTime());
         });
 
-        retornoIntDrop.on('droppable:stop', () => {
+        retornoIntDrop.on('droppable:stop', async () => {
             Array.prototype.filter.call(dropzone, zone => {
                 if (zone.classList.contains('draggable-dropzone--occupied')) {
                     zone.classList.remove('draggable-dropzone--occupied');
-                    console.log("a peça foi dropada em " + zone.id);
+                    origem = 'Colocar na interseção';
+                    destino = decideDrop(zone.id);
                 }
             });
-            timeStamps.push(new Date().getTime());
+            data_hora = new Date().toISOString().slice(0, 19).replace('T', ' ');
+            await postData('/interacoes', origem, destino, data_hora);
         });
 
     </script>

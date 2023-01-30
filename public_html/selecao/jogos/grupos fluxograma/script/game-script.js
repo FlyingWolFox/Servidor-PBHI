@@ -88,7 +88,7 @@ function getFasesPorAno(){
 			break;			
 	}
 }
-getFasesPorAno();
+//getFasesPorAno();
 
 function descobreOs() {
     var userAgent = navigator.userAgent || navigator.vendor || window.opera;
@@ -2587,11 +2587,41 @@ function check(){ //Confere se acertou
             modalErro.style.display = 'block';
             textoErro.innerText = 'Resposta errada... Tente novamente!';
         }
-	    ligacao();
+        ligacao();
+        for(let i = 0; i < tempoLigacao.length; i++){
+            console.log(tempoLigacao[i]);
+        }
     }
 }
-
-function ligacao(){
+async function postData(url = '', origem, destino, nomeLink, data_hora){
+    var faseAtual = parseInt(document.getElementById('textbox-numero-fase').innerHTML); 
+    
+  // Default options are marked with *
+    var data = {
+        origem: origem,
+        destino: destino,
+        tipoLigacao: nomeLink,
+        data_hora:data_hora,
+        nomeJogo:'FLUXOGRAMA',
+        faseAtual:faseAtual,
+    }
+    const response = await fetch(url, {
+      method: 'POST', // *GET, POST, PUT, DELETE, etc.
+      mode: 'cors', // no-cors, *cors, same-origin
+      cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+      credentials: 'same-origin', // include, *same-origin, omit
+      headers: {
+        'Content-Type': 'application/json',
+        // 'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      redirect: 'follow', // manual, *follow, error
+      referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+      body: JSON.stringify(data) // body data type must match "Content-Type" header
+    });
+    
+    return response.text();// parses JSON response into native JavaScript objects
+}
+async function ligacao(){
 	var texto = "";
 	for (let link of diagram.getLinks()) {
 		var origem = link.getOrigin();
@@ -2604,8 +2634,17 @@ function ligacao(){
 		}
 		if(origem.getShape().getId() == 'Decision'){
             texto = texto + 'O node ' + `${origem.getText()} está ligado ao node ${destino.getText()} por um ${nomeLink}` + '\n';
+            var data_hora = new Date().toISOString().slice(0, 19).replace('T', ' ');
+            var forigem = origem.getText();
+            var fdestino = destino.getText();
+     
+          await postData('/interacoes', forigem, fdestino, nomeLink, data_hora)
         }else{
             texto = texto + 'O node ' + `${origem.getText()} está ligado ao node ${destino.getText()}` + '\n';
+            var data_hora = new Date().toISOString().slice(0, 19).replace('T', ' ');
+            var forigem = origem.getText();
+            var fdestino = destino.getText();
+           await postData('/interacoes', forigem, fdestino, "SEM LIGAÇÃO", data_hora)
         }
 	}
 }
