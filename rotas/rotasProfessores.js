@@ -30,16 +30,16 @@ routerProfessores.post('/conferirProfessor', async (req, res, next) =>{
 })
 
 routerProfessores.post('/conferirCodigo', async (req, res) => {
-    const codigo = req.body.codigo;
+    const codigoS = req.body.codigo;
 
-    if(!codigo) {res.status(401).send("Preencha o código!")}
+    if(!codigoS) {res.status(401).send("Preencha o código!")}
     else{
-        let email = await sql.getProfessorByCodigo(codigo)
+        let email = await sql.getProfessorByCodigo(codigoS)
         console.log(email)
-        if(email.length > 0){
+        if(email.toString().length > 0){
                 let jwtSecretKey = JWT_SECRET_KEY;
                 let data = {
-                    email: email,
+                    email: email
                 }
               
                 const token = jwt.sign(data, jwtSecretKey);
@@ -130,7 +130,83 @@ routerProfessores.post('/getLink', async (req, res)=>{
         }
     }  
 })
+routerProfessores.get('/getAtividades', async(req, res)=>{
+    console.log('passei no get')
+    const token = req.session.token;
+    const jwtSecretKey = JWT_SECRET_KEY
+    const verificado = jwt.verify(token, jwtSecretKey)
+    if(verificado){
+        const parsedToken = JSON.parse(Buffer.from(token.split('.')[1], 'base64').toString());
 
+        console.log(parsedToken)
+        const email = parsedToken['email']['email'];
+        
+        console.log(email);
+        const atividades = await sql.getAtividadesPorEmail(email);
+        res.status(200).json(atividades);
+   }else{
+       res.status(401).send("Acesso não autorizado")
+   }
+})
+routerProfessores.post('/getTempoMedio', async (req, res) =>{
+    const atividade = req.body.id_atividade;
+    const tempoMedio = await sql.getTempoMedio(atividade);
+    if(tempoMedio){
+        res.json(tempoMedio);
+    } else console.log('Algo deu errado');
+})
+routerProfessores.post('/getNumeroDeJogadores', async (req, res) =>{
+    const atividade = req.body.id_atividade;
+    const numeroJogadores = await sql.getNumeroDeJogadores(atividade);
+    if(numeroJogadores){
+        res.json(numeroJogadores);
+    } else console.log('Algo deu errado');
+})
+routerProfessores.post('/getPartidasVencidas', async (req, res) =>{
+    const atividade = req.body.id_atividade;
+    const partidasVencidas = await sql.getPartidasVencidas(atividade);
+    if(partidasVencidas){
+        res.json(partidasVencidas);
+    } else console.log('Algo deu errado');
+})
+routerProfessores.post('/getPartidasDaAtividade', async (req, res) =>{
+    const atividade = req.body.id_atividade;
+    console.log(atividade);
+    const partidas = await sql.getPartidasDaAtividade(atividade);
+    if(partidas){
+        res.json(partidas);
+    } else console.log('Algo deu errado');
+})
+routerProfessores.post('/getTaxaAcerto', async (req, res) =>{
+    const atividade = req.body.id_atividade;
+    const taxaAcerto = await sql.getTaxaAcerto(atividade);
+    console.log(taxaAcerto);
+    if(taxaAcerto){
+        res.json(taxaAcerto);
+    } else console.log('Algo deu errado');
+})
+routerProfessores.post('/getTentativas', async (req, res) =>{
+    const atividade = req.body.id_atividade;
+    const tentativas = await sql.getTentativas(atividade);
+    if(tentativas){
+        console.log(tentativas)
+        res.json(tentativas);
+    } else console.log('Algo deu errado');
+})
+routerProfessores.post('/getNaoFinalizados', async (req, res) =>{
+    const atividade = req.body.id_atividade;
+    const naoFinalizados = await sql.getNaoFinalizados(atividade);
+    if(naoFinalizados){
+        res.json(naoFinalizados);
+    } else console.log('Algo deu errado');
+})
+routerProfessores.post('/getDadosAtividade', async (req, res) =>{
+    const atividade = req.body.id_atividade;
+    const dadosAtividade = await sql.getDadosAtividade(atividade);
+    if(dadosAtividade){
+        res.json(dadosAtividade);
+    } else console.log('Algo deu errado');
+})
 routerProfessores.all('*', (req,res)=>{ 
      res.status(404).send('<h1>recurso não encontrado</h1');
 })

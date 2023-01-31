@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <title>Tem Lógica - Relatório</title>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="shortcut icon" href="../img/favicon.ico"/>
+
+    <!-- chamada para as folhas de estilo -->
+    <link rel="stylesheet" href="../selecao/jogos/style/page-style.css">
+
+    <!-- link para os icones me forma de fonte -->
+
+    <link rel="stylesheet" href="../selecao/jogos/style/icofont/icofont.min.css">
+
+    <!-- link para as fontes do projeto -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+        rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@100;300;400;500;700;800;900&display=swap"
+        rel="stylesheet">
+    
+    <link rel="stylesheet" href="../selecao/jogos/style/page-style.css">
+    <link rel="stylesheet" href="../selecao/jogos/style/icofont/icofont.min.css">
+    
+</head>
+
+<body class="index-body">
+
+    <header class="grid">
+        <img src="../img/logo.png" alt="" class="logo grid-center">
+        <img src="../img/sr-logico.png" alt="" class="mascote grid-right">
+        <nav class="menu grid grid-full">
+            <ul class="menu-list grid-center">
+                <li class="menu-list-item">
+                    <a href="../index.html" class="menu-link">
+                        <i class="menu-icon icofont-game-pad"></i>
+                        <p class="menu-text">Jogos</p>
+                    </a>
+                </li>
+                <li class="menu-list-item">
+                    <a href="../objetivos.html" class="menu-link">
+                        <i class="menu-icon icofont-check"></i>
+                        <p class="menu-text">Objetivos</p>
+                    </a>
+                </li>
+                <li class="menu-list-item">
+                    <a href="../sobre.html" class="menu-link">
+                        <i class="menu-icon icofont-question"></i>
+                        <p class="menu-text">Sobre</p>
+                    </a>
+                </li>
+                <li class="menu-list-item">
+                    <a href="../contato.html" class="menu-link">
+                        <i class="menu-icon icofont-google-talk"></i>
+                        <p class="menu-text">Contato</p>
+                    </a>
+                </li>
+                <li class="menu-list-item">
+                    <a href="../materiaisProfessores.html" class="menu-link">
+                        <i class="menu-icon icofont-info"></i>
+                        <p class="menu-text">Materiais para <br> Professores</p>
+                    </a>
+                </li>
+                <li class="menu-list-item selected">
+                    <a href="../professores.html" class="menu-link">
+                        <i class="menu-icon icofont-atividade"  style="padding: 2px; box-sizing: border-box;"></i>
+                        <p class="menu-text">Acesso<br> Professores</p>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="titulo-relatorio">
+        <h1>Relatório Geral</h1>
+    </div>
+
+    <section class="painel-de-pontuacao-geral">
+        <main class="grid-tabela">
+            <div class="container">
+                <div class="cartao">
+                    <div class="box">
+                        <div class="porcentagem">
+                            <svg>
+                                <circle cx="70" cy="70" r="70"></circle>
+                                <circle cx="70" cy="70" r="70"></circle>
+                            </svg>
+                            <div class="numero">
+                                <h2 id = 'taxa-acerto'>99<span>%</span></h2>
+                                <p>Correto</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="box-de-texto">
+                <section>
+                    <h1>Muito Bem!</h1>
+
+                    <p>Jogue novamente e deixe o mesmo grupo melhorar a sua pontuação.</p>
+
+                    <button>
+                        Jogar novamente
+                    </button>
+                </section>
+            </div>
+        </main>
+
+        <div class="box-de-conteudo">
+            <section class="painel-de-resultados">
+                <div>
+                    <strong>Jogadores</strong>
+                    <span id = "jogadores-span">32</span>
+                </div>
+                <div>
+                    <strong>Acertos</strong>
+                    <span id = "acertos-span">17</span>
+                </div>
+                <div>
+                    <strong>Tempo Médio[m] </strong>
+                    <span id = "tempo-medio-span">15 min</span>
+                </div>
+            </section>
+        </div>
+   
+    <div class="box-de-desafio">
+        <section class="painel-de-desafios">
+            <div>
+                <p>Desafio 🏆</p>
+            </div>
+            <div>
+                <p>Criado:</p>
+                <span id = 'datah-criacao'>21-10-2022, 04:40:19</span>
+            </div>
+            <div>
+                <p>Encerrado:</p>
+                <span id = 'datah-encerramento'>21-10-2022, 06:40:19</span>
+            </div>
+            <div>
+                <p>Criado por:</p>
+                <span id = 'nome-professor'>JoãoV ittor</span>
+            </div>
+        </section>
+    </div>
+</section>
+
+    <section class="paineis-de-relatorio">
+        <div class="tabela" id ="tabela-resultado">
+        </div>
+
+        <div class="painel-de-ajuda">
+            <header>
+                <div class="titulo-header">
+                    <p>Precisa de ajuda <span id = "numero-ajuda">0</span></p> 
+                </div>
+                <p>
+                    <details>
+                        <summary>❓</summary>
+                        <p>Jogadores que erraram 3 ou mais vezes a mesma fase de um jogo.</p>
+                    </details>
+                </p>
+            </header>
+
+            <section id = 'tentativas' class="lista-de-jogadores">
+                <div>
+                    <p>Euuuu</p>
+                    <strong>4 tentativas</strong>
+            </section>
+        </div>
+
+        <div class="painel-sem-respostas">
+            <header>
+                <div class="titulo-header-2">
+                    <p>Não finalizados <span id = "numero-nao-finalizados">1</span></p> 
+                </div>
+
+                <p>
+                    <details>
+                        <summary>❓</summary>
+                        <p>Jogadores que não concluiram todas as fases de um jogo.</p>
+                    </details>
+                </p>
+            </header>
+
+            <section id = 'nao-finalizados' class="lista-de-jogadores-2">
+              <div>
+                <p>Euuuu</p>
+                <strong>11 sem respostas</strong> 
+              </div>  
+            </section>
+        </div>
+    </section>
+
+    <footer class="footer-grid">
+        <p class="footer-text grid-center">Copyright Fapesq - <span id="ano">2021</span></p>
+        <script>
+            var ano = document.getElementById("ano");
+            var anoAtual = new Date();
+            ano.innerHTML = anoAtual.getFullYear();
+        </script>
+        <section class="grid-right">
+            <p class="footer-text realizadores-text">Realizadores:</p>
+            <div class="footer-imgs">
+                <img class="footer-img" id="logo-pb" src="../img/logo-pb.png" alt="">
+                <img class="footer-img" id="logo-seect" src="../img/logo-SEECT.png" alt="">
+                <img class="footer-img" id="logo-fapesq" src="../img/logo-fapesq.png" alt="">
+            </div>
+        </section>
+    </footer>
+    <script src="../script/professores/relatorio.js"></script>
+</body>

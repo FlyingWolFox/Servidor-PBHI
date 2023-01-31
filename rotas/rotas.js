@@ -99,24 +99,7 @@ routerDefault.post('/nome', async (req,res) => {
     }
    
 })
-routerDefault.get('/getTempoMedio', async (req, res) =>{
-    const tempoMedio = await sql.getTempoMedio();
-    if(tempoMedio){
-        res.json(tempoMedio);
-    } else console.log('Algo deu errado');
-})
-routerDefault.get('/getNumeroDeJogadores', async (req, res) =>{
-    const numeroJogadores = await sql.getNumeroDeJogadores();
-    if(numeroJogadores){
-        res.json(numeroJogadores);
-    } else console.log('Algo deu errado');
-})
-routerDefault.get('/getPartidasVencidas', async (req, res) =>{
-    const partidasVencidas = await sql.getPartidasVencidas();
-    if(partidasVencidas){
-        res.json(partidasVencidas);
-    } else console.log('Algo deu errado');
-})
+
 routerDefault.get('/getTentativas', async (req,res) => {
     let fields = await sql.getTentativas();
     if(fields){

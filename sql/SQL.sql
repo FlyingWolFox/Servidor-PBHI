@@ -23,7 +23,7 @@ CREATE TABLE jogo
 ( 
  nome_jogo VARCHAR(30) PRIMARY KEY NOT NULL,  
  max_fase INT
---  diretorio VARCHAR(100)
+ diretorio VARCHAR(100)
 );
 
 CREATE TABLE jogador 
