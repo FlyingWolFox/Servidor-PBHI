@@ -127,7 +127,7 @@ a#span-textbox {
 }
 
 
-span#span-about {
+button#button-about {
 
     width: 20px;
     height: 33px;
@@ -164,7 +164,7 @@ span#span-about {
         border: 1px solid white;
     }
 
-    span#span-about {
+    button#button-about {
         width: 8px;
         height: 20px;
         margin: 0px;
