@@ -107,6 +107,7 @@ span#span-fullscreen {
     line-height: 34px;
     background-color: #606060;
     border: 3px solid white;
+    cursor: pointer;
 }
 
 a#span-textbox {
