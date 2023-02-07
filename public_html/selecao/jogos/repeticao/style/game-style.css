@@ -344,7 +344,33 @@ img#repetir-voz {
 }
 
 div.modal_content {
-    border: 7px solid #FDC23E !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    margin-top: 160px;
+    border-color: rgb(101, 179, 53);
+    border: 7px solid rgb(101, 179, 53);
+    padding: 10px 10px 0 10px;
+    background-color: #FFF;
+    width: 35%;
+    height: 216px;
+}
+
+div#modalAcerto .modal-img-logico {
+    width: 130px;
+    margin-left: 60px;
+}
+
+div#modalAcerto .titulo-modal {
+    color: rgb(101, 179, 53);
+}
+
+.modal-text-content {
+    margin: 0 auto;
+    width: 300px;
+    margin-left: 5px;
+    text-align: center;
 }
 
 button#button-about {
@@ -386,6 +412,8 @@ button#button-about {
     z-index: 0;
 
 }
+
+
 
 .grid-container {
     display: grid;
@@ -538,8 +566,61 @@ section#container_formas {
     justify-content: center;
 }
 
-img.game-img {
+div.modalNegativo-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    flex-direction: row;
 
+    width: 500px;
+    min-width: 250px;
+    min-height: 200px;
+    padding: 20px;
+    
+    color: #E25A40;
+    background-color: #fefefe;
+
+    border: 7px solid #E25A40;
+    border-radius: 5px;
+}
+
+div.modalNegativo-content .modal-img-logico {
+    width: 130px;
+    margin-left: 60px;
+}
+
+.modalNegativo-content .modal-text-content .titulo-modal {
+    color: #E25A40;
+}
+
+div.modal-text-content h2#resultado-jogo {
+    color: rgb(101, 179, 53);
+}
+
+#modalErro {
+    margin-top: -60px;
+}
+
+button#botao-retorno {
+    width: fit-content;
+    height: fit-content;
+    padding: 10px 20px;
+    margin-top: 10px;
+    margin-bottom: 20px;
+    font-size: 1em;
+    color: #FFF;
+    text-transform: uppercase;
+    font-weight: bold;
+    background: #da4629;
+    border: 5px solid #FFFFFF;
+    border-radius: 10px;
+}
+
+button#botao-retorno:hover {
+    background-color: #773326;
+}
+
+img.game-img {
     width: 5%;
     margin: 0px 5px;
     align-self: center;

@@ -110,6 +110,113 @@ div.modal_content {
     border: 7px solid #FDC23E !important;
 }
 
+div.modal {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    overflow: auto;
+    z-index: 100;
+}
+
+.modal-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    margin-top: 160px;
+    border-color: rgb(101, 179, 53);
+    border: 7px solid rgb(101, 179, 53);
+    padding: 10px 10px 0 10px;
+    background-color: #FFF;
+    width: 35%;
+    height: 216px;
+}
+
+div#modalAcerto .modal-img-logico {
+    width: 130px;
+    margin-left: 60px;
+}
+
+.modal-text-content {
+    margin: 0 auto;
+    width: 300px;
+    margin-left: 5px;
+    text-align: center;
+}
+
+.modal-content .titulo-modal {
+    color: rgb(101, 179, 53);
+    text-align: center;
+}
+
+.modal-content #resultado-jogo {
+    color: rgb(101, 179, 53);
+    text-align: center;
+}
+
+button#botao-proximo {
+    width: fit-content;
+    height: fit-content;
+    padding: 10px 20px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    font-size: 1em;
+    color: #FFF;
+    text-transform: uppercase;
+    font-weight: bold;
+    background: #65B335;
+    border-radius: 7px;
+}
+
+div.modalNegativo-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    flex-direction: row;
+    width: 550px;
+    min-width: 250px;
+    min-height: 200px;
+    padding: 20px;
+    color: #E25A40;
+    background-color: #fefefe;
+    border: 7px solid #E25A40;
+    border-radius: 5px;
+    margin: 0 auto;
+    margin-top: 160px;
+}
+
+div.modalNegativo-content .modal-img-logico {
+    width: 130px;
+    margin-left: 55px;
+}
+
+.modal-text-content {
+    margin: 0 auto;
+    width: 300px;
+    margin-left: 5px;
+    text-align: center;
+    margin-left: 25px;
+}
+
+button#botao-retorno {
+    width: fit-content;
+    height: fit-content;
+    padding: 10px 20px;
+    margin-top: 10px;
+    margin-bottom: 20px;
+    font-size: 1em;
+    color: #FFF;
+    text-transform: uppercase;
+    font-weight: bold;
+    background: #da4629;
+    border: 5px solid #FFFFFF;
+    border-radius: 10px;
+}
 
 
 div.progresso-conquistas {

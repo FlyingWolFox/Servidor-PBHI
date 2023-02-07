@@ -256,10 +256,6 @@ img.game-img.pequeno{
     border-color: #7EE0E0;
 }
 
-div.modal-text-content {
-    width: min-content;
-}
-
 .close {
     color: var(--azul-escuro);
     font-size: 40px;
@@ -279,7 +275,7 @@ div.modal-text-content {
     top: 50%;
     right: 50%;
     transform: translate(50%,-50%);
-    width: 30%;
+    width: 35%;
     min-width: 250px;
     min-height: 200px;
     text-align: center;
@@ -295,6 +291,7 @@ div.modal-text-content {
 #modalNegativo-content {
     border: 7px solid #E25A40;
     margin-top: -55px;
+    width: 33%;
 }
 
 #modalPositivo-content{
@@ -346,10 +343,6 @@ h2.titulo-modal {
     margin-top: 10px;
     margin-bottom: 10px;
     font-size: 1.5em;
-}
-
-img.modal-img-logico {
-    width: 40%;
 }
 
 button {

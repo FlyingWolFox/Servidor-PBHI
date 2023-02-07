@@ -796,7 +796,7 @@ function check() { //Verifica se acertou os elementos
 			
 		} else {
 			
-			modalErro.style.display = 'block';
+			modalErro.style.display = 'flex';
 			textoErro.innerHTML = "Que pena, tente novamente!";
 			botaoOk.innerHTML = "Continuar";
 			botaoOk.onclick = function (event){

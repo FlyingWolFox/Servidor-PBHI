@@ -1065,7 +1065,7 @@ function check() { //Verifica se acertou os elementos
 			};
 		} else{ 
 			modalErro.style.display = 'block';
-			textoErro.innerText = "Resposta errada... Tente novamente!";
+			textoErro.innerText = "Que pena, tente novamente!";
 		}
 
 	} else {
