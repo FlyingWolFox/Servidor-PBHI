@@ -120,8 +120,8 @@ routerProfessores.post('/getLink', async (req, res)=>{
         res.status(404).send("Preencha todos os campos!")
     }else{
         try{
-            await sql.insertAtividade(id, req.body.nomeProfessor, req.body.escola,req.body.turma, req.body.nome_jogo,req.body.anoAtividade, criacao_UTC, expiracao_UTC, req.body.email, req.body.comentarioAtividade)
-            const URL = process.env.APP_URL+'/atividade/'+ id 
+            await sql.insertAtividade(id, req.body.nomeProfessor, req.body.escola,req.body.turma, req.body.nome_jogo,req.body.anoAtividade, criacao_UTC, expiracao_UTC, req.body.email, req.body.comentarioAtividade,req.body.faseInicioAtividade,req.body.faseFimAtividade)
+            const URL = process.env.APP_URL+'/atividade/'+ id + '?fase=' + req.body.faseInicioAtividade
             console.log(req.body);
     
             res.status(200).send(URL);

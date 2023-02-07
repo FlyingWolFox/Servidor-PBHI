@@ -1,4 +1,12 @@
-var etapaAtual = parseInt(localStorage.fase_atual) - 1;   //Etapa do exercício
+const urlParam = new URLSearchParams(window.location.search)
+console.log('Fase:'+ urlParam.get("fase"))
+const faseInicial = urlParam.get("fase")
+if (faseInicial == null){
+	var etapaAtual = 0;
+}
+else{
+	var etapaAtual = parseInt(faseInicial)-1
+}
 var estrela = 0;      //Contagem das estrelas (5 por etapa)
 var endGame;
 var restricao1 = [];   //Restriçoes da primeira caixa (esquerda)

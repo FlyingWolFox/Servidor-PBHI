@@ -89,6 +89,11 @@
         button#botao-resultado{
             margin-bottom: 0;
         }
+        section#faseBox{
+            width: 100%;
+
+            display: flex;
+        }
     </style>
 </head>
 
@@ -148,16 +153,16 @@
                     <input type="text" id="turma" class="form-input" name="turma" placeholder="Sua turma" maxlength="30">
                     <input type="text" id="escola" class="form-input" name="escola" placeholder="Sua escola" maxlength="4" style="margin-bottom: 50px;">
                     <label for="jogos">Selecione um jogo:</label>
-                    <select id="jogos" name="nome_jogo">
+                    <select id="jogos" name="nome_jogo" onchange="getListaFases()">
                     </select> 
-                    <label for="duracao">Selecione a duração da sua Atividade</label>
+                    <label for="duracao">Selecione a duração da sua Atividade:</label>
                     <select id="duracao" name="duracao">
                         <option value=60>1 Hora</option>
                         <option value=120>2 Horas</option>
                         <option value= 1440>24 Horas</option>
                         <option value=2880>48 Horas</option>
                     </select> 
-                    <label for="anoAtividade">Selecione o Ano escolar correspondente a sua Atividade</label>
+                    <label for="anoAtividade">Selecione o Ano escolar correspondente a sua Atividade:</label>
                     <select id="anoAtividade" name="anoAtividade">
                         <option value = "Primeiro Ano" >Primeiro Ano</option>
                         <option value = "Segundo Ano">Segundo Ano</option>
@@ -165,7 +170,31 @@
                         <option value = "Quarto Ano">Quarto Ano</option>
                         <option value = "Quinto Ano">Quinto Ano</option>
                         <option value = "Sexto Ano">Sexto Ano</option>
-                    </select> <br>
+                    </select>
+                    <section id="faseBox">
+                        <div class="miniBoxFase">
+                            <label for="faseInicioAtividade">Selecione a fase incial:</label>
+                            <select id="faseInicioAtividade" name="faseInicioAtividade">
+                                <option value = "Primeiro Ano" >Primeiro Ano</option>
+                                <option value = "Segundo Ano">Segundo Ano</option>
+                                <option value = "Terceiro Ano">Terceiro Ano</option>
+                                <option value = "Quarto Ano">Quarto Ano</option>
+                                <option value = "Quinto Ano">Quinto Ano</option>
+                                <option value = "Sexto Ano">Sexto Ano</option>
+                            </select> 
+                        </div>
+                        <div class="miniBoxFase">
+                            <label for="faseFimAtividade">Selecione a fase final:</label>
+                            <select id="faseFimAtividade" name="faseFimAtividade">
+                                <option value = "Primeiro Ano" >Primeiro Ano</option>
+                                <option value = "Segundo Ano">Segundo Ano</option>
+                                <option value = "Terceiro Ano">Terceiro Ano</option>
+                                <option value = "Quarto Ano">Quarto Ano</option>
+                                <option value = "Quinto Ano">Quinto Ano</option>
+                                <option value = "Sexto Ano">Sexto Ano</option>
+                            </select>
+                        </div>
+                    </section>
                 </section>
                 <section class="form-section" id="form_textarea" style="text-align: center; grid-column: 2/3; grid-row: 1/2; width: 100%;">
                     <textarea id="comentario-atividade" name="comentarioAtividade" maxlength="300"

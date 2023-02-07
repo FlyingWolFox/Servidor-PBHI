@@ -55,4 +55,32 @@ async function getListaJogos(){
     })
 }
 
-getListaJogos();
+async function getListaFases(self){
+    await fetch('/getJogos') 
+    .then(res => res.json())
+    .then(resultados => {
+        for (const resultado of resultados) {
+            if (self.value == resultado.nome_jogo){
+                let selectInicio = document.getElementById('faseInicioAtividade')
+                let selectFim = document.getElementById('faseFimAtividade')
+                selectInicio.innerHTML = ''
+                selectFim.innerHTML = ''
+                for (let i = 1;i < resultado.max_fase;i++){
+                    var opt = document.createElement("option");
+                    opt.value= i;
+                    opt.innerHTML = i; 
+                    selectFim.appendChild(opt);
+                    opt = document.createElement("option");
+                    opt.value= i;
+                    opt.innerHTML = i; 
+                    selectInicio.appendChild(opt);
+                }
+            } 
+        }
+    })
+}
+
+window.onload = () => {
+    getListaJogos();
+    getListaFases({"value": 'COMPLETAR'});
+}

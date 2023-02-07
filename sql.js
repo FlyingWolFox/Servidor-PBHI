@@ -158,9 +158,9 @@ sql.getJogoPorNome = (jogo) =>{
   });
 };
 
-sql.insertAtividade = (id, nome_professor, escola, turma, jogo, ano, datah_criacao, datah_expiracao, email, comentario) =>{
+sql.insertAtividade = (id, nome_professor, escola, turma, jogo, ano, datah_criacao, datah_expiracao, email, comentario, faseInicio, faseFim) =>{
   return new Promise((resolve, reject)=>{
-      connection.query('INSERT INTO atividade (id_atividade, professor_nome, escola, turma, jogo, ano, datah_criacao, datah_expiracao, professor_email, comentario) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', [id, nome_professor, escola ,turma, jogo, ano, datah_criacao, datah_expiracao, email, comentario], (error, result)=>{
+      connection.query('INSERT INTO atividade (id_atividade, professor_nome, escola, turma, jogo, ano, datah_criacao, datah_expiracao, professor_email, comentario, fase_inicio, fase_fim) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', [id, nome_professor, escola ,turma, jogo, ano, datah_criacao, datah_expiracao, email, comentario, faseInicio,faseFim], (error, result)=>{
           if(error){
               return reject(error);
           }

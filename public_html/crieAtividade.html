@@ -8,14 +8,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link rel="shortcut icon" href="./img/favicon.ico"/>
+    <link rel="shortcut icon" href="../img/favicon.ico"/>
 
     <!-- chamada para as folhas de estilo -->
-    <link rel="stylesheet" href="./selecao/jogos/style/page-style.css">
+    <link rel="stylesheet" href="../style/page-style.css">
 
     <!-- link para os icones me forma de fonte -->
 
-    <link rel="stylesheet" href="./selecao/jogos/style/icofont/icofont.min.css">
+    <link rel="stylesheet" href="../style/icofont/icofont.min.css">
 
     <!-- link para as fontes do projeto -->
     <link rel="preconnect" href="https://fonts.gstatic.com">
@@ -25,8 +25,8 @@
     <link
         href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@100;300;400;500;700;800;900&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="./selecao/jogos/style/page-style.css">
-    <link rel="stylesheet" href="./selecao/jogos/style/icofont/icofont.min.css">
+    <link rel="stylesheet" href="../selecao/jogos/style/page-style.css">
+    <link rel="stylesheet" href="../selecao/jogos/style/icofont/icofont.min.css">
 
     <style>
         form#crieAtividade-form{
@@ -71,9 +71,11 @@
 
             font-weight: 700;
         }
-        section#btnMsg{
+        section.container-botao{
+            margin: 10px auto;
             display: flex;
             flex-direction: column;
+            /* justify-content: center; */
             align-items: center;
         }
         textarea#comentario-atividade{
@@ -89,49 +91,57 @@
             font-weight: 700; 
         }
         button#botao-resultado{
-            margin: 10px auto;
+            margin-bottom: 20px;
+        }
+        section#faseBox{
+            width: 100%;
+
+            display: flex;
+        }
+        select.faseSelect{
+            margin-left: 15%;
         }
     </style>
 </head>
 
 <body class="index-body">
     <header class="grid">
-        <img src="./img/logo.png" alt="" class="logo grid-center">
-        <img src="./img/sr-logico.png" alt="" class="mascote grid-right">
+        <img src="../img/logo.png" alt="" class="logo grid-center">
+        <img src="../img/sr-logico.png" alt="" class="mascote grid-right">
         <nav class="menu grid grid-full">
             <ul class="menu-list grid-center">
                 <li class="menu-list-item">
-                    <a href="./index.html" class="menu-link">
+                    <a href="../index.html" class="menu-link">
                         <i class="menu-icon icofont-game-pad"></i>
                         <p class="menu-text">Jogos</p>
                     </a>
                 </li>
                 <li class="menu-list-item">
-                    <a href="./objetivos.html" class="menu-link">
+                    <a href="../objetivos.html" class="menu-link">
                         <i class="menu-icon icofont-check"></i>
                         <p class="menu-text">Objetivos</p>
                     </a>
                 </li>
                 <li class="menu-list-item">
-                    <a href="./sobre.html" class="menu-link">
+                    <a href="../sobre.html" class="menu-link">
                         <i class="menu-icon icofont-question"></i>
                         <p class="menu-text">Sobre</p>
                     </a>
                 </li>
                 <li class="menu-list-item">
-                    <a href="./contato.html" class="menu-link">
+                    <a href="../contato.html" class="menu-link">
                         <i class="menu-icon icofont-google-talk"></i>
                         <p class="menu-text">Contato</p>
                     </a>
                 </li>
                 <li class="menu-list-item">
-                    <a href="./materiaisProfessores.html" class="menu-link">
+                    <a href="../materiaisProfessores.html" class="menu-link">
                         <i class="menu-icon icofont-info"></i>
                         <p class="menu-text">Materiais para <br> Professores</p>
                     </a>
                 </li>
                 <li class="menu-list-item selected">
-                    <a href="./professores.html" class="menu-link">
+                    <a href="../professores.html" class="menu-link">
                         <i class="menu-icon icofont-atividade"  style="padding: 2px; box-sizing: border-box;"></i>
                         <p class="menu-text">Acesso<br> Professores</p>
                     </a>
@@ -148,18 +158,18 @@
                     <input type="text" id="nome-professor" class="form-input" name="nomeProfessor" placeholder="Seu nome" maxlength="45">
                     <input type="text" id="email" class="form-input" name="email" placeholder="Seu email" maxlength="50">
                     <input type="text" id="turma" class="form-input" name="turma" placeholder="Sua turma" maxlength="30">
-                    <input type="text" id="escola" class="form-input" name="escola" placeholder="Sua escola" maxlength="30" style="margin-bottom: 50px;">
+                    <input type="text" id="escola" class="form-input" name="escola" placeholder="Sua escola" maxlength="4" style="margin-bottom: 50px;">
                     <label for="jogos">Selecione um jogo:</label>
-                    <select id="jogos" name="nome_jogo">
+                    <select id="jogos" name="nome_jogo" onchange="getListaFases(this)">
                     </select> 
-                    <label for="duracao">Selecione a duração da sua Atividade</label>
+                    <label for="duracao">Selecione a duração da sua Atividade:</label>
                     <select id="duracao" name="duracao">
                         <option value=60>1 Hora</option>
                         <option value=120>2 Horas</option>
                         <option value= 1440>24 Horas</option>
                         <option value=2880>48 Horas</option>
                     </select> 
-                    <label for="anoAtividade">Selecione o Ano escolar correspondente a sua Atividade</label>
+                    <label for="anoAtividade">Selecione o Ano escolar correspondente a sua Atividade:</label>
                     <select id="anoAtividade" name="anoAtividade">
                         <option value = "Primeiro Ano" >Primeiro Ano</option>
                         <option value = "Segundo Ano">Segundo Ano</option>
@@ -167,18 +177,29 @@
                         <option value = "Quarto Ano">Quarto Ano</option>
                         <option value = "Quinto Ano">Quinto Ano</option>
                         <option value = "Sexto Ano">Sexto Ano</option>
-                    </select> <br>
+                    </select>
+                    <section id="faseBox">
+                        <div class="miniBoxFase">
+                            <label for="faseInicioAtividade">Selecione a fase incial:</label>
+                            <select id="faseInicioAtividade" name="faseInicioAtividade" class="faseSelect">
+                            </select> 
+                        </div>
+                        <div class="miniBoxFase">
+                            <label for="faseFimAtividade">Selecione a fase final:</label>
+                            <select id="faseFimAtividade" name="faseFimAtividade" class="faseSelect">
+                            </select>
+                        </div>
+                    </section>
                 </section>
                 <section class="form-section" id="form_textarea" style="text-align: center; grid-column: 2/3; grid-row: 1/2; width: 100%;">
                     <textarea id="comentario-atividade" name="comentarioAtividade" maxlength="300"
                         placeholder="Escreva aqui um comentário descrevendo a atividade para seus alunos..."></textarea>
                 </section>
-                <section id="btnMsg">
+                <section class = 'container-botao'>
                     <button onclick = getLink() class="botao" id="botao-resultado">Gerar Link</button>
-
                     <div id="boxResposta" class="responseMsg"></div>
                 </section>
-                </section>
+            </section>
             </form>
         </section>
     </main>
@@ -193,13 +214,13 @@
         <section class="grid-right">
             <p class="footer-text realizadores-text">Realizadores:</p>
             <div class="footer-imgs">
-                <img class="footer-img" id="logo-pb" src="./img/logo-pb.png" alt="">
-                <img class="footer-img" id="logo-seect" src="./img/logo-SEECT.png" alt="">
-                <img class="footer-img" id="logo-fapesq" src="./img/logo-fapesq.png" alt="">
+                <img class="footer-img" id="logo-pb" src="../img/logo-pb.png" alt="">
+                <img class="footer-img" id="logo-seect" src="../img/logo-SEECT.png" alt="">
+                <img class="footer-img" id="logo-fapesq" src="../img/logo-fapesq.png" alt="">
             </div>
         </section>
     </footer>
-    <script src="./script/professores/crieAtividade.js"></script>
+    <script src="../script/professores/crieAtividade.js"></script>
 </body>
 
 </html>
