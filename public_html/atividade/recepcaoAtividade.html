@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+
+    <title>Tem Lógica - Contato</title>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="shortcut icon" href="../img/favicon.ico"/>
+
+    <!-- link para os icones me forma de fonte -->
+
+    <link rel="stylesheet" href="../selecao/jogos/style/page-style.css">
+    <link rel="stylesheet" href="../selecao/jogos/style/icofont/icofont.min.css">
+
+    <!-- link para as fontes do projeto -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+        rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@100;300;400;500;700;800;900&display=swap"
+        rel="stylesheet">
+
+    <style>
+        form#contact-form{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        input.botao{
+            width: fit-content;
+            height: fit-content;
+            padding: 10px 20px;
+            margin-bottom: 20px;
+            font-size: 1em;
+            color: var(--cor-do-body);
+            text-transform: uppercase;
+            font-weight: bold;
+            background: #65B335;
+            border: 5px solid #FFFFFF;
+            border-radius: 10px;
+        }
+        input.botao:hover{
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body class="index-body">
+
+    <header class="grid">
+        <img src="../img/logo.png" alt="" class="logo grid-center">
+        <img src="../img/sr-logico.png" alt="" class="mascote grid-right">
+        <nav class="menu grid grid-full">
+            <ul class="menu-list grid-center">
+                <li class="menu-list-item selected">
+                    <a href="../index.html" class="menu-link">
+                        <i class="menu-icon icofont-game-pad"></i>
+                        <p class="menu-text">Jogos</p>
+                    </a>
+                </li>
+                <li class="menu-list-item">
+                    <a href="../objetivos.html" class="menu-link">
+                        <i class="menu-icon icofont-check"></i>
+                        <p class="menu-text">Objetivos</p>
+                    </a>
+                </li>
+                <li class="menu-list-item">
+                    <a href="../sobre.html" class="menu-link">
+                        <i class="menu-icon icofont-question"></i>
+                        <p class="menu-text">Sobre</p>
+                    </a>
+                </li>
+                <li class="menu-list-item">
+                    <a href="../contato.html" class="menu-link">
+                        <i class="menu-icon icofont-google-talk"></i>
+                        <p class="menu-text">Contato</p>
+                    </a>
+                </li>
+                <li class="menu-list-item">
+                    <a href="../materiaisProfessores.html" class="menu-link">
+                        <i class="menu-icon icofont-info"></i>
+                        <p class="menu-text">Materiais para <br> Professores</p>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="grid grid-full">
+        <section class="contact-main-section grid-center box-center">
+            <h2 class="contact-section-title">Dados da Atividade</h2>
+            <article>
+                <h3>Professor:</h3> <span id="nome_professor"></span>
+                <h3>Período:</h3> <p></p><span id="data_criacao"></span> até <span id="data_encerramento"></span></p>
+                <h3>Escola:</h3> <span id="escola"></span>
+                <h3>Turma:</h3> <span id="turma"></span>
+                <h3>Comentário:</h3> <span id="comentario"></span>
+            </article>
+            <form id="contact-form" onsubimit="" action="/atividade/formAtividade.html" method="post" enctype="application/x-www-form-urlencoded" name="form">
+                <section class="form-section">
+                    <input type="text" id="nome-contato" class="form-input" name="nome" placeholder="Seu nome"><br>
+                </section>
+                <input id="form-button" class="botao" type="submit" value="Enviar">
+            </form>
+        </section>
+    </main>
+
+    <footer class="footer-grid">
+        <p class="footer-text grid-center">Copyright Fapesq - <span id="ano">2021</span></p>
+            <script>
+                var ano = document.getElementById("ano");
+                var anoAtual = new Date();
+                ano.innerHTML = anoAtual.getFullYear();
+            </script>
+        <section class="grid-right">
+            <p class="footer-text realizadores-text">Realizadores:</p>
+            <div class="footer-imgs">
+                <img class="footer-img" id="logo-pb" src="../img/logo-pb.png" alt="">
+                <img class="footer-img" id="logo-seect" src="../img/logo-SEECT.png" alt="">
+                <img class="footer-img" id="logo-fapesq" src="../img/logo-fapesq.png" alt="">
+            </div>
+        </section>
+    </footer>
+    <script src="../script/atividade/atividade.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+
+    <title>Tem Lógica - Professores</title>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="shortcut icon" href="./img/favicon.ico"/>
+
+    <!-- chamada para as folhas de estilo -->
+    <link rel="stylesheet" href="./selecao/jogos/style/page-style.css">
+
+    <!-- link para os icones me forma de fonte -->
+
+    <link rel="stylesheet" href="./selecao/jogos/style/icofont/icofont.min.css">
+
+    <!-- link para as fontes do projeto -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+        rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@100;300;400;500;700;800;900&display=swap"
+        rel="stylesheet">
+
+    <style>
+        form.Prof-form{
+            width: 100%;
+
+            padding: 30px 0 0 30px;
+
+            display: flex;
+            flex-direction: column;
+            /* justify-content: center; */
+            align-items: center;
+        }
+        form#cadastroProf-form{
+            padding-top: 0;
+        }
+        section.form-section input.form-input{
+            width: 50%;
+            min-width: 300px;
+            margin-bottom: 35px;
+        }
+        p.sobre_input{
+            font-weight: 800;
+            font-size: 1.2em;
+            color: rgb(70, 70, 70);
+            margin: 10px 0;
+        }
+        input.botao{
+            width: fit-content;
+            height: fit-content;
+            padding: 10px 20px;
+            margin-bottom: 20px;
+            font-size: 1em;
+            color: var(--cor-do-body);
+            text-transform: uppercase;
+            font-weight: bold;
+            background: #65B335;
+            border: 5px solid #FFFFFF;
+            border-radius: 10px;
+        }
+        input.botao:hover{
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body class="index-body">
+    <header class="grid">
+        <img src="./img/logo.png" alt="" class="logo grid-center">
+        <img src="./img/sr-logico.png" alt="" class="mascote grid-right">
+        <nav class="menu grid grid-full">
+            <ul class="menu-list grid-center">
+                <li class="menu-list-item">
+                    <a href="./index.html" class="menu-link">
+                        <i class="menu-icon icofont-game-pad"></i>
+                        <p class="menu-text">Jogos</p>
+                    </a>
+                </li>
+                <li class="menu-list-item">
+                    <a href="./objetivos.html" class="menu-link">
+                        <i class="menu-icon icofont-check"></i>
+                        <p class="menu-text">Objetivos</p>
+                    </a>
+                </li>
+                <li class="menu-list-item">
+                    <a href="./sobre.html" class="menu-link">
+                        <i class="menu-icon icofont-question"></i>
+                        <p class="menu-text">Sobre</p>
+                    </a>
+                </li>
+                <li class="menu-list-item">
+                    <a href="./contato.html" class="menu-link">
+                        <i class="menu-icon icofont-google-talk"></i>
+                        <p class="menu-text">Contato</p>
+                    </a>
+                </li>
+                <li class="menu-list-item ">
+                    <a href="./materiaisProfessores.html" class="menu-link">
+                        <i class="menu-icon icofont-info"></i>
+                        <p class="menu-text">Materiais para <br> Professores</p>
+                    </a>
+                </li>
+                <li class="menu-list-item selected">
+                    <a href="./professores.html" class="menu-link">
+                        <i class="menu-icon icofont-atividade"></i>
+                        <p class="menu-text">Acesso<br> Professores</p>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="grid">
+        <section class="objective-main-section grid-center box-center">
+            <h2 class="objective-section-title">Acesso Professores</h2>
+            <section id="section-bt-professores">
+                <form class=Prof-form id="loginProf-form" onsubmit="logar_codigo()">
+                    <section class="form-section" style="grid-column: 1/2; grid-row: 1/3; width: 100%;">
+                        <input type="text" id="codigo-professor" class="form-input" name="codigoProfessor" placeholder="Seu código" maxlength="8">                
+                    </section>
+                    <input type="submit" class="botao" id="botao-resultado" value="Entrar">
+                </form>
+                <form class=Prof-form id="cadastroProf-form" onsubmit="send_email()">
+                    <section class="form-section" style="grid-column: 1/2; grid-row: 1/3; width: 100%;">
+                        <p class="sobre_input">Não tem cadastro?</p>
+                        <input type="text" id="email_professor" class="form-input" name="emailProfessor" placeholder="Seu email" maxlength="50">                
+                        <input type="text" id="nome_professor" class="form-input" name="nomeProfessor" placeholder="Seu nome" maxlength="45">                  
+                        <br>
+                        <input type="submit" class="botao" id="botao-resultado" value="Gerar novo código">
+                    </section>
+                 </form>
+                </section>
+            </section>
+        </section>
+    </main>
+
+    <footer class="footer-grid">
+        <p class="footer-text grid-center">Copyright Fapesq - <span id="ano">2021</span></p>
+            <script>
+                var ano = document.getElementById("ano");
+                var anoAtual = new Date();
+                ano.innerHTML = anoAtual.getFullYear();
+            </script>
+        <section class="grid-right">
+            <p class="footer-text realizadores-text">Realizadores:</p>
+            <div class="footer-imgs">
+                <img class="footer-img" id="logo-pb" src="./img/logo-pb.png" alt="">
+                <img class="footer-img" id="logo-seect" src="./img/logo-SEECT.png" alt="">
+                <img class="footer-img" id="logo-fapesq" src="./img/logo-fapesq.png" alt="">
+            </div>
+        </section>
+    </footer>
+    <script src="./script/page-script.js"></script>
+    <script src="./script/professores/mainPage.js"></script>
+</body>
+
+</html>

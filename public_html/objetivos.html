@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+
+    <title>Tem Lógica - Objetivos</title>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="shortcut icon" href="./img/favicon.ico"/>
+
+    <!-- chamada para as folhas de estilo -->
+    <link rel="stylesheet" href="./selecao/jogos/style/page-style.css">
+
+    <!-- link para os icones me forma de fonte -->
+
+    <link rel="stylesheet" href="./selecao/jogos/style/icofont/icofont.min.css">
+
+    <!-- link para as fontes do projeto -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+        rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@100;300;400;500;700;800;900&display=swap"
+        rel="stylesheet">
+
+</head>
+
+<body class="index-body">
+    <header class="grid">
+        <img src="./img/logo.png" alt="" class="logo grid-center">
+        <img src="./img/sr-logico.png" alt="" class="mascote grid-right">
+        <nav class="menu grid grid-full">
+            <ul class="menu-list grid-center">
+                <li class="menu-list-item">
+                    <a href="./index.html" class="menu-link">
+                        <i class="menu-icon icofont-game-pad"></i>
+                        <p class="menu-text">Jogos</p>
+                    </a>
+                </li>
+                <li class="menu-list-item selected">
+                    <a href="./objetivos.html" class="menu-link">
+                        <i class="menu-icon icofont-check"></i>
+                        <p class="menu-text">Objetivos</p>
+                    </a>
+                </li>
+                <li class="menu-list-item">
+                    <a href="./sobre.html" class="menu-link">
+                        <i class="menu-icon icofont-question"></i>
+                        <p class="menu-text">Sobre</p>
+                    </a>
+                </li>
+                <li class="menu-list-item">
+                    <a href="./contato.html" class="menu-link">
+                        <i class="menu-icon icofont-google-talk"></i>
+                        <p class="menu-text">Contato</p>
+                    </a>
+                </li>
+                <li class="menu-list-item">
+                    <a href="./materiaisProfessores.html" class="menu-link">
+                        <i class="menu-icon icofont-info"></i>
+                        <p class="menu-text">Materiais para <br> Professores</p>
+                    </a>
+                </li>
+                <li class="menu-list-item">
+                    <a href="./professores.html" class="menu-link">
+                        <i class="menu-icon icofont-atividade"></i>
+                        <p class="menu-text">Acesso<br> Professores</p>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="grid">
+        <section class="objective-main-section grid-center box-center">
+            <h2 class="objective-section-title">Objetivos</h2>
+            <section class="sub-section objective-text">
+                <img src="img/img1-objetivos.png" class="img-objetivos">
+                <p>O projeto Tem Lógica é desenvolvido pela Secretaria da Educação e da Ciência e Tecnologia da Paraíba
+                    e tem como objetivo principal desenvolver ferramentas que explorem as competências previstas na Base
+                    Nacional Comum Curricular (BNCC) juntamente com os pilares do Pensamento Computacional. Inicialmente
+                    o foco do projeto é a disciplina de Matemática do Ensino Fundamental.</p>
+            </section>
+            <section class="sub-section objective-text">
+                <img src="img/img2-objetivos.png" class="img-objetivos">
+                <p>Além do desenvolvimento de Objetos Digitais de Aprendizagem, o projeto também tem como objetivo a
+                    criação e manutenção de material de apoio para os professores contendo, tanto as bases teóricas,
+                    quanto sugestões de aplicação prática das ferramentas. Adicionalmente, são previstos encontros de
+                    formação para esses mesmos educadores, além dos responsáveis pelos currículos em suas escolas.</p>
+            </section>
+            <section class="sub-section objective-text">
+                <img src="img/img3-objetivos.png" class="img-objetivos">
+                <p>Por meio dessas e outras ações, queremos desenvolver nos alunos o pensamento lógico matemático para
+                    que, quando oportuno, o aprendizado das Linguagens de Programação e de técnicas de Inteligência
+                    Artificial ocorra com maior facilidade e naturalidade.</p>
+            </section>
+
+
+        </section>
+
+
+    </main>
+
+    <footer class="footer-grid">
+        <p class="footer-text grid-center">Copyright Fapesq - <span id="ano">2021</span></p>
+            <script>
+                var ano = document.getElementById("ano");
+                var anoAtual = new Date();
+                ano.innerHTML = anoAtual.getFullYear();
+            </script>
+        <section class="grid-right">
+            <p class="footer-text realizadores-text">Realizadores:</p>
+            <div class="footer-imgs">
+                <img class="footer-img" id="logo-pb" src="./img/logo-pb.png" alt="">
+                <img class="footer-img" id="logo-seect" src="./img/logo-SEECT.png" alt="">
+                <img class="footer-img" id="logo-fapesq" src="./img/logo-fapesq.png" alt="">
+            </div>
+        </section>
+    </footer>
+    <script src="./script/page-script.js"></script>
+</body>
+
+</html>

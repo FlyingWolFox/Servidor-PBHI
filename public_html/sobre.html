@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+
+    <title>Tem Lógica - Sobre</title>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="shortcut icon" href="./img/favicon.ico"/>
+
+    <!-- chamada para as folhas de estilo -->
+    <link rel="stylesheet" href="./selecao/jogos/style/page-style.css">
+
+    <!-- link para os icones me forma de fonte -->
+
+    <link rel="stylesheet" href="./selecao/jogos/style/icofont/icofont.min.css">
+
+    <!-- link para as fontes do projeto -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+        rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@100;300;400;500;700;800;900&display=swap"
+        rel="stylesheet">
+
+</head>
+
+<body class="index-body">
+
+    <header class="grid">
+        <img src="./img/logo.png" alt="" class="logo grid-center">
+        <img src="./img/sr-logico.png" alt="" class="mascote grid-right">
+        <nav class="menu grid grid-full">
+            <ul class="menu-list grid-center">
+                <li class="menu-list-item">
+                    <a href="./index.html" class="menu-link">
+                        <i class="menu-icon icofont-game-pad"></i>
+                        <p class="menu-text">Jogos</p>
+                    </a>
+                </li>
+                <li class="menu-list-item">
+                    <a href="./objetivos.html" class="menu-link">
+                        <i class="menu-icon icofont-check"></i>
+                        <p class="menu-text">Objetivos</p>
+                    </a>
+                </li>
+                <li class="menu-list-item selected">
+                    <a href="./sobre.html" class="menu-link">
+                        <i class="menu-icon icofont-question"></i>
+                        <p class="menu-text">Sobre</p>
+                    </a>
+                </li>
+                <li class="menu-list-item">
+                    <a href="./contato.html" class="menu-link">
+                        <i class="menu-icon icofont-google-talk"></i>
+                        <p class="menu-text">Contato</p>
+                    </a>
+                </li>
+                <li class="menu-list-item">
+                    <a href="./materiaisProfessores.html" class="menu-link">
+                        <i class="menu-icon icofont-info"></i>
+                        <p class="menu-text">Materiais para <br> Professores</p>
+                    </a>
+                </li>
+                <li class="menu-list-item">
+                    <a href="./professores.html" class="menu-link">
+                        <i class="menu-icon icofont-atividade"></i>
+                        <p class="menu-text">Acesso<br> Professores</p>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="grid">
+        <section class="about-main-section grid-center box-center">
+            <h2 class="about-section-title">Sobre</h2>
+            <section class="sub-section about-text">
+                <p>Atualmente sendo desenvolvido por professores do Laboratório de Aplicação de Vídeo Digital
+                    (LAViD-UFPB), do Laboratório de Estudos e Pesquisa da Aprendizagem Científica (LEPAC-UFPB) e
+                    Laboratório de Aplicações em Inteligência Artificial (ARIA-UFPB), o Tem Lógica desenvolve
+                    ferramentas que exploram:
+                </p>
+                <ul class="about-list">
+                    <li>Sequências repetitivas;</li>
+                    <li>Sequências recursivas;</li>
+                    <li>Reconhecimento de padrões;</li>
+                    <li>Classificação de padrões</li>
+                    <li>e Manipulação de fluxogramas.</li>
+                </ul>
+            </section>
+            <section class="sub-section about-text">
+                <p>Nessa fase do desenvolvimento, todos os Objetos Digitais de Aprendizagem exploram os Blocos Lógicos,
+                    material proposto pelo matemático Zoltan Dienes na década de 50 e consolidado no ensino de lógica e
+                    no desenvolvimento do raciocínio abstrato. Este recurso permite abordagens adequadas que contemplem
+                    as competências da Base Nacional Comum Curricular (BNCC), do campo da Matemática, juntamente com
+                    pilares do Pensamento Computacional.
+                </p>
+            </section>
+            <section class="sub-section about-text">
+                <section class="sub-section-img-objetivos"><img src="img/img1-sobre.png"></section>
+            </section>
+        </section>
+    </main>
+
+    <footer class="footer-grid">
+        <p class="footer-text grid-center">Copyright Fapesq - <span id="ano">2021</span></p>
+            <script>
+                var ano = document.getElementById("ano");
+                var anoAtual = new Date();
+                ano.innerHTML = anoAtual.getFullYear();
+            </script>
+        <section class="grid-right">
+            <p class="footer-text realizadores-text">Realizadores:</p>
+            <div class="footer-imgs">
+                <img class="footer-img" id="logo-pb" src="./img/logo-pb.png" alt="">
+                <img class="footer-img" id="logo-seect" src="./img/logo-SEECT.png" alt="">
+                <img class="footer-img" id="logo-fapesq" src="./img/logo-fapesq.png" alt="">
+            </div>
+        </section>
+    </footer>
+    <script src="./script/page-script.js"></script>
+</body>
+
+</html>
