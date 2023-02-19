@@ -3035,8 +3035,9 @@ function game() {
     // TODO: apply just once!
     let dropzoneArea = document.getElementById('dropzone-container-grupos-regras');
     if (!intersecaoAtiva) {
-        divCaixaEsquerda.setAttribute('style', 'grid-column: 2/3; grid-row: 1/3;');
-        divCaixaDireita.setAttribute('style', 'grid-column: 4/5; grid-row: 1/3; align-content: flex-start');
+
+        divCaixaEsquerda.setAttribute('style', 'grid-column: 2/3; grid-row: 1/4;');
+        divCaixaDireita.setAttribute('style', 'grid-column: 4/5; grid-row: 1/4; align-content: flex-start');
         divCaixaIntersecao.setAttribute('style', 'display: none;');
         dropzoneArea.setAttribute('style', 'grid-template-columns: 2fr 5fr 1fr 5fr 2fr;');
         divCaixaEsquerda.classList.remove('drop-meio-ativo');
@@ -3583,6 +3584,3 @@ function check() {
 document.body.onload = game();
 var botaoResultado = document.getElementById('botao-resultado');
 botaoResultado.addEventListener('click', check);
-document.addEventListener("dragstart", function (event) {
-    console.log('0');
-}, false);
