@@ -1,35 +1,6 @@
 create database temlogicaDB;
 use temlogicaDB;
 
-CREATE TABLE `sessions` (
-  `session_id` varchar(128) NOT NULL,
-  `expires` bigint DEFAULT NULL,
-  `data` mediumtext,
-  PRIMARY KEY (`session_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
-DELIMITER $$
-USE `temlogicadb`$$
-CREATE DEFINER=`root`@`localhost` TRIGGER `sessions_BEFORE_DELETE` BEFORE DELETE ON `sessions` FOR EACH ROW BEGIN
-update sessionp 
-inner join sessions on sessionp.idsessionP = sessions.session_id
-set datah_saida = current_timestamp();
-
-END$$
-DELIMITER ;
-
-CREATE TABLE sessionp 
-( 
- id varchar(128) PRIMARY KEY NOT NULL ,  
- data_entrada TIMESTAMP NULL DEFAULT  CURRENT_TIMESTAMP,  
- data_saida TIMESTAMP DEFAULT NULL,  
- navegador VARCHAR(30) DEFAULT NULL,  
- plataforma VARCHAR(20) DEFAULT NULL,
- localizacao VARCHAR(45) DEFAULT NULL,  
- id_jogador INT DEFAULT NULL,  
- id_atividade VARCHAR(30) DEFAULT NULL
-);
-
 CREATE TABLE professor 
 ( 
  codigo VARCHAR(8) NOT NULL UNIQUE,  
@@ -52,6 +23,7 @@ CREATE TABLE jogo
 ( 
  nome_jogo VARCHAR(30) PRIMARY KEY NOT NULL,  
  max_fase INT
+--  diretorio VARCHAR(100)
 );
 
 CREATE TABLE jogador 
@@ -61,17 +33,22 @@ CREATE TABLE jogador
  ano VARCHAR(30) DEFAULT NULL
 );
 
-CREATE TABLE interacao 
-( 
- id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,  
- data_hora TIMESTAMP DEFAULT NULL,  
- origem VARCHAR(30) DEFAULT NULL,  
- destino VARCHAR(30) DEFAULT NULL,  
- no_origem ENUM('INÍCIO','FIM','Colocar na Esquerda','Colocar na direita','Colocar na interseção','Não mover','É quadrado?','É círculo?','É retângulo?','É triângulo?','É vermelho?','É amarelo?','É azul?','É pequeno?','É grande?','Tem borda?') DEFAULT NULL,
- no_destino ENUM('INÍCIO','FIM','Colocar na Esquerda','Colocar na direita','Colocar na interseção','Não mover','É quadrado?','É círculo?','É retângulo?','É triângulo?','É vermelho?','É amarelo?','É azul?','É pequeno?','É grande?','Tem borda?') DEFAULT NULL,
- tipo_ligacao ENUM('SIM','NÃO','SEM LIGAÇÃO') DEFAULT NULL,
- id_partida INT NOT NULL
-);
+CREATE TABLE `interacao` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `data_hora` timestamp NULL DEFAULT NULL,
+  `origem` varchar(30) DEFAULT NULL,
+  `destino` varchar(30) DEFAULT NULL,
+  `nome_jogo` varchar(30) DEFAULT NULL,
+  `fase_atual` varchar(30) DEFAULT NULL,
+  `no_origem` enum('INÍCIO','FIM','Colocar na Esquerda','Colocar na direita','Colocar na interseção','Não mover','É quadrado?','É círculo?','É retângulo?','É triângulo?','É vermelho?','É amarelo?','É azul?','É pequeno?','É grande?','Tem borda?') DEFAULT NULL,
+  `no_destino` enum('INÍCIO','FIM','Colocar na Esquerda','Colocar na direita','Colocar na interseção','Não mover','É quadrado?','É círculo?','É retângulo?','É triângulo?','É vermelho?','É amarelo?','É azul?','É pequeno?','É grande?','Tem borda?') DEFAULT NULL,
+  `tipo_ligacao` enum('SIM','NÃO','SEM LIGAÇÃO') DEFAULT NULL,
+  `id_jogador` int NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `id_jogador_idx` (`id_jogador`),
+  CONSTRAINT `id_jogador` FOREIGN KEY (`id_jogador`) REFERENCES `jogador` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
 
 CREATE TABLE atividade 
 ( 
@@ -89,11 +66,12 @@ CREATE TABLE atividade
 
 ALTER TABLE partida ADD FOREIGN KEY(id_jogador) REFERENCES jogador (id);
 ALTER TABLE partida ADD FOREIGN KEY(nome_jogo) REFERENCES jogo (nome_jogo);
-ALTER TABLE interacao ADD FOREIGN KEY(id_partida) REFERENCES partida (id);
+-- ALTER TABLE interacao ADD FOREIGN KEY(id_partida) REFERENCES partida (id);
+-- ALTER TABLE interacao ADD FOREIGN KEY(nome_jogo) REFERENCES partida (nome_jogo);
 ALTER TABLE atividade ADD FOREIGN KEY(jogo) REFERENCES jogo (nome_jogo);
 ALTER TABLE atividade ADD FOREIGN KEY(professor_email) REFERENCES professor (email);
-ALTER TABLE sessionp ADD FOREIGN KEY(id_jogador) REFERENCES jogador (id);
-ALTER TABLE sessionp ADD FOREIGN KEY(id_atividade) REFERENCES atividade (id_atividade);
+alter table jogo add diretorio varchar(80) NULL;
+
 
 INSERT INTO jogo (nome_jogo,max_fase) VALUES ('COMPLETAR', '24');
 INSERT INTO jogo (nome_jogo,max_fase) VALUES ('COMPLETAR COM NÚMEROS','24');
@@ -106,3 +84,45 @@ INSERT INTO jogo (nome_jogo,max_fase) VALUES ('DOMINÓ DA DIFERENÇA','16');
 INSERT INTO jogo (nome_jogo,max_fase) VALUES ('FLUXOGRAMA','14');
 INSERT INTO jogo (nome_jogo,max_fase) VALUES ('SEQUÊNCIA DECRESCENTE' ,'24');
 
+update jogo set diretorio = "./selecao/jogos/repeticao/index.html" where nome_jogo = 'REPETIÇÃO';
+update jogo set diretorio = "./selecao/jogos/completar/index.html" where nome_jogo = 'COMPLETAR';
+update jogo set diretorio = "./selecao/jogos/completarnumero/index.html" where nome_jogo = 'COMPLETAR COM NÚMEROS';
+update jogo set diretorio = "./selecao/jogos/crie seu padrao/index.html" where nome_jogo = 'CRIE SEU PADRÃO';
+update jogo set diretorio = "./selecao/jogos/domino da diferenca/index.html" where nome_jogo = 'DOMINÓ DA DIFERENÇA';
+update jogo set diretorio = "./selecao/jogos/grupos/index.html" where nome_jogo = 'GRUPOS';
+update jogo set diretorio = "./selecao/jogos/grupos fluxograma/index.html" where nome_jogo = 'FLUXOGRAMA';
+update jogo set diretorio = "./selecao/jogos/sequencia numero/index.html" where nome_jogo = 'SEQUÊNCIA DE NÚMEROS';
+update jogo set diretorio = "./selecao/jogos/sequencia decrescente/index.html" where nome_jogo = 'SEQUÊNCIA DECRESCENTE';
+
+
+CREATE TABLE `sessions` (
+  `session_id` varchar(128) NOT NULL,
+  `expires` bigint DEFAULT NULL,
+  `data` mediumtext,
+  PRIMARY KEY (`session_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+DELIMITER $$
+USE `temlogicaDB`$$
+CREATE DEFINER=`root`@`localhost` TRIGGER `sessions_BEFORE_DELETE` BEFORE DELETE ON `sessions` FOR EACH ROW BEGIN
+update sessionp 
+inner join sessions on sessionp.idsessionP = sessions.session_id
+set datah_saida = current_timestamp();
+
+END$$
+DELIMITER ;
+
+CREATE TABLE sessionp 
+( 
+ id varchar(128) PRIMARY KEY NOT NULL ,  
+ data_entrada TIMESTAMP NULL DEFAULT  CURRENT_TIMESTAMP,  
+ data_saida TIMESTAMP DEFAULT NULL,  
+ navegador VARCHAR(30) DEFAULT NULL,  
+ plataforma VARCHAR(20) DEFAULT NULL,
+ localizacao VARCHAR(45) DEFAULT NULL,  
+ id_jogador INT DEFAULT NULL,  
+ id_atividade VARCHAR(30) DEFAULT NULL
+);
+
+ALTER TABLE sessionp ADD FOREIGN KEY(id_jogador) REFERENCES jogador (id);
+ALTER TABLE sessionp ADD FOREIGN KEY(id_atividade) REFERENCES atividade (id_atividade);

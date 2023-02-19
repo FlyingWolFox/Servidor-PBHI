@@ -1,4 +1,4 @@
-// Ajustes do modal ------------
+//Ajustes do modal
 var modalAcerto = document.getElementById("modalAcerto");
 var modalErro = document.getElementById('modalErro');
 
@@ -29,7 +29,7 @@ var indexHead = document.getElementsByTagName('head')[0];
 var fullscreen = false;
 
 try {
-var gameContainer = document.getElementById('main-body');
+var gameContainer = document.getElementById('main_body');
 
 gameContainer.addEventListener('fullscreenchange', (e) => {
 
@@ -73,7 +73,6 @@ fullscreenButton.onclick = () => {
 
 //Implementando modal de login
 
-var logado = false;
 function setEventoBotão(){
   buttonLogin = document.getElementById('botao-modal-login')
   buttonLogin.removeEventListener('click', trocarPagIndex);
@@ -86,7 +85,7 @@ function criarModalLogin(nome, anoAluno){ //Criando modal de login
   let backgroundLogin = document.createElement('div')
   backgroundLogin.setAttribute('id','background-modal-login')
   let anoAtual = document.createElement('input')
-  anoAtual.setAttribute('type','text')
+  anoAtual.setAttribute('type','hidden')
   anoAtual.setAttribute('name','ano')
   anoAtual.setAttribute('id','anoAtual-modal-login')
   anoAtual.setAttribute('value', anoAluno)
@@ -119,11 +118,10 @@ function criarModalLogin(nome, anoAluno){ //Criando modal de login
   fundo.appendChild(backgroundLogin)
   body.appendChild(fundo)
 }
- function trocarPagIndex(){
+function trocarPagIndex(){
   window.location.href = 'selecao/index.html'
   
 }
- 
 async function checkStatus(ano){
   var anoAluno = ano;
   if(!anoAluno){
@@ -133,17 +131,14 @@ async function checkStatus(ano){
   resultado = await resultado.json();
   criarModalLogin(resultado.nome, anoAluno);
 }
-
 async function post(){
   var modal = document.getElementById('modal-login')
   var Fnome = document.getElementById('firstName-modal-login').value 
   var Fano = document.getElementById('anoAtual-modal-login').value 
-
   var data = {
     nome: Fnome,
     ano: Fano
   }
-
   let resultado = await fetch('/nome', {
     method: "POST",
     headers : { 
@@ -152,10 +147,8 @@ async function post(){
      },
     body: JSON.stringify(data)
   })
-
-  let error = await resultado.json();
-
-  if(error){
+  let error = await resultado.text();
+  if(error.length > 0){
     console.log(error)
   }
   else{

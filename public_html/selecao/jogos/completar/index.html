@@ -16,15 +16,16 @@
     <link rel="shortcut icon" href="../img/favicon.ico" />
 
     <!-- chamada para as folhas de estilo -->
-    <link rel="stylesheet" href="../style/page-style.css">
+    <!-- <link rel="stylesheet" href="../style/page-style.css"> -->
     <!-- chamada para as folhas de estilo do jogo -->
     <link rel="stylesheet" href="./style/game-style.css">
-    <link rel="stylesheet" id="estilo-mobile" href="./style/mobile-style.css" type="text/css"
-        media="screen and (orientation: landscape) and (max-width: 900px)">
+    <!-- <link rel="stylesheet" id="estilo-mobile" href="./style/mobile-style.css" type="text/css"
+        media="screen and (orientation: landscape) and (max-width: 900px)"> -->
 
     <!-- link para os icones me forma de fonte -->
 
-    <link rel="stylesheet" href="../style/icofont/icofont.min.css">
+    <link rel="stylesheet" href="../../../style/page-style-games.css">
+    <link rel="stylesheet" href="../../../style/icofont/icofont.min.css">
 
     <!-- link para as fontes do projeto -->
     <link rel="preconnect" href="https://fonts.gstatic.com">
@@ -35,85 +36,101 @@
         href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@100;300;400;500;700;800;900&display=swap"
         rel="stylesheet">
     <script src="../script/autenticar.js"></script>
+
+    <style>
+        h2#title_jogo {
+            background-color: #9DCC38;
+        }
+
+        header#box_instrucoes {
+            background-color: #9DCC38;
+        }
+    </style>
 </head>
 
-<body class='game-body'>
-    <section class="aviso-orientacao">
-        <div id="aviso-orientacao-caixa">
-            <h1 id="texto-orientacao"> vire seu aparelho na horizontal para jogar</h1>
-            <div id="orientacao-imgs">
-                <div class="grupo-imagem-orientacao">
-                    <img id="icone-errado" src="../img/orientacao-img/Group30.svg" alt="">
-                    <img src="../img/orientacao-img/Subtract.svg" alt="">
-                    <h1 id="texto-orientacao-vertical">vertical</h1>
+<body>
+    <section id="aviso_orientacao">
+        <div id="aviso_orientacao_caixa">
+            <h1 id="texto_orientacao"> Vire seu aparelho na horizontal para jogar</h1>
+            <div id="orientacao_imgs">
+                <div class="grupo_imagem_orientacao">
+                    <img class="icone_modal" src="../img/orientacao-img/Group30.svg" alt="">
+                    <img id="img_celular_horizontal" src="../img/orientacao-img/Subtract.svg" alt="">
+                    <h1 id="texto_orientacao_vertical">Vertical</h1>
                 </div>
-                <img id="vetor-orientacao" src="../img/orientacao-img/Vector5.svg" alt="">
-                <div class="grupo-imagem-orientacao" id="orientacao-grupo-horizontal">
-                    <img id="icone-certo" src="../img/orientacao-img/Group176.svg" alt="">
-                    <img id="img-celular-horizontal" src="../img/orientacao-img/Subtract-1.svg" alt="">
-                    <h1 id="texto-orientacao-vertical">horizontal</h1>
+                <img id="vetor_orientacao" src="../img/orientacao-img/Vector5.svg" alt="">
+                <div class="grupo_imagem_orientacao" id="orientacao-grupo-horizontal">
+                    <img class="icone_modal" src="../img/orientacao-img/Group176.svg" alt="">
+                    <img id="img_celular_horizontal" src="../img/orientacao-img/Subtract-1.svg" alt="">
+                    <h1 id="texto_orientacao_vertical">Horizontal</h1>
                 </div>
             </div>
         </div>
     </section>
-    <div class='tela-jogo'>
-        <header class="game-header">
-            <a href="../../index.html" class="link-logo">
-                <img id="logo-header" src="../img/logo.png" alt="" class="logo grid-item">
+
+    <div id="tela_jogo">
+        <header id="game_header">
+            <a href="../../../index.html" id="link_logo">
+                <img src="../img/logo.png" id="logo" alt="">
             </a>
-            <h2 id="title-jogo" nome-real="COMPLETAR" class="">JOGO DE COMPLETAR</h2>
+            <h2 id="title_jogo" nome-real="COMPLETAR">JOGO DE COMPLETAR</h2>
         </header>
 
-        <main id="main-body" class="grid grid-full">
-            <div id="modalInfo" class="modal">
-                <div class="modal-content" id="modal-content">
+        <main id="main_body">
+            <div id="modal_info" class="modal">
+                <div class="modal_content" id="modal_content">
                     <p>
                         Olá, nos encontramos mais uma vez 😀, desta vez vou te mostrar um jogo bem legal, o Jogo de
                         Completar! O Jogo de Completar mostra uma sequência de figuras com algumas delas faltando 🤔 e a
                         sua tarefa é identificar quais peças estão faltando e arrastar para a sequência de figuras
                         acima, depois é só clicar em TERMINEI!!
                     </p>
-                    <button id="botao-info-close"
-                        onclick="document.getElementById('modalInfo').style.display='none'; cancelarAudioModal()">Entendi
-                    </button>
-                    <button id="botao-de-voz-ligado-modal">
-                        <p id="botao-falar" onclick="ativarAudioModal()">Falar!</p>
+                    <div id="modal_button_box">
+                        <button id="botao_info_close"
+                            onclick="document.getElementById('modal_info').style.display='none'">Entendi
+                        </button>
+
+                        <button id="botao_de_voz" onclick="ativarAudioModal()">Falar!
+                        </button>
+                    </div>
                 </div>
             </div>
-            <section class="game-section grid-center">
-                <div id="box-instrucoes">
-                    <div class="progresso-conquistas">
-                        <p class="texto-progresso">Conquistas</p>
-                        <div class="conquistas-conteiner" id="container-estrelas">
-                            <div class="estrela-container">
-                                <img class="estrela" src="../img/estrelas/star2.svg" alt="">
-                                <p class="estrela-texto" id="texto1">?</p>
+
+            <section id="game_section">
+                <header id="box_instrucoes">
+                    <div id="progresso_conquistas">
+                        <p id="texto_progresso">Conquistas</p>
+                        <section id="conquistas_conteiner">
+                            <div class="estrela_container">
+                                <img src="../img/estrelas/star2.svg" alt="" class="estrela">
+                                <p class="estrela_texto" id="texto1">?</p>
                             </div>
-                            <div class="estrela-container">
-                                <img class="estrela" src="../img/estrelas/star2.svg" alt="">
-                                <p class="estrela-texto" id="texto2">?</p>
+                            <div class="estrela_container">
+                                <img src="../img/estrelas/star2.svg" alt="" class="estrela">
+                                <p class="estrela_texto" id="texto2">?</p>
                             </div>
-                            <div class="estrela-container">
-                                <img class="estrela" src="../img/estrelas/star3.svg" alt="">
-                                <p class="estrela-texto" id="texto3">?</p>
+                            <div class="estrela_container">
+                                <img src="../img/estrelas/star2.svg" alt="" class="estrela">
+                                <p class="estrela_texto" id="texto3">?</p>
                             </div>
-                            <div class="estrela-container">
-                                <img class="estrela" src="../img/estrelas/star4.svg" alt="">
-                                <p class="estrela-texto" id="texto4">?</p>
+                            <div class="estrela_container">
+                                <img src="../img/estrelas/star2.svg" alt="" class="estrela">
+                                <p class="estrela_texto" id="texto4">?</p>
                             </div>
-                        </div>
+                        </section>
                     </div>
-                    <img src="../img/sr-logico.png" alt="" id="mascote-instrucoes">
-                    <article id="textbox-tutorial">
-                        <p id="textbox-fase">Fase n&uacute;mero <span id="textbox-numero-fase">1</span>:</p>
-                        <textarea id="texto-textbox" readonly>Observe a sequência e identifique quais peças estão faltando para deixá-la completa. Depois arraste as peças disponíveis para as posições vazias da sequência para completá-las.
-                        </textarea>
-                    </article>
-                    <div class="conteiner-botoes">
-                        <div class="botoes-janela">
-                            <span id="span-fullscreen" class=""><i class="icofont-maximize"></i></span>
-                            <a href="../index.html" id="span-textbox">
-                                <i class="icofont-close icofont-2x"></i>
+                    <div id="tutorial_conteiner">
+                        <img src="../img/sr-logico.png" alt="" id="mascote_instrucoes">
+                        <article id="textbox_tutorial">
+                            <p id="textbox_fase">Fase n&uacute;mero <span id="textbox_numero_fase">1</span>:</p>
+                            <textarea id="texto_textbox" readonly>Observe a sequência e identifique quais peças estão faltando para deixá-la completa. Depois arraste as peças disponíveis para as posições vazias da sequência para completá-las.</textarea>
+                        </article>
+                    </div>
+                    <div id="conteiner_botoes">
+                        <div class="botoes_janela">
+                            <span class="button_header" id="span_fullscreen"><i class="icofont-maximize"></i></span>
+                            <a class="button_header" href="../index.html" id="span_textbox">
+                                <i class="icofont-close icofont_2x"></i>
                             </a>
                         </div>
                         <div id="botoes-de-audio">
@@ -130,85 +147,92 @@
                                 </p>
                             </button>
                             <button id="span-about"
-                                onclick="document.getElementById('modalInfo').style.display='block'; audioModalAutomatico()"
+                                onclick="document.getElementById('modalInfo').style.display='flex'; audioModalAutomatico()"
                                 class="">
                                 ?
                             </button>
                         </div>
                     </div>
-                </div>
-                <h3 id="titulo-nucleo">Sequência</h3>
-                <section id="container-nucleo" class="game-container">
-                    <!-- Seção onde será inserida a sequencia -->
-                </section>
+                </header>
 
-                <button id="botao-resultado" onclick="resetaTimeStamps()">Terminei!</button>
+                <main id="game_content">
 
-                <div class="formas-titulo">
-                    <p class='container-formas-titulo'>Peças Disponíveis</p>
-                    <section id="container-formas" class="game-container dropzone">
-                        <!-- Container das figuras que serão arrastadas -->
-                    </section>
-                </div>
+                    <div id="box_central">
+                        <h3 id="titulo_nucleo">Sequência</h3>
+                        <section id="container_nucleo" class="game-container">
+                            <!-- Seção onde será inserida a sequencia -->
+                        </section>
 
-                <!-- O Modal do resultado positivo-->
-                <div id="modalAcerto" class="modal">
-                    <!-- Conteúdo do Modal -->
-                    <div class="modal-content">
-                        <span id="modal-close-button" class="close">&times;</span>
-                        <img class="modal-img-logico" src="../img/modal/logico-contente.svg" alt="">
-                        <div class="modal-text-content">
-                            <h2 class="titulo-modal">RESULTADO</h2>
-                            <h2 id="resultado-jogo"></h2>
-                            <button id="botao-proximo" onclick="fecharModal('acerto')">ok</button>
-                        </div>
+                        <button id="botao-resultado" onclick="resetaTimeStamps()">Terminei!</button>
                     </div>
-                </div>
 
-                <!-- O Modal do resultado negativo-->
-                <div id="modalErro" class="modal">
-                    <!-- Conteúdo do Modal -->
-                    <div class="modalNegativo-content">
-                        <span id="modalNegativo-close-button" class="close">&times;</span>
-                        <img class="modal-img-logico" src="../img/modal/logico-confuso.svg" alt="">
-                        <div class="modal-text-content">
-                            <h2 class="titulo-modal">RESULTADO</h2>
-                            <h2 id="resultadoNegativo-jogo">Ihh! Algo deu Errado</h2>
-                            <button id="botao-retorno" onclick="fecharModal('erro')">Recomeçar</button>
-                        </div>
+                    <div class="formas-titulo">
+                        <p class='container_formas-titulo'>Peças Disponíveis</p>
+                        <section id="container_formas" class="game-container dropzone">
+                            <!-- Container das figuras que serão arrastadas -->
+                        </section>
                     </div>
-                </div>
 
-                <!--O Modal de conclusão do jogo-->
-                <div id="modalFim">
-                    <div id="modalContent">
-                        <div id="roboIcon"><img src="../img/modal/robo-end-frio.png" alt="Robo de festa"></div>
-                        <div id="modalGlass"></div>
-                        <div id="modalBox">
-                            <div id="textZone">
-                                <h2>PARABÉNS</h2>
-                                <h3>Você concluiu o jogo!!!</h3>
+                    <!-- O Modal do resultado positivo-->
+                    <div id="modalAcerto" class="modal">
+                        <!-- Conteúdo do Modal -->
+                        <div class="modal-content">
+                            <span id="modal-close-button" class="close">&times;</span>
+                            <img class="modal-img-logico" src="../img/modal/logico-contente.svg" alt="">
+                            <div class="modal-text-content">
+                                <h2 class="titulo-modal">RESULTADO</h2>
+                                <h2 id="resultado-jogo"></h2>
+                                <button id="botao-proximo" onclick="fecharModal('acerto')">ok</button>
                             </div>
                         </div>
                     </div>
-                    <section id="botao-box">
-                        <button id="botao-restart" class="botao-fim">Reiniciar</button>
-                        <button id="botao-certificado" class="botao-fim">Certificado</button>
-                    </section>
-                </div>
+
+                    <!-- O Modal do resultado negativo-->
+                    <div id="modalErro" class="modal">
+                        <!-- Conteúdo do Modal -->
+                        <div class="modalNegativo-content">
+                            <span id="modalNegativo-close-button" class="close">&times;</span>
+                            <img class="modal-img-logico" src="../img/modal/logico-confuso.svg" alt="">
+                            <div class="modal-text-content">
+                                <h2 class="titulo-modal">RESULTADO</h2>
+                                <h2 id="resultadoNegativo-jogo">Ihh! Algo deu Errado</h2>
+                                <button id="botao-retorno" onclick="fecharModal('erro')">Recomeçar</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--O Modal de conclusão do jogo-->
+                    <div id="modalFim">
+                        <div id="modalContent">
+                            <div id="roboIcon"><img src="../img/modal/robo-end-frio.png" alt="Robo de festa"></div>
+                            <div id="modalGlass"></div>
+                            <div id="modalBox">
+                                <div id="textZone">
+                                    <h2>PARABÉNS</h2>
+                                    <h3>Você concluiu o jogo!!!</h3>
+                                </div>
+                            </div>
+                        </div>
+                        <section id="botao-box">
+                            <button id="botao-restart" class="botao-fim">Reiniciar</button>
+                            <button id="botao-certificado" class="botao-fim">Certificado</button>
+                        </section>
+                    </div>
+
+                </main>
             </section>
         </main>
 
-        <footer class="footer-grid">
-            <p class="footer-text grid-center">Copyright Fapesq - <span id="ano">2021</span></p>
+        <footer id="footer_grid">
+            <p class="footer_text" id="footer_center">Copyright Fapesq - <span id="ano">2021</span></p>
             <script>
                 var ano = document.getElementById("ano");
                 var anoAtual = new Date();
                 ano.innerHTML = anoAtual.getFullYear();
             </script>
-            <section class="grid-right">
-                <p class="footer-text realizadores-text">Realizadores:</p>
-                <div class="footer-imgs">
+            <section id="footer_right">
+                <p class="footer_text realizadores_text">Realizadores:</p>
+                <div class="footer_imgs">
                     <img class="footer-img" id="logo-pb" src="../img/logo-pb.png" alt="">
                     <img class="footer-img" id="logo-seect" src="../img/logo-SEECT.png" alt="">
                     <img class="footer-img" id="logo-fapesq" src="../img/logo-fapesq.png" alt="">
@@ -222,16 +246,16 @@
     <script src="./script/game-script.js"></script>
     <script src="../script/page-script.js"></script>
     <script>
-        var containerFormas = document.getElementById('container-formas');
-        var containerSequencia = document.getElementById('container-nucleo');
+        var containerFormas = document.getElementById('container_formas');
+        var containerSequencia = document.getElementById('container_nucleo');
         var origem = '';
         var destino = '';
         var data_hora = '';
 
    
         async function postData(url = '', origem, destino, data_hora) {
-            var nomeJogo  = document.getElementById('title-jogo').getAttribute('nome-real');
-            var faseAtual = parseInt(document.getElementById('textbox-numero-fase').innerHTML);
+            var nomeJogo  = document.getElementById('title_jogo').getAttribute('nome_real');
+            var faseAtual = parseInt(document.getElementById('textbox_numero_fase').innerHTML);
             // Default options are marked with *
             var dadosInteracao= {
                 origem: origem,
@@ -336,7 +360,7 @@
             indexHead.appendChild(iosCss);
         }
 
-        var textarea = document.getElementById('texto-textbox');
+        var textarea = document.getElementById('texto_textbox');
         var sentido
 
         function textRoll(timeInterval, timeTimeout) {

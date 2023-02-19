@@ -30,23 +30,27 @@ routerProfessores.post('/conferirProfessor', async (req, res, next) =>{
 })
 
 routerProfessores.post('/conferirCodigo', async (req, res) => {
-    let codigo = req.body.codigo;
-    let email = await sql.getProfessorByCodigo(codigo)
-    console.log(email)
-    if(email.length > 0){
-            let jwtSecretKey = JWT_SECRET_KEY;
-            let data = {
-                email: email,
+    const codigo = req.body.codigo;
+
+    if(!codigo) {res.status(401).send("Preencha o código!")}
+    else{
+        let email = await sql.getProfessorByCodigo(codigo)
+        console.log(email)
+        if(email.length > 0){
+                let jwtSecretKey = JWT_SECRET_KEY;
+                let data = {
+                    email: email,
+                }
+              
+                const token = jwt.sign(data, jwtSecretKey);
+                console.log(token)
+                req.session.token = token;
+                res.redirect(302, '/professores/OpcoesProfessores.html');
             }
-          
-            const token = jwt.sign(data, jwtSecretKey);
-            console.log(token)
-            req.session.token = token;
-            res.redirect(302, '/professores/OpcoesProfessores.html');
-        }
-       else{
-            res.status(401).send("Ocorreu um erro ao conferir o novo professor");
-       }
+           else{
+                res.status(401).send("Código inválido!");
+           }
+    }
 })
 
 routerProfessores.get('/OpcoesProfessores.html', async (req, res) => {
@@ -63,20 +67,29 @@ routerProfessores.get('/OpcoesProfessores.html', async (req, res) => {
 })
 
 routerProfessores.post('/UpdateProfessorCodigo', async (req, res) => {
-    
+
     const email = req.body.email;
     const nome = req.body.nome;
-    const id = nanoid(8);
-    const professor = await sql.getProfessorByEmail(email);
-    if(professor.length > 0){
-        await sql.updateProfessor(email,id); 
-        res.json("Código atualizado com sucesso!")
-    }else{
-        console.log("Passei pelo salvar ")
-        const salvo =  await sql.salvarNovoProfessor(email,id,nome) 
+
+    if(!email || !nome) {res.status(404).send("Preencha todos os campos!")}
+    else{
+        const id = nanoid(8);
+
+        try{
+            await send_mail(email,id)
+            const professor = await sql.getProfessorByEmail(email);
+
+            if(professor.length > 0){
+                await sql.updateProfessor(email,id); 
+                res.status(200).send("Código atualizado com sucesso!")
+            }else{
+                await sql.salvarNovoProfessor(email,id,nome) 
+                res.status(200).send("Código criado com sucesso!")
+            }
+        }catch{
+            res.status(404).send("Não foi possível mandar o email!")
+        }
     }
-    send_mail(email,id);
-    
 })
 
 routerProfessores.get('/crieAtividade', async (req, res) => {
@@ -94,7 +107,6 @@ routerProfessores.get('/crieAtividade', async (req, res) => {
 
 //=================================================== Funções de GET ==================================================
 routerProfessores.post('/getLink', async (req, res)=>{
-    console.log("Passei")
     const id = nanoid(8)
     const datah_criacao = new Date()
     const intervalo  = datah_criacao.getTime() + (req.body.duracao*60*1000)
@@ -102,16 +114,21 @@ routerProfessores.post('/getLink', async (req, res)=>{
     const datah_expiracao = new Date();
     datah_expiracao.setTime(intervalo);
     const expiracao_UTC = datah_expiracao.toISOString().slice(0, 19).replace('T', ' ');
-    console.log(criacao_UTC, expiracao_UTC);
-    await sql.insertAtividade(id, req.body.nomeProfessor, req.body.escola,req.body.turma, req.body.nome_jogo,req.body.anoAtividade, criacao_UTC, expiracao_UTC, req.body.email, req.body.comentarioAtividade)
-    const URL = 'localhost:3000/atividade/'+ id 
-    console.log(req.body);
-    if(!req.body){
-        res.send("Tá chegando vazio!")
+    // console.log(criacao_UTC, expiracao_UTC);
+
+    if(!req.body.escola || !req.body.turma || !req.body.anoAtividade || !req.body.email || !req.body.nome_jogo){
+        res.status(404).send("Preencha todos os campos!")
     }else{
-        res.send(URL);
-    }
-  
+        try{
+            await sql.insertAtividade(id, req.body.nomeProfessor, req.body.escola,req.body.turma, req.body.nome_jogo,req.body.anoAtividade, criacao_UTC, expiracao_UTC, req.body.email, req.body.comentarioAtividade)
+            const URL = process.env.APP_URL+'/atividade/'+ id 
+            console.log(req.body);
+    
+            res.status(200).send(URL);
+        }catch{
+            res.status(401).send("É necessário ter um email cadastrado!")
+        }
+    }  
 })
 
 routerProfessores.all('*', (req,res)=>{ 

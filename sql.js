@@ -1,8 +1,9 @@
 const connection = require('./connection')
 if(!connection){
-
+  
 }
 let sql = {};
+
 sql.getJogador = (id) =>{
     return new Promise((resolve, reject)=>{
         connection.query('SELECT * FROM jogador WHERE id_jogador = ?', [id], (error, jogador)=>{
@@ -30,7 +31,7 @@ sql.getAllPartidas = () =>{
   };
   sql.getTentativas = () =>{
     return new Promise((resolve, reject)=>{
-        connection.query('select jogador.nome  as "Jogador", count((case when sucesso = 0 then 1 else null end)) as "Tentativas" from partida join jogador on partida.id_jogador = jogador.id_jogador where partida.nome_jogo = "COMPLETAR" group by faseAtual, nome having count((case when sucesso = 0 then 1 else null end)) >= 3'
+        connection.query('select jogador.nome  as "Jogador", count((case when sucesso = 0 then 1 else null end)) as "Tentativas" from partida join jogador on partida.id_jogador = jogador.id_jogador where partida.nome_jogo = "COMPLETAR" group by fase_atual, nome having count((case when sucesso = 0 then 1 else null end)) >= 3'
         , (error, results)=>{
             if(error){
                 return reject(error);
@@ -41,7 +42,7 @@ sql.getAllPartidas = () =>{
     };
     sql.getNaoFinalizados = () =>{
       return new Promise((resolve, reject)=>{
-          connection.query('select jogador.nome, MAX(faseAtual) as UltimaFase, jogo.nFases as Total, (jogo.nFases) - MAX(faseAtual) as "NRespondidas" from partida join jogo on partida.nome_jogo = jogo.nome_jogo join jogador on partida.id_jogador = jogador.id_jogador where partida.nome_jogo = "COMPLETAR" group by partida.id_jogador having (jogo.nFases) - MAX(faseAtual) > 0 ', (error, results)=>{
+          connection.query('select jogador.nome, MAX(fase_atual) as UltimaFase, jogo.nFases as Total, (jogo.nFases) - MAX(fase_atual) as "NRespondidas" from partida join jogo on partida.nome_jogo = jogo.nome_jogo join jogador on partida.id_jogador = jogador.id_jogador where partida.nome_jogo = "COMPLETAR" group by partida.id_jogador having (jogo.nFases) - MAX(fase_atual) > 0 ', (error, results)=>{
               if(error){
                   return reject(error);
               }
@@ -107,7 +108,7 @@ sql.getAllPartidas = () =>{
 sql.getJogadoresQuePrecisamDeAjuda = () =>{ //essa query só conta as tentivas que não tiveram sucesso, pra evitar de contar o jogador que jogou e acertou a mesma fase várias vezes
   // o default é que o jogador que errar a mesma fase 3 vezes ou mais precisa de ajuda, 
   return new Promise((resolve, reject)=>{
-    connection.query('select jogador.nome  as "Jogador", count((case when sucesso = 0 then 1 else null end)) as "Tentativas", faseAtual from partida join jogador on partida.id_jogador = jogador.id_jogador where partida.nome_jogo = "COMPLETAR" group by faseAtual, nome having count((case when sucesso = 0 then 1 else null end)) >= 3;'
+    connection.query('select jogador.nome  as "Jogador", count((case when sucesso = 0 then 1 else null end)) as "Tentativas", fase_atual from partida join jogador on partida.id_jogador = jogador.id_jogador where partida.nome_jogo = "COMPLETAR" group by fase_atual, nome having count((case when sucesso = 0 then 1 else null end)) >= 3;'
     , (error, results)=>{
         if(error){
             return reject(error);
@@ -126,6 +127,17 @@ sql.getJogadorByNomeAno = (nome, ano) =>{
             return resolve(result[0]);
         });
     });
+};
+
+sql.getJogoPorNome = (jogo) =>{
+  return new Promise((resolve, reject)=>{
+      connection.query('SELECT * FROM jogo WHERE nome_jogo = ?', [jogo], (error, result)=>{
+          if(error){
+              return reject(error);
+          }
+          return resolve(result[0]);
+      });
+  });
 };
 
 sql.insertAtividade = (id, nome_professor, escola, turma, jogo, ano, datah_criacao, datah_expiracao, email, comentario) =>{
@@ -153,7 +165,7 @@ sql.insertContato = (nome, email, texto) =>{
 };
 sql.insertJogador = (nome, ano) =>{
     return new Promise((resolve, reject)=>{
-        connection.query('INSERT INTO jogador (nome, ano_jogador) VALUES (?, ?)', [nome, ano], (error, result)=>{
+        connection.query('INSERT INTO jogador (nome, ano) VALUES (?, ?)', [nome, ano], (error, result)=>{
             if(error){
                 return reject(error);
             }
@@ -163,9 +175,9 @@ sql.insertJogador = (nome, ano) =>{
     });
 };
 //todo: inserir as manipulacoes de nó e de drop
-sql.insertPartida = (nome_jogo,id_jogador,tempoDeJogo,data_hora, sucesso, faseAtual) =>{
+sql.insertPartida = (nome_jogo,id_jogador,tempoDeJogo,data_hora, sucesso, fase_atual) =>{
   return new Promise((resolve, reject)=>{
-      connection.query('INSERT INTO partida (nome_jogo, id_jogador, tempo_partida, data_hora, sucesso, faseAtual) VALUES (?, ?, ?, ? ,?, ?)', [nome_jogo, id_jogador, tempoDeJogo, data_hora, sucesso, faseAtual], (error, result)=>{
+      connection.query('INSERT INTO partida (nome_jogo, id_jogador, tempo_partida, data_hora, sucesso, fase_atual) VALUES (?, ?, ?, ? ,?, ?)', [nome_jogo, id_jogador, tempoDeJogo, data_hora, sucesso, fase_atual], (error, result)=>{
           if(error){
               return reject(error);
           }
@@ -175,9 +187,9 @@ sql.insertPartida = (nome_jogo,id_jogador,tempoDeJogo,data_hora, sucesso, faseAt
   });
 };
 
-sql.insertInteracao = (origem, destino, tipoLigacao, data_hora,id_jogador, nome_jogo, faseAtual) =>{
+sql.insertInteracao = (origem, destino, tipoLigacao, data_hora, nome_jogo, fase_atual,id_jogador) =>{
   return new Promise((resolve, reject)=>{
-      connection.query('INSERT INTO interacoes (no_origem, no_destino, tipo_Ligacao, data_hora, id_jogador, nome_jogo, faseAtual ) VALUES (?, ?, ?, ? ,?, ?, ?)', [origem, destino, tipoLigacao, data_hora,id_jogador,nome_jogo, faseAtual], (error, result)=>{
+      connection.query('INSERT INTO interacao (no_origem, no_destino, tipo_Ligacao, data_hora, nome_jogo, fase_atual, id_jogador ) VALUES (?, ?, ?, ? ,?, ?, ?)', [origem, destino, tipoLigacao, data_hora,nome_jogo, fase_atual,id_jogador], (error, result)=>{
           if(error){
               return reject(error);
           }
@@ -197,9 +209,9 @@ sql.deleteSession = (id) =>{
   });
 };
 
-sql.insertSession = (session_id, id_jogador, browser, platform) =>{
+sql.insertSession = (session_id, id_jogador, browser, platform, id_atividade) =>{
   return new Promise((resolve, reject)=>{
-    connection.query('INSERT INTO sessionp (idsessionP, id_jogador, browser, platform) VALUES (?, ?, ?, ?)', [session_id, id_jogador, browser, platform], (error, result)=>{
+    connection.query('INSERT INTO sessionp (id, id_jogador, navegador, plataforma, id_atividade) VALUES (?, ?, ?, ?, ?)', [session_id, id_jogador, browser, platform, id_atividade], (error, result)=>{
         if(error){
             return reject(error);
         }
@@ -212,7 +224,7 @@ sql.insertSession = (session_id, id_jogador, browser, platform) =>{
 sql.addAluno = (nome,ano) => { //Adiciona os dados nome e ano à tabela alunos
   return new Promise((resolve) => {
     connection.query(
-      "INSERT INTO jogador (nome,ano_jogador) VALUES ('"+nome+"','"+ano+"')", (erro,result) => {
+      "INSERT INTO jogador (nome,ano) VALUES ('"+nome+"','"+ano+"')", (error,result) => {
         resolve(result.insertId)
      }
     )

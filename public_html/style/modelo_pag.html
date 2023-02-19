@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+
+    <title>Tem Lógica - Modelo de Página</title>
+
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="./page-style-games.css">
+    <link rel="stylesheet" href="./icofont/icofont.min.css">
+
+    <link rel="shortcut icon" href="../img/favicon.ico" />
+
+    <!-- link para as fontes do projeto -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+        rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@100;300;400;500;700;800;900&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <section id="aviso_orientacao">
+        <div id="aviso_orientacao_caixa">
+            <h1 id="texto_orientacao"> Vire seu aparelho na horizontal para jogar</h1>
+            <div id="orientacao_imgs">
+                <div class="grupo_imagem_orientacao">
+                    <img class="icone_modal" src="../img/orientacao-img/Group30.svg" alt="">
+                    <img id="img_celular_horizontal" src="../img/orientacao-img/Subtract.svg" alt="">
+                    <h1 id="texto_orientacao_vertical">Vertical</h1>
+                </div>
+                <img id="vetor_orientacao" src="../img/orientacao-img/Vector5.svg" alt="">
+                <div class="grupo_imagem_orientacao" id="orientacao-grupo-horizontal">
+                    <img class="icone_modal" src="../img/orientacao-img/Group176.svg" alt="">
+                    <img id="img_celular_horizontal" src="../img/orientacao-img/Subtract-1.svg" alt="">
+                    <h1 id="texto_orientacao_vertical">Horizontal</h1>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div id="tela_jogo">      
+        <header id="game_header">
+            <a href="../index.html" id="link_logo">
+                <img src="../img/logo.png" id="logo" alt="">
+            </a>
+            <h2 id="title_jogo" nome-real="MODELO">JOGO MODELO</h2>
+        </header>
+
+        <main id="main_body">
+            <div id="modal_info" class="modal">
+                <div class="modal_content" id="modal_content">
+                    <p>
+                        Olá, nos encontramos mais uma vez 😀, desta vez vou te mostrar um jogo bem legal, o Jogo de Completar! O Jogo de Completar mostra uma sequência de figuras com algumas delas faltando 🤔 e a sua tarefa é identificar quais peças estão faltando e arrastar para a sequência de figuras acima, depois é só clicar em TERMINEI!!
+                    </p>
+                    <div id="modal_button_box">
+                        <button id="botao_info_close"
+                            onclick="document.getElementById('modal_info').style.display='none'">Entendi
+                        </button>
+    
+                        <button id="botao_de_voz">
+                            <span id="texto_de_voz">
+                                <img src="../img/svg/audio.svg" alt="botão de aúdio" id="img_de_voz">
+                            </span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <section id="game_section">
+                <header id="box_instrucoes">
+                    <div id="progresso_conquistas">
+                        <p id="texto_progresso">Conquistas</p>
+                        <section id="conquistas_conteiner">
+                            <div class="estrela_container">
+                                <img src="../img/estrelas/star2.svg" alt="" class="estrela">
+                                <p class="estrela_texto" id="texto1">?</p>
+                            </div>
+                            <div class="estrela_container">
+                                <img src="../img/estrelas/star2.svg" alt="" class="estrela">
+                                <p class="estrela_texto" id="texto2">?</p>
+                            </div>
+                            <div class="estrela_container">
+                                <img src="../img/estrelas/star2.svg" alt="" class="estrela">
+                                <p class="estrela_texto" id="texto3">?</p>
+                            </div>
+                            <div class="estrela_container">
+                                <img src="../img/estrelas/star2.svg" alt="" class="estrela">
+                                <p class="estrela_texto" id="texto4">?</p>
+                            </div>
+                        </section>
+                    </div>
+                    <div id="tutorial_conteiner">
+                        <img src="../img/sr-logico.png" alt="" id="mascote_instrucoes">
+                        <article id="textbox_tutorial">
+                            <p id="textbox_fase">Fase n&uacute;mero <span id="textbox-numero-fase">1</span>:</p>
+                            <textarea id="texto_textbox" readonly>Observe a sequência e identifique quais peças estão faltando para deixá-la completa. Depois arraste as peças disponíveis para as posições vazias da sequência para completá-las.</textarea>
+                        </article>
+                    </div>
+                    <div id="conteiner_botoes">
+                        <div class="botoes_janela">
+                            <span class="button_header" id="span_fullscreen" ><i class="icofont-maximize"></i></span>
+                            <a class="button_header" href="../index.html"  id="span_textbox">
+                                <i class="icofont-close icofont_2x"></i>
+                            </a>
+                        </div>
+                        <span class="button_header" id="span_about" 
+                            onclick="document.getElementById('modal_info').style.display='flex'">?</span>
+                    </div>
+                </header>
+            </section>
+        </main> 
+
+        <footer id="footer_grid">
+            <p class="footer_text" id="footer_center">Copyright Fapesq - <span id="ano">2021</span></p>
+            <script>
+                var ano = document.getElementById("ano");
+                var anoAtual = new Date();
+                ano.innerHTML = anoAtual.getFullYear();
+            </script>
+            <section id="footer_right">
+                <p class="footer_text realizadores_text">Realizadores:</p>
+                <div class="footer_imgs">
+                    <img class="footer-img" id="logo-pb" src="../img/logo-pb.png" alt="">
+                    <img class="footer-img" id="logo-seect" src="../img/logo-SEECT.png" alt="">
+                    <img class="footer-img" id="logo-fapesq" src="../img/logo-fapesq.png" alt="">
+                </div>
+            </section>
+        </footer>
+    </div>
+</body>
+
+</html>

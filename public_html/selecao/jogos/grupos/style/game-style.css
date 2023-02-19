@@ -13,8 +13,6 @@ header.game-header {
 
     grid-row: 1/2;
     display: grid;
-    justify-content: center;
-    align-items: center;
     grid-template-columns: 1fr minmax(300px, 1fr) 1fr;
 
 }
@@ -28,21 +26,21 @@ img.logo {
 
     align-self: center;
     justify-self: center;
-    padding: 5px 0 0 0px;
+    padding: 6px 0 0 0px;
 }
 
 h2#title-jogo {
+
     height: fit-content;
     width: fit-content;
     padding: 5px 50px;
     border-radius: 25px;
-    /* background-color: #7694c1; */
     background-color: #7EE0E0;
     box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
     color: white;
     text-align: center;
     vertical-align: middle;
-    grid-column: 2/3;
+    grid-column-start: 2;
     grid-row: 1;
     align-self: center;
     justify-self: center;
@@ -57,85 +55,117 @@ section.game-section {
     align-items: center;
     justify-content: space-between;
     background-color: white;
-    box-shadow:0px 2px 4px rgb(0 0 0 / 25%);
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
     border-radius: 5px 5px 0px 0px;
 }
 
 #logo-header {
-    grid-column: 1/2;
+    grid-column-start: 1;
+    grid-column-end: 2;
     height: 50px;
+
 }
 
 section.game-container {
 
+    margin-bottom: 20px;
     border-color: black;
     border-width: 1px;
     border-style: solid;
     border-radius: 10px;
 
-
 }
 
-#regulador-div{
-    display: grid;
-    grid-template-columns: 15% 70% 15%;
-    justify-content: center;
-    align-items: center;
-    height: 100%;
-    width: 100%;
-    position: relative;
-}
 
-section#container_nucleo {
-    width: 100%;
+section#container-nucleo {
+
+    width: 30%;
     min-width: fit-content;
-    padding-right: 50px;
-    grid-column: 2/3;
-    
-    box-sizing: border-box;
-    background-color: white;
-
+    margin: 0 20px 20px 20px;
+    padding: 10px 10px;
+    border-radius: 5px;
+    background-color: #e2e2e2;
     display: flex;
-    justify-content: center;
-    align-items: center;
+    flex-wrap: wrap;
+    justify-content: flex-start;
     border-style: none;
 }
 
-div.game-center {
-    width: 100%;
-    height: 100%;
+
+section#container-sequencia {
+
+    width: 50%;
+    min-height: 200px;
+    height: fit-content;
+    border: 0.5px black;
+    background-color: #e2e2e2;
     display: flex;
-    flex-direction: column;
-    /* grid-template-rows: 70% 30%; */
     align-items: center;
     justify-items: center;
+
 }
 
 p.container_formas-titulo {
-    font-size: 0.8em;
+
     width: 100%;
-    color: #adadad;
+    color: #C4C4C4;
     background-color: #FAFAFA;
     text-align: center;
-    /* margin-top: -5px; */
 }
 
+section#container_formas {
 
-/* img.game-img {
-    width: 5%;
-    margin: 0px 5px;
-    align-self: center;
-} */
+    width: 100%;
+    height: 180px;
+    padding: 5px 0px 5px 0px;
+    margin-bottom: 0px;
+    background-color: #FAFAFA;
+    border: solid 0px black;
+    border-radius: 0px;
+    justify-self: flex-end;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: baseline;
+    align-content: center;
+}
 
-/* img.game-img.pequeno {
-    width: 3.5%;
-    margin: 0px 5px;
-    align-self: center;
-} */
+img.game-img {
+
+    max-width: 6%;
+
+}
+
+#texto-info{
+    display: flex;
+    
+    width: 100%;
+    height: 150px;
+    border:unset;
+    resize: none;
+    text-align: justify;
+}
+div.modal div.modal_content div#modal_button_box button#botao_info_close {
+   color: #387C7C !important;
+   background: #7EE0E0 !important;
+}
 
 div.modal div.modal_content div#modal_button_box button#botao_de_voz {
-    color: #687844 !important;
-    background: #9DCC38 !important;
+    color: #387C7C !important;
+    background: #7EE0E0 !important;
+}
+
+button#botao-de-voz-desligado-modal {
+    width: 25%;
+    height: fit-content;
+    margin: 10px;
+    padding: 10px 10px;
+    font-size: 1.2em;
+    color: #387C7C;
+    background: #7EE0E0;
+    border: 5px solid #FFFFFF;
+    border-radius: 20px;
+    font-weight: bold;
 }
 
 div#botoes-de-audio{
@@ -194,6 +224,101 @@ img#repetir-voz {
     display: inline-block;
 }
 
+#modal-content{
+    border-color: #FDC23E;
+    padding: 10px 10px 0 10px;
+    display: block;
+}
+
+#modal-content p{
+    font-size: 1.3rem;
+
+}
+
+
+.info-container{
+    height: 100%;
+    width: 100%;
+}
+
+a#span-info {
+
+    width: 30px;
+    height: 43px;
+    padding: 0px 6px;
+    color: white;
+    text-decoration: none;
+    font-size: unset;
+    font-weight: 300;
+    text-align: center;
+    line-height: 56px;
+    background-color: #E25A40;
+    border: 5px solid white;
+    float: right;
+    border-radius: 50%;
+    position: relative;
+    top: -50px;
+    right: -40px;
+
+}
+
+#modal-content{
+    border-color: #7EE0E0;
+}
+
+
+#texto-textbox:focus,#texto-info:focus{
+
+    border:unset;
+ 
+}
+
+
+.grid-container {
+    display: grid;
+    grid-template-columns: 25% auto auto;
+
+}
+
+#title-jogo {
+
+    background-color: #1C4459;
+    color: white;
+    grid-row-start: 2;
+    grid-column-start: 2;
+    text-align: center;
+    border-radius: 10px 10px 0px 0px;
+}
+
+#main-body,
+header {
+    background-image: url(../img/bg-image.png);
+    background-color: var(--cor-do-body);
+
+}
+
+/* main#main-body {
+
+    grid-row: 2/3;
+} */
+
+div.tela-jogo {
+
+    height: 100%;
+    width: 100vw;
+    max-width: 100vw;
+    min-height: 100vh;
+    display: grid;
+    grid-template-rows: 10% 80% 10%;
+    
+}
+
+footer.footer-grid {
+
+    grid-row: 3/4;
+}
+
+
 /* ESTILOS DO TUTORIAL DO JOGO */
 
 div#box-instrucoes {
@@ -201,7 +326,6 @@ div#box-instrucoes {
     display: grid;
     width: 100%;
     height: fit-content;
-    /* background-color: #7694c1; */
     background-color: #7EE0E0;
     border-radius: 5px 5px 0px 0px;
     grid-template-columns: 1fr 2fr 1fr;
@@ -245,7 +369,7 @@ p.texto-progresso {
     margin-bottom: 5px;
 }
 
-div.conquistas-conteiner {
+div.conquistas_conteiner {
 
     display: flex;
     justify-content: center;
@@ -262,7 +386,7 @@ img.estrela {
     width: 30px;
 }
 
-#texto_textbox{
+#texto-textbox{
 
     width: 95%;
     border:unset;
@@ -270,7 +394,7 @@ img.estrela {
     padding-left: 10px;
 }
 
-#texto_textbox:focus{
+#texto-textbox:focus{
 
     border:unset;
  
@@ -383,9 +507,9 @@ button#span-about {
 
 section#dropzone-container {
 
-    width: 100px;
+    width: 100%;
     height: 100%;
-    margin-top: 100px;
+    margin-top: 10px;
     margin-bottom: 5px;
     display: grid;
     grid-template-columns: 3fr repeat(3, 3fr) 3fr;
@@ -421,6 +545,7 @@ section.drop-direito {
     align-items: baseline;
     align-content: flex-end;
     justify-content: flex-end;
+    min-height: 100px;
 
 }
 
@@ -451,8 +576,9 @@ img.img-restricao-esquerda {
 
     width: 80px;
     margin-right: 10px;
+    margin-bottom: 10px;
+    transform: scaleX(-1);
 
-    transform: scaleX(1);
 }
 
 section.restricao-direita {
@@ -488,7 +614,7 @@ section#drop2 img {
 
 section#container_formas img {
 
-    /* width: 90px; */
+    width: 90px;
     margin: 5px;
 
 }
@@ -549,7 +675,7 @@ section#drop2 img.pequeno {
 
 section#container_formas img.pequeno {
 
-    width: 45px;
+    width: 70px;
     margin: 5px;
 
 }
@@ -603,36 +729,24 @@ section#intDrop img.draggable-mirror.pequeno {
 
 
 /* FIM DO AJUSTE DOS BLOCOS PEQUENOS */
-.botao{
+
+
+button#botao-resultado {
+
     width: fit-content;
     height: fit-content;
     padding: 15px 10px;
-    font-size: 0.95em;
-    color: #fff;
-    /* background: #7694c1; */
+    font-size: 1.2em;
+    color: #387C7C;
     background: #7EE0E0;
     border: 5px solid #FFFFFF;
-    border-radius: 10px;
-    font-weight: 500;
-}
-button#botao-resultado{
-    /* background: #7694c1; */
-    background-color: #7EE0E0;
-    font-size: 0.95em;
-    padding: 10px 15px;
-    margin: 0;
     border-radius: 20px;
+
 }
 
 div.formas-titulo {
-    /* height: 88%; */
-    align-self: flex-end;
+    height: min-content;
     width: 100%;
-}
-
-footer.footer-grid{
-    padding: 0px;
-    grid-template-columns: 1fr 1fr 1fr;
 }
 
 @media(max-width: 425px) {
@@ -640,7 +754,6 @@ footer.footer-grid{
     #title-jogo {
 
         font-size: 20px;
-
 
     }
 
@@ -661,9 +774,10 @@ footer.footer-grid{
     }
 
     #mascote-instrucoes {
-        grid-row: 2;
-
-
+        margin-top: 0px;
+        margin-left: -25px;
+        z-index: 10;
+        width: 124px;
     }
 
     span#span-textbox,
@@ -784,120 +898,18 @@ footer.footer-grid{
 
 }
 
-/* AJUSTE DE TELA ATÉ 1000PX */
-@media(max-width: 900px) {
-    
-}
+@media (min-width: 800px) AND (max-width: 1919px) AND (orientation: landscape){
 
-/* AJUSTE DE TELA LANDSCAPE ATÉ 1280PX */
+    h2#title-jogo {
 
-@media(orientation: landscape) AND (max-width: 1280px){
-
-    section.aviso-orientacao{
-
-        display: none;
+        font-size: 1em;
     }
 
-    /* classes gerais */
-
-    .grid {
+    main#main-body {
 
         grid-template-columns: 0.5fr 10fr 0.5fr;
-    }
-
-    /* --------- HEADER ----------*/
-
-    header.game-header {
-
-        display: grid;
-        grid-template-columns: 1fr minmax(300px, 1fr) 1fr;
 
     }
-
-    /* img.logo {
-        
-        padding: 10px 0px;
-    } */
-
-    h2#title-jogo {
-
-        height: fit-content;
-        width: fit-content;
-        padding: 5px 50px;
-        font-size: 1em;
-
-
-    }
-
-
-    /* ----------- TUTORIAL ---------- */
-
-    div#box-instrucoes {
-        width: 100%;
-        /* height: 110px; */
-        /* grid-template-columns: 25% 65% 12%; */
-    }
-
-    #mascote-instrucoes {
-        margin-top: 0px;
-        margin-left: 0px;
-        z-index: 10;
-        width: 124px;
-    }
-
-    #textbox-tutorial {
-        
-        margin-top: 0px;
-    }
-
-    /* ----------- JOGO ----------- */
-
-    /* img.game-img {
-        margin: 0px 10px;
-        max-width: 9%;
-        align-self: center;
-    } */
-
-    button.botao {
-        padding: 10px 10px;
-        font-size: 0.9em;
-    }
-
-    section.grid-right {
-        width: fit-content;
-        padding: 0px;
-        justify-self: center;
-        display: flex;
-        /* flex-direction: column; */
-        justify-content: center;
-        align-content: center;
-        grid-column: 3/4;
-        grid-row: 1;
-    }
-}
-
-
-
-@media (min-width: 900px) AND (max-width: 1919px) AND (orientation: landscape){
-
-    h2#title-jogo {
-
-        font-size: 1em;
-
-    }
-
-    h2#title-jogo {
-        height: fit-content;
-        width: fit-content;
-        padding: 5px 50px;
-        font-size: 1em;
-    }
-
-    /* main#main-body {
-
-        grid-template-columns: 1fr minmax(300px, 10fr) 1fr
-
-    } */
 
     /* ==== AJUSTES DO TUTORIAL ===== */
 
@@ -916,6 +928,7 @@ footer.footer-grid{
     #mascote-instrucoes {
 
         width: 15%;
+        align-self: center;
     }
 
     #textbox-tutorial {
@@ -923,7 +936,7 @@ footer.footer-grid{
         padding: 5px 10px 5px 30px;
     }
 
-    #texto_textbox {
+    #texto-textbox {
 
         font-size: 14px;
     }
@@ -931,7 +944,7 @@ footer.footer-grid{
     /* ===========  AJUSTE DOS BOTÕES DO TUTORIAL ========= */
 
 
-    div.conteiner-botoes {
+    div.conteiner-botoes { /* AQUI */
 
         margin-left: 15px;
         display: flex;
@@ -941,7 +954,7 @@ footer.footer-grid{
     
     }
     
-    div.botoes-janela {
+    div.botoes-janela { /* AQUI */
     
         width: 50%;
         margin: 0px;
@@ -994,14 +1007,20 @@ footer.footer-grid{
     }
 
     
-    .botao {
+    button#botao-resultado {
 
         padding: 5px 10px;
-        font-size: 0.95em;
-        height: 50px;
+        font-size: 1em;
     }
 
-    section#container_sequencia {
+    section#container-nucleo {
+        
+        width: 80%;
+        height: 110px;
+        padding: 0px 10px;
+    }
+
+    section#container-sequencia {
         
         width: 80%;
         height: 110px;
@@ -1010,18 +1029,7 @@ footer.footer-grid{
 
     section#container_formas {
         width: 100%;
-        height: 100%;
-    }
-
-    img.game-img {
-        /* width: 60px; */
-        width: 45px;
-        max-width: unset;
-    }
-
-    img.game-img.pequeno {
-        width: 45px;
-        max-width: unset;
+        height: 90px;
     }
 
     section#drop1,
@@ -1036,8 +1044,10 @@ footer.footer-grid{
 
     /* ==== AJUSTE DAS IMAGENS DE RESTRIÇÃO ESQUEDA E DIREITA ====== */
 
+
     img.img-restricao-esquerda,
     img.img-restricao-direita {
+
         width: 50px;
     }
     
@@ -1068,7 +1078,7 @@ footer.footer-grid{
     section#intDrop img.draggable-mirror,
     section#drop1 img.draggable-mirror,
     section#drop2 img.draggable-mirror {
-        width: 60%;
+        width: 6%;
     }
 
     section#container_formas img.drag.grande {
@@ -1090,7 +1100,7 @@ footer.footer-grid{
     section#drop1.drop-meio-ativo img.drag.pequeno,
     section#drop2.drop-meio-ativo img.drag.pequeno {
 
-        width: 30px;
+        width: 40px;
         max-width: unset;
 
     }
@@ -1117,14 +1127,11 @@ footer.footer-grid{
         width: 40px;
         max-width: unset;
     }
+
 }
 
 
 @media (min-width: 1920px) AND (max-width: 2000px) and (orientation: landscape){
-
-    header.game-header {
-        grid-template-columns: 1fr minmax(300px, 1fr) 1fr;   
-    }
 
     section#container_formas {
         width: 100%;
@@ -1146,6 +1153,7 @@ footer.footer-grid{
 
     img.img-restricao-esquerda,
     img.img-restricao-direita {
+
         width: 80px;
     }
     
@@ -1223,16 +1231,6 @@ footer.footer-grid{
     section#container_formas img.drag.pequeno {
 
         width: 60px;
-        max-width: unset;
-    }
-
-    img.game-img {
-        width: 60px;
-        max-width: unset;
-    }
-
-    img.game-img.pequeno {
-        width: 75px;
         max-width: unset;
     }
 

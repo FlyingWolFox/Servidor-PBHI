@@ -11,11 +11,11 @@
     <link rel="shortcut icon" href="./img/favicon.ico"/>
 
     <!-- chamada para as folhas de estilo -->
-    <link rel="stylesheet" href="./style/page-style.css">
+    <link rel="stylesheet" href="./selecao/jogos/style/page-style.css">
 
     <!-- link para os icones me forma de fonte -->
 
-    <link rel="stylesheet" href="./style/icofont/icofont.min.css">
+    <link rel="stylesheet" href="./selecao/jogos/style/icofont/icofont.min.css">
 
     <!-- link para as fontes do projeto -->
     <link rel="preconnect" href="https://fonts.gstatic.com">
@@ -71,8 +71,10 @@
 
             font-weight: 700;
         }
-        section.container-botao{
-            margin: 10px auto;
+        section#btnMsg{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
         textarea#comentario-atividade{
             border: solid black 3px;
@@ -87,7 +89,7 @@
             font-weight: 700; 
         }
         button#botao-resultado{
-            margin-bottom: 0;
+            margin: 10px auto;
         }
     </style>
 </head>
@@ -146,7 +148,7 @@
                     <input type="text" id="nome-professor" class="form-input" name="nomeProfessor" placeholder="Seu nome" maxlength="45">
                     <input type="text" id="email" class="form-input" name="email" placeholder="Seu email" maxlength="50">
                     <input type="text" id="turma" class="form-input" name="turma" placeholder="Sua turma" maxlength="30">
-                    <input type="text" id="escola" class="form-input" name="escola" placeholder="Sua escola" maxlength="4" style="margin-bottom: 50px;">
+                    <input type="text" id="escola" class="form-input" name="escola" placeholder="Sua escola" maxlength="30" style="margin-bottom: 50px;">
                     <label for="jogos">Selecione um jogo:</label>
                     <select id="jogos" name="nome_jogo">
                     </select> 
@@ -171,8 +173,10 @@
                     <textarea id="comentario-atividade" name="comentarioAtividade" maxlength="300"
                         placeholder="Escreva aqui um comentário descrevendo a atividade para seus alunos..."></textarea>
                 </section>
-                <section class = 'container-botao'>
+                <section id="btnMsg">
                     <button onclick = getLink() class="botao" id="botao-resultado">Gerar Link</button>
+
+                    <div id="boxResposta" class="responseMsg"></div>
                 </section>
                 </section>
             </form>

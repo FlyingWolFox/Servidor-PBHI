@@ -70,11 +70,10 @@ routerDefault.post('/partida', async (req,res)=>{
 })
 
 
-routerDefault.post('/nome', async (req,res,next) => {
+routerDefault.post('/nome', async (req,res) => {
     req.session.regenerate((e) => {})
     const nome = req.body.nome;
     const ano = req.body.ano;
-    
 
     var erros = [];
 
@@ -96,7 +95,7 @@ routerDefault.post('/nome', async (req,res,next) => {
         req.session.ano = ano;
         req.session.logado = true;
         sessao.copySession(req);
-        res.json("");
+        res.json();
     }
    
 })
