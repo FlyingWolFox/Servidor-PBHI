@@ -1,11 +1,11 @@
 /** CONSTANTES DO SCRIPT **/
 
 // IDs dos containers
-const divSequencia = 'container-nucleo';
-const divOpcoes = 'container-formas';
-const divCaixa = 'container-sequencia'; //container-resposta
-const textNumeroFase = 'textbox-numero-fase';
-const divEstrelas = 'container-estrelas';
+const divSequencia = 'container_nucleo';
+const divOpcoes = 'container_formas';
+const divCaixa = 'container_sequencia'; //container-resposta
+const textNumeroFase = 'textbox_numero_fase';
+const divEstrelas = 'conquistas_conteiner';
 
 const anosEnum = Object.freeze({
 	"Primeiro ano": 1,
@@ -48,6 +48,9 @@ var estrela = 0; //nível de estrelas do jogador
 var arrayEstrelas = document.getElementById(divEstrelas).getElementsByTagName('img');
 var ano = localStorage.getItem('ano');
 var etapaMax = 25;
+var textoInfo = document.getElementById('resultado-jogo-info');
+var modalInfo = document.getElementById("modalInfoPeca");
+var botaoOk = document.getElementById('botao-proximo-info');
 console.log('esse eh o ano:' + ano);
 /** FIM VARIAVEIS */
 
@@ -603,6 +606,21 @@ function game() {
 		}
 	}
 
+	arraySequencia.forEach((item) => {
+		
+		//Registra o evento click e aparece as informações da peça na tela.
+		item.addEventListener('click', (e) => {
+
+			botaoOk.onclick = function (event){
+				modalInfo.style.display = 'none';
+			};
+			modalInfo.style.display = 'block';
+			textoInfo.innerHTML = e.target.alt;
+			document.getElementById('img-info-peca').src = e.target.src;
+			botaoOk.innerHTML = "Ok";
+		});
+	
+	});
 	/* Atribui as imagens do núcleo em posicoes aleatorias do array */
 	var divOps = document.getElementById(divOpcoes);
 	var indice = [];
@@ -661,6 +679,21 @@ function game() {
 		// arrayOpcoes[i].setAttribute('draggable','true');
 		// arrayOpcoes[i].setAttribute('droppable','false');
 		// arrayOpcoes[i].setAttribute('ondragstart', 'drag(event)');
+		arrayOpcoes.forEach((item) => {
+		
+			//Registra o evento click e aparece as informações da peça na tela.
+			item.addEventListener('click', (e) => {
+	
+				botaoOk.onclick = function (event){
+					modalInfo.style.display = 'none';
+				};
+				modalInfo.style.display = 'block';
+				textoInfo.innerHTML = e.target.alt;
+				document.getElementById('img-info-peca').src = e.target.src;
+				botaoOk.innerHTML = "Ok";
+			});
+		
+		});
 		divOps.appendChild(arrayOpcoes[i]);
 		console.log('Adicionado forma/opcao parte2 #' + i + ': id=' + arrayOpcoes[i].getAttribute("id") + ', src=' + arrayOpcoes[i].getAttribute("src"));
 	}

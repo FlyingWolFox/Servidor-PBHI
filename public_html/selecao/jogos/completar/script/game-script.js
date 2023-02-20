@@ -50,6 +50,9 @@ var estrela = 0; //nível de estrelas do jogador
 var arrayEstrelas = document.getElementById(divEstrelas).getElementsByTagName('img');
 var ano = localStorage.getItem('ano');
 var etapaMax = 40;
+var textoInfo = document.getElementById('resultado-jogo-info');
+var modalInfo = document.getElementById("modalInfoPeca");
+var botaoOk = document.getElementById('botao-proximo-info');
 console.log('esse eh o ano:' + ano);
 
 /** FIM VARIAVEIS */
@@ -852,6 +855,39 @@ function game() {
 			}
 			arrayOpcoes[i] = novaOpcao;
 			console.log('Adicionado forma/opcao #' + i + ': src=' + arrayOpcoes[i].getAttribute("src"));
+			
+			//Adicionando o event listener de click que mostra a característica da peça
+			arraySequencia.forEach((item) => {
+		
+				//Registra o evento click e aparece as informações da peça na tela.
+				item.addEventListener('click', (e) => {
+			
+					botaoOk.onclick = function (event){
+						modalInfo.style.display = 'none';
+					};
+					modalInfo.style.display = 'block';
+					textoInfo.innerHTML = e.target.alt;
+					document.getElementById('img-info-peca').src = e.target.src;
+					botaoOk.innerHTML = "Ok";
+				});
+			
+			});
+
+			arrayOpcoes.forEach((item) => {
+		
+				//Registra o evento click e aparece as informações da peça na tela.
+				item.addEventListener('click', (e) => {
+			
+					botaoOk.onclick = function (event){
+						modalInfo.style.display = 'none';
+					};
+					modalInfo.style.display = 'block';
+					textoInfo.innerHTML = e.target.alt;
+					document.getElementById('img-info-peca').src = e.target.src;
+					botaoOk.innerHTML = "Ok";
+				});
+			
+			});
 		}
 
 		arrayOpcoes[i].setAttribute('id', 'opcao' + (i + 1)); //lincoln: diferenciando ID

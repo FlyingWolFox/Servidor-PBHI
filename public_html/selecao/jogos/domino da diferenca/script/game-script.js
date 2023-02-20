@@ -48,6 +48,9 @@ var arrayEstrelas = document.getElementById(divEstrelas).getElementsByTagName('i
 var erros = [];
 var ano = localStorage.getItem('ano');
 var etapaMax = 30;
+var textoInfo = document.getElementById('resultado-jogo-info');
+var modalInfo = document.getElementById("modalInfoPeca");
+var botaoOk = document.getElementById('botao-proximo-info');
 /** FIM VARIAVEIS */
 
 /** FUNCOES DE APOIO */
@@ -666,6 +669,22 @@ function game() {
 	for (i = 0; i < tamOpcoes; i++) {
 		arrayOpcoes[i] = novaImgBlocoLogico(arrayOpcoes);
 	}
+
+	arrayOpcoes.forEach((item) => {
+		
+		//Registra o evento click e aparece as informações da peça na tela.
+		item.addEventListener('click', (e) => {
+
+			botaoOk.onclick = function (event){
+				modalInfo.style.display = 'none';
+			};
+			modalInfo.style.display = 'block';
+			textoInfo.innerHTML = e.target.alt;
+			document.getElementById('img-info-peca').src = e.target.src;
+			botaoOk.innerHTML = "Ok";
+		});
+	
+	});
 	var primeiraPeca = arrayOpcoes[0];
 	embaralhaArray(arrayOpcoes);
 	
