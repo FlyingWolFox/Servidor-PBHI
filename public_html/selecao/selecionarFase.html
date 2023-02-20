@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <title>Tem Lógica - Seleção do Ano</title>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#FDC23E">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#FDC23E">
+
+    <!-- chamada para as folhas de estilo -->
+    <link rel="stylesheet" href="./jogos/style/page-style.css">
+    <!-- chamada para as folhas de estilo do jogo -->
+    <link rel="stylesheet" href="game-style.css">
+    <link rel="stylesheet" id="estilo-mobile" href="mobile-style.css" type="text/css"
+        media="screen and (orientation: landscape) and (max-width: 900px)">
+
+
+
+    <link rel="shortcut icon" href="../img/favicon.ico" />
+
+    <!-- link para os icones me forma de fonte -->
+
+    <link rel="stylesheet" href="./jogos/style/icofont/icofont.min.css">
+
+    <!-- link para as fontes do projeto -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+        rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@100;300;400;500;700;800;900&display=swap"
+        rel="stylesheet">
+    <script src="./jogos/script/autenticar.js"></script>   
+    
+    <style>
+        section#fase_box{
+            width: 100%;
+            max-width: 1200px;
+
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: flex-start;
+
+            grid-column: 2/3;
+            gap: 10px;
+        }
+        div.fase{
+            display: grid;
+            justify-content: center;
+            align-items: center;
+            width: 7%;
+            aspect-ratio: 1/1;
+
+            border-radius: 5px;           
+            font-size: 1.5em;
+            color: white;
+        }
+        div.fase:hover{
+            cursor: pointer;
+            opacity: 0.7;
+            transition: 0.5s;
+        }
+    </style>
+</head>
+    
+<body class="index-body">
+    <header class="game-header" id="header-bottom">
+        <a href="../index.html" class="link-logo">
+            <img id="logo-header" src="../img/logo.png" alt="" class="logo grid-item">
+        </a>
+
+        <img src="../img/sr-logico-shadow.png" alt="" class="mascote grid-right">
+        <nav class="menu grid grid-full">
+            <ul class="menu-list grid-center">
+                <li class="menu-list-item selected">
+                    <a href="../index.html" class="menu-link">
+                        <i class="menu-icon icofont-game-pad"></i>
+                        <p class="menu-text">Jogos</p>
+                    </a>
+                </li>
+                <li class="menu-list-item">
+                    <a href="../objetivos.html" class="menu-link">
+                        <i class="menu-icon icofont-check"></i>
+                        <p class="menu-text">Objetivos</p>
+                    </a>
+                </li>
+                <li class="menu-list-item">
+                    <a href="../sobre.html" class="menu-link">
+                        <i class="menu-icon icofont-question"></i>
+                        <p class="menu-text">Sobre</p>
+                    </a>
+                </li>
+                <li class="menu-list-item">
+                    <a href="../contato.html" class="menu-link">
+                        <i class="menu-icon icofont-google-talk"></i>
+                        <p class="menu-text">Contato</p>
+                    </a>
+                </li>
+                <li class="menu-list-item">
+                    <a href="../professores.html" class="menu-link">
+                        <i class="menu-icon icofont-info"></i>
+                        <p class="menu-text">Materiais para <br> Professores</p>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Mudança de título da página -->
+    <h2 id="title-jogo"></h2>
+
+    <!-- PRIMEIRA LINHA -->
+    <main class="grid grid-full" id="alterando-margem-1">
+        <section id="fase_box">
+
+        </section>
+    </main>
+   
+    <footer class="footer-grid" id="footer-top">
+        <p class="footer-text grid-center">Copyright Fapesq - <span id="ano">2021</span></p>
+        <script>
+            var ano = document.getElementById("ano");
+            var anoAtual = new Date();
+            ano.innerHTML = anoAtual.getFullYear();
+        </script>
+        <section class="grid-right">
+            <p class="footer-text realizadores-text">Realizadores:</p>
+            <div class="footer-imgs">
+                <img class="footer-img" id="logo-pb" src="../img/logo-pb.png" alt="">
+                <img class="footer-img" id="logo-seect" src="../img/logo-SEECT.png" alt="">
+                <img class="footer-img" id="logo-fapesq" src="../img/logo-fapesq.png" alt="">
+            </div>
+        </section>
+    </footer>
+
+    <!--Mudando título-->
+    <script>
+        // window.onbeforeunload = function(){return "Deseja mesmo sair do site?"};
+        window.onload = async () => {
+             resposta = await fetch('/getJogos')
+             resposta = await resposta.json()
+             resposta.forEach(jogo => {
+                 if (jogo['nome_jogo'] == localStorage.jogo){
+                     for (i = 0; i < jogo['max_fase']; i++) {
+                         new_element = document.createElement('div')
+                         new_element.classList.add("fase")
+                         new_element.innerHTML = i+1
+                         new_element.style.backgroundColor = localStorage.cor
+                         new_element.addEventListener('click', element => {
+                            localStorage.setItem('fase_atual', element['path'][0].innerHTML)
+                            window.location.href = localStorage.link
+                         })
+
+                         document.getElementById('fase_box').appendChild(new_element)
+                        }
+                    }
+                });
+            console.log(resposta)
+        }
+
+        let MudandoAno = document.getElementById("title-jogo");
+
+        MudandoAno.innerHTML = localStorage.titulo;
+
+        MudandoAno.style.backgroundColor = localStorage.cor;
+
+    </script>
+</body>
+
+</html>
