@@ -124,13 +124,13 @@ div.progresso-conquistas {
     
 }
 div.modal div.modal_content div#modal_button_box button#botao_info_close {
-   color: #A37027 !important;
-   background: rgb(249, 158, 21) !important;
+   color: #387C7C !important;
+   background: #7EE0E0 !important;
 }
 
 div.modal div.modal_content div#modal_button_box button#botao_de_voz {
-    color: #A37027 !important;
-    background: rgb(249, 158, 21) !important;
+    color: #387C7C !important;
+    background: #7EE0E0 !important;
 }
 
 button#botao-de-voz-desligado-modal {
@@ -205,7 +205,7 @@ img#repetir-voz {
 
 
 #modal-content{
-    border-color: #FDC23E;
+    border-color: #7EE0E0;
     padding: 10px 10px 0 10px;
     display: block;
 }
@@ -507,8 +507,8 @@ button#botao-resultado {
     margin: 0px;
     padding: 15px 20px;
     font-size: 1.2em;
-    color: #A37027;
-    background: #FDC23E;
+    color: #387C7C;
+    background: #7EE0E0;
     border: 5px solid #FFFFFF;
     border-radius: 20px;
 

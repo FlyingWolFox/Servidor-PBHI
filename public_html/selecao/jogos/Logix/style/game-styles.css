@@ -133,9 +133,14 @@ p.container_formas-titulo {
     align-self: center;
 } */
 
+div.modal div.modal_content div#modal_button_box button#botao_info_close {
+   color: #387C7C !important;
+   background: #7EE0E0 !important;
+}
+
 div.modal div.modal_content div#modal_button_box button#botao_de_voz {
-    color: #687844 !important;
-    background: #9DCC38 !important;
+    color: #387C7C !important;
+    background: #7EE0E0 !important;
 }
 
 div#botoes-de-audio{

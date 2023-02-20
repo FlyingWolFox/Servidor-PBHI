@@ -168,8 +168,8 @@ button#botao-de-voz-ligado-modal {
     margin: 10px;
     padding: 10px 10px;
     font-size: 1.2em;
-    color: #687844;
-    background: #9DCC38;
+    color: white;
+    background: #00c3ff;
     border: 5px solid #FFFFFF;
     border-radius: 20px;
     font-weight: bold;
@@ -246,7 +246,7 @@ img#repetir-voz {
 
 
 #modal-content{
-    border-color: #FDC23E;
+    border-color: #00c3ff;
     padding: 10px 10px 0 10px;
     display: block;
 }
@@ -282,11 +282,6 @@ a#span-info {
     right: -40px;
 
 }
-
-#modal-content{
-    border-color: #00c3ff;
-}
-
 
 #texto-textbox:focus,#texto-info:focus{
 
