@@ -307,6 +307,601 @@ section.box-center {
  
 
 }
+/* Seletores de estilo do main */
+
+.titulo-relatorio {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    padding: 10px;
+    margin-top: 65px;
+    margin-bottom: 0;
+}
+
+.titulo-relatorio>h1 {
+    color: var(--azul-escuro);
+    line-height: 16px;
+}
+
+section.painel-de-pontuacao-geral {
+    width: 1000px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 0 auto;
+}
+
+main.grid-tabela {
+    background: var(--azul-escuro);
+    width: 600px;
+    height: 170px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 0 auto;
+    padding: 10px;
+    padding-right: 25px;
+    margin-top: 50px;
+    border-radius: 5px;
+    gap: 60px;
+}
+
+/* ESTILIZAÇÃO DO CÍRCULO */
+.container {
+    width: 400px;
+}
+
+.container .box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.container .cartao {
+    position: relative;
+    width: 185px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 160px;
+    text-align: center;
+    overflow: hidden;
+    transition: 0.5s;
+    cursor: pointer;
+}
+
+.container .cartao:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+}
+
+.container .cartao:before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -50%;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.03);
+    pointer-events: none;
+    z-index: 1;
+}
+
+.porcentagem {
+    position: relative;
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    z-index: 1000;
+}
+
+.numero {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.porcentagem .numero {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+}
+
+.porcentagem .numero h2 {
+    font-weight: 700;
+    font-size: 40px;
+    color: var(--header-color);
+    transition: 0.5s;
+}
+
+.porcentagem .numero h2 span {
+    font-size: 24px;
+    color: var(--header-color);
+    transition: 0.5s;
+}
+
+.numero p {
+    color: var(--header-color);
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.texto {
+    position: relative;
+    color: #111;
+    margin-top: 20px;
+    font-weight: 700;
+    font-size: 18px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    transition: 0.5s;
+}
+
+svg {
+    width: 150px;
+    height: 150px;
+    z-index: 1000;
+}
+
+svg circle {
+    width: 100%;
+    height: 100%;
+    fill: none;
+    stroke: var(--cinza-claro);
+    stroke-width: 10;
+    stroke-linecap: round;
+    transform: translate(5px, 5px);
+}
+
+/* Manipulação da barra do círculo */
+svg circle:nth-child(2) {
+    stroke-dasharray: 440;
+    stroke-dashoffset: 440;
+}
+
+.cartao:nth-child(1) svg circle:nth-child(2) {
+    stroke-dashoffset: calc(440 - (440 * 90) / 100);
+    stroke: #00ff43;
+}
+
+/* FIM DA ESTILIZAÇÃO DO CÍRCULO */
+
+/* Seletores de estilo do main */
+
+.titulo-relatorio {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    padding: 10px;
+    margin-top: 65px;
+    margin-bottom: 0;
+}
+
+.titulo-relatorio>h1 {
+    color: var(--azul-escuro);
+    line-height: 16px;
+}
+
+section.painel-de-pontuacao-geral {
+    width: 1200px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 0 auto;
+}
+
+main.grid-tabela {
+    background: var(--azul-escuro);
+    width: 600px;
+    height: 170px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 0 auto;
+    padding: 10px;
+    padding-right: 25px;
+    margin-top: 50px;
+    border-radius: 5px;
+    gap: 60px;
+}
+
+/* ESTILIZAÇÃO DO CÍRCULO */
+.container {
+    width: 400px;
+}
+
+.container .box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.container .cartao {
+    position: relative;
+    width: 185px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 160px;
+    text-align: center;
+    overflow: hidden;
+    transition: 0.5s;
+    cursor: pointer;
+}
+
+.container .cartao:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+}
+
+.container .cartao:before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -50%;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.03);
+    pointer-events: none;
+    z-index: 1;
+}
+
+.porcentagem {
+    position: relative;
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    z-index: 1000;
+}
+
+.numero {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.porcentagem .numero {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+}
+
+.porcentagem .numero h2 {
+    font-weight: 700;
+    font-size: 40px;
+    color: var(--header-color);
+    transition: 0.5s;
+}
+
+.porcentagem .numero h2 span {
+    font-size: 24px;
+    color: var(--header-color);
+    transition: 0.5s;
+}
+
+.numero p {
+    color: var(--header-color);
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.texto {
+    position: relative;
+    color: #111;
+    margin-top: 20px;
+    font-weight: 700;
+    font-size: 18px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    transition: 0.5s;
+}
+
+svg {
+    width: 150px;
+    height: 150px;
+    z-index: 1000;
+}
+
+svg circle {
+    width: 100%;
+    height: 100%;
+    fill: none;
+    stroke: var(--cinza-claro);
+    stroke-width: 10;
+    stroke-linecap: round;
+    transform: translate(5px, 5px);
+}
+
+/* Manipulação da barra do círculo */
+svg circle:nth-child(2) {
+    stroke-dasharray: 440;
+    stroke-dashoffset: 440;
+}
+
+.cartao:nth-child(1) svg circle:nth-child(2) {
+    stroke-dashoffset: calc(440 - (440 * 90) / 100);
+    stroke: #00ff43;
+}
+
+/* FIM DA ESTILIZAÇÃO DO CÍRCULO */
+
+div.box-de-texto section {
+    width: 400px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    flex-direction: column;
+    text-align: justify;
+    gap: 10px;
+    margin-left: -60px;
+}
+
+div.box-de-texto h1 {
+    font-size: 22px;
+    color: var(--header-color);
+}
+
+div.box-de-texto p {
+    color: var(--header-color);
+    font-size: 18px;
+    line-height: 22px;
+}
+
+div.box-de-texto button {
+    width: 150px;
+    height: 50px;
+    border-radius: 5px;
+    color: #fff;
+    background: var(--azul-fluxo);
+    border: none;
+    cursor: pointer;
+}
+
+div.box-de-texto button:hover {
+    background: var(--amarelo-sequencia);
+    color: #fff;
+
+    transition: 0.2s;
+}
+
+div.box-de-conteudo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    margin-top: 50px;
+    margin-left: -30px;
+}
+
+section.painel-de-resultados {
+    background: var(--azul-escuro);
+    color: var(--cor-do-body);
+    border: 7px solid var(--azul-escuro);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 20px;
+    border-radius: 5px;
+}
+
+section.painel-de-resultados div {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 65px;
+
+    border-bottom: 3px solid var(--cor-do-body);
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+}
+
+section.painel-de-resultados div:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+}
+
+section.paineis-de-relatorio {
+    width: 1200px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 0 auto;
+    gap: 25px;
+}
+
+div.tabela {
+    margin-top: 60px;
+    margin-bottom: 80px;
+}
+
+div.tabela table {
+    width: 600px;
+    display: block;
+    background: var(--cinza-claro);
+    border-collapse: collapse;
+    max-height: 400px;
+    overflow-y: scroll;
+    overflow-x: scroll;
+    margin: 0 auto;
+}
+
+div.tabela thead tr th td {
+    text-align: center;
+}
+
+div.tabela th,
+div.tabela td {
+    padding: 15px;
+    /* max-width: 150px; */
+    width: 250px;
+    border: 3px solid var(--cor-do-body);
+}
+
+div.tabela th {
+    background: var(--amarelo-sequencia);
+    padding: 16px;
+    text-align: center;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+div.tabela th:first-child {
+    border-top-left-radius: 8px;
+    padding-left: -24px;
+}
+
+div.tabela th:last-child {
+    border-top-right-radius: 8px;
+    padding-right: 24px;
+}
+
+div.painel-de-ajuda {
+    width: 300px;
+    height: 400px;
+    margin-top: -15px;
+    background: var(--azul-escuro);
+    border-radius: 5px;
+}
+
+div.painel-de-ajuda header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 25px;
+    border-bottom: 2px solid var(--cor-do-body);
+}
+
+div.painel-de-ajuda .titulo-header p {
+    color: var(--cor-do-body);
+} 
+
+div.painel-de-ajuda .titulo-header span {
+    margin-left: 7px;
+    background: red;
+    color: var(--cor-do-body);
+    padding: 7px 10px;
+    border-radius: 5px;
+}
+
+section.lista-de-jogadores {
+    display: flex;
+    flex-direction: column;
+    padding: 0 20px;
+    margin-top: 18px;
+    overflow: auto;
+}
+
+section.lista-de-jogadores div {
+    background: var(--azul-escuro);
+    color: #111;
+    gap: 100px;
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 2px solid var(--cor-do-body);
+    overflow:auto;
+}
+
+section.lista-de-jogadores div p {
+    color: var(--cor-do-body);
+}
+
+section.lista-de-jogadores div:nth-child(2) {
+    margin-top: 15px;
+}
+
+section.lista-de-jogadores div:nth-child(3) {
+    margin-top: 15px;
+}
+
+section.lista-de-jogadores div strong {
+    margin-bottom: 20px;
+    color: var(--cor-do-body);
+}
+
+div.painel-sem-respostas {
+    width: 300px;
+    height: 400px;
+    margin-top: -15px;
+    background: var(--azul-escuro);
+    border-radius: 5px;
+}
+
+div.painel-sem-respostas header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 25px;
+    border-bottom: 2px solid var(--cor-do-body);
+}
+
+div.painel-sem-respostas .titulo-header-2 p {
+    color: var(--cor-do-body);
+}
+
+div.painel-sem-respostas header .titulo-header-2 span{
+    margin-left: 7px;
+    background: blue;
+    color: var(--cor-do-body);
+    padding: 7px 10px;
+    border-radius: 5px;
+}
+
+section.lista-de-jogadores-2 {
+    display: flex;
+    flex-direction: column;
+    padding: 0 20px;
+    margin-top: 18px;
+    overflow: auto;
+}
+
+section.lista-de-jogadores-2 div {
+    color: var(--cor-do-body);
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 2px solid var(--cor-do-body);
+    margin-bottom: 10px;
+    overflow: auto;
+}
+
+section.lista-de-jogadores-2 div strong {
+    margin-bottom: 20px;
+}
+/* */
+
+section#section-container {
+    max-width: 1200px;
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    grid-column: 2/3;
+    justify-content: flex-start;
+}
+
+section.box-center {
+
+    margin: 10px 0;
+    display: flex;
+    justify-content: space-between;
+    zoom: 83%;
+}
+
 
 /* Seletores do main do index */
 
@@ -914,7 +1509,7 @@ div.modal-text-content, div.modal-text-content-info {
     font-size: 1.5em;
 }
 
-button#botao-resultado, button#botao-proximo {
+button#botao-resultado, button#botao-proximo, button#botao-relatorio {
 
     width: fit-content;
     height: fit-content;

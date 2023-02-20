@@ -31,6 +31,17 @@ const contornoEnum = Object.freeze({
 /** FIM CONSTANTES */
 
 /** VARIAVEIS GLOBAIS COMPARTILHADAS ENTRE AS FUNCOES */
+
+const urlParam = new URLSearchParams(window.location.search)
+console.log('Fase:'+ urlParam.get("fase"))
+const faseInicial = urlParam.get("fase")
+if (faseInicial == null){
+	var etapaAtual = 0;
+}
+else{
+	var etapaAtual = parseInt(faseInicial)-1
+}
+
 var arrayCaixa = []; //Elementos colocados na caixa de resposta
 var arrayNucleo = []; //Array para guardar o nucleo
 var arraySequencia = []; //Array para guardar a sequecia

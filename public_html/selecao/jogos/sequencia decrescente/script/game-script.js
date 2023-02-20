@@ -25,6 +25,15 @@ const coresEnum = Object.freeze({
 /** FIM CONSTANTES */
 
 /** VARIAVEIS GLOBAIS COMPARTILHADAS ENTRE AS FUNCOES */
+const urlParam = new URLSearchParams(window.location.search)
+console.log('Fase:'+ urlParam.get("fase"))
+const faseInicial = urlParam.get("fase")
+if (faseInicial == null){
+	var etapaAtual = 0;
+}
+else{
+	var etapaAtual = parseInt(faseInicial)-1
+}
 
 var arrayCaixa = []; //Elementos colocados na caixa de resposta
 var arrayNucleo = []; //Array para guardar o nucleo
@@ -33,7 +42,6 @@ var arraySequencia = []; //Array para guardar a sequecia
 var arrayOpcoes = []; //Array contendo todos os elementos gerados nas opcoes
 var tamNucleo; //Quantos elementos o nucleo possui
 var nSlots; //quantas vezes o nucleo se repete na resposta
-var etapaAtual = parseInt(localStorage.fase_atual) - 1;
 var estrela = 0; //nível de estrelas do jogador 
 var arrayEstrelas = document.getElementById(divEstrelas).getElementsByTagName('img');
 var ano = localStorage.getItem('ano');

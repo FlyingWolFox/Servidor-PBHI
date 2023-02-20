@@ -22,8 +22,8 @@ CREATE TABLE partida
 CREATE TABLE jogo 
 ( 
  nome_jogo VARCHAR(30) PRIMARY KEY NOT NULL,  
- max_fase INT
---  diretorio VARCHAR(100)
+ max_fase INT,
+ diretorio VARCHAR(100)
 );
 
 CREATE TABLE jogador 
@@ -61,6 +61,8 @@ CREATE TABLE atividade
  professor_nome VARCHAR(45) NOT NULL,  
  professor_email VARCHAR(50) NOT NULL,
  ano VARCHAR(30) NOT NULL,
+ fase_inicio VARCHAR(2),
+ fase_fim VARCHAR(2),
  comentario VARCHAR(300) 
 );
 
@@ -70,7 +72,7 @@ ALTER TABLE partida ADD FOREIGN KEY(nome_jogo) REFERENCES jogo (nome_jogo);
 -- ALTER TABLE interacao ADD FOREIGN KEY(nome_jogo) REFERENCES partida (nome_jogo);
 ALTER TABLE atividade ADD FOREIGN KEY(jogo) REFERENCES jogo (nome_jogo);
 ALTER TABLE atividade ADD FOREIGN KEY(professor_email) REFERENCES professor (email);
-alter table jogo add diretorio varchar(80) NULL;
+
 
 
 INSERT INTO jogo (nome_jogo,max_fase) VALUES ('COMPLETAR', '24');

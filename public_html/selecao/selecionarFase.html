@@ -101,9 +101,15 @@
                     </a>
                 </li>
                 <li class="menu-list-item">
-                    <a href="../professores.html" class="menu-link">
+                    <a href="../materiaisProfessores.html" class="menu-link">
                         <i class="menu-icon icofont-info"></i>
                         <p class="menu-text">Materiais para <br> Professores</p>
+                    </a>
+                </li>
+                <li class="menu-list-item">
+                    <a href="../professores.html" class="menu-link">
+                        <i class="menu-icon icofont-atividade"></i>
+                        <p class="menu-text">Acesso<br> Professores</p>
                     </a>
                 </li>
             </ul>
@@ -149,10 +155,9 @@
                          new_element = document.createElement('div')
                          new_element.classList.add("fase")
                          new_element.innerHTML = i+1
-                         new_element.style.backgroundColor = localStorage.cor
+                         new_element.style.backgroundColor = localStorage.cor_jogo
                          new_element.addEventListener('click', element => {
-                            localStorage.setItem('fase_atual', element['path'][0].innerHTML)
-                            window.location.href = localStorage.link
+                            window.location.href = localStorage.link+'?fase='+element['path'][0].innerHTML
                          })
 
                          document.getElementById('fase_box').appendChild(new_element)
@@ -166,7 +171,7 @@
 
         MudandoAno.innerHTML = localStorage.titulo;
 
-        MudandoAno.style.backgroundColor = localStorage.cor;
+        MudandoAno.style.backgroundColor = localStorage.cor_jogo;
 
     </script>
 </body>

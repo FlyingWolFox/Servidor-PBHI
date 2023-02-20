@@ -38,6 +38,15 @@ const divEstrelas = 'conquistas_conteiner';
 /** FIM CONSTANTES */
 
 /** VARIAVEIS GLOBAIS COMPARTILHADAS ENTRE AS FUNCOES */
+const urlParam = new URLSearchParams(window.location.search)
+console.log('Fase:'+ urlParam.get("fase"))
+const faseInicial = urlParam.get("fase")
+if (faseInicial == null){
+	var etapaAtual = 0;
+}
+else{
+	var etapaAtual = parseInt(faseInicial)-1
+}
 
 var arrayCaixa = []; //Elementos colocados na caixa de resposta
 var arrayNucleo = []; //Array para guardar o nucleo
@@ -45,7 +54,7 @@ var arraySequencia = []; //Array para guardar a sequecia
 var arrayOpcoes = []; //Array contendo todos os elementos gerados nas opcoes
 var tamNucleo; //Quantos elementos o nucleo possui
 var nSlots; //quantas vezes o nucleo se repete na resposta
-var etapaAtual = parseInt(localStorage.fase_atual) - 1; //Representa o nível do jogo
+ //Representa o nível do jogo
 var estrela = 0;  //Contagem das estrelas 
 var restricoesColunas = []; //Guarda as restrições da coluna
 var restricoesLinhas = [];  //Guarda as restrições da linha
