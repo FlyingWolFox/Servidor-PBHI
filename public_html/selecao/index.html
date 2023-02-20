@@ -149,10 +149,10 @@
                         class="section-link-img" src="../img/img-jogo/img-fluxo.png"></a>
                 <p class="section-description">Utilize o fluxograma para inserir as peças.</p>
             </section>
-            <section class="sub-section" id="section-grupos">
+            <section class="sub-section" id="section-grupos-regras">
                 <!-- TODO -->
                 <h2 class="section-title"> JOGO DOS GRUPOS REGRAS</h2>
-                <a href="jogos/grupos regras/index.html" class="section-link" id="jogo-grupos"><img class="section-link-img"
+                <a href="./selecionarFase.html" class="section-link" id="jogo-grupos-regras"><img class="section-link-img"
                         src="../img/000test.png"></a>
                         <!-- src="../img/img-jogo/img-grupos.png"></a> -->
                 <p class="section-description">Defina as regras usadas nos grupos.</p>
@@ -203,6 +203,8 @@
         let domino = document.getElementById('em-breve');
         let logix = document.getElementById('em-breve2');
 
+        let jogoGruposRegras = document.getElementById('jogo-grupos-regras');
+
         if (verificando == "Primeiro ano") {
             document.getElementById('section-completarn').style.display = 'none'
             document.getElementById('section-sequenciac').style.display = 'none'
@@ -211,6 +213,7 @@
             document.getElementById('section-logix').style.display = 'none'
             document.getElementById('section-fluxograma').style.display = 'none'
             document.getElementById('section-grupos').style.display = 'none'
+            document.getElementById('section-grupos-regras').style.display = 'none'
         }
 
         if (verificando == "Segundo ano") {
@@ -218,12 +221,14 @@
             document.getElementById('section-logix').style.display = 'none'
             document.getElementById('section-fluxograma').style.display = 'none'
             document.getElementById('section-grupos').style.display = 'none'
+            document.getElementById('section-grupos-regras').style.display = 'none'
         }
 
         if (verificando == "Terceiro ano") {
             document.getElementById('section-logix').style.display = 'none'
             document.getElementById('section-fluxograma').style.display = 'none'
             document.getElementById('section-grupos').style.display = 'none'
+            document.getElementById('section-grupos-regras').style.display = 'none'
         }
 
 
@@ -285,6 +290,12 @@
             localStorage.setItem('titulo', 'LOGICS')
             localStorage.setItem('jogo', 'LOGICS')
             localStorage.setItem('link', 'jogos/Logix/index.html')
+        })
+
+        jogoGruposRegras.addEventListener('click', function () {
+            localStorage.setItem('titulo', 'JOGO DOS GRUPOS REGRAS')
+            localStorage.setItem('jogo', 'GRUPOS REGRAS')
+            localStorage.setItem('link', 'jogos/grupos regras/index.html')
         })
 
     </script>

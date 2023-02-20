@@ -1,4 +1,4 @@
-var etapaAtual = 0;   //Etapa do exercício
+var etapaAtual = parseInt(localStorage.fase_atual) - 1;   //Etapa do exercício
 var estrela = 0;      //Contagem das estrelas (5 por etapa)
 var endGame;
 var restricao1 = [];   //Restriçoes da primeira caixa (esquerda)
