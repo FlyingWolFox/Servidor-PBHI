@@ -30,6 +30,9 @@ const divEstrelas = 'conquistas_conteiner';
 var arrayEstrelas = document.getElementById(divEstrelas).getElementsByTagName('img');
 
 var ano = localStorage.getItem('ano');
+var textoInfo = document.getElementById('resultado-jogo-info');
+var modalInfo = document.getElementById("modalInfoPeca");
+var botaoOk = document.getElementById('botao-proximo-info');
 var etapaMax = 25;
 
 const anosEnum = Object.freeze({
@@ -2992,6 +2995,17 @@ function game() {
         divRespostas.appendChild(imgTag);
     });
 
+    //Registra o evento click e aparece as informações da peça na tela.
+    let modalInfoTrigger = (e) => {
+			botaoOk.onclick = function (event){
+				modalInfo.style.display = 'none';
+			};
+			modalInfo.style.display = 'block';
+			textoInfo.innerHTML = e.target.alt;
+			document.getElementById('img-info-peca').src = e.target.src;
+			botaoOk.innerHTML = "Ok";
+    };
+
     caixaEsquerdaItems.forEach(item => {
         let imgTag = document.createElement("img");
         imgTag.src = CARACTERISTIC_EXTRA.getFormaSrc(item);
@@ -3003,6 +3017,7 @@ function game() {
         // TODO: remove this duplicated line
         imgTag.classList.add(item.get(CARACTERISTIC.SIZE) === CARACTERISTIC.SIZE.SMALL ? 'pequeno' : 'grande');
         //imgTag.classList.add('img-restricao-esquerda');
+        imgTag.addEventListener('click', modalInfoTrigger);
         divCaixaEsquerda.appendChild(imgTag);
     });
 
@@ -3015,6 +3030,7 @@ function game() {
         imgTag.classList.add('game-img');
         imgTag.classList.add(item.get(CARACTERISTIC.SIZE) == CARACTERISTIC.SIZE.SMALL ? 'pequeno' : 'grande');
         //imgTag.classList.add('img-restricao-esquerda');
+        imgTag.addEventListener('click', modalInfoTrigger);
         divCaixaDireita.appendChild(imgTag);
     });
 
@@ -3027,6 +3043,7 @@ function game() {
         imgTag.classList.add('game-img');
         imgTag.classList.add(item.get(CARACTERISTIC.SIZE) == CARACTERISTIC.SIZE.SMALL ? 'pequeno' : 'grande');
         //imgTag.classList.add('img-restricao-esquerda');
+        imgTag.addEventListener('click', modalInfoTrigger);
         divCaixaIntersecao.appendChild(imgTag);
     });
 
@@ -3123,6 +3140,22 @@ function game() {
         j++;
 
     });
+    
+    arrayDeOpcoes.forEach((item) => {
+		
+		//Registra o evento click e aparece as informações da peça na tela.
+		item.addEventListener('click', (e) => {
+
+			botaoOk.onclick = function (event){
+				modalInfo.style.display = 'none';
+			};
+			modalInfo.style.display = 'block';
+			textoInfo.innerHTML = e.target.alt;
+			document.getElementById('img-info-peca').src = e.target.src;
+			botaoOk.innerHTML = "Ok";
+		});
+	
+	});
 
     /* Gera as imagens das restrições */
     console.log('RESTRICOES');
