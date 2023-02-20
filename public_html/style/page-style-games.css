@@ -40,19 +40,63 @@ div.modal p {
   font-size: 1.25em;
 }
 div.modal div.modal_content {
-  width: 30%;
+  width: 34%;
+  height: 184px;
+  gap: 20px;
   min-width: 250px;
-  border: 7px solid #9DCC38;
+  border: 7px solid rgb(101, 179, 53);
   border-radius: 10px;
   padding: 20px;
   background-color: #fefefe;
   color: #1C4459;
   text-align: justify;
   display: flex;
-  flex-direction: column;
   justify-content: space-evenly;
   align-items: center;
+  margin-left: auto;
 }
+
+div#modalAcerto .modal-img-logico {
+  width: 130px;
+  margin-left: 60px;
+}
+
+/* div.modal-text-content {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  flex-direction: column;
+  width: 350px;
+  border: #65B235 !important;
+}
+
+div.modal-text-content h2.titulo-modal {
+  margin-bottom: 10px;
+  font-size: 32px;
+}
+
+div.modal-text-content h2#resultado-jogo {
+  color: #65B235;
+} */
+
+button#botao-proximo {
+  width: fit-content;
+  height: fit-content;
+  padding: 10px 20px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  font-size: 1em;
+  color: #FFF;
+  text-transform: uppercase;
+  font-weight: bold;
+  background: #65B335;
+  border-radius: 7px;
+}
+
+button#botao-proximo:hover {
+  background-color: #417222;
+}
+
 div.modal div.modal_content div#modal_button_box {
   width: 100%;
   display: flex;
