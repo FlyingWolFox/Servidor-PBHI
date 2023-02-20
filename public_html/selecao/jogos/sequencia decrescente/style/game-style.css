@@ -104,9 +104,10 @@ div#box-instrucoes {
 
 .modal-box {
     display: none;
-    /* Hidden by default */
+}
 
-
+div.modal_content {
+    border: 7px solid #FDC23E !important;
 }
 
 

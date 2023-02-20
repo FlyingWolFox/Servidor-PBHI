@@ -212,10 +212,12 @@ img#repetir-voz {
 
 }
 
-#texto-textbox:focus,#texto-info:focus{
+div.modal_content {
+    border: 7px solid #9DCC38 !important;
+}
 
+#texto-textbox:focus, #texto-info:focus{
     border:unset;
- 
 }
 
 a#span-info {

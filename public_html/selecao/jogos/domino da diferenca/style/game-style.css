@@ -328,7 +328,10 @@ img#repetir-voz {
 
 #modal-content p{
     font-size: 1.3rem;
+}
 
+div.modal_content {
+    border: 7px solid #FDC23E !important;
 }
 
 
