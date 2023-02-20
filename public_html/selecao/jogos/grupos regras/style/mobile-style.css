@@ -181,7 +181,7 @@ button#botao-resultado {
     font-size: 1em;
 }
 
-section#container-respostas {
+section#container_respostas {
     width: 100%;
     min-height: 50px;
     padding: 0px;
@@ -244,7 +244,7 @@ span#modal-close-button {
         min-width: unset;
     }
 
-    section#container-respostas {
+    section#container_respostas {
 
         width: 100%;
         height: 66px;
@@ -301,7 +301,7 @@ span#modal-close-button {
         width: 6%;
     }
 
-    section#container-respostas img.drag.grande {
+    section#container_respostas img.drag.grande {
 
         width: 30px;
         max-width: unset;
@@ -338,11 +338,11 @@ span#modal-close-button {
         width: 8%;
     }
 
-    section#container-respostas img.draggable-mirror.pequeno {
+    section#container_respostas img.draggable-mirror.pequeno {
         width: 4%;
     }
 
-    section#container-respostas img.drag.pequeno {
+    section#container_respostas img.drag.pequeno {
 
         width: 25px;
         max-width: unset;
@@ -366,7 +366,7 @@ span#modal-close-button {
         min-width: unset;
     }
 
-    section#container-respostas {
+    section#container_respostas {
 
         width: 100%;
         height: 89px;
@@ -423,7 +423,7 @@ span#modal-close-button {
         width: 6%;
     }
 
-    section#container-respostas img.drag.grande {
+    section#container_respostas img.drag.grande {
 
         width: 30px;
         max-width: unset;
@@ -460,11 +460,11 @@ span#modal-close-button {
         width: 8%;
     }
 
-    section#container-respostas img.draggable-mirror.pequeno {
+    section#container_respostas img.draggable-mirror.pequeno {
         width: 4%;
     }
 
-    section#container-respostas img.drag.pequeno {
+    section#container_respostas img.drag.pequeno {
 
         width: 25px;
         max-width: unset;
@@ -489,7 +489,7 @@ span#modal-close-button {
         min-width: unset;
     }
 
-    section#container-respostas {
+    section#container_respostas {
 
         width: 100%;
         height: 110px;
@@ -547,7 +547,7 @@ span#modal-close-button {
         width: 6%;
     }
 
-    section#container-respostas img.drag.grande {
+    section#container_respostas img.drag.grande {
 
         width: 45px;
         max-width: unset;
@@ -584,11 +584,11 @@ span#modal-close-button {
         width: 8%;
     }
 
-    section#container-respostas img.draggable-mirror.pequeno {
+    section#container_respostas img.draggable-mirror.pequeno {
         width: 4%;
     }
 
-    section#container-respostas img.drag.pequeno {
+    section#container_respostas img.drag.pequeno {
 
         width: 35px;
         max-width: unset;
@@ -613,7 +613,7 @@ span#modal-close-button {
         min-width: unset;
     }
 
-    section#container-respostas {
+    section#container_respostas {
 
         width: 100%;
         height: 117px;
@@ -671,7 +671,7 @@ span#modal-close-button {
         width: 6%;
     }
 
-    section#container-respostas img.drag.grande {
+    section#container_respostas img.drag.grande {
 
         width: 45px;
         max-width: unset;
@@ -708,11 +708,11 @@ span#modal-close-button {
         width: 8%;
     }
 
-    section#container-respostas img.draggable-mirror.pequeno {
+    section#container_respostas img.draggable-mirror.pequeno {
         width: 4%;
     }
 
-    section#container-respostas img.drag.pequeno {
+    section#container_respostas img.drag.pequeno {
 
         width: 35px;
         max-width: unset;

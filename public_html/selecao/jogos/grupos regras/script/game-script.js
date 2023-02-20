@@ -9,7 +9,7 @@ var imgMov1 = [];      //Confere se falta colocar alguma imagem da primeira caix
 var imgMov2 = [];      //Confere se falta colocar alguma imagem da terceira caixa 
 let quantidade = 0;
 
-const textNumeroFase = 'textbox-numero-fase';
+const textNumeroFase = 'textbox_numero_fase';
 
 const divRestricaoEsquerdaId = 'container-restricao-esquerda';
 const divRestricaoDireitaId = 'container-restricao-direita';
@@ -22,11 +22,11 @@ const divCaixaEsquerdaId = 'caixa-esquerda';
 const divCaixaDireitaId = 'caixa-direita';
 const divCaixaIntersecaoId = 'caixa-intersecao';
 
-const divRespostasId = 'container-respostas';
+const divRespostasId = 'container_respostas';
 
 const forma = 0, cor = 1, tamanho = 2, contorno = 3;
 
-const divEstrelas = 'container-estrelas';
+const divEstrelas = 'conquistas_conteiner';
 var arrayEstrelas = document.getElementById(divEstrelas).getElementsByTagName('img');
 
 var ano = localStorage.getItem('ano');

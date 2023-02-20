@@ -105,7 +105,7 @@ section#container-sequencia {
 
 }
 
-p.container-respostas-titulo {
+p.container_respostas-titulo {
     width: 100%;
     color: #C4C4C4;
     background-color: #FAFAFA;
@@ -114,7 +114,7 @@ p.container-respostas-titulo {
     margin-bottom: 5px;
 }
 
-section#container-respostas {
+section#container_respostas {
 
     height: 50px;
     padding: 5px 0px 5px 0px;
@@ -140,32 +140,14 @@ section#container-respostas {
     resize: none;
     text-align: justify;
 }
-#botao-info-close {
-
-   width: 35%;
-   height: fit-content;
-   margin: 0px;
-   padding: 10px 10px;
-   font-size: 1.2em;
-   color: #387C7C;
-   background: #7EE0E0;
-   border: 5px solid #FFFFFF;
-   border-radius: 20px;
-   text-transform: uppercase;
-   font-weight: bold;
+div.modal div.modal_content div#modal_button_box button#botao_info_close {
+   color: #387C7C !important;
+   background: #7EE0E0 !important;
 }
 
-button#botao-de-voz-ligado-modal {
-    width: 25%;
-    height: fit-content;
-    margin: 10px;
-    padding: 10px 10px;
-    font-size: 1.2em;
-    color: #387C7C;
-    background: #7EE0E0;
-    border: 5px solid #FFFFFF;
-    border-radius: 20px;
-    font-weight: bold;
+div.modal div.modal_content div#modal_button_box button#botao_de_voz {
+    color: #387C7C !important;
+    background: #7EE0E0 !important;
 }
 
 button#botao-de-voz-desligado-modal {
@@ -382,7 +364,7 @@ p.texto-progresso {
     margin-bottom: 5px;
 }
 
-div.conquistas-conteiner {
+div.conquistas_conteiner {
 
     display: flex;
     justify-content: center;
@@ -685,7 +667,7 @@ section#caixa-intersecao img.draggable-mirror {
 
 }
 
-section#container-respostas img.draggable-mirror{
+section#container_respostas img.draggable-mirror{
 
     width: 4.5%;
 }
@@ -724,7 +706,7 @@ section#caixa-direita img.pequeno {
     max-width: 55%; 
 }
 
-section#container-respostas img.pequeno {
+section#container_respostas img.pequeno {
 
     width: 70px;
     margin: 5px;
@@ -750,7 +732,7 @@ section#caixa-caixa-intersecao img.draggable-mirror.pequeno {
 
 }
 
-section#container-respostas img.draggable-mirror.pequeno{
+section#container_respostas img.draggable-mirror.pequeno{
 
     width: 3.5%;
 }
@@ -950,7 +932,7 @@ div.respostas-titulo {
 
 }
 
-@media (min-width: 900px) AND (max-width: 1919px) AND (orientation: landscape){
+@media (min-width: 800px) AND (max-width: 1919px) AND (orientation: landscape){
 
     h2#title-jogo {
 
@@ -1079,7 +1061,7 @@ div.respostas-titulo {
     
     }
 
-    section#container-respostas {
+    section#container_respostas {
         width: 100%;
         height: 50px;
     }
@@ -1133,7 +1115,7 @@ div.respostas-titulo {
         width: 6%;
     }
 
-    section#container-respostas img.drag.grande {
+    section#container_respostas img.drag.grande {
 
         width: 50px;
         max-width: unset;
@@ -1170,11 +1152,11 @@ div.respostas-titulo {
         width: 8%;
     }
 
-    section#container-respostas img.draggable-mirror.pequeno {
+    section#container_respostas img.draggable-mirror.pequeno {
         width: 4%;
     }
 
-    section#container-respostas img.drag.pequeno {
+    section#container_respostas img.drag.pequeno {
 
         width: 40px;
         max-width: unset;
@@ -1185,7 +1167,7 @@ div.respostas-titulo {
 
 @media (min-width: 1920px) AND (max-width: 2000px) and (orientation: landscape){
 
-    section#container-respostas {
+    section#container_respostas {
         width: 100%;
         height: 75px;
     }
@@ -1239,7 +1221,7 @@ div.respostas-titulo {
         width: unset;
     }
 
-    section#container-respostas img.drag.grande {
+    section#container_respostas img.drag.grande {
 
         width: 80px;
         max-width: unset;
@@ -1276,11 +1258,11 @@ div.respostas-titulo {
         width: unset;
     }
 
-    section#container-respostas img.draggable-mirror.pequeno {
+    section#container_respostas img.draggable-mirror.pequeno {
         width: unset;
     }
 
-    section#container-respostas img.drag.pequeno {
+    section#container_respostas img.drag.pequeno {
 
         width: 60px;
         max-width: unset;
