@@ -822,7 +822,7 @@ div.formas-titulo {
         font-size: 21px;
         line-height: 33px;
         border: 2px solid white;
-
+        cursor: pointer;
     }
     
     a#span-textbox {
