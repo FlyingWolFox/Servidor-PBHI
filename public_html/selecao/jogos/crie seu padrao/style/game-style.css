@@ -328,7 +328,7 @@ img#repetir-voz {
 }
 
 
-button#span-about {
+button#button-about {
 
     width: 38px;
     height: 38px;
@@ -863,7 +863,7 @@ div.formas-titulo {
         margin-left: -5px;
     }
     
-    span#span-about {
+    button#button-about {
     
         width: 14px;
         height: 27px;

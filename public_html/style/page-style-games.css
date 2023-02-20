@@ -246,7 +246,7 @@ main#main_body section#game_section header#box_instrucoes div#conteiner_botoes d
   text-decoration: none;
   background-color: #E25A40;
 }
-main#main_body section#game_section header#box_instrucoes div#conteiner_botoes span#span_about {
+main#main_body section#game_section header#box_instrucoes div#conteiner_botoes button#button_about {
   width: 35px;
   height: 35px;
   align-self: center;
