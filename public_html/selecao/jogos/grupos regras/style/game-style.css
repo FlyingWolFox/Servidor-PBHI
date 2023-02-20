@@ -462,7 +462,7 @@ a#span-textbox {
 
 }
 
-button#span-about {
+button#button-about {
 
     width: 38px;
     height: 38px;
@@ -815,7 +815,7 @@ div.respostas-titulo {
     }
 
     span#span-textbox,
-    span#span-about {
+    button#button-about {
 
         float: none;
         grid-row: 4;
@@ -1026,7 +1026,7 @@ div.respostas-titulo {
         margin-left: -5px;
     }
     
-    span#span-about {
+    button#button-about {
     
         width: 14px;
         height: 27px;
