@@ -128,18 +128,6 @@ a#span-textbox {
 
 }
 
-button#button-about {
-
-    width: 20px;
-    height: 33px;
-    padding: 0px 6px;
-    font-size: 28px;
-    line-height: 33px;
-    border: 3px solid white;
-    grid-row: 1;
-    grid-column: 3/4;
-
-}
 
 section#dropzone-container-grupos-regras {
     margin-left: -70px;
@@ -175,18 +163,6 @@ section.restricao-direita {
         line-height: 10px;
         float: unset;
         border: 1px solid white;
-    }
-
-    button#button-about {
-        width: 8px;
-        height: 20px;
-        margin: 0px;
-        margin-bottom: 8px;
-        padding: 2px 8px;
-        font-size: 1.5em;
-        line-height: 21px;
-        border: 1px solid white;
-        align-self: center;
     }
 
 }

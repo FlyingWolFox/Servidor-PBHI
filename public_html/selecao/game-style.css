@@ -883,20 +883,6 @@ div.formas-titulo {
         margin-left: -5px;
     }
     
-    button#button-about {
-    
-        width: 14px;
-        height: 27px;
-        margin: 0px;
-        margin-bottom: 8px;
-        padding: 2px 8px;
-        font-size: 1.5em;
-        line-height: 27px;
-        border: 2px solid white;
-        align-self: center;
-    
-    }
-
     section#container-nucleo {
         
         width: 80%;

@@ -868,8 +868,7 @@ div.formas-titulo {
         width: 124px;
     }
 
-    span#span-textbox,
-    button#button-about {
+    span#span-textbox {
 
         float: none;
         grid-row: 4;
@@ -1078,20 +1077,6 @@ div.formas-titulo {
     a#span-textbox i {
     
         margin-left: -5px;
-    }
-    
-    button#button-about {
-    
-        width: 14px;
-        height: 27px;
-        margin: 0px;
-        margin-bottom: 8px;
-        padding: 2px 8px;
-        font-size: 1.5em;
-        line-height: 27px;
-        border: 2px solid white;
-        align-self: center;
-    
     }
 
     
