@@ -36,7 +36,7 @@ routerProfessores.post('/conferirCodigo', async (req, res) => {
     else{
         let email = await sql.getProfessorByCodigo(codigoS)
         console.log(email)
-        if(email.toString().length > 0){
+        if(email != undefined & email.toString().length > 0){
                 let jwtSecretKey = JWT_SECRET_KEY;
                 let data = {
                     email: email
@@ -121,7 +121,7 @@ routerProfessores.post('/getLink', async (req, res)=>{
     }else{
         try{
             await sql.insertAtividade(id, req.body.nomeProfessor, req.body.escola,req.body.turma, req.body.nome_jogo,req.body.anoAtividade, criacao_UTC, expiracao_UTC, req.body.email, req.body.comentarioAtividade,req.body.faseInicioAtividade,req.body.faseFimAtividade)
-            const URL = process.env.APP_URL+'/atividade/'+ id + '?fase=' + req.body.faseInicioAtividade
+            const URL = process.env.APP_URL+'/atividade/'+ id
             console.log(req.body);
     
             res.status(200).send(URL);

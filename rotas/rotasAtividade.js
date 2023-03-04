@@ -18,7 +18,8 @@ routerAtividade.get('/:atividadeid', async (req, res, next) =>{
     console.log(id)
     const atividade = (await sql.getAtividadeById(id))[0];
     req.session.id_atividade = atividade;
-    console.log("Atividade: "+atividade)
+    console.log("Atividade: "+atividade.fase_inicio)
+    console.log("Atividade: "+atividade.fase_fim)
     console.log(atividade.datah_expiracao);
     const horaAtual = new Date().toISOString().slice(0, 19).replace('T', ' ');
     const expira = atividade.datah_expiracao.toISOString().slice(0,19).replace('T', ' ');
@@ -55,8 +56,8 @@ routerAtividade.post('/formAtividade.html',  async (req, res) =>{
         const diretorio = (await sql.getJogoPorNome(atividade[0].jogo)).diretorio;
         //puxa do bd a atividade, insere no bd o jogador(nome e ano) verifica qual é o jogo para depois redirecionar
         copySession(req)
-        console.log(diretorio)
-        res.redirect('../'+ diretorio);
+        console.log('../'+ diretorio + '?fase=' + atividade[0].fase_inicio)
+        res.redirect('../'+ diretorio + '?fase=5');
     }else{res.status(404).send("Preencha todos os campos!")}
 
 }) 
