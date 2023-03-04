@@ -57,7 +57,7 @@ routerAtividade.post('/formAtividade.html',  async (req, res) =>{
         //puxa do bd a atividade, insere no bd o jogador(nome e ano) verifica qual é o jogo para depois redirecionar
         copySession(req)
         console.log('../'+ diretorio + '?fase=' + atividade[0].fase_inicio)
-        res.redirect('../'+ diretorio + '?fase=5');
+        res.redirect('../'+ diretorio + '?fase=' + atividade[0].fase_inicio);
     }else{res.status(404).send("Preencha todos os campos!")}
 
 }) 

@@ -161,6 +161,17 @@ routerDefault.get('/getJogos', async (req, res) => {
     res.json(jogos);
 })
 
+routerDefault.get('/getAtividade', async (req, res) => {
+    console.log(req.session.id_atividade)
+    if (req.session.id_atividade){
+        const atividade = await sql.getAtividadeById(req.session.id_atividade);
+        res.json(atividade);
+    }
+    else{
+        res.status(200).send(false);
+    }
+})
+
 routerDefault.all('*', (req,res)=>{ 
      res.status(404).send('<h1>recurso não encontrado</h1');
 })
