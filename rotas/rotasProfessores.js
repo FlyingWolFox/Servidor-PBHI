@@ -6,107 +6,94 @@ const nanoid = require('nanoid').nanoid;
 const send_mail = require('../sendmail.js');
 const jwt = require('jsonwebtoken');
 const useragent = require('express-useragent');
-
-const JWT_SECRET_KEY = "sakpodkafau23482903423948alkdasdajopk";
-  
-const TOKEN_HEADER_KEY = "gfg_token_header_key";
+const AppError = require('../erros/appError.js');
+const ValidationError = require('../erros/validationError.js');
+const constante = require('../erros/codeErrors.js');
+require('dotenv').config();
+const JWT_SECRET_KEY = process.env.JWT_SECRET_KEY;
+const TOKEN_HEADER_KEY = process.env.TOKEN_HEADER_KEY
+const tryCatch = require('../erros/tryCatch.js');
 
 routerProfessores.use(useragent.express());
 
-routerProfessores.post('/conferirProfessor', async (req, res, next) =>{
-    const id = req.params.atividadeid;
-    const atividade = await sql.getAtividadeById(id);
-    if(atividade){
-        res.redirect("./public_html/atividade/formAtividade.html")
-    }else{
-        res.status(404).send("Parece que o link da sua atividade expirou ou não existe!");
-    }
-    //todo: verificar se a atividade consta no bd e se ela ainda está válida, se não constar avisar que o link para essa atividade expirou ou não existe
-
-    
-    console.log(typeof(id));
-    //res.json("Você veio do meu link especial e o id da sua atividade é:" + id);
-   
-})
-
-routerProfessores.post('/conferirCodigo', async (req, res) => {
+routerProfessores.post('/conferirCodigo', tryCatch(async (req, res) =>{
     const codigoS = req.body.codigo;
-
-    if(!codigoS) {res.status(401).send("Preencha o código!")}
+    if(!codigoS){
+        throw new ValidationError("Preencha o código!", 400);
+    }
     else{
         let email = await sql.getProfessorByCodigo(codigoS)
-        console.log(email)
-        if(email != undefined & email.toString().length > 0){
+        if(email === undefined){
+            throw new ValidationError("Código inválido!", 400);
+        }
+        if(email.toString().length > 0 && typeof email != undefined){
                 let jwtSecretKey = JWT_SECRET_KEY;
                 let data = {
                     email: email
                 }
-              
                 const token = jwt.sign(data, jwtSecretKey);
-                console.log(token)
                 req.session.token = token;
-                res.redirect(302, '/professores/OpcoesProfessores.html');
+                return res.redirect(302, '/professores/OpcoesProfessores.html');
             }
-           else{
-                res.status(401).send("Código inválido!");
-           }
+                throw new ValidationError("Código inválido!", 400);
     }
-})
+   })
+);
 
-routerProfessores.get('/OpcoesProfessores.html', async (req, res) => {
+routerProfessores.get('/OpcoesProfessores.html', tryCatch(async (req, res) =>{
     const token = req.session.token;
     console.log(token);
     const jwtSecretKey = JWT_SECRET_KEY
-    const verificado = jwt.verify(token, jwtSecretKey)
-    
+    const verificado = jwt.verify(token, jwtSecretKey);
     if(verificado){
-         res.send("Sucesso")
+        return  res.status(200).send("Sucesso")
     }else{
-        res.status(401).send("Acesso não autorizado")
+        throw new ValidationError("Acesso não autorizado", 401);
     }
-})
+   })
+);
 
-routerProfessores.post('/UpdateProfessorCodigo', async (req, res) => {
-
+routerProfessores.post('/UpdateProfessorCodigo', tryCatch(async (req, res) =>{
     const email = req.body.email;
     const nome = req.body.nome;
-
-    if(!email || !nome) {res.status(404).send("Preencha todos os campos!")}
-    else{
-        const id = nanoid(8);
-
-        try{
-            await send_mail(email,id)
-            const professor = await sql.getProfessorByEmail(email);
-
-            if(professor.length > 0){
-                await sql.updateProfessor(email,id); 
-                res.status(200).send("Código atualizado com sucesso!")
-            }else{
-                await sql.salvarNovoProfessor(email,id,nome) 
-                res.status(200).send("Código criado com sucesso!")
-            }
-        }catch{
-            res.status(404).send("Não foi possível mandar o email!")
-        }
+    const id = nanoid(8);
+    if(!email || !nome){
+        throw new ValidationError("Preencha todos os campos!", 400);
     }
-})
-
-routerProfessores.get('/crieAtividade', async (req, res) => {
+    const professor = await sql.getProfessorByEmail(email);
+    if(email === undefined){
+        throw new ValidationError("Email inválido!", 400);
+    }
+    if(professor.length > 0){
+            await sql.updateProfessor(email,id); 
+            const enviado = await send_mail(email,id);
+            if(!enviado){
+                throw new AppError(constante.ERRO_NO_BANCO_DE_DADOS,"Não foi possível enviar o email!", 500);
+            }
+           return res.status(200).send("Código atualizado com sucesso!")
+    }else{
+            await sql.salvarNovoProfessor(email,id,nome);
+            const enviado = await send_mail(email,id);
+            if(!enviado){
+                throw new AppError(constante.ERRO_NO_BANCO_DE_DADOS,"Não foi possível enviar o email!", 500);
+            }
+            return res.status(201).send("Código criado com sucesso!");
+    }
+   })
+);
+//=================================================== Funções de GET ==================================================
+routerProfessores.get('/crieAtividade', tryCatch(async (req, res) =>{
     const token = req.session.token;
-    console.log(token);
     const jwtSecretKey = JWT_SECRET_KEY
     const verificado = jwt.verify(token, jwtSecretKey)
-    
     if(verificado){
-         res.redirect('/crieAtividade.html');
+         res.status(302).redirect('/crieAtividade.html');
     }else{
-        res.status(401).send("Acesso não autorizado")
+        throw new ValidationError("Acesso não autorizado", 401);
     }
-})
-
-//=================================================== Funções de GET ==================================================
-routerProfessores.post('/getLink', async (req, res)=>{
+   })
+);
+routerProfessores.post('/getLink', tryCatch(async (req, res) =>{
     const id = nanoid(8)
     const datah_criacao = new Date()
     const intervalo  = datah_criacao.getTime() + (req.body.duracao*60*1000)
@@ -114,99 +101,131 @@ routerProfessores.post('/getLink', async (req, res)=>{
     const datah_expiracao = new Date();
     datah_expiracao.setTime(intervalo);
     const expiracao_UTC = datah_expiracao.toISOString().slice(0, 19).replace('T', ' ');
-    // console.log(criacao_UTC, expiracao_UTC);
-
     if(!req.body.escola || !req.body.turma || !req.body.anoAtividade || !req.body.email || !req.body.nome_jogo){
-        res.status(404).send("Preencha todos os campos!")
-    }else{
-        try{
-            await sql.insertAtividade(id, req.body.nomeProfessor, req.body.escola,req.body.turma, req.body.nome_jogo,req.body.anoAtividade, criacao_UTC, expiracao_UTC, req.body.email, req.body.comentarioAtividade,req.body.faseInicioAtividade,req.body.faseFimAtividade)
-            const URL = process.env.APP_URL+'/atividade/'+ id
-            console.log(req.body);
-    
-            res.status(200).send(URL);
-        }catch{
-            res.status(401).send("É necessário ter um email cadastrado!")
-        }
-    }  
-})
-routerProfessores.get('/getAtividades', async(req, res)=>{
-    console.log('passei no get')
+    throw new ValidationError("Preencha todos os campos!", 400);
+    }
+    const atividadeCriada = await sql.insertAtividade(id, req.body.nomeProfessor, req.body.escola,req.body.turma, req.body.nome_jogo,req.body.anoAtividade, criacao_UTC, expiracao_UTC, req.body.email, req.body.comentarioAtividade,req.body.faseInicioAtividade,req.body.faseFimAtividade)
+    if(!atividadeCriada){
+            throw new AppError(constante.ERRO_NO_BANCO_DE_DADOS,"Não foi possível criar a atividade!", 500);
+    }
+    const URL = process.env.APP_URL+'/atividade/'+ id + '?fase=' + req.body.faseInicioAtividade
+    return res.status(201).send(URL);
+   })
+);
+routerProfessores.get('/getAtividades', tryCatch(async (req, res) =>{
     const token = req.session.token;
     const jwtSecretKey = JWT_SECRET_KEY
     const verificado = jwt.verify(token, jwtSecretKey)
     if(verificado){
         const parsedToken = JSON.parse(Buffer.from(token.split('.')[1], 'base64').toString());
-
-        console.log(parsedToken)
         const email = parsedToken['email']['email'];
-        
-        console.log(email);
         const atividades = await sql.getAtividadesPorEmail(email);
+        if(!atividades){
+            throw new AppError(constante.ERRO_NO_BANCO_DE_DADOS,"Não foi possível buscar as atividades!", 500);	
+        }
         res.status(200).json(atividades);
    }else{
-       res.status(401).send("Acesso não autorizado")
+    throw new ValidationError("Acesso não autorizado", 401);
    }
-})
-routerProfessores.post('/getTempoMedio', async (req, res) =>{
+   })
+);
+routerProfessores.post('/getTempoMedio', tryCatch(async (req, res) =>{
     const atividade = req.body.id_atividade;
+    if(!atividade){
+        throw new ValidationError("Preencha todos os campos!", 400);
+    }
     const tempoMedio = await sql.getTempoMedio(atividade);
-    if(tempoMedio){
-        res.json(tempoMedio);
-    } else console.log('Algo deu errado');
-})
-routerProfessores.post('/getNumeroDeJogadores', async (req, res) =>{
+    if(!tempoMedio){
+        throw new AppError(constante.ERRO_NO_BANCO_DE_DADOS,"Não foi possível buscar o tempo médio!", 500);
+    }
+    res.status(200).json(tempoMedio);
+   })
+);
+routerProfessores.post('/getNumeroDeJogadores', tryCatch(async (req, res) =>{
     const atividade = req.body.id_atividade;
+    if(!atividade){
+        throw new ValidationError("Preencha todos os campos!", 400);
+    }
     const numeroJogadores = await sql.getNumeroDeJogadores(atividade);
-    if(numeroJogadores){
-        res.json(numeroJogadores);
-    } else console.log('Algo deu errado');
-})
-routerProfessores.post('/getPartidasVencidas', async (req, res) =>{
+    if(!numeroJogadores){
+        throw new AppError(constante.ERRO_NO_BANCO_DE_DADOS,"Não foi possível buscar o número de jogadores!", 500);
+    }
+    res.status(200).json(numeroJogadores);
+   })
+);
+routerProfessores.post('/getPartidasVencidas', tryCatch(async (req, res) =>{
     const atividade = req.body.id_atividade;
+    if(!atividade){
+        throw new ValidationError("Preencha todos os campos!", 400);
+    }
     const partidasVencidas = await sql.getPartidasVencidas(atividade);
-    if(partidasVencidas){
-        res.json(partidasVencidas);
-    } else console.log('Algo deu errado');
-})
-routerProfessores.post('/getPartidasDaAtividade', async (req, res) =>{
+    if(!partidasVencidas){
+        throw new AppError(constante.ERRO_NO_BANCO_DE_DADOS,"Não foi possível buscar o número de partidas vencidas!", 500);
+    }
+    res.status(200).json(partidasVencidas);
+   })
+);
+routerProfessores.post('/getTaxaAcerto', tryCatch(async (req, res) =>{
     const atividade = req.body.id_atividade;
-    console.log(atividade);
-    const partidas = await sql.getPartidasDaAtividade(atividade);
-    if(partidas){
-        res.json(partidas);
-    } else console.log('Algo deu errado');
-})
-routerProfessores.post('/getTaxaAcerto', async (req, res) =>{
-    const atividade = req.body.id_atividade;
+    if(!atividade){
+        throw new ValidationError("Preencha todos os campos!", 400);
+    }
     const taxaAcerto = await sql.getTaxaAcerto(atividade);
-    console.log(taxaAcerto);
-    if(taxaAcerto){
-        res.json(taxaAcerto);
-    } else console.log('Algo deu errado');
-})
-routerProfessores.post('/getTentativas', async (req, res) =>{
+    if(!taxaAcerto){
+        throw new AppError(constante.ERRO_NO_BANCO_DE_DADOS,"Não foi possível buscar a taxa de acerto!", 500);
+    }
+    res.status(200).json(taxaAcerto);
+   })
+);
+routerProfessores.post('/getPartidasDaAtividade', tryCatch(async (req, res) =>{
     const atividade = req.body.id_atividade;
+    if(!atividade){
+        throw new ValidationError("Preencha todos os campos!", 400);
+    }
+    const partidas = await sql.getPartidasDaAtividade(atividade);
+    if(!partidas){
+        throw new AppError(constante.ERRO_NO_BANCO_DE_DADOS,"Não foi possível buscar o número de partidas!", 500);
+    }
+    res.status(200).json(partidas);
+   })
+);
+routerProfessores.post('/getTentativas', tryCatch(async (req, res) =>{
+    const atividade = req.body.id_atividade;
+    if(!atividade){
+        throw new ValidationError("Preencha todos os campos!", 400);
+    }
     const tentativas = await sql.getTentativas(atividade);
-    if(tentativas){
-        console.log(tentativas)
-        res.json(tentativas);
-    } else console.log('Algo deu errado');
-})
-routerProfessores.post('/getNaoFinalizados', async (req, res) =>{
+    console.log(tentativas)
+    if(!tentativas){
+        throw new AppError(constante.ERRO_NO_BANCO_DE_DADOS,"Não foi possível buscar as tentativas!", 500);
+    }
+    res.status(200).json(tentativas);
+   })
+);
+routerProfessores.post('/getNaoFinalizados', tryCatch(async (req, res) =>{
     const atividade = req.body.id_atividade;
+    if(!atividade){
+        throw new ValidationError("Preencha todos os campos!", 400);
+    }
     const naoFinalizados = await sql.getNaoFinalizados(atividade);
-    if(naoFinalizados){
-        res.json(naoFinalizados);
-    } else console.log('Algo deu errado');
-})
-routerProfessores.post('/getDadosAtividade', async (req, res) =>{
+    if(!naoFinalizados){
+        throw new AppError(constante.ERRO_NO_BANCO_DE_DADOS,"Não foi possível buscar os não finalizados!", 500);
+    }
+    res.status(200).json(naoFinalizados);
+   })
+);
+routerProfessores.post('/getDadosAtividade', tryCatch(async (req, res) =>{
     const atividade = req.body.id_atividade;
+    if(!atividade){
+        throw new ValidationError("Preencha todos os campos!", 400);
+    }
     const dadosAtividade = await sql.getDadosAtividade(atividade);
-    if(dadosAtividade){
-        res.json(dadosAtividade);
-    } else console.log('Algo deu errado');
-})
+    if(!dadosAtividade){
+        throw new AppError(constante.ERRO_NO_BANCO_DE_DADOS,"Não foi possível buscar os dados!", 500);
+    }
+    res.status(200).json(dadosAtividade);
+   })
+);
 routerProfessores.all('*', (req,res)=>{ 
      res.status(404).send('<h1>recurso não encontrado</h1');
 })

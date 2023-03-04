@@ -11,10 +11,10 @@ const mysqlStore = require('express-mysql-session')(session);
 const connection = require('mysql2/promise');
 const routerAtividade = require('./rotas/rotasAtividade.js');
 const routerProfessores = require('./rotas/rotasProfessores.js');
-// const fs = require('fs');
-// const geoip = require('geoip-lite');
+const errorHandler = require('./erros/errorHandler.js');
+const tryCatch = require('./erros/tryCatch.js');
 const TWO_HOURS = 1000 * 60 * 60 * 2
-//
+
 var option = {
     host: process.env.DATABASE_HOST,
     user: process.env.DATABASE_USER,
@@ -66,7 +66,7 @@ app.use(session({
     req.headers['if-none-match'] = 'no-match-for-this';
     next();    
   });*/
-app.use('/selecao/jogos', logger);
+app.use(logger);
 app.use(express.static('./public_html'));
 
 
@@ -82,7 +82,7 @@ app.set('trust proxy', true);
 app.use('/professores', routerProfessores);
 app.use('/atividade', routerAtividade);
 app.use(routerDefault);
-
+app.use(errorHandler);
 
 
 app.listen(process.env.PORT || 3000, () => console.log('App disponivel na http://localhost:3000'));

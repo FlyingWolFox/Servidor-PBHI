@@ -59,7 +59,7 @@ async function setMsgResponse(response){
     }else{
         responseBox.style.display = "none";
         responseBox.style.display = "block";
-        responseBox.innerHTML = await response.text()
+        responseBox.innerHTML = await response.json()
         responseBox.classList.remove("sucessMsg");
         responseBox.classList.add("errorMsg");
     }
