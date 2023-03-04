@@ -59,7 +59,7 @@ routerAtividade.post('/formAtividade.html', tryCatch(async (req, res) =>{
     }
     copySession(req)
     console.log('../'+ diretorio + '?fase=' + atividade[0].fase_inicio)
-    return res.redirect('../'+ diretorio + '?fase=5');
+    return res.redirect('../'+ diretorio + '?fase=' + atividade[0].fase_inicio);
    })
 );
 
