@@ -39,6 +39,10 @@ routerAtividade.get('/:atividadeid', tryCatch(async (req, res) =>{
    })
 );
 routerAtividade.post('/formAtividade.html', tryCatch(async (req, res) =>{
+    console.log('session ID:' + req.session.id)
+    req.session.regenerate((e) => {
+        console.log('session ID:' + req.session.id)
+    })
     const nome = req.body.nome;
     if(!nome){
         throw new ValidationError("Preencha todos os campos!", 404);

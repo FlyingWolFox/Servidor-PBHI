@@ -65,7 +65,7 @@ routerDefault.post('/partida', tryCatch(async (req, res) =>{
 );
 routerDefault.post('/nome', tryCatch(async (req, res) =>{
     if(req.session.id_atividade){
-        req.session.id_atividade = null;
+        delete req.session.id_atividade;
     }
     req.session.regenerate((e) => {})
     const nome = req.body.nome;
