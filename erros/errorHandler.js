@@ -1,5 +1,7 @@
 //Descrição: Arquivo responsável por tratar os erros da aplicação.
 // E separar a responsabilidade de tratar os erros do arquivo index.js
+//Todos os erros são apanhados no bloco tryCatch e são direcionados para cá através da chamada da função next(err) dentro do bloco tryCatch
+
 const AppError = require("./appError.js");
 const ValidationError = require("./validationError.js");
 

@@ -12,7 +12,7 @@ const connection = require('mysql2/promise');
 const routerAtividade = require('./rotas/rotasAtividade.js');
 const routerProfessores = require('./rotas/rotasProfessores.js');
 const errorHandler = require('./erros/errorHandler.js');
-const tryCatch = require('./erros/tryCatch.js');
+const process = require('process');
 const TWO_HOURS = 1000 * 60 * 60 * 2
 
 var option = {
@@ -82,7 +82,20 @@ app.set('trust proxy', true);
 app.use('/professores', routerProfessores);
 app.use('/atividade', routerAtividade);
 app.use(routerDefault);
+// Error handler é o último middleware a ser chamado
 app.use(errorHandler);
+// Bloco de tratamento de erros não apanhados, ainda em desenvolvimento
+process.on('uncaughtException', (err, origin) => { //Caso ocorra alguma exceção não apanhada, o servidor irá parar, mas antes irá salvar o erro no arquivo de log
+    fs.writeSync(
+        process.stderr.fd,
+        `Caught exception: ${err}\n` +
+        `Exception origin: ${origin}`,
+  );
+});
+
+process.on('unhandledRejection', (reason, promise) => { //Caso ocorra alguma promessa rejeitada não apanhada, o servidor irá parar, mas antes irá printar o erro no console
+    console.log('Unhandled Rejection at:', promise, 'reason:', reason);
+});
 
 
 app.listen(process.env.PORT || 3000, () => console.log('App disponivel na http://localhost:3000'));

@@ -103,20 +103,23 @@ routerDefault.get('/getJogos', async (req, res) => {
    const jogos = await sql.getJogos();
     res.json(jogos);
 })
-
-routerDefault.get('/getAtividade', async (req, res) => {
+routerDefault.get('/getAtividade', tryCatch(async (req, res) =>{
     console.log(req.session.id_atividade)
     if (req.session.id_atividade){
         const atividade = await sql.getAtividadeById(req.session.id_atividade);
-        res.json(atividade);
+        if(atividade === undefined){
+            return res.status(200).send(false);
+        }
+        return res.status(200).json(atividade);
     }
     else{
-        res.status(200).send(false);
+        return res.status(200).send(false);
     }
 })
+);
 
 routerDefault.all('*', (req,res)=>{ 
-     res.status(404).send('<h1>recurso não encontrado</h1');
+     res.status(404).send('<h1>Recurso não encontrado</h1');
 })
 
 module.exports = routerDefault
