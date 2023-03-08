@@ -10,12 +10,12 @@ var imgMov2 = [];      //Confere se falta colocar alguma imagem da terceira caix
 let quantidade = 0;
 var primeiraRodada = true;
 var tempoLigacao = [] //Vetor que vai armazenar o timeStamp de cada ligaçaõ feita pelo usuário.
-var corNode = '#FEFFC1';
+var corNode = '#fbfc97';
 var corDireita = '#fff5e6';
-var corEsquerda = '#c8ecee';
+var corEsquerda = '#ecf8f9';
 var corInter = '#eeefe1';
 var corFimInicio = '#7ee0e0';
-var corDescarta = '#FFE6EC';
+var corDescarta = '#ccff66';
 
 const textNumeroFase = 'textbox-numero-fase';
 const divFormas = 'container-formas';
