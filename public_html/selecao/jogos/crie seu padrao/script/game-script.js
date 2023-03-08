@@ -48,7 +48,6 @@ var arraySequencia = []; //Array para guardar a sequecia
 var arrayOpcoes = []; //Array contendo todos os elementos gerados nas opcoes
 var tamNucleo; //Quantos elementos o nucleo possui
 var tamSeq = 0; //Tamanho da sequência do núcleo
-var etapaAtual = parseInt(localStorage.fase_atual) - 1;
 var cliquei = false; // var que verifica se a crianca ja viu a sequencia que escolheu
 var estrela = 0; //nível de estrelas do jogador 
 var endGame = false; //Indica se o jogo está na ultima fase
