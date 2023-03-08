@@ -23,6 +23,7 @@ window.onclick = function (event) {
 // Ajustes do fullscreen ------------ 
 
 var fullscreenButton = document.getElementById('span-fullscreen');
+console.log('fullscreenButton', fullscreenButton)
 var gameHeader = document.getElementsByTagName('header')[0];
 var gameFooter = document.getElementsByTagName('footer')[0];
 var indexHead = document.getElementsByTagName('head')[0];
@@ -60,7 +61,11 @@ fullscreenButton.onclick = () => {
 
   if (!document.fullscreenElement) {
 
-    gameContainer.requestFullscreen();
+    gameContainer.requestFullscreen().catch((err) => {
+      alert(
+        `Error attempting to enable fullscreen mode: ${err.message} (${err.name})`
+      );
+    });;
 
   } else {
 
@@ -69,7 +74,9 @@ fullscreenButton.onclick = () => {
   }
 
 };
-} catch (error) {}
+} catch (error) {
+  console.log(error)
+}
 
 //Implementando modal de login
 
