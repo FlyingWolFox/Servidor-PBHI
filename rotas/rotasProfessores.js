@@ -87,7 +87,7 @@ routerProfessores.get('/crieAtividade', tryCatch(async (req, res) =>{
     const jwtSecretKey = JWT_SECRET_KEY
     const verificado = jwt.verify(token, jwtSecretKey)
     if(verificado){
-         res.status(302).redirect('/crieAtividade.html');
+        return res.status(302).redirect('/crieAtividade.html');
     }else{
         throw new ValidationError("Acesso não autorizado", 401);
     }
@@ -102,7 +102,7 @@ routerProfessores.post('/getLink', tryCatch(async (req, res) =>{
     datah_expiracao.setTime(intervalo);
     const expiracao_UTC = datah_expiracao.toISOString().slice(0, 19).replace('T', ' ');
     if(!req.body.escola || !req.body.turma || !req.body.anoAtividade || !req.body.email || !req.body.nome_jogo){
-    throw new ValidationError("Preencha todos os campos!", 400);
+            throw new ValidationError("Preencha todos os campos!", 400);
     }
     const atividadeCriada = await sql.insertAtividade(id, req.body.nomeProfessor, req.body.escola,req.body.turma, req.body.nome_jogo,req.body.anoAtividade, criacao_UTC, expiracao_UTC, req.body.email, req.body.comentarioAtividade,req.body.faseInicioAtividade,req.body.faseFimAtividade)
     if(!atividadeCriada){
@@ -123,9 +123,9 @@ routerProfessores.get('/getAtividades', tryCatch(async (req, res) =>{
         if(!atividades){
             throw new AppError(constante.ERRO_NO_BANCO_DE_DADOS,"Não foi possível buscar as atividades!", 500);	
         }
-        res.status(200).json(atividades);
+       return res.status(200).json(atividades);
    }else{
-    throw new ValidationError("Acesso não autorizado", 401);
+        throw new ValidationError("Acesso não autorizado", 401);
    }
    })
 );
@@ -138,7 +138,7 @@ routerProfessores.post('/getTempoMedio', tryCatch(async (req, res) =>{
     if(!tempoMedio){
         throw new AppError(constante.ERRO_NO_BANCO_DE_DADOS,"Não foi possível buscar o tempo médio!", 500);
     }
-    res.status(200).json(tempoMedio);
+    return res.status(200).json(tempoMedio);
    })
 );
 routerProfessores.post('/getNumeroDeJogadores', tryCatch(async (req, res) =>{
@@ -150,7 +150,7 @@ routerProfessores.post('/getNumeroDeJogadores', tryCatch(async (req, res) =>{
     if(!numeroJogadores){
         throw new AppError(constante.ERRO_NO_BANCO_DE_DADOS,"Não foi possível buscar o número de jogadores!", 500);
     }
-    res.status(200).json(numeroJogadores);
+    return res.status(200).json(numeroJogadores);
    })
 );
 routerProfessores.post('/getPartidasVencidas', tryCatch(async (req, res) =>{
@@ -162,7 +162,7 @@ routerProfessores.post('/getPartidasVencidas', tryCatch(async (req, res) =>{
     if(!partidasVencidas){
         throw new AppError(constante.ERRO_NO_BANCO_DE_DADOS,"Não foi possível buscar o número de partidas vencidas!", 500);
     }
-    res.status(200).json(partidasVencidas);
+    return res.status(200).json(partidasVencidas);
    })
 );
 routerProfessores.post('/getTaxaAcerto', tryCatch(async (req, res) =>{
@@ -174,7 +174,7 @@ routerProfessores.post('/getTaxaAcerto', tryCatch(async (req, res) =>{
     if(!taxaAcerto){
         throw new AppError(constante.ERRO_NO_BANCO_DE_DADOS,"Não foi possível buscar a taxa de acerto!", 500);
     }
-    res.status(200).json(taxaAcerto);
+    return res.status(200).json(taxaAcerto);
    })
 );
 routerProfessores.post('/getPartidasDaAtividade', tryCatch(async (req, res) =>{
@@ -186,7 +186,7 @@ routerProfessores.post('/getPartidasDaAtividade', tryCatch(async (req, res) =>{
     if(!partidas){
         throw new AppError(constante.ERRO_NO_BANCO_DE_DADOS,"Não foi possível buscar o número de partidas!", 500);
     }
-    res.status(200).json(partidas);
+    return res.status(200).json(partidas);
    })
 );
 routerProfessores.post('/getTentativas', tryCatch(async (req, res) =>{
@@ -199,7 +199,7 @@ routerProfessores.post('/getTentativas', tryCatch(async (req, res) =>{
     if(!tentativas){
         throw new AppError(constante.ERRO_NO_BANCO_DE_DADOS,"Não foi possível buscar as tentativas!", 500);
     }
-    res.status(200).json(tentativas);
+    return res.status(200).json(tentativas);
    })
 );
 routerProfessores.post('/getNaoFinalizados', tryCatch(async (req, res) =>{
@@ -211,7 +211,7 @@ routerProfessores.post('/getNaoFinalizados', tryCatch(async (req, res) =>{
     if(!naoFinalizados){
         throw new AppError(constante.ERRO_NO_BANCO_DE_DADOS,"Não foi possível buscar os não finalizados!", 500);
     }
-    res.status(200).json(naoFinalizados);
+    return res.status(200).json(naoFinalizados);
    })
 );
 routerProfessores.post('/getDadosAtividade', tryCatch(async (req, res) =>{
@@ -223,11 +223,11 @@ routerProfessores.post('/getDadosAtividade', tryCatch(async (req, res) =>{
     if(!dadosAtividade){
         throw new AppError(constante.ERRO_NO_BANCO_DE_DADOS,"Não foi possível buscar os dados!", 500);
     }
-    res.status(200).json(dadosAtividade);
+    return res.status(200).json(dadosAtividade);
    })
 );
 routerProfessores.all('*', (req,res)=>{ 
-     res.status(404).send('<h1>recurso não encontrado</h1');
+    return res.status(404).send('<h1>recurso não encontrado</h1');
 })
 
 module.exports = routerProfessores

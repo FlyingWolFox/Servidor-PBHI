@@ -27,7 +27,7 @@ routerAtividade.get('/:atividadeid', tryCatch(async (req, res) =>{
         if(horaAtual < expira){
             req.session.id_atividade = id;
             console.log(horaAtual, expira);
-            res.redirect("../atividade/recepcaoAtividade.html");
+          return res.redirect("../atividade/recepcaoAtividade.html");
             
         }else{
             throw new ValidationError("Parece que o link da sua atividade expirou ou não existe!", 404);
@@ -68,19 +68,18 @@ routerAtividade.post('/formAtividade.html', tryCatch(async (req, res) =>{
 );
 
 //=================================================== Funções de GET ==================================================
-
-routerAtividade.post('/getSessionAtividade',  async (req, res) =>{
+routerAtividade.post('/getSessionAtividade', tryCatch(async (req, res) =>{
     const atividade_id = req.session.id_atividade
     const atividade = await sql.getAtividadeById(atividade_id)
     if(!atividade){
         throw new AppError(constante.ERRO_NO_BANCO_DE_DADOS, "Erro ao encontrar atividade",400)
     }else{
-        res.status(200).json(atividade)
+        return res.status(200).json(atividade)
     } 
-})
-
+   })
+);
 routerAtividade.all('*', (req,res)=>{ 
-     res.status(404).send('<h1>recurso não encontrado</h1');
+    return res.status(404).send('<h1>recurso não encontrado</h1');
 })
 
 module.exports = routerAtividade

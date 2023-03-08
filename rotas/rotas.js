@@ -57,7 +57,7 @@ routerDefault.post('/partida', tryCatch(async (req, res) =>{
         console.log(req.body);
         if(req.body){
         await sql.insertPartida(nome_jogo,id_jogador, tempoDeJogo,data_hora, sucesso, faseAtual);
-         res.sendStatus(201);
+       return res.sendStatus(201);
      } else{
         throw new AppError(constante.ERRO_AO_SALVAR_PARTIDA, "Erro ao salvar partida", 400)
     }
@@ -82,26 +82,26 @@ routerDefault.post('/nome', tryCatch(async (req, res) =>{
         req.session.ano = ano;
         req.session.logado = true;
         sessao.copySession(req);
-        res.status(201).json();
+        return res.status(201).json();
 })
 );
 
 routerDefault.get('/getsession',(req,res) => {
-    res.json(sessao.getSession(req))
+   return res.json(sessao.getSession(req))
 })
 routerDefault.get('/getstatus',(req,res) => {
-    res.json(sessao.getStatus(req))
+    return res.json(sessao.getStatus(req))
 })
 routerDefault.get('/changeStatus',(req,res)=>{
     req.session.logado = false;
-   res.json("");
+  return res.json("");
 })
 routerDefault.get('/logout',  async (req, res)=>{
-   res.json(sessao.changeStatus(req))
+   return res.json(sessao.changeStatus(req))
 })
 routerDefault.get('/getJogos', async (req, res) => {
    const jogos = await sql.getJogos();
-    res.json(jogos);
+    return res.json(jogos);
 })
 routerDefault.get('/getAtividade', tryCatch(async (req, res) =>{
     console.log(req.session.id_atividade)
@@ -119,7 +119,7 @@ routerDefault.get('/getAtividade', tryCatch(async (req, res) =>{
 );
 
 routerDefault.all('*', (req,res)=>{ 
-     res.status(404).send('<h1>Recurso não encontrado</h1');
+    return res.status(404).send('<h1>Recurso não encontrado</h1');
 })
 
 module.exports = routerDefault
