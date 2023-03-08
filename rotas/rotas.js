@@ -39,8 +39,12 @@ routerDefault.post('/interacoes', tryCatch(async (req, res) =>{
     const id_jogador = req.session.id_jogador;
     const nomeJogo = req.body.nomeJogo;
     const faseAtual = req.body.faseAtual;
+    console.log(req.body);
     if(req.body){
-        await sql.insertInteracao(origem, destino, tipoLigacao, data_hora, id_jogador, nomeJogo, faseAtual);
+       const id_interacao = await sql.insertInteracao(origem, destino, tipoLigacao, data_hora, nomeJogo, faseAtual, id_jogador);
+        if(id_interacao === undefined){
+            throw new AppError(constante.ERRO_AO_SALVAR_PARTIDA,"Erro ao salvar partida", 400)
+        }
         return res.status(201).json('sucesso!');
     }else{
         throw new AppError(constante.ERRO_AO_SALVAR_PARTIDA,"Erro ao salvar partida", 400)
@@ -48,7 +52,7 @@ routerDefault.post('/interacoes', tryCatch(async (req, res) =>{
 })
 );
 routerDefault.post('/partida', tryCatch(async (req, res) =>{
-    const nome_jogo = req.body.nomeJogo;
+        const nome_jogo = req.body.nomeJogo;
         const faseAtual = req.body.faseAtual;
         const tempoDeJogo = req.body.tempoDeJogo;
         const sucesso = req.body.sucesso;
@@ -56,9 +60,12 @@ routerDefault.post('/partida', tryCatch(async (req, res) =>{
         const data_hora = req.body.data_hora;
         console.log(req.body);
         if(req.body){
-        await sql.insertPartida(nome_jogo,id_jogador, tempoDeJogo,data_hora, sucesso, faseAtual);
-       return res.sendStatus(201);
-     } else{
+            const id_partida =  await sql.insertPartida(nome_jogo,id_jogador, tempoDeJogo,data_hora, sucesso, faseAtual);
+            if(id_partida === undefined){
+                throw new AppError(constante.ERRO_AO_SALVAR_PARTIDA,"Erro ao salvar partida", 400)
+            }
+        return res.sendStatus(201).json('sucesso!');
+     }else{
         throw new AppError(constante.ERRO_AO_SALVAR_PARTIDA, "Erro ao salvar partida", 400)
     }
 })
