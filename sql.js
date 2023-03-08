@@ -1,6 +1,12 @@
-const connection = require('./connection')
+const connection = require('./connection');
+const errorCodes = require('./erros/codeErrors');
+const AppError = require('./erros/AppError');
+
+if(connection === undefined){
+    throw new AppError(errorCodes.ERRO_NO_BANCO_DE_DADOS,"Não foi possível conectar ao banco de dados!", 500);
+}
 if(!connection){
-  
+    throw new AppError(errorCodes.ERRO_NO_BANCO_DE_DADOS,"Não foi possível conectar ao banco de dados!", 500);
 }
 let sql = {};
 
@@ -20,11 +26,6 @@ sql.getPartidasDaAtividade = (id_atividade) =>{
           if(error){
               return reject(error);
           }
-          /*for (let index in results) {
-            if (results.hasOwnProperty(index)) {
-               console.log(index, results[index].nome_jogo);
-            }
-         }*/
          return resolve(results); 
        });
     });

@@ -8,7 +8,7 @@ const { getAtividadeById, insertJogador } = require('../sql.js');
 const { copySession } = require('../session');
 const ValidationError = require('../erros/validationError.js');
 const AppError = require('../erros/appError.js');
-const constante = require('../erros/codeErrors.js');
+const errorCodes = require('../erros/codeErrors.js');
 
 
 routerAtividade.use(useragent.express());
@@ -54,12 +54,12 @@ routerAtividade.post('/formAtividade.html', tryCatch(async (req, res) =>{
     }    
     const id_jogador = await insertJogador(nome, atividade[0].ano);
     if(!id_jogador){
-        throw new AppError(constante.ERRO_AO_CRIAR_USUARIO,400)
+        throw new AppError(errorCodes.ERRO_AO_CRIAR_USUARIO,400)
     }
     req.session.id_jogador = id_jogador;
     const diretorio = (await sql.getJogoPorNome(atividade[0].jogo)).diretorio;
     if(!diretorio){
-        throw new AppError(constante.ERRO_NO_BANCO_DE_DADOS, "Erro ao encontrar atividade",400)
+        throw new AppError(errorCodes.ERRO_NO_BANCO_DE_DADOS, "Erro ao encontrar atividade",400)
     }
     copySession(req)
     console.log('../'+ diretorio + '?fase=' + atividade[0].fase_inicio)
@@ -72,7 +72,7 @@ routerAtividade.post('/getSessionAtividade', tryCatch(async (req, res) =>{
     const atividade_id = req.session.id_atividade
     const atividade = await sql.getAtividadeById(atividade_id)
     if(!atividade){
-        throw new AppError(constante.ERRO_NO_BANCO_DE_DADOS, "Erro ao encontrar atividade",400)
+        throw new AppError(errorCodes.ERRO_NO_BANCO_DE_DADOS, "Erro ao encontrar atividade",400)
     }else{
         return res.status(200).json(atividade)
     } 

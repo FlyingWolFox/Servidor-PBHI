@@ -8,7 +8,7 @@ const sessao = require('../session');
 const useragent = require('express-useragent');
 const ValidationError = require('../erros/validationError.js');
 const AppError = require('../erros/appError.js');
-const constante = require('../erros/codeErrors.js');
+const errorCodes = require('../erros/codeErrors.js');
 const tryCatch = require('../erros/tryCatch.js');
 
 
@@ -27,7 +27,7 @@ routerDefault.post('/contato.html', tryCatch(async (req, res) =>{
          console.log(contato);
          return res.status(201).redirect('/');
      }else{
-        throw new AppError(constante.ERRO_AO_CRIAR_USUARIO,"Erro ao criar usuário", 400);
+        throw new AppError(errorCodes.ERRO_AO_CRIAR_USUARIO,"Erro ao criar usuário", 400);
      }    
     })
 );
@@ -43,11 +43,11 @@ routerDefault.post('/interacoes', tryCatch(async (req, res) =>{
     if(req.body){
        const id_interacao = await sql.insertInteracao(origem, destino, tipoLigacao, data_hora, nomeJogo, faseAtual, id_jogador);
         if(id_interacao === undefined){
-            throw new AppError(constante.ERRO_AO_SALVAR_PARTIDA,"Erro ao salvar partida", 400)
+            throw new AppError(errorCodes.ERRO_AO_SALVAR_PARTIDA,"Erro ao salvar partida", 400)
         }
         return res.status(201).json('sucesso!');
     }else{
-        throw new AppError(constante.ERRO_AO_SALVAR_PARTIDA,"Erro ao salvar partida", 400)
+        throw new AppError(errorCodes.ERRO_AO_SALVAR_PARTIDA,"Erro ao salvar partida", 400)
     }
 })
 );
@@ -62,11 +62,11 @@ routerDefault.post('/partida', tryCatch(async (req, res) =>{
         if(req.body){
             const id_partida =  await sql.insertPartida(nome_jogo,id_jogador, tempoDeJogo,data_hora, sucesso, faseAtual);
             if(id_partida === undefined){
-                throw new AppError(constante.ERRO_AO_SALVAR_PARTIDA,"Erro ao salvar partida", 400)
+                throw new AppError(errorCodes.ERRO_AO_SALVAR_PARTIDA,"Erro ao salvar partida", 400)
             }
         return res.sendStatus(201).json('sucesso!');
      }else{
-        throw new AppError(constante.ERRO_AO_SALVAR_PARTIDA, "Erro ao salvar partida", 400)
+        throw new AppError(errorCodes.ERRO_AO_SALVAR_PARTIDA, "Erro ao salvar partida", 400)
     }
 })
 );

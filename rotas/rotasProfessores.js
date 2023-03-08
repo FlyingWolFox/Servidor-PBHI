@@ -8,7 +8,7 @@ const jwt = require('jsonwebtoken');
 const useragent = require('express-useragent');
 const AppError = require('../erros/appError.js');
 const ValidationError = require('../erros/validationError.js');
-const constante = require('../erros/codeErrors.js');
+const errorCodes = require('../erros/codeErrors.js');
 require('dotenv').config();
 const JWT_SECRET_KEY = process.env.JWT_SECRET_KEY;
 const TOKEN_HEADER_KEY = process.env.TOKEN_HEADER_KEY
@@ -68,14 +68,14 @@ routerProfessores.post('/UpdateProfessorCodigo', tryCatch(async (req, res) =>{
             await sql.updateProfessor(email,id); 
             const enviado = await send_mail(email,id);
             if(!enviado){
-                throw new AppError(constante.ERRO_NO_BANCO_DE_DADOS,"Não foi possível enviar o email!", 500);
+                throw new AppError(errorCodes.ERRO_NO_BANCO_DE_DADOS,"Não foi possível enviar o email!", 500);
             }
            return res.status(200).send("Código atualizado com sucesso!")
     }else{
             await sql.salvarNovoProfessor(email,id,nome);
             const enviado = await send_mail(email,id);
             if(!enviado){
-                throw new AppError(constante.ERRO_NO_BANCO_DE_DADOS,"Não foi possível enviar o email!", 500);
+                throw new AppError(errorCodes.ERRO_NO_BANCO_DE_DADOS,"Não foi possível enviar o email!", 500);
             }
             return res.status(201).send("Código criado com sucesso!");
     }
@@ -106,7 +106,7 @@ routerProfessores.post('/getLink', tryCatch(async (req, res) =>{
     }
     const atividadeCriada = await sql.insertAtividade(id, req.body.nomeProfessor, req.body.escola,req.body.turma, req.body.nome_jogo,req.body.anoAtividade, criacao_UTC, expiracao_UTC, req.body.email, req.body.comentarioAtividade,req.body.faseInicioAtividade,req.body.faseFimAtividade)
     if(!atividadeCriada){
-            throw new AppError(constante.ERRO_NO_BANCO_DE_DADOS,"Não foi possível criar a atividade!", 500);
+            throw new AppError(errorCodes.ERRO_NO_BANCO_DE_DADOS,"Não foi possível criar a atividade!", 500);
     }
     const URL = process.env.APP_URL+'/atividade/'+ id + '?fase=' + req.body.faseInicioAtividade
     return res.status(201).send(URL);
@@ -121,7 +121,7 @@ routerProfessores.get('/getAtividades', tryCatch(async (req, res) =>{
         const email = parsedToken['email']['email'];
         const atividades = await sql.getAtividadesPorEmail(email);
         if(!atividades){
-            throw new AppError(constante.ERRO_NO_BANCO_DE_DADOS,"Não foi possível buscar as atividades!", 500);	
+            throw new AppError(errorCodes.ERRO_NO_BANCO_DE_DADOS,"Não foi possível buscar as atividades!", 500);	
         }
        return res.status(200).json(atividades);
    }else{
@@ -136,7 +136,7 @@ routerProfessores.post('/getTempoMedio', tryCatch(async (req, res) =>{
     }
     const tempoMedio = await sql.getTempoMedio(atividade);
     if(!tempoMedio){
-        throw new AppError(constante.ERRO_NO_BANCO_DE_DADOS,"Não foi possível buscar o tempo médio!", 500);
+        throw new AppError(errorCodes.ERRO_NO_BANCO_DE_DADOS,"Não foi possível buscar o tempo médio!", 500);
     }
     return res.status(200).json(tempoMedio);
    })
@@ -148,7 +148,7 @@ routerProfessores.post('/getNumeroDeJogadores', tryCatch(async (req, res) =>{
     }
     const numeroJogadores = await sql.getNumeroDeJogadores(atividade);
     if(!numeroJogadores){
-        throw new AppError(constante.ERRO_NO_BANCO_DE_DADOS,"Não foi possível buscar o número de jogadores!", 500);
+        throw new AppError(errorCodes.ERRO_NO_BANCO_DE_DADOS,"Não foi possível buscar o número de jogadores!", 500);
     }
     return res.status(200).json(numeroJogadores);
    })
@@ -160,7 +160,7 @@ routerProfessores.post('/getPartidasVencidas', tryCatch(async (req, res) =>{
     }
     const partidasVencidas = await sql.getPartidasVencidas(atividade);
     if(!partidasVencidas){
-        throw new AppError(constante.ERRO_NO_BANCO_DE_DADOS,"Não foi possível buscar o número de partidas vencidas!", 500);
+        throw new AppError(errorCodes.ERRO_NO_BANCO_DE_DADOS,"Não foi possível buscar o número de partidas vencidas!", 500);
     }
     return res.status(200).json(partidasVencidas);
    })
@@ -172,7 +172,7 @@ routerProfessores.post('/getTaxaAcerto', tryCatch(async (req, res) =>{
     }
     const taxaAcerto = await sql.getTaxaAcerto(atividade);
     if(!taxaAcerto){
-        throw new AppError(constante.ERRO_NO_BANCO_DE_DADOS,"Não foi possível buscar a taxa de acerto!", 500);
+        throw new AppError(errorCodes.ERRO_NO_BANCO_DE_DADOS,"Não foi possível buscar a taxa de acerto!", 500);
     }
     return res.status(200).json(taxaAcerto);
    })
@@ -184,7 +184,7 @@ routerProfessores.post('/getPartidasDaAtividade', tryCatch(async (req, res) =>{
     }
     const partidas = await sql.getPartidasDaAtividade(atividade);
     if(!partidas){
-        throw new AppError(constante.ERRO_NO_BANCO_DE_DADOS,"Não foi possível buscar o número de partidas!", 500);
+        throw new AppError(errorCodes.ERRO_NO_BANCO_DE_DADOS,"Não foi possível buscar o número de partidas!", 500);
     }
     return res.status(200).json(partidas);
    })
@@ -197,7 +197,7 @@ routerProfessores.post('/getTentativas', tryCatch(async (req, res) =>{
     const tentativas = await sql.getTentativas(atividade);
     console.log(tentativas)
     if(!tentativas){
-        throw new AppError(constante.ERRO_NO_BANCO_DE_DADOS,"Não foi possível buscar as tentativas!", 500);
+        throw new AppError(errorCodes.ERRO_NO_BANCO_DE_DADOS,"Não foi possível buscar as tentativas!", 500);
     }
     return res.status(200).json(tentativas);
    })
@@ -209,7 +209,7 @@ routerProfessores.post('/getNaoFinalizados', tryCatch(async (req, res) =>{
     }
     const naoFinalizados = await sql.getNaoFinalizados(atividade);
     if(!naoFinalizados){
-        throw new AppError(constante.ERRO_NO_BANCO_DE_DADOS,"Não foi possível buscar os não finalizados!", 500);
+        throw new AppError(cerrorCodes.ERRO_NO_BANCO_DE_DADOS,"Não foi possível buscar os não finalizados!", 500);
     }
     return res.status(200).json(naoFinalizados);
    })
@@ -221,7 +221,7 @@ routerProfessores.post('/getDadosAtividade', tryCatch(async (req, res) =>{
     }
     const dadosAtividade = await sql.getDadosAtividade(atividade);
     if(!dadosAtividade){
-        throw new AppError(constante.ERRO_NO_BANCO_DE_DADOS,"Não foi possível buscar os dados!", 500);
+        throw new AppError(errorCodes.ERRO_NO_BANCO_DE_DADOS,"Não foi possível buscar os dados!", 500);
     }
     return res.status(200).json(dadosAtividade);
    })
