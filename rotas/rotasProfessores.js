@@ -104,8 +104,9 @@ routerProfessores.post('/getLink', tryCatch(async (req, res) =>{
     if(!req.body.escola || !req.body.turma || !req.body.anoAtividade || !req.body.email || !req.body.nome_jogo){
             throw new ValidationError("Preencha todos os campos!", 400);
     }
+    console.log(req.body)
     const atividadeCriada = await sql.insertAtividade(id, req.body.nomeProfessor, req.body.escola,req.body.turma, req.body.nome_jogo,req.body.anoAtividade, criacao_UTC, expiracao_UTC, req.body.email, req.body.comentarioAtividade,req.body.faseInicioAtividade,req.body.faseFimAtividade)
-    if(!atividadeCriada){
+    if(atividadeCriada === undefined || atividadeCriada === null){
             throw new AppError(errorCodes.ERRO_NO_BANCO_DE_DADOS,"Não foi possível criar a atividade!", 500);
     }
     const URL = process.env.APP_URL+'/atividade/'+ id + '?fase=' + req.body.faseInicioAtividade
