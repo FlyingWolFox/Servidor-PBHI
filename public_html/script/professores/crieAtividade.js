@@ -11,7 +11,7 @@ function formHandler(event){
     const botao = document.getElementById('botao-resultado');
     const responseBox = document.getElementById('boxResposta');
 
-    if (response.status == 200){
+    if (response.status == 201){
         responseBox.style.display = "none";
         responseBox.classList.remove("errorMsg");
         responseBox.classList.add("infoMsg");
