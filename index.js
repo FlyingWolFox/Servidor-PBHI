@@ -57,7 +57,8 @@ app.use(session({
         sameSite: 'strict',
         secure: false
        
-    }
+    },
+    rolling: true
 }))
 
 //criando o acesso de arquivos estáticos e disparando o logger
