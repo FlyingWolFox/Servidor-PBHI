@@ -4,7 +4,7 @@
     try {
       await fn(req, res);
     } catch (err) {
-       return next(err);
+      return next(err);
     }
   };
 
