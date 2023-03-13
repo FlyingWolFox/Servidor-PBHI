@@ -1,6 +1,6 @@
 const connection = require('./connection');
 const errorCodes = require('./erros/codeErrors');
-const AppError = require('./erros/AppError');
+const AppError = require('./erros/appError');
 
 if(connection === undefined){
     throw new AppError(errorCodes.ERRO_NO_BANCO_DE_DADOS,"Não foi possível conectar ao banco de dados!", 500);
