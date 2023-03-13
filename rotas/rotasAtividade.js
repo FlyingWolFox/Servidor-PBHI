@@ -9,7 +9,7 @@ const { copySession } = require('../session');
 const ValidationError = require('../erros/validationError.js');
 const AppError = require('../erros/appError.js');
 const errorCodes = require('../erros/codeErrors.js');
-
+const nanoid = require('nanoid').nanoid;
 
 routerAtividade.use(useragent.express());
 
@@ -39,30 +39,30 @@ routerAtividade.get('/:atividadeid', tryCatch(async (req, res) =>{
    })
 );
 routerAtividade.post('/formAtividade.html', tryCatch(async (req, res) =>{
-    console.log('session ID:' + req.session.id)
-    req.session.regenerate((e) => {
-        console.log('session ID:' + req.session.id)
-    })
+    console.log('Esse é o id da sessao antes de eu receber formulario: ' + req.session.id)
+    req.session.id = nanoid();
+    console.log('Esse é o id da sessão assim que eu recebo formulario: ' + req.session.id)
     const nome = req.body.nome;
     if(!nome){
         throw new ValidationError("Preencha todos os campos!", 404);
     }
     const atividade_id = req.session.id_atividade
     const atividade = await sql.getAtividadeById(atividade_id);
-    if(!atividade){
+    if(atividade === undefined || atividade === null){
         throw new ValidationError("Parece que o link da sua atividade expirou ou não existe!", 404);
     }    
     const id_jogador = await insertJogador(nome, atividade[0].ano);
-    if(!id_jogador){
+    if(id_jogador === undefined || id_jogador === null){
         throw new AppError(errorCodes.ERRO_AO_CRIAR_USUARIO,400)
     }
     req.session.id_jogador = id_jogador;
+    
     const diretorio = (await sql.getJogoPorNome(atividade[0].jogo)).diretorio;
-    if(!diretorio){
+    if(diretorio === undefined || diretorio === null){
         throw new AppError(errorCodes.ERRO_NO_BANCO_DE_DADOS, "Erro ao encontrar atividade",400)
     }
-    copySession(req)
-    console.log('../'+ diretorio + '?fase=' + atividade[0].fase_inicio)
+    await copySession(req)
+    console.log('Esse é o id do jogador: ' + req.session.id_jogador)
     return res.redirect('../'+ diretorio + '?fase=' + atividade[0].fase_inicio);
    })
 );
