@@ -30,28 +30,29 @@ sessao.getStatus = (req) => {
   return log
 }
 
-sessao.changeStatus = tryCatch(async (req, res) =>{ 
+sessao.changeStatus = async (req) =>{ 
   const response = await deleteSession(req.session.id); //nao vale a pena indicar ao usuario o tipo de erro nessa situacao
-  if(response === undefined || response === null){
-    throw new AppError("Algo deu errado",ERRO_AO_SALVAR_SESSAO, 500);
-  }else if(!response){
-    throw new AppError("Algo deu errado",ERRO_AO_SALVAR_SESSAO, 500);
-  }
   return response;
- })
+}
 
-sessao.copySession = tryCatch(async (req, res) =>{
+sessao.copySession = async (req) =>{
   const session_id = req.session.id;
   const id_jogador = req.session.id_jogador;
   const browser = req.useragent.browser;
   const platform = req.useragent.platform;
   const id_atividade = req.session.id_atividade;
-  const response = await insertSession(session_id, id_jogador, browser, platform, id_atividade);
-  if(response === undefined || response === null){ //nao vale a pena indicar ao usuario o tipo de erro nessa situacao
-    throw new AppError("Algo deu errado",ERRO_AO_SALVAR_SESSAO, 500);
-  }else if(!response){
-    throw new AppError("Algo deu errado",ERRO_AO_SALVAR_SESSAO, 500);
+  try{
+    var response = await insertSession(session_id, id_jogador, browser, platform, id_atividade);
+
+  }catch(err){
+    console.log(err)
   }
+  
+  //if(response === undefined || response === null){
+    //throw newAppError(ERRO_AO_SALVAR_SESSAO, "Erro ao salvar sessão", 400);
+  //}
+  //console.log('Sessão salva com sucesso');
+  console.log('Dentro da função copySession, o valor de id_jogador é: ', id_jogador);
   return response;
- })
+}
 module.exports = sessao;
