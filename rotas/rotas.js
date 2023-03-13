@@ -39,10 +39,10 @@ routerDefault.post('/interacoes', tryCatch(async (req, res) =>{
     const id_jogador = req.session.id_jogador;
     const nomeJogo = req.body.nomeJogo;
     const faseAtual = req.body.faseAtual;
-    console.log(req.body);
+    console.log('Estou em interacoes e esse eh o id_jogador: ' + req.session.id_jogador);
     if(req.body){
        const id_interacao = await sql.insertInteracao(origem, destino, tipoLigacao, data_hora, nomeJogo, faseAtual, id_jogador);
-        if(id_interacao === undefined){
+        if(id_interacao === undefined || id_interacao === null){
             throw new AppError(errorCodes.ERRO_AO_SALVAR_PARTIDA,"Erro ao salvar partida", 400)
         }
         return res.status(201).json('sucesso!');
@@ -61,10 +61,11 @@ routerDefault.post('/partida', tryCatch(async (req, res) =>{
         console.log(req.body);
         if(req.body){
             const id_partida =  await sql.insertPartida(nome_jogo,id_jogador, tempoDeJogo,data_hora, sucesso, faseAtual);
-            if(id_partida === undefined){
+            console.log("ESSE EH O ID DA PARTIDA: " + id_partida);
+            if(id_partida === undefined || id_partida === null){
                 throw new AppError(errorCodes.ERRO_AO_SALVAR_PARTIDA,"Erro ao salvar partida", 400)
             }
-        return res.sendStatus(201).json('sucesso!');
+        return res.status(201).json('sucesso!');
      }else{
         throw new AppError(errorCodes.ERRO_AO_SALVAR_PARTIDA, "Erro ao salvar partida", 400)
     }
@@ -111,9 +112,10 @@ routerDefault.get('/getJogos', async (req, res) => {
     return res.json(jogos);
 })
 routerDefault.get('/getAtividade', tryCatch(async (req, res) =>{
-    console.log(req.session.id_atividade)
+    console.log('estou aqui get atividade')
     if (req.session.id_atividade){
         const atividade = await sql.getAtividadeById(req.session.id_atividade);
+        console.log(atividade)
         if(atividade === undefined){
             return res.status(200).send(false);
         }
