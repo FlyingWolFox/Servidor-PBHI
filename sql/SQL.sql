@@ -89,10 +89,11 @@ INSERT INTO jogo (nome_jogo,max_fase) VALUES ('SEQUÊNCIA DECRESCENTE' ,'24');
 update jogo set diretorio = "./selecao/jogos/repeticao/index.html" where nome_jogo = 'REPETIÇÃO';
 update jogo set diretorio = "./selecao/jogos/completar/index.html" where nome_jogo = 'COMPLETAR';
 update jogo set diretorio = "./selecao/jogos/completarnumero/index.html" where nome_jogo = 'COMPLETAR COM NÚMEROS';
-update jogo set diretorio = "./selecao/jogos/crie seu padrao/index.html" where nome_jogo = 'CRIE SEU PADRÃO';
+update jogo set diretorio = "./selecao/jogos/crie seu padrao/index.html" where nome_jogo = 'CRIAR PADRÃO';
 update jogo set diretorio = "./selecao/jogos/domino da diferenca/index.html" where nome_jogo = 'DOMINÓ DA DIFERENÇA';
 update jogo set diretorio = "./selecao/jogos/grupos/index.html" where nome_jogo = 'GRUPOS';
 update jogo set diretorio = "./selecao/jogos/grupos fluxograma/index.html" where nome_jogo = 'FLUXOGRAMA';
+update jogo set diretorio = "./selecao/jogos/Logics/index.html" where nome_jogo = 'LOGICS';
 update jogo set diretorio = "./selecao/jogos/sequencia numero/index.html" where nome_jogo = 'SEQUÊNCIA DE NÚMEROS';
 update jogo set diretorio = "./selecao/jogos/sequencia decrescente/index.html" where nome_jogo = 'SEQUÊNCIA DECRESCENTE';
 

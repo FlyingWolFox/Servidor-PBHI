@@ -77,26 +77,12 @@ function getRandomIntInclusive(min, max) {
 	return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-function getFasesPorAno(){
-	switch(ano){
-		case "Primeiro ano":
-			etapaMax = 200;
-			break;
-		case "Segundo ano":
-			etapaMax = 200;
-			break;
-		case "Terceiro ano":
-			etapaMax = 200;
-			break;
-		case "Quarto ano":
-			etapaMax = 200;
-			break;
-		case "Quinto ano":
-			etapaMax = 200;
-			break;
-		case "Sexto ano":
-			etapaMax = 200;
-			break;			
+async function getFasesPorAno(){
+	var resposta = await fetch("/getAtividade")
+	const atividade = await (resposta.json())
+	console.log('Atividade: '+ JSON.stringify(atividade))	
+	if (atividade) {
+		etapaMax = atividade[0].fase_fim
 	}
 	console.log("esse eh o numero maximo de fases desse ano: " + etapaMax);
 }
@@ -976,7 +962,7 @@ function check(){
 		return 0;
 	}
 	if(aux == 0){
-		if(endGame == false && etapaAtual <= etapaMax){
+		if (endGame == false && etapaAtual < etapaMax-1) {
 		modalAcerto.style.display = 'block';
                 textoAcerto.innerText = 'Você acertou! Fase concluída.';
                 botaoOk.innerHTML = "Próxima"; 

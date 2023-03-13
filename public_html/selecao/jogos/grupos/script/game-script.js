@@ -62,26 +62,12 @@ const contornoEnum = Object.freeze({
     "semContorno": 1
 });
 
-function getFasesPorAno(){
-	switch(ano){
-		case "Primeiro ano":
-			etapaMax = 40;
-			break;
-		case "Segundo ano":
-			etapaMax = 40;
-			break;
-		case "Terceiro ano":
-			etapaMax = 40;
-			break;
-		case "Quarto ano":
-			etapaMax = 40;
-			break;
-		case "Quinto ano":
-			etapaMax = 40;
-			break;
-		case "Sexto ano":
-			etapaMax = 40;
-			break;			
+async function getFasesPorAno(){
+	var resposta = await fetch("/getAtividade")
+	const atividade = await (resposta.json())
+	console.log('Atividade: '+ JSON.stringify(atividade))	
+	if (atividade) {
+		etapaMax = atividade[0].fase_fim
 	}
 	console.log("esse eh o numero maximo de fases desse ano: " + etapaMax);
 }
@@ -1638,7 +1624,7 @@ function check(){ //Confere se acertou
    
     } else {
         if (flag1 == 0 && flag2 == 0 && flag3 == 0) {
-            if(endGame == false && etapaAtual <= etapaMax){
+            if (endGame == false && etapaAtual < etapaMax-1) {
             
                 modalAcerto.style.display = 'block';
                 textoAcerto.innerText = 'Você acertou! Fase concluída.';
