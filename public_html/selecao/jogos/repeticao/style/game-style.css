@@ -354,7 +354,15 @@ div.modal_content {
     padding: 10px 10px 0 10px;
     background-color: #FFF;
     width: 35%;
-    height: 216px;
+}
+
+div#modal_acerto_repeticao {
+    display: flex;
+    align-items: center;
+    justify-self: center;
+    flex-direction: row;
+    width: 527px;
+    height: 215px;
 }
 
 div#modalAcerto .modal-img-logico {
