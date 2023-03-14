@@ -54,6 +54,7 @@ var endGame = false; //Indica se o jogo está na ultima fase
 var arrayEstrelas = document.getElementById(divEstrelas).getElementsByTagName('img');
 var nPecas = document.getElementById(divPecas);
 var time = null;
+var etapaMax = 40;
 /** FIM VARIAVEIS */
 
 /** FUNCOES DE APOIO */
