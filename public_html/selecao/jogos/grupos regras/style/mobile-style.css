@@ -12,19 +12,19 @@ a {
 
 /* Eliminando dos header e footer */
 
-header.game-header {
+header.game_header {
 
     display: none;
 
 }
 
-footer.footer-grid {
+footer.footer_grid {
 
     display: none;
 }
 
 
-main#main-body {
+main#main_body {
 
     height: 100vh;
     width: 100vw;
@@ -32,7 +32,7 @@ main#main-body {
 
 }
 
-section.game-section {
+section.game_section {
 
     grid-column: 1;
     height: 100%;
@@ -42,7 +42,7 @@ section.game-section {
 
 /* Ajustes do tutorial  */
 
-div#box-instrucoes {
+div#box_instrucoes {
 
     width: 100%;
     height: fit-content;
@@ -51,7 +51,7 @@ div#box-instrucoes {
 
 }
 
-div.estrela-container {
+div.estrela_container {
 
     margin: 0px 2px;
     font-size: 12px;
@@ -62,13 +62,13 @@ img.estrela {
     width: 20px;
 }
 
-img#mascote-instrucoes {
+img#mascote_instrucoes {
 
     width: 70px;
     align-self: center;
 }
 
-article#textbox-tutorial { /* AQUI */
+article#textbox_tutorial { /* AQUI */
 
     width: auto;
     height: fit-content;
@@ -76,7 +76,7 @@ article#textbox-tutorial { /* AQUI */
     padding: 5px 5px 5px 15px;
 }
 
-div.conteiner-botoes {
+div.conteiner_botoes {
 
     margin: 0px;
     display: flex;
@@ -85,7 +85,7 @@ div.conteiner-botoes {
 
 }
 
-div.botoes-janela { /* AQUI */
+div.botoes_janela { /* AQUI */
     width: 50%;
     margin: 0px;
     margin-top: 8px;
@@ -97,7 +97,7 @@ div#botoes-de-audio{ /* AQUI */
     margin: 0px;
 } 
 
-span#span-fullscreen {
+span#span_fullscreen {
 
     width: 10px;
     height: 23px;
@@ -107,7 +107,7 @@ span#span-fullscreen {
     border: 1px solid white;
 }
 
-a#span-textbox {
+a#span_textbox {
 
     width: 10px;
     height: 23px;
@@ -120,7 +120,7 @@ a#span-textbox {
     border: 1px solid white;
 }
 
-a#span-textbox i {
+a#span_textbox i {
 
     margin-left: -5px;
 }
@@ -232,7 +232,7 @@ span#modal-close-button {
 
 @media (min-width: 530px) and (max-width: 619px) {
 
-    p#texto-textbox {
+    p#texto_textbox {
 
         font-size: 10px;
     }
