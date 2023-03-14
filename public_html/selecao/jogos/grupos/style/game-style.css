@@ -774,6 +774,10 @@ section#intDrop img.pequeno {
 
 }
 
+.drag .game-img .pequeno {
+    width: 1000px;
+}
+
 
 section#drop1 img.draggable-mirror.pequeno,
 section#drop2 img.draggable-mirror.pequeno {
