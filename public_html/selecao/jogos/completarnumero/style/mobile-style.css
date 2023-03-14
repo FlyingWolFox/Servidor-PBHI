@@ -12,19 +12,19 @@ a {
 
 /* Eliminando dos header e footer */
 
-header.game-header {
+header.game_header {
     
     display: none;
 
 }
 
-footer.footer-grid {
+footer.footer_grid {
 
     display: none;
 }
 
 
-main#main-body {
+main#main_body {
 
     height: 100vh;
     width: 100vw;
@@ -32,7 +32,7 @@ main#main-body {
 
 }
 
-section.game-section {
+section.game_section {
 
     height: 100%;
     grid-column: 1/2;
@@ -42,14 +42,14 @@ section.game-section {
 
 /* Ajustes do tutorial  */
 
-div#box-instrucoes {
+div#box_instrucoes {
 
     width: 100%;
     height: fit-content;
     padding: 0px;
 }
 
-div.estrela-container{
+div.estrela_container{
 
     margin: 0px 2px;
     font-size: 12px;
@@ -60,13 +60,13 @@ img.estrela {
     width: 20px;
 }
 
-img#mascote-instrucoes {
+img#mascote_instrucoes {
 
     width: 70px;
     align-self: center;
 }
 
-article#textbox-tutorial { 
+article#textbox_tutorial { 
 
     width: auto;
     height: fit-content;
@@ -74,7 +74,7 @@ article#textbox-tutorial {
     padding: 5px 5px 5px 15px;
 }
 
-div.conteiner-botoes {
+div.conteiner_botoes {
 
     margin: 0px;
     display: flex;
@@ -83,7 +83,7 @@ div.conteiner-botoes {
 
 }
 
-div.botoes-janela {
+div.botoes_janela {
     width: 50%;
     margin: 0px;
     margin-top: 8px;
@@ -95,7 +95,7 @@ div#botoes-de-audio{
     margin: 0px;
 } 
 
-span#span-fullscreen {
+span#span_fullscreen {
 
     width: 10px;
     height: 23px;
@@ -105,7 +105,7 @@ span#span-fullscreen {
     border: 1px solid white;
 }
 
-a#span-textbox {
+a#span_textbox {
 
     width: 10px;
     height: 23px;
@@ -118,7 +118,7 @@ a#span-textbox {
     border: 1px solid white;
 }
 
-a#span-textbox i {
+a#span_textbox i {
 
     margin-left: -5px;
 }
@@ -158,7 +158,7 @@ div.slot img {
     width: 98%;
 }
 
-section#container-nucleo {
+section#container_nucleo {
 
     width: 80%;
     height: fit-content;
@@ -178,7 +178,7 @@ section#container-nucleo {
 }
 
 
-section#container-sequencia {
+section#container_sequencia {
     
     width: 80%;
     height: 45px;
@@ -195,7 +195,7 @@ button#botao-resultado {
     font-size: 1em;
 }
 
-section#container-formas {
+section#container_formas {
     width: 100%;
     height: fit-content;
     min-height: 45px;
@@ -266,7 +266,7 @@ span#modal-close-button{
 
 @media (min-width: 530px) and (max-width: 619px){
 
-    section#container-nucleo {
+    section#container_nucleo {
         
         width: 90%;
         height: 70px;
@@ -276,7 +276,7 @@ span#modal-close-button{
      
     }
 
-    section#container-formas {
+    section#container_formas {
 
         width: 100%;
         height: 80px;
@@ -290,7 +290,7 @@ span#modal-close-button{
         padding: 10px 20px;
     }
 
-    section#container-nucleo div.slot img { 
+    section#container_nucleo div.slot img { 
 
         width: 86%;
 
@@ -302,7 +302,7 @@ span#modal-close-button{
 
 @media (min-width: 620px) and (max-width: 719px) {
 
-    section#container-nucleo {
+    section#container_nucleo {
         
         width: 90%;
         height: 80px;
@@ -311,7 +311,7 @@ span#modal-close-button{
      
     }
 
-    section#container-formas {
+    section#container_formas {
 
         width: 100%;
         height: 90px;
@@ -325,7 +325,7 @@ span#modal-close-button{
         padding: 10px 20px;
     }
 
-    section#container-nucleo div.slot img{
+    section#container_nucleo div.slot img{
 
         width: 87%;
     }
@@ -337,7 +337,7 @@ span#modal-close-button{
 
 @media (min-width: 720px) and (max-width: 884px) {
 
-    section#container-nucleo {
+    section#container_nucleo {
         
         width: 90%;
         height: 100px;
@@ -347,7 +347,7 @@ span#modal-close-button{
      
     }
 
-    section#container-formas {
+    section#container_formas {
 
         width: 100%;
         height: 100px;
@@ -355,7 +355,7 @@ span#modal-close-button{
         min-height: unset;
     }
 
-    section#container-nucleo img.game-img {
+    section#container_nucleo img.game-img {
 
         width: 8%;
         max-width: unset;    
@@ -367,7 +367,7 @@ span#modal-close-button{
         padding: 10px 20px;
     }
 
-    section#container-nucleo div.slot img { 
+    section#container_nucleo div.slot img { 
 
         width: 98%;
 
@@ -379,7 +379,7 @@ span#modal-close-button{
 
 @media (min-width: 885px) and (max-width: 900px) {
 
-    section#container-nucleo {
+    section#container_nucleo {
         
         width: 90%;
         height: 110px;
@@ -389,14 +389,14 @@ span#modal-close-button{
      
     }
 
-    section#container-nucleo img.game-img{
+    section#container_nucleo img.game-img{
 
         width: 8%;
         max-width: unset;
         
     }
 
-    section#container-formas {
+    section#container_formas {
 
         width: 100%;
         height: 125px;
@@ -410,7 +410,7 @@ span#modal-close-button{
         padding: 10px 25px;
     }
 
-    section#container-nucleo div.slot img { 
+    section#container_nucleo div.slot img { 
 
         width: 99%;
 
