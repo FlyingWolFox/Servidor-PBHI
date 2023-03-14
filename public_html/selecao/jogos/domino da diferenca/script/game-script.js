@@ -41,8 +41,11 @@ const contornoEnum = Object.freeze({
 const urlParam = new URLSearchParams(window.location.search)
 console.log('Fase:'+ urlParam.get("fase"))
 const faseInicial = urlParam.get("fase")
-if (faseInicial == null){
+console.log(' A fase inicial chega como:' + faseInicial);
+if (faseInicial === null){
+	console.log('passa pelo if')
 	var etapaAtual = 0;
+	console.log('A etapa atual agora é(dentro do if):' + etapaAtual)
 }
 else{
 	var etapaAtual = parseInt(faseInicial)-1
@@ -53,7 +56,6 @@ var arrayNucleo = []; //Array para guardar o nucleo
 var arraySequencia = []; //Array para guardar a sequecia
 var arrayOpcoes = []; //Array contendo todos os elementos gerados nas opcoes
 var tamNucleo; //Quantos elementos o nucleo possui
-var etapaAtual = parseInt(localStorage.fase_atual) - 1;
 var estrela = 0; //nível de estrelas do jogador 
 var arrayEstrelas = document.getElementById(divEstrelas).getElementsByTagName('img');
 var erros = [];
@@ -66,30 +68,16 @@ var botaoOk = document.getElementById('botao-proximo-info');
 
 /** FUNCOES DE APOIO */
 
-function getFasesPorAno(){
-	switch(ano){
-		case "Primeiro ano":
-			etapaMax = 8;
-			break;
-		case "Segundo ano":
-			etapaMax = 12;
-			break;
-		case "Terceiro ano":
-			etapaMax = 15;
-			break;
-		case "Quarto ano":
-			etapaMax = 18;
-			break;
-		case "Quinto ano":
-			etapaMax = 30;
-			break;
-		case "Sexto ano":
-			etapaMax = 30;
-			break;			
+async function getFasesPorAno(){
+	var resposta = await fetch("/getAtividade")
+	const atividade = await (resposta.json())
+	console.log('Atividade: '+ JSON.stringify(atividade))	
+	if (atividade) {
+		etapaMax = atividade[0].fase_fim
 	}
 	console.log("esse eh o numero maximo de fases desse ano: " + etapaMax);
 }
-//getFasesPorAno();
+getFasesPorAno();
 
 function getRandomIntInclusive(min, max) {
 	min = Math.ceil(min);
@@ -889,7 +877,7 @@ function check() { //Verifica se acertou os elementos
             }
 		}
 	}				
-	if(endGame == false && etapaAtual <= etapaMax) {
+	if (endGame == false && etapaAtual < etapaMax-1) {
 		if (correto) {
 			textoAcerto.innerHTML = "Você acertou! Fase concluída.";
 			modalAcerto.style.display = 'block';

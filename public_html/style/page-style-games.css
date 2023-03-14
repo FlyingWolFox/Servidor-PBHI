@@ -40,20 +40,21 @@ div.modal p {
   font-size: 1.25em;
 }
 div.modal div.modal_content {
-  width: 34%;
-  height: 184px;
+  width: 400px;
+  /* height: 350px; */
   gap: 20px;
   min-width: 250px;
   border: 7px solid rgb(101, 179, 53);
   border-radius: 10px;
-  padding: 20px;
+  padding: 15px;
   background-color: #fefefe;
   color: #1C4459;
   text-align: justify;
   display: flex;
-  justify-content: space-evenly;
+  flex-direction: column;
+  justify-content: center;
   align-items: center;
-  margin-left: auto;
+  /* margin-left: auto; */
 }
 
 div#modalAcerto .modal-img-logico {
@@ -97,20 +98,25 @@ button#botao-proximo:hover {
   background-color: #417222;
 }
 
+div#modal_content {
+  border-color: #FDC23E;
+}
+
 div.modal div.modal_content div#modal_button_box {
   width: 100%;
   display: flex;
   justify-content: center;
   gap: 20px;
-  margin-top: 20px;
+  margin-top: 10px;
 }
+
 div.modal div.modal_content div#modal_button_box button#botao_info_close {
   width: 35%;
   border: none;
   border-radius: 10px;
   padding: 10px;
-  background-color: #9DCC38;
-  color: #fff;
+  /* background-color: #FDC23E !important; */
+  color: #fff !important;
   text-transform: uppercase;
   font-weight: bold;
 }
@@ -120,7 +126,8 @@ div.modal div.modal_content div#modal_button_box button#botao_info_close:hover {
 div.modal div.modal_content div#modal_button_box button#botao_de_voz {
   width: 25%;
   padding: 10px;
-  background-color: #9DCC38;
+  /* background-color: #FDC23E !important; */
+  color: #fff !important;
   border-radius: 10px;
   border: none;
   text-transform: uppercase;
@@ -181,7 +188,7 @@ main#main_body section#game_section {
   width: 100%;
   min-height: calc(100vh - 85px - 75px);
   display: grid;
-  grid-template-rows: 0% calc(100% - 100px);
+  grid-template-rows: fit-content(0) calc(100% - 100px);
   border-radius: 10px;
   background-color: #fff;
   box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.25);
@@ -277,18 +284,24 @@ main#main_body section#game_section header#box_instrucoes div#conteiner_botoes .
   cursor: pointer;
 }
 main#main_body section#game_section header#box_instrucoes div#conteiner_botoes div.botoes_janela {
-  width: 100%;
   margin-top: -50px;
+  margin-left: 30px;
   display: flex;
-  flex-wrap: wrap;
-  justify-content: space-evenly;
 }
 main#main_body section#game_section header#box_instrucoes div#conteiner_botoes div.botoes_janela span#span_fullscreen {
   background-color: #606060;
+  width: 38px;
+  height: 38px;
+  border: 3px solid white;
 }
 main#main_body section#game_section header#box_instrucoes div#conteiner_botoes div.botoes_janela a#span_textbox {
   text-decoration: none;
   background-color: #E25A40;
+  width: 38px;
+  height: 38px;
+  border: 3px solid white;
+  margin-left: 20px;
+
 }
 main#main_body section#game_section header#box_instrucoes div#conteiner_botoes span#span_about {
   width: 35px;
@@ -306,7 +319,6 @@ main#main_body section#game_section main#game_content {
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  margin-top: 100px;
 }
 main#main_body section#game_section main#game_content div#box_central {
   width: 100%;

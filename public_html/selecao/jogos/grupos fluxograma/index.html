@@ -6,7 +6,7 @@
 <meta charset="UTF-8">
 
 <head>
-    <title>Tem Lógica - Jogo do fluxograma</title>
+    <title>Tem Lógica - Fluxograma</title>
 
     <link rel="shortcut icon" href="../img/favicon.ico" />
 
@@ -179,7 +179,7 @@
                             </div>
                         </div>
                     </section>
-                    <button id="botao-resultado" onclick="">TERMINEI!</button>
+                    <button id="botao-resultado" onclick="check()">TERMINEI!</button>
                     <div class="formas-titulo">
                         <p class='container-formas-titulo'>Peças Disponíveis</p>
                         <section id="container-formas">
@@ -522,7 +522,7 @@
     function audioModalAutomatico() {
         synth.cancel();
 
-        let textoModal = 'Olá, nos encontramos mais uma vez, desta vez vou te mostrar um jogo bem legal, o Jogo de Completar! O Jogo de Completar mostra uma sequência de figuras com algumas delas faltando e a sua tarefa é identificar quais peças estão faltando e arrastar para a sequência de figuras acima, depois é só clicar em TERMINEI!!';
+        let textoModal = 'Olá novamente, tudo bem? Tenho outro jogo bem bacana pra te apresentar, o Jogo do Fluxograma, nele a gente te mostra duas caixas diferentes que vão servir para montar o fluxograma que consiga responder o problema. Ao lado de cada caixa, tem um balão que representa a regra desta caixa, por exemplo: um quadrado significa que naquela caixa só podem ser colocadas figuras quadradas. Já uma peça de quebra-cabeça azul, quer dizer que você só pode colocar figuras azuis. As outras regras eu tenho certeza que você consegue descobrir sozinho(a) 😉, depois que você montar o fluxograma para a fase, é só clicar em TERMINEI!!';
         let utterance = new SpeechSynthesisUtterance(textoModal);
 
         if (estadoDoAudio) {

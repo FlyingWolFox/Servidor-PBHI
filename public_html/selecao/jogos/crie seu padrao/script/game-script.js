@@ -48,7 +48,6 @@ var arraySequencia = []; //Array para guardar a sequecia
 var arrayOpcoes = []; //Array contendo todos os elementos gerados nas opcoes
 var tamNucleo; //Quantos elementos o nucleo possui
 var tamSeq = 0; //Tamanho da sequência do núcleo
-var etapaAtual = parseInt(localStorage.fase_atual) - 1;
 var cliquei = false; // var que verifica se a crianca ja viu a sequencia que escolheu
 var estrela = 0; //nível de estrelas do jogador 
 var endGame = false; //Indica se o jogo está na ultima fase
@@ -58,6 +57,16 @@ var time = null;
 /** FIM VARIAVEIS */
 
 /** FUNCOES DE APOIO */
+async function getFasesPorAno(){
+	var resposta = await fetch("/getAtividade")
+	const atividade = await (resposta.json())
+	console.log('Atividade: '+ JSON.stringify(atividade))	
+	if (atividade) {
+		etapaMax = atividade[0].fase_fim
+	}
+	console.log("esse eh o numero maximo de fases desse ano: " + etapaMax);
+}
+getFasesPorAno();
 // function allowDrop(event){
 // 	if (event.target.getAttribute("droppable") == "false"){
 // 		event.dataTransfer.dropEffect = "none"; // dropping is not allowed
@@ -703,7 +712,7 @@ function adicionaPadrao(){
    
 	}
 	else{
-		if(!endGame){
+		if(!endGame && etapaAtual < etapaMax-1){
 			botaoTerminei.innerHTML = "PRÓXIMA";
 			botaoTerminei.removeEventListener('click', adicionaPadrao);
 			botaoTerminei.addEventListener('click', eventoResultado);
@@ -802,7 +811,7 @@ function check(event) { //Verifica se acertou os elementos
 	var modalFim = document.getElementById('modalFim')
 	var btnReiniciar = document.getElementById('botao-restart')
 
-	if(endGame){
+	if (endGame || etapaAtual == etapaMax-1) {
 		console.log(cliquei)
 		if(!cliquei){
 			adicionaPadrao();

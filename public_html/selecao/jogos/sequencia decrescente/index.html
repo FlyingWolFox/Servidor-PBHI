@@ -5,7 +5,7 @@
 <meta name = "application-name" content = "SEQUENCIA DESCRESCENTE">
 <head>
 
-    <title>Tem Lógica - Jogo da Sequência</title>
+    <title>Tem Lógica - Sequência Decrescente</title>
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -152,7 +152,7 @@
                             <!-- Seção onde será inserida a sequencia -->
                         </section>
 
-                        <button id="botao-resultado" onclick="resetaTimeStamps()">Terminei!</button>
+                        <button id="botao-resultado" onclick="">Terminei!</button>
                     </div>
 
                     <div class="formas-titulo">
@@ -240,7 +240,7 @@
 
 
         async function postData(url = '', origem, destino, data_hora) {
-            var nomeJogo  = document.getElementById('title_jogo').getAttribute('nome_real');
+            var nomeJogo  = document.getElementById('title_jogo').getAttribute('nome-real');
             var faseAtual = parseInt(document.getElementById('textbox_numero_fase').innerHTML);
             // Default options are marked with *
             var dadosInteracao= {

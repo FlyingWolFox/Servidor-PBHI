@@ -64,29 +64,16 @@ console.log('esse eh o ano:' + ano);
 
 /** FUNCOES DE APOIO */
 
-function getFasesPorAno(){
-	switch(ano){
-		case "Primeiro ano":
-			etapaMax = 7;
-			break;
-		case "Segundo ano":
-			etapaMax = 9;
-			break;
-		case "Terceiro ano":
-			etapaMax = 11;
-			break;
-		case "Quarto ano":
-			etapaMax = 13;
-			break;
-		case "Quinto ano":
-			etapaMax = 20;
-			break;
-		case "Sexto ano":
-			etapaMax = 20;
-			break;			
+async function getFasesPorAno(){
+	var resposta = await fetch("/getAtividade")
+	const atividade = await (resposta.json())
+	console.log('Atividade: '+ JSON.stringify(atividade))	
+	if (atividade) {
+		etapaMax = atividade[0].fase_fim
 	}
 	console.log("esse eh o numero maximo de fases desse ano: " + etapaMax);
 }
+getFasesPorAno();
 
 /*select jogador.nome as "Aluno", partida.nome_jogo as "Jogos Completados" from partida 
      inner join jogador on jogador.id_jogador = partida.id_jogador
@@ -733,7 +720,7 @@ function check() { //Verifica se acertou os elementos
 		}
 	}
 
-	if(endGame == false && etapaAtual <= etapaMax) {
+	if (endGame == false && etapaAtual < etapaMax-1) {
 		if (correto) {
 			textoAcerto.innerHTML = "Você acertou! Fase concluída.";
 			modalAcerto.style.display = 'block';

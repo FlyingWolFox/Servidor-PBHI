@@ -165,7 +165,7 @@
                             <section id="container_sequencia" class="game-container dropzone grid">
                                 <!-- Lugar onde as imagens são dropadas -->
                             </section>
-                            <button id="botao-resultado" onclick="check(), resetaTimeStamps()">TERMINEI!</button>
+                            <button id="botao-resultado" onclick="check()">TERMINEI!</button>
                         </section>
                     </div>
 
@@ -181,7 +181,7 @@
                     <!-- O Modal do resultado positivo-->
                     <div id="modalAcerto" class="modal">
                         <!-- Conteúdo do Modal -->
-                        <div class="modal_content">
+                        <div class="modal_content" id="modal_acerto_repeticao">
                             <img class="modal-img-logico" src="../img/modal/logico-contente.svg" alt="">
                             <div class="modal-text-content">
                                 <h2 class="titulo-modal">RESULTADO</h2>
@@ -263,7 +263,7 @@
     <script src="./script/gameScript.js"></script>
     <script>
         var containerFormas = document.getElementById('container_formas');
-        var containerSequencia = document.getElementById('container_nucleo');
+        var containerSequencia = document.getElementById('container_sequencia');
         var origem = '';
         var destino = '';
         async function postData(url = '', origem, destino, data_hora) {

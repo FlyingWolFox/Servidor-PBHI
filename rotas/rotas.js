@@ -5,36 +5,33 @@ const express = require('express');
 const routerDefault = express.Router()
 const sql = require("../sql.js");
 const sessao = require('../session');
-
-const nanoid = require('nanoid').nanoid;
 const useragent = require('express-useragent');
-
+const ValidationError = require('../erros/validationError.js');
+const AppError = require('../erros/appError.js');
+const errorCodes = require('../erros/codeErrors.js');
+const tryCatch = require('../erros/tryCatch.js');
 
 
 routerDefault.use(useragent.express());
 
 
-routerDefault.post('/contato.html', async (req, res)=>{
-    try{
+routerDefault.post('/contato.html', tryCatch(async (req, res) =>{
      const nome = req.body.nome;
      const email = req.body.email;
      const texto = req.body.texto;
      if(!nome || !email){
-         return res.sendStatus(400);
+        throw new ValidationError("Preencha todos os campos!", 400);
      }
      const contato = await sql.insertContato(nome, email, texto);
      if(contato){
          console.log(contato);
-         return res.redirect('/');
-     }
-    } catch(e){
-        console.log(e);
-        res.sendStatus(400);
-    }
-     
-})    
-
-routerDefault.post('/interacoes', async (req, res) =>{
+         return res.status(201).redirect('/');
+     }else{
+        throw new AppError(errorCodes.ERRO_AO_CRIAR_USUARIO,"Erro ao criar usuário", 400);
+     }    
+    })
+);
+routerDefault.post('/interacoes', tryCatch(async (req, res) =>{
     const origem = req.body.origem;
     const destino = req.body.destino;
     const data_hora = req.body.data_hora;
@@ -42,16 +39,19 @@ routerDefault.post('/interacoes', async (req, res) =>{
     const id_jogador = req.session.id_jogador;
     const nomeJogo = req.body.nomeJogo;
     const faseAtual = req.body.faseAtual;
+    console.log('Estou em interacoes e esse eh o id_jogador: ' + req.session.id_jogador);
     if(req.body){
-        await sql.insertInteracao(origem, destino, tipoLigacao, data_hora, id_jogador, nomeJogo, faseAtual);
-        res.status(200).json('sucesso!');
+       const id_interacao = await sql.insertInteracao(origem, destino, tipoLigacao, data_hora, nomeJogo, faseAtual, id_jogador);
+        if(id_interacao === undefined || id_interacao === null){
+            throw new AppError(errorCodes.ERRO_AO_SALVAR_PARTIDA,"Erro ao salvar partida", 400)
+        }
+        return res.status(201).json('sucesso!');
     }else{
-        res.status(400).json('Algo deu errado');
+        throw new AppError(errorCodes.ERRO_AO_SALVAR_PARTIDA,"Erro ao salvar partida", 400)
     }
 })
-
-
-routerDefault.post('/partida', async (req,res)=>{
+);
+routerDefault.post('/partida', tryCatch(async (req, res) =>{
         const nome_jogo = req.body.nomeJogo;
         const faseAtual = req.body.faseAtual;
         const tempoDeJogo = req.body.tempoDeJogo;
@@ -60,109 +60,75 @@ routerDefault.post('/partida', async (req,res)=>{
         const data_hora = req.body.data_hora;
         console.log(req.body);
         if(req.body){
-        await sql.insertPartida(nome_jogo,id_jogador, tempoDeJogo,data_hora, sucesso, faseAtual);
-         console.log(req.body);
-         //EscreverJSON(partida);
-         res.sendStatus(201);
-     } else{
-        res.sendStatus(404);
+            const id_partida =  await sql.insertPartida(nome_jogo,id_jogador, tempoDeJogo,data_hora, sucesso, faseAtual);
+            console.log("ESSE EH O ID DA PARTIDA: " + id_partida);
+            if(id_partida === undefined || id_partida === null){
+                throw new AppError(errorCodes.ERRO_AO_SALVAR_PARTIDA,"Erro ao salvar partida", 400)
+            }
+        return res.status(201).json('sucesso!');
+     }else{
+        throw new AppError(errorCodes.ERRO_AO_SALVAR_PARTIDA, "Erro ao salvar partida", 400)
     }
 })
-
-
-routerDefault.post('/nome', async (req,res) => {
+);
+routerDefault.post('/nome', tryCatch(async (req, res) =>{
+    if(req.session.id_atividade){
+        delete req.session.id_atividade;
+    }
     req.session.regenerate((e) => {})
     const nome = req.body.nome;
     const ano = req.body.ano;
-
-    var erros = [];
-
     if(nome == ""){
-        erros.push({texto: "Nome não pode ser nulo"})
+        throw new ValidationError('Nome não pode ser nulo', 400);
     }
-
     if(nome > 30){
-        erros.push({texto: "Nome não pode ter mais de 30 caracteres"})
+        throw new ValidationError("Nome não pode ter mais de 30 caracteres", 400);
     }
-
-    if(erros.length > 0){
-        console.log(erros)
-        res.json(erros)
-    }else{
         const id_jogador =  await sql.addAluno(nome, ano);
         req.session.id_jogador = id_jogador;
         req.session.nome = nome;
         req.session.ano = ano;
         req.session.logado = true;
         sessao.copySession(req);
-        res.json();
-    }
-   
+        return res.status(201).json();
 })
+);
 
-routerDefault.get('/getTentativas', async (req,res) => {
-    let fields = await sql.getTentativas();
-    if(fields){
-        res.json(fields);
-    }
-    else console.log("deu merda");
-})
-routerDefault.get('/getNaoFinalizados', async (req,res) => {
-    let fields = await sql.getNaoFinalizados();
-    if(fields){
-        res.json(fields);
-    }
-    else console.log("deu merda");
-})
-routerDefault.get('/getTempoExpirado', async (req,res) => {
-    let fields = {"nome": "Mariana"}
-    if(fields){
-        res.json(fields);
-    }
-    else console.log("deu merda");
-})
-routerDefault.get('/getMelhoresJogadores', async (req,res) => {
-    let fields = {"nome": "Vidal"}
-    if(fields){
-        res.json(fields);
-    }
-    else console.log("deu merda");
-})
-routerDefault.get('/getTaxaAcerto', async (req,res) => {
-    let fields = await sql.getTaxaAcerto();
-    if(fields){
-        res.json(fields);
-    }
-    else console.log("deu merda");
-})
-routerDefault.get('/getAllPartidas', async (req,res) => {
-    let fields = await sql.getAllPartidas();
-    if(fields){
-        res.json(fields); 
-    }
-    else console.log("deu merda");
-})
 routerDefault.get('/getsession',(req,res) => {
-    res.json(sessao.getSession(req))
+   return res.json(sessao.getSession(req))
 })
 routerDefault.get('/getstatus',(req,res) => {
-    res.json(sessao.getStatus(req))
+    return res.json(sessao.getStatus(req))
 })
 routerDefault.get('/changeStatus',(req,res)=>{
     req.session.logado = false;
-   res.json("");
+  return res.json("");
 })
 routerDefault.get('/logout',  async (req, res)=>{
-    
-   res.json(sessao.changeStatus(req))
+   return res.json(sessao.changeStatus(req))
 })
 routerDefault.get('/getJogos', async (req, res) => {
    const jogos = await sql.getJogos();
-    res.json(jogos);
+    return res.json(jogos);
 })
+routerDefault.get('/getAtividade', tryCatch(async (req, res) =>{
+    console.log('estou aqui get atividade')
+    if (req.session.id_atividade){
+        const atividade = await sql.getAtividadeById(req.session.id_atividade);
+        console.log(atividade)
+        if(atividade === undefined){
+            return res.status(200).send(false);
+        }
+        return res.status(200).json(atividade);
+    }
+    else{
+        return res.status(200).send(false);
+    }
+})
+);
 
 routerDefault.all('*', (req,res)=>{ 
-     res.status(404).send('<h1>recurso não encontrado</h1');
+    return res.status(404).send('<h1>Recurso não encontrado</h1');
 })
 
 module.exports = routerDefault

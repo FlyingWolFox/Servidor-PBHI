@@ -6,7 +6,7 @@
 
 <head>
 
-    <title>Tem Lógica - Dominó da diferença</title>
+    <title>Tem Lógica - Dominó da Diferença</title>
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -158,7 +158,7 @@
                         <section id="container_sequencia" class="game-container dropzone grid">
                             <!-- Lugar onde as imagens são dropadas -->
                         </section>
-                        <button id="botao-resultado" onclick="check(), resetaTimeStamps()">TERMINEI!</button>
+                        <button id="botao-resultado" onclick="check()">TERMINEI!</button>
                     </div>
 
                     <div class="formas-titulo">
@@ -184,7 +184,7 @@
                     <div id="modalInfoPeca" class="modal">
                         <!-- Conteúdo do Modal -->
                         <div class="modal-content-info">
-                            <span id="modal-close-button" class="close">&times;</span>
+                            <span id="modal-close-button" class="close"></span>
                             <img id="img-info-peca" class="modal-img-info" src="" alt="">
                             <div class="modal-text-content-info">
                                 <h2 class="titulo-modal-info">CARACTERÍSTICAS DA PEÇA</h2>
@@ -257,7 +257,7 @@
 
 
         async function postData(url = '', origem, destino, data_hora) {
-            var nomeJogo  = document.getElementById('title_jogo').getAttribute('nome_real');
+            var nomeJogo  = document.getElementById('title_jogo').getAttribute('nome-real');
             var faseAtual = parseInt(document.getElementById('textbox_numero_fase').innerHTML);
             // Default options are marked with *
             var dadosInteracao= {
@@ -295,6 +295,7 @@
                 containerSequencia.classList.remove('draggable-dropzone--occupied');
             }
             origem = 'INÍCIO';
+
         });
         droppableSequencia.on('drag:stop', async ()=>{ 
             if(droppableSequencia.lastDropzone == null){
