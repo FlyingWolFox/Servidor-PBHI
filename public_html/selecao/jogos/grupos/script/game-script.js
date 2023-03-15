@@ -1380,6 +1380,7 @@ function background(caixas){
     var dropEsquerda = document.getElementById(dropPrimeiro);
     var dropMeio = document.getElementById(dropSegundo);
     var dropDireita = document.getElementById(dropTerceiro);
+    var restricao2 = document.getElementById(divRestricao2);
 
     /* Gerar imagens do fundo */
     if(caixas == 2) {
@@ -1391,7 +1392,7 @@ function background(caixas){
         dropEsquerda.classList.remove('drop-meio-ativo');
         dropMeio.classList.remove('drop-meio-ativo');
         dropDireita.classList.remove('drop-meio-ativo');
-
+        restricao2.setAttribute('style', 'justify-content: start;');
     } else {
 
         dropEsquerda.setAttribute('style', 'grid-column: 2/4; grid-row: 1/3;');
@@ -1401,7 +1402,7 @@ function background(caixas){
         dropEsquerda.classList.add('drop-meio-ativo');
         dropMeio.classList.add('drop-meio-ativo');
         dropDireita.classList.add('drop-meio-ativo');
-
+        restricao2.setAttribute('style', 'justify-content: end;');
     }
 }
 
