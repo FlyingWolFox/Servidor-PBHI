@@ -669,7 +669,7 @@ section#caixa-intersecao {
     justify-content: center;
 }
 
-img.img-restricao-esquerda {
+#container-restricao-esquerda img {
 
     width: 80px;
     margin-right: 10px;
@@ -711,7 +711,7 @@ section.restricao-direita {
     row-gap: 10px; */
 }
 
-img.img-restricao-direita {
+#container-restricao-direita img {
 
     width: 80px;
 
@@ -1156,8 +1156,8 @@ div.respostas-titulo {
     /* ==== AJUSTE DAS IMAGENS DE RESTRIÇÃO ESQUEDA E DIREITA ====== */
 
 
-    img.img-restricao-esquerda,
-    img.img-restricao-direita {
+    #container-restricao-esquerda img,
+    #container-restricao-direita img {
 
         width: 50px;
     }
@@ -1262,8 +1262,8 @@ div.respostas-titulo {
     /* ==== AJUSTE DAS IMAGENS DE RESTRIÇÃO ESQUEDA E DIREITA ====== */
 
 
-    img.img-restricao-esquerda,
-    img.img-restricao-direita {
+    #container-restricao-esquerda img,
+    #container-restricao-direita img {
 
         width: 80px;
     }
