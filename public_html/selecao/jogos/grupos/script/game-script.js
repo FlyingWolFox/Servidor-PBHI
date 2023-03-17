@@ -220,7 +220,7 @@ function getRestrictScr(estado, classificação, valor) {   //Cria a src a parti
         srcAlt += 'Não podem peças que ';
     }
     else{  
-        srcAlt += 'Podem peças que ';
+        srcAlt += 'Só podem peças que ';
     }
 
     switch (classificação) {
