@@ -1934,7 +1934,7 @@ function game() {
         divCaixaEsquerda.classList.remove('drop-meio-ativo');
         divCaixaIntersecao.classList.remove('drop-meio-ativo');
         divCaixaDireita.classList.remove('drop-meio-ativo');
-        divRestricaoDireita.setAttribute('style', 'margin-top: 0px;');
+        divRestricaoDireita.setAttribute('style', 'grid-row: 1/4;');
     } else {
         divCaixaEsquerda.setAttribute('style', 'grid-column: 2/4; grid-row: 1/3;');
         divCaixaDireita.setAttribute('style', 'grid-column: 3/5; grid-row: 2/4; align-content: flex-end');
@@ -1944,7 +1944,7 @@ function game() {
         divCaixaIntersecao.classList.add('drop-meio-ativo');
         divCaixaDireita.classList.add('drop-meio-ativo');
         divCaixaDireita.setAttribute('align-content', 'flex-end');
-        divRestricaoDireita.setAttribute('style', 'margin-top: 45px;');
+        divRestricaoDireita.setAttribute('style', 'grid-row: 2/4;');
     }
 
     //implementando interrogação
