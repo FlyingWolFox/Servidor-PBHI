@@ -816,7 +816,7 @@ function stagePreprocessor(input) {
 
 
             if (rejectionMode === BOTH_SIDES && rejQty < 2) {
-                console.error('Modo de rejeição BOTH_SIDES requer pelo menos 2 características rejeitadas: ' + traitClass, '\nUsando 2.');
+                console.error('Modo de rejeição BOTH_SIDES requer pelo menos 2 características rejeitadas: ', traitClass, '\nUsando 2.');
                 rejQty = 2;
             }
         }
