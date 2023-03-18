@@ -1267,9 +1267,9 @@ function game() {
     let acceptedRestrictionsRight = new TraitContainer();
     let rejectedRestrictionsRight = new TraitContainer();
 
-    let leftChoosenSets = [];
-    let rightChoosenSets = [];
-    let middleChoosenSets = [];
+    let leftChosenSets = [];
+    let rightChosenSets = [];
+    let middleChosenSets = [];
 
     if (!intersecaoAtiva) {
         // níveis iniciais, eles devem ter somente uma classe de restrição que deve sempre ser aceita
@@ -1288,13 +1288,13 @@ function game() {
             rightSet = new TraitSetContainer().add(classe, right);
 
         for (const [classe, qty] of currentStage.randomLimits.entries()) {
-            let choosenTraits = pickRandom([...classe], qty);
-            leftSet.add(classe, ...choosenTraits);
-            rightSet.add(classe, ...choosenTraits);
+            let chosenTraits = pickRandom([...classe], qty);
+            leftSet.add(classe, ...chosenTraits);
+            rightSet.add(classe, ...chosenTraits);
         }
 
-        leftChoosenSets = leftSet.toSingleSubsets();
-        rightChoosenSets = rightSet.toSingleSubsets();
+        leftChosenSets = leftSet.toSingleSubsets();
+        rightChosenSets = rightSet.toSingleSubsets();
 
     } else {
         // distribuir as restrições entre as caixas
@@ -1390,18 +1390,18 @@ function game() {
         }
 
         for (const [rejClass, rejQty] of currentStage.rejectedClasses[ONE_SIDE.WITH_ACCEPTED]) {
-            let choosenTraits = pickRandom([...rejClass], rejQty + 1);
-            let acceptedTrait = choosenTraits.pop();
+            let chosenTraits = pickRandom([...rejClass], rejQty + 1);
+            let acceptedTrait = chosenTraits.pop();
 
             //                só corrige se já houve uma inserção
             if (oswaToFix && (oswaRejOnSmallerBox || oswaRejOnBiggerBox) ) {
                 if (oswaRejOnSmallerBox) {
-                    smallerBoxRejected.insert(rejClass, ...choosenTraits);
+                    smallerBoxRejected.insert(rejClass, ...chosenTraits);
                     biggerBoxAccepted.insert(rejClass, acceptedTrait);  // adicionar a restrição aceita na outra caixa
                     smallerBoxSize += rejQty;
                     biggerBoxSize += 1;
                 } else {
-                    biggerBoxRejected.insert(rejClass, ...choosenTraits);
+                    biggerBoxRejected.insert(rejClass, ...chosenTraits);
                     smallerBoxAccepted.insert(rejClass, acceptedTrait);  // adicionar a restrição aceita na outra caixa
                     biggerBoxSize += rejQty;
                     smallerBoxSize += 1;
@@ -1415,13 +1415,13 @@ function game() {
             
             // se a proporção depois da inserção na caixa menor for mais próxima de boxesRatio, inserir na caixa menor
             if (Math.abs(ratioIfInsertOnSmaller - smallerBoxRatio) < Math.abs(ratioIfInsertOnBigger - smallerBoxRatio)) {
-                smallerBoxRejected.insert(rejClass, ...choosenTraits);
+                smallerBoxRejected.insert(rejClass, ...chosenTraits);
                 biggerBoxAccepted.insert(rejClass, acceptedTrait);  // adicionar a restrição aceita na outra caixa
                 smallerBoxSize += rejQty;
                 biggerBoxSize += 1;
                 oswaRejOnSmallerBox = true;
             } else {
-                biggerBoxRejected.insert(rejClass, ...choosenTraits);
+                biggerBoxRejected.insert(rejClass, ...chosenTraits);
                 smallerBoxAccepted.insert(rejClass, acceptedTrait);  // adicionar a restrição aceita na outra caixa
                 biggerBoxSize += rejQty;
                 smallerBoxSize += 1;
@@ -1442,30 +1442,30 @@ function game() {
 
             if (bothNonEmptyFix || oswaFix) {
                 const [rejClass, rejQty] = currentStage.rejectedClasses[ONE_SIDE.NO_ACCEPTED].shift();
-                let choosenTraits = pickRandom([...rejClass], rejQty);
+                let chosenTraits = pickRandom([...rejClass], rejQty);
 
                 // se tem rejeição oswa, as caixas sempre terão tamanho > 0. boxNonZeroFix e oswaFix são mutuamente exclusivos
                 let insertOnSmaller = smallerBoxSize === 0 || oswaRejOnSmallerBox;
                 if (insertOnSmaller) {
-                    smallerBoxRejected.insert(rejClass, ...choosenTraits);
+                    smallerBoxRejected.insert(rejClass, ...chosenTraits);
                     smallerBoxSize += rejQty;
                 } else {
-                    biggerBoxRejected.insert(rejClass, ...choosenTraits);
+                    biggerBoxRejected.insert(rejClass, ...chosenTraits);
                     biggerBoxSize += rejQty;
                 }
             }
         }
         for (const [rejClass, rejQty] of currentStage.rejectedClasses[ONE_SIDE.NO_ACCEPTED]) {
-            let choosenTraits = pickRandom([...rejClass], rejQty);
+            let chosenTraits = pickRandom([...rejClass], rejQty);
             let ratioIfInsertOnSmaller = (smallerBoxSize + rejQty) / (smallerBoxSize + biggerBoxSize + rejQty),
                 ratioIfInsertOnBigger = (smallerBoxSize) / (smallerBoxSize + biggerBoxSize + rejQty);
 
             // se a proporção depois da inserção na caixa menor for mais próxima de boxesRatio, inserir na caixa menor
             if (Math.abs(ratioIfInsertOnSmaller - smallerBoxRatio) < Math.abs(ratioIfInsertOnBigger - smallerBoxRatio)) {
-                smallerBoxRejected.insert(rejClass, ...choosenTraits);
+                smallerBoxRejected.insert(rejClass, ...chosenTraits);
                 smallerBoxSize += rejQty;
             } else {
-                biggerBoxRejected.insert(rejClass, ...choosenTraits);
+                biggerBoxRejected.insert(rejClass, ...chosenTraits);
                 biggerBoxSize += rejQty;
             }
         }
@@ -1474,17 +1474,17 @@ function game() {
         //* não é necessário, pois BOTH_SIDES corrige tudo automaticamente
         //}
         for (const [rejClass, rejQty] of currentStage.rejectedClasses[BOTH_SIDES]) {
-            let choosenTraits = pickRandom([...rejClass], rejQty);
+            let chosenTraits = pickRandom([...rejClass], rejQty);
             // primeiro insere uma restrição rejeitada em cada caixa
-            let smallerTrait = choosenTraits.pop(),
-                biggerTrait = choosenTraits.pop();
+            let smallerTrait = chosenTraits.pop(),
+                biggerTrait = chosenTraits.pop();
             smallerBoxRejected.insert(rejClass, smallerTrait);
             biggerBoxRejected.insert(rejClass, biggerTrait);
             smallerBoxSize += 1;
             biggerBoxSize += 1;
 
             // TODO: calculate how many restrictions can be inserted on each box instead of deciding where to insert for each restriction
-            for (const trait of choosenTraits) {
+            for (const trait of chosenTraits) {
                 // inserir cada característica uma de cada vez para tentar chegar mais perto de boxesRatio
                 let ratioIfInsertOnSmaller = (smallerBoxSize + 1) / (smallerBoxSize + biggerBoxSize + 1),
                     ratioIfInsertOnBigger = (smallerBoxSize) / (smallerBoxSize + biggerBoxSize + 1);
@@ -1508,31 +1508,31 @@ function game() {
 
             if (bothNonEmptyFix || oswaFix) {
                 const accClass = currentStage.acceptedClasses.shift();
-                let choosenTrait = [...accClass][Math.floor(Math.random() * accClass.length)];
+                let chosenTrait = [...accClass][Math.floor(Math.random() * accClass.length)];
 
                 // se tem rejeição oswa, as caixas sempre terão tamanho > 0. boxNonZeroFix e oswaFix são mutuamente exclusivos
                 let insertOnSmaller = smallerBoxSize === 0 || oswaRejOnSmallerBox;
                 if (insertOnSmaller) {
-                    smallerBoxAccepted.insert(accClass, choosenTrait);
+                    smallerBoxAccepted.insert(accClass, chosenTrait);
                     smallerBoxSize += 1;
                 } else {
-                    biggerBoxAccepted.insert(accClass, choosenTrait);
+                    biggerBoxAccepted.insert(accClass, chosenTrait);
                     biggerBoxSize += 1;
                 }
             }
         }
         // TODO: calculate how many restrictions can be inserted on each box instead of deciding where to insert for each restriction
         for (const accClass of currentStage.acceptedClasses) {
-            let choosenTrait = [...accClass][Math.floor(Math.random() * accClass.length)];
+            let chosenTrait = [...accClass][Math.floor(Math.random() * accClass.length)];
             let ratioIfInsertOnSmaller = (smallerBoxSize + 1) / (smallerBoxSize + biggerBoxSize + 1),
                 ratioIfInsertOnBigger = (smallerBoxSize) / (smallerBoxSize + biggerBoxSize + 1);
 
             // se a proporção depois da inserção na caixa menor for mais próxima de boxesRatio, inserir na caixa menor
             if (Math.abs(ratioIfInsertOnSmaller - smallerBoxRatio) < Math.abs(ratioIfInsertOnBigger - smallerBoxRatio)) {
-                smallerBoxAccepted.insert(accClass, choosenTrait);
+                smallerBoxAccepted.insert(accClass, chosenTrait);
                 smallerBoxSize += 1;
             } else {
-                biggerBoxAccepted.insert(accClass, choosenTrait);
+                biggerBoxAccepted.insert(accClass, chosenTrait);
                 biggerBoxSize += 1;
             }
         }
@@ -1650,9 +1650,9 @@ function game() {
             console.info('Configuração mínima: ' + JSON.stringify(minSet.arr.map(s => [...s])));
         }
 
-        leftChoosenSets = [minCombination[0]];
-        middleChoosenSets = [minCombination[1]];
-        rightChoosenSets = [minCombination[2]];
+        leftChosenSets = [minCombination[0]];
+        middleChosenSets = [minCombination[1]];
+        rightChosenSets = [minCombination[2]];
 
         // as características que estão sendo usadas no monmento
         let currentTraits = minSet;
@@ -1710,9 +1710,9 @@ function game() {
         5. Caso não tenha mais conjuntos para iterar, o algoritmo termina.
         */
         {
-            let allSets = [...leftSets.map(s => [leftChoosenSets, s]),
-                           ...rightSets.map(s => [rightChoosenSets, s]),
-                           ...middleSets.map(s => [middleChoosenSets, s])];
+            let allSets = [...leftSets.map(s => [leftChosenSets, s]),
+                           ...rightSets.map(s => [rightChosenSets, s]),
+                           ...middleSets.map(s => [middleChosenSets, s])];
 
             while(allSets.length !== 0) {
                 let maxSet, maxSetSide;
@@ -1754,9 +1754,9 @@ function game() {
     }
 
     // gerar as formas em cada caixa
-    let caixaEsquerdaItems = gerarFormas(leftChoosenSets);
-    let caixaIntersecaoItems = gerarFormas(middleChoosenSets);
-    let caixaDireitaItems = gerarFormas(rightChoosenSets);
+    let caixaEsquerdaItems = gerarFormas(leftChosenSets);
+    let caixaIntersecaoItems = gerarFormas(middleChosenSets);
+    let caixaDireitaItems = gerarFormas(rightChosenSets);
 
     // limitar a quantidade de formas mantendo a quantidade mais ou menos bem dividida entre as caixas
     {
