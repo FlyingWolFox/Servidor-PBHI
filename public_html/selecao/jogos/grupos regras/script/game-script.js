@@ -336,7 +336,7 @@ function gerarFormas(restrictionSets) {
 /**
  * Faz a operação zip em dois arrays
  * @param {any[]} arr1
- * @param {any[]} arr2 
+ * @param {any[]} arr2
  * @returns {any[][]} Array de arrays, onde cada array é um par de elementos de arr1 e arr2
  */
 function zipArr(arr1, arr2) {
@@ -347,8 +347,8 @@ function zipArr(arr1, arr2) {
 // it's a partial fisher-yates shuffle
 /**
  * Escolhe aleatoriamente n elementos de um array. O array original não é modificado. Lança um erro se n > array.length
- * @param {any[]} arr 
- * @param {Integer} n 
+ * @param {any[]} arr
+ * @param {Integer} n
  * @returns {any[]} Array com n elementos aleatórios de arr
  */
 function pickRandom(arr, n) {
@@ -401,8 +401,8 @@ function TraitContainer() {
 
 /**
  * Insere característica da classe classe no container
- * @param {TRAIT[*]} classe 
- * @param  {...TRAIT[*][*]} caracteristicas 
+ * @param {TRAIT[*]} classe
+ * @param  {...TRAIT[*][*]} caracteristicas
  */
 TraitContainer.prototype.insert = function (classe, ...caracteristicas) {
     this.arr[classe.id].push(...caracteristicas);
@@ -413,7 +413,7 @@ TraitContainer.prototype.insert = function (classe, ...caracteristicas) {
  * Method Overload:
  * - get(classe) -> retorna todas as características da classe
  * - get() -> retorna todas as características de todas as classes, num array de uma dimensão
- * @param {TRAIT[*]} classe 
+ * @param {TRAIT[*]} classe
  * @returns {TRAIT[*][*][]} Array com as características
  */
 TraitContainer.prototype.get = function (classe) {
@@ -430,9 +430,9 @@ TraitContainer.prototype.get = function (classe) {
  */
 TraitContainer.prototype.concat = function (other) {
     let newRestrictions = new TraitContainer();
-    for (let i = 0; i < this.arr.length; i++) 
+    for (let i = 0; i < this.arr.length; i++)
         newRestrictions.arr[i] = this.arr[i].concat(other.arr[i]);
-    
+
     return newRestrictions;
 };
 
@@ -443,15 +443,15 @@ TraitContainer.prototype.concat = function (other) {
 function TraitSetContainer() {
     if (!new.target) 
         return new TraitSetContainer();
-    
+
     // the array of the map
     this.arr = Array.from(Array(TRAIT.length), () => new Set());
 }
 
 /**
  * Insere característica da classe classe no set. Retorna this
- * @param {TRAIT[*]} classe 
- * @param  {...TRAIT[*][*]} caracteristicas 
+ * @param {TRAIT[*]} classe
+ * @param  {...TRAIT[*][*]} caracteristicas
  * @returns {TraitSetContainer} this
  */
 TraitSetContainer.prototype.add = function (classe, ...caracteristicas) {
@@ -461,8 +461,8 @@ TraitSetContainer.prototype.add = function (classe, ...caracteristicas) {
 
 /**
  * Deifine as características de uma classe no container, sobrescrevendo as caracteristicas antigas. Retorna this
- * @param {TRAIT[*]} classe 
- * @param  {...TRAIT[*][*]} caracteristicas 
+ * @param {TRAIT[*]} classe
+ * @param  {...TRAIT[*][*]} caracteristicas
  * @returns {TraitSetContainer} this
  */
 TraitSetContainer.prototype.set = function (classe, ...caracteristicas) {
@@ -792,7 +792,7 @@ function stagePreprocessor(input) {
             continue;
         }
         classesUso.set(traitClass, true);
-        
+
         // checa se a classe é válida
         if (![...TRAIT].includes(traitClass)) {
             console.error('Classe de restrição inválida: ', traitClass, '\nIgnorando.');
@@ -848,7 +848,7 @@ function stagePreprocessor(input) {
 
     // se a classe não foi especificada em randomParameters, limitar a 1 característica
     let randomLimits = new Map([...TRAIT].map(classe => [classe, 1]));
-    for (const [classe, max] of input.randomLimits) 
+    for (const [classe, max] of input.randomLimits)
         randomLimits.set(classe, max);
 
     // ajuda a criar uma variedade extra no jogo, mesmo que a mesma entrada seja dada
@@ -857,7 +857,7 @@ function stagePreprocessor(input) {
     rejectedClasses[0].sort((a, b) => b[1] - a[1]);
     rejectedClasses[1].sort((a, b) => b[1] - a[1]);
     rejectedClasses[2].sort((a, b) => b[1] - a[1]);
-    
+
 
     return {
         acceptedClasses: acceptedClasses,
