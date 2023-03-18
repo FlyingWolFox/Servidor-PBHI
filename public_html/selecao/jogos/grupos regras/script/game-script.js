@@ -40,9 +40,9 @@ const anosEnum = Object.freeze({
 });
 
 // gerar enum aninhado onde os elementos do subenum não possuem o mesmo valor, podendo obter o valor do enum a partir do valor do subenum
-// o array members vira um objeto que funciona como um enum, ex: CHARACTERISTIC.SHAPE.SQUARE == 1.25
+// o array members vira um objeto que funciona como um enum, ex: TRAIT.SHAPE.SQUARE == 1.25
 // exemplo de estrutura de enum gerado aqui:
-// CHARACTERISTIC = {
+// TRAIT = {
 //   SHAPE: {   // id do enum = 1, já que se fazer o Math.floor de qualquer dos seus elementos, o resultado é 1
 //     TRIANGLE: 1.0, // 1 + 0/4 = 1.0 (id do enum + id do elemento no subenum/quantidade de elementos do subenum)
 //     SQUARE: 1.25,    // 1 + 1/4 = 1.25
@@ -64,10 +64,10 @@ const anosEnum = Object.freeze({
 //   "0": "SHAPE", // permite obter o nome do subenum a partir do id do enum
 //   "1": "COLOR",
 //   Symbol.iterator: function*   // função que permite iterar sobre os subenums (SHAPE, COLOR)
-//   getClass: function (subenumValue) // função que retorna o objeto da classe (valor enum pai) da caracteristica (valor do subenum), ex: CHARACTERISTIC.getClass(CHARACTERISTIC.SHAPE.SQUARE) == CARACTERISTICAS.SHAPE
-//   getClassId: function (subenumValue) // mesmo que getClass, mas retorna o id do enum pai, ex: CHARACTERISTIC.getClassId(CHARACTERISTIC.SHAPE.SQUARE) == 0
+//   getClass: function (subenumValue) // função que retorna o objeto da classe (valor enum pai) da caracteristica (valor do subenum), ex: TRAIT.getClass(TRAIT.SHAPE.SQUARE) == CARACTERISTICAS.SHAPE
+//   getClassId: function (subenumValue) // mesmo que getClass, mas retorna o id do enum pai, ex: TRAIT.getClassId(TRAIT.SHAPE.SQUARE) == 0
 // }
-const CHARACTERISTIC = function () {
+const TRAIT = function () {
     let members = [
         // [ENUM_NAME, ENUM_VALUES]
         ['COLOR', ['BLUE', 'RED', 'YELLOW']],
@@ -87,8 +87,8 @@ const CHARACTERISTIC = function () {
         cEnum[memberName].length = memberValues.length;
         // iterate over the carcateristics of a class
         cEnum[memberName][Symbol.iterator] = function* () {
-            for (const characteristic of memberValues) {
-                yield cEnum[memberName][characteristic];
+            for (const trait of memberValues) {
+                yield cEnum[memberName][trait];
             }
         };
         cEnum[i] = cEnum[memberName]; // add reverse lookup
@@ -115,10 +115,10 @@ const CHARACTERISTIC = function () {
     return Object.freeze(cEnum);
 }();
 
-// igual a CHARACTERISTIC, mas com outras informações para cada característica
-// ex: CHARACTERISTIC.SHAPE.SQUARE.formaAlt == 'Quadrado'
-// é feito para ser acessado com CHARACTERISTIC, ex: CHARACTERISTIC_EXTRA[CHARACTERISTIC.SHAPE.SQUARE].formaAlt == 'Quadrado'
-const CHARACTERISTIC_EXTRA = function () {
+// igual a TRAIT, mas com outras informações para cada característica
+// ex: TRAIT.SHAPE.SQUARE.formaAlt == 'Quadrado'
+// é feito para ser acessado com TRAIT, ex: TRAIT_EXTRA[TRAIT.SHAPE.SQUARE].formaAlt == 'Quadrado'
+const TRAIT_EXTRA = function () {
     let members = [
         // [ENUM_NAME, ENUM_VALUES]
         ['COLOR', ['BLUE', 'RED', 'YELLOW']],
@@ -150,22 +150,22 @@ const CHARACTERISTIC_EXTRA = function () {
             cEnum[memberName][memberValues[j]] = {};
             for (const subMemberArray of subMembers) {
                 let subMemberName = subMemberArray[0];
-                // access subMembers, ex CHARACTERISTIC_EXTRA.SHAPE.SQUARE.formaSrc
+                // access subMembers, ex TRAIT_EXTRA.SHAPE.SQUARE.formaSrc
                 cEnum[memberName][memberValues[j]][subMemberName] = subMemberArray[(i + 1)][j];
             }
-            // lookup with CHARACTERISTIC
+            // lookup with TRAIT
             cEnum[i + j / memberValues.length] = cEnum[memberName][memberValues[j]];
         }
     }
 
     // retorna o caminho da imagem de uma forma
     cEnum.getFormaSrc = function (forma) {
-        return `../img/fig-rosto/${cEnum[forma.get(CHARACTERISTIC.SHAPE)].formaSrc}${cEnum[forma.get(CHARACTERISTIC.COLOR)].formaSrc}${cEnum[forma.get(CHARACTERISTIC.SIZE)].formaSrc}${cEnum[forma.get(CHARACTERISTIC.OUTLINE)].formaSrc}.svg`;
+        return `../img/fig-rosto/${cEnum[forma.get(TRAIT.SHAPE)].formaSrc}${cEnum[forma.get(TRAIT.COLOR)].formaSrc}${cEnum[forma.get(TRAIT.SIZE)].formaSrc}${cEnum[forma.get(TRAIT.OUTLINE)].formaSrc}.svg`;
     };
 
     // retorna o texto da descrição de uma forma
     cEnum.getFormaAlt = function (forma) {
-        return `${cEnum[forma.get(CHARACTERISTIC.SHAPE)].formaAlt} ${cEnum[forma.get(CHARACTERISTIC.COLOR)].formaAlt}, ${cEnum[forma.get(CHARACTERISTIC.SIZE)].formaAlt} e ${cEnum[forma.get(CHARACTERISTIC.OUTLINE)].formaAlt}.`;
+        return `${cEnum[forma.get(TRAIT.SHAPE)].formaAlt} ${cEnum[forma.get(TRAIT.COLOR)].formaAlt}, ${cEnum[forma.get(TRAIT.SIZE)].formaAlt} e ${cEnum[forma.get(TRAIT.OUTLINE)].formaAlt}.`;
     };
 
     // retorna o caminho da imagem de uma restrição
@@ -175,7 +175,7 @@ const CHARACTERISTIC_EXTRA = function () {
 
     // retorna o texto da descrição de uma restrição
     cEnum.getRestricaoAlt = function ([regra, aceita]) {
-        if (CHARACTERISTIC.getClass(regra) == CHARACTERISTIC.OUTLINE)
+        if (TRAIT.getClass(regra) == TRAIT.OUTLINE)
             return `${aceita ? 'Só' : 'Não'} podem peças ${cEnum[regra].restricaoAlt}`;
         else
             return `${aceita ? 'Só' : 'Não'} podem peças que são ${cEnum[regra].restricaoAlt}`;
@@ -325,7 +325,7 @@ function gerarFormas(restrictionSets) {
 
     for (const set of restrictionSets) {
         let piece = new Map();
-        for (const classe of [...CHARACTERISTIC])
+        for (const classe of [...TRAIT])
             piece.set(classe, [...set.get(classe)][0]);
         caixaItems.push(piece);
     }
@@ -387,24 +387,24 @@ const ONE_SIDE = { // rejeições somente em uma caixa
 const BOTH_SIDES = 2; // ambas as caixas possuem as rejeições
 
 /**
- * CharacteristicContainer é uma estrutura de dados que armazena as características
+ * TraitContainer é uma estrutura de dados que armazena as características
  * indexando por classe, possibilitando obter as características de uma classe sem
  * muito trabalho
  */
-function CharacteristicContainer() {
+function TraitContainer() {
     if (!new.target)
-        return new CharacteristicContainer();
+        return new TraitContainer();
 
     // the array of the map
-    this.arr = Array.from(Array(CHARACTERISTIC.length), () => []);
+    this.arr = Array.from(Array(TRAIT.length), () => []);
 }
 
 /**
  * Insere característica da classe classe no container
- * @param {CHARACTERISTIC[*]} classe 
- * @param  {...CHARACTERISTIC[*][*]} caracteristicas 
+ * @param {TRAIT[*]} classe 
+ * @param  {...TRAIT[*][*]} caracteristicas 
  */
-CharacteristicContainer.prototype.insert = function (classe, ...caracteristicas) {
+TraitContainer.prototype.insert = function (classe, ...caracteristicas) {
     this.arr[classe.id].push(...caracteristicas);
 };
 
@@ -413,10 +413,10 @@ CharacteristicContainer.prototype.insert = function (classe, ...caracteristicas)
  * Method Overload:
  * - get(classe) -> retorna todas as características da classe
  * - get() -> retorna todas as características de todas as classes, num array de uma dimensão
- * @param {CHARACTERISTIC[*]} classe 
- * @returns {CHARACTERISTIC[*][*][]} Array com as características
+ * @param {TRAIT[*]} classe 
+ * @returns {TRAIT[*][*][]} Array com as características
  */
-CharacteristicContainer.prototype.get = function (classe) {
+TraitContainer.prototype.get = function (classe) {
     if (!classe)
         return this.arr.flat();
 
@@ -425,11 +425,11 @@ CharacteristicContainer.prototype.get = function (classe) {
 
 /**
  * Concatena dois containers, retornando um novo container. Pode haver caracteristicas repetidas no novo container
- * @param {CharacteristicContainer} other O outro container para concatenar
- * @returns {CharacteristicContainer} Novo array com as características de this e other
+ * @param {TraitContainer} other O outro container para concatenar
+ * @returns {TraitContainer} Novo array com as características de this e other
  */
-CharacteristicContainer.prototype.concat = function (other) {
-    let newRestrictions = new CharacteristicContainer();
+TraitContainer.prototype.concat = function (other) {
+    let newRestrictions = new TraitContainer();
     for (let i = 0; i < this.arr.length; i++) 
         newRestrictions.arr[i] = this.arr[i].concat(other.arr[i]);
     
@@ -437,35 +437,35 @@ CharacteristicContainer.prototype.concat = function (other) {
 };
 
 /**
- * CharacteristicSetContainer é um CharacteristicContainer, mas que armazena as características
+ * TraitSetContainer é um TraitContainer, mas que armazena as características
  * em um Set, oferecendo operações com conjuntos e remoção de duplicatas
  */
-function CharacteristicSetContainer() {
+function TraitSetContainer() {
     if (!new.target) 
-        return new CharacteristicSetContainer();
+        return new TraitSetContainer();
     
     // the array of the map
-    this.arr = Array.from(Array(CHARACTERISTIC.length), () => new Set());
+    this.arr = Array.from(Array(TRAIT.length), () => new Set());
 }
 
 /**
  * Insere característica da classe classe no set. Retorna this
- * @param {CHARACTERISTIC[*]} classe 
- * @param  {...CHARACTERISTIC[*][*]} caracteristicas 
- * @returns {CharacteristicSetContainer} this
+ * @param {TRAIT[*]} classe 
+ * @param  {...TRAIT[*][*]} caracteristicas 
+ * @returns {TraitSetContainer} this
  */
-CharacteristicSetContainer.prototype.add = function (classe, ...caracteristicas) {
+TraitSetContainer.prototype.add = function (classe, ...caracteristicas) {
     caracteristicas.forEach(caracteristica => this.arr[classe.id].add(caracteristica));
     return this;
 };
 
 /**
  * Deifine as características de uma classe no container, sobrescrevendo as caracteristicas antigas. Retorna this
- * @param {CHARACTERISTIC[*]} classe 
- * @param  {...CHARACTERISTIC[*][*]} caracteristicas 
- * @returns {CharacteristicSetContainer} this
+ * @param {TRAIT[*]} classe 
+ * @param  {...TRAIT[*][*]} caracteristicas 
+ * @returns {TraitSetContainer} this
  */
-CharacteristicSetContainer.prototype.set = function (classe, ...caracteristicas) {
+TraitSetContainer.prototype.set = function (classe, ...caracteristicas) {
     this.arr[classe.id] = new Set(caracteristicas);
     return this;
 };
@@ -475,10 +475,10 @@ CharacteristicSetContainer.prototype.set = function (classe, ...caracteristicas)
  * Method Overload:
  * - get(classe) -> retorna todas as características da classe
  * - get() -> retorna todas as características de todas as classes, num Set
- * @param {CHARACTERISTIC[*]} classe 
- * @returns {Set<CHARACTERISTIC[*][*]>} Set com as características
+ * @param {TRAIT[*]} classe 
+ * @returns {Set<TRAIT[*][*]>} Set com as características
  */
-CharacteristicSetContainer.prototype.get = function (classe) {
+TraitSetContainer.prototype.get = function (classe) {
     if (!classe) 
         return new Set(this.arr.flatMap(set => [...set]));
     
@@ -486,16 +486,16 @@ CharacteristicSetContainer.prototype.get = function (classe) {
 };
 
 /**
- * Retornar um novo CharacteristicSetContainer contendo a interseção de this e other.
+ * Retornar um novo TraitSetContainer contendo a interseção de this e other.
  * Method Overload:
  * - intersect(other) -> retorna a interseção de this e other
  * - intersect(classe, other) -> retorna a interseção de this e other na classe `classe`, com as outras classes sendo igual a this
- * @param {CharacteristicSetContainer} other 
- * @param {CHARACTERISTIC[*]} classe 
- * @returns {CharacteristicSetContainer} Novo CharacteristicSetContainer com a interseção
+ * @param {TraitSetContainer} other 
+ * @param {TRAIT[*]} classe 
+ * @returns {TraitSetContainer} Novo TraitSetContainer com a interseção
  */
-CharacteristicSetContainer.prototype.intersection = function (other, classe) {
-    let newSet = new CharacteristicSetContainer();
+TraitSetContainer.prototype.intersection = function (other, classe) {
+    let newSet = new TraitSetContainer();
 
     // if a class is given, intersect only that class
     if (typeof classe !== 'undefined') {
@@ -523,16 +523,16 @@ CharacteristicSetContainer.prototype.intersection = function (other, classe) {
 };
 
 /**
- * Retornar um novo CharacteristicSetContainer contendo a união de this e other.
+ * Retornar um novo TraitSetContainer contendo a união de this e other.
  * Method Overload:
  * - union(other) -> retorna a união de this e other
  * - union(classe, other) -> retorna a união de this e other na classe `classe`, com as outras classes sendo igual a this
- * @param {CharacteristicSetContainer} other 
- * @param {CHARACTERISTIC[*]} classe 
- * @returns {CharacteristicSetContainer} Novo CharacteristicSetContainer com a união
+ * @param {TraitSetContainer} other 
+ * @param {TRAIT[*]} classe 
+ * @returns {TraitSetContainer} Novo TraitSetContainer com a união
  */
-CharacteristicSetContainer.prototype.union = function (other, classe) {
-    let newSet = new CharacteristicSetContainer();
+TraitSetContainer.prototype.union = function (other, classe) {
+    let newSet = new TraitSetContainer();
 
     // if a class is given, union only that class
     if (typeof classe !== 'undefined') {
@@ -562,16 +562,16 @@ CharacteristicSetContainer.prototype.union = function (other, classe) {
 };
 
 /**
- * Retornar um novo CharacteristicSetContainer contendo a diferença de this e other.
+ * Retornar um novo TraitSetContainer contendo a diferença de this e other.
  * Method Overload:
  * - difference(other) -> retorna a diferença de this e other
  * - difference(classe, other) -> retorna a diferença de this e other na classe `classe`, com as outras classes sendo igual a this
- * @param {CharacteristicSetContainer} other
- * @param {CHARACTERISTIC[*]} classe
- * @returns {CharacteristicSetContainer} Novo CharacteristicSetContainer com a diferença
+ * @param {TraitSetContainer} other
+ * @param {TRAIT[*]} classe
+ * @returns {TraitSetContainer} Novo TraitSetContainer com a diferença
  */
-CharacteristicSetContainer.prototype.difference = function (other, classe) {
-    let newSet = new CharacteristicSetContainer();
+TraitSetContainer.prototype.difference = function (other, classe) {
+    let newSet = new TraitSetContainer();
 
     // if a class is given, subtract only that class
     if (typeof classe !== 'undefined') {
@@ -603,11 +603,11 @@ CharacteristicSetContainer.prototype.difference = function (other, classe) {
  * Method Overload:
  * - isSubsetOf(other) -> retorna se this é um subconjunto de other
  * - isSubsetOf(classe, other) -> retorna se this[classe] é um subconjunto de other[classe]
- * @param {CharacteristicSetContainer} other
- * @param {CHARACTERISTIC[*]} classe
+ * @param {TraitSetContainer} other
+ * @param {TRAIT[*]} classe
  * @returns {boolean} Se this é um subconjunto de other
  */
-CharacteristicSetContainer.prototype.isSubsetOf = function (other, classe) {
+TraitSetContainer.prototype.isSubsetOf = function (other, classe) {
     // if a class is given, check only that class
     if (typeof classe !== 'undefined') {
         for (const r of this.arr[classe.id]) {
@@ -633,11 +633,11 @@ CharacteristicSetContainer.prototype.isSubsetOf = function (other, classe) {
  * Method Overload:
  * - isEqualTo(other) -> retorna se this é igual a other
  * - isEqualTo(classe, other) -> retorna se this[classe] é igual a other[classe]
- * @param {CharacteristicSetContainer} other
- * @param {CHARACTERISTIC[*]} classe
+ * @param {TraitSetContainer} other
+ * @param {TRAIT[*]} classe
  * @returns {boolean} Se this é igual a other
  */
-CharacteristicSetContainer.prototype.equals = function (other, classe) {
+TraitSetContainer.prototype.equals = function (other, classe) {
     // if a class is given, check only that class
     if (typeof classe !== 'undefined') {
         return this.arr[classe.id].size === other.arr[classe.id].size &&
@@ -655,10 +655,10 @@ CharacteristicSetContainer.prototype.equals = function (other, classe) {
 
 /**
  * Retorna se há uma classe vazia, ou seja, se não há nenhuma característica de uma classe no container.
- * Exemplo: se não há nenhuma característica de classe CHARACTERISTIC.COR no container, retorna true.
+ * Exemplo: se não há nenhuma característica de classe TRAIT.COR no container, retorna true.
  * @returns {boolean} Se há uma classe vazia
  */
-CharacteristicSetContainer.prototype.anyEmpty = function () {
+TraitSetContainer.prototype.anyEmpty = function () {
     for (let i = 0; i < this.arr.length; i++) {
         if (this.arr[i].size === 0) 
             return true;
@@ -673,23 +673,23 @@ CharacteristicSetContainer.prototype.anyEmpty = function () {
  * - invert() -> inverte todo o container
  * - invert(classe) -> inverte somente a classe
  * @param {*} classe 
- * @returns {CharacteristicSetContainer} Novo CharacteristicSetContainer com o inverso de this
+ * @returns {TraitSetContainer} Novo TraitSetContainer com o inverso de this
  */
-CharacteristicSetContainer.prototype.invert = function (classe) {
-    let newSet = new CharacteristicSetContainer();
+TraitSetContainer.prototype.invert = function (classe) {
+    let newSet = new TraitSetContainer();
 
     // if a class is given, invert only that class
     if (typeof classe !== 'undefined') {
         newSet.arr = this.arr.map((set) => new Set(set));
-        let allCharacteristics = [...CHARACTERISTIC[classe.id]];
-        newSet.arr[classe.id] = new Set(allCharacteristics.filter((x) => !this.arr[classe.id].has(x)));
+        let allTraits = [...TRAIT[classe.id]];
+        newSet.arr[classe.id] = new Set(allTraits.filter((x) => !this.arr[classe.id].has(x)));
         return newSet;
     }
 
     // if class is not given, invert all classes
-    for (const classe of [...CHARACTERISTIC]) {
-        let allCharacteristics = [...CHARACTERISTIC[classe.id]];
-        newSet.arr[classe.id] = new Set(allCharacteristics.filter((x) => !this.arr[classe.id].has(x)));
+    for (const classe of [...TRAIT]) {
+        let allTraits = [...TRAIT[classe.id]];
+        newSet.arr[classe.id] = new Set(allTraits.filter((x) => !this.arr[classe.id].has(x)));
     }
 
     return newSet;
@@ -697,10 +697,10 @@ CharacteristicSetContainer.prototype.invert = function (classe) {
 
 /**
  * Retorna uma cópia do container.
- * @returns {CharacteristicSetContainer} Cópia do container
+ * @returns {TraitSetContainer} Cópia do container
  */
-CharacteristicSetContainer.prototype.clone = function () {
-    let newSet = new CharacteristicSetContainer();
+TraitSetContainer.prototype.clone = function () {
+    let newSet = new TraitSetContainer();
     newSet.arr = this.arr.map((set) => new Set(set));
     return newSet;
 };
@@ -710,7 +710,7 @@ CharacteristicSetContainer.prototype.clone = function () {
  * @param {*} classe 
  * @returns 
  */
-CharacteristicSetContainer.prototype.toSingleSubsets = function (classe) {
+TraitSetContainer.prototype.toSingleSubsets = function (classe) {
     let subsets = [];
 
     // if a class is given, get all subsets only that class
@@ -724,7 +724,7 @@ CharacteristicSetContainer.prototype.toSingleSubsets = function (classe) {
 
     // if class is not given, get all subsets all classes
     for (const comb of cartesianProduct(...this.arr)) {
-        let newSet = new CharacteristicSetContainer();
+        let newSet = new TraitSetContainer();
         newSet.arr = comb.map(cateristica => new Set([cateristica]));
         subsets.push(newSet);
     }
@@ -738,34 +738,34 @@ CharacteristicSetContainer.prototype.toSingleSubsets = function (classe) {
    {
        restrictionClasses: [
          //[              class, accepted?, rejQty, rejectionMode]
-           [CHARACTERISTIC.SHAPE,     true],
-           [CHARACTERISTIC.COLOR,     false,      2,    BOTH_SIDES]
+           [TRAIT.SHAPE,     true],
+           [TRAIT.COLOR,     false,      2,    BOTH_SIDES]
        ],
        maxNumAnswers: 7,
        maxNumShapes: 12,
        // for non specified classes, the limit is 1
        randomLimits: [
          //[             class, max]
-           [CHARACTERISTIC.SIZE,   2]
+           [TRAIT.SIZE,   2]
        ]
    }
 
    output:
    {
-       acceptedClasses: [CHARACTERISTIC.SHAPE, ...],
+       acceptedClasses: [TRAIT.SHAPE, ...],
        rejectedClasses: {
            // mode: [[class, qty], ...] 
-           ONE_SIDE.NO_ACCEPTED: [[CHARACTERISTIC.SIZE, 1], ...],
+           ONE_SIDE.NO_ACCEPTED: [[TRAIT.SIZE, 1], ...],
            ONE_SIDE.WITH_ACCEPTED: [[c, n], ...],
-           BOTH_SIDES: [[CHARACTERISTIC.COLOR, 2], ...]
+           BOTH_SIDES: [[TRAIT.COLOR, 2], ...]
        }
        maxNumAnswers: 7,
        maxNumShapes: 12,
        randomLimits : new Map([
-                              [CHARACTERISTIC.SHAPE, 1],
-                              [CHARACTERISTIC.COLOR, 1],
-                              [CHARACTERISTIC.SIZE, 2],
-                              [CHARACTERISTIC.OUTLINE, 1]
+                              [TRAIT.SHAPE, 1],
+                              [TRAIT.COLOR, 1],
+                              [TRAIT.SIZE, 2],
+                              [TRAIT.OUTLINE, 1]
                             ])
    }
  * @param {*} input 
@@ -785,69 +785,69 @@ function stagePreprocessor(input) {
     if (input.restrictionClasses.length === 0)
         throw new Error('Nenhuma classe de restrição foi especificada');
 
-    let classesUso = new Map([...CHARACTERISTIC].map(classe => [classe, false]));
-    for (let [characteristicClass, accepted, rejQty, rejectionMode] of input.restrictionClasses) {
-        if (classesUso.get(characteristicClass)) {
-            console.warn('Ignorando classe de restrição repetida: ', characteristicClass);
+    let classesUso = new Map([...TRAIT].map(classe => [classe, false]));
+    for (let [traitClass, accepted, rejQty, rejectionMode] of input.restrictionClasses) {
+        if (classesUso.get(traitClass)) {
+            console.warn('Ignorando classe de restrição repetida: ', traitClass);
             continue;
         }
-        classesUso.set(characteristicClass, true);
+        classesUso.set(traitClass, true);
         
         // checa se a classe é válida
-        if (![...CHARACTERISTIC].includes(characteristicClass)) {
-            console.error('Classe de restrição inválida: ', characteristicClass, '\nIgnorando.');
+        if (![...TRAIT].includes(traitClass)) {
+            console.error('Classe de restrição inválida: ', traitClass, '\nIgnorando.');
             continue;
         }
 
         if (!accepted) {
             // checa se a quantidade de rejeição é válida
             if (!Number.isInteger(rejQty) || rejQty <= 0) {
-                console.error('Classe de restrição com quantidade de rejeição inválida: ', characteristicClass, '\nIgnorando.');
+                console.error('Classe de restrição com quantidade de rejeição inválida: ', traitClass, '\nIgnorando.');
                 continue;
             }
             // checa se rejectionMode é válido
             if (rejectionMode !== ONE_SIDE.NO_ACCEPTED && rejectionMode !== ONE_SIDE.WITH_ACCEPTED && rejectionMode !== BOTH_SIDES) {
-                console.error('Modo de rejeição inválido para classe: ', characteristicClass, rejectionMode, '\nIgnorando.');
+                console.error('Modo de rejeição inválido para classe: ', traitClass, rejectionMode, '\nIgnorando.');
                 continue;
             }
 
-            if (rejQty > characteristicClass.length) {
-                console.error('Quantidade de rejeição maior que o número de características da classe: ', characteristicClass, '\nUsando o máximo possível.');
-                rejQty = characteristicClass.length;
+            if (rejQty > traitClass.length) {
+                console.error('Quantidade de rejeição maior que o número de características da classe: ', traitClass, '\nUsando o máximo possível.');
+                rejQty = traitClass.length;
             }
             // correções sobre ONE_SIDE.WITH_ACCEPTED. Não se pode usar todas as características da classe, pois essa situação é equivalente
             // a ter a mesma característica aceita em ambas as caixas.
             // Ex: [SQUARE, CIRCLE, TRIANGLE] rejeitadas e [RECTANGLE] aceita == [RECTANGLE] aceita e [RECTANGLE] aceita.
 
             // classes com menos de 3 características não podem ser ONE_SIDE.WITH_ACCEPTED, pois length([aceita, rejeita]) == length(classe)
-            if (rejectionMode === ONE_SIDE.WITH_ACCEPTED && characteristicClass.length < 3) {
-                console.error('Modo de rejeição ONE_SIDE.WITH_ACCEPTED não pode ser usado para classes com menos de 3 características: ', characteristicClass, '\nUsando ONE_SIDE.NO_ACCEPTED.');
+            if (rejectionMode === ONE_SIDE.WITH_ACCEPTED && traitClass.length < 3) {
+                console.error('Modo de rejeição ONE_SIDE.WITH_ACCEPTED não pode ser usado para classes com menos de 3 características: ', traitClass, '\nUsando ONE_SIDE.NO_ACCEPTED.');
                 rejectionMode = ONE_SIDE.NO_ACCEPTED;
             }
             // Não permitir que todas as características de uma classe sejam usadas no ONE_SIDE.WITH_ACCEPTED,
-            if (rejectionMode === ONE_SIDE.WITH_ACCEPTED && rejQty > characteristicClass.length - 2) {
-                console.error('Quantidade de rejeição muito alto para ONE_SIDE.WITH_ACCEPTED (> classe.length - 2) da classe: ', characteristicClass, '\nUsando o máximo possível.');
-                rejQty = characteristicClass.length - 2; // evita a situação equivalente a ter a mesma característica aceita em ambos os lados
+            if (rejectionMode === ONE_SIDE.WITH_ACCEPTED && rejQty > traitClass.length - 2) {
+                console.error('Quantidade de rejeição muito alto para ONE_SIDE.WITH_ACCEPTED (> classe.length - 2) da classe: ', traitClass, '\nUsando o máximo possível.');
+                rejQty = traitClass.length - 2; // evita a situação equivalente a ter a mesma característica aceita em ambos os lados
             }
 
 
             if (rejectionMode === BOTH_SIDES && rejQty < 2) {
-                console.error('Modo de rejeição BOTH_SIDES requer pelo menos 2 características rejeitadas: ' + characteristicClass, '\nUsando 2.');
+                console.error('Modo de rejeição BOTH_SIDES requer pelo menos 2 características rejeitadas: ' + traitClass, '\nUsando 2.');
                 rejQty = 2;
             }
         }
-        restrictionClasses.push([characteristicClass, accepted, rejQty, rejectionMode]);
+        restrictionClasses.push([traitClass, accepted, rejQty, rejectionMode]);
     }
 
-    for (let [characteristicClass, accepted, rejQty, rejectionMode] of restrictionClasses) {
+    for (let [traitClass, accepted, rejQty, rejectionMode] of restrictionClasses) {
         if (accepted)
-            acceptedClasses.push(characteristicClass);
+            acceptedClasses.push(traitClass);
         else
-            rejectedClasses[rejectionMode].push([characteristicClass, rejQty]);
+            rejectedClasses[rejectionMode].push([traitClass, rejQty]);
     }
 
     // se a classe não foi especificada em randomParameters, limitar a 1 característica
-    let randomLimits = new Map([...CHARACTERISTIC].map(classe => [classe, 1]));
+    let randomLimits = new Map([...TRAIT].map(classe => [classe, 1]));
     for (const [classe, max] of input.randomLimits) 
         randomLimits.set(classe, max);
 
@@ -884,15 +884,15 @@ function RestrictionSet(shapes) {
         bit 0 - Rejeição presente no conjunto (1 << REJECTED == 0b01)
         bit 1 - Aceitação presente no conjunto (1 << ACCEPTED == 0b10)
 
-    Exemplo, para a característica CHARACTERISTIC.SHAPE.SQUARE:
+    Exemplo, para a característica TRAIT.SHAPE.SQUARE:
         0b00 - Nenhuma restrição de SQUARE está presente no conjunto
-        0b01 - Rejeição de SQUARE ([CHARACTERISTIC.SHAPE.SQUARE, REJECTED]) está presente no conjunto
-        0b10 - Aceitação de SQUARE ([CHARACTERISTIC.SHAPE.SQUARE, ACCEPTED]) está presente no conjunto
+        0b01 - Rejeição de SQUARE ([TRAIT.SHAPE.SQUARE, REJECTED]) está presente no conjunto
+        0b10 - Aceitação de SQUARE ([TRAIT.SHAPE.SQUARE, ACCEPTED]) está presente no conjunto
         0b11 - Rejeição e aceitação de SQUARE estão presentes no conjunto
     */
 
     const [REJECTED, ACCEPTED] = [false, true];
-    let todasCaracteristicas = [...CHARACTERISTIC].flatMap(classe => [...classe]);
+    let todasCaracteristicas = [...TRAIT].flatMap(classe => [...classe]);
     let caracteristicasIndex = function() {
         let obj = Object.create(null);
         todasCaracteristicas.forEach((el, i) => obj[el] = i);
@@ -905,8 +905,8 @@ function RestrictionSet(shapes) {
         this.arr = Array(this.todasCaracteristicas.length).fill(0);
     } else if (shapes.length === 1) {
         this.arr = Array(this.todasCaracteristicas.length).fill(1 << REJECTED);
-        shapes[0].forEach(characteristic => {
-            let i = this.caracteristicasIndex[characteristic];
+        shapes[0].forEach(trait => {
+            let i = this.caracteristicasIndex[trait];
             this.arr[i] = 1 << ACCEPTED;
         });
 
@@ -918,32 +918,32 @@ function RestrictionSet(shapes) {
     }
 }
 
-RestrictionSet.prototype.add = function (characteristic, accepted) {
-    let i = this.caracteristicasIndex[characteristic];
+RestrictionSet.prototype.add = function (trait, accepted) {
+    let i = this.caracteristicasIndex[trait];
     this.arr[i] |= 1 << accepted;
     return this;
 };
 
-RestrictionSet.prototype.set = function (characteristic, accepted) {
-    let i = this.caracteristicasIndex[characteristic];
+RestrictionSet.prototype.set = function (trait, accepted) {
+    let i = this.caracteristicasIndex[trait];
     this.arr[i] = 1 << accepted;
     return this;
 };
 
-RestrictionSet.prototype.remove = function (characteristic, accepted) {
-    let i = this.this.caracteristicasIndex[characteristic];
+RestrictionSet.prototype.remove = function (trait, accepted) {
+    let i = this.this.caracteristicasIndex[trait];
     this.arr[i] &= ~(1 << accepted);
     return this;
 };
 
-RestrictionSet.prototype.clear = function (characteristic) {
-    let i = this.caracteristicasIndex[characteristic];
+RestrictionSet.prototype.clear = function (trait) {
+    let i = this.caracteristicasIndex[trait];
     this.arr[i] = 0;
     return this;
 };
 
-RestrictionSet.prototype.has = function (characteristic, accepted) {
-    let i = this.caracteristicasIndex[characteristic];
+RestrictionSet.prototype.has = function (trait, accepted) {
+    let i = this.caracteristicasIndex[trait];
     return (this.arr[i] & (1 << accepted)) !== 0;
 };
 
@@ -1046,181 +1046,181 @@ function game() {
     // TODO: how to make maxNumOptions random?
     // TODO: should we maximize the number of forms?
     // TODO: random will be replaced by the array of possibilities
-    // TODO: check if the quantity of restrictions is smaller than the number of characteristics
+    // TODO: check if the quantity of restrictions is smaller than the number of traits
     // TODO: check if SIZE and OUTLINE doesn't have rejection mode BOTH_SIDES or ONE_SIDE.WITH_ACCEPTED
     let stageData = [
         {
             // no intersection
             restrictionClasses: [
             //  [              class, accepted?, rejQty, rejectionMode]
-                [CHARACTERISTIC.SHAPE,     true],
+                [TRAIT.SHAPE,     true],
             ],
             maxNumAnswers: 2,
             maxNumShapes: 3,
             // for non specified classes, the limit is 1
             randomLimits: [
             //  [             class, max]
-                [CHARACTERISTIC.COLOR,   2]
+                [TRAIT.COLOR,   2]
             ]
         },
         {
             // with intersection
             restrictionClasses: [
             //  [                class, accepted?, rejQty, rejectionMode]
-                [  CHARACTERISTIC.SHAPE,     true],
-                [CHARACTERISTIC.OUTLINE,     true]
+                [  TRAIT.SHAPE,     true],
+                [TRAIT.OUTLINE,     true]
             ],
             maxNumAnswers: 6,
             maxNumShapes: 12,
             // for non specified classes, the limit is 1
             randomLimits: [
             //  [               class, max]
-                [  CHARACTERISTIC.COLOR,  2],
-                [CHARACTERISTIC.OUTLINE,  2]
+                [  TRAIT.COLOR,  2],
+                [TRAIT.OUTLINE,  2]
             ]
         },
         {
             // SPECIFIC TEST
             restrictionClasses: [
             //  [                class, accepted?, rejQty,        rejectionMode]
-                [CHARACTERISTIC.SHAPE,     false,      1, ONE_SIDE.NO_ACCEPTED], 
-                [CHARACTERISTIC.COLOR,     true],
-                [CHARACTERISTIC.SIZE,      true]
+                [TRAIT.SHAPE,     false,      1, ONE_SIDE.NO_ACCEPTED], 
+                [TRAIT.COLOR,     true],
+                [TRAIT.SIZE,      true]
             ],
             maxNumAnswers: 6,
             maxNumShapes: 12,
             // for non specified classes, the limit is 1
             randomLimits: [
             //  [               class, max]
-                [  CHARACTERISTIC.SHAPE,  4],
-                [  CHARACTERISTIC.COLOR,  2],
-                [CHARACTERISTIC.OUTLINE,  2]
+                [  TRAIT.SHAPE,  4],
+                [  TRAIT.COLOR,  2],
+                [TRAIT.OUTLINE,  2]
             ]
         },
         {
             // with intersection, using rejected
             restrictionClasses: [
             //  [                class, accepted?, rejQty,        rejectionMode]
-                [  CHARACTERISTIC.SHAPE,     false,      1, ONE_SIDE.NO_ACCEPTED], 
-                [CHARACTERISTIC.OUTLINE,     true]
+                [  TRAIT.SHAPE,     false,      1, ONE_SIDE.NO_ACCEPTED], 
+                [TRAIT.OUTLINE,     true]
             ],
             maxNumAnswers: 6,
             maxNumShapes: 12,
             // for non specified classes, the limit is 1
             randomLimits: [
             //  [               class, max]
-                [  CHARACTERISTIC.SHAPE,  4],
-                [  CHARACTERISTIC.COLOR,  2],
-                [CHARACTERISTIC.OUTLINE,  2]
+                [  TRAIT.SHAPE,  4],
+                [  TRAIT.COLOR,  2],
+                [TRAIT.OUTLINE,  2]
             ]
         },
         {
             // with intersection, using rejected, with 2 rejections
             restrictionClasses: [
             //  [                class, accepted?, rejQty,        rejectionMode]
-                [  CHARACTERISTIC.SHAPE,     false,      2, ONE_SIDE.NO_ACCEPTED], 
-                [CHARACTERISTIC.OUTLINE,     true]
+                [  TRAIT.SHAPE,     false,      2, ONE_SIDE.NO_ACCEPTED], 
+                [TRAIT.OUTLINE,     true]
             ],
             maxNumAnswers: 6,
             maxNumShapes: 12,
             // for non specified classes, the limit is 1
             randomLimits: [
             //  [               class, max]
-                [  CHARACTERISTIC.SHAPE,  4],
-                [  CHARACTERISTIC.COLOR,  2],
-                [CHARACTERISTIC.OUTLINE,  2]
+                [  TRAIT.SHAPE,  4],
+                [  TRAIT.COLOR,  2],
+                [TRAIT.OUTLINE,  2]
             ]
         },
         {
             // with intersection, using rejected, with 2 rejections with one accepted
             restrictionClasses: [
             //  [                class, accepted?, rejQty,          rejectionMode]
-                [  CHARACTERISTIC.SHAPE,     false,      2, ONE_SIDE.WITH_ACCEPTED], 
-                [CHARACTERISTIC.OUTLINE,     true]
+                [  TRAIT.SHAPE,     false,      2, ONE_SIDE.WITH_ACCEPTED], 
+                [TRAIT.OUTLINE,     true]
             ],
             maxNumAnswers: 6,
             maxNumShapes: 12,
             // for non specified classes, the limit is 1
             randomLimits: [
             //  [               class, max]
-                [  CHARACTERISTIC.SHAPE,  4],
-                [  CHARACTERISTIC.COLOR,  2],
-                [CHARACTERISTIC.OUTLINE,  2]
+                [  TRAIT.SHAPE,  4],
+                [  TRAIT.COLOR,  2],
+                [TRAIT.OUTLINE,  2]
             ]
         },
         {
             // with intersection, using rejected, with 3 rejections on both sides
             restrictionClasses: [
             //  [                class, accepted?, rejQty, rejectionMode]
-                [  CHARACTERISTIC.SHAPE,     false,      3,    BOTH_SIDES], 
-                [CHARACTERISTIC.OUTLINE,     true]
+                [  TRAIT.SHAPE,     false,      3,    BOTH_SIDES], 
+                [TRAIT.OUTLINE,     true]
             ],
             maxNumAnswers: 6,
             maxNumShapes: 12,
             // for non specified classes, the limit is 1
             randomLimits: [
             //  [               class, max]
-                [  CHARACTERISTIC.SHAPE,  4],
-                [  CHARACTERISTIC.COLOR,  2],
-                [CHARACTERISTIC.OUTLINE,  2]
+                [  TRAIT.SHAPE,  4],
+                [  TRAIT.COLOR,  2],
+                [TRAIT.OUTLINE,  2]
             ]
         },
         {
             // with intersection, using rejected, with 3 rejections on both sides. Random maxed out
             restrictionClasses: [
             //  [                class, accepted?, rejQty, rejectionMode]
-                [  CHARACTERISTIC.SHAPE,     false,      3,    BOTH_SIDES], 
-                [CHARACTERISTIC.OUTLINE,     true]
+                [  TRAIT.SHAPE,     false,      3,    BOTH_SIDES], 
+                [TRAIT.OUTLINE,     true]
             ],
             maxNumAnswers: 6,
             maxNumShapes: 12,
             // for non specified classes, the limit is 1
             randomLimits: [
             //  [               class, max]
-                [  CHARACTERISTIC.SHAPE,  4],
-                [  CHARACTERISTIC.COLOR,  3],
-                [   CHARACTERISTIC.SIZE,  2],
-                [CHARACTERISTIC.OUTLINE,  2]
+                [  TRAIT.SHAPE,  4],
+                [  TRAIT.COLOR,  3],
+                [   TRAIT.SIZE,  2],
+                [TRAIT.OUTLINE,  2]
             ]
         },
         {
             // with intersection, using rejected, with 3 rejections on both sides. Random maxed out, all restrictions
             restrictionClasses: [
             //  [                class, accepted?, rejQty, rejectionMode]
-                [  CHARACTERISTIC.SHAPE,     false,      3,    BOTH_SIDES], 
-                [CHARACTERISTIC.OUTLINE,     true],
-                [  CHARACTERISTIC.COLOR,     true],
-                [   CHARACTERISTIC.SIZE,     true]
+                [  TRAIT.SHAPE,     false,      3,    BOTH_SIDES], 
+                [TRAIT.OUTLINE,     true],
+                [  TRAIT.COLOR,     true],
+                [   TRAIT.SIZE,     true]
             ],
             maxNumAnswers: 9,
             maxNumShapes: 15,
             // for non specified classes, the limit is 1
             randomLimits: [
             //  [               class, max]
-                [  CHARACTERISTIC.SHAPE,  4],
-                [  CHARACTERISTIC.COLOR,  3],
-                [   CHARACTERISTIC.SIZE,  2],
-                [CHARACTERISTIC.OUTLINE,  2]
+                [  TRAIT.SHAPE,  4],
+                [  TRAIT.COLOR,  3],
+                [   TRAIT.SIZE,  2],
+                [TRAIT.OUTLINE,  2]
             ]
         },
         {
             // with intersection, just rejected (all maxed out). Random maxed out
             restrictionClasses: [
             //  [                class, accepted?, rejQty, rejectionMode]
-                [  CHARACTERISTIC.SHAPE,     false,      3,    BOTH_SIDES], 
-                [  CHARACTERISTIC.COLOR,     false,      2,    BOTH_SIDES],
-                [   CHARACTERISTIC.SIZE,     false,      1,    ONE_SIDE.NO_ACCEPTED],
-                [CHARACTERISTIC.OUTLINE,     false,      1,    ONE_SIDE.NO_ACCEPTED]
+                [  TRAIT.SHAPE,     false,      3,    BOTH_SIDES], 
+                [  TRAIT.COLOR,     false,      2,    BOTH_SIDES],
+                [   TRAIT.SIZE,     false,      1,    ONE_SIDE.NO_ACCEPTED],
+                [TRAIT.OUTLINE,     false,      1,    ONE_SIDE.NO_ACCEPTED]
             ],
             maxNumAnswers: 9,
             maxNumShapes: 15,
             // for non specified classes, the limit is 1
             randomLimits: [
             //  [               class, max]
-                [  CHARACTERISTIC.SHAPE,  4],
-                [  CHARACTERISTIC.COLOR,  3],
-                [   CHARACTERISTIC.SIZE,  2],
-                [CHARACTERISTIC.OUTLINE,  2]
+                [  TRAIT.SHAPE,  4],
+                [  TRAIT.COLOR,  3],
+                [   TRAIT.SIZE,  2],
+                [TRAIT.OUTLINE,  2]
             ]
         },
         {
@@ -1228,37 +1228,37 @@ function game() {
             // SHAPE rejQty is too high!
             restrictionClasses: [
             //  [                class, accepted?, rejQty, rejectionMode]
-                [  CHARACTERISTIC.SHAPE,     false,      3,    ONE_SIDE.WITH_ACCEPTED], 
-                [  CHARACTERISTIC.COLOR,     false,      2,    BOTH_SIDES],
+                [  TRAIT.SHAPE,     false,      3,    ONE_SIDE.WITH_ACCEPTED], 
+                [  TRAIT.COLOR,     false,      2,    BOTH_SIDES],
             ],
             maxNumAnswers: 9,
             maxNumShapes: 15,
             // for non specified classes, the limit is 1
             randomLimits: [
             //  [               class, max]
-                [  CHARACTERISTIC.SHAPE,  4],
-                [  CHARACTERISTIC.COLOR,  3],
-                [   CHARACTERISTIC.SIZE,  2],
-                [CHARACTERISTIC.OUTLINE,  2]
+                [  TRAIT.SHAPE,  4],
+                [  TRAIT.COLOR,  3],
+                [   TRAIT.SIZE,  2],
+                [TRAIT.OUTLINE,  2]
             ]
         },
         {
             // with intersection, just rejected (all maxed out). Random maxed out
             restrictionClasses: [
             //  [                class, accepted?, rejQty, rejectionMode]
-                [  CHARACTERISTIC.SHAPE,     false,      2,    BOTH_SIDES], 
-                [  CHARACTERISTIC.COLOR,     true],
-                [CHARACTERISTIC.OUTLINE,     true]
+                [  TRAIT.SHAPE,     false,      2,    BOTH_SIDES], 
+                [  TRAIT.COLOR,     true],
+                [TRAIT.OUTLINE,     true]
             ],
             maxNumAnswers: 9,
             maxNumShapes: 15,
             // for non specified classes, the limit is 1
             randomLimits: [
             //  [               class, max]
-                [  CHARACTERISTIC.SHAPE,  2],
-                [  CHARACTERISTIC.COLOR,  3],
-                [   CHARACTERISTIC.SIZE,  1],
-                [CHARACTERISTIC.OUTLINE,  2]
+                [  TRAIT.SHAPE,  2],
+                [  TRAIT.COLOR,  3],
+                [   TRAIT.SIZE,  1],
+                [TRAIT.OUTLINE,  2]
             ]
         },
     ];
@@ -1279,10 +1279,10 @@ function game() {
 
     // definir as restrções para cada caixa
 
-    let acceptedRestrictionsLeft = new CharacteristicContainer();
-    let rejectedRestrictionsLeft = new CharacteristicContainer();
-    let acceptedRestrictionsRight = new CharacteristicContainer();
-    let rejectedRestrictionsRight = new CharacteristicContainer();
+    let acceptedRestrictionsLeft = new TraitContainer();
+    let rejectedRestrictionsLeft = new TraitContainer();
+    let acceptedRestrictionsRight = new TraitContainer();
+    let rejectedRestrictionsRight = new TraitContainer();
 
     let leftChoosenSets = [];
     let rightChoosenSets = [];
@@ -1301,13 +1301,13 @@ function game() {
 
         // random control
         currentStage.randomLimits.delete(classe);
-        let leftSet = new CharacteristicSetContainer().add(classe, left),
-            rightSet = new CharacteristicSetContainer().add(classe, right);
+        let leftSet = new TraitSetContainer().add(classe, left),
+            rightSet = new TraitSetContainer().add(classe, right);
 
         for (const [classe, qty] of currentStage.randomLimits.entries()) {
-            let choosenCharacteristics = pickRandom([...classe], qty);
-            leftSet.add(classe, ...choosenCharacteristics);
-            rightSet.add(classe, ...choosenCharacteristics);
+            let choosenTraits = pickRandom([...classe], qty);
+            leftSet.add(classe, ...choosenTraits);
+            rightSet.add(classe, ...choosenTraits);
         }
 
         leftChoosenSets = leftSet.toSingleSubsets();
@@ -1407,19 +1407,19 @@ function game() {
         }
 
         for (const [rejClass, rejQty] of currentStage.rejectedClasses[ONE_SIDE.WITH_ACCEPTED]) {
-            let choosenCharacteristics = pickRandom([...rejClass], rejQty + 1);
-            let acceptedCharacteristic = choosenCharacteristics.pop();
+            let choosenTraits = pickRandom([...rejClass], rejQty + 1);
+            let acceptedTrait = choosenTraits.pop();
 
             //                só corrige se já houve uma inserção
             if (oswaToFix && (oswaRejOnSmallerBox || oswaRejOnBiggerBox) ) {
                 if (oswaRejOnSmallerBox) {
-                    smallerBoxRejected.insert(rejClass, ...choosenCharacteristics);
-                    biggerBoxAccepted.insert(rejClass, acceptedCharacteristic);  // adicionar a restrição aceita na outra caixa
+                    smallerBoxRejected.insert(rejClass, ...choosenTraits);
+                    biggerBoxAccepted.insert(rejClass, acceptedTrait);  // adicionar a restrição aceita na outra caixa
                     smallerBoxSize += rejQty;
                     biggerBoxSize += 1;
                 } else {
-                    biggerBoxRejected.insert(rejClass, ...choosenCharacteristics);
-                    smallerBoxAccepted.insert(rejClass, acceptedCharacteristic);  // adicionar a restrição aceita na outra caixa
+                    biggerBoxRejected.insert(rejClass, ...choosenTraits);
+                    smallerBoxAccepted.insert(rejClass, acceptedTrait);  // adicionar a restrição aceita na outra caixa
                     biggerBoxSize += rejQty;
                     smallerBoxSize += 1;
                 }
@@ -1432,14 +1432,14 @@ function game() {
             
             // se a proporção depois da inserção na caixa menor for mais próxima de boxesRatio, inserir na caixa menor
             if (Math.abs(ratioIfInsertOnSmaller - smallerBoxRatio) < Math.abs(ratioIfInsertOnBigger - smallerBoxRatio)) {
-                smallerBoxRejected.insert(rejClass, ...choosenCharacteristics);
-                biggerBoxAccepted.insert(rejClass, acceptedCharacteristic);  // adicionar a restrição aceita na outra caixa
+                smallerBoxRejected.insert(rejClass, ...choosenTraits);
+                biggerBoxAccepted.insert(rejClass, acceptedTrait);  // adicionar a restrição aceita na outra caixa
                 smallerBoxSize += rejQty;
                 biggerBoxSize += 1;
                 oswaRejOnSmallerBox = true;
             } else {
-                biggerBoxRejected.insert(rejClass, ...choosenCharacteristics);
-                smallerBoxAccepted.insert(rejClass, acceptedCharacteristic);  // adicionar a restrição aceita na outra caixa
+                biggerBoxRejected.insert(rejClass, ...choosenTraits);
+                smallerBoxAccepted.insert(rejClass, acceptedTrait);  // adicionar a restrição aceita na outra caixa
                 biggerBoxSize += rejQty;
                 smallerBoxSize += 1;
                 oswaRejOnBiggerBox = true;
@@ -1459,30 +1459,30 @@ function game() {
 
             if (bothNonEmptyFix || oswaFix) {
                 const [rejClass, rejQty] = currentStage.rejectedClasses[ONE_SIDE.NO_ACCEPTED].shift();
-                let choosenCharacteristics = pickRandom([...rejClass], rejQty);
+                let choosenTraits = pickRandom([...rejClass], rejQty);
 
                 // se tem rejeição oswa, as caixas sempre terão tamanho > 0. boxNonZeroFix e oswaFix são mutuamente exclusivos
                 let insertOnSmaller = smallerBoxSize === 0 || oswaRejOnSmallerBox;
                 if (insertOnSmaller) {
-                    smallerBoxRejected.insert(rejClass, ...choosenCharacteristics);
+                    smallerBoxRejected.insert(rejClass, ...choosenTraits);
                     smallerBoxSize += rejQty;
                 } else {
-                    biggerBoxRejected.insert(rejClass, ...choosenCharacteristics);
+                    biggerBoxRejected.insert(rejClass, ...choosenTraits);
                     biggerBoxSize += rejQty;
                 }
             }
         }
         for (const [rejClass, rejQty] of currentStage.rejectedClasses[ONE_SIDE.NO_ACCEPTED]) {
-            let choosenCharacteristics = pickRandom([...rejClass], rejQty);
+            let choosenTraits = pickRandom([...rejClass], rejQty);
             let ratioIfInsertOnSmaller = (smallerBoxSize + rejQty) / (smallerBoxSize + biggerBoxSize + rejQty),
                 ratioIfInsertOnBigger = (smallerBoxSize) / (smallerBoxSize + biggerBoxSize + rejQty);
 
             // se a proporção depois da inserção na caixa menor for mais próxima de boxesRatio, inserir na caixa menor
             if (Math.abs(ratioIfInsertOnSmaller - smallerBoxRatio) < Math.abs(ratioIfInsertOnBigger - smallerBoxRatio)) {
-                smallerBoxRejected.insert(rejClass, ...choosenCharacteristics);
+                smallerBoxRejected.insert(rejClass, ...choosenTraits);
                 smallerBoxSize += rejQty;
             } else {
-                biggerBoxRejected.insert(rejClass, ...choosenCharacteristics);
+                biggerBoxRejected.insert(rejClass, ...choosenTraits);
                 biggerBoxSize += rejQty;
             }
         }
@@ -1491,26 +1491,26 @@ function game() {
         //* não é necessário, pois BOTH_SIDES corrige tudo automaticamente
         //}
         for (const [rejClass, rejQty] of currentStage.rejectedClasses[BOTH_SIDES]) {
-            let choosenCharacteristics = pickRandom([...rejClass], rejQty);
+            let choosenTraits = pickRandom([...rejClass], rejQty);
             // primeiro insere uma restrição rejeitada em cada caixa
-            let smallerCharacteristic = choosenCharacteristics.pop(),
-                biggerCharacteristic = choosenCharacteristics.pop();
-            smallerBoxRejected.insert(rejClass, smallerCharacteristic);
-            biggerBoxRejected.insert(rejClass, biggerCharacteristic);
+            let smallerTrait = choosenTraits.pop(),
+                biggerTrait = choosenTraits.pop();
+            smallerBoxRejected.insert(rejClass, smallerTrait);
+            biggerBoxRejected.insert(rejClass, biggerTrait);
             smallerBoxSize += 1;
             biggerBoxSize += 1;
 
             // TODO: calculate how many restrictions can be inserted on each box instead of deciding where to insert for each restriction
-            for (const characteristic of choosenCharacteristics) {
+            for (const trait of choosenTraits) {
                 // inserir cada característica uma de cada vez para tentar chegar mais perto de boxesRatio
                 let ratioIfInsertOnSmaller = (smallerBoxSize + 1) / (smallerBoxSize + biggerBoxSize + 1),
                     ratioIfInsertOnBigger = (smallerBoxSize) / (smallerBoxSize + biggerBoxSize + 1);
                 // se a proporção depois da inserção na caixa menor for mais próxima de boxesRatio, inserir na caixa menor
                 if (Math.abs(ratioIfInsertOnSmaller - smallerBoxRatio) < Math.abs(ratioIfInsertOnBigger - smallerBoxRatio)) {
-                    smallerBoxRejected.insert(rejClass, characteristic);
+                    smallerBoxRejected.insert(rejClass, trait);
                     smallerBoxSize += 1;
                 } else {
-                    biggerBoxRejected.insert(rejClass, characteristic);
+                    biggerBoxRejected.insert(rejClass, trait);
                     biggerBoxSize += 1;
                 }
             }
@@ -1525,31 +1525,31 @@ function game() {
 
             if (bothNonEmptyFix || oswaFix) {
                 const accClass = currentStage.acceptedClasses.shift();
-                let choosenCharacteristic = [...accClass][Math.floor(Math.random() * accClass.length)];
+                let choosenTrait = [...accClass][Math.floor(Math.random() * accClass.length)];
 
                 // se tem rejeição oswa, as caixas sempre terão tamanho > 0. boxNonZeroFix e oswaFix são mutuamente exclusivos
                 let insertOnSmaller = smallerBoxSize === 0 || oswaRejOnSmallerBox;
                 if (insertOnSmaller) {
-                    smallerBoxAccepted.insert(accClass, choosenCharacteristic);
+                    smallerBoxAccepted.insert(accClass, choosenTrait);
                     smallerBoxSize += 1;
                 } else {
-                    biggerBoxAccepted.insert(accClass, choosenCharacteristic);
+                    biggerBoxAccepted.insert(accClass, choosenTrait);
                     biggerBoxSize += 1;
                 }
             }
         }
         // TODO: calculate how many restrictions can be inserted on each box instead of deciding where to insert for each restriction
         for (const accClass of currentStage.acceptedClasses) {
-            let choosenCharacteristic = [...accClass][Math.floor(Math.random() * accClass.length)];
+            let choosenTrait = [...accClass][Math.floor(Math.random() * accClass.length)];
             let ratioIfInsertOnSmaller = (smallerBoxSize + 1) / (smallerBoxSize + biggerBoxSize + 1),
                 ratioIfInsertOnBigger = (smallerBoxSize) / (smallerBoxSize + biggerBoxSize + 1);
 
             // se a proporção depois da inserção na caixa menor for mais próxima de boxesRatio, inserir na caixa menor
             if (Math.abs(ratioIfInsertOnSmaller - smallerBoxRatio) < Math.abs(ratioIfInsertOnBigger - smallerBoxRatio)) {
-                smallerBoxAccepted.insert(accClass, choosenCharacteristic);
+                smallerBoxAccepted.insert(accClass, choosenTrait);
                 smallerBoxSize += 1;
             } else {
-                biggerBoxAccepted.insert(accClass, choosenCharacteristic);
+                biggerBoxAccepted.insert(accClass, choosenTrait);
                 biggerBoxSize += 1;
             }
         }
@@ -1564,8 +1564,8 @@ function game() {
         // gerar os subconjuntos que existem em cada lado
         {
             // conjunto com todas as características
-            let universalSet = new CharacteristicSetContainer();
-            [...CHARACTERISTIC].forEach(classe => universalSet.add(classe, ...classe));
+            let universalSet = new TraitSetContainer();
+            [...TRAIT].forEach(classe => universalSet.add(classe, ...classe));
 
             // construir o conjunto que define o conjunto
             // rejeições são invertidas, pois rejeitar uma característica significa aceitar o complemento
@@ -1573,22 +1573,22 @@ function game() {
             let leftSet = universalSet.clone();
             acceptedRestrictionsLeft.arr.forEach((caracteristicas, i) => {
                 if (caracteristicas.length !== 0)
-                    leftSet.set(CHARACTERISTIC[i], ...caracteristicas);
+                    leftSet.set(TRAIT[i], ...caracteristicas);
             });
             rejectedRestrictionsLeft.arr.forEach((caracteristicas, i) => {
-                let classe = CHARACTERISTIC[i];
-                let set = new CharacteristicSetContainer().add(classe, ...caracteristicas);
+                let classe = TRAIT[i];
+                let set = new TraitSetContainer().add(classe, ...caracteristicas);
                 leftSet = leftSet.intersection(set.invert(classe), classe);
             });
 
             let rightSet = universalSet.clone();
             acceptedRestrictionsRight.arr.forEach((caracteristicas, i) => {
                 if (caracteristicas.length !== 0)
-                    rightSet.set(CHARACTERISTIC[i], ...caracteristicas);
+                    rightSet.set(TRAIT[i], ...caracteristicas);
             });
             rejectedRestrictionsRight.arr.forEach((caracteristicas, i) => {
-                let classe = CHARACTERISTIC[i];
-                let set = new CharacteristicSetContainer().add(classe, ...caracteristicas);
+                let classe = TRAIT[i];
+                let set = new TraitSetContainer().add(classe, ...caracteristicas);
                 rightSet = rightSet.intersection(set.invert(classe), classe);
             });
 
@@ -1607,19 +1607,19 @@ function game() {
             // converte as strings para conjuntos
 
             leftSets = [...leftSets].map(setStr => {
-                let set = new CharacteristicSetContainer();
+                let set = new TraitSetContainer();
                 set.arr = JSON.parse(setStr).map(arr => new Set(arr));
                 return set;
             });
 
             rightSets = [...rightSets].map(setStr => {
-                let set = new CharacteristicSetContainer();
+                let set = new TraitSetContainer();
                 set.arr = JSON.parse(setStr).map(arr => new Set(arr));
                 return set;
             });
 
             middleSets = [...middleSets].map(setStr => {
-                let set = new CharacteristicSetContainer();
+                let set = new TraitSetContainer();
                 set.arr = JSON.parse(setStr).map(arr => new Set(arr));
                 return set;
             });
@@ -1628,7 +1628,7 @@ function game() {
         shuffleArray(rightSets);
         shuffleArray(middleSets);
 
-        let limitVec = Array(CHARACTERISTIC.length);
+        let limitVec = Array(TRAIT.length);
         currentStage.randomLimits.forEach((limit, classe) => {
             limitVec[classe.id] = limit;
         });
@@ -1644,7 +1644,7 @@ function game() {
 
             for (const combination of cartesianProduct(leftSets, middleSets, rightSets)) {
                 let [leftSet, middleSet, rightSet] = combination;
-                let set = new CharacteristicSetContainer().union(leftSet).union(middleSet).union(rightSet);
+                let set = new TraitSetContainer().union(leftSet).union(middleSet).union(rightSet);
 
                 let setWeightVec = set.arr.map(s => s.size);
                 let effectiveCapacity = Math.min(...setWeightVec.map((w, i) => Math.floor(limitVec[i] / w)));
@@ -1672,7 +1672,7 @@ function game() {
         rightChoosenSets = [minCombination[2]];
 
         // as características que estão sendo usadas no monmento
-        let currentCharacteristics = minSet;
+        let currentTraits = minSet;
 
         if (zipArr(minSet.arr.map(c => c.length), limitVec).some(([a, b]) => a > b)) {
             console.warn('Configuração mínima é menor que o limite. O limite não é razoável, usando a configuração mínima como limite.');
@@ -1695,13 +1695,13 @@ function game() {
         também, acesse pelo link doi)
 
         O problema que estamos tentando resolver é o seguinte: temos N conjuntos (leftSets, middleSets, rightSets) e
-        temos que escolher o maior número possível deles, de forma que currentCharacteristics seja menor ou igual a limitVec.
+        temos que escolher o maior número possível deles, de forma que currentTraits seja menor ou igual a limitVec.
 
-        Todo conjunto tem um peso, que é 1 para cada classe (as dimensões). Como um conjunto e currentCharacteristics (o
+        Todo conjunto tem um peso, que é 1 para cada classe (as dimensões). Como um conjunto e currentTraits (o
         conjunto de características que estão sendo usadas no momento) podem possuir uma interseção, o "peso real" pode
-        não ser [1, 1, 1, 1]. Esse "peso real" é quanto o conjuntos adiciona ao currentCharacteristics.
-        Se currentCharacteristics já tem CHARACTERISTIC.SHAPE.SQUARE, um conjunto que também tem vai ter peso real zero
-        nessa classe/dimensão. Como adicionar um conjunto à solução altera currentCharacteristics, o peso real dos
+        não ser [1, 1, 1, 1]. Esse "peso real" é quanto o conjuntos adiciona ao currentTraits.
+        Se currentTraits já tem TRAIT.SHAPE.SQUARE, um conjunto que também tem vai ter peso real zero
+        nessa classe/dimensão. Como adicionar um conjunto à solução altera currentTraits, o peso real dos
         conjuntos restantes podem mudar, por isso esse problema é dinâmico.
 
         A capacidade da mochila é limitVec, que é um vetor com a quantidade máxima de características de cada classe que
@@ -1723,7 +1723,7 @@ function game() {
         2. Itera sobre os conjuntos, calculando a recompensa de cada um, escolhendo o melhor e adicionando ele à solução.
         3. Caso esse melhor conjunto tenha capacidade efetiva de 0, o melhor conjunto não é inserido e o algoritmo
            termina, pois não há como inserir mais conjuntos na solução.
-        4. Caso contrário, o conjunto é adicionado à solução e o currentCharacteristics é atualizado.
+        4. Caso contrário, o conjunto é adicionado à solução e o currentTraits é atualizado.
         5. Caso não tenha mais conjuntos para iterar, o algoritmo termina.
         */
         {
@@ -1734,9 +1734,9 @@ function game() {
             while(allSets.length !== 0) {
                 let maxSet, maxSetSide;
                 let maxSetProfit = 0;
-                let currentLimit = limitVec.map((l, i) => l - currentCharacteristics.arr[i].size);
+                let currentLimit = limitVec.map((l, i) => l - currentTraits.arr[i].size);
                 for (const [side, set] of allSets) {
-                    let setWeightVec = set.difference(currentCharacteristics).arr.map(s => s.size);
+                    let setWeightVec = set.difference(currentTraits).arr.map(s => s.size);
 
                     //                                                                        previne 0/0. Se w é 0, então a capacidade dessa dimensão é infinita
                     let effectiveCapacity = Math.min(...setWeightVec.map((w, i) => Math.floor(w === 0 ? Infinity : currentLimit[i] / w)));
@@ -1763,7 +1763,7 @@ function game() {
 
                 // adiciona o conjunto à solução
                 maxSetSide.push(maxSet);
-                currentCharacteristics = currentCharacteristics.union(maxSet);
+                currentTraits = currentTraits.union(maxSet);
                 // remove o conjunto escolhido do array
                 allSets.splice(allSets.findIndex(([_, s]) => s === maxSet), 1);
             }
@@ -1854,8 +1854,8 @@ function game() {
     gOpcoes = respostasItems;
     respostasItems.forEach((item, i) => {
         let imgTag = document.createElement("img");
-        imgTag.src = CHARACTERISTIC_EXTRA.getRestricaoScr(item);
-        imgTag.alt = CHARACTERISTIC_EXTRA.getRestricaoAlt(item);
+        imgTag.src = TRAIT_EXTRA.getRestricaoScr(item);
+        imgTag.alt = TRAIT_EXTRA.getRestricaoAlt(item);
         imgTag.title = imgTag.alt;
         imgTag.setAttribute('data-index', i);
         imgTag.classList.add('drag');
@@ -1881,14 +1881,14 @@ function game() {
 
     caixaEsquerdaItems.forEach(item => {
         let imgTag = document.createElement("img");
-        imgTag.src = CHARACTERISTIC_EXTRA.getFormaSrc(item);
-        imgTag.alt = CHARACTERISTIC_EXTRA.getFormaAlt(item);
+        imgTag.src = TRAIT_EXTRA.getFormaSrc(item);
+        imgTag.alt = TRAIT_EXTRA.getFormaAlt(item);
         imgTag.title = imgTag.alt;
         //imgTag.classList.add('drag');
         imgTag.classList.add('game-img');
-        imgTag.classList.add(item.get(CHARACTERISTIC.SIZE) === CHARACTERISTIC.SIZE.SMALL ? 'pequeno' : 'grande');
+        imgTag.classList.add(item.get(TRAIT.SIZE) === TRAIT.SIZE.SMALL ? 'pequeno' : 'grande');
         // TODO: remove this duplicated line
-        imgTag.classList.add(item.get(CHARACTERISTIC.SIZE) === CHARACTERISTIC.SIZE.SMALL ? 'pequeno' : 'grande');
+        imgTag.classList.add(item.get(TRAIT.SIZE) === TRAIT.SIZE.SMALL ? 'pequeno' : 'grande');
         //imgTag.classList.add('img-restricao-esquerda');
         imgTag.addEventListener('click', modalInfoTrigger);
         divCaixaEsquerda.appendChild(imgTag);
@@ -1896,12 +1896,12 @@ function game() {
 
     caixaDireitaItems.forEach(item => {
         let imgTag = document.createElement("img");
-        imgTag.src = CHARACTERISTIC_EXTRA.getFormaSrc(item);
-        imgTag.alt = CHARACTERISTIC_EXTRA.getFormaAlt(item);
+        imgTag.src = TRAIT_EXTRA.getFormaSrc(item);
+        imgTag.alt = TRAIT_EXTRA.getFormaAlt(item);
         imgTag.title = imgTag.alt;
         //imgTag.classList.add('drag');
         imgTag.classList.add('game-img');
-        imgTag.classList.add(item.get(CHARACTERISTIC.SIZE) == CHARACTERISTIC.SIZE.SMALL ? 'pequeno' : 'grande');
+        imgTag.classList.add(item.get(TRAIT.SIZE) == TRAIT.SIZE.SMALL ? 'pequeno' : 'grande');
         //imgTag.classList.add('img-restricao-esquerda');
         imgTag.addEventListener('click', modalInfoTrigger);
         divCaixaDireita.appendChild(imgTag);
@@ -1909,12 +1909,12 @@ function game() {
 
     caixaIntersecaoItems.forEach(item => {
         let imgTag = document.createElement("img");
-        imgTag.src = CHARACTERISTIC_EXTRA.getFormaSrc(item);
-        imgTag.alt = CHARACTERISTIC_EXTRA.getFormaAlt(item);
+        imgTag.src = TRAIT_EXTRA.getFormaSrc(item);
+        imgTag.alt = TRAIT_EXTRA.getFormaAlt(item);
         imgTag.title = imgTag.alt;
         //imgTag.classList.add('drag');
         imgTag.classList.add('game-img');
-        imgTag.classList.add(item.get(CHARACTERISTIC.SIZE) == CHARACTERISTIC.SIZE.SMALL ? 'pequeno' : 'grande');
+        imgTag.classList.add(item.get(TRAIT.SIZE) == TRAIT.SIZE.SMALL ? 'pequeno' : 'grande');
         //imgTag.classList.add('img-restricao-esquerda');
         imgTag.addEventListener('click', modalInfoTrigger);
         divCaixaIntersecao.appendChild(imgTag);
