@@ -24,20 +24,10 @@ const divRespostasId = 'container_respostas';
 const divEstrelas = 'conquistas_conteiner';
 var arrayEstrelas = document.getElementById(divEstrelas).getElementsByTagName('img');
 
-var ano = localStorage.getItem('ano');
 var textoInfo = document.getElementById('resultado-jogo-info');
 var modalInfo = document.getElementById("modalInfoPeca");
 var botaoOk = document.getElementById('botao-proximo-info');
 var etapaMax = 40;
-
-const anosEnum = Object.freeze({
-    "Primeiro ano": 1,
-    "Segundo ano": 2,
-    "Terceiro ano": 3,
-    "Quarto ano": 4,
-    "Quinto ano": 5,
-    "Sexto ano": 6
-});
 
 // gerar enum aninhado onde os elementos do subenum não possuem o mesmo valor, podendo obter o valor do enum a partir do valor do subenum
 // o array members vira um objeto que funciona como um enum, ex: TRAIT.SHAPE.SQUARE == 1.25
