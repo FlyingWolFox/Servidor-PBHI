@@ -1386,7 +1386,7 @@ function background(caixas){
     if(caixas == 2) {
 
         dropEsquerda.setAttribute('style', 'grid-column: 2/3; grid-row: 1/4;');
-        dropDireita.setAttribute('style', 'grid-column: 4/5; grid-row: 1/4;');
+        dropDireita.setAttribute('style', 'grid-column: 4/5; grid-row: 1/4; align-content: flex-start;');
         dropMeio.setAttribute('style', 'display: none;');
         dropzoneArea.setAttribute('style', 'grid-template-columns: 2fr 5fr 1fr 5fr 2fr;')
         dropEsquerda.classList.remove('drop-meio-ativo');
@@ -1396,7 +1396,7 @@ function background(caixas){
     } else {
 
         dropEsquerda.setAttribute('style', 'grid-column: 2/4; grid-row: 1/3;');
-        dropDireita.setAttribute('style', 'grid-column: 3/5; grid-row: 2/4;');
+        dropDireita.setAttribute('style', 'grid-column: 3/5; grid-row: 2/4; align-content: flex-end;');
         dropMeio.setAttribute('style', 'grid-column: 3/4; grid-row: 2/3;');
         dropzoneArea.setAttribute('style', 'grid-template-columns: 2fr repeat(3, 3fr) 2fr;')
         dropEsquerda.classList.add('drop-meio-ativo');
