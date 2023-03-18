@@ -1935,11 +1935,6 @@ function game() {
         divCaixaIntersecao.classList.remove('drop-meio-ativo');
         divCaixaDireita.classList.remove('drop-meio-ativo');
         divRestricaoDireita.setAttribute('style', 'margin-top: 0px;');
-
-        let caixaEsquerdaDrop = document.getElementById("container-restricao-esquerda");
-        caixaEsquerdaDrop.style.marginLeft = "160px";
-        let caixaDireitaDrop = document.getElementById("container-restricao-direita");
-        caixaDireitaDrop.style.marginLeft = "10px";
     } else {
         divCaixaEsquerda.setAttribute('style', 'grid-column: 2/4; grid-row: 1/3;');
         divCaixaDireita.setAttribute('style', 'grid-column: 3/5; grid-row: 2/4; align-content: flex-end');
@@ -1962,12 +1957,12 @@ function game() {
     let interrogacaoEsq = document.getElementById("container-restricao-esquerda");
     interrogacaoEsq.style.backgroundImage = "url('../img/bg-slot.svg'),".repeat(gRespostasCertasEsquerda.length).slice(0, -1);
     interrogacaoEsq.style.backgroundRepeat = "no-repeat,".repeat(gRespostasCertasEsquerda.length).slice(0, -1);
-    interrogacaoEsq.style.backgroundPosition = Array(gRespostasCertasEsquerda.length).fill(`top Xpx left`).map((str, i) => str.replace("X", i*interrogacaoEspaco)).join(",");
+    interrogacaoEsq.style.backgroundPosition = Array(gRespostasCertasEsquerda.length).fill(`top Xpx right 10px`).map((str, i) => str.replace("X", i*interrogacaoEspaco)).join(",");
  
     let interrogacaoDir = document.getElementById("container-restricao-direita");
     interrogacaoDir.style.backgroundImage = "url('../img/bg-slot.svg'),".repeat(gRespostasCertasDireita.length).slice(0, -1);
     interrogacaoDir.style.backgroundRepeat = "no-repeat,".repeat(gRespostasCertasDireita.length).slice(0, -1);
-    interrogacaoDir.style.backgroundPosition = Array(gRespostasCertasDireita.length).fill(`top Xpx right`).map((str, i) => str.replace("X", i*interrogacaoEspaco)).join(",");
+    interrogacaoDir.style.backgroundPosition = Array(gRespostasCertasDireita.length).fill(`top Xpx left 10px`).map((str, i) => str.replace("X", i*interrogacaoEspaco)).join(",");
 }
 
 const [RESPOSTA_CORRETA, RESPOSTA_INCOMPLETA, RESPOSTA_ERRADA] = [1, 2, 3];
