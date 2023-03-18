@@ -875,7 +875,6 @@ function RestrictionSet(shapes) {
         0b11 - Rejeição e aceitação de SQUARE estão presentes no conjunto
     */
 
-    const [REJECTED, ACCEPTED] = [false, true];
     let todasCaracteristicas = [...TRAIT].flatMap(classe => [...classe]);
     let caracteristicasIndex = function() {
         let obj = Object.create(null);
