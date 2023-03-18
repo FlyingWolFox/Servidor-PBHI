@@ -29,34 +29,34 @@ var modalInfo = document.getElementById("modalInfoPeca");
 var botaoOk = document.getElementById('botao-proximo-info');
 var etapaMax = 40;
 
-// gerar enum aninhado onde os elementos do subenum não possuem o mesmo valor, podendo obter o valor do enum a partir do valor do subenum
-// o array members vira um objeto que funciona como um enum, ex: TRAIT.SHAPE.SQUARE == 1.25
-// exemplo de estrutura de enum gerado aqui:
-// TRAIT = {
-//   SHAPE: {   // id do enum = 1, já que se fazer o Math.floor de qualquer dos seus elementos, o resultado é 1
-//     TRIANGLE: 1.0, // 1 + 0/4 = 1.0 (id do enum + id do elemento no subenum/quantidade de elementos do subenum)
-//     SQUARE: 1.25,    // 1 + 1/4 = 1.25
-//     CIRCLE: 1.5,   // 1 + 2/4 = 1.5
-//     TRIANGLE: 1.75,  // 1 + 3/4 = 1.75
-//     id: 1, // id do enum
-//     length: 4, // quantidade de elementos do subenum
-//     Symbol.iterator: function*   // função que permite iterar sobre os elementos do subenum (TRIANGLE, SQUARE, CIRCLE, TRIANGLE)
-//   },
-//   COLOR: {   // id do enum = 2
-//     BLUE: 2.0,   // 2 + 0/4 = 2.0
-//     RED: 2.3333333333333335,  // 2 + 1/3 = 2.3333333333333335
-//     GREEN: 2.6666666666666665,   // 2 + 2/3 = 2.6666666666666665
-//     id: 2, // id do enum
-//     length: 3, // quantidade de elementos do subenum
-//     Symbol.iterator: function*   // função que permite iterar sobre os elementos do subenum (BLUE, RED, GREEN)
-//   },
-//   length: 2, // quantidade de subenums
-//   "0": "SHAPE", // permite obter o nome do subenum a partir do id do enum
-//   "1": "COLOR",
-//   Symbol.iterator: function*   // função que permite iterar sobre os subenums (SHAPE, COLOR)
-//   getClass: function (subenumValue) // função que retorna o objeto da classe (valor enum pai) da caracteristica (valor do subenum), ex: TRAIT.getClass(TRAIT.SHAPE.SQUARE) == CARACTERISTICAS.SHAPE
-//   getClassId: function (subenumValue) // mesmo que getClass, mas retorna o id do enum pai, ex: TRAIT.getClassId(TRAIT.SHAPE.SQUARE) == 0
-// }
+/*
+gerar enum aninhado onde os elementos do subenum não possuem o mesmo valor, podendo obter o valor do enum a partir do valor do subenum
+o array members vira um objeto que funciona como um enum, ex: TRAIT.SHAPE.SQUARE == 1.25
+exemplo de estrutura de enum gerado aqui:
+TRAIT = {
+  SHAPE: {
+    TRIANGLE: 1.0,
+    SQUARE: 1.50,
+    id: 1, // id do enum, Math.floor(SHAPE.SQUARE) == 1
+    length: 2,
+    Symbol.iterator: function* // itera [TRIANGLE, SQUARE]
+  },
+  COLOR: {
+    BLUE: 2.0,
+    RED: 2.3333333333333335,
+    GREEN: 2.6666666666666665,
+    id: 2,
+    length: 3,
+    Symbol.iterator: function*
+  },
+  length: 2,
+  "0": [SHAPE], // reverse lookup
+  "1": [COLOR],
+  Symbol.iterator: function*   // itera [SHAPE, COLOR]
+  getClass: function
+  getClassId: function
+}
+*/
 const TRAIT = function () {
     let members = [
         // [ENUM_NAME, ENUM_VALUES]
