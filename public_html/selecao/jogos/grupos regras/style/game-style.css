@@ -771,7 +771,7 @@ section#caixa-direita.drop-meio-ativo img {
 section#caixa-intersecao.drop-meio-ativo img {
 
     width: 50px;
-    margin: 0px 4px;
+    margin: 10px 10px;
 }
 
 section#caixa-esquerda.drop-meio-ativo img.draggable-mirror,
@@ -842,7 +842,7 @@ section#caixa-direita.drop-meio-ativo img.pequeno {
 section#caixa-intersecao.drop-meio-ativo img.pequeno {
 
     width: 40px;
-    margin: 0px 4px;
+    margin: 10px 10px;
 }
 
 section#caixa-esquerda.drop-meio-ativo img.draggable-mirror.pequeno,

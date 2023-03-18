@@ -1951,7 +1951,7 @@ function game() {
     console.log("CERTAS ESQUERDA: " + gRespostasCertasEsquerda.length);
     console.log("CERTAS DIREITA: " + gRespostasCertasDireita.length);
 
-    let interrogacaoEspaco = 46; // altura da img da restrição
+    let interrogacaoEspaco = 50 + 10; // altura da img da restrição + margem
  
     let interrogacaoEsq = document.getElementById("container-restricao-esquerda");
     interrogacaoEsq.style.backgroundImage = "url('../img/bg-slot.svg'),".repeat(gRespostasCertasEsquerda.length).slice(0, -1);
