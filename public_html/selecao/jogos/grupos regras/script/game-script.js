@@ -58,7 +58,7 @@ TRAIT = {
 }
 */
 const TRAIT = function () {
-    let members = [
+    const members = [
         // [ENUM_NAME, ENUM_VALUES]
         ['COLOR', ['BLUE', 'RED', 'YELLOW']],
         ['SHAPE', ['TRIANGLE', 'SQUARE', 'RECTANGLE', 'CIRCLE']],
@@ -66,50 +66,45 @@ const TRAIT = function () {
         ['OUTLINE', ['OUTLINED', 'NOTOUTLINED']]
     ];
 
-    let cEnum = {};
+    let tEnum = {};
     for (let i = 0; i < members.length; i++) {
-        let [memberName, memberValues] = members[i];
-        cEnum[memberName] = {};
+        const [memberName, memberValues] = members[i];
+        tEnum[memberName] = {};
         for (let j = 0; j < memberValues.length; j++) {
-            cEnum[memberName][memberValues[j]] = i + j / memberValues.length;
+            tEnum[memberName][memberValues[j]] = i + j / memberValues.length;
         }
-        cEnum[memberName].id = i;
-        cEnum[memberName].length = memberValues.length;
-        // iterate over the carcateristics of a class
-        cEnum[memberName][Symbol.iterator] = function* () {
-            for (const trait of memberValues) {
-                yield cEnum[memberName][trait];
-            }
+        tEnum[memberName].id = i;
+        tEnum[memberName].length = memberValues.length;
+        // iterate over the traits of a class
+        tEnum[memberName][Symbol.iterator] = function* () {
+            for (const trait of memberValues)
+                yield tEnum[memberName][trait];
         };
-        cEnum[i] = cEnum[memberName]; // add reverse lookup
+        tEnum[i] = tEnum[memberName]; // add reverse lookup
     }
-    cEnum.length = members.length;
+    tEnum.length = members.length;
 
-    cEnum.getClass = function (value) {
-        let classId = Math.floor(value);
-        return cEnum[classId];
-    };
-
-    cEnum.getClassNumber = function (value) {
-        return Math.floor(value);
+    // retorna a classe de uma característica
+    tEnum.getClass = function (value) {
+        const classId = Math.floor(value);
+        return tEnum[classId];
     };
 
     // iterator para iterar sobre as classes de características
-    cEnum[Symbol.iterator] = function* () {
-        let classes = members.map(([memberName, _]) => memberName);
-        for (const className of classes) {
+    tEnum[Symbol.iterator] = function* () {
+        const classes = members.map(([memberName, _]) => memberName);
+        for (const className of classes)
             yield this[className];
-        }
     };
 
-    return Object.freeze(cEnum);
+    return Object.freeze(tEnum);
 }();
 
 // igual a TRAIT, mas com outras informações para cada característica
 // ex: TRAIT.SHAPE.SQUARE.formaAlt == 'Quadrado'
 // é feito para ser acessado com TRAIT, ex: TRAIT_EXTRA[TRAIT.SHAPE.SQUARE].formaAlt == 'Quadrado'
 const TRAIT_EXTRA = function () {
-    let members = [
+    const members = [
         // [ENUM_NAME, ENUM_VALUES]
         ['COLOR', ['BLUE', 'RED', 'YELLOW']],
         ['SHAPE', ['TRIANGLE', 'SQUARE', 'RECTANGLE', 'CIRCLE']],
@@ -117,13 +112,12 @@ const TRAIT_EXTRA = function () {
         ['OUTLINE', ['OUTLINED', 'NOTOUTLINED']]
     ];
 
-    // funciona como uma planilha do excel, onde cada coluna é uma caracteristica e cada linha é uma informação da caracteristica
     // subMembers:
     //  formasSrc: componente do caminho das imagens das formas (ex: triângulo azul, pequeno e com contorno -> 'TZPC.svg)
-    //  formasAlt: nome da caracteristica para exibição (ex: triângulo azul, pequeno e com contorno -> 'Triângulo azul, pequeno com contorno')
+    //  formasAlt: nome da característica para exibição (ex: triângulo azul, pequeno e com contorno -> 'Triângulo azul, pequeno com contorno')
     //  restricaoSrc: componente do caminho das imagens das restrições (ex: restrição peças azuis -> 'azul-sim.svg')
     //  restricaoAlt: nome da restrição para exibição (ex: restrição peças azuis -> 'Podem peças que são azuis')
-    let subMembers = [
+    const subMembers = [
         //               [   BLUE,         RED,     YELLOW], [    TRIANGLE,      SQUARE,    RECTANGLE,     CIRCLE], [      BIG,      SMALL], [      OUTLINED,    NOTOUTLINED],
         ['formaSrc',     [    'Z',         'V',        'A'], [         'T',         'Q',          'R',        'C'], [      'G',        'P'], [           'C',            'S']],
         ['formaAlt',     [ 'azul',  'vermelho',  'amarelo'], [ 'Triângulo',  'Quadrado',  'Retângulo',  'Círculo'], [ 'grande',  'pequeno'], ['com contorno', 'sem contorno']],
@@ -131,47 +125,47 @@ const TRAIT_EXTRA = function () {
         ['restricaoAlt', ['azuis', 'vermelhas', 'amarelas'], ['triângulos', 'quadrados', 'retângulos', 'círculos'], ['grandes', 'pequenas'], ['com contorno', 'sem contorno']],
     ];
 
-    let cEnum = {};
+    let tEnum = {};
 
     for (let i = 0; i < members.length; i++) {
-        let [memberName, memberValues] = members[i];
-        cEnum[memberName] = {};
+        const [memberName, memberValues] = members[i];
+        tEnum[memberName] = {};
         for (let j = 0; j < memberValues.length; j++) {
-            cEnum[memberName][memberValues[j]] = {};
+            tEnum[memberName][memberValues[j]] = {};
             for (const subMemberArray of subMembers) {
-                let subMemberName = subMemberArray[0];
+                const subMemberName = subMemberArray[0];
                 // access subMembers, ex TRAIT_EXTRA.SHAPE.SQUARE.formaSrc
-                cEnum[memberName][memberValues[j]][subMemberName] = subMemberArray[(i + 1)][j];
+                tEnum[memberName][memberValues[j]][subMemberName] = subMemberArray[i + 1][j];
             }
             // lookup with TRAIT
-            cEnum[i + j / memberValues.length] = cEnum[memberName][memberValues[j]];
+            tEnum[i + j / memberValues.length] = tEnum[memberName][memberValues[j]];
         }
     }
 
     // retorna o caminho da imagem de uma forma
-    cEnum.getFormaSrc = function (forma) {
-        return `../img/fig-rosto/${cEnum[forma.get(TRAIT.SHAPE)].formaSrc}${cEnum[forma.get(TRAIT.COLOR)].formaSrc}${cEnum[forma.get(TRAIT.SIZE)].formaSrc}${cEnum[forma.get(TRAIT.OUTLINE)].formaSrc}.svg`;
+    tEnum.getFormaSrc = function (forma) {
+        return `../img/fig-rosto/${tEnum[forma.get(TRAIT.SHAPE)].formaSrc}${tEnum[forma.get(TRAIT.COLOR)].formaSrc}${tEnum[forma.get(TRAIT.SIZE)].formaSrc}${tEnum[forma.get(TRAIT.OUTLINE)].formaSrc}.svg`;
     };
 
     // retorna o texto da descrição de uma forma
-    cEnum.getFormaAlt = function (forma) {
-        return `${cEnum[forma.get(TRAIT.SHAPE)].formaAlt} ${cEnum[forma.get(TRAIT.COLOR)].formaAlt}, ${cEnum[forma.get(TRAIT.SIZE)].formaAlt} e ${cEnum[forma.get(TRAIT.OUTLINE)].formaAlt}.`;
+    tEnum.getFormaAlt = function (forma) {
+        return `${tEnum[forma.get(TRAIT.SHAPE)].formaAlt} ${tEnum[forma.get(TRAIT.COLOR)].formaAlt}, ${tEnum[forma.get(TRAIT.SIZE)].formaAlt} e ${tEnum[forma.get(TRAIT.OUTLINE)].formaAlt}.`;
     };
 
     // retorna o caminho da imagem de uma restrição
-    cEnum.getRestricaoScr = function ([regra, aceita]) {
-        return `../img/restricoes/${cEnum[regra].restricaoSrc}-${aceita ? 'sim' : 'nao'}.svg`;
+    tEnum.getRestricaoScr = function ([regra, aceita]) {
+        return `../img/restricoes/${tEnum[regra].restricaoSrc}-${aceita ? 'sim' : 'nao'}.svg`;
     };
 
     // retorna o texto da descrição de uma restrição
-    cEnum.getRestricaoAlt = function ([regra, aceita]) {
-        if (TRAIT.getClass(regra) == TRAIT.OUTLINE)
-            return `${aceita ? 'Só' : 'Não'} podem peças ${cEnum[regra].restricaoAlt}`;
-        else
-            return `${aceita ? 'Só' : 'Não'} podem peças que são ${cEnum[regra].restricaoAlt}`;
+    tEnum.getRestricaoAlt = function ([regra, aceita]) {
+        if (TRAIT.getClass(regra) === TRAIT.OUTLINE)
+            return `${aceita ? 'Só' : 'Não'} podem peças ${tEnum[regra].restricaoAlt}`;
+
+        return `${aceita ? 'Só' : 'Não'} podem peças que são ${tEnum[regra].restricaoAlt}`;
     };
 
-    return Object.freeze(cEnum);
+    return Object.freeze(tEnum);
 }();
 
 const [ACCEPTED, REJECTED] = [true, false];
