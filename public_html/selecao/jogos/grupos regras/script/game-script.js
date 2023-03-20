@@ -130,6 +130,7 @@ function stopChuva() {
            [TRAIT.COLOR,     false,      2,    BOTH_SIDES]
        ],
        maxNumAnswers: 7,
+       onlyCorrectAnswers: false,
        maxNumShapes: 12,
        // for non specified classes, the limit is 1
        randomLimits: [
@@ -148,6 +149,7 @@ function stopChuva() {
            BOTH_SIDES: [[TRAIT.COLOR, 2], ...]
        }
        maxNumAnswers: 7,
+       onlyCorrectAnswers: false,
        maxNumShapes: 12,
        randomLimits : new Map([
                               [TRAIT.SHAPE, 1],
@@ -251,6 +253,7 @@ function stagePreprocessor(input) {
         acceptedClasses: acceptedClasses,
         rejectedClasses: rejectedClasses,
         maxNumAnswers: input.maxNumAnswers,
+        onlyCorrectAnswers: !!input.onlyCorrectAnswers, // '!!' força booleano
         maxNumShapes: input.maxNumShapes,
         randomLimits: randomLimits
     };
@@ -290,6 +293,7 @@ function game() {
                 [TRAIT.SHAPE,     true],
             ],
             maxNumAnswers: 2,
+            onlyCorrectAnswers: true,
             maxNumShapes: 3,
             // for non specified classes, the limit is 1
             randomLimits: [
@@ -305,6 +309,24 @@ function game() {
                 [TRAIT.OUTLINE,     true]
             ],
             maxNumAnswers: 6,
+            onlyCorrectAnswers: true,
+            maxNumShapes: 12,
+            // for non specified classes, the limit is 1
+            randomLimits: [
+            //  [               class, max]
+                [  TRAIT.COLOR,  2],
+                [TRAIT.OUTLINE,  2]
+            ]
+        },
+        {
+            // with intersection
+            restrictionClasses: [
+            //  [                class, accepted?, rejQty, rejectionMode]
+                [  TRAIT.SHAPE,     true],
+                [TRAIT.OUTLINE,     true]
+            ],
+            maxNumAnswers: 6,
+            onlyCorrectAnswers: false,
             maxNumShapes: 12,
             // for non specified classes, the limit is 1
             randomLimits: [
@@ -322,6 +344,7 @@ function game() {
                 [TRAIT.SIZE,      true]
             ],
             maxNumAnswers: 6,
+            onlyCorrectAnswers: false,
             maxNumShapes: 12,
             // for non specified classes, the limit is 1
             randomLimits: [
@@ -339,6 +362,7 @@ function game() {
                 [TRAIT.OUTLINE,     true]
             ],
             maxNumAnswers: 6,
+            onlyCorrectAnswers: false,
             maxNumShapes: 12,
             // for non specified classes, the limit is 1
             randomLimits: [
@@ -356,6 +380,7 @@ function game() {
                 [TRAIT.OUTLINE,     true]
             ],
             maxNumAnswers: 6,
+            onlyCorrectAnswers: false,
             maxNumShapes: 12,
             // for non specified classes, the limit is 1
             randomLimits: [
@@ -373,6 +398,7 @@ function game() {
                 [TRAIT.OUTLINE,     true]
             ],
             maxNumAnswers: 6,
+            onlyCorrectAnswers: false,
             maxNumShapes: 12,
             // for non specified classes, the limit is 1
             randomLimits: [
@@ -390,6 +416,7 @@ function game() {
                 [TRAIT.OUTLINE,     true]
             ],
             maxNumAnswers: 6,
+            onlyCorrectAnswers: false,
             maxNumShapes: 12,
             // for non specified classes, the limit is 1
             randomLimits: [
@@ -407,6 +434,7 @@ function game() {
                 [TRAIT.OUTLINE,     true]
             ],
             maxNumAnswers: 6,
+            onlyCorrectAnswers: false,
             maxNumShapes: 12,
             // for non specified classes, the limit is 1
             randomLimits: [
@@ -427,6 +455,7 @@ function game() {
                 [   TRAIT.SIZE,     true]
             ],
             maxNumAnswers: 9,
+            onlyCorrectAnswers: false,
             maxNumShapes: 15,
             // for non specified classes, the limit is 1
             randomLimits: [
@@ -447,6 +476,7 @@ function game() {
                 [TRAIT.OUTLINE,     false,      1,    ONE_SIDE.NO_ACCEPTED]
             ],
             maxNumAnswers: 9,
+            onlyCorrectAnswers: false,
             maxNumShapes: 15,
             // for non specified classes, the limit is 1
             randomLimits: [
@@ -466,6 +496,7 @@ function game() {
                 [  TRAIT.COLOR,     false,      2,    BOTH_SIDES],
             ],
             maxNumAnswers: 9,
+            onlyCorrectAnswers: false,
             maxNumShapes: 15,
             // for non specified classes, the limit is 1
             randomLimits: [
@@ -485,6 +516,7 @@ function game() {
                 [TRAIT.OUTLINE,     true]
             ],
             maxNumAnswers: 9,
+            onlyCorrectAnswers: false,
             maxNumShapes: 15,
             // for non specified classes, the limit is 1
             randomLimits: [
@@ -544,6 +576,8 @@ function game() {
 
     let restricoesNaoUsadasArray = restricoesNaoUsadas.toRestrictionArray();
     shuffleArray(restricoesNaoUsadasArray);
+    if (currentStage.onlyCorrectAnswers)
+        restricoesNaoUsadasArray = []; // sem respostas erradas
 
     // completar as respostas com as regras incorretas para respostasItems ter currentStage.numOptions
     respostasItems = respostasItems.concat(restricoesNaoUsadasArray).slice(0, currentStage.maxNumAnswers);
