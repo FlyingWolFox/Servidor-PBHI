@@ -745,6 +745,11 @@ function checarResposta() {
     let respostasDireitaSet = new Set(respostasDireita);
     let respostasOpcoes = [...document.getElementById(divRespostasId).children];
 
+    // checar se não há interrogações expostas (se um lado tem menos respostas que deveria)
+    if (respostasEsquerdaSet.size < gRespostasCertasEsquerda.length ||
+        respostasDireitaSet.size < gRespostasCertasDireita.length)
+        return RESPOSTA_INCOMPLETA;
+
     // checar se os arrays são do mesmo tamanho
     if (respostasEsquerdaSet.size !== gRespostasCertasEsquerda.length ||
         respostasDireitaSet.size !== gRespostasCertasDireita.length)
