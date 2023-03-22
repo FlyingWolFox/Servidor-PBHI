@@ -41,8 +41,8 @@ sql.getPartidasDaAtividade = (id_atividade) =>{
       });
     };
     sql.getNaoFinalizados = (id_atividade) =>{
-      return new Promise((resolve, reject)=>{
-          connection.query('select jogador.nome, count(distinct jogador.nome) as "NumeroJogadores", jogo.max_fase as Total, (jogo.max_fase) - MAX(fase_atual) as "NRespondidas" from partida join jogo on partida.nome_jogo = jogo.nome_jogo join jogador on partida.id_jogador = jogador.id join sessionp on partida.id_jogador = sessionp.id_jogador where id_atividade = ? group by partida.id_jogador having (jogo.max_fase) - MAX(fase_atual) > 0 ',[id_atividade],(error, results)=>{
+      return new Promise((resolve, reject)=>{ 
+          connection.query('select jogador.nome, count(distinct jogador.nome) as "NumeroJogadores", atividade.fase_fim as Total, (atividade.fase_fim) - MAX(fase_atual) as "NRespondidas", MAX(fase_atual) as "Respondidas" from partida join jogo on partida.nome_jogo = jogo.nome_jogo join jogador on partida.id_jogador = jogador.id join sessionp on partida.id_jogador = sessionp.id_jogador join atividade on partida.nome_jogo = atividade.jogo where atividade.id_atividade = ?  group by partida.id_jogador having (atividade.fase_fim) - MAX(fase_atual) > 0',[id_atividade],(error, results)=>{
               if(error){
                   return reject(error);
               }
