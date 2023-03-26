@@ -660,7 +660,7 @@ function gerarRestricoes() {
         osnaToFix = false,
         //bsToFix = false, // não é necessário, pois BOTH_SIDES corrige tudo automaticamente
         accToFix = false;
-    
+
     let bothNonEmptyFix = false,
         oswaFix = false;
 
@@ -709,7 +709,7 @@ function gerarRestricoes() {
         // +1 porque estamos adicionando a restrição aceita na outra caixa
         let ratioIfInsertOnSmaller = (smallerBoxSize + rejQty) / (smallerBoxSize + biggerBoxSize + 1 + rejQty),
             ratioIfInsertOnBigger = (smallerBoxSize) / (smallerBoxSize + biggerBoxSize + 1 + rejQty);
-        
+
         // se a proporção depois da inserção na caixa menor for mais próxima de boxesRatio, inserir na caixa menor
         if (Math.abs(ratioIfInsertOnSmaller - smallerBoxRatio) < Math.abs(ratioIfInsertOnBigger - smallerBoxRatio)) {
             smallerBoxRejected.insert(rejClass, ...chosenTraits);
@@ -731,7 +731,7 @@ function gerarRestricoes() {
         oswaFix = false;
         bothNonEmptyFix = false;
     }
-    
+
 
     if (osnaToFix) {
         if (smallerBoxSize > 0 && biggerBoxSize > 0)
@@ -1003,7 +1003,7 @@ function limitarSets(leftSets, middleSets, rightSets) {
 
     Mesmo que o artigo use recompença/lucro, aqui ele não é usado, sendo 1 para todos os conjuntos. Isso causa o
     algoritmo a escolher conjuntos com a maior capacidade efetiva, ou seja, conjuntos que possam ter o maior número
-    máximo de cópias sem ultrapassar o limite (isso é explicado melhor no artigo). Um cálculo de recompensa que 
+    máximo de cópias sem ultrapassar o limite (isso é explicado melhor no artigo). Um cálculo de recompensa que
     que melhore a qualidade da solução pode ser implementada no futuro.
 
     PECH é um algoritmo muito bom e muito rápido. No nosso caso, número pequeno de dimenções (4) e número pequeno
@@ -1158,7 +1158,7 @@ function gerarNivel(newCurrentStage, newIntersecaoAtiva) {
         maxLengths[0][1] = currentStage.maxNumShapes - Math.round(currentStage.maxNumShapes/3 * 2);
     else
         maxLengths[1][1] = currentStage.maxNumShapes - Math.round(currentStage.maxNumShapes/3 * 2);
-    
+
     if (maxLengths[0][0].length < maxLengths[0][1]) {
         // uma caixa tem menos que o limite/3, então restringir a quantidade de formas baseado nela
         let maxToBeRedistributed = currentStage.maxNumShapes;
