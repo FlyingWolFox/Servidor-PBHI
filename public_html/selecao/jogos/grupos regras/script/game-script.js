@@ -30,7 +30,7 @@ var arrayEstrelas = document.getElementById(divEstrelas).getElementsByTagName('i
 var textoInfo = document.getElementById('resultado-jogo-info');
 var modalInfo = document.getElementById("modalInfoPeca");
 var botaoOk = document.getElementById('botao-proximo-info');
-var etapaMax = 40;
+var etapaMax;
 
 async function getFasesPorAno(){
 	var resposta = await fetch("/getAtividade")
@@ -120,145 +120,275 @@ function stopChuva() {
     });
 }
 
-/**
- * Preprocessa e converte uma especificação de nível de entrada em uma saída padronizada
-   input:
-   {
-       restrictionClasses: [
-         //[              class, accepted?, rejQty, rejectionMode]
-           [TRAIT.SHAPE,     true],
-           [TRAIT.COLOR,     false,      2,    BOTH_SIDES]
-       ],
-       maxNumAnswers: 7,
-       onlyCorrectAnswers: false,
-       maxNumShapes: 12,
-       // for non specified classes, the limit is 1
-       randomLimits: [
-         //[             class, max]
-           [TRAIT.SIZE,   2]
-       ]
-   }
-
-   output:
-   {
-       acceptedClasses: [TRAIT.SHAPE, ...],
-       rejectedClasses: {
-           // mode: [[class, qty], ...] 
-           ONE_SIDE.NO_ACCEPTED: [[TRAIT.SIZE, 1], ...],
-           ONE_SIDE.WITH_ACCEPTED: [[c, n], ...],
-           BOTH_SIDES: [[TRAIT.COLOR, 2], ...]
-       }
-       maxNumAnswers: 7,
-       onlyCorrectAnswers: false,
-       maxNumShapes: 12,
-       randomLimits : new Map([
-                              [TRAIT.SHAPE, 1],
-                              [TRAIT.COLOR, 1],
-                              [TRAIT.SIZE, 2],
-                              [TRAIT.OUTLINE, 1]
-                            ])
-   }
- * @param {*} input 
- * @returns output
- */
-function stagePreprocessor(input) {
+let levels = [];
+let partStarts = [];
+function genLevels() {
     'use strict';
-    let acceptedClasses = [],
-        rejectedClasses = {
-            [ONE_SIDE.NO_ACCEPTED]: [],
-            [ONE_SIDE.WITH_ACCEPTED]: [],
-            [BOTH_SIDES]: []
-        };
+    // generator input
 
-    let restrictionClasses = [];
-    //  validar entrada
-    if (input.restrictionClasses.length === 0)
-        throw new Error('Nenhuma classe de restrição foi especificada');
+    let levelMultiplier = 2; // resizes the game (2 = 2x bigger, 0.5 = 2x smaller)
+    let levelsToGen = [
+        // part 0: introduce shapes
+        {
+            traitTypesAvailable: [TRAIT.SHAPE], // values besides TRAIT should be put in an array
+            accepted: 1,
+            osna: 0,
+            oswa: 0,
+            both: 0,
+            numLevelsBase: 2,
+            firstLevelHasOnlyCorrectAnswers: true
+        },
+        // part 1: introduce colors
+        {
+            traitTypesAvailable: [TRAIT.COLOR],
+            accepted: 1,
+            osna: 0,
+            oswa: 0,
+            both: 0,
+            numLevelsBase: 1,
+            firstLevelHasOnlyCorrectAnswers: true
+        },
+        // part 2: introduce sizes
+        {
+            traitTypesAvailable: [TRAIT.SIZE],
+            accepted: 1,
+            osna: 0,
+            oswa: 0,
+            both: 0,
+            numLevelsBase: 1,
+            firstLevelHasOnlyCorrectAnswers: true
+        },
+        // part 3: introduce outlines
+        {
+            traitTypesAvailable: [TRAIT.OUTLINE],
+            accepted: 1,
+            osna: 0,
+            oswa: 0,
+            both: 0,
+            numLevelsBase: 1,
+            firstLevelHasOnlyCorrectAnswers: true
+        },
+        // part 4: introduce intersections
+        {
+            traitTypesAvailable: TRAIT,
+            accepted: [2, 3, 4],
+            osna: 0,
+            oswa: 0,
+            both: 0,
+            numLevelsBase: 3,
+            firstLevelHasOnlyCorrectAnswers: false
+        },
+        // part 5: introduce rejections
+        {
+            traitTypesAvailable: TRAIT,
+            accepted: [1, 2, 1, 0],
+            osna: [1, 2, 2, 2],
+            oswa: [0, 0, 1, 2],
+            both: 0,
+            numLevelsBase: 4,
+            firstLevelHasOnlyCorrectAnswers: false
+        },
+        // part 6: introduce rejections on both sides
+        {
+            traitTypesAvailable: TRAIT,
+            accepted: [1, 2, 1, 0],
+            osna: [0, 0, 0, 1],
+            oswa: [0, 0, 1, 0],
+            both: [1, 2, 2, 2],
+            numLevelsBase: 4,
+            firstLevelHasOnlyCorrectAnswers: false
+        },
+    ];
 
-    let classesUso = new Map([...TRAIT].map(classe => [classe, false]));
-    for (let [traitClass, accepted, rejQty, rejectionMode] of input.restrictionClasses) {
-        if (classesUso.get(traitClass)) {
-            console.warn('Ignorando classe de restrição repetida: ', traitClass);
-            continue;
-        }
-        classesUso.set(traitClass, true);
 
-        // checa se a classe é válida
-        if (![...TRAIT].includes(traitClass)) {
-            console.error('Classe de restrição inválida: ', traitClass, '\nIgnorando.');
-            continue;
-        }
+    // definitions
 
-        if (!accepted) {
-            // checa se a quantidade de rejeição é válida
-            if (!Number.isInteger(rejQty) || rejQty <= 0) {
-                console.error('Classe de restrição com quantidade de rejeição inválida: ', traitClass, '\nIgnorando.');
-                continue;
-            }
-            // checa se rejectionMode é válido
-            if (rejectionMode !== ONE_SIDE.NO_ACCEPTED && rejectionMode !== ONE_SIDE.WITH_ACCEPTED && rejectionMode !== BOTH_SIDES) {
-                console.error('Modo de rejeição inválido para classe: ', traitClass, rejectionMode, '\nIgnorando.');
-                continue;
-            }
+    // expands or shrink a sequence to a target size
+    // if the sequence is too small, it'll be repeated
+    // if the sequence is too big, it'll be trimmed
+    // ex:
+    // resizeSequence([1, 2, 3, 4], 2) -> [1, 2]
+    // resizeSequence([1, 2], 4) -> [1, 1, 2, 2]
+    // resizeSequence(1, 4) -> [1, 1, 1, 1]
+    function resizeSequence(seq, targetSize) {
+        targetSize = Math.round(targetSize);
+        if (typeof seq === 'number')
+            return Array(targetSize).fill(seq);
 
-            if (rejQty > traitClass.length) {
-                console.error('Quantidade de rejeição maior que o número de características da classe: ', traitClass, '\nUsando o máximo possível.');
-                rejQty = traitClass.length;
-            }
-            // correções sobre ONE_SIDE.WITH_ACCEPTED. Não se pode usar todas as características da classe, pois essa situação é equivalente
-            // a ter a mesma característica aceita em ambas as caixas.
-            // Ex: [SQUARE, CIRCLE, TRIANGLE] rejeitadas e [RECTANGLE] aceita == [RECTANGLE] aceita e [RECTANGLE] aceita.
+        if (seq.length >= targetSize)
+            return seq.slice(0, targetSize);
 
-            // classes com menos de 3 características não podem ser ONE_SIDE.WITH_ACCEPTED, pois length([aceita, rejeita]) == length(classe)
-            if (rejectionMode === ONE_SIDE.WITH_ACCEPTED && traitClass.length < 3) {
-                console.error('Modo de rejeição ONE_SIDE.WITH_ACCEPTED não pode ser usado para classes com menos de 3 características: ', traitClass, '\nUsando ONE_SIDE.NO_ACCEPTED.');
-                rejectionMode = ONE_SIDE.NO_ACCEPTED;
-            }
-            // Não permitir que todas as características de uma classe sejam usadas no ONE_SIDE.WITH_ACCEPTED,
-            if (rejectionMode === ONE_SIDE.WITH_ACCEPTED && rejQty > traitClass.length - 2) {
-                console.error('Quantidade de rejeição muito alto para ONE_SIDE.WITH_ACCEPTED (> classe.length - 2) da classe: ', traitClass, '\nUsando o máximo possível.');
-                rejQty = traitClass.length - 2; // evita a situação equivalente a ter a mesma característica aceita em ambos os lados
-            }
-
-
-            if (rejectionMode === BOTH_SIDES && rejQty < 2) {
-                console.error('Modo de rejeição BOTH_SIDES requer pelo menos 2 características rejeitadas: ', traitClass, '\nUsando 2.');
-                rejQty = 2;
-            }
-        }
-        restrictionClasses.push([traitClass, accepted, rejQty, rejectionMode]);
+        // (i * r*(n-1)/(m-1)) for r in range(m))
+        // i = index, m = targetSize, r = seq.length
+        let result = [];
+        const factor = (seq.length - 1) / (targetSize - 1);
+        for (let i = 0; i < targetSize; i++)
+            result.push(seq[Math.round(i * factor)]);
+        return result;
     }
 
-    for (let [traitClass, accepted, rejQty, rejectionMode] of restrictionClasses) {
-        if (accepted)
-            acceptedClasses.push(traitClass);
-        else
-            rejectedClasses[rejectionMode].push([traitClass, rejQty]);
+    function findAndPop(arr, value) {
+        let index = arr.indexOf(value);
+        if (index > -1)
+            return arr.splice(index, 1)[0];
+        return null;
     }
 
-    // se a classe não foi especificada em randomParameters, limitar a 1 característica
-    let randomLimits = new Map([...TRAIT].map(classe => [classe, 1]));
-    for (const [classe, max] of input.randomLimits)
-        randomLimits.set(classe, max);
-
-    // ajuda a criar uma variedade extra no jogo, mesmo que a mesma entrada seja dada
-    shuffleArray(acceptedClasses);
-    // ordenar inversamente cada tipo de rejeição por quantidade de rejeições dessa classe
-    rejectedClasses[0].sort((a, b) => b[1] - a[1]);
-    rejectedClasses[1].sort((a, b) => b[1] - a[1]);
-    rejectedClasses[2].sort((a, b) => b[1] - a[1]);
-
-
-    return {
-        acceptedClasses: acceptedClasses,
-        rejectedClasses: rejectedClasses,
-        maxNumAnswers: input.maxNumAnswers,
-        onlyCorrectAnswers: !!input.onlyCorrectAnswers, // '!!' força booleano
-        maxNumShapes: input.maxNumShapes,
-        randomLimits: randomLimits
+    // possible types (and number) of restrictions for each type of trait:
+    const RESTRICTION = {
+        accepted: [TRAIT.SHAPE, TRAIT.COLOR, TRAIT.SIZE, TRAIT.OUTLINE],
+        [ONE_SIDE.NO_ACCEPTED]: [TRAIT.SHAPE, TRAIT.COLOR, TRAIT.SIZE, TRAIT.OUTLINE],
+        [ONE_SIDE.WITH_ACCEPTED]: [TRAIT.SHAPE, TRAIT.COLOR],
+        [BOTH_SIDES]: [TRAIT.SHAPE, TRAIT.COLOR]
     };
-}
+    const RESTRICTION_NUM = new Map([
+        [TRAIT.SHAPE, {accepted: 1, [ONE_SIDE.NO_ACCEPTED]: 3, [ONE_SIDE.WITH_ACCEPTED]: 2, [BOTH_SIDES]: 3}],
+        [TRAIT.COLOR, {accepted: 1, [ONE_SIDE.NO_ACCEPTED]: 2, [ONE_SIDE.WITH_ACCEPTED]: 1, [BOTH_SIDES]: 2}],
+        [TRAIT.SIZE, {accepted: 1, [ONE_SIDE.NO_ACCEPTED]: 1, [ONE_SIDE.WITH_ACCEPTED]: 0, [BOTH_SIDES]: 1}],
+        [TRAIT.OUTLINE, {accepted: 1, [ONE_SIDE.NO_ACCEPTED]: 1, [ONE_SIDE.WITH_ACCEPTED]: 0, [BOTH_SIDES]: 1}]
+    ]);
 
+
+    // level generation
+
+    for (let level of levelsToGen) {
+        partStarts.push(levels.length);
+
+        level.accepted = resizeSequence(level.accepted, level.numLevelsBase * levelMultiplier);
+        level.osna = resizeSequence(level.osna, level.numLevelsBase * levelMultiplier);
+        level.oswa = resizeSequence(level.oswa, level.numLevelsBase * levelMultiplier);
+        level.both = resizeSequence(level.both, level.numLevelsBase * levelMultiplier);
+        level.restrictionNum = resizeSequence([2, 3, 4, 5, 6, 7], level.numLevelsBase * levelMultiplier);
+        level.wrongAnswersRatio = resizeSequence([0.3, 0.5, 0.7, 0.9, 1.1], level.numLevelsBase * levelMultiplier);
+        level.randomLimit = new Map([
+            [TRAIT.SHAPE, resizeSequence([1, 2, 2, 2, 3, 3, 4], level.numLevelsBase * levelMultiplier)],
+            [TRAIT.COLOR, resizeSequence([1, 2, 2, 2, 2, 3, 3], level.numLevelsBase * levelMultiplier)],
+            [TRAIT.SIZE, resizeSequence([1, 1, 2, 2, 2, 2, 2], level.numLevelsBase * levelMultiplier)],
+            [TRAIT.OUTLINE, resizeSequence([1, 1, 1, 2, 2, 2, 2], level.numLevelsBase * levelMultiplier)],
+        ]);
+        level.numLevelsBase *= levelMultiplier;
+
+        for (let i = 0; i < level.numLevelsBase; i++) {
+            const newLevelGen = {
+                traitTypesAvailable: level.traitTypesAvailable,
+                accepted: level.accepted[i],
+                osna: level.osna[i],
+                oswa: level.oswa[i],
+                both: level.both[i],
+                restrictionNum: level.restrictionNum[i],
+                onlyCorrectAnswers: level.firstLevelHasOnlyCorrectAnswers && i === 0,
+                wrongAnswersRatio: level.wrongAnswersRatio[i],
+                randomLimit: new Map([
+                    [TRAIT.SHAPE, level.randomLimit.get(TRAIT.SHAPE)[i]],
+                    [TRAIT.COLOR, level.randomLimit.get(TRAIT.COLOR)[i]],
+                    [TRAIT.SIZE, level.randomLimit.get(TRAIT.SIZE)[i]],
+                    [TRAIT.OUTLINE, level.randomLimit.get(TRAIT.OUTLINE)[i]]
+                ])
+            };
+
+            const traitsAvailable = shuffleArray([...newLevelGen.traitTypesAvailable]);
+            const traitsToUse = newLevelGen.accepted + newLevelGen.osna + newLevelGen.oswa + newLevelGen.both;
+            if (traitsToUse > traitsAvailable.length)
+                throw Error(`Not enough traits to generate level ${i} of ${level.numLevelsBase} (need ${traitsToUse} but only have ${traitsAvailable.length})`);
+            if (newLevelGen.oswa > 2 || newLevelGen.both > 2)
+                throw Error(`Too many traits to generate level ${i} of ${level.numLevelsBase} (oswa: ${newLevelGen.oswa}, both: ${newLevelGen.both}). Max 2 traits with these types of restriction`);
+
+            // always put TRAIT.SIZE and TRAIT.OUTLINE in the end of the list
+            // garantees that they'll be put as 'accepted' or ONE_SIDE.NO_ACCEPTED
+            // (if they're not, they'll be put in ONE_SIDE.WITH_ACCEPTED or BOTH_SIDES and that *will* fuck things up)
+            const specialClasses = [findAndPop(traitsAvailable, TRAIT.SIZE), findAndPop(traitsAvailable, TRAIT.OUTLINE)].filter(x => x !== null);
+            for (const specialClass of specialClasses)
+                traitsAvailable.push(specialClass);
+
+            let restrictionClasses = new Map(shuffleArray([
+                [BOTH_SIDES, traitsAvailable.splice(0, newLevelGen.both)],
+                [ONE_SIDE.WITH_ACCEPTED, traitsAvailable.splice(0, newLevelGen.oswa)],
+                [ONE_SIDE.NO_ACCEPTED, traitsAvailable.splice(0, newLevelGen.osna)],
+                ['accepted', traitsAvailable.splice(0, newLevelGen.accepted)],
+            ]));
+
+            let restrictionsUsed = traitsToUse === 1 ? 1 : 0;
+            for (let [restrictionClass, traitTypes] of restrictionClasses.entries()) {
+                if (traitTypes.length === 0)
+                    continue;
+
+                for (let i = 0; i < traitTypes.length; i++) {
+                    if (restrictionClass === BOTH_SIDES) {
+                        traitTypes[i] = [traitTypes[i], 2];
+                        restrictionsUsed += 2;
+                    } else {
+                        traitTypes[i] = [traitTypes[i], 1];
+                        restrictionsUsed++;
+                    }
+                }
+            }
+
+            while (true) {
+                let beforeNums = [...restrictionClasses.values()].map(t => t[1]);
+                for (let [restrictionClass, traitTypes] of restrictionClasses.entries()) {
+                    for (let traitSpec of traitTypes) {
+                        let [traitType, num] = traitSpec;
+                        if (restrictionsUsed > newLevelGen.restrictionNum)
+                            break;
+                        if (num >= RESTRICTION_NUM.get(traitType)[restrictionClass])
+                            continue;
+
+                        traitSpec[1]++;
+                        restrictionsUsed++;
+                    }
+                }
+                let afterNums = [...restrictionClasses.values()].map(t => t[1]);
+                if (beforeNums.every((v, i) => v === afterNums[i]))
+                    break; // no more restrictions could be added
+            }
+
+            // 1 is always used
+            let finalTypeTraitNums = new Map([[TRAIT.SHAPE, 1], [TRAIT.COLOR, 1], [TRAIT.SIZE, 1], [TRAIT.OUTLINE, 1]]);
+            for (const [restrictionClass, traitTypes] of restrictionClasses.entries()) {
+                for (const [traitType, num] of traitTypes) {
+                    if (restrictionClass === ONE_SIDE.WITH_ACCEPTED)
+                        finalTypeTraitNums.set(traitType, num + 2);
+                    else
+                        finalTypeTraitNums.set(traitType, num + 1);
+                }
+            }
+            const NUM_LIMITS = new Map([
+                [TRAIT.SHAPE, 4],
+                [TRAIT.COLOR, 3],
+                [TRAIT.SIZE, 2],
+                [TRAIT.OUTLINE, 2],
+            ]);
+            for (let [traitType, num] of finalTypeTraitNums.entries()) {
+                if (num > NUM_LIMITS.get(traitType))
+                    finalTypeTraitNums.set(traitType, NUM_LIMITS.get(traitType));
+            }
+
+
+            levels.push({
+                acceptedClasses: restrictionClasses.get('accepted').map(t => t[0]),
+                rejectedClasses: {
+                    [ONE_SIDE.NO_ACCEPTED]: restrictionClasses.get(ONE_SIDE.NO_ACCEPTED),
+                    [ONE_SIDE.WITH_ACCEPTED]: restrictionClasses.get(ONE_SIDE.WITH_ACCEPTED),
+                    [BOTH_SIDES]: restrictionClasses.get(BOTH_SIDES)
+                },
+                maxNumAnswers: Math.round((1 + newLevelGen.wrongAnswersRatio) * restrictionsUsed),
+                onlyCorrectAnswers: newLevelGen.onlyCorrectAnswers,
+                maxNumShapes: 18,
+                randomLimits: new Map([
+                    [TRAIT.SHAPE, Math.max(finalTypeTraitNums.get(TRAIT.SHAPE), newLevelGen.randomLimit.get(TRAIT.SHAPE))],
+                    [TRAIT.COLOR, Math.max(finalTypeTraitNums.get(TRAIT.COLOR), newLevelGen.randomLimit.get(TRAIT.COLOR))],
+                    [TRAIT.SIZE, Math.max(finalTypeTraitNums.get(TRAIT.SIZE), newLevelGen.randomLimit.get(TRAIT.SIZE))],
+                    [TRAIT.OUTLINE, Math.max(finalTypeTraitNums.get(TRAIT.OUTLINE), newLevelGen.randomLimit.get(TRAIT.OUTLINE))]
+                ])
+            });
+        }
+    }
+    partStarts.push(levels.length);  // push the last part start (the last level)
+    if (typeof etapaMax === 'undefined')
+        // don't override etapaMax if it was already set
+        etapaMax = levels.length;
+}
+genLevels();
 
 endGame = false;
 let gRespostasCertasEsquerda = null;
@@ -285,252 +415,9 @@ function game() {
     // TODO: random will be replaced by the array of possibilities
     // TODO: check if the quantity of restrictions is smaller than the number of traits
     // TODO: check if SIZE and OUTLINE doesn't have rejection mode BOTH_SIDES or ONE_SIDE.WITH_ACCEPTED
-    let stageData = [
-        {
-            // no intersection
-            restrictionClasses: [
-            //  [              class, accepted?, rejQty, rejectionMode]
-                [TRAIT.SHAPE,     true],
-            ],
-            maxNumAnswers: 2,
-            onlyCorrectAnswers: true,
-            maxNumShapes: 3,
-            // for non specified classes, the limit is 1
-            randomLimits: [
-            //  [             class, max]
-                [TRAIT.COLOR,   2]
-            ]
-        },
-        {
-            // with intersection
-            restrictionClasses: [
-            //  [                class, accepted?, rejQty, rejectionMode]
-                [  TRAIT.SHAPE,     true],
-                [TRAIT.OUTLINE,     true]
-            ],
-            maxNumAnswers: 6,
-            onlyCorrectAnswers: true,
-            maxNumShapes: 12,
-            // for non specified classes, the limit is 1
-            randomLimits: [
-            //  [               class, max]
-                [  TRAIT.COLOR,  2],
-                [TRAIT.OUTLINE,  2]
-            ]
-        },
-        {
-            // with intersection
-            restrictionClasses: [
-            //  [                class, accepted?, rejQty, rejectionMode]
-                [  TRAIT.SHAPE,     true],
-                [TRAIT.OUTLINE,     true]
-            ],
-            maxNumAnswers: 6,
-            onlyCorrectAnswers: false,
-            maxNumShapes: 12,
-            // for non specified classes, the limit is 1
-            randomLimits: [
-            //  [               class, max]
-                [  TRAIT.COLOR,  2],
-                [TRAIT.OUTLINE,  2]
-            ]
-        },
-        {
-            // SPECIFIC TEST
-            restrictionClasses: [
-            //  [                class, accepted?, rejQty,        rejectionMode]
-                [TRAIT.SHAPE,     false,      1, ONE_SIDE.NO_ACCEPTED], 
-                [TRAIT.COLOR,     true],
-                [TRAIT.SIZE,      true]
-            ],
-            maxNumAnswers: 6,
-            onlyCorrectAnswers: false,
-            maxNumShapes: 12,
-            // for non specified classes, the limit is 1
-            randomLimits: [
-            //  [               class, max]
-                [  TRAIT.SHAPE,  4],
-                [  TRAIT.COLOR,  2],
-                [TRAIT.OUTLINE,  2]
-            ]
-        },
-        {
-            // with intersection, using rejected
-            restrictionClasses: [
-            //  [                class, accepted?, rejQty,        rejectionMode]
-                [  TRAIT.SHAPE,     false,      1, ONE_SIDE.NO_ACCEPTED], 
-                [TRAIT.OUTLINE,     true]
-            ],
-            maxNumAnswers: 6,
-            onlyCorrectAnswers: false,
-            maxNumShapes: 12,
-            // for non specified classes, the limit is 1
-            randomLimits: [
-            //  [               class, max]
-                [  TRAIT.SHAPE,  4],
-                [  TRAIT.COLOR,  2],
-                [TRAIT.OUTLINE,  2]
-            ]
-        },
-        {
-            // with intersection, using rejected, with 2 rejections
-            restrictionClasses: [
-            //  [                class, accepted?, rejQty,        rejectionMode]
-                [  TRAIT.SHAPE,     false,      2, ONE_SIDE.NO_ACCEPTED], 
-                [TRAIT.OUTLINE,     true]
-            ],
-            maxNumAnswers: 6,
-            onlyCorrectAnswers: false,
-            maxNumShapes: 12,
-            // for non specified classes, the limit is 1
-            randomLimits: [
-            //  [               class, max]
-                [  TRAIT.SHAPE,  4],
-                [  TRAIT.COLOR,  2],
-                [TRAIT.OUTLINE,  2]
-            ]
-        },
-        {
-            // with intersection, using rejected, with 2 rejections with one accepted
-            restrictionClasses: [
-            //  [                class, accepted?, rejQty,          rejectionMode]
-                [  TRAIT.SHAPE,     false,      2, ONE_SIDE.WITH_ACCEPTED], 
-                [TRAIT.OUTLINE,     true]
-            ],
-            maxNumAnswers: 6,
-            onlyCorrectAnswers: false,
-            maxNumShapes: 12,
-            // for non specified classes, the limit is 1
-            randomLimits: [
-            //  [               class, max]
-                [  TRAIT.SHAPE,  4],
-                [  TRAIT.COLOR,  2],
-                [TRAIT.OUTLINE,  2]
-            ]
-        },
-        {
-            // with intersection, using rejected, with 3 rejections on both sides
-            restrictionClasses: [
-            //  [                class, accepted?, rejQty, rejectionMode]
-                [  TRAIT.SHAPE,     false,      3,    BOTH_SIDES], 
-                [TRAIT.OUTLINE,     true]
-            ],
-            maxNumAnswers: 6,
-            onlyCorrectAnswers: false,
-            maxNumShapes: 12,
-            // for non specified classes, the limit is 1
-            randomLimits: [
-            //  [               class, max]
-                [  TRAIT.SHAPE,  4],
-                [  TRAIT.COLOR,  2],
-                [TRAIT.OUTLINE,  2]
-            ]
-        },
-        {
-            // with intersection, using rejected, with 3 rejections on both sides. Random maxed out
-            restrictionClasses: [
-            //  [                class, accepted?, rejQty, rejectionMode]
-                [  TRAIT.SHAPE,     false,      3,    BOTH_SIDES], 
-                [TRAIT.OUTLINE,     true]
-            ],
-            maxNumAnswers: 6,
-            onlyCorrectAnswers: false,
-            maxNumShapes: 12,
-            // for non specified classes, the limit is 1
-            randomLimits: [
-            //  [               class, max]
-                [  TRAIT.SHAPE,  4],
-                [  TRAIT.COLOR,  3],
-                [   TRAIT.SIZE,  2],
-                [TRAIT.OUTLINE,  2]
-            ]
-        },
-        {
-            // with intersection, using rejected, with 3 rejections on both sides. Random maxed out, all restrictions
-            restrictionClasses: [
-            //  [                class, accepted?, rejQty, rejectionMode]
-                [  TRAIT.SHAPE,     false,      3,    BOTH_SIDES], 
-                [TRAIT.OUTLINE,     true],
-                [  TRAIT.COLOR,     true],
-                [   TRAIT.SIZE,     true]
-            ],
-            maxNumAnswers: 9,
-            onlyCorrectAnswers: false,
-            maxNumShapes: 15,
-            // for non specified classes, the limit is 1
-            randomLimits: [
-            //  [               class, max]
-                [  TRAIT.SHAPE,  4],
-                [  TRAIT.COLOR,  3],
-                [   TRAIT.SIZE,  2],
-                [TRAIT.OUTLINE,  2]
-            ]
-        },
-        {
-            // with intersection, just rejected (all maxed out). Random maxed out
-            restrictionClasses: [
-            //  [                class, accepted?, rejQty, rejectionMode]
-                [  TRAIT.SHAPE,     false,      3,    BOTH_SIDES], 
-                [  TRAIT.COLOR,     false,      2,    BOTH_SIDES],
-                [   TRAIT.SIZE,     false,      1,    ONE_SIDE.NO_ACCEPTED],
-                [TRAIT.OUTLINE,     false,      1,    ONE_SIDE.NO_ACCEPTED]
-            ],
-            maxNumAnswers: 9,
-            onlyCorrectAnswers: false,
-            maxNumShapes: 15,
-            // for non specified classes, the limit is 1
-            randomLimits: [
-            //  [               class, max]
-                [  TRAIT.SHAPE,  4],
-                [  TRAIT.COLOR,  3],
-                [   TRAIT.SIZE,  2],
-                [TRAIT.OUTLINE,  2]
-            ]
-        },
-        {
-            // ONE_SIDE.WITH_ACCEPTED preprocessor test
-            // SHAPE rejQty is too high!
-            restrictionClasses: [
-            //  [                class, accepted?, rejQty, rejectionMode]
-                [  TRAIT.SHAPE,     false,      3,    ONE_SIDE.WITH_ACCEPTED], 
-                [  TRAIT.COLOR,     false,      2,    BOTH_SIDES],
-            ],
-            maxNumAnswers: 9,
-            onlyCorrectAnswers: false,
-            maxNumShapes: 15,
-            // for non specified classes, the limit is 1
-            randomLimits: [
-            //  [               class, max]
-                [  TRAIT.SHAPE,  4],
-                [  TRAIT.COLOR,  3],
-                [   TRAIT.SIZE,  2],
-                [TRAIT.OUTLINE,  2]
-            ]
-        },
-        {
-            // with intersection, just rejected (all maxed out). Random maxed out
-            restrictionClasses: [
-            //  [                class, accepted?, rejQty, rejectionMode]
-                [  TRAIT.SHAPE,     false,      2,    BOTH_SIDES], 
-                [  TRAIT.COLOR,     true],
-                [TRAIT.OUTLINE,     true]
-            ],
-            maxNumAnswers: 9,
-            onlyCorrectAnswers: false,
-            maxNumShapes: 15,
-            // for non specified classes, the limit is 1
-            randomLimits: [
-            //  [               class, max]
-                [  TRAIT.SHAPE,  2],
-                [  TRAIT.COLOR,  3],
-                [   TRAIT.SIZE,  1],
-                [TRAIT.OUTLINE,  2]
-            ]
-        },
-    ];
 
-    let currentStage = stagePreprocessor(stageData[etapaAtual % stageData.length]);
-    let intersecaoAtiva = etapaAtual >= 10;
+    let currentStage = levels[etapaAtual];
+    let intersecaoAtiva = etapaAtual >= partStarts[4];
     endGame = etapaAtual + 1 >= etapaMax;
 
     // TODO: remove this after testing
@@ -825,69 +712,22 @@ function check() {
                 botaoOk.onclick = function (event) {
                     etapaAtual++;
                     estrela++;
-                    switch (estrela) {
-                        case 0:
-                        case 1:
-                        case 2:
-                        case 3:
-                        case 4:
-                        case 5:
-                        case 6:
-                        case 7:
-                        case 8:
-                        case 9:
-                            document.getElementById('texto1').innerHTML = etapaAtual.toString() + "/10";
-                            break;
-                        case 10:
+                    if (estrela <= partStarts[4]) {
+                        document.getElementById('texto1').innerHTML = `${etapaAtual}/${partStarts[4]}`;
+                        if (estrela === partStarts[4])
                             arrayEstrelas[0].setAttribute('src', '../img/estrelas/star1.svg');
-                            document.getElementById('texto1').innerHTML = etapaAtual.toString() + "/10";
-                            break;
-                        case 11:
-                        case 12:
-                        case 13:
-                        case 14:
-                        case 15:
-                        case 16:
-                        case 17:
-                        case 18:
-                        case 19:
-                            document.getElementById('texto2').innerHTML = etapaAtual.toString() + "/20";
-                            break;
-                        case 20:
+                    } else if (estrela <= partStarts[5]) {
+                        document.getElementById('texto2').innerHTML = `${etapaAtual}/${partStarts[5]}`;
+                        if (estrela === partStarts[5])
                             arrayEstrelas[1].setAttribute('src', '../img/estrelas/star1.svg');
-                            document.getElementById('texto2').innerHTML = etapaAtual.toString() + "/20";
-                            break;
-                        case 21:
-                        case 22:
-                        case 23:
-                        case 24:
-                        case 25:
-                        case 26:
-                        case 27:
-                        case 28:
-                        case 29:
-                            document.getElementById('texto3').innerHTML = etapaAtual.toString() + "/30";
-                            break;
-                        case 30:
+                    } else if (estrela <= partStarts[6]) {
+                        document.getElementById('texto3').innerHTML = `${etapaAtual}/${partStarts[6]}`;
+                        if (estrela === partStarts[6])
                             arrayEstrelas[2].setAttribute('src', '../img/estrelas/star1.svg');
-                            document.getElementById('texto3').innerHTML = etapaAtual.toString() + "/30";
-                            break;
-                        case 31:
-                        case 32:
-                        case 33:
-                        case 34:
-                        case 35:
-                        case 36:
-                        case 37:
-                        case 38:
-                            document.getElementById('texto4').innerHTML = etapaAtual.toString() + "/40";
-                            break;
-                        case 39:
+                    } else if (estrela <= partStarts[7]) {
+                        document.getElementById('texto4').innerHTML = `${etapaAtual}/${partStarts[7]}`;
+                        if (estrela === partStarts[7])
                             arrayEstrelas[3].setAttribute('src', '../img/estrelas/star1.svg');
-                            document.getElementById('texto4').innerHTML = etapaAtual.toString() + "/40";
-                            break;
-                        default:
-                            break;
                     }
                     game();
                     modalAcerto.style.display = 'none';
