@@ -121,13 +121,50 @@ function stopChuva() {
 }
 
 let levels = [];
-let partStarts = [];
+let levelPartStarts = [];
 function genLevels() {
     'use strict';
-    // generator input
 
-    let levelMultiplier = 2; // resizes the game (2 = 2x bigger, 0.5 = 2x smaller)
+    // *** generator input ***
+
+    /*
+    The level generator expands the levels specified here. So you can put arrays
+    on the parameters and the levels will follow that sequence.
+    accepted: [2, 3] -> [level(2 accepted), level(3 accepted)]
+    accepted: 2 == accepted: [2] -> [level(2 accepted), level(2 accepted), ...]
+
+    numLevelBase is the base number of levels generated for that level. It'll be
+    multiplied by levelMutiplier to get the actual number of levels generated.
+    A recommend value for this number is the size of the biggest array you're
+    providing, so that it isn't cut, but you can put anything and it'll respond.
+    These arrays will be expanded or trimmed accordingly, no matter
+    the multiplier or level base number.
+
+    accepted -> trait accepted in one box
+    osna -> ONE_SIZE.NO_ACCEPTED, trait rejected in one box
+    oswa -> ONE_SIZE.WITH_ACCEPTED, same as above, but a accepted in the other box
+    both -> BOTH_SIZES, trait rejected in both boxes
+
+    the sum of the above can't be bigger than 4, since there's only 4 types of traits
+
+    oswa and both shouldn't be bigger than 2 (neither their sum), since only
+    TRAIT.SHAPE and TRAIT.COLOR can be used without the chance of creating an
+    empty box (that'll crash the shape generator, game-algorithms.js:gerarSets),
+    but even if that doesn't happen, that isn't that much useful (the why is
+    left as an exercise for the reader)
+    */
+    const levelMultiplier = 2; // resizes the game (2 = 2x bigger, 0.5 = 2x smaller)
     let levelsToGen = [
+        /* FORMAT:
+        {
+            traitTypesAvailable: TRAIT, // trait types to be used on the level
+            accepted: [1, 2, 1, 0], // num/squence of num of accepted trait types.
+            osna: [1, 2, 3],
+            oswa: 0,
+            both: 0,
+            numLevelsBase: 4, // base number of levels to generate
+            firstLevelHasOnlyCorrectAnswers: true // if true, the first level will only have correct answers
+        } */
         // part 0: introduce shapes
         {
             traitTypesAvailable: [TRAIT.SHAPE], // values besides TRAIT should be put in an array
@@ -168,7 +205,7 @@ function genLevels() {
             numLevelsBase: 1,
             firstLevelHasOnlyCorrectAnswers: true
         },
-        // part 4: introduce intersections
+        // part 4: introduce intersection
         {
             traitTypesAvailable: TRAIT,
             accepted: [2, 3, 4],
@@ -227,6 +264,8 @@ function genLevels() {
         return result;
     }
 
+    // finds value on array and removes it
+    // returns the value or null if not found
     function findAndPop(arr, value) {
         let index = arr.indexOf(value);
         if (index > -1)
@@ -234,13 +273,7 @@ function genLevels() {
         return null;
     }
 
-    // possible types (and number) of restrictions for each type of trait:
-    const RESTRICTION = {
-        accepted: [TRAIT.SHAPE, TRAIT.COLOR, TRAIT.SIZE, TRAIT.OUTLINE],
-        [ONE_SIDE.NO_ACCEPTED]: [TRAIT.SHAPE, TRAIT.COLOR, TRAIT.SIZE, TRAIT.OUTLINE],
-        [ONE_SIDE.WITH_ACCEPTED]: [TRAIT.SHAPE, TRAIT.COLOR],
-        [BOTH_SIDES]: [TRAIT.SHAPE, TRAIT.COLOR]
-    };
+    // maximum number of restrictions for each type of trait and restriction type:
     const RESTRICTION_NUM = new Map([
         [TRAIT.SHAPE, {accepted: 1, [ONE_SIDE.NO_ACCEPTED]: 3, [ONE_SIDE.WITH_ACCEPTED]: 2, [BOTH_SIDES]: 3}],
         [TRAIT.COLOR, {accepted: 1, [ONE_SIDE.NO_ACCEPTED]: 2, [ONE_SIDE.WITH_ACCEPTED]: 1, [BOTH_SIDES]: 2}],
@@ -249,17 +282,24 @@ function genLevels() {
     ]);
 
 
-    // level generation
+    // *** level generation ***
 
     for (let level of levelsToGen) {
-        partStarts.push(levels.length);
+        // a partStart is the index of the first level of a level in levelToGen
+        // you can use the comments with "part n: ..." to find the index of the
+        // partStart that you want to use
+        levelPartStarts.push(levels.length);
 
+        // resize the arrays of the leve
         level.accepted = resizeSequence(level.accepted, level.numLevelsBase * levelMultiplier);
         level.osna = resizeSequence(level.osna, level.numLevelsBase * levelMultiplier);
         level.oswa = resizeSequence(level.oswa, level.numLevelsBase * levelMultiplier);
         level.both = resizeSequence(level.both, level.numLevelsBase * levelMultiplier);
+        // num of restriction to use in the level. This is a minimum value
         level.restrictionNum = resizeSequence([2, 3, 4, 5, 6, 7], level.numLevelsBase * levelMultiplier);
+        // ratio of correct answers that'll be used to gen wrong answers (not a general ratio of answers!)
         level.wrongAnswersRatio = resizeSequence([0.3, 0.5, 0.7, 0.9, 1.1], level.numLevelsBase * levelMultiplier);
+        // limits to randomness. This is a minimum value
         level.randomLimit = new Map([
             [TRAIT.SHAPE, resizeSequence([1, 2, 2, 2, 3, 3, 4], level.numLevelsBase * levelMultiplier)],
             [TRAIT.COLOR, resizeSequence([1, 2, 2, 2, 2, 3, 3], level.numLevelsBase * levelMultiplier)],
@@ -294,8 +334,9 @@ function genLevels() {
                 throw Error(`Too many traits to generate level ${i} of ${level.numLevelsBase} (oswa: ${newLevelGen.oswa}, both: ${newLevelGen.both}). Max 2 traits with these types of restriction`);
 
             // always put TRAIT.SIZE and TRAIT.OUTLINE in the end of the list
-            // garantees that they'll be put as 'accepted' or ONE_SIDE.NO_ACCEPTED
-            // (if they're not, they'll be put in ONE_SIDE.WITH_ACCEPTED or BOTH_SIDES and that *will* fuck things up)
+            // almost garantees that they'll be put as 'accepted' or ONE_SIDE.NO_ACCEPTED
+            // (if they're not, they'll be put in ONE_SIDE.WITH_ACCEPTED or BOTH_SIDES and that _may_ fuck things up)
+            // (when that happenned to me, nothing broke, but answering it wasn't interisting)
             const specialClasses = [findAndPop(traitsAvailable, TRAIT.SIZE), findAndPop(traitsAvailable, TRAIT.OUTLINE)].filter(x => x !== null);
             for (const specialClass of specialClasses)
                 traitsAvailable.push(specialClass);
@@ -307,7 +348,7 @@ function genLevels() {
                 ['accepted', traitsAvailable.splice(0, newLevelGen.accepted)],
             ]));
 
-            let restrictionsUsed = traitsToUse === 1 ? 1 : 0;
+            let restrictionsUsed = traitsToUse === 1 ? 1 : 0; // fix for when there's not an intersection (early levels)
             for (let [restrictionClass, traitTypes] of restrictionClasses.entries()) {
                 if (traitTypes.length === 0)
                     continue;
@@ -342,16 +383,18 @@ function genLevels() {
                     break; // no more restrictions could be added
             }
 
-            // 1 is always used
+            // 1 is always used in randomLimit
+            // I sum here to give the shape generator something that isn't just the restriction, so levels aren't shit to solve
             let finalTypeTraitNums = new Map([[TRAIT.SHAPE, 1], [TRAIT.COLOR, 1], [TRAIT.SIZE, 1], [TRAIT.OUTLINE, 1]]);
             for (const [restrictionClass, traitTypes] of restrictionClasses.entries()) {
                 for (const [traitType, num] of traitTypes) {
                     if (restrictionClass === ONE_SIDE.WITH_ACCEPTED)
-                        finalTypeTraitNums.set(traitType, num + 2);
+                        finalTypeTraitNums.set(traitType, num + 2); // adds the accepted trait too
                     else
                         finalTypeTraitNums.set(traitType, num + 1);
                 }
             }
+            // cap. Not capping may affect negatively the shape generator due to its greedy algorithm
             const NUM_LIMITS = new Map([
                 [TRAIT.SHAPE, 4],
                 [TRAIT.COLOR, 3],
@@ -365,7 +408,7 @@ function genLevels() {
 
 
             levels.push({
-                acceptedClasses: restrictionClasses.get('accepted').map(t => t[0]),
+                acceptedClasses: restrictionClasses.get('accepted').map(t => t[0]), // remove the num, since it's always 1
                 rejectedClasses: {
                     [ONE_SIDE.NO_ACCEPTED]: restrictionClasses.get(ONE_SIDE.NO_ACCEPTED),
                     [ONE_SIDE.WITH_ACCEPTED]: restrictionClasses.get(ONE_SIDE.WITH_ACCEPTED),
@@ -373,7 +416,7 @@ function genLevels() {
                 },
                 maxNumAnswers: Math.round((1 + newLevelGen.wrongAnswersRatio) * restrictionsUsed),
                 onlyCorrectAnswers: newLevelGen.onlyCorrectAnswers,
-                maxNumShapes: 18,
+                maxNumShapes: 18, // arbitraty number, but seems to be good enough
                 randomLimits: new Map([
                     [TRAIT.SHAPE, Math.max(finalTypeTraitNums.get(TRAIT.SHAPE), newLevelGen.randomLimit.get(TRAIT.SHAPE))],
                     [TRAIT.COLOR, Math.max(finalTypeTraitNums.get(TRAIT.COLOR), newLevelGen.randomLimit.get(TRAIT.COLOR))],
@@ -383,7 +426,7 @@ function genLevels() {
             });
         }
     }
-    partStarts.push(levels.length);  // push the last part start (the last level)
+    levelPartStarts.push(levels.length);  // push the last part start (the last level)
     if (typeof etapaMax === 'undefined')
         // don't override etapaMax if it was already set
         etapaMax = levels.length;
@@ -391,10 +434,13 @@ function genLevels() {
 genLevels();
 
 endGame = false;
+// referências para os elementos das respostas corretas na DOM
 let gRespostasCertasEsquerda = null;
 let gRespostasCertasDireita = null;
+// referências para as respotas corretas (formato interno)
 let gRestricoesEsquerda = null;
 let gRestricoesDireita = null;
+// referências para todas as respostas (formato interno)
 let gOpcoes = null;
 function game() {
     'use strict';
@@ -402,33 +448,9 @@ function game() {
     var textNumeroFaseDom = document.getElementById(textNumeroFase);
     textNumeroFaseDom.innerHTML = (etapaAtual + 1);
 
-    // TODO: make first stages easier, with just the correct answers
-    /* 
-    TODO:
-        if intersecaoAtiva:
-            check if there's more than one restriction
-        else:
-            check if it's only one restriction and it's accepted
-    */
-    // TODO: how to make maxNumOptions random?
-    // TODO: should we maximize the number of forms?
-    // TODO: random will be replaced by the array of possibilities
-    // TODO: check if the quantity of restrictions is smaller than the number of traits
-    // TODO: check if SIZE and OUTLINE doesn't have rejection mode BOTH_SIDES or ONE_SIDE.WITH_ACCEPTED
-
-    let currentStage = levels[etapaAtual];
-    let intersecaoAtiva = etapaAtual >= partStarts[4];
+    const currentStage = levels[etapaAtual];
+    const intersecaoAtiva = etapaAtual >= levelPartStarts[4];
     endGame = etapaAtual + 1 >= etapaMax;
-
-    // TODO: remove this after testing
-    if (etapaAtual % stageData.length !== 0)
-        intersecaoAtiva = true;
-    else
-        intersecaoAtiva = false;
-    etapaMax = stageData.length;
-    endGame = etapaAtual + 1 >= etapaMax;
-
-    // TODO: comment this out when done
 
     let [acceptedRestrictionsLeft,
          rejectedRestrictionsLeft,
@@ -438,7 +460,6 @@ function game() {
          caixaIntersecaoItems,
          caixaDireitaItems] = gerarNivel(currentStage, intersecaoAtiva);
 
-    // colocar as repostas nas referências globais para ser usado na checagem da resposta
     let respostasCertasEsquerda = new Set([...acceptedRestrictionsLeft.get().map(caracteristica => [caracteristica, ACCEPTED]),
                                            ...rejectedRestrictionsLeft.get().map(caracteristica => [caracteristica, REJECTED])]);
     let respostasCertasDireita = new Set([...acceptedRestrictionsRight.get().map(caracteristica => [caracteristica, ACCEPTED]),
@@ -475,11 +496,8 @@ function game() {
     gRestricoesDireita = restricoesDireita;
 
     /*Containers*/
-    let divRespostas = document.getElementById(divRespostasId);
-    // TODO: cull these unused variales?
-    let divRestricaoEsquerda = document.getElementById(divRestricaoEsquerdaId);
-    let divRestricaoDireita = document.getElementById(divRestricaoDireitaId);
 
+    let divRespostas = document.getElementById(divRespostasId);
     let divCaixaEsquerda = document.getElementById(divCaixaEsquerdaId);
     let divCaixaDireita = document.getElementById(divCaixaDireitaId);
     let divCaixaIntersecao = document.getElementById(divCaixaIntersecaoId);
@@ -495,8 +513,6 @@ function game() {
         imgTag.title = imgTag.alt;
         imgTag.setAttribute('data-index', i);
         imgTag.classList.add('drag');
-        //imgTag.classList.add('game-img');
-        //imgTag.classList.add('img-restricao-esquerda');
         if (respostasCertasEsquerda.has(item))
             gRespostasCertasEsquerda.push(imgTag);
         else if (respostasCertasDireita.has(item))
@@ -506,13 +522,13 @@ function game() {
 
     //Registra o evento click e aparece as informações da peça na tela.
     let modalInfoTrigger = (e) => {
-			botaoOk.onclick = function (event){
-				modalInfo.style.display = 'none';
-			};
-			modalInfo.style.display = 'block';
-			textoInfo.innerHTML = e.target.alt;
-			document.getElementById('img-info-peca').src = e.target.src;
-			botaoOk.innerHTML = "Ok";
+        botaoOk.onclick = function (event){
+            modalInfo.style.display = 'none';
+        };
+        modalInfo.style.display = 'block';
+        textoInfo.innerHTML = e.target.alt;
+        document.getElementById('img-info-peca').src = e.target.src;
+        botaoOk.innerHTML = "Ok";
     };
 
     caixaEsquerdaItems.forEach(item => {
@@ -520,12 +536,8 @@ function game() {
         imgTag.src = TRAIT_EXTRA.getFormaSrc(item);
         imgTag.alt = TRAIT_EXTRA.getFormaAlt(item);
         imgTag.title = imgTag.alt;
-        //imgTag.classList.add('drag');
         imgTag.classList.add('game-img');
         imgTag.classList.add(item.get(TRAIT.SIZE) === TRAIT.SIZE.SMALL ? 'pequeno' : 'grande');
-        // TODO: remove this duplicated line
-        imgTag.classList.add(item.get(TRAIT.SIZE) === TRAIT.SIZE.SMALL ? 'pequeno' : 'grande');
-        //imgTag.classList.add('img-restricao-esquerda');
         imgTag.addEventListener('click', modalInfoTrigger);
         divCaixaEsquerda.appendChild(imgTag);
     });
@@ -535,10 +547,8 @@ function game() {
         imgTag.src = TRAIT_EXTRA.getFormaSrc(item);
         imgTag.alt = TRAIT_EXTRA.getFormaAlt(item);
         imgTag.title = imgTag.alt;
-        //imgTag.classList.add('drag');
         imgTag.classList.add('game-img');
         imgTag.classList.add(item.get(TRAIT.SIZE) == TRAIT.SIZE.SMALL ? 'pequeno' : 'grande');
-        //imgTag.classList.add('img-restricao-esquerda');
         imgTag.addEventListener('click', modalInfoTrigger);
         divCaixaDireita.appendChild(imgTag);
     });
@@ -548,17 +558,15 @@ function game() {
         imgTag.src = TRAIT_EXTRA.getFormaSrc(item);
         imgTag.alt = TRAIT_EXTRA.getFormaAlt(item);
         imgTag.title = imgTag.alt;
-        //imgTag.classList.add('drag');
         imgTag.classList.add('game-img');
         imgTag.classList.add(item.get(TRAIT.SIZE) == TRAIT.SIZE.SMALL ? 'pequeno' : 'grande');
-        //imgTag.classList.add('img-restricao-esquerda');
         imgTag.addEventListener('click', modalInfoTrigger);
         divCaixaIntersecao.appendChild(imgTag);
     });
 
 
     // configurar o visual das caixas
-    // TODO: apply just once!
+    let divRestricaoDireita = document.getElementById(divRestricaoDireitaId);
     let dropzoneArea = document.getElementById('dropzone-container-grupos-regras');
     if (!intersecaoAtiva) {
 
@@ -582,18 +590,17 @@ function game() {
         divRestricaoDireita.setAttribute('style', 'grid-row: 2/4;');
     }
 
-    //implementando interrogação
+    // implementando interrogação
 
-    console.log("CERTAS ESQUERDA: " + gRespostasCertasEsquerda.length);
-    console.log("CERTAS DIREITA: " + gRespostasCertasDireita.length);
+    const interrogacaoEspaco = 50 + 10; // altura da img da restrição + margem
 
-    let interrogacaoEspaco = 50 + 10; // altura da img da restrição + margem
- 
+    // repete o background-image (a interrogação) a quantidade de vezes necessária
+
     let interrogacaoEsq = document.getElementById("container-restricao-esquerda");
     interrogacaoEsq.style.backgroundImage = "url('../img/bg-slot.svg'),".repeat(gRespostasCertasEsquerda.length).slice(0, -1);
     interrogacaoEsq.style.backgroundRepeat = "no-repeat,".repeat(gRespostasCertasEsquerda.length).slice(0, -1);
     interrogacaoEsq.style.backgroundPosition = Array(gRespostasCertasEsquerda.length).fill(`top Xpx right 10px`).map((str, i) => str.replace("X", i*interrogacaoEspaco)).join(",");
- 
+
     let interrogacaoDir = document.getElementById("container-restricao-direita");
     interrogacaoDir.style.backgroundImage = "url('../img/bg-slot.svg'),".repeat(gRespostasCertasDireita.length).slice(0, -1);
     interrogacaoDir.style.backgroundRepeat = "no-repeat,".repeat(gRespostasCertasDireita.length).slice(0, -1);
@@ -712,21 +719,21 @@ function check() {
                 botaoOk.onclick = function (event) {
                     etapaAtual++;
                     estrela++;
-                    if (estrela <= partStarts[4]) {
-                        document.getElementById('texto1').innerHTML = `${etapaAtual}/${partStarts[4]}`;
-                        if (estrela === partStarts[4])
+                    if (estrela <= levelPartStarts[4]) {
+                        document.getElementById('texto1').innerHTML = `${etapaAtual}/${levelPartStarts[4]}`;
+                        if (estrela === levelPartStarts[4])
                             arrayEstrelas[0].setAttribute('src', '../img/estrelas/star1.svg');
-                    } else if (estrela <= partStarts[5]) {
-                        document.getElementById('texto2').innerHTML = `${etapaAtual}/${partStarts[5]}`;
-                        if (estrela === partStarts[5])
+                    } else if (estrela <= levelPartStarts[5]) {
+                        document.getElementById('texto2').innerHTML = `${etapaAtual}/${levelPartStarts[5]}`;
+                        if (estrela === levelPartStarts[5])
                             arrayEstrelas[1].setAttribute('src', '../img/estrelas/star1.svg');
-                    } else if (estrela <= partStarts[6]) {
-                        document.getElementById('texto3').innerHTML = `${etapaAtual}/${partStarts[6]}`;
-                        if (estrela === partStarts[6])
+                    } else if (estrela <= levelPartStarts[6]) {
+                        document.getElementById('texto3').innerHTML = `${etapaAtual}/${levelPartStarts[6]}`;
+                        if (estrela === levelPartStarts[6])
                             arrayEstrelas[2].setAttribute('src', '../img/estrelas/star1.svg');
-                    } else if (estrela <= partStarts[7]) {
-                        document.getElementById('texto4').innerHTML = `${etapaAtual}/${partStarts[7]}`;
-                        if (estrela === partStarts[7])
+                    } else if (estrela <= levelPartStarts[7]) {
+                        document.getElementById('texto4').innerHTML = `${etapaAtual}/${levelPartStarts[7]}`;
+                        if (estrela === levelPartStarts[7])
                             arrayEstrelas[3].setAttribute('src', '../img/estrelas/star1.svg');
                     }
                     game();
