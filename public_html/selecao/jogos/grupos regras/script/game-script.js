@@ -556,7 +556,7 @@ function game() {
                                            ...rejectedRestrictionsLeft.get().map(caracteristica => [caracteristica, REJECTED])]);
     let respostasCertasDireita = new Set([...acceptedRestrictionsRight.get().map(caracteristica => [caracteristica, ACCEPTED]),
                                           ...rejectedRestrictionsRight.get().map(caracteristica => [caracteristica, REJECTED])]);
-    
+
 
     // adicionar as restrições corretas nas respostas
     let respostasItems = [...respostasCertasEsquerda, ...respostasCertasDireita];
@@ -756,7 +756,7 @@ function checarResposta() {
         return quaoIncorreto(respostasOpcoes);
 
     // checar se todas as respostas corretas foram arrastadas
-    if (!gRespostasCertasEsquerda.every(resposta => respostasEsquerdaSet.has(resposta) || respostasDireitaSet.has(resposta)) || 
+    if (!gRespostasCertasEsquerda.every(resposta => respostasEsquerdaSet.has(resposta) || respostasDireitaSet.has(resposta)) ||
         !gRespostasCertasDireita.every(resposta => respostasEsquerdaSet.has(resposta) || respostasDireitaSet.has(resposta)))
         return quaoIncorreto(respostasOpcoes);
 
