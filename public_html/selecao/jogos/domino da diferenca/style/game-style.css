@@ -581,7 +581,6 @@ button#botao-resultado {
 }
 
 
-
 section#container_sequencia {
 
     width: 80%;
@@ -597,6 +596,13 @@ section#container_sequencia {
     justify-content: center;
 }
 
+section#container_sequencia img.pequeno {
+    width: 45px;
+}
+
+section#container_sequencia img.grande {
+    width: 58px;
+}
 
 p.container_formas-titulo {
 
@@ -621,6 +627,15 @@ section#container_formas {
     justify-content: center;
     align-items: center;
     align-content: center;
+}
+
+#container_formas img.grande{
+    width: 58px;
+}
+
+img.game-img.pequeno{
+    width: 45px;
+    margin: 0px 5px;
 }
 
 img.game-img {

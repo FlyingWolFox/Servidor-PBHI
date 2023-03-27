@@ -221,7 +221,7 @@ function getRestrictScr(estado, classificação, valor) {   //Cria a src a parti
         srcAlt += 'Não podem peças que ';
     }
     else{  
-        srcAlt += 'Podem peças que ';
+        srcAlt += 'Só podem peças que ';
     }
 
     switch (classificação) {
@@ -1379,28 +1379,29 @@ function background(caixas){
     var dropEsquerda = document.getElementById(dropPrimeiro);
     var dropMeio = document.getElementById(dropSegundo);
     var dropDireita = document.getElementById(dropTerceiro);
+    var restricao2 = document.getElementById(divRestricao2);
 
     /* Gerar imagens do fundo */
     if(caixas == 2) {
 
         dropEsquerda.setAttribute('style', 'grid-column: 2/3; grid-row: 1/4;');
-        dropDireita.setAttribute('style', 'grid-column: 4/5; grid-row: 1/4;');
+        dropDireita.setAttribute('style', 'grid-column: 4/5; grid-row: 1/4; align-content: flex-start;');
         dropMeio.setAttribute('style', 'display: none;');
         dropzoneArea.setAttribute('style', 'grid-template-columns: 2fr 5fr 1fr 5fr 2fr;')
         dropEsquerda.classList.remove('drop-meio-ativo');
         dropMeio.classList.remove('drop-meio-ativo');
         dropDireita.classList.remove('drop-meio-ativo');
-
+        restricao2.setAttribute('style', 'justify-content: start;');
     } else {
 
         dropEsquerda.setAttribute('style', 'grid-column: 2/4; grid-row: 1/3;');
-        dropDireita.setAttribute('style', 'grid-column: 3/5; grid-row: 2/4;');
+        dropDireita.setAttribute('style', 'grid-column: 3/5; grid-row: 2/4; align-content: flex-end;');
         dropMeio.setAttribute('style', 'grid-column: 3/4; grid-row: 2/3;');
         dropzoneArea.setAttribute('style', 'grid-template-columns: 2fr repeat(3, 3fr) 2fr;')
         dropEsquerda.classList.add('drop-meio-ativo');
         dropMeio.classList.add('drop-meio-ativo');
         dropDireita.classList.add('drop-meio-ativo');
-
+        restricao2.setAttribute('style', 'justify-content: end;');
     }
 }
 

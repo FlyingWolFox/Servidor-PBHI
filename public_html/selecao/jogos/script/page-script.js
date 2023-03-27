@@ -43,8 +43,9 @@ var gameHeader = document.getElementsByTagName('header')[0];
 var gameFooter = document.getElementsByTagName('footer')[0];
 var indexHead = document.getElementsByTagName('head')[0];
 var fullscreen = false;
-
 var gameContainer = document.getElementById('main_body');
+
+const element = document.documentElement;
 
 gameContainer.addEventListener('fullscreenchange', (e) => {
 
@@ -71,19 +72,24 @@ gameContainer.addEventListener('fullscreenchange', (e) => {
 
 })
 
+// fullscreenButton.addEventListener('click', () => {
+//   if (!document.fullscreenElement) {
+//     gameContainer.requestFullscreen();
+//   } else {
+//     document.exitFullscreen();
+//   }
+// });
+
 fullscreenButton.onclick = () => {
 
   if (!document.fullscreenElement) {
-
     gameContainer.requestFullscreen();
-
   } else {
-
     document.exitFullscreen()
-
   }
 
 };
+
 // funcao post usando fetch e baseada em promessas
 async function postPartida(url = '', data = {}) {
   // Default options are marked with *

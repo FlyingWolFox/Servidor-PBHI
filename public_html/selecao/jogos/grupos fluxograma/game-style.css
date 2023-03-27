@@ -306,14 +306,14 @@ a#span-info {
     border-radius: 10px 10px 0px 0px;
 }
 
-#main-body,
+#main_body,
 header {
     background-image: url(../img/bg-image.png);
     background-color: var(--cor-do-body);
 
 }
 
-main#main-body {
+main#main_body {
 
     grid-row: 2/3;
 }
@@ -448,7 +448,7 @@ div.botoes-janela {
 
 }
 
-span#span-fullscreen {
+span#span_fullscreen {
 
     width: 30px;
     height: 43px;
@@ -972,7 +972,7 @@ div.formas-titulo {
         font-size: 1em;
     }
 
-    main#main-body {
+    main#main_body {
 
         grid-template-columns: 1fr minmax(300px, 10fr) 1fr
 
@@ -1029,7 +1029,7 @@ div.formas-titulo {
     
     }
     
-    span#span-fullscreen {
+    span#span_fullscreen {
     
         width: 23px;
         height: 35px;
