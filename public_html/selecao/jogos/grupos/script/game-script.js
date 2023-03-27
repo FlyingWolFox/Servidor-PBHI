@@ -27,7 +27,6 @@ const divRestricao2 = 'conteiner-restricao-direita';
 const forma = 0, cor = 1, tamanho = 2, contorno = 3;
 const divEstrelas = 'conquistas_conteiner';
 var arrayEstrelas = document.getElementById(divEstrelas).getElementsByTagName('img');
-
 var ano = localStorage.getItem('ano');
 var textoInfo = document.getElementById('resultado-jogo-info');
 var modalInfo = document.getElementById("modalInfoPeca");
@@ -1366,7 +1365,9 @@ function game() {
 
     /*Fazendo o append com a divForms*/
     arrayOpcoesFinal.forEach(el => {
+        
         divForms.appendChild(el);
+
     });
 
     background(quantidade);
