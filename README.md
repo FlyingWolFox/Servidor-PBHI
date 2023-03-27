@@ -12,7 +12,7 @@ Antes de rodar o servidor pela primeira vez:
 - Faça login no servidor MySQL como root (usando root) e execute:
 
 ```sql
-source sql/SQL.sql; ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'dumb123';
+source sql/SQL.sql; source sql/Patch das fases + diretorio.sql; ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'dumb123';
 ```
 
 - Pegue o arquivo .env: `git show a9f50fe:.env > .env`
