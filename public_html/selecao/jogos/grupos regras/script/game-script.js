@@ -365,7 +365,7 @@ function genLevels() {
             }
 
             while (true) {
-                let beforeNums = [...restrictionClasses.values()].map(t => t[1]);
+                const beforeNums = [...restrictionClasses.values()].map(t => t[1]);
                 for (let [restrictionClass, traitTypes] of restrictionClasses.entries()) {
                     for (let traitSpec of traitTypes) {
                         let [traitType, num] = traitSpec;
@@ -378,7 +378,7 @@ function genLevels() {
                         restrictionsUsed++;
                     }
                 }
-                let afterNums = [...restrictionClasses.values()].map(t => t[1]);
+                const afterNums = [...restrictionClasses.values()].map(t => t[1]);
                 if (beforeNums.every((v, i) => v === afterNums[i]))
                     break; // no more restrictions could be added
             }
@@ -452,13 +452,13 @@ function game() {
     const intersecaoAtiva = etapaAtual >= levelPartStarts[4];
     endGame = etapaAtual + 1 >= etapaMax;
 
-    let [acceptedRestrictionsLeft,
-         rejectedRestrictionsLeft,
-         acceptedRestrictionsRight,
-         rejectedRestrictionsRight,
-         caixaEsquerdaItems,
-         caixaIntersecaoItems,
-         caixaDireitaItems] = gerarNivel(currentStage, intersecaoAtiva);
+    const [acceptedRestrictionsLeft,
+           rejectedRestrictionsLeft,
+           acceptedRestrictionsRight,
+           rejectedRestrictionsRight,
+           caixaEsquerdaItems,
+           caixaIntersecaoItems,
+           caixaDireitaItems] = gerarNivel(currentStage, intersecaoAtiva);
 
     let respostasCertasEsquerda = new Set([...acceptedRestrictionsLeft.get().map(caracteristica => [caracteristica, ACCEPTED]),
                                            ...rejectedRestrictionsLeft.get().map(caracteristica => [caracteristica, REJECTED])]);
@@ -502,7 +502,7 @@ function game() {
     let divCaixaDireita = document.getElementById(divCaixaDireitaId);
     let divCaixaIntersecao = document.getElementById(divCaixaIntersecaoId);
 
-    //renderizando restrições em "regras disponíveis"
+    // renderizando restrições em "regras disponíveis"
     gRespostasCertasEsquerda = [];
     gRespostasCertasDireita = [];
     gOpcoes = respostasItems;
@@ -532,7 +532,7 @@ function game() {
     };
 
     caixaEsquerdaItems.forEach(item => {
-        let imgTag = document.createElement("img");
+        let imgTag = document.createElement('img');
         imgTag.src = TRAIT_EXTRA.getFormaSrc(item);
         imgTag.alt = TRAIT_EXTRA.getFormaAlt(item);
         imgTag.title = imgTag.alt;
@@ -543,7 +543,7 @@ function game() {
     });
 
     caixaDireitaItems.forEach(item => {
-        let imgTag = document.createElement("img");
+        let imgTag = document.createElement('img');
         imgTag.src = TRAIT_EXTRA.getFormaSrc(item);
         imgTag.alt = TRAIT_EXTRA.getFormaAlt(item);
         imgTag.title = imgTag.alt;
@@ -554,12 +554,12 @@ function game() {
     });
 
     caixaIntersecaoItems.forEach(item => {
-        let imgTag = document.createElement("img");
+        let imgTag = document.createElement('img');
         imgTag.src = TRAIT_EXTRA.getFormaSrc(item);
         imgTag.alt = TRAIT_EXTRA.getFormaAlt(item);
         imgTag.title = imgTag.alt;
         imgTag.classList.add('game-img');
-        imgTag.classList.add(item.get(TRAIT.SIZE) == TRAIT.SIZE.SMALL ? 'pequeno' : 'grande');
+        imgTag.classList.add(item.get(TRAIT.SIZE) === TRAIT.SIZE.SMALL ? 'pequeno' : 'grande');
         imgTag.addEventListener('click', modalInfoTrigger);
         divCaixaIntersecao.appendChild(imgTag);
     });
@@ -569,7 +569,6 @@ function game() {
     let divRestricaoDireita = document.getElementById(divRestricaoDireitaId);
     let dropzoneArea = document.getElementById('dropzone-container-grupos-regras');
     if (!intersecaoAtiva) {
-
         divCaixaEsquerda.setAttribute('style', 'grid-column: 2/3; grid-row: 1/4;');
         divCaixaDireita.setAttribute('style', 'grid-column: 4/5; grid-row: 1/4; align-content: flex-start');
         divCaixaIntersecao.setAttribute('style', 'display: none;');
@@ -596,15 +595,15 @@ function game() {
 
     // repete o background-image (a interrogação) a quantidade de vezes necessária
 
-    let interrogacaoEsq = document.getElementById("container-restricao-esquerda");
-    interrogacaoEsq.style.backgroundImage = "url('../img/bg-slot.svg'),".repeat(gRespostasCertasEsquerda.length).slice(0, -1);
-    interrogacaoEsq.style.backgroundRepeat = "no-repeat,".repeat(gRespostasCertasEsquerda.length).slice(0, -1);
-    interrogacaoEsq.style.backgroundPosition = Array(gRespostasCertasEsquerda.length).fill(`top Xpx right 10px`).map((str, i) => str.replace("X", i*interrogacaoEspaco)).join(",");
+    let interrogacaoEsq = document.getElementById('container-restricao-esquerda');
+    interrogacaoEsq.style.backgroundImage = 'url(\'../img/bg-slot.svg\'),'.repeat(gRespostasCertasEsquerda.length).slice(0, -1);
+    interrogacaoEsq.style.backgroundRepeat = 'no-repeat,'.repeat(gRespostasCertasEsquerda.length).slice(0, -1);
+    interrogacaoEsq.style.backgroundPosition = Array(gRespostasCertasEsquerda.length).fill('top Xpx right 10px').map((str, i) => str.replace('X', i * interrogacaoEspaco)).join(',');
 
-    let interrogacaoDir = document.getElementById("container-restricao-direita");
-    interrogacaoDir.style.backgroundImage = "url('../img/bg-slot.svg'),".repeat(gRespostasCertasDireita.length).slice(0, -1);
-    interrogacaoDir.style.backgroundRepeat = "no-repeat,".repeat(gRespostasCertasDireita.length).slice(0, -1);
-    interrogacaoDir.style.backgroundPosition = Array(gRespostasCertasDireita.length).fill(`top Xpx left 10px`).map((str, i) => str.replace("X", i*interrogacaoEspaco)).join(",");
+    let interrogacaoDir = document.getElementById('container-restricao-direita');
+    interrogacaoDir.style.backgroundImage = 'url(\'../img/bg-slot.svg\'),'.repeat(gRespostasCertasDireita.length).slice(0, -1);
+    interrogacaoDir.style.backgroundRepeat = 'no-repeat,'.repeat(gRespostasCertasDireita.length).slice(0, -1);
+    interrogacaoDir.style.backgroundPosition = Array(gRespostasCertasDireita.length).fill('top Xpx left 10px').map((str, i) => str.replace('X', i * interrogacaoEspaco)).join(',');
 }
 
 const [RESPOSTA_CORRETA, RESPOSTA_INCOMPLETA, RESPOSTA_ERRADA] = [1, 2, 3];
@@ -615,7 +614,7 @@ const [RESPOSTA_CORRETA, RESPOSTA_INCOMPLETA, RESPOSTA_ERRADA] = [1, 2, 3];
  * @returns RESPOSTA_INCOMPLETA se não moveu todas as imagens, RESPOSTA_ERRADA se moveu mas errou
  */
 function quaoIncorreto(respostasOpcoes) {
-    let respostasOpcoesSet = new Set(respostasOpcoes);
+    const respostasOpcoesSet = new Set(respostasOpcoes);
     // checa se há respostas corretas nas opções
     // se tiver, o usuário não moveu todas ainda, retornar RESPOSTA_INCOMPLETA
     // se não tiver, o usuário moveu, mas arrajou as respostas de forma incorreta, retornar RESPOSTA_ERRADA
@@ -635,9 +634,9 @@ function checarResposta() {
     'use strict';
     let respostasEsquerda = [...document.getElementById(divRestricaoEsquerdaId).children];
     let respostasDireita = [...document.getElementById(divRestricaoDireitaId).children];
-    let respostasEsquerdaSet = new Set(respostasEsquerda);
-    let respostasDireitaSet = new Set(respostasDireita);
-    let respostasOpcoes = [...document.getElementById(divRespostasId).children];
+    const respostasEsquerdaSet = new Set(respostasEsquerda);
+    const respostasDireitaSet = new Set(respostasDireita);
+    const respostasOpcoes = [...document.getElementById(divRespostasId).children];
 
     // checar se não há interrogações expostas (se um lado tem menos respostas que deveria)
     if (respostasEsquerdaSet.size < gRespostasCertasEsquerda.length ||
@@ -675,72 +674,70 @@ function checarResposta() {
  * Confere se a resposta está correta e mostra a mensagem apropriada
  */
 function check() {
-
     let textoAcerto = document.getElementById('resultado-jogo');
     let textoErro = document.getElementById('resultadoNegativo-jogo');
 
-    let modalAcerto = document.getElementById("modalAcerto");
+    let modalAcerto = document.getElementById('modalAcerto');
     let modalErro = document.getElementById('modalErro');
     let modalFim = document.getElementById('modalFim');
 
-    let btnReiniciar = document.getElementById('botao-restart');
-    let botaoOk = document.getElementById('botao-proximo');
+    const btnReiniciar = document.getElementById('botao-restart');
+    const botaoOk = document.getElementById('botao-proximo');
 
-    let respostaExatidao = checarResposta();
+    const respostaExatidao = checarResposta();
     switch (respostaExatidao) {
-        case RESPOSTA_ERRADA:
-            modalErro.style.display = 'block';
-            textoErro.innerText = 'Resposta errada... Tente novamente!';
-            break;
+    case RESPOSTA_ERRADA:
+        modalErro.style.display = 'block';
+        textoErro.innerText = 'Resposta errada... Tente novamente!';
+        break;
 
-        case RESPOSTA_INCOMPLETA:
-            modalErro.style.display = 'block';
-            textoErro.innerText = 'Você ainda não moveu todas as imagens... Tente novamente.';
-            break;
+    case RESPOSTA_INCOMPLETA:
+        modalErro.style.display = 'block';
+        textoErro.innerText = 'Você ainda não moveu todas as imagens... Tente novamente.';
+        break;
 
-        case RESPOSTA_CORRETA:
-            if (endGame) {
-                chuva();
-                textoAcerto.innerHTML = "Você concluiu o jogo! Parabens!";
-                modalFim.style.display = 'block';
-                btnReiniciar.onclick = function (event) {
-                    stopChuva();
-                    etapaAtual = 0;
-                    endGame = false;
-                    resetEstrelas();
-                    game();
-                    modalFim.style.display = 'none';
-                };
-            }
-            else {
-                modalAcerto.style.display = 'block';
-                textoAcerto.innerText = 'Você acertou! Fase concluída.';
-                botaoOk.innerHTML = "Próxima";
-                botaoOk.onclick = function (event) {
-                    etapaAtual++;
-                    estrela++;
-                    if (estrela <= levelPartStarts[4]) {
-                        document.getElementById('texto1').innerHTML = `${etapaAtual}/${levelPartStarts[4]}`;
-                        if (estrela === levelPartStarts[4])
-                            arrayEstrelas[0].setAttribute('src', '../img/estrelas/star1.svg');
-                    } else if (estrela <= levelPartStarts[5]) {
-                        document.getElementById('texto2').innerHTML = `${etapaAtual}/${levelPartStarts[5]}`;
-                        if (estrela === levelPartStarts[5])
-                            arrayEstrelas[1].setAttribute('src', '../img/estrelas/star1.svg');
-                    } else if (estrela <= levelPartStarts[6]) {
-                        document.getElementById('texto3').innerHTML = `${etapaAtual}/${levelPartStarts[6]}`;
-                        if (estrela === levelPartStarts[6])
-                            arrayEstrelas[2].setAttribute('src', '../img/estrelas/star1.svg');
-                    } else if (estrela <= levelPartStarts[7]) {
-                        document.getElementById('texto4').innerHTML = `${etapaAtual}/${levelPartStarts[7]}`;
-                        if (estrela === levelPartStarts[7])
-                            arrayEstrelas[3].setAttribute('src', '../img/estrelas/star1.svg');
-                    }
-                    game();
-                    modalAcerto.style.display = 'none';
-                };
-            }
-            break;
+    case RESPOSTA_CORRETA:
+        if (endGame) {
+            chuva();
+            textoAcerto.innerHTML = 'Você concluiu o jogo! Parabens!';
+            modalFim.style.display = 'block';
+            btnReiniciar.onclick = function (event) {
+                stopChuva();
+                etapaAtual = 0;
+                endGame = false;
+                resetEstrelas();
+                game();
+                modalFim.style.display = 'none';
+            };
+        } else {
+            modalAcerto.style.display = 'block';
+            textoAcerto.innerText = 'Você acertou! Fase concluída.';
+            botaoOk.innerHTML = 'Próxima';
+            botaoOk.onclick = function (event) {
+                etapaAtual++;
+                estrela++;
+                if (estrela <= levelPartStarts[4]) {
+                    document.getElementById('texto1').innerHTML = `${etapaAtual}/${levelPartStarts[4]}`;
+                    if (estrela === levelPartStarts[4])
+                        arrayEstrelas[0].setAttribute('src', '../img/estrelas/star1.svg');
+                } else if (estrela <= levelPartStarts[5]) {
+                    document.getElementById('texto2').innerHTML = `${etapaAtual}/${levelPartStarts[5]}`;
+                    if (estrela === levelPartStarts[5])
+                        arrayEstrelas[1].setAttribute('src', '../img/estrelas/star1.svg');
+                } else if (estrela <= levelPartStarts[6]) {
+                    document.getElementById('texto3').innerHTML = `${etapaAtual}/${levelPartStarts[6]}`;
+                    if (estrela === levelPartStarts[6])
+                        arrayEstrelas[2].setAttribute('src', '../img/estrelas/star1.svg');
+                } else if (estrela <= levelPartStarts[7]) {
+                    document.getElementById('texto4').innerHTML = `${etapaAtual}/${levelPartStarts[7]}`;
+                    if (estrela === levelPartStarts[7])
+                        arrayEstrelas[3].setAttribute('src', '../img/estrelas/star1.svg');
+                }
+                game();
+                modalAcerto.style.display = 'none';
+            };
+        }
+        break;
     }
 }
 

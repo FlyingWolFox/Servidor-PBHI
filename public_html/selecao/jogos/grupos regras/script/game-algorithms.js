@@ -1087,14 +1087,14 @@ function gerarNivel(newCurrentStage, newIntersecaoAtiva) {
         if (currentStage.acceptedClasses.length === 0)
             throw new Error('Nenhuma classe aceita num nível inicial!');
 
-        let classe = currentStage.acceptedClasses[0];
-        let caracteristicasDisponiveis = [...classe];
-        let [left, right] = pickRandom(caracteristicasDisponiveis, 2);
+        const classe = currentStage.acceptedClasses[0];
+        const caracteristicasDisponiveis = [...classe];
+        const [left, right] = pickRandom(caracteristicasDisponiveis, 2);
         acceptedRestrictionsLeft.insert(classe, left);
         acceptedRestrictionsRight.insert(classe, right);
 
-        let leftSet = new TraitSetContainer().add(classe, left),
-            rightSet = new TraitSetContainer().add(classe, right);
+        let leftSet = new TraitSetContainer().add(classe, left);
+        let rightSet = new TraitSetContainer().add(classe, right);
 
         // random control
         currentStage.randomLimits.delete(classe); // efeito permanente sem problema, pois nem deveria existir
@@ -1143,9 +1143,9 @@ function gerarNivel(newCurrentStage, newIntersecaoAtiva) {
     if (maxLengths[0][0].length < maxLengths[0][1]) {
         // uma caixa tem menos que o limite/3, então restringir a quantidade de formas baseado nela
         let maxToBeRedistributed = currentStage.maxNumShapes;
-        let minLength = maxLengths[0][0] !== caixaIntersecaoItems ? maxLengths[0][0].length : maxLengths[1][0].length;
+        const minLength = maxLengths[0][0] !== caixaIntersecaoItems ? maxLengths[0][0].length : maxLengths[1][0].length;
         maxLengths = maxLengths.map(([box, _], i) => {
-            let maxLength = Math.min(box.length, Math.round(minLength * (Math.random() + 1)), Math.round(maxToBeRedistributed/(maxLengths.length - i)));
+            const maxLength = Math.min(box.length, Math.round(minLength * (Math.random() + 1)), Math.round(maxToBeRedistributed/(maxLengths.length - i)));
             maxToBeRedistributed -= maxLength;
             return [box, maxLength];
         });
