@@ -579,12 +579,12 @@ function gerarRestricoes() {
 
     // TODO: make this more controllable
     let smallerBoxRatio = -Math.abs(0.5 - randomNormalDistr()) + 0.5; // (0, 0.5] with mean 0.5
-    let smallerBoxAccepted,
-        smallerBoxRejected,
-        biggerBoxAccepted,
-        biggerBoxRejected;
-    let smallerBoxSize = 0,
-        biggerBoxSize = 0;
+    let smallerBoxAccepted;
+    let smallerBoxRejected;
+    let biggerBoxAccepted;
+    let biggerBoxRejected;
+    let smallerBoxSize = 0;
+    let biggerBoxSize = 0;
 
     // definir qual caixa vai ser a menor (tem menos restrições)
     if (Math.random() <= 0.5) {
@@ -688,8 +688,8 @@ function gerarRestricoes() {
         }
 
         // +1 porque estamos adicionando a restrição aceita na outra caixa
-        let ratioIfInsertOnSmaller = (smallerBoxSize + rejQty) / (smallerBoxSize + biggerBoxSize + 1 + rejQty),
-            ratioIfInsertOnBigger = (smallerBoxSize) / (smallerBoxSize + biggerBoxSize + 1 + rejQty);
+        let ratioIfInsertOnSmaller = (smallerBoxSize + rejQty) / (smallerBoxSize + biggerBoxSize + 1 + rejQty);
+        let ratioIfInsertOnBigger = (smallerBoxSize) / (smallerBoxSize + biggerBoxSize + 1 + rejQty);
 
         // se a proporção depois da inserção na caixa menor for mais próxima de boxesRatio, inserir na caixa menor
         if (Math.abs(ratioIfInsertOnSmaller - smallerBoxRatio) < Math.abs(ratioIfInsertOnBigger - smallerBoxRatio)) {
