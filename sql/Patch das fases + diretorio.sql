@@ -10,6 +10,7 @@ update jogo set max_fase = 18 where nome_jogo = 'SEQUÊNCIA DE NÚMEROS';
 update jogo set max_fase = 18 where nome_jogo = 'SEQUÊNCIA DECRESCENTE';
 update jogo set max_fase = 18 where nome_jogo = 'LOGICS';
 update jogo set max_fase = 17 where nome_jogo = 'REPETIÇÃO';
+update jogo set max_fase = 32 where nome_jogo = 'GRUPOS REGRAS';
 
 ALTER TABLE atividade 
 ADD COLUMN fase_inicio VARCHAR(2) NULL DEFAULT '1' AFTER comentario,

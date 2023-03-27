@@ -85,7 +85,7 @@ INSERT INTO jogo (nome_jogo,max_fase) VALUES ('LOGICS','30');
 INSERT INTO jogo (nome_jogo,max_fase) VALUES ('DOMINÓ DA DIFERENÇA','16');
 INSERT INTO jogo (nome_jogo,max_fase) VALUES ('FLUXOGRAMA','14');
 INSERT INTO jogo (nome_jogo,max_fase) VALUES ('SEQUÊNCIA DECRESCENTE' ,'24');
-INSERT INTO jogo (nome_jogo,max_fase) VALUES ('GRUPOS REGRAS','12');
+INSERT INTO jogo (nome_jogo,max_fase) VALUES ('GRUPOS REGRAS','32');
 
 update jogo set diretorio = "./selecao/jogos/repeticao/index.html" where nome_jogo = 'REPETIÇÃO';
 update jogo set diretorio = "./selecao/jogos/completar/index.html" where nome_jogo = 'COMPLETAR';
