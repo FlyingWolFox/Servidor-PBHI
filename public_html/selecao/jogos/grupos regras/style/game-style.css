@@ -1227,7 +1227,7 @@ div.respostas-titulo {
     section#caixa-intersecao img.draggable-mirror.pequeno,
     section#caixa-esquerda img.draggable-mirror.pequeno,
     section#caixa-direita img.draggable-mirror.pequeno {
-        width: 8%;
+        width: 3%;
     }
 
     section#container_respostas img.draggable-mirror.pequeno {
