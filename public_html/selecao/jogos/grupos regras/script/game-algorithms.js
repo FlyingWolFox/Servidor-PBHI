@@ -69,25 +69,6 @@ function randomNormalDistr() {
     return random;
 }
 
-function getRandomIntInclusive(min, max) {
-    min = Math.ceil(min);
-    max = Math.floor(max);
-    return Math.floor(Math.random() * (max - min + 1)) + min;
-}
-
-function getNormalRandomIntInclusive(min, max) {
-    const sample_size = 10;
-    let random = 0;
-    for (let i = 0; i < sample_size; i++) {
-        random += Math.random();
-    }
-    random /= sample_size;
-
-    min = Math.ceil(min);
-    max = Math.floor(max);
-    return Math.floor(random * (max - min + 1)) + min;
-}
-
 /**
  * TraitContainer é uma estrutura de dados que armazena as características
  * indexando por classe, possibilitando obter as características de uma classe sem
