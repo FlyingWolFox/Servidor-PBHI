@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta charset="UTF-8">
+<meta name = "application-name" content = "GRUPOS REGRAS">
+
+<head>
+
+    <title>Tem Lógica - Regras dos Grupos</title>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#9DCC38">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#9DCC38">
+
+    <link rel="shortcut icon" href="../img/favicon.ico" />
+
+    <link rel="stylesheet" href="../../../style/page-style-games.css">
+    <link rel="stylesheet" href="./style/game-style.css">
+    <link rel="stylesheet" id="estilo-mobile" href="./style/mobile-style.css" type="text/css"
+        media="screen and (orientation: landscape) and (max-width: 900px)">
+    <link rel="stylesheet" href="../../../style/icofont/icofont.min.css">
+
+    <!-- link para as fontes do projeto -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+        rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@100;300;400;500;700;800;900&display=swap"
+        rel="stylesheet">
+    <script src="../script/autenticar.js"></script>
+
+    <style>
+        h2#title_jogo {
+            background-color: #7EE0E0;
+        }
+
+        header#box_instrucoes {
+            background-color: #7EE0E0;
+        }
+    </style>
+</head>
+
+<body class='game_body'>
+    <section id="aviso_orientacao">
+        <div id="aviso_orientacao_caixa">
+            <h1 id="texto_orientacao"> Vire seu aparelho na horizontal para jogar</h1>
+            <div id="orientacao_imgs">
+                <div class="grupo_imagem_orientacao">
+                    <img class="icone_modal" src="../img/orientacao-img/Group30.svg" alt="">
+                    <img id="img_celular_horizontal" src="../img/orientacao-img/Subtract.svg" alt="">
+                    <h1 id="texto_orientacao_vertical">Vertical</h1>
+                </div>
+                <img id="vetor_orientacao" src="../img/orientacao-img/Vector5.svg" alt="">
+                <div class="grupo_imagem_orientacao" id="orientacao-grupo-horizontal">
+                    <img class="icone_modal" src="../img/orientacao-img/Group176.svg" alt="">
+                    <img id="img_celular_horizontal" src="../img/orientacao-img/Subtract-1.svg" alt="">
+                    <h1 id="texto_orientacao_vertical">Horizontal</h1>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div id="tela_jogo">
+        <header id="game_header">
+            <a href="../../../index.html" id="link_logo">
+                <img src="../img/logo.png" id="logo" alt="">
+            </a>
+            <h2 id="title_jogo" nome-real="GRUPOS REGRAS" class="grid-item">REGRAS DOS GRUPOS</h2>
+        </header>
+
+        <main id="main_body">
+            <div id="modal_info" class="modal">
+                <div class="modal_content" id="modal_content">
+                    <p>
+                        Olá novamente, tudo bem? tenho outro jogo bem bacana pra
+                        te apresentar, o Regras dos Grupos, nele a gente te
+                        mostra duas caixas diferentes com peças que vão servir
+                        para saber que regras são usadas nela. Por exemplo: uma
+                        caixa que só tem peças quadradas podem indicar que a
+                        regra usada é "só podem peças que são quadrados"
+                        <br>
+                        Coloque as regras usadas em cada caixa ao lado delas,
+                        e depois clique em "TERMINEI" para ver se você acertou.
+                    </p>
+                    <div id="modal_button_box">
+                        <button id="botao_info_close"
+                            onclick="document.getElementById('modal_info').style.display='none'; cancelarAudioModal()">Entendi
+                        </button>
+
+                        <button id="botao_de_voz" onclick="ativarAudioModal()">Falar!
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <section id="game_section">
+                <header id="box_instrucoes">
+                    <div id="progresso_conquistas">
+                        <p id="texto_progresso">Conquistas</p>
+                        <section id="conquistas_conteiner">
+                            <div class="estrela_container">
+                                <img src="../img/estrelas/star2.svg" alt="" class="estrela">
+                                <p class="estrela_texto" id="texto1">?</p>
+                            </div>
+                            <div class="estrela_container">
+                                <img src="../img/estrelas/star2.svg" alt="" class="estrela">
+                                <p class="estrela_texto" id="texto2">?</p>
+                            </div>
+                            <div class="estrela_container">
+                                <img src="../img/estrelas/star2.svg" alt="" class="estrela">
+                                <p class="estrela_texto" id="texto3">?</p>
+                            </div>
+                            <div class="estrela_container">
+                                <img src="../img/estrelas/star2.svg" alt="" class="estrela">
+                                <p class="estrela_texto" id="texto4">?</p>
+                            </div>
+                        </section>
+                    </div>
+                    <div id="tutorial_conteiner">
+                        <img src="../img/sr-logico.png" alt="" id="mascote_instrucoes">
+                        <article id="textbox_tutorial">
+                            <p id="textbox_fase">Fase n&uacute;mero <span id="textbox_numero_fase">1</span>:</p>
+                            <textarea id="texto_textbox" readonly>Identifique as características das peças de cada grupo e arraste as regras corretas disponíveis abaixo para a caixa do grupamento correto.
+                            </textarea>
+                        </article>
+                    </div>
+                    <div id="conteiner_botoes">
+                        <div class="botoes_janela">
+                            <span class="button_header" id="span_fullscreen"><i class="icofont-maximize"></i></span>
+                            <a class="button_header" href="../../index.html" id="span_textbox">
+                                <i class="icofont-close icofont_2x"></i>
+                            </a>
+                        </div>
+                        <div id="botoes-de-audio">
+                            <!--aqui-->
+                            <button id="botao-ativar-voz">
+                                <p>
+                                    <img src="../../../img/svg/audio-off.svg" alt="Áudio ligado"
+                                        id="botao-voz-instrucao">
+                                </p>
+                            </button>
+                            <button id="botao-repetir-voz" onclick="ativarAudio(this)">
+                                <p>
+                                    <img src="../../../img/svg/repeat.svg" alt="Repetir áudio" id="repetir-voz">
+                                </p>
+                            </button>
+                            <button id="button-about"
+                                onclick="document.getElementById('modal_info').style.display='flex'; audioModalAutomatico()"
+                                class="">
+                                ?
+                            </button>
+                        </div>
+                    </div>
+                </header>
+
+                <main id="game_content">
+                    <div id='box_central'>
+                        <section id="dropzone-container-grupos-regras">
+                            <section class="drop restricao-esquerda" id="container-restricao-esquerda">
+                            </section>
+
+                            <section id="caixa-esquerda" class='drop-esquerdo'>
+                                <!-- Locais onde os triangulos estarão -->
+                            </section>
+                            <section id='caixa-intersecao' class='drop-intersecao'>
+                                <!-- Local onde fica a interseção -->
+                            </section>
+                            <section id="caixa-direita" class='drop-direito'>
+                                <!-- local onde os quadrados estarão -->
+                            </section>
+
+                            <section class="drop restricao-direita" id="container-restricao-direita">
+                            </section>
+                        </section>
+
+                        <button id="botao-resultado" onclick="">TERMINEI!</button>
+                    </div>
+                    <div class="respostas-titulo">
+                        <p class='container_respostas-titulo'>Regras Disponíveis</p>
+                        <section id="container_respostas" class="drop">
+                            <!-- Local onde as formas serão criadas -->
+                        </section>
+                    </div>
+
+                    <!-- O Modal do resultado positivo-->
+                    <div id="modalAcerto" class="modal">
+                        <!-- Conteúdo do Modal -->
+                        <div class="modal-content">
+                            <img class="modal-img-logico" src="../img/modal/logico-contente.svg" alt="">
+                            <div class="modal-text-content">
+                                <h2 class="titulo-modal">RESULTADO</h2>
+                                <h2 id="resultado-jogo"></h2>
+                                <button id="botao-proximo" onclick="fecharModal('acerto')">ok</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- O Modal de informação da Peça-->
+                    <div id="modalInfoPeca" class="modal">
+                        <!-- Conteúdo do Modal -->
+                        <div class="modal-content-info">
+                            <span id="modal-close-button" class="close">&times;</span>
+                            <img id="img-info-peca" class="modal-img-info" src="" alt="">
+                            <div class="modal-text-content-info">
+                                <h2 class="titulo-modal-info">CARACTERÍSTICAS DA PEÇA</h2>
+                                <h2 id="resultado-jogo-info"></h2>
+                                <button id="botao-proximo-info" onclick="fecharModal('acerto')" data-backdrop="static"
+                                    data-keyboard="false">Próxima</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- O Modal do resultado negativo-->
+                    <div id="modalErro" class="modal">
+                        <!-- Conteúdo do Modal -->
+                        <div class="modalNegativo-content">
+                            <img class="modal-img-logico" src="../img/modal/logico-confuso.svg" alt="">
+                            <div class="modal-text-content">
+                                <h2 class="titulo-modal">RESULTADO</h2>
+                                <h2 id="resultadoNegativo-jogo">Ihh! Algo deu Errado</h2>
+                                <button id="botao-retorno" onclick="fecharModal('erro')">Recomeçar</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--O Modal de conclusão do jogo-->
+                    <div id="modalFim">
+                        <div id="modalContent">
+                            <div id="roboIcon"><img src="../img/modal/robo-end-frio.png" alt="Robo de festa"></div>
+                            <div id="modalGlass"></div>
+                            <div id="modalBox">
+                                <div id="textZone">
+                                    <h2>PARABÉNS</h2>
+                                    <h3>Você concluiu o jogo!!!</h3>
+                                </div>
+                            </div>
+                        </div>
+                        <section id="botao-box">
+                            <button id="botao-restart" class="botao-fim">Reiniciar</button>
+                            <button id="botao-certificado" class="botao-fim">Certificado</button>
+                        </section>
+                    </div>
+                </main>
+            </section>
+        </main>
+
+        <footer id="footer_grid">
+            <p class="footer_text" id="footer_center">Copyright Fapesq - <span id="ano">2021</span></p>
+            <script>
+                var ano = document.getElementById("ano");
+                var anoAtual = new Date();
+                ano.innerHTML = anoAtual.getFullYear();
+            </script>
+            <section id="footer_right">
+                <p class="footer_text realizadores_text">Realizadores:</p>
+                <div class="footer_imgs">
+                    <img class="footer-img" id="logo-pb" src="../img/logo-pb.png" alt="">
+                    <img class="footer-img" id="logo-seect" src="../img/logo-SEECT.png" alt="">
+                    <img class="footer-img" id="logo-fapesq" src="../img/logo-fapesq.png" alt="">
+                </div>
+            </section>
+        </footer>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@shopify/draggable@1.0.0-beta.11/lib/draggable.bundle.js"></script>
+    <script type="module" src="./script/game-structures.js"></script>
+    <script type="module" src="./script/game-algorithms.js"></script>
+    <script type="module" src="./script/game-script.js"></script>
+    <script src="../script/page-script.js"></script>
+    <script>
+        var containerRespotas = document.getElementById('container_respostas');
+        var dropzone = document.getElementsByClassName('drop');
+        var dropRestricoesEsquerda = document.getElementById('container-restricao-esquerda');
+        var dropRestricoesDireita = document.getElementById('container-restricao-direita');
+        var dropzoneArea = document.getElementById('dropzone-container-grupos-regras');
+        var origem = '';
+        var destino = '';
+        var data_hora = '';
+        
+        async function postData(url = '', origem, destino, data_hora) {
+            var nomeJogo  = document.getElementById('title_jogo').getAttribute('nome-real');
+            var faseAtual = parseInt(document.getElementById('textbox_numero_fase').innerHTML);
+            // Default options are marked with *
+            var dadosInteracao= {
+                origem: origem,
+                destino:destino,
+                tipoLigacao: 'SEM LIGAÇÃO',
+                data_hora:data_hora,
+                nomeJogo:nomeJogo,
+                faseAtual:faseAtual,
+            }
+            const response = await fetch(url, {
+                method: 'POST', // *GET, POST, PUT, DELETE, etc.
+                mode: 'cors', // no-cors, *cors, same-origin
+                cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+                credentials: 'same-origin', // include, *same-origin, omit
+                headers: {
+                    'Content-Type': 'application/json',
+                    // 'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                redirect: 'follow', // manual, *follow, error
+                referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+                body: JSON.stringify(dadosInteracao) // body data type must match "Content-Type" header
+            });
+            return response.text(); // parses JSON response into native JavaScript objects
+        }
+        
+        function decideDrop(id){
+            switch (id) {
+                case 'container-restricao-esquerda':
+                    return 'Colocar na esquerda'
+                    break;
+                case 'container-restricao-direita':
+                    return 'Colocar na direita'
+                    break;
+                case 'container_respostas':
+                    return 'INÍCIO'
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        const droppableSequencia = new Draggable.Droppable(containerRespotas, {
+            draggable: '.drag',
+            dropzone: '.drop'
+        });
+
+        droppableSequencia.on('drag:start', () => {
+
+            Array.prototype.filter.call(dropzone, zone => {
+                if (zone.classList.contains('draggable-dropzone--occupied')) {
+                    zone.classList.remove('draggable-dropzone--occupied');
+                }
+            });
+        });
+
+        droppableSequencia.on('droppable:stop', async () => {
+
+            Array.prototype.filter.call(dropzone, zone => {
+                if (zone.classList.contains('draggable-dropzone--occupied')) {
+                    zone.classList.remove('draggable-dropzone--occupied');
+                    origem = 'INÍCIO';
+                    destino = decideDrop(zone.id);
+                }
+            });
+            data_hora = new Date().toISOString().slice(0, 19).replace('T', ' ');
+            await postData('/interacoes', origem, destino, data_hora);
+        });
+
+        const retornoDropRestricaoEsquerda = new Draggable.Droppable(dropRestricoesEsquerda, {
+            draggable: '.drag',
+            dropzone: '.drop'
+        });
+
+        retornoDropRestricaoEsquerda.on('drag:start', () => {
+            Array.prototype.filter.call(dropzone, zone => {
+                if (zone.classList.contains('draggable-dropzone--occupied')) {
+                    zone.classList.remove('draggable-dropzone--occupied');
+                }
+            });
+        });
+
+        retornoDropRestricaoEsquerda.on('droppable:stop', async () => {
+            Array.prototype.filter.call(dropzone, zone => {
+                if (zone.classList.contains('draggable-dropzone--occupied')) {
+                    zone.classList.remove('draggable-dropzone--occupied');
+                    origem = 'Colocar na esquerda';
+                    destino = decideDrop(zone.id);
+                }
+            });
+            data_hora = new Date().toISOString().slice(0, 19).replace('T', ' ');
+            await postData('/interacoes', origem, destino, data_hora);
+        });
+
+        const retornoDropRestricaoDireita = new Draggable.Droppable(dropRestricoesDireita, {
+            draggable: '.drag',
+            dropzone: '.drop'
+        });
+
+        retornoDropRestricaoDireita.on('drag:start', () => {
+            Array.prototype.filter.call(dropzone, zone => {
+                if (zone.classList.contains('draggable-dropzone--occupied')) {
+                    zone.classList.remove('draggable-dropzone--occupied');
+                }
+            });
+        });
+
+        retornoDropRestricaoDireita.on('droppable:stop', async () => {
+            Array.prototype.filter.call(dropzone, zone => {
+                if (zone.classList.contains('draggable-dropzone--occupied')) {
+                    zone.classList.remove('draggable-dropzone--occupied');
+                    origem = 'Colocar na direita';
+                    destino = decideDrop(zone.id);
+                }
+            });
+            data_hora = new Date().toISOString().slice(0, 19).replace('T', ' ');
+            await postData('/interacoes', origem, destino, data_hora);
+        });
+
+    </script>
+    <script type="text/javascript">
+        var gameContainer = document.getElementById('main_body');
+
+        function descobreOs() {
+            var userAgent = navigator.userAgent || navigator.vendor || window.opera;
+            if (/windows phone/i.test(userAgent)) {
+                return "Windows Phone";
+            }
+            if (/android/i.test(userAgent)) {
+                return "Android";
+            }
+            if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+                return "iOS";
+            }
+            return "n_sei";
+        }
+
+        var sistema = descobreOs();
+
+        console.log(sistema)
+        if (sistema == 'Android') {
+
+            let estilo = document.getElementById('estilo-mobile');
+            estilo.setAttribute('media', 'screen and (orientation: landscape) and (max-width: 900px)');
+
+        } else if (sistema == 'iOS') {
+
+            // Criando o CSS responsável pelo modo Fullscreen
+            var indexHead = document.getElementsByTagName('head')[0];
+            var iosCss = document.createElement('link');
+            iosCss.setAttribute('href', './game-ios-style.css');
+            iosCss.setAttribute('rel', 'stylesheet');
+            indexHead.appendChild(iosCss);
+        }
+
+        var textarea = document.getElementById('texto_textbox');
+        var sentido
+
+        function textRoll(timeInterval, timeTimeout) {
+            sentido = 1
+            var textareaClock = setInterval(() => {
+                textarea.scrollTop = textarea.scrollTop + sentido;
+                if (textarea.scrollTop == 15) {
+                    sentido = -1;
+                }
+            }, timeInterval);
+
+            setTimeout(() => {
+                console.log('terminei')
+                clearInterval(textareaClock)
+            }, timeTimeout);
+        }
+
+        textRoll(90, 6000)
+    </script>
+
+    <script>
+        if (!localStorage.getItem('titulo')) {
+            localStorage.setItem('titulo', 'REGRAS DOS GRUPOS');
+        }
+
+        let mudandoTituloGrupos = document.getElementById('title_jogo');
+        mudandoTituloGrupos.innerHTML = `${localStorage.getItem('titulo')} - ${localStorage.getItem('ano').toUpperCase()}`;
+    </script>
+
+    <!--aqui-->
+    <!-- Funções para manipulações de áudio -->
+    <script type="text/javascript">
+        var synth = window.speechSynthesis;
+
+        if (!localStorage.getItem('audio')) {
+            localStorage.setItem('audio', 'ligado');
+        }
+
+        //habilitando e desabilitando botão global de áudio
+        var trocaImg = localStorage.getItem('audio');
+        var estadoDoAudio = false;
+        const buttonAudio = document.querySelector('#botao-ativar-voz');
+
+        const audioOn = () => {
+            estadoDoAudio = true;
+            let repetirVoz = document.getElementById('botao-repetir-voz');
+            repetirVoz.setAttribute('onlick', 'cancelarAudio(this)');
+            document.getElementById('botao-voz-instrucao').src = '../../../img/svg/audio-on.svg';
+            localStorage.setItem('audio', 'ligado');
+        }
+
+        const audioOff = () => {
+            synth.cancel();
+            estadoDoAudio = false;
+            let repetirVoz = document.getElementById('botao-repetir-voz');
+            repetirVoz.setAttribute('onclick', 'ativarAudio(this)');
+            document.getElementById('botao-voz-instrucao').src = '../../../img/svg/audio-off.svg';
+            localStorage.setItem('audio', 'desligado');
+        }
+
+        //função para inicializar a página com o áudio
+        if (document.hasFocus() && localStorage.getItem('audio') == 'ligado') {
+            audioOn();
+            let text = 'Identifique as características das peças do grupo azul e do grupo laranja e arraste as peças disponíveis para o grupo correto.';
+            let voice = new SpeechSynthesisUtterance(text);
+            speechSynthesis.speak(voice);
+        }
+
+        if (trocaImg === 'ligado') {
+            estadoDoAudio = true;
+            audioOn();
+        }
+
+        buttonAudio.addEventListener('click', () => {
+            trocaImg = localStorage.getItem('audio')
+            if (trocaImg !== 'ligado') {
+                audioOn();
+            } else {
+                audioOff();
+            }
+        })
+
+        //verificando se a página foi recarregada para salvar o estado atual do áudio
+        const botaoDeVoz = document.getElementById('botao-repetir-voz');
+        setInterval(() => {
+            if (performance.navigation.TYPE_RELOAD) {
+                if (synth.paused) {
+                    synth.resume();
+                } else {
+                    synth.pause();
+                    synth.resume();
+                }
+            }
+
+            if (synth.speaking) {
+                botaoDeVoz.setAttribute('onclick', 'cancelarAudio(this)');
+            } else {
+                botaoDeVoz.setAttribute('onclick', 'ativarAudio(this)');
+            }
+        }, 1000);
+
+
+        window.addEventListener("beforeunload", function (event) {
+            synth.cancel();
+            const botaoDeAudio = document.getElementById('botao-repetir-voz');
+            botaoDeAudio.setAttribute('onclick', 'ativarAudio(this)');
+            synth.cancel();
+        });
+
+        function ativarAudio(button) {
+            let textoInstrucao = 'Identifique as características das peças de cada grupo e arraste as regras corretas disponíveis abaixo para a caixa do grupamento correto.';
+            let utterance1 = new SpeechSynthesisUtterance(textoInstrucao);
+
+            if (estadoDoAudio == false || estadoDoAudio == true) {
+                speechSynthesis.speak(utterance1);
+            }
+
+            button.setAttribute('onclick', 'cancelarAudio(this)');
+
+            setInterval(() => {
+                if (performance.navigation.TYPE_RELOAD) {
+                    if (synth.paused) {
+                        synth.resume();
+                    } else {
+                        synth.pause();
+                        synth.resume();
+                    }
+                }
+            }, 1000);
+        }
+
+        function cancelarAudio(button) {
+            synth.cancel();
+            button.setAttribute('onclick', 'ativarAudio(this)');
+        }
+
+        function ativarAudioModal() {
+            let botaoAtivarVozModal = document.getElementById('botao-falar');
+
+            let textoModal2 = 'Olá novamente, tudo bem? tenho outro jogo bem bacana pra te apresentar, o Jogo dos Grupos, nele a gente te mostra duas caixas diferentes que vão servir para arrastar as figuras corretas e, ao lado de cada um, tem um balão que representa a regra desta caixa, por exemplo: um quadrado significa que naquela caixa só podem ser colocadas figuras quadradas. Já uma peça de quebra - cabeça azul, quer dizer que você só pode colocar figuras azuis.As outras regras eu tenho certeza que você consegue descobrir sozinho(a), depois que você arrastar as peças pra cada caixa, é só clicar em TERMINEI!!';
+            let utterance2 = new SpeechSynthesisUtterance(textoModal2);
+
+
+            speechSynthesis.speak(utterance2);
+
+            setInterval(() => {
+                if (performance.navigation.TYPE_RELOAD) {
+                    if (synth.paused) {
+                        synth.resume();
+                    } else {
+                        synth.pause();
+                        synth.resume();
+                    }
+                }
+            }, 1000);
+        }
+
+        function audioModalAutomatico() {
+            synth.cancel();
+
+            let textoModal = 'Olá novamente, tudo bem? tenho outro jogo bem bacana pra te apresentar, o Jogo dos Grupos, nele a gente te mostra duas caixas diferentes que vão servir para arrastar as figuras corretas e, ao lado de cada um, tem um balão que representa a regra desta caixa, por exemplo: um quadrado significa que naquela caixa só podem ser colocadas figuras quadradas. Já uma peça de quebra - cabeça azul, quer dizer que você só pode colocar figuras azuis. As outras regras eu tenho certeza que você consegue descobrir sozinho, depois que você arrastar as peças pra cada caixa, é só clicar em TERMINEI!!';
+            let utterance = new SpeechSynthesisUtterance(textoModal);
+
+            if (estadoDoAudio) {
+                speechSynthesis.speak(utterance);
+            }
+
+            setInterval(() => {
+                if (performance.navigation.TYPE_RELOAD) {
+                    if (synth.paused) {
+                        synth.resume();
+                    } else {
+                        synth.pause();
+                        synth.resume();
+                    }
+                }
+            }, 1000);
+        }
+
+        function cancelarAudioModal() {
+            synth.cancel();
+        }
+    </script>
+</body>
+
+</html>
