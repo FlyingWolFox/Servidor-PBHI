@@ -143,7 +143,7 @@ TraitSetContainer.prototype.add = function (classe, ...caracteristicas) {
 };
 
 /**
- * Deifine as características de uma classe no container, sobrescrevendo as caracteristicas antigas. Retorna this
+ * Define as características de uma classe no container, sobrescrevendo as caracteristicas antigas. Retorna this
  * @param {TRAIT[*]} classe
  * @param  {...TRAIT[*][*]} caracteristicas
  * @returns {TraitSetContainer} this
@@ -408,7 +408,7 @@ TraitSetContainer.prototype.toSingleSubsets = function (classe) {
     // if class is not given, get all subsets all classes
     for (const comb of cartesianProduct(...this.arr)) {
         let newSet = new TraitSetContainer();
-        newSet.arr = comb.map(cateristica => new Set([cateristica]));
+        newSet.arr = comb.map(caracteristica => new Set([caracteristica]));
         subsets.push(newSet);
     }
 
@@ -603,29 +603,29 @@ function gerarRestricoes() {
     Algoritmo guloso (greedy) para distribuir as restrições entre as caixas:
         1. Inserir características rejeitadas ONE_SIDE:
             One_SIDE.NO_ACCEPTED e ONE_SIDE.WITH_ACCEPTED vão botar rejQty características rejeitadas numa caixa,
-            com ONE_SIDE.WITH_ACCEPETED adicionando uma característica aceita na outra caixa também.
-            ONE_SIDE.WITH_ACCEPTED é feita primeiro pois facilita correção de distribuições "ruims".
+            com ONE_SIDE.WITH_ACCEPTED adicionando uma característica aceita na outra caixa também.
+            ONE_SIDE.WITH_ACCEPTED é feita primeiro pois facilita correção de distribuições "ruins".
         2. Inserir características rejeitadas BOTH_SIDES:
             Distribui rejQty características rejeitadas entre as duas caixas, garantindo que ambas caixas tenham
             pelo menos uma característica rejeitada (se não seria ONE_SIDE.NO_ACCEPTED).
         3. Inserir características aceitas:
             Insere uma característica aceita em uma caixa.
 
-    Esse algorítmo tenta distribuir as restrições de forma mais próxima possível da proporção (boxesRatio).
-    A ordem de inserção foi escolhida para que as regras mais rígídas sejam aplicadas primeiro, pois elas pertubam
-    mais a proporção, com as regras mais flexiveis depois, corrigindo essa pertubação.
+    Esse algoritmo tenta distribuir as restrições de forma mais próxima possível da proporção (boxesRatio).
+    A ordem de inserção foi escolhida para que as regras mais rígidas sejam aplicadas primeiro, pois elas perturbam
+    mais a proporção, com as regras mais flexíveis depois, corrigindo essa pertubação.
 
-    Para previnir distribuições "ruims" (como todas astrições em uma caixa só), nós forçamos um "distribuidor" a
+    Para prevenir distribuições "ruins" (como todas restrições em uma caixa só), nós forçamos um "distribuidor" a
     inserir em uma caixa específica (O código que trata a distribuição de restrições ONE_SIDE.WITH_ACCEPTED é um
     distribuidor, por exemplo). O distribuidor que vai ser forçado a inserir em uma caixa é o último que vai ser
     usado pelo nível atual (se um nível não tiver características aceitas, mas tem BOTH_SIDES, este vai ser o último
     distribuidor). As variáveis que forçam seguem o formato <distribuidor>ToFix
 
-    As duas formas de previnir distribuições "ruims" são:
+    As duas formas de prevenir distribuições "ruins" são:
         1. bothNonEmptyFix: forçar que pelo menos uma caixa tenha pelo menos uma restrição
         2. oswaFix: forçar que uma caixa que tem uma restrição ONE_SIDE.WITH_ACCEPTED tenha outra restrição de uma
             classe diferente (previne que a caixa fique vazia, com as formas só na interseção)
-    Restrições BOTH_SIDES, se presentes, previnem essas distribuições "ruims" automaticamente.
+    Restrições BOTH_SIDES, se presentes, previnem essas distribuições "ruins" automaticamente.
 
     Os nomes encurtados dos distribuidores são:
         - oswa: ONE_SIDE.WITH_ACCEPTED
@@ -636,7 +636,7 @@ function gerarRestricoes() {
     Como ONE_SIDE.WITH_ACCEPTED possui oswaFix, ele é o primeiro distribuidor a rodar.
     */
 
-    // decidir quem vai corrigir distribuições "ruims"
+    // decidir quem vai corrigir distribuições "ruins"
     let oswaToFix = false,
         osnaToFix = false,
         //bsToFix = false, // não é necessário, pois BOTH_SIDES corrige tudo automaticamente
@@ -945,7 +945,7 @@ function limitarSets(leftSets, middleSets, rightSets) {
     middleChosenSets = [minCombination[1]];
     rightChosenSets = [minCombination[2]];
 
-    // as características que estão sendo usadas no monmento
+    // as características que estão sendo usadas no momento
     let currentTraits = minSet;
 
     if (zipArr(minSet.arr.map(c => c.length), limitVec).some(([a, b]) => a > b)) {
@@ -979,15 +979,15 @@ function limitarSets(leftSets, middleSets, rightSets) {
     conjuntos restantes podem mudar, por isso esse problema é dinâmico.
 
     A capacidade da mochila é limitVec, que é um vetor com a quantidade máxima de características de cada classe que
-    podem ser usadas. Um limitVec igual a [2, 3, 1, 2] siginifica que podemos ter no máximo 2 cores, 3 formas, 1
+    podem ser usadas. Um limitVec igual a [2, 3, 1, 2] significa que podemos ter no máximo 2 cores, 3 formas, 1
     tamanho e 2 contornos.
 
-    Mesmo que o artigo use recompença/lucro, aqui ele não é usado, sendo 1 para todos os conjuntos. Isso causa o
+    Mesmo que o artigo use recompensa/lucro, aqui ele não é usado, sendo 1 para todos os conjuntos. Isso causa o
     algoritmo a escolher conjuntos com a maior capacidade efetiva, ou seja, conjuntos que possam ter o maior número
     máximo de cópias sem ultrapassar o limite (isso é explicado melhor no artigo). Um cálculo de recompensa que
     que melhore a qualidade da solução pode ser implementada no futuro.
 
-    PECH é um algoritmo muito bom e muito rápido. No nosso caso, número pequeno de dimenções (4) e número pequeno
+    PECH é um algoritmo muito bom e muito rápido. No nosso caso, número pequeno de dimensões (4) e número pequeno
     de items (no máximo 93, bem menos em média), ele provê soluções ótimas ou quasi-ótimas. O único algoritmo que
     seria melhor em precisão, devido ao número de items (ver Tabela 10 do artigo), seria PIR_G (Pirkul & Narasimhan,
     1986), mas esse usa programação linear e é mais complexo de implementar.
