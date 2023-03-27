@@ -577,7 +577,7 @@ function gerarRestricoes() {
 
     // distribuir as restrições entre as caixas
 
-    // TODO: make this more controllable
+    // TODO: [ratio/distribution] make this more controllable
     let smallerBoxRatio = -Math.abs(0.5 - randomNormalDistr()) + 0.5; // (0, 0.5] with mean 0.5
     let smallerBoxAccepted;
     let smallerBoxRejected;
@@ -1129,7 +1129,7 @@ function gerarNivel(newCurrentStage, newIntersecaoAtiva) {
     let caixaDireitaItems = gerarFormas(rightChosenSets);
 
     // limitar a quantidade de formas mantendo a quantidade mais ou menos bem dividida entre as caixas
-    // TODO: make this more controllable
+    // TODO: [ration/distribution] make this more controllable
     let maxLengths = [[caixaEsquerdaItems,   Math.round(currentStage.maxNumShapes/3)],
                       [caixaIntersecaoItems, Math.round(currentStage.maxNumShapes/3)],
                       [caixaDireitaItems,    Math.round(currentStage.maxNumShapes/3)]];
