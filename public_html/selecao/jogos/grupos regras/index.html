@@ -74,15 +74,13 @@
             <div id="modal_info" class="modal">
                 <div class="modal_content" id="modal_content">
                     <p>
-                        Olá novamente, tudo bem? tenho outro jogo bem bacana pra
-                        te apresentar, o Regras dos Grupos, nele a gente te
-                        mostra duas caixas diferentes com peças que vão servir
-                        para saber que regras são usadas nela. Por exemplo: uma
-                        caixa que só tem peças quadradas podem indicar que a
-                        regra usada é "só podem peças que são quadrados"
+                        Olá, novamente! Tudo bem? Tenho outro jogo prá lhe apresentar: o Jogo das Regras dos Grupos.
+                        Nele há duas caixas com peças e o desafio é você identificar a regra ou regras usadas para
+                        separar as peças nos dois grupos. Por exemplo: em uma caixa que só tem peças quadradas e
+                        grandes, as regras usadas são: "peças que são quadrados" e "peças que são grandes".
                         <br>
-                        Coloque as regras usadas em cada caixa ao lado delas,
-                        e depois clique em "TERMINEI" para ver se você acertou.
+                        Coloque as regras usadas ao lado de cada caixa e depois clique em "TERMINEI" para ver se você
+                        acertou.
                     </p>
                     <div id="modal_button_box">
                         <button id="botao_info_close"
@@ -122,7 +120,7 @@
                         <img src="../img/sr-logico.png" alt="" id="mascote_instrucoes">
                         <article id="textbox_tutorial">
                             <p id="textbox_fase">Fase n&uacute;mero <span id="textbox_numero_fase">1</span>:</p>
-                            <textarea id="texto_textbox" readonly>Identifique as características das peças de cada grupo e arraste as regras corretas disponíveis abaixo para a caixa do grupamento correto.
+                            <textarea id="texto_textbox" readonly>Identifique as características das peças e arraste as regras que definem cada grupo para o espaço indicado.
                             </textarea>
                         </article>
                     </div>
@@ -500,7 +498,7 @@
         //função para inicializar a página com o áudio
         if (document.hasFocus() && localStorage.getItem('audio') == 'ligado') {
             audioOn();
-            let text = 'Identifique as características das peças do grupo azul e do grupo laranja e arraste as peças disponíveis para o grupo correto.';
+            let text = 'Identifique as características das peças e arraste as regras que definem cada grupo para o espaço indicado.';
             let voice = new SpeechSynthesisUtterance(text);
             speechSynthesis.speak(voice);
         }
@@ -547,7 +545,7 @@
         });
 
         function ativarAudio(button) {
-            let textoInstrucao = 'Identifique as características das peças de cada grupo e arraste as regras corretas disponíveis abaixo para a caixa do grupamento correto.';
+            let textoInstrucao = 'Identifique as características das peças e arraste as regras que definem cada grupo para o espaço indicado.';
             let utterance1 = new SpeechSynthesisUtterance(textoInstrucao);
 
             if (estadoDoAudio == false || estadoDoAudio == true) {
@@ -576,7 +574,7 @@
         function ativarAudioModal() {
             let botaoAtivarVozModal = document.getElementById('botao-falar');
 
-            let textoModal2 = 'Olá novamente, tudo bem? tenho outro jogo bem bacana pra te apresentar, o Jogo dos Grupos, nele a gente te mostra duas caixas diferentes que vão servir para arrastar as figuras corretas e, ao lado de cada um, tem um balão que representa a regra desta caixa, por exemplo: um quadrado significa que naquela caixa só podem ser colocadas figuras quadradas. Já uma peça de quebra - cabeça azul, quer dizer que você só pode colocar figuras azuis.As outras regras eu tenho certeza que você consegue descobrir sozinho(a), depois que você arrastar as peças pra cada caixa, é só clicar em TERMINEI!!';
+            let textoModal2 = 'Olá, novamente! Tudo bem? Tenho outro jogo prá lhe apresentar: o Jogo das Regras dos Grupos. Nele há duas caixas com peças e o desafio é você identificar a regra ou regras usadas para separar as peças nos dois grupos. Por exemplo: em uma caixa que só tem peças quadradas e grandes, as regras usadas são: "peças que são quadrados" e "peças que são grandes". Coloque as regras usadas  ao lado de cada caixa e depois clique em "TERMINEI" para ver se você acertou.';
             let utterance2 = new SpeechSynthesisUtterance(textoModal2);
 
 
@@ -597,7 +595,7 @@
         function audioModalAutomatico() {
             synth.cancel();
 
-            let textoModal = 'Olá novamente, tudo bem? tenho outro jogo bem bacana pra te apresentar, o Jogo dos Grupos, nele a gente te mostra duas caixas diferentes que vão servir para arrastar as figuras corretas e, ao lado de cada um, tem um balão que representa a regra desta caixa, por exemplo: um quadrado significa que naquela caixa só podem ser colocadas figuras quadradas. Já uma peça de quebra - cabeça azul, quer dizer que você só pode colocar figuras azuis. As outras regras eu tenho certeza que você consegue descobrir sozinho, depois que você arrastar as peças pra cada caixa, é só clicar em TERMINEI!!';
+            let textoModal = 'Olá, novamente! Tudo bem? Tenho outro jogo prá lhe apresentar: o Jogo das Regras dos Grupos. Nele há duas caixas com peças e o desafio é você identificar a regra ou regras usadas para separar as peças nos dois grupos. Por exemplo: em uma caixa que só tem peças quadradas e grandes, as regras usadas são: "peças que são quadrados" e "peças que são grandes". Coloque as regras usadas  ao lado de cada caixa e depois clique em "TERMINEI" para ver se você acertou.';
             let utterance = new SpeechSynthesisUtterance(textoModal);
 
             if (estadoDoAudio) {
