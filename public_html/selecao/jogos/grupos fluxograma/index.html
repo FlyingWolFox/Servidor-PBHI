@@ -117,7 +117,7 @@
                     <article id="textbox-tutorial">
                         <p id="textbox-fase">Fase n&uacute;mero <span id="textbox-numero-fase">1</span>:</p>
 
-                        <textarea id="texto-textbox" readonly>Identifique as características das peças do grupo azul e do grupo laranja e arraste as peças disponíveis para o grupo correto.
+                        <textarea id="texto-textbox" readonly>Identifique as características das peças do grupo azul e do grupo laranja e monte um fluxograma que ordene as peças para o grupo correto.
                         </textarea>
                     </article>
                     <div class="conteiner-botoes">
@@ -425,7 +425,7 @@
     //função para inicializar a página com o áudio
     if (document.hasFocus() && localStorage.getItem('audio') == 'ligado') {
         audioOn();
-        let text = 'Identifique as características das peças do grupo azul e do grupo laranja e arraste as peças disponíveis para o grupo correto.';
+        let text = 'Identifique as características das peças do grupo azul e do grupo laranja e monte um fluxograma que ordene as peças para o grupo correto.';
         let voice = new SpeechSynthesisUtterance(text);
         speechSynthesis.speak(voice);
     }
@@ -472,7 +472,7 @@
     });
 
     function ativarAudio(button) {
-        let textoInstrucao = 'Identifique as características das peças do grupo azul e do grupo laranja e arraste as peças disponíveis para o grupo correto.';           
+        let textoInstrucao = 'Identifique as características das peças do grupo azul e do grupo laranja e monte um fluxograma que ordene as peças para o grupo correto.';           
         let utterance1 = new SpeechSynthesisUtterance(textoInstrucao);
 
         if (estadoDoAudio == false || estadoDoAudio == true) {
