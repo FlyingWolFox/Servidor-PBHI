@@ -840,12 +840,13 @@ function check() { //Verifica se acertou os elementos
 					case 21:
 					case 22:
 						var texto = document.getElementById('texto4');
-						texto.innerHTML = etapaAtual.toString() + "/23";
+						texto.innerHTML = etapaAtual.toString() + "/24";
 						break;
 					case 23:
+					case 24:
 						arrayEstrelas[3].setAttribute('src', '../img/estrelas/star1.svg');
 						var texto = document.getElementById('texto4');
-						texto.innerHTML = etapaAtual.toString() + "/23";
+						texto.innerHTML = etapaAtual.toString() + "/24";
 						break;
 					default:
 						break;
