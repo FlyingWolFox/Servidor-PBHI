@@ -31,7 +31,7 @@ var ano = localStorage.getItem('ano');
 var textoInfo = document.getElementById('resultado-jogo-info');
 var modalInfo = document.getElementById("modalInfoPeca");
 var botaoOk = document.getElementById('botao-proximo-info');
-var etapaMax = 25;
+var etapaMax = 40;
 
 const anosEnum = Object.freeze({
 	"Primeiro ano": 1,
