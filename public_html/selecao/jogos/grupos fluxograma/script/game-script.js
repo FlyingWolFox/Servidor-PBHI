@@ -2885,14 +2885,14 @@ function iniciarDiagrama2(rest1, rest2, type1, type2, inter) {
             decisionNode2.setFont(fonte); 
             decisionNode2.setText("Interseção");
         }
-        child7 = diagram.getFactory().createShapeNode((width * 0.049), 100 - (altura * 2 - espacoy * 10), largura * 0.75, altura * 0.66);
+        child7 = diagram.getFactory().createShapeNode((width * 0.002), 100 - (altura * 2 - espacoy * 10), largura * 0.75, altura * 0.66);
         child7.setShape('Ellipse');
         child7.setBrush(corFimInicio);
         child7.setFont(fonte);
         child7.setText("FIM");
 
         // cria o node inicio
-        child1 = diagram.getFactory().createShapeNode((width * 0.049),1, largura * 0.75, altura * 0.66); //Parâmetros [x, y, largura, altura]
+        child1 = diagram.getFactory().createShapeNode((width * 0.002),13, largura * 0.75, altura * 0.66); //Parâmetros [x, y, largura, altura]
         child1.setShape('Ellipse');
         child1.setBrush(corFimInicio);
         child1.setFont(fonte);
@@ -2903,24 +2903,24 @@ function iniciarDiagrama2(rest1, rest2, type1, type2, inter) {
         child2.setFont(fonte);
         child2.setText("Esquerda");
 
-        child5 = diagram.getFactory().createShapeNode((width * 0.0842), 100 - (altura * 2) - (espacoy), largura, altura * 0.66);
+        child5 = diagram.getFactory().createShapeNode((width * 0.0490), 100 - (altura * 2) - (espacoy), largura, altura * 0.66);
         child5.setBrush(corDireita);
         child5.setFont(fonte);
         child5.setText("Direita");
 
-        child6 = diagram.getFactory().createShapeNode((width * 0.0623), 100 - (altura * 2) - (espacoy), largura, altura * 0.66);
+        child6 = diagram.getFactory().createShapeNode((width * 0.0275), 100 - (altura * 2) - (espacoy), largura, altura * 0.66);
         child6.setFont(fonte);
         child6.setBrush(corDescarta);
         child6.setText("Não mover");
 
         for (i = 0; i < formas.length; i++) {
             switch (parseInt(i)) {
-                case 0: decisionNode1 = diagram.getFactory().createShapeNode((width * 0.0491) - largura / 10, altura * (1), largura, altura);; break;
+                case 0: decisionNode1 = diagram.getFactory().createShapeNode((width * 0.0191) - largura / 10, altura * (1), largura, altura);; break;
                 case 1: if (rest1.length > 1) {
                     decisionNode1 = diagram.getFactory().createShapeNode((width * 0.022), altura * (1.75), largura, altura);
                 }
                 else {
-                    decisionNode1 = diagram.getFactory().createShapeNode((width * 0.0623), altura * (1.75), largura, altura);
+                    decisionNode1 = diagram.getFactory().createShapeNode((width * 0.0091), altura * (1.75), largura, altura);
                 }
                     break;
                 case 2: if (rest1.length > 1) {
@@ -3030,14 +3030,14 @@ function iniciarDiagrama2(rest1, rest2, type1, type2, inter) {
             decisionNode2.setFont(fonte); 
             decisionNode2.setText("Colocar na interseção");
         }
-        child7 = diagram.getFactory().createShapeNode((width * 0.049), 100 - (altura * 2 - espacoy * 10), largura * 0.75, altura * 0.66);
+        child7 = diagram.getFactory().createShapeNode((width * 0.002), 100 - (altura * 2 - espacoy * 10), largura * 0.75, altura * 0.66);
         child7.setShape('Ellipse');
         child7.setBrush(corFimInicio);
         child7.setFont(fonte);
         child7.setText("FIM");
 
         // cria o node inicio
-        child1 = diagram.getFactory().createShapeNode((width * 0.049),1, largura * 0.75, altura * 0.66); //Parâmetros [x, y, largura, altura]
+        child1 = diagram.getFactory().createShapeNode((width * 0.002),13, largura * 0.75, altura * 0.66); //Parâmetros [x, y, largura, altura]
         child1.setShape('Ellipse');
         child1.setBrush(corFimInicio);
         child1.setFont(fonte);
@@ -3048,24 +3048,24 @@ function iniciarDiagrama2(rest1, rest2, type1, type2, inter) {
         child2.setFont(fonte);
         child2.setText("Colocar na esquerda");
 
-        child5 = diagram.getFactory().createShapeNode((width * 0.0842), 100 - (altura * 2) - (espacoy), largura, altura * 0.66);
+        child5 = diagram.getFactory().createShapeNode((width * 0.0490), 100 - (altura * 2) - (espacoy), largura, altura * 0.66);
         child5.setBrush(corDireita);
         child5.setFont(fonte);
         child5.setText("Colocar na direita");
 
-        child6 = diagram.getFactory().createShapeNode((width * 0.0623), 100 - (altura * 2) - (espacoy), largura, altura * 0.66);
+        child6 = diagram.getFactory().createShapeNode((width * 0.0275), 100 - (altura * 2) - (espacoy), largura, altura * 0.66);
         child6.setFont(fonte);
         child6.setBrush(corDescarta);
         child6.setText("Não mover");
 
         for (i = 0; i < formas.length; i++) {
             switch (parseInt(i)) {
-                case 0: decisionNode1 = diagram.getFactory().createShapeNode((width * 0.0491) - largura / 10, altura * (1), largura, altura);; break;
+                case 0: decisionNode1 = diagram.getFactory().createShapeNode((width * 0.0191) - largura / 10, altura * (1), largura, altura);; break;
                 case 1: if (rest1.length > 1) {
                     decisionNode1 = diagram.getFactory().createShapeNode((width * 0.022), altura * (1.75), largura, altura);
                 }
                 else {
-                    decisionNode1 = diagram.getFactory().createShapeNode((width * 0.0623), altura * (1.75), largura, altura);
+                    decisionNode1 = diagram.getFactory().createShapeNode((width * 0.0091), altura * (1.75), largura, altura);
                 }
                     break;
                 case 2: if (rest1.length > 1) {
@@ -3187,14 +3187,14 @@ function iniciarDiagrama(rest1, rest2, type1, type2, inter) {
             decisionNode2.setFont(fonte); 
             decisionNode2.setText("Interseção");
         }
-        child7 = diagram.getFactory().createShapeNode((width * 0.049), 100 - (altura * 2 - espacoy * 10), largura * 0.75, altura * 0.66);
+        child7 = diagram.getFactory().createShapeNode((width * 0.002), 100 - (altura * 2 - espacoy * 10), largura * 0.75, altura * 0.66);
         child7.setShape('Ellipse');
         child7.setBrush(corFimInicio);
         child7.setFont(fonte);
         child7.setText("FIM");
 
         // cria o node inicio
-        child1 = diagram.getFactory().createShapeNode((width * 0.049),1, largura * 0.75, altura * 0.66); //Parâmetros [x, y, largura, altura]
+        child1 = diagram.getFactory().createShapeNode((width * 0.002),13, largura * 0.75, altura * 0.66); //Parâmetros [x, y, largura, altura]
         child1.setShape('Ellipse');
         child1.setBrush(corFimInicio);
         child1.setFont(fonte);
@@ -3205,24 +3205,24 @@ function iniciarDiagrama(rest1, rest2, type1, type2, inter) {
         child2.setFont(fonte);
         child2.setText("Esquerda");
 
-        child5 = diagram.getFactory().createShapeNode((width * 0.0842), 100 - (altura * 2) - (espacoy), largura, altura * 0.66);
+        child5 = diagram.getFactory().createShapeNode((width * 0.0490), 100 - (altura * 2) - (espacoy), largura, altura * 0.66);
         child5.setBrush(corDireita);
         child5.setFont(fonte);
         child5.setText("Direita");
 
-        child6 = diagram.getFactory().createShapeNode((width * 0.0623), 100 - (altura * 2) - (espacoy), largura, altura * 0.66);
+        child6 = diagram.getFactory().createShapeNode((width * 0.0275), 100 - (altura * 2) - (espacoy), largura, altura * 0.66);
         child6.setFont(fonte);
         child6.setBrush(corDescarta);
         child6.setText("Não mover");
 
         for (i = 0; i < formas.length; i++) {
             switch (parseInt(i)) {
-                case 0: decisionNode1 = diagram.getFactory().createShapeNode((width * 0.0491) - largura / 10, altura * (1), largura, altura);; break;
+                case 0: decisionNode1 = diagram.getFactory().createShapeNode((width * 0.0191) - largura / 10, altura * (1), largura, altura);; break;
                 case 1: if (rest1.length > 1) {
                     decisionNode1 = diagram.getFactory().createShapeNode((width * 0.022), altura * (1.75), largura, altura);
                 }
                 else {
-                    decisionNode1 = diagram.getFactory().createShapeNode((width * 0.0623), altura * (1.75), largura, altura);
+                    decisionNode1 = diagram.getFactory().createShapeNode((width * 0.0091), altura * (1.75), largura, altura);
                 }
                     break;
                 case 2: if (rest1.length > 1) {
@@ -3332,14 +3332,14 @@ function iniciarDiagrama(rest1, rest2, type1, type2, inter) {
             decisionNode2.setFont(fonte); 
             decisionNode2.setText("Colocar na interseção");
         }
-        child7 = diagram.getFactory().createShapeNode((width * 0.049), 100 - (altura * 2 - espacoy * 10), largura * 0.75, altura * 0.66);
+        child7 = diagram.getFactory().createShapeNode((width * 0.002), 100 - (altura * 2 - espacoy * 10), largura * 0.75, altura * 0.66);
         child7.setShape('Ellipse');
         child7.setBrush(corFimInicio);
         child7.setFont(fonte);
         child7.setText("FIM");
 
         // cria o node inicio
-        child1 = diagram.getFactory().createShapeNode((width * 0.049),1, largura * 0.75, altura * 0.66); //Parâmetros [x, y, largura, altura]
+        child1 = diagram.getFactory().createShapeNode((width * 0.002),13, largura * 0.75, altura * 0.66); //Parâmetros [x, y, largura, altura]
         child1.setShape('Ellipse');
         child1.setBrush(corFimInicio);
         child1.setFont(fonte);
@@ -3350,24 +3350,24 @@ function iniciarDiagrama(rest1, rest2, type1, type2, inter) {
         child2.setFont(fonte);
         child2.setText("Colocar na esquerda");
 
-        child5 = diagram.getFactory().createShapeNode((width * 0.0842), 100 - (altura * 2) - (espacoy), largura, altura * 0.66);
+        child5 = diagram.getFactory().createShapeNode((width * 0.0490), 100 - (altura * 2) - (espacoy), largura, altura * 0.66);
         child5.setBrush(corDireita);
         child5.setFont(fonte);
         child5.setText("Colocar na direita");
 
-        child6 = diagram.getFactory().createShapeNode((width * 0.0623), 100 - (altura * 2) - (espacoy), largura, altura * 0.66);
+        child6 = diagram.getFactory().createShapeNode((width * 0.0275), 100 - (altura * 2) - (espacoy), largura, altura * 0.66);
         child6.setFont(fonte);
         child6.setBrush(corDescarta);
         child6.setText("Não mover");
 
         for (i = 0; i < formas.length; i++) {
             switch (parseInt(i)) {
-                case 0: decisionNode1 = diagram.getFactory().createShapeNode((width * 0.0491) - largura / 10, altura * (1), largura, altura);; break;
+                case 0: decisionNode1 = diagram.getFactory().createShapeNode((width * 0.0191) - largura / 10, altura * (1), largura, altura);; break;
                 case 1: if (rest1.length > 1) {
                     decisionNode1 = diagram.getFactory().createShapeNode((width * 0.022), altura * (1.75), largura, altura);
                 }
                 else {
-                    decisionNode1 = diagram.getFactory().createShapeNode((width * 0.0623), altura * (1.75), largura, altura);
+                    decisionNode1 = diagram.getFactory().createShapeNode((width * 0.0091), altura * (1.75), largura, altura);
                 }
                     break;
                 case 2: if (rest1.length > 1) {
