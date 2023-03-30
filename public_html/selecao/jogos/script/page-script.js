@@ -43,6 +43,7 @@ var gameHeader = document.getElementsByTagName('header')[0];
 var gameFooter = document.getElementsByTagName('footer')[0];
 var indexHead = document.getElementsByTagName('head')[0];
 var fullscreen = false;
+
 var gameContainer = document.getElementById('game_section');
 var alturaOriginal = gameContainer.offsetHeight;
 gameContainer.style.height = "100%";
@@ -53,7 +54,6 @@ document.addEventListener("fullscreenchange", () => {
     gameContainer.style.height = alturaOriginal  + "px";
   }
 })
-
 
 const element = document.documentElement;
 

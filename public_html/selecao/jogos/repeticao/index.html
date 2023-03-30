@@ -127,7 +127,7 @@
                         </article>
                     </div>
                     <div id="conteiner_botoes">
-                        <div class="botoes_janela">
+                        <div id="botoes_janela">
                             <span class="button_header" id="span_fullscreen" >
                                 <i class="icofont-maximize"></i>
                             </span>
@@ -557,6 +557,25 @@
         function cancelarAudioModal() {
             synth.cancel();
         }
+    </script>
+
+    <script>
+        let containerButtons = document.getElementById("botoes_janela");
+        let containerButtonsOriginalHeight = containerButtons.offsetTop;
+
+        document.addEventListener("fullscreenchange", (e) => {
+            if (!document.fullscreenElement) {
+                containerButtons.style.marginTop = "-50px";
+                containerButtons.style.marginLeft = "32px";
+            } 
+        })
+
+        document.addEventListener("fullscreenchange", (e) => {
+            if (document.fullscreenElement) {
+                containerButtons.style.marginTop = "0";
+                containerButtons.style.marginLeft = "43px";
+            } 
+        })
     </script>
 </body>
 
