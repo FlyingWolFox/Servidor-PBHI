@@ -767,12 +767,13 @@ function check() { //Verifica se acertou os elementos
 					case 14:
 					case 15:
 						var texto = document.getElementById('texto4');
-						texto.innerHTML = etapaAtual.toString() + "/16";
+						texto.innerHTML = etapaAtual.toString() + "/17";
 						break;
 					case 16:
+					case 17:
 						arrayEstrelas[3].setAttribute('src', '../img/estrelas/star1.svg');
 						var texto = document.getElementById('texto4');
-						texto.innerHTML = etapaAtual.toString() + "/16";
+						texto.innerHTML = etapaAtual.toString() + "/17";
 						break;
 					default:
 						break;
