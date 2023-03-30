@@ -35,26 +35,21 @@ var gameContainer = document.getElementById('main_body');
 gameContainer.addEventListener('fullscreenchange', (e) => {
 
   if (document.fullscreenElement) {
-
     // gameHeader.style.display = 'none';
     // gameFooter.style.display = 'none';
-    fullscreenButton.innerText = "🗕"
+    fullscreenButton.innerText = "🗕";
 
     // Criando o CSS responsável pelo modo Fullscreen
     var fullscreenCss = document.createElement('link');
     fullscreenCss.setAttribute('href', '../style/fullscreen-mode.css');
     fullscreenCss.setAttribute('rel', 'stylesheet');
     indexHead.appendChild(fullscreenCss);
-
   } else {
-
     // gameHeader.style.display = 'grid';
     // gameFooter.style.display = 'grid';
     fullscreenButton.innerHTML = "<i class='icofont-maximize'></i>"
     indexHead.removeChild(indexHead.lastChild);
-
   }
-
 })
 
 fullscreenButton.onclick = () => {

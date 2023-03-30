@@ -48,7 +48,7 @@ h2#title-jogo {
 }
 
 
-section.game-section {
+section#game_section {
    
     height: 100%;
     display: flex;

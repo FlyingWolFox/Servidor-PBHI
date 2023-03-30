@@ -3,6 +3,7 @@
 	user-select: none;
      -webkit-user-select: none;
 } */
+
 body.game-body {
 
     height: 100vh;
@@ -73,9 +74,9 @@ h2#title-jogo {
     
 }
 
-section.game-section {
-
-    height: 100%;
+section.game_section {
+    width: 100%;
+    height: 100vh;
     display: flex;
     flex-direction: column;
     justify-items: center;
@@ -443,11 +444,10 @@ button#button-about {
     border-radius: 10px 10px 0px 0px;
 }
 
-#main-body,
+#main_body,
 header {
     background-image: url(../img/bg-image.png);
     background-color: var(--cor-do-body);
-
 }
 
 /* ======== Estilos do jogo ========= */

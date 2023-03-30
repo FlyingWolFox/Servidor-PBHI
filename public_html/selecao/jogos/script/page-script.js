@@ -43,13 +43,24 @@ var gameHeader = document.getElementsByTagName('header')[0];
 var gameFooter = document.getElementsByTagName('footer')[0];
 var indexHead = document.getElementsByTagName('head')[0];
 var fullscreen = false;
-var gameContainer = document.getElementById('main_body');
+var gameContainer = document.getElementById('game_section');
+var alturaOriginal = gameContainer.offsetHeight;
+gameContainer.style.height = "100%";
+
+
+document.addEventListener("fullscreenchange", () => {
+  if (!document.fullscreenElement) {
+    gameContainer.style.height = alturaOriginal  + "px";
+  }
+})
+
 
 const element = document.documentElement;
 
 gameContainer.addEventListener('fullscreenchange', (e) => {
 
   if (document.fullscreenElement) {
+    gameContainer.style.height = "100vh";
 
     // gameHeader.style.display = 'none';
     // gameFooter.style.display = 'none';
@@ -67,18 +78,9 @@ gameContainer.addEventListener('fullscreenchange', (e) => {
     // gameFooter.style.display = 'grid';
     fullscreenButton.innerHTML = "<i class='icofont-maximize'></i>"
     indexHead.removeChild(indexHead.lastChild);
-
   }
 
 })
-
-// fullscreenButton.addEventListener('click', () => {
-//   if (!document.fullscreenElement) {
-//     gameContainer.requestFullscreen();
-//   } else {
-//     document.exitFullscreen();
-//   }
-// });
 
 fullscreenButton.onclick = () => {
 
@@ -176,3 +178,4 @@ botaoRestart.addEventListener('click', setResultado);
 botaoResultado.addEventListener('click',setResultado);
 botaoRetorno = document.getElementById('botao-retorno');
 botaoRetorno.addEventListener('click', setResultadoErrou);
+

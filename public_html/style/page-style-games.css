@@ -184,6 +184,7 @@ main#main_body {
   width: 90%;
   margin: 0 auto;
 }
+
 main#main_body section#game_section {
   width: 100%;
   min-height: calc(100vh - 85px - 75px);
