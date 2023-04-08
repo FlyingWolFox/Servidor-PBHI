@@ -94,6 +94,14 @@
         button#botao-relatorio{
             margin-bottom: 0;
         }
+        form#escolheAtividade-form{
+            display: flex;
+            width: 100%;
+            flex-direction: column;
+        }
+        form#escolheAtividade-form label{
+            text-align: center;
+        }
     </style>
 </head>
 
@@ -148,16 +156,15 @@
             <h2 class="contact-section-title">Escolha uma opção</h2>
             <form id="escolheAtividade-form">
                 <label for="atividades">Selecione uma Atividade para visualizar o relatório ou crie uma nova atividade</label>
-            <section class="form-section" style="grid-column: 1/2; grid-row: 1/3; width: 100%;"></section>
+                <section class="form-section" style="grid-column: 1/2; grid-row: 1/3; width: 100%;"></section>
                     <select id="atividades" name="atividade">
                     </select> 
+                    <section class = 'container-botao'>
+                        <button onclick = selecionarRelatorio() class="botao" id="botao-relatorio">Acessar relatório</button>    
+                        <button onclick="window.location.href='/professores/crieAtividade'" class="botao" id="botao-resultado">Criar atividade</button>
+                    </section>
                 </section>
-                <section class = 'container-botao'>
-                    <button onclick = selecionarRelatorio() class="botao" id="botao-relatorio">Acessar relatório</button>    
             </form>
-                <section class = 'container-botao'>
-                    <button onclick="window.location.href='/professores/crieAtividade'" class="botao" id="botao-resultado">Criar atividade</button>
-                </section>
         </section>
     </main>
 
