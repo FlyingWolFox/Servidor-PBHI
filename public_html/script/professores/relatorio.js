@@ -96,7 +96,8 @@ function setMetricas(resultado1, resultado2, resultado3, resultado4){
     var acertos = document.getElementById('acertos-span');
     var numeroJogadores = document.getElementById('jogadores-span');
     var taxaAcerto = document.getElementById('taxa-acerto');
-    taxaAcerto.innerHTML = resultado4 + '%';
+
+    taxaAcerto.innerHTML = resultado4 == null ? '0%': '%';
     tempoMedio.innerText = resultado1;
     acertos.innerText = resultado2;
     numeroJogadores.innerText = resultado3;
@@ -136,6 +137,9 @@ function setDadosAtividade(resultado){
     const datah_criacao = document.getElementById('datah-criacao');
     const datah_encerramento = document.getElementById('datah-encerramento');
     const professor_nome = document.getElementById('nome-professor');
+
+    console.log((resultado[0].datah_criacao))
+    console.log(organizar_time(resultado[0].datah_criacao))
     datah_criacao.innerText = resultado[0].datah_criacao.replace('T', ' ').replace('Z', '');
     datah_encerramento.innerText = resultado[0].datah_expiracao.replace('T', ' ').replace('Z', '');
     professor_nome.innerText = resultado[0].professor_nome;
@@ -239,6 +243,13 @@ function setPontuacao(naoFinalizados, nTentativas){
             return 0;
     }
 }
+
+function organizar_time(tempo){
+    const date = new Date(tempo)
+    date.setHours(date.getHours()-3)
+    return `${("00" + date.getDate()).slice(-2)}/${("00" + date.getMonth()).slice(-2)}  ${date.getHours()}:${date.getMinutes()}`
+}
+
 
 getMetricas(urlsMetricas);
 getTabela(urlTabela);
